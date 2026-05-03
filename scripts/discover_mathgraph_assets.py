@@ -26,15 +26,44 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--json-only", action="store_true")
     parser.add_argument("--max-depth", type=int, default=4)
     parser.add_argument("--max-files", type=int, default=5000)
+    parser.add_argument("--traces-json", default=None)
+    parser.add_argument("--equations-path", default=None)
+    parser.add_argument("--matrix-path", default=None)
     args = parser.parse_args(argv)
 
     if args.copy_assets and args.symlink_assets:
         parser.error("--copy-assets and --symlink-assets are mutually exclusive")
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    result = discover_mathgraph_assets(
-        AssetDiscoveryConfig(max_depth=args.max_depth, max_files=args.max_files)
-    )
+    config = AssetDiscoveryConfig(max_depth=args.max_depth, max_files=args.max_files)
+    if args.traces_json:
+        config = AssetDiscoveryConfig(
+            traces_candidates=[args.traces_json, *config.traces_candidates],
+            equations_candidates=config.equations_candidates,
+            matrix_candidates=config.matrix_candidates,
+            search_roots=config.search_roots,
+            max_depth=config.max_depth,
+            max_files=config.max_files,
+        )
+    if args.equations_path:
+        config = AssetDiscoveryConfig(
+            traces_candidates=config.traces_candidates,
+            equations_candidates=[args.equations_path, *config.equations_candidates],
+            matrix_candidates=config.matrix_candidates,
+            search_roots=config.search_roots,
+            max_depth=config.max_depth,
+            max_files=config.max_files,
+        )
+    if args.matrix_path:
+        config = AssetDiscoveryConfig(
+            traces_candidates=config.traces_candidates,
+            equations_candidates=config.equations_candidates,
+            matrix_candidates=[args.matrix_path, *config.matrix_candidates],
+            search_roots=config.search_roots,
+            max_depth=config.max_depth,
+            max_files=config.max_files,
+        )
+    result = discover_mathgraph_assets(config)
     materialized = materialize_assets(
         result,
         out_dir,

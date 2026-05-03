@@ -589,6 +589,27 @@ pretending the run succeeded. Scheduler rows are search pressure only, finite
 search failure is obstruction evidence only, and only revalidated finite
 countermodel results are imported as new primitive certificates.
 
+For a repo-native local/CI validation wrapper:
+
+```bash
+python scripts/validate_real_asset_pipeline.py \
+  --repo-root . \
+  --out-dir /tmp/mathgraph_validate_real_assets \
+  --skip-install \
+  --allow-missing-assets \
+  --allow-synthetic-fallback \
+  --max-frontier-pairs 50 \
+  --top-k-schedule 20 \
+  --max-tasks 20 \
+  --max-countermodel-order 3
+```
+
+The validator runs repo sanity checks, optional install/pytest, asset discovery,
+real chewing smoke, and synthetic fallback only when allowed. It captures
+stdout/stderr for every subprocess and writes a JSON/Markdown report. Fallback
+certificates are clearly synthetic and must never be treated as real asset
+certificates.
+
 The flywheel writes:
 
 - `lawbook_store.sqlite`

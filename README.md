@@ -561,6 +561,24 @@ pressure, task queue rows, finite verification, conservative promotion, and
 oracle memory. Scheduler rows are not truth, and finite imports are revalidated
 before they become primitive `LawbookStore` certificates.
 
+For CI/local validation of the whole repo-native pipeline:
+
+```bash
+python scripts/validate_real_asset_pipeline.py \
+  --repo-root . \
+  --out-dir /tmp/mathgraph_validate_real_assets \
+  --skip-install \
+  --allow-missing-assets \
+  --allow-synthetic-fallback \
+  --max-frontier-pairs 50 \
+  --top-k-schedule 20 \
+  --max-tasks 20
+```
+
+The validator captures subprocess stdout/stderr under `logs/`, writes
+`validation_summary.json` and `validation_report.md`, and never reports
+synthetic fallback as real data.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
