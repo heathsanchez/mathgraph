@@ -402,6 +402,29 @@ Route learner scores are search pressure, not truth. They feed future scheduler
 and planner priorities; they do not prove, refute, invoke Lean, search
 countermodels, or promote unknowns.
 
+## H-Tilt Scheduler v1
+
+H-Tilt Scheduler v1 consumes oracle memory, route policies, and candidate pairs
+to produce a prioritized certificate work queue. It is deterministic and
+transparent: formal viability signals become proposal pressure.
+
+```bash
+python scripts/schedule_certificate_tasks.py \
+  --pairs-jsonl /external/path/candidate_pairs.jsonl \
+  --lawbook-store /external/path/lawbook.sqlite \
+  --outcomes-jsonl /external/path/pair_outcomes.jsonl \
+  --out-tasks-json /external/path/scheduled_tasks.json \
+  --out-tasks-jsonl /external/path/scheduled_tasks.jsonl \
+  --out-stats /external/path/scheduler_stats.json \
+  --top-k 100 \
+  --beta 1.0
+```
+
+H-tilt priority is scheduling pressure, not truth. The scheduler decides what
+to try next; it does not prove, refute, invoke Lean, search countermodels, or
+promote unknowns. Full spectral H-tilt with killed generator `K = L - V`
+remains future work.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

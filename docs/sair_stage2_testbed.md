@@ -369,3 +369,39 @@ python scripts/build_route_policy.py \
 The recommendation is advisory scheduling evidence only. It does not prove or
 refute a claim, does not call Lean, does not search for countermodels, and does
 not promote unknowns. Route learner confidence is search pressure, not truth.
+
+## H-Tilt Scheduler v1
+
+H-Tilt Scheduler v1 turns candidate pairs into a prioritized certificate work
+queue. It consumes:
+
+- optional `KernelOracle` memory to skip exact known certificates
+- route policy cards or pair outcomes from Route Learner v1
+- candidate source/target pairs
+
+```bash
+python scripts/schedule_certificate_tasks.py \
+  --pairs-jsonl /external/path/candidate_pairs.jsonl \
+  --lawbook-store /external/path/lawbook.sqlite \
+  --outcomes-jsonl /external/path/pair_outcomes.jsonl \
+  --out-tasks-json /external/path/scheduled_tasks.json \
+  --out-tasks-jsonl /external/path/scheduled_tasks.jsonl \
+  --out-stats /external/path/scheduler_stats.json \
+  --top-k 100 \
+  --beta 1.0
+```
+
+This is the first practical version of:
+
+```text
+formal viability signals -> proposal pressure
+```
+
+The score blends route prior, novelty, gap pressure, uncertainty, obstruction
+pressure, and derived-amplification potential. It is deterministic and
+explainable, but it is not a truth layer. No H-tilt score may promote a claim.
+Only a verified proof, finite countermodel, or named obstruction can become a
+terminal MathGraph outcome.
+
+Full spectral H-tilt with Perron eigenvectors and killed generator `K = L - V`
+remains future work.

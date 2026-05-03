@@ -18,6 +18,13 @@ from mathgraph.hashing import (
     sha256_json,
     sha256_text,
 )
+from mathgraph.htilt_scheduler import (
+    HTiltScheduler,
+    HTiltSchedulerStats,
+    HTiltScoreBreakdown,
+    ScheduledTask,
+    SchedulerInputPair,
+)
 from mathgraph.kernel import Kernel
 from mathgraph.kernel_oracle import KernelOracle, OracleAnswer
 from mathgraph.lawbook import CertificateLawbook
@@ -75,6 +82,9 @@ __all__ = [
     "DerivedCertificateGenerator",
     "DerivedCertificateStats",
     "Equation",
+    "HTiltScheduler",
+    "HTiltSchedulerStats",
+    "HTiltScoreBreakdown",
     "Kernel",
     "KernelOracle",
     "JsonlLedger",
@@ -94,6 +104,8 @@ __all__ = [
     "RouteInstruction",
     "RoutePolicyCard",
     "RouteRecommendation",
+    "ScheduledTask",
+    "SchedulerInputPair",
     "build_all_route_instructions",
     "build_route_instruction",
     "advise_many",
