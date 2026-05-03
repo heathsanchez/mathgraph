@@ -76,6 +76,11 @@ class Trace:
             "created": self.created,
         }
 
+    def content_hash(self) -> str:
+        from mathgraph.hashing import hash_trace
+
+        return hash_trace(self)
+
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Trace":
         certificate_data = data.get("certificate")

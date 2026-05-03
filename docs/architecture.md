@@ -20,6 +20,12 @@ exist.
 Kernel -> Routes -> Constructors -> Verification Adapters -> Terminal Forms -> Ledger/Graph Store
 ```
 
+The integrity spine adds replayable audit records around that flow:
+
+```text
+Trace -> Certificate -> Hash -> Ledger -> Merkle Root -> Replay -> Audit
+```
+
 The v0.1 `Kernel.prove(source, target=None)` route set is intentionally narrow:
 
 - exact equation match
@@ -30,3 +36,7 @@ The v0.1 `Kernel.prove(source, target=None)` route set is intentionally narrow:
 If none of those routes terminates, the kernel returns `NAMED_OBSTRUCTION`.
 That obstruction records a failed route set; it is not a proof and not a truth
 claim.
+
+JSONL ledgers store content-addressed traces. Replaying a ledger recomputes
+trace hashes and a Merkle root so later systems can verify what was actually
+claimed without committing generated run files to GitHub.

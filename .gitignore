@@ -12,12 +12,15 @@ build/
 
 # Generated artifacts and experiment outputs
 _incoming_colab_backup/
+*_incoming_colab_backup/
 SAIR_MathGraph/
 run*/
 runs/
+ledger/
 ledgers/
 *.ledger
 *.jsonl
+*.jsonl.gz
 *.csv
 *.parquet
 *.sqlite

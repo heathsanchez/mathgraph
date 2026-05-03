@@ -131,8 +131,28 @@ for trace in ledger.load_all():
     print(trace.terminal_form)
 ```
 
-Each line is one serialized trace with routes tried, terminal form, certificate
-or obstruction payload, external verification audit records, and a timestamp.
+Each line stores a serialized trace, its trace hash, and a timestamp. The
+records are replayable: a later audit can reload the ledger, recompute trace
+hashes, and check what was actually claimed.
+
+## Integrity Layer
+
+MathGraph can hash traces and certificates with deterministic JSON, making them
+content-addressed traces. JSONL ledgers can be summarized with a Merkle root and
+audited by replaying the serialized records. This is an integrity layer for
+mathematical traces, not cryptocurrency.
+
+```python
+from mathgraph.hashing import hash_trace
+from mathgraph.replay import replay_ledger
+
+trace = Kernel().prove("x = x")
+print(hash_trace(trace))
+print(replay_ledger("/tmp/mathgraph-run/ledger.jsonl")["merkle_root"])
+```
+
+Hashes and Merkle roots preserve record integrity. They do not turn candidates
+into verified proofs, and generated ledger files should stay outside GitHub.
 
 ## Repository Layout
 

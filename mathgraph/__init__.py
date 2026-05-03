@@ -2,6 +2,16 @@
 
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
 from mathgraph.equations import Equation, parse_equation
+from mathgraph.hashing import (
+    canonical_json,
+    content_id,
+    hash_certificate,
+    hash_file,
+    hash_trace,
+    sha256_hex,
+    sha256_json,
+    sha256_text,
+)
 from mathgraph.kernel import Kernel
 from mathgraph.ledger import JsonlLedger
 from mathgraph.terms import Term, parse_term
@@ -12,6 +22,14 @@ __all__ = [
     "Equation",
     "Kernel",
     "JsonlLedger",
+    "canonical_json",
+    "content_id",
+    "hash_certificate",
+    "hash_file",
+    "hash_trace",
+    "sha256_hex",
+    "sha256_json",
+    "sha256_text",
     "Term",
     "TerminalForm",
     "parse_equation",

@@ -40,8 +40,8 @@ Keep source code, tests, docs, and small manifests in GitHub. Keep generated
 artifacts in Google Drive or external artifact storage.
 
 Do not add large generated files to the repository. This includes ledgers, run
-directories, archives, Lean build outputs, `.parquet`, `.sqlite`, `.npy`, and
-other bulky experiment outputs.
+directories, archives, Lean build outputs, `.jsonl`, `.parquet`, `.sqlite`,
+`.npy`, and other bulky experiment outputs.
 
 Prefer small typed modules, focused tests, explicit manifests, and reproducible
 verification traces. Avoid hidden assumptions: encode assumptions in types,
@@ -64,6 +64,16 @@ Kernel -> Routes -> Constructors -> Verification Adapters -> Terminal Forms -> L
   or external theorem provers.
 - `Terminal Forms`: collapse accepted claims into exactly one accepted outcome.
 - `Ledger/Graph Store`: records accepted certificates and typed graph structure.
+
+The integrity spine is:
+
+```text
+Trace -> Certificate -> Hash -> Ledger -> Merkle Root -> Replay -> Audit
+```
+
+Hashes and Merkle roots protect audit-record integrity. They do not turn
+candidates, failed searches, or unrelated external tool results into verified
+proofs.
 
 ## Setup
 

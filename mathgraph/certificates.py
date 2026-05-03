@@ -59,6 +59,11 @@ class Certificate:
             "external_verification": self.external_verification,
         }
 
+    def content_hash(self) -> str:
+        from mathgraph.hashing import hash_certificate
+
+        return hash_certificate(self)
+
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Certificate":
         return cls(
