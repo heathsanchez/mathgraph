@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import Any
 
 from mathgraph.certificates import (
-    Certificate,
     TerminalForm,
     VerificationStatus,
     finite_countermodel,
@@ -58,10 +57,25 @@ def summarize_results(records: Any) -> dict[str, Any]:
     records = _records_from(records)
     traces = [record_to_trace(record) for record in records]
     terminal_counts = Counter(trace.terminal_form.value for trace in traces)
-    status_counts = _count_present(records, ["verification_status", "verification", "lean_status"])
-    promotion_counts = _count_present(records, ["promotion_status"])
-    route_counts = _count_present(records, ["compiled_route", "route_name"])
-    error_counts = _count_present(records, ["error_class", "error", "lean_error_class"])
+    verification_counts = _count_present(
+        records,
+        [
+            "verification_status_v19_1",
+            "verification_v19_1",
+            "verification_status",
+            "verification",
+        ],
+    )
+    lean_counts = _count_present(records, ["lean_status_v19_1", "lean_status"])
+    promotion_counts = _count_present(records, ["promotion_status_v19_1", "promotion_status"])
+    route_counts = _count_present(
+        records,
+        ["compiled_route_v19_1", "route_name_v19_1", "compiled_route", "route_name"],
+    )
+    error_counts = _count_present(
+        records,
+        ["error_class_v19_1", "lean_error_class_v19_1", "error_class", "error", "lean_error_class"],
+    )
 
     verified_true = sum(1 for record in records if _is_verified_true(record))
     verified_false = sum(1 for record in records if _is_verified_false(record))
@@ -70,8 +84,8 @@ def summarize_results(records: Any) -> dict[str, Any]:
     return {
         "row_count": len(records),
         "terminal_form_counts": dict(terminal_counts),
-        "verification_status_counts": dict(status_counts),
-        "lean_status_counts": dict(status_counts),
+        "verification_status_counts": dict(verification_counts),
+        "lean_status_counts": dict(lean_counts),
         "promotion_status_counts": dict(promotion_counts),
         "compiled_route_counts": dict(route_counts),
         "verified_total": verified_true + verified_false,
@@ -235,12 +249,19 @@ def _bool_value(value: Any) -> bool | None:
 def _is_verified_true(record: dict[str, Any]) -> bool:
     if _terminal_form(record) == TerminalForm.VERIFIED_PROOF:
         return True
-    for field in ["verified_true", "lean_verified_true", "python_verified_true"]:
+    for field in [
+        "verified_true_v19_1",
+        "lean_verified_true_v19_1",
+        "python_verified_true_v19_1",
+        "verified_true",
+        "lean_verified_true",
+        "python_verified_true",
+    ]:
         if _bool_value(record.get(field)) is True:
             return True
-    if _bool_value(record.get("lean_verified")) is True and _truth_label(record) == "true":
+    if _bool_value(_first_present(record, ["lean_verified_v19_1", "lean_verified"])) is True and _truth_label(record) == "true":
         return True
-    if _bool_value(record.get("python_verified")) is True and _truth_label(record) == "true":
+    if _bool_value(_first_present(record, ["python_verified_v19_1", "python_verified"])) is True and _truth_label(record) == "true":
         return True
     return False
 
@@ -248,18 +269,27 @@ def _is_verified_true(record: dict[str, Any]) -> bool:
 def _is_verified_false(record: dict[str, Any]) -> bool:
     if _terminal_form(record) == TerminalForm.FINITE_COUNTERMODEL:
         return True
-    for field in ["verified_false", "lean_verified_false", "python_verified_false", "finite_countermodel"]:
+    for field in [
+        "verified_false_v19_1",
+        "lean_verified_false_v19_1",
+        "python_verified_false_v19_1",
+        "finite_countermodel_v19_1",
+        "verified_false",
+        "lean_verified_false",
+        "python_verified_false",
+        "finite_countermodel",
+    ]:
         if _bool_value(record.get(field)) is True:
             return True
-    if _bool_value(record.get("lean_verified")) is True and _truth_label(record) == "false":
+    if _bool_value(_first_present(record, ["lean_verified_v19_1", "lean_verified"])) is True and _truth_label(record) == "false":
         return True
-    if _bool_value(record.get("python_verified")) is True and _truth_label(record) == "false":
+    if _bool_value(_first_present(record, ["python_verified_v19_1", "python_verified"])) is True and _truth_label(record) == "false":
         return True
     return False
 
 
 def _is_failure(record: dict[str, Any]) -> bool:
-    for field in ["lean_status", "verification_status", "status"]:
+    for field in ["lean_status_v19_1", "verification_status_v19_1", "lean_status", "verification_status", "status"]:
         value = str(record.get(field, "")).strip().lower()
         if "fail" in value or "error" in value:
             return True
@@ -267,7 +297,19 @@ def _is_failure(record: dict[str, Any]) -> bool:
 
 
 def _truth_label(record: dict[str, Any]) -> str | None:
-    value = _first_present(record, ["truth", "result", "claim_truth", "target_truth"])
+    value = _first_present(
+        record,
+        [
+            "truth_v19_1",
+            "result_v19_1",
+            "claim_truth_v19_1",
+            "target_truth_v19_1",
+            "truth",
+            "result",
+            "claim_truth",
+            "target_truth",
+        ],
+    )
     if value is None:
         return None
     text = str(value).strip().lower()
@@ -279,7 +321,7 @@ def _truth_label(record: dict[str, Any]) -> str | None:
 
 
 def _terminal_form(record: dict[str, Any]) -> TerminalForm | None:
-    value = _first_present(record, ["terminal_form"])
+    value = _first_present(record, ["terminal_form_v19_1", "terminal_form"])
     if value is None:
         return None
     try:
@@ -289,7 +331,7 @@ def _terminal_form(record: dict[str, Any]) -> TerminalForm | None:
 
 
 def _route(record: dict[str, Any]) -> str | None:
-    value = _first_present(record, ["compiled_route", "route_name"])
+    value = _first_present(record, ["compiled_route_v19_1", "route_name_v19_1", "compiled_route", "route_name"])
     return str(value) if value is not None else None
 
 
@@ -307,11 +349,17 @@ def _metadata(record: dict[str, Any]) -> dict[str, Any]:
         "source_idx",
         "target_idx",
         "claim_hash",
+        "promotion_status_v19_1",
         "promotion_status",
+        "compiled_route_v19_1",
         "compiled_route",
+        "route_name_v19_1",
         "route_name",
+        "lean_status_v19_1",
         "lean_status",
+        "verification_status_v19_1",
         "verification_status",
+        "error_class_v19_1",
         "error_class",
     ]
     return {field: record[field] for field in fields if field in record and record[field] not in (None, "")}

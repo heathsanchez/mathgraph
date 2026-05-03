@@ -56,6 +56,56 @@ def test_summarize_results_counts_records() -> None:
     assert summary["error_class_counts"] == {"timeout": 1}
 
 
+def test_v19_1_columns_override_legacy_pending_statuses() -> None:
+    pd = __import__("pytest").importorskip("pandas")
+    frame = pd.DataFrame(
+        [
+            {
+                "source": "x=x",
+                "target": "x=x",
+                "lean_status": "lean_artifact_generated_pending_run",
+                "promotion_status": "python_structural_true_pending_lean",
+                "lean_status_v19_1": "lean_verified_true",
+                "promotion_status_v19_1": "lean_verified_true_promoted",
+                "lean_verified_true_v19_1": True,
+                "compiled_route": "legacy_route",
+                "compiled_route_v19_1": "routelean_v19_1",
+            },
+            {
+                "source": "x=x",
+                "target": "x*x=x",
+                "lean_status": "lean_artifact_generated_pending_run",
+                "promotion_status": "python_validated_false_pending_lean",
+                "lean_status_v19_1": "lean_verified_false",
+                "promotion_status_v19_1": "lean_verified_false_promoted",
+                "lean_verified_false_v19_1": True,
+                "compiled_route": "legacy_route",
+                "compiled_route_v19_1": "routelean_v19_1",
+            },
+        ]
+    )
+
+    summary = summarize_results(frame)
+    traces = [row_to_trace(row) for row in frame.to_dict(orient="records")]
+
+    assert summary["verified_total"] == 2
+    assert summary["verified_true"] == 1
+    assert summary["verified_false"] == 1
+    assert summary["lean_status_counts"] == {
+        "lean_verified_true": 1,
+        "lean_verified_false": 1,
+    }
+    assert summary["promotion_status_counts"] == {
+        "lean_verified_true_promoted": 1,
+        "lean_verified_false_promoted": 1,
+    }
+    assert summary["compiled_route_counts"] == {"routelean_v19_1": 2}
+    assert [trace.terminal_form for trace in traces] == [
+        TerminalForm.VERIFIED_PROOF,
+        TerminalForm.FINITE_COUNTERMODEL,
+    ]
+
+
 def test_verified_false_row_becomes_finite_countermodel() -> None:
     trace = row_to_trace(
         {
