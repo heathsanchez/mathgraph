@@ -97,8 +97,8 @@ def summarize_results(records: Any) -> dict[str, Any]:
 
 
 def row_to_trace(record: dict[str, Any]) -> Trace:
-    source = _first_present(record, ["source_equation", "source", "source_idx"])
-    target = _first_present(record, ["target_equation", "target", "target_idx"])
+    source = _first_present(record, ["source_equation", "source"])
+    target = _first_present(record, ["target_equation", "target"])
     claim = _claim(record, source, target)
     routes_tried = [_route(record)] if _route(record) else []
     metadata = _metadata(record)
@@ -109,9 +109,23 @@ def row_to_trace(record: dict[str, Any]) -> Trace:
             "target": target,
             "source_idx": _first_present(record, ["source_idx"]),
             "target_idx": _first_present(record, ["target_idx"]),
+            "source_equation": _first_present(record, ["source_equation", "source"]),
+            "target_equation": _first_present(record, ["target_equation", "target"]),
+            "claim_hash": _first_present(record, ["claim_hash"]),
+            "compiled_route": _route(record),
+            "original_terminal_form": _first_present(record, ["terminal_form_v19_1", "terminal_form"]),
+            "lean_status": _first_present(record, ["lean_status_v19_1", "lean_status"]),
+            "promotion_status": _first_present(record, ["promotion_status_v19_1", "promotion_status"]),
             "countermodel": _first_present(
                 record,
-                ["countermodel", "countermodel_json", "model", "finite_model", "witness"],
+                [
+                    "countermodel_v19_1",
+                    "countermodel",
+                    "countermodel_json",
+                    "model",
+                    "finite_model",
+                    "witness",
+                ],
             ),
             "record": metadata,
         }
@@ -130,6 +144,28 @@ def row_to_trace(record: dict[str, Any]) -> Trace:
     if _is_verified_true(record):
         proof_id = str(_first_present(record, ["proof_id", "certificate_id", "claim_hash"]) or "sair_stage2_verified_true")
         cert = verified_proof(claim, proof_id)
+        cert_payload = dict(cert.payload)
+        cert_payload.update(
+            {
+                "source_idx": _first_present(record, ["source_idx"]),
+                "target_idx": _first_present(record, ["target_idx"]),
+                "source_equation": _first_present(record, ["source_equation", "source"]),
+                "target_equation": _first_present(record, ["target_equation", "target"]),
+                "claim_hash": _first_present(record, ["claim_hash"]),
+                "compiled_route": _route(record),
+                "original_terminal_form": _first_present(record, ["terminal_form_v19_1", "terminal_form"]),
+                "lean_status": _first_present(record, ["lean_status_v19_1", "lean_status"]),
+                "promotion_status": _first_present(record, ["promotion_status_v19_1", "promotion_status"]),
+                "record": metadata,
+            }
+        )
+        cert = type(cert)(
+            terminal_form=cert.terminal_form,
+            claim=cert.claim,
+            payload=cert_payload,
+            verifier=cert.verifier,
+            external_verification=cert.external_verification,
+        )
         return Trace(
             claim=claim,
             source=_to_optional_str(source),
@@ -247,7 +283,8 @@ def _bool_value(value: Any) -> bool | None:
 
 
 def _is_verified_true(record: dict[str, Any]) -> bool:
-    if _terminal_form(record) == TerminalForm.VERIFIED_PROOF:
+    promotion = str(_first_present(record, ["promotion_status_v19_1", "promotion_status"]) or "").lower()
+    if "lean_verified_true_promotable" in promotion or "lean_verified_true_promoted" in promotion:
         return True
     for field in [
         "verified_true_v19_1",
@@ -267,7 +304,8 @@ def _is_verified_true(record: dict[str, Any]) -> bool:
 
 
 def _is_verified_false(record: dict[str, Any]) -> bool:
-    if _terminal_form(record) == TerminalForm.FINITE_COUNTERMODEL:
+    promotion = str(_first_present(record, ["promotion_status_v19_1", "promotion_status"]) or "").lower()
+    if "lean_verified_false_promotable" in promotion or "lean_verified_false_promoted" in promotion:
         return True
     for field in [
         "verified_false_v19_1",
@@ -349,6 +387,12 @@ def _metadata(record: dict[str, Any]) -> dict[str, Any]:
         "source_idx",
         "target_idx",
         "claim_hash",
+        "path",
+        "file_path",
+        "artifact_path",
+        "trace_hash",
+        "certificate_hash",
+        "row_hash",
         "promotion_status_v19_1",
         "promotion_status",
         "compiled_route_v19_1",
@@ -360,7 +404,13 @@ def _metadata(record: dict[str, Any]) -> dict[str, Any]:
         "verification_status_v19_1",
         "verification_status",
         "error_class_v19_1",
+        "lean_error_class",
         "error_class",
+        "terminal_form_v19_1",
+        "terminal_form",
+        "lean_verified_v19_1",
+        "lean_verified_true_v19_1",
+        "lean_verified_false_v19_1",
     ]
     return {field: record[field] for field in fields if field in record and record[field] not in (None, "")}
 

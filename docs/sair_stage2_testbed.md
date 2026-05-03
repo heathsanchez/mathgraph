@@ -29,6 +29,22 @@ print(summarize_results(records))
 traces = import_traces("/external/path/routelean_results_v19_1.parquet", limit=10)
 ```
 
+The CLI can summarize external results and optionally export replayable source
+artifacts:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import/
+```
+
+Directory mode writes `summary.json`, `traces.json`, `traces.jsonl`,
+`certificates.json`, and `index.sqlite`. For backwards compatibility, passing a
+`.jsonl` path to `--out` writes the ledger to that file and `summary.json` next
+to it. Use explicit flags such as `--summary-json`, `--export-traces-json`,
+`--export-ledger-jsonl`, `--export-certificates-json`, and `--sqlite-index`
+when a run needs exact output paths.
+
 The importer is conservative. Verified-false rows become
 `FINITE_COUNTERMODEL`. Explicit verified-true rows become `VERIFIED_PROOF`.
 Rows without explicit true/false verification become `NAMED_OBSTRUCTION`.

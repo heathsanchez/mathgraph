@@ -91,6 +91,27 @@ The importer only promotes rows that explicitly verify true or verify false.
 Missing verification, finite-search failure, and failed Lean execution become
 non-promotable obstruction traces.
 
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import/
+```
+
+Directory mode writes `summary.json`, `traces.json`, `traces.jsonl`,
+`certificates.json`, and `index.sqlite`. Existing scripts can still pass a
+`.jsonl` path to `--out` to write only the legacy ledger file plus
+`summary.json` next to it. Explicit output paths are also available:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --summary-json /external/path/summary.json \
+  --export-traces-json /external/path/traces.json \
+  --export-ledger-jsonl /external/path/traces.jsonl \
+  --export-certificates-json /external/path/certificates.json \
+  --sqlite-index /external/path/trace_index.sqlite
+```
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
