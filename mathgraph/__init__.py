@@ -3,6 +3,11 @@
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
 from mathgraph.corpus import CertificateCorpus
 from mathgraph.equations import Equation, parse_equation
+from mathgraph.derived_certificates import (
+    DerivedCertificate,
+    DerivedCertificateGenerator,
+    DerivedCertificateStats,
+)
 from mathgraph.hashing import (
     canonical_json,
     content_id,
@@ -50,6 +55,9 @@ __all__ = [
     "CertificateCorpus",
     "CertificateLawbook",
     "CertificateTask",
+    "DerivedCertificate",
+    "DerivedCertificateGenerator",
+    "DerivedCertificateStats",
     "Equation",
     "Kernel",
     "KernelOracle",

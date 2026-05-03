@@ -45,6 +45,12 @@ class KernelOracle:
         self.store = store
 
     def query(self, source: str, target: str) -> OracleAnswer:
+        primitive = self.store.get_by_pair(source, target)
+        if primitive is not None:
+            return _answer_from_record(primitive)
+        derived = self.store.get_derived_by_pair(source, target)
+        if derived is not None:
+            return _answer_from_record(derived)
         return _answer_from_record(self.store.explain_pair(source, target))
 
     def explain_claim(self, claim: str) -> OracleAnswer:
@@ -92,6 +98,36 @@ def _answer_from_record(record: dict[str, Any]) -> OracleAnswer:
             warnings=[
                 "No exact verified lawbook trace found.",
                 "Do not promote advisory output to proof or refutation.",
+            ],
+        )
+
+    if record.get("status") == "derived_hit":
+        terminal = record["terminal_form"]
+        status = "UNKNOWN"
+        if terminal == "VERIFIED_PROOF":
+            status = "VERIFIED"
+        elif terminal == "FINITE_COUNTERMODEL":
+            status = "REFUTED"
+        return OracleAnswer(
+            status=status,
+            terminal_form=terminal,
+            verification_status=record["verification_status"],
+            source=record.get("source"),
+            target=record.get("target"),
+            claim=record.get("claim"),
+            route=record.get("route"),
+            certificate_id=record.get("certificate_id"),
+            trust_level="derived_from_verified_traces",
+            explanation=record.get("explanation", "Derived certificate found."),
+            evidence={
+                "derivation_rule": record.get("derivation_rule"),
+                "parent_claims": record.get("parent_claims", []),
+                "parent_pairs": record.get("parent_pairs", []),
+                **dict(record.get("evidence", {})),
+            },
+            warnings=[
+                "This is a derived certificate by logical composition of verified traces.",
+                *list(record.get("warnings", [])),
             ],
         )
 

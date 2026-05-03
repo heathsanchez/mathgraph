@@ -262,3 +262,37 @@ Unknown means no exact verified trace was found, not false. Missing answers stay
 `NAMED_OBSTRUCTION` / `UNKNOWN` and include anti-promotion warnings. This layer
 is the foundation for derived certificate generation, chewing harnesses, API
 service layers, and H-Tilt scheduling.
+
+## Derived Certificate Generation
+
+Derived certificates are the first recursive self-improvement layer over the
+persistent lawbook. They do not call Lean, search finite magmas, or use route
+scores. They compose existing verified traces with sound rules and store the
+results separately from primitive certificates.
+
+Accepted derivation rules:
+
+```text
+A=>B, B=>C => A=>C
+B=>A, B⇏C => A⇏C
+A⇏B, C=>B => A⇏C
+```
+
+The false rules are deliberately directional. In source weakening, the
+countermodel for `B⇏C` satisfies stronger source `B`, so it also satisfies
+weaker source `A` when `B=>A` is verified. In target strengthening, a witness
+that refutes `B` also refutes any stronger target `C` when `C=>B` is verified.
+
+```bash
+python scripts/derive_certificates.py \
+  --store /external/path/lawbook.sqlite \
+  --out-jsonl /external/path/derived.jsonl \
+  --out-json /external/path/derived.json \
+  --import-to-store \
+  --max-per-rule 10000
+```
+
+Primitive exact hits remain highest priority in `KernelOracle`. Derived hits
+are returned only when no primitive exact trace exists, and they carry
+`trust_level = "derived_from_verified_traces"` plus parent claims and the
+derivation rule as evidence.

@@ -330,6 +330,30 @@ Unknown means no exact verified trace was found. It does not mean false. This
 persistent memory is the foundation for derived certificate generation, chewing
 harnesses, API service layers, and H-Tilt scheduling.
 
+## Derived Certificate Generation
+
+Derived certificates amplify the lawbook without new oracle calls. They are
+logical compositions of already verified traces, stored separately from
+primitive certificates.
+
+```text
+A=>B, B=>C => A=>C
+B=>A, B⇏C => A⇏C
+A⇏B, C=>B => A⇏C
+```
+
+Directionality matters. Derived false certificates are accepted only when the
+same countermodel witness remains valid by weakening the source or strengthening
+the target. Primitive exact hits still take precedence over derived hits.
+
+```bash
+python scripts/derive_certificates.py \
+  --store /external/path/lawbook.sqlite \
+  --out-jsonl /external/path/derived.jsonl \
+  --import-to-store \
+  --max-per-rule 10000
+```
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

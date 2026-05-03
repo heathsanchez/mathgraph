@@ -6,6 +6,7 @@ import json
 import sqlite3
 from collections import Counter
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -81,6 +82,30 @@ class LawbookStore:
             CREATE INDEX IF NOT EXISTS idx_traces_route ON traces(compiled_route);
             CREATE INDEX IF NOT EXISTS idx_traces_terminal ON traces(terminal_form);
             CREATE INDEX IF NOT EXISTS idx_traces_status ON traces(verification_status);
+
+            CREATE TABLE IF NOT EXISTS derived_certificates (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                derived_claim TEXT NOT NULL,
+                source TEXT NOT NULL,
+                target TEXT NOT NULL,
+                source_idx TEXT,
+                target_idx TEXT,
+                terminal_form TEXT NOT NULL,
+                verification_status TEXT NOT NULL,
+                derivation_rule TEXT NOT NULL,
+                trust_level TEXT NOT NULL,
+                parent_claims_json TEXT NOT NULL,
+                parent_pairs_json TEXT NOT NULL,
+                route TEXT NOT NULL,
+                explanation TEXT NOT NULL,
+                evidence_json TEXT NOT NULL,
+                warnings_json TEXT NOT NULL,
+                created_ts TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_derived_pair ON derived_certificates(source, target);
+            CREATE INDEX IF NOT EXISTS idx_derived_terminal ON derived_certificates(terminal_form);
+            CREATE INDEX IF NOT EXISTS idx_derived_rule ON derived_certificates(derivation_rule);
+            CREATE INDEX IF NOT EXISTS idx_derived_trust ON derived_certificates(trust_level);
             """
         )
         self.conn.commit()
@@ -115,6 +140,45 @@ class LawbookStore:
         self.conn.commit()
         return self.stats()
 
+    def import_derived_certificates(
+        self, certificates: list["DerivedCertificate"], replace: bool = False
+    ) -> "DerivedCertificateStats":
+        from mathgraph.derived_certificates import DerivedCertificateStats
+
+        self.init_schema()
+        if replace:
+            self.conn.execute("DELETE FROM derived_certificates")
+        rows = [_derived_row(cert) for cert in certificates]
+        self.conn.executemany(
+            """
+            INSERT INTO derived_certificates (
+                derived_claim, source, target, source_idx, target_idx,
+                terminal_form, verification_status, derivation_rule, trust_level,
+                parent_claims_json, parent_pairs_json, route, explanation,
+                evidence_json, warnings_json, created_ts
+            ) VALUES (
+                :derived_claim, :source, :target, :source_idx, :target_idx,
+                :terminal_form, :verification_status, :derivation_rule, :trust_level,
+                :parent_claims_json, :parent_pairs_json, :route, :explanation,
+                :evidence_json, :warnings_json, :created_ts
+            )
+            """,
+            rows,
+        )
+        self.conn.commit()
+        stats = self.derived_stats()
+        return DerivedCertificateStats(
+            input_trace_count=self.stats().trace_count,
+            input_true_count=self.stats().terminal_form_counts.get("VERIFIED_PROOF", 0),
+            input_false_count=self.stats().terminal_form_counts.get("FINITE_COUNTERMODEL", 0),
+            derived_true_count=stats["terminal_form_counts"].get("VERIFIED_PROOF", 0),
+            derived_false_count=stats["terminal_form_counts"].get("FINITE_COUNTERMODEL", 0),
+            duplicate_skipped_count=0,
+            malformed_skipped_count=0,
+            total_derived_count=stats["total"],
+            rule_counts=stats["rule_counts"],
+        )
+
     def stats(self) -> LawbookStoreStats:
         self.init_schema()
         rows = [dict(row) for row in self.conn.execute("SELECT * FROM traces")]
@@ -147,6 +211,43 @@ class LawbookStore:
             (str(source), str(target), str(source), str(target)),
         ).fetchone()
         return _row_to_record(row) if row else None
+
+    def get_derived_by_pair(self, source: str, target: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute(
+            """
+            SELECT * FROM derived_certificates
+            WHERE source = ? AND target = ?
+            ORDER BY id LIMIT 1
+            """,
+            (str(source), str(target)),
+        ).fetchone()
+        return _derived_row_to_record(row) if row else None
+
+    def find_derived_by_rule(self, rule: str, limit: int = 50) -> list[dict[str, Any]]:
+        self.init_schema()
+        rows = self.conn.execute(
+            """
+            SELECT * FROM derived_certificates
+            WHERE derivation_rule = ?
+            ORDER BY id LIMIT ?
+            """,
+            (rule, int(limit)),
+        ).fetchall()
+        return [_derived_row_to_record(row) for row in rows]
+
+    def derived_stats(self) -> dict[str, Any]:
+        self.init_schema()
+        rows = [dict(row) for row in self.conn.execute("SELECT * FROM derived_certificates")]
+        return {
+            "total": len(rows),
+            "terminal_form_counts": dict(Counter(row["terminal_form"] for row in rows)),
+            "verification_status_counts": dict(
+                Counter(row["verification_status"] for row in rows)
+            ),
+            "rule_counts": dict(Counter(row["derivation_rule"] for row in rows)),
+            "trust_level_counts": dict(Counter(row["trust_level"] for row in rows)),
+        }
 
     def find_by_source(self, source: str, limit: int = 50) -> list[dict[str, Any]]:
         return self._find("source = ? OR source_idx = ?", (str(source), str(source)), limit)
@@ -200,6 +301,27 @@ def _trace_row(trace: Trace) -> dict[str, Any]:
     }
 
 
+def _derived_row(cert: "DerivedCertificate") -> dict[str, Any]:
+    return {
+        "derived_claim": cert.derived_claim,
+        "source": cert.source,
+        "target": cert.target,
+        "source_idx": str(cert.source_idx) if cert.source_idx is not None else None,
+        "target_idx": str(cert.target_idx) if cert.target_idx is not None else None,
+        "terminal_form": cert.terminal_form,
+        "verification_status": cert.verification_status,
+        "derivation_rule": cert.derivation_rule,
+        "trust_level": cert.trust_level,
+        "parent_claims_json": json.dumps(cert.parent_claims, sort_keys=True),
+        "parent_pairs_json": json.dumps(cert.parent_pairs, sort_keys=True),
+        "route": cert.route,
+        "explanation": cert.explanation,
+        "evidence_json": json.dumps(cert.evidence, sort_keys=True),
+        "warnings_json": json.dumps(cert.warnings, sort_keys=True),
+        "created_ts": datetime.now(timezone.utc).isoformat(),
+    }
+
+
 def _row_to_record(row: sqlite3.Row) -> dict[str, Any]:
     data = dict(row)
     return {
@@ -224,6 +346,31 @@ def _row_to_record(row: sqlite3.Row) -> dict[str, Any]:
         "certificate": json.loads(data["certificate_json"]) if data["certificate_json"] else None,
         "metadata": json.loads(data["metadata_json"]),
         "explanation": "Exact verified lawbook trace found.",
+    }
+
+
+def _derived_row_to_record(row: sqlite3.Row) -> dict[str, Any]:
+    data = dict(row)
+    return {
+        "status": "derived_hit",
+        "claim": data["derived_claim"],
+        "derived_claim": data["derived_claim"],
+        "source": data["source"],
+        "target": data["target"],
+        "source_idx": data["source_idx"],
+        "target_idx": data["target_idx"],
+        "route": data["route"],
+        "terminal_form": data["terminal_form"],
+        "verification_status": data["verification_status"],
+        "derivation_rule": data["derivation_rule"],
+        "trust_level": data["trust_level"],
+        "parent_claims": json.loads(data["parent_claims_json"]),
+        "parent_pairs": json.loads(data["parent_pairs_json"]),
+        "evidence": json.loads(data["evidence_json"]),
+        "warnings": json.loads(data["warnings_json"]),
+        "explanation": data["explanation"],
+        "created": data["created_ts"],
+        "certificate_id": data["derived_claim"],
     }
 
 
