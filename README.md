@@ -270,6 +270,27 @@ python scripts/advise_pair.py \
   --out advice.json
 ```
 
+## Certificate Task Planning
+
+The task planner converts pair advice into a compact execution plan. It does not
+prove or refute anything; it names the next evidence required for promotion.
+
+```python
+from mathgraph import CertificateLawbook, plan_certificate_task
+
+lawbook = CertificateLawbook.from_json("traces.json")
+task = plan_certificate_task(lawbook, "x = x ◇ y", "x = x ◇ x")
+print(task.to_dict())
+```
+
+```bash
+python scripts/plan_certificate_task.py \
+  --traces-json traces.json \
+  --source "x = x ◇ y" \
+  --target "x = x ◇ x" \
+  --out task.json
+```
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

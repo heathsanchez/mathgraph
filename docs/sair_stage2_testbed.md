@@ -185,3 +185,26 @@ python scripts/advise_pair.py \
   --target "x = x ◇ x" \
   --out advice.json
 ```
+
+## Certificate Task Planning
+
+The task planner turns pair advice into an executable-looking checklist. It is
+still not a verifier: exact lawbook hits require no new task, while unknown
+pairs become planned proof-template, finite-countermodel search, or obstruction
+analysis tasks.
+
+```python
+from mathgraph import CertificateLawbook, plan_certificate_task
+
+lawbook = CertificateLawbook.from_json("traces.json")
+task = plan_certificate_task(lawbook, "x = x ◇ y", "x = x ◇ x")
+print(task.to_dict())
+```
+
+```bash
+python scripts/plan_certificate_task.py \
+  --traces-json traces.json \
+  --source "x = x ◇ y" \
+  --target "x = x ◇ x" \
+  --out task.json
+```
