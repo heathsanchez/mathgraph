@@ -1,6 +1,11 @@
 """MathGraph: a lightweight kernel for verifiable mathematical claims."""
 
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
+from mathgraph.asset_discovery import (
+    AssetDiscoveryConfig,
+    AssetDiscoveryResult,
+    discover_mathgraph_assets,
+)
 from mathgraph.chewing_smoke import (
     ChewingSmokeConfig,
     ChewingSmokeResult,
@@ -113,6 +118,8 @@ __all__ = [
     "CertificateCorpus",
     "CertificateLawbook",
     "CertificateTask",
+    "AssetDiscoveryConfig",
+    "AssetDiscoveryResult",
     "ChewingSmokeConfig",
     "ChewingSmokeResult",
     "ChewingSmokeStageResult",
@@ -167,6 +174,7 @@ __all__ = [
     "advise_many",
     "advise_pair",
     "content_id",
+    "discover_mathgraph_assets",
     "extract_pair_features",
     "extract_outcome_pair_features",
     "execute_certificate_task",

@@ -552,6 +552,43 @@ inspects the route/task-kind distribution, and falls back to explicit
 tasks. That fallback is a harness device, not truth: only executor rows with
 `FINITE_COUNTERMODEL` / `FINITE_VERIFIED` can be revalidated and imported.
 
+## Real Asset Smoke
+
+Use asset discovery first when running in Colab or another external artifact
+environment:
+
+```bash
+python scripts/discover_mathgraph_assets.py \
+  --out-dir /tmp/mathgraph_assets
+```
+
+Then run the real chewing smoke:
+
+```bash
+python scripts/run_real_chewing_smoke.py \
+  --out-dir /tmp/mathgraph_real_smoke \
+  --max-frontier-pairs 250 \
+  --top-k-schedule 100 \
+  --max-tasks 100
+```
+
+The discovery tool checks exact candidate paths first and then performs a
+guarded shallow search for `traces.json`, `equations.txt`, and
+`etp_matrix_full_best_bool.npy`. It is read-only unless copy or symlink
+materialization is requested.
+
+The real smoke demonstrates:
+
+```text
+raw assets -> frontier possibilities -> H-Tilt search pressure -> task queue
+-> finite verifier -> conservative promotion -> oracle memory
+```
+
+If assets are missing, the report records `missing_assets` and exits without
+pretending the run succeeded. Scheduler rows are search pressure only, finite
+search failure is obstruction evidence only, and only revalidated finite
+countermodel results are imported as new primitive certificates.
+
 The flywheel writes:
 
 - `lawbook_store.sqlite`

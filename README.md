@@ -535,6 +535,32 @@ transparent fallback queue of finite-countermodel tasks so the checked finite
 path is still exercised. The fallback is still non-promotable until the finite
 executor verifies a table and the importer revalidates it.
 
+## Real Asset Smoke
+
+For Colab or Drive-backed runs, first discover the available assets:
+
+```bash
+python scripts/discover_mathgraph_assets.py \
+  --out-dir /tmp/mathgraph_assets
+```
+
+Then run the real chewing smoke:
+
+```bash
+python scripts/run_real_chewing_smoke.py \
+  --out-dir /tmp/mathgraph_real_smoke \
+  --max-frontier-pairs 250 \
+  --top-k-schedule 100 \
+  --max-tasks 100
+```
+
+Asset discovery is read-only unless `--copy-assets` or `--symlink-assets` is
+requested. Missing assets are reported explicitly instead of being hidden.
+The real smoke composes raw assets into frontier possibilities, H-Tilt search
+pressure, task queue rows, finite verification, conservative promotion, and
+oracle memory. Scheduler rows are not truth, and finite imports are revalidated
+before they become primitive `LawbookStore` certificates.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
