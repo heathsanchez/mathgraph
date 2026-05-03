@@ -161,6 +161,13 @@ failures, not mathematical proof failures, unless strict mode is requested. A
 verified row without loaded artifacts is still a verified result trace, but not
 yet a fully replayable certificate archive.
 
+Artifact provenance is tracked per path column. MathGraph distinguishes
+canonical artifacts, prior/input artifacts, and executed Lean artifacts. A hash
+is checked only when the hash column is applicable to that exact path. Prior or
+input paths without a corresponding hash are counted as
+`hash_not_applicable`, not mismatches. Strict mode fails only on applicable hash
+mismatches.
+
 ## CertificateCorpus
 
 `CertificateCorpus` is a lightweight in-memory layer for replaying and querying

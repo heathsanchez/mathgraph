@@ -107,3 +107,18 @@ outputs should stay outside Git. Missing artifacts do not change truth status.
 Hash mismatches are audit failures, not mathematical proof failures, unless
 strict mode is requested. A verified row without loaded artifacts is still a
 verified result trace, but not yet a fully replayable certificate archive.
+
+### Artifact Provenance and Hash Checks
+
+MathGraph distinguishes canonical, prior/input, and executed artifacts. For
+example, `json_path` is treated as the canonical JSON artifact and can be paired
+with `json_sha256`; `json_path_prior` and `json_path_v19_1_input` are audited as
+prior/input artifacts unless they are the exact same normalized path as the
+canonical artifact. Likewise, `lean_path` is canonical Lean, while
+`executed_lean_path_v19_1` records what was actually executed.
+
+A hash is only checked when the hash column applies to that exact path.
+Prior/input paths without their own corresponding hash are counted as
+`hash_not_applicable`, not mismatches. Strict hash mode fails only on applicable
+hash mismatches. Mathematical verification status and artifact hash status
+remain separate dimensions.

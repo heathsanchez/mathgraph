@@ -9,9 +9,8 @@ from pathlib import Path
 from typing import Any
 
 from mathgraph.artifacts import (
-    build_artifact_record,
+    build_artifact_records_from_record,
     extract_countermodel_from_json,
-    normalize_external_path,
     read_json_artifact,
 )
 from mathgraph.certificates import (
@@ -505,102 +504,11 @@ def _artifact_records(
     load_artifacts: bool,
     artifact_base: str | Path | None,
 ) -> dict[str, list[dict[str, Any]]]:
-    json_expected = _first_present(record, ["json_sha256_v19_1", "json_sha256"])
-    lean_expected = _first_present(record, ["lean_sha256_v19_1", "lean_sha256"])
-    artifacts: dict[str, list[dict[str, Any]]] = {"json": [], "lean": []}
-
-    for path in _unique_paths(record, ["json_path_v19_1_input", "json_path", "json_path_prior"]):
-        resolved = _resolve_artifact_path(path, artifact_base)
-        artifacts["json"].append(
-            _artifact_record(
-                resolved,
-                expected_sha256=_to_optional_str(json_expected),
-                kind="json",
-                inspect=load_artifacts,
-                load_json=load_artifacts,
-            )
-        )
-
-    for path in _unique_paths(
+    return build_artifact_records_from_record(
         record,
-        ["executed_lean_path_v19_1", "lean_path_v19_1_input", "lean_path", "lean_path_prior"],
-    ):
-        resolved = _resolve_artifact_path(path, artifact_base)
-        artifacts["lean"].append(
-            _artifact_record(
-                resolved,
-                expected_sha256=_to_optional_str(lean_expected),
-                kind="lean",
-                inspect=load_artifacts,
-                load_json=False,
-            )
-        )
-
-    return {kind: records for kind, records in artifacts.items() if records}
-
-
-def _artifact_record(
-    path: str | None,
-    *,
-    expected_sha256: str | None,
-    kind: str,
-    inspect: bool,
-    load_json: bool,
-) -> dict[str, Any]:
-    if path is None:
-        return {
-            "path": None,
-            "kind": kind,
-            "exists": False,
-            "sha256": None,
-            "expected_sha256": expected_sha256,
-            "sha256_matches": None,
-            "load_attempted": load_json,
-            "load_ok": False if load_json else None,
-            "error": "missing_path",
-            "json_preview_keys": [],
-        }
-    if inspect:
-        return build_artifact_record(
-            path,
-            expected_sha256=expected_sha256,
-            kind=kind,
-            load_json=load_json,
-        )
-    return {
-        "path": path,
-        "kind": kind,
-        "exists": None,
-        "sha256": None,
-        "expected_sha256": expected_sha256,
-        "sha256_matches": None,
-        "load_attempted": False,
-        "load_ok": None,
-        "error": None,
-        "json_preview_keys": [],
-    }
-
-
-def _unique_paths(record: dict[str, Any], fields: list[str]) -> list[str]:
-    seen: set[str] = set()
-    paths: list[str] = []
-    for field in fields:
-        path = normalize_external_path(record.get(field))
-        if path is None or path in seen:
-            continue
-        seen.add(path)
-        paths.append(path)
-    return paths
-
-
-def _resolve_artifact_path(path: str | None, artifact_base: str | Path | None) -> str | None:
-    normalized = normalize_external_path(path)
-    if normalized is None:
-        return None
-    target = Path(normalized)
-    if target.is_absolute() or artifact_base is None:
-        return str(target)
-    return str(Path(artifact_base) / target)
+        load_artifacts=load_artifacts,
+        artifact_base=artifact_base,
+    )
 
 
 def _extract_countermodel_from_json_artifacts(
