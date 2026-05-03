@@ -8,6 +8,12 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from mathgraph.artifacts import (
+    build_artifact_record,
+    extract_countermodel_from_json,
+    normalize_external_path,
+    read_json_artifact,
+)
 from mathgraph.certificates import (
     TerminalForm,
     VerificationStatus,
@@ -96,14 +102,42 @@ def summarize_results(records: Any) -> dict[str, Any]:
     }
 
 
-def row_to_trace(record: dict[str, Any]) -> Trace:
+def row_to_trace(
+    record: dict[str, Any],
+    *,
+    load_artifacts: bool = False,
+    artifact_base: str | Path | None = None,
+) -> Trace:
     source = _first_present(record, ["source_equation", "source"])
     target = _first_present(record, ["target_equation", "target"])
     claim = _claim(record, source, target)
     routes_tried = [_route(record)] if _route(record) else []
     metadata = _metadata(record)
+    artifacts = _artifact_records(record, load_artifacts=load_artifacts, artifact_base=artifact_base)
+    if artifacts:
+        metadata["artifacts"] = artifacts
 
     if _is_verified_false(record):
+        countermodel = _first_present(
+            record,
+            [
+                "countermodel_v19_1",
+                "countermodel",
+                "countermodel_json",
+                "model",
+                "finite_model",
+                "witness",
+            ],
+        )
+        countermodel_extraction = "not_attempted"
+        if load_artifacts:
+            extracted = _extract_countermodel_from_json_artifacts(artifacts)
+            if extracted is not None:
+                countermodel = extracted
+                countermodel_extraction = "found"
+            else:
+                countermodel_extraction = "not_found"
+
         model = {
             "source": source,
             "target": target,
@@ -116,17 +150,12 @@ def row_to_trace(record: dict[str, Any]) -> Trace:
             "original_terminal_form": _first_present(record, ["terminal_form_v19_1", "terminal_form"]),
             "lean_status": _first_present(record, ["lean_status_v19_1", "lean_status"]),
             "promotion_status": _first_present(record, ["promotion_status_v19_1", "promotion_status"]),
-            "countermodel": _first_present(
-                record,
-                [
-                    "countermodel_v19_1",
-                    "countermodel",
-                    "countermodel_json",
-                    "model",
-                    "finite_model",
-                    "witness",
-                ],
-            ),
+            "countermodel_order": _first_present(record, ["countermodel_order", "model_order", "order"]),
+            "countermodel_table_idx": _first_present(record, ["countermodel_table_idx", "table_idx"]),
+            "countermodel_motif_hash": _first_present(record, ["countermodel_motif_hash", "motif_hash"]),
+            "countermodel": countermodel,
+            "countermodel_extraction": countermodel_extraction,
+            "artifacts": artifacts,
             "record": metadata,
         }
         cert = finite_countermodel(claim, model)
@@ -156,6 +185,8 @@ def row_to_trace(record: dict[str, Any]) -> Trace:
                 "original_terminal_form": _first_present(record, ["terminal_form_v19_1", "terminal_form"]),
                 "lean_status": _first_present(record, ["lean_status_v19_1", "lean_status"]),
                 "promotion_status": _first_present(record, ["promotion_status_v19_1", "promotion_status"]),
+                "proof_id": proof_id,
+                "artifacts": artifacts,
                 "record": metadata,
             }
         )
@@ -182,6 +213,15 @@ def row_to_trace(record: dict[str, Any]) -> Trace:
         "SAIR_STAGE2_RESULT_NOT_PROMOTABLE",
         "Imported record did not explicitly verify true or verify false.",
     )
+    obstruction_payload = dict(obstruction.payload)
+    obstruction_payload.update({"artifacts": artifacts, "record": metadata})
+    obstruction = type(obstruction)(
+        terminal_form=obstruction.terminal_form,
+        claim=obstruction.claim,
+        payload=obstruction_payload,
+        verifier=obstruction.verifier,
+        external_verification=obstruction.external_verification,
+    )
     return Trace(
         claim=claim,
         source=_to_optional_str(source),
@@ -194,22 +234,45 @@ def row_to_trace(record: dict[str, Any]) -> Trace:
     )
 
 
-def record_to_trace(record: dict[str, Any]) -> Trace:
-    return row_to_trace(record)
+def record_to_trace(
+    record: dict[str, Any],
+    *,
+    load_artifacts: bool = False,
+    artifact_base: str | Path | None = None,
+) -> Trace:
+    return row_to_trace(record, load_artifacts=load_artifacts, artifact_base=artifact_base)
 
 
-def import_traces(path: str | Path, limit: int | None = None) -> list[Trace]:
+def import_traces(
+    path: str | Path,
+    limit: int | None = None,
+    *,
+    load_artifacts: bool = False,
+    artifact_base: str | Path | None = None,
+) -> list[Trace]:
     records = load_result_table(path)
     if limit is not None:
         records = records[:limit]
-    return [record_to_trace(record) for record in records]
+    return [
+        record_to_trace(record, load_artifacts=load_artifacts, artifact_base=artifact_base)
+        for record in records
+    ]
 
 
-def import_results(path: str | Path, limit: int | None = None) -> dict[str, Any]:
+def import_results(
+    path: str | Path,
+    limit: int | None = None,
+    *,
+    load_artifacts: bool = False,
+    artifact_base: str | Path | None = None,
+) -> dict[str, Any]:
     records = load_result_table(path)
     if limit is not None:
         records = records[:limit]
-    traces = [row_to_trace(record) for record in records]
+    traces = [
+        row_to_trace(record, load_artifacts=load_artifacts, artifact_base=artifact_base)
+        for record in records
+    ]
     return {
         "traces": traces,
         "summary": summarize_results(records),
@@ -387,6 +450,20 @@ def _metadata(record: dict[str, Any]) -> dict[str, Any]:
         "source_idx",
         "target_idx",
         "claim_hash",
+        "json_path",
+        "json_sha256",
+        "json_path_v19_1_input",
+        "json_sha256_v19_1",
+        "lean_path",
+        "lean_sha256",
+        "lean_path_v19_1_input",
+        "lean_sha256_v19_1",
+        "executed_lean_path_v19_1",
+        "lean_path_prior",
+        "json_path_prior",
+        "countermodel_order",
+        "countermodel_table_idx",
+        "countermodel_motif_hash",
         "path",
         "file_path",
         "artifact_path",
@@ -411,9 +488,132 @@ def _metadata(record: dict[str, Any]) -> dict[str, Any]:
         "lean_verified_v19_1",
         "lean_verified_true_v19_1",
         "lean_verified_false_v19_1",
+        "lean_verified",
+        "lean_verified_true",
+        "lean_verified_false",
     ]
     return {field: record[field] for field in fields if field in record and record[field] not in (None, "")}
 
 
 def _to_optional_str(value: Any) -> str | None:
     return str(value) if value is not None else None
+
+
+def _artifact_records(
+    record: dict[str, Any],
+    *,
+    load_artifacts: bool,
+    artifact_base: str | Path | None,
+) -> dict[str, list[dict[str, Any]]]:
+    json_expected = _first_present(record, ["json_sha256_v19_1", "json_sha256"])
+    lean_expected = _first_present(record, ["lean_sha256_v19_1", "lean_sha256"])
+    artifacts: dict[str, list[dict[str, Any]]] = {"json": [], "lean": []}
+
+    for path in _unique_paths(record, ["json_path_v19_1_input", "json_path", "json_path_prior"]):
+        resolved = _resolve_artifact_path(path, artifact_base)
+        artifacts["json"].append(
+            _artifact_record(
+                resolved,
+                expected_sha256=_to_optional_str(json_expected),
+                kind="json",
+                inspect=load_artifacts,
+                load_json=load_artifacts,
+            )
+        )
+
+    for path in _unique_paths(
+        record,
+        ["executed_lean_path_v19_1", "lean_path_v19_1_input", "lean_path", "lean_path_prior"],
+    ):
+        resolved = _resolve_artifact_path(path, artifact_base)
+        artifacts["lean"].append(
+            _artifact_record(
+                resolved,
+                expected_sha256=_to_optional_str(lean_expected),
+                kind="lean",
+                inspect=load_artifacts,
+                load_json=False,
+            )
+        )
+
+    return {kind: records for kind, records in artifacts.items() if records}
+
+
+def _artifact_record(
+    path: str | None,
+    *,
+    expected_sha256: str | None,
+    kind: str,
+    inspect: bool,
+    load_json: bool,
+) -> dict[str, Any]:
+    if path is None:
+        return {
+            "path": None,
+            "kind": kind,
+            "exists": False,
+            "sha256": None,
+            "expected_sha256": expected_sha256,
+            "sha256_matches": None,
+            "load_attempted": load_json,
+            "load_ok": False if load_json else None,
+            "error": "missing_path",
+            "json_preview_keys": [],
+        }
+    if inspect:
+        return build_artifact_record(
+            path,
+            expected_sha256=expected_sha256,
+            kind=kind,
+            load_json=load_json,
+        )
+    return {
+        "path": path,
+        "kind": kind,
+        "exists": None,
+        "sha256": None,
+        "expected_sha256": expected_sha256,
+        "sha256_matches": None,
+        "load_attempted": False,
+        "load_ok": None,
+        "error": None,
+        "json_preview_keys": [],
+    }
+
+
+def _unique_paths(record: dict[str, Any], fields: list[str]) -> list[str]:
+    seen: set[str] = set()
+    paths: list[str] = []
+    for field in fields:
+        path = normalize_external_path(record.get(field))
+        if path is None or path in seen:
+            continue
+        seen.add(path)
+        paths.append(path)
+    return paths
+
+
+def _resolve_artifact_path(path: str | None, artifact_base: str | Path | None) -> str | None:
+    normalized = normalize_external_path(path)
+    if normalized is None:
+        return None
+    target = Path(normalized)
+    if target.is_absolute() or artifact_base is None:
+        return str(target)
+    return str(Path(artifact_base) / target)
+
+
+def _extract_countermodel_from_json_artifacts(
+    artifacts: dict[str, list[dict[str, Any]]],
+) -> dict[str, Any] | list[Any] | None:
+    for artifact in artifacts.get("json", []):
+        if not artifact.get("exists"):
+            continue
+        try:
+            data = read_json_artifact(artifact["path"])
+        except (FileNotFoundError, ValueError, OSError):
+            continue
+        extracted = extract_countermodel_from_json(data)
+        if extracted is not None:
+            return extracted
+    return None

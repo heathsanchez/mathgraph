@@ -50,3 +50,60 @@ The importer is conservative. Verified-false rows become
 Rows without explicit true/false verification become `NAMED_OBSTRUCTION`.
 Missing verification, failed finite search, or failed Lean execution is never
 promoted to proof.
+
+## Artifact-Backed Imports
+
+The v19.1 importer can optionally inspect external JSON and Lean artifacts. This
+records whether artifacts were found, hashed, loaded, and attached to the trace.
+Artifact audit status is separate from mathematical verification status.
+
+Basic summary:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --summary-only
+```
+
+Directory export:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import
+```
+
+Artifact-backed export:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import_artifact_backed \
+  --load-artifacts
+```
+
+With relative artifact paths:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import_artifact_backed \
+  --load-artifacts \
+  --artifact-base /external/path
+```
+
+Strict hash mode:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import_artifact_backed \
+  --load-artifacts \
+  --strict-artifact-hashes
+```
+
+Generated traces, ledgers, SQLite indexes, Parquet files, CSV exports, and Lean
+outputs should stay outside Git. Missing artifacts do not change truth status.
+Hash mismatches are audit failures, not mathematical proof failures, unless
+strict mode is requested. A verified row without loaded artifacts is still a
+verified result trace, but not yet a fully replayable certificate archive.

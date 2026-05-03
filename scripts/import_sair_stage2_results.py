@@ -18,6 +18,7 @@ from adapters.sair_stage2_adapter import (
     load_result_table,
     summarize_results,
 )
+from mathgraph.artifact_audit import audit_trace_artifacts
 from mathgraph.hashing import hash_trace
 from mathgraph.ledger import JsonlLedger
 
@@ -32,6 +33,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--export-ledger-jsonl", default=None)
     parser.add_argument("--export-certificates-json", default=None)
     parser.add_argument("--sqlite-index", default=None)
+    parser.add_argument("--load-artifacts", action="store_true")
+    parser.add_argument("--artifact-base", default=None)
+    parser.add_argument("--strict-artifact-hashes", action="store_true")
     parser.add_argument(
         "--out",
         default=None,
@@ -48,15 +52,36 @@ def main(argv: list[str] | None = None) -> int:
     if args.limit is not None:
         records = records[: args.limit]
     summary = summarize_results(records)
+
+    imported = None
+    traces = []
+    artifact_summary = _empty_artifact_summary(len(records))
+    if args.load_artifacts or not args.summary_only:
+        imported = import_results(
+            args.input,
+            limit=args.limit,
+            load_artifacts=args.load_artifacts,
+            artifact_base=args.artifact_base,
+        )
+        traces = imported["traces"]
+        artifact_summary = audit_trace_artifacts(traces)
+
+    summary_payload = dict(summary)
+    summary_payload["artifact_summary"] = artifact_summary
     if output_paths["summary_json"]:
-        _write_json(output_paths["summary_json"], summary)
+        _write_json(output_paths["summary_json"], summary_payload)
+
+    if args.strict_artifact_hashes and artifact_summary["hash_mismatches"]:
+        print(json.dumps(summary_payload, indent=2, sort_keys=True))
+        return 1
 
     if args.summary_only:
-        print(json.dumps(summary, indent=2, sort_keys=True))
+        print(json.dumps(summary_payload, indent=2, sort_keys=True))
         return 0
 
-    imported = import_results(args.input, limit=args.limit)
-    traces = imported["traces"]
+    if imported is None:
+        imported = import_results(args.input, limit=args.limit)
+        traces = imported["traces"]
 
     if output_paths["export_traces_json"]:
         _write_json(output_paths["export_traces_json"], [trace.to_dict() for trace in traces])
@@ -82,6 +107,7 @@ def main(argv: list[str] | None = None) -> int:
         "summary": summary,
         "trace_count": len(traces),
         "validation": imported["validation"],
+        "artifact_summary": artifact_summary,
         "summary_json": output_paths["summary_json"],
         "export_traces_json": output_paths["export_traces_json"],
         "export_ledger_jsonl": ledger_path,
@@ -89,6 +115,8 @@ def main(argv: list[str] | None = None) -> int:
         "sqlite_index": output_paths["sqlite_index"],
     }
     print(json.dumps(payload, indent=2, sort_keys=True))
+    if args.strict_artifact_hashes and artifact_summary["hash_mismatches"]:
+        return 1
     return 0
 
 
@@ -128,6 +156,28 @@ def _write_json(path: str, payload: object) -> None:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _empty_artifact_summary(trace_count: int) -> dict[str, Any]:
+    return {
+        "trace_count": trace_count,
+        "traces_with_artifacts": 0,
+        "json_artifacts_total": 0,
+        "json_artifacts_found": 0,
+        "json_artifacts_missing": 0,
+        "json_artifacts_hash_checked": 0,
+        "json_artifacts_hash_mismatch": 0,
+        "lean_artifacts_total": 0,
+        "lean_artifacts_found": 0,
+        "lean_artifacts_missing": 0,
+        "lean_artifacts_hash_checked": 0,
+        "lean_artifacts_hash_mismatch": 0,
+        "hash_matches": 0,
+        "hash_mismatches": 0,
+        "countermodels_extracted": 0,
+        "countermodels_missing": 0,
+        "artifact_errors": [],
+    }
 
 
 def _write_sqlite_index(path: str, traces: list[object]) -> None:

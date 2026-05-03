@@ -112,6 +112,55 @@ python scripts/import_sair_stage2_results.py \
   --sqlite-index /external/path/trace_index.sqlite
 ```
 
+### Artifact-Backed Imports
+
+Result rows and certificate artifacts are audited separately. A row can be
+verified while its JSON or Lean artifact is missing from local storage; that
+does not change the terminal form, but it means the archive is not fully
+replayable yet.
+
+Basic summary:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --summary-only
+```
+
+Artifact-backed directory export:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import_artifact_backed \
+  --load-artifacts
+```
+
+With relative artifact paths:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import_artifact_backed \
+  --load-artifacts \
+  --artifact-base /external/path
+```
+
+Strict hash mode:
+
+```bash
+python scripts/import_sair_stage2_results.py \
+  --input /external/path/routelean_results_v19_1.parquet \
+  --out /external/path/mathgraph_import_artifact_backed \
+  --load-artifacts \
+  --strict-artifact-hashes
+```
+
+Missing artifacts do not change truth status. Hash mismatches are audit
+failures, not mathematical proof failures, unless strict mode is requested. A
+verified row without loaded artifacts is still a verified result trace, but not
+yet a fully replayable certificate archive.
+
 ## CertificateCorpus
 
 `CertificateCorpus` is a lightweight in-memory layer for replaying and querying
