@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from typing import Any
 
 from mathgraph.certificates import (
     Certificate,
@@ -32,11 +33,13 @@ class Kernel:
         store: InMemoryGraphStore | None = None,
         finite_magmas: Iterable[object] | None = None,
         ledger: object | None = None,
+        corpus: object | None = None,
     ) -> None:
         self.store = store or InMemoryGraphStore()
         self.certificates: list[Certificate] = []
         self.finite_magmas = list(finite_magmas) if finite_magmas is not None else _default_magmas()
         self.ledger = ledger
+        self.corpus = corpus
 
     def add_equation(self, name: str, equation: Equation | str) -> Equation:
         parsed = parse_equation(equation) if isinstance(equation, str) else equation
@@ -69,6 +72,9 @@ class Kernel:
         *,
         lean_code: str | None = None,
         lean_file: str | None = None,
+        source_idx: str | int | None = None,
+        target_idx: str | int | None = None,
+        claim_hash: str | None = None,
     ) -> Trace:
         """Try the deliberately small v0.1 route set for a claim.
 
@@ -83,6 +89,16 @@ class Kernel:
         source_eq = parse_equation(source) if isinstance(source, str) else source
         target_eq = parse_equation(target) if isinstance(target, str) else target
         routes_tried: list[str] = []
+
+        corpus_trace = self.lookup_corpus(
+            source=str(source_eq),
+            target=str(target_eq) if target_eq is not None else None,
+            source_idx=source_idx,
+            target_idx=target_idx,
+            claim_hash=claim_hash,
+        )
+        if corpus_trace is not None:
+            return self._attach_external_verification(corpus_trace, lean_code, lean_file)
 
         if target_eq is None:
             claim = str(source_eq)
@@ -168,6 +184,116 @@ class Kernel:
             return "structural_variable_renaming"
 
         return None
+
+    def lookup_corpus(
+        self,
+        *,
+        source: str,
+        target: str | None,
+        source_idx: str | int | None = None,
+        target_idx: str | int | None = None,
+        claim_hash: str | None = None,
+    ) -> Trace | None:
+        if self.corpus is None:
+            return None
+
+        lookups: list[tuple[str, list[Trace]]] = []
+        if source_idx is not None and target_idx is not None:
+            lookups.append(("pair_indices", list(self.corpus.get_by_pair(source_idx, target_idx))))
+        if target is not None:
+            lookups.append(("equation_strings", self._lookup_corpus_by_equations(source, target)))
+        if claim_hash is not None:
+            lookups.append(("claim_hash", list(self.corpus.get_by_claim_hash(claim_hash))))
+
+        for mode, matches in lookups:
+            promotable = [trace for trace in matches if self._is_promotable_corpus_trace(trace)]
+            if not promotable:
+                continue
+            if self._has_conflicting_corpus_hits(promotable):
+                return self._corpus_conflict_trace(source, target, mode, promotable)
+            return self._corpus_replay_trace(promotable[0], mode)
+
+        return None
+
+    def _lookup_corpus_by_equations(self, source: str, target: str) -> list[Trace]:
+        matches: list[Trace] = []
+        for trace in getattr(self.corpus, "traces", []):
+            trace_source = _trace_lookup_value(trace, "source_equation") or trace.source
+            trace_target = _trace_lookup_value(trace, "target_equation") or trace.target
+            if _equation_text_matches(trace_source, source) and _equation_text_matches(
+                trace_target,
+                target,
+            ):
+                matches.append(trace)
+        return matches
+
+    def _is_promotable_corpus_trace(self, trace: Trace) -> bool:
+        return (
+            (
+                trace.terminal_form == TerminalForm.VERIFIED_PROOF
+                and trace.verification_status == VerificationStatus.VERIFIED
+            )
+            or (
+                trace.terminal_form == TerminalForm.FINITE_COUNTERMODEL
+                and trace.verification_status == VerificationStatus.REFUTED
+            )
+        ) and trace.certificate is not None
+
+    def _has_conflicting_corpus_hits(self, traces: list[Trace]) -> bool:
+        signatures = {
+            (
+                trace.terminal_form.value,
+                trace.verification_status.value,
+                trace.claim,
+                _trace_lookup_value(trace, "claim_hash"),
+            )
+            for trace in traces
+        }
+        return len(signatures) > 1
+
+    def _corpus_replay_trace(self, trace: Trace, mode: str) -> Trace:
+        replay = Trace.from_dict(trace.to_dict())
+        replay.routes_tried = ["certificate_corpus_lookup", *replay.routes_tried]
+        replay.metadata = dict(replay.metadata)
+        replay.metadata.update(
+            {
+                "corpus_hit": True,
+                "corpus_lookup_mode": mode,
+                "corpus_trace_hash": trace.content_hash(),
+            }
+        )
+        return replay
+
+    def _corpus_conflict_trace(
+        self,
+        source: str,
+        target: str | None,
+        mode: str,
+        matches: list[Trace],
+    ) -> Trace:
+        claim = f"{source} => {target}" if target is not None else source
+        obstruction = named_obstruction(
+            claim,
+            "CONFLICTING_CORPUS_TRACES",
+            "Multiple verified corpus traces matched the requested claim with conflicting payloads.",
+        )
+        trace = self._trace(
+            claim,
+            ["certificate_corpus_lookup"],
+            obstruction,
+            source=source,
+            target=target,
+        )
+        trace.metadata.update(
+            {
+                "corpus_hit": False,
+                "corpus_lookup_mode": mode,
+                "corpus_conflict": True,
+                "corpus_conflict_count": len(matches),
+                "corpus_conflict_hashes": [match.content_hash() for match in matches],
+            }
+        )
+        return trace
 
     def _trace(
         self,
@@ -266,3 +392,41 @@ def _default_magmas() -> list[object]:
     return [
         FiniteMagma.from_table([[0, 1], [1, 0]], name="xor_magma"),
     ]
+
+
+def _trace_lookup_value(trace: Trace, key: str) -> str | None:
+    value = _nested_lookup(getattr(trace, "metadata", {}) or {}, key)
+    if value is not None:
+        return str(value)
+
+    certificate = getattr(trace, "certificate", None)
+    payload = getattr(certificate, "payload", {}) if certificate is not None else {}
+    value = _nested_lookup(payload, key)
+    if value is not None:
+        return str(value)
+
+    obstruction = getattr(trace, "obstruction", None)
+    payload = getattr(obstruction, "payload", {}) if obstruction is not None else {}
+    value = _nested_lookup(payload, key)
+    return str(value) if value is not None else None
+
+
+def _nested_lookup(payload: dict[str, Any], key: str) -> Any:
+    if key in payload and payload[key] not in (None, ""):
+        return payload[key]
+    for nested_key in ("model", "record"):
+        nested = payload.get(nested_key)
+        if isinstance(nested, dict) and key in nested and nested[key] not in (None, ""):
+            return nested[key]
+    return None
+
+
+def _equation_text_matches(left: str | None, right: str | None) -> bool:
+    if left == right:
+        return True
+    if left is None or right is None:
+        return False
+    try:
+        return str(parse_equation(left)) == str(parse_equation(right))
+    except ValueError:
+        return False

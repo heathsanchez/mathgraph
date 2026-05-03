@@ -130,6 +130,26 @@ print(corpus.get_by_claim_hash("claimabc123"))
 The corpus can also load JSONL ledgers, query by source/target indices or route,
 and compute stable trace hashes plus a Merkle root for audit summaries.
 
+### CertificateCorpus-Assisted Kernel Replay
+
+`Kernel` can optionally consult a `CertificateCorpus` before trying local
+routes. This reuses imported verified memory without making MathGraph a passive
+database: only corpus traces that already terminate as `VERIFIED_PROOF` /
+`VERIFIED` or `FINITE_COUNTERMODEL` / `REFUTED` can be replayed.
+
+```python
+from mathgraph import CertificateCorpus, Kernel
+
+corpus = CertificateCorpus.from_json("/external/path/mathgraph_import/traces.json")
+kernel = Kernel(corpus=corpus)
+trace = kernel.prove("x = x", "x * x = x", source_idx=30, target_idx=40)
+print(trace.terminal_form)
+print(trace.metadata["corpus_lookup_mode"])
+```
+
+Obstructions, pending rows, missing verification, and conflicting verified
+corpus hits are not promoted.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
