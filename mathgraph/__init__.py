@@ -14,6 +14,7 @@ from mathgraph.hashing import (
     sha256_text,
 )
 from mathgraph.kernel import Kernel
+from mathgraph.lawbook import CertificateLawbook
 from mathgraph.ledger import JsonlLedger
 from mathgraph.terms import Term, parse_term
 from mathgraph.trace import Trace
@@ -21,6 +22,7 @@ from mathgraph.trace import Trace
 __all__ = [
     "Certificate",
     "CertificateCorpus",
+    "CertificateLawbook",
     "Equation",
     "Kernel",
     "JsonlLedger",

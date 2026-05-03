@@ -206,6 +206,29 @@ print(trace.metadata["corpus_lookup_mode"])
 Obstructions, pending rows, missing verification, and conflicting verified
 corpus hits are not promoted.
 
+## Building a Certificate Lawbook
+
+`CertificateLawbook` turns imported traces into a compact query/explain memory:
+route summaries, source/target basins, proof payloads, and countermodel
+patterns. It is still an index over verified traces, not a replacement for Lean
+or MathGraph verification.
+
+```python
+from mathgraph import CertificateLawbook
+
+lawbook = CertificateLawbook.from_json("/external/path/traces.json")
+print(lawbook.summary())
+print(lawbook.route_summary())
+print(lawbook.explain_pair(1033, 2637))
+```
+
+```bash
+python scripts/build_lawbook_summary.py \
+  --traces-json /external/path/traces.json \
+  --out /external/path/lawbook_summary.json \
+  --route-summary /external/path/route_summary.json
+```
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

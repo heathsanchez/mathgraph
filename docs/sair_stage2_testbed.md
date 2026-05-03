@@ -122,3 +122,23 @@ Prior/input paths without their own corresponding hash are counted as
 `hash_not_applicable`, not mismatches. Strict hash mode fails only on applicable
 hash mismatches. Mathematical verification status and artifact hash status
 remain separate dimensions.
+
+## Certificate Lawbook
+
+The importer creates raw trace artifacts such as `traces.json` and
+`traces.jsonl`. The lawbook layer summarizes, queries, and explains those traces
+as reusable verification memory:
+
+```python
+from mathgraph import CertificateLawbook
+
+lawbook = CertificateLawbook.from_json("/external/path/traces.json")
+print(lawbook.summary())
+print(lawbook.source_summary(1033))
+print(lawbook.explain_pair(1033, 2637))
+```
+
+The lawbook can report route counts, source/target basins, proof payloads, and
+countermodel payloads. It does not replace Lean verification and does not
+promote candidates. It is a memory/index layer over traces that already obey the
+terminal-form contract.
