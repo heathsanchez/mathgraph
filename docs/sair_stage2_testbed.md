@@ -458,6 +458,11 @@ python scripts/run_finite_countermodel_tasks.py \
   --max-order 4 \
   --exhaustive-order-limit 3 \
   --random-tables-per-order 0
+
+python scripts/import_finite_countermodels.py \
+  --results-jsonl /external/path/finite_countermodel_results.jsonl \
+  --store-path /external/path/mathgraph_flywheel/lawbook_store.sqlite \
+  --out /external/path/countermodel_import_summary.json
 ```
 
 The frontier builder can use matrix false/true entries and structural contrast
@@ -473,6 +478,7 @@ build_candidate_frontier.py
 -> schedule_certificate_tasks.py
 -> build_task_queue.py
 -> run_finite_countermodel_tasks.py
+-> import_finite_countermodels.py
 ```
 
 Task queue rows include route-specific required inputs, steps, success
@@ -486,6 +492,13 @@ Lean. A found finite countermodel gets `verification_status = "FINITE_VERIFIED"`
 only after the finite table is checked exactly: the source holds for all
 assignments and the target fails on a recorded witness. The result is still not
 promoted into permanent lawbook memory by this executor.
+
+`import_finite_countermodels.py` is the conservative promoter. It revalidates
+each executor result by checking the table and witness again, skips duplicates
+by default, and imports only verified `FINITE_COUNTERMODEL` rows into
+`LawbookStore` as primitive countermodel certificates. `no_countermodel_found`,
+parse failures, executor errors, and finite search failures are not imported as
+truth. Unknown remains unknown.
 
 The flywheel writes:
 

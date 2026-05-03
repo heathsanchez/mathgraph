@@ -471,6 +471,11 @@ python scripts/run_finite_countermodel_tasks.py \
   --max-order 4 \
   --exhaustive-order-limit 3 \
   --random-tables-per-order 0
+
+python scripts/import_finite_countermodels.py \
+  --results-jsonl /external/path/finite_countermodel_results.jsonl \
+  --store-path /external/path/mathgraph_flywheel/lawbook_store.sqlite \
+  --out /external/path/countermodel_import_summary.json
 ```
 
 Candidate frontier rows are scheduling candidates only. They can come from
@@ -482,6 +487,9 @@ verifier/constructor executes it and emits an accepted terminal certificate.
 The finite countermodel executor is the first executor: it only handles
 `finite_countermodel_search` tasks, checks finite tables exactly, and writes
 result rows without promoting them into permanent lawbook memory.
+The importer revalidates those result rows and promotes only verified finite
+countermodels into `LawbookStore`. Finite search failures are not imported as
+truth; unknown remains unknown.
 
 The flywheel does not add mathematical authority. It composes verified memory,
 sound derived certificates, diagnostics, route policy, and scheduling pressure

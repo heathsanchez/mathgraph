@@ -1,6 +1,12 @@
 """MathGraph: a lightweight kernel for verifiable mathematical claims."""
 
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
+from mathgraph.countermodel_importer import (
+    CountermodelImportConfig,
+    CountermodelImportResult,
+    CountermodelImportRunResult,
+    import_finite_countermodel_results,
+)
 from mathgraph.corpus import CertificateCorpus
 from mathgraph.equations import Equation, parse_equation
 from mathgraph.derived_certificates import (
@@ -102,6 +108,9 @@ __all__ = [
     "CertificateLawbook",
     "CertificateTask",
     "CompoundingDiagnostics",
+    "CountermodelImportConfig",
+    "CountermodelImportResult",
+    "CountermodelImportRunResult",
     "DerivedCertificate",
     "DerivedCertificateGenerator",
     "DerivedCertificateStats",
@@ -156,6 +165,7 @@ __all__ = [
     "hash_certificate",
     "hash_file",
     "hash_trace",
+    "import_finite_countermodel_results",
     "make_basin_key",
     "sha256_hex",
     "sha256_json",
