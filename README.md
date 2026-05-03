@@ -444,12 +444,24 @@ python scripts/run_mathgraph_flywheel.py \
 Optional candidate scheduling:
 
 ```bash
+python scripts/build_candidate_frontier.py \
+  --equations-path /external/path/equations.txt \
+  --matrix-path /external/path/etp_matrix_full_best_bool.npy \
+  --store-path /external/path/mathgraph_flywheel/lawbook_store.sqlite \
+  --out /external/path/candidate_frontier.jsonl \
+  --max-candidates 5000
+
 python scripts/run_mathgraph_flywheel.py \
   --traces-json /external/path/traces.json \
+  --store-path /external/path/mathgraph_flywheel/lawbook_store.sqlite \
   --out /external/path/mathgraph_flywheel \
-  --unknown-pairs-jsonl /external/path/candidate_pairs.jsonl \
+  --unknown-pairs-jsonl /external/path/candidate_frontier.jsonl \
   --derived-limit 100000
 ```
+
+Candidate frontier rows are scheduling candidates only. They can come from
+matrix false/true entries or structural unknown pairs, but they are never
+marked as proven or refuted by the frontier builder.
 
 The flywheel does not add mathematical authority. It composes verified memory,
 sound derived certificates, diagnostics, route policy, and scheduling pressure

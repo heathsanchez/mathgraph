@@ -431,12 +431,26 @@ python scripts/run_mathgraph_flywheel.py \
 With candidate pairs:
 
 ```bash
+python scripts/build_candidate_frontier.py \
+  --equations-path /external/path/equations.txt \
+  --matrix-path /external/path/etp_matrix_full_best_bool.npy \
+  --store-path /external/path/mathgraph_flywheel/lawbook_store.sqlite \
+  --out /external/path/candidate_frontier.jsonl \
+  --max-candidates 5000
+
 python scripts/run_mathgraph_flywheel.py \
   --traces-json /external/path/traces.json \
+  --store-path /external/path/mathgraph_flywheel/lawbook_store.sqlite \
   --out /external/path/mathgraph_flywheel \
-  --unknown-pairs-jsonl /external/path/candidate_pairs.jsonl \
+  --unknown-pairs-jsonl /external/path/candidate_frontier.jsonl \
   --derived-limit 100000
 ```
+
+The frontier builder can use matrix false/true entries and structural contrast
+between equations to create high-value candidate pairs. It can also consult a
+LawbookStore to skip exact primitive or derived certificates that are already
+known. Frontier rows are candidate scheduling inputs only; they are not terminal
+proofs or refutations.
 
 The flywheel writes:
 

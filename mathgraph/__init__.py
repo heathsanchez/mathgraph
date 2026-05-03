@@ -24,6 +24,12 @@ from mathgraph.flywheel import (
     FlywheelStageResult,
     run_mathgraph_flywheel,
 )
+from mathgraph.frontier_builder import (
+    FrontierBuilderConfig,
+    FrontierBuilderResult,
+    FrontierCandidate,
+    build_candidate_frontier,
+)
 from mathgraph.htilt_scheduler import (
     HTiltScheduler,
     HTiltSchedulerStats,
@@ -91,6 +97,9 @@ __all__ = [
     "FlywheelConfig",
     "FlywheelResult",
     "FlywheelStageResult",
+    "FrontierBuilderConfig",
+    "FrontierBuilderResult",
+    "FrontierCandidate",
     "HTiltScheduler",
     "HTiltSchedulerStats",
     "HTiltScoreBreakdown",
@@ -117,6 +126,7 @@ __all__ = [
     "SchedulerInputPair",
     "build_all_route_instructions",
     "build_route_instruction",
+    "build_candidate_frontier",
     "advise_many",
     "advise_pair",
     "content_id",
