@@ -354,6 +354,26 @@ python scripts/derive_certificates.py \
   --max-per-rule 10000
 ```
 
+## Pair Outcome Dataset and Compounding Diagnostics
+
+The outcome dataset exports primitive, derived, unknown, and advisory rows into
+one training and diagnostic surface. It does not promote any claim; it measures
+whether the corpus is becoming structurally richer.
+
+```bash
+python scripts/build_outcome_dataset.py \
+  --store /external/path/lawbook.sqlite \
+  --out-jsonl /external/path/pair_outcomes.jsonl \
+  --out-json /external/path/pair_outcomes.json \
+  --diagnostics /external/path/compounding_diagnostics.json \
+  --episode-id v19_1_plus_derived \
+  --equation-count 4694
+```
+
+Key metrics include `derived_per_primitive`, `corpus_density`, `route_yield`,
+`derivation_yield`, and `trust_level_counts`. This is the substrate for future
+router learning, dashboard/API metrics, and H-tilt scheduling.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

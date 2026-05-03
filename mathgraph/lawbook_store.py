@@ -8,6 +8,7 @@ from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from collections.abc import Iterator
 from typing import Any
 
 from mathgraph.lawbook import CertificateLawbook
@@ -247,6 +248,44 @@ class LawbookStore:
             ),
             "rule_counts": dict(Counter(row["derivation_rule"] for row in rows)),
             "trust_level_counts": dict(Counter(row["trust_level"] for row in rows)),
+        }
+
+    def iter_primitive_traces(self, limit: int | None = None) -> Iterator[dict[str, Any]]:
+        self.init_schema()
+        query = "SELECT * FROM traces ORDER BY id"
+        params: tuple[Any, ...] = ()
+        if limit is not None:
+            query += " LIMIT ?"
+            params = (int(limit),)
+        for row in self.conn.execute(query, params):
+            yield _row_to_record(row)
+
+    def iter_derived_certificates(self, limit: int | None = None) -> Iterator[dict[str, Any]]:
+        self.init_schema()
+        query = "SELECT * FROM derived_certificates ORDER BY id"
+        params: tuple[Any, ...] = ()
+        if limit is not None:
+            query += " LIMIT ?"
+            params = (int(limit),)
+        for row in self.conn.execute(query, params):
+            yield _derived_row_to_record(row)
+
+    def primitive_stats(self) -> dict[str, Any]:
+        return self.stats().to_dict()
+
+    def full_certificate_stats(self) -> dict[str, Any]:
+        primitive = self.stats().to_dict()
+        derived = self.derived_stats()
+        terminal_counts = Counter(primitive["terminal_form_counts"])
+        terminal_counts.update(derived["terminal_form_counts"])
+        trust_counts = Counter({"primitive_trace": primitive["trace_count"]})
+        trust_counts.update(derived.get("trust_level_counts", {}))
+        return {
+            "primitive": primitive,
+            "derived": derived,
+            "total_certificate_count": primitive["trace_count"] + derived["total"],
+            "by_terminal_form": dict(terminal_counts),
+            "by_trust_level": dict(trust_counts),
         }
 
     def find_by_source(self, source: str, limit: int = 50) -> list[dict[str, Any]]:

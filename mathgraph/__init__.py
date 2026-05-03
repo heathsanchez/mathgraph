@@ -23,6 +23,13 @@ from mathgraph.kernel_oracle import KernelOracle, OracleAnswer
 from mathgraph.lawbook import CertificateLawbook
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
+from mathgraph.outcome_dataset import (
+    CompoundingDiagnostics,
+    OutcomeDatasetBuilder,
+    OutcomeDatasetStats,
+    PairOutcome,
+    extract_pair_features as extract_outcome_pair_features,
+)
 from mathgraph.pair_advisor import PairAdvice, advise_many, advise_pair, extract_pair_features
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -55,6 +62,7 @@ __all__ = [
     "CertificateCorpus",
     "CertificateLawbook",
     "CertificateTask",
+    "CompoundingDiagnostics",
     "DerivedCertificate",
     "DerivedCertificateGenerator",
     "DerivedCertificateStats",
@@ -65,7 +73,10 @@ __all__ = [
     "LawbookStore",
     "LawbookStoreStats",
     "OracleAnswer",
+    "OutcomeDatasetBuilder",
+    "OutcomeDatasetStats",
     "PairAdvice",
+    "PairOutcome",
     "TaskOutcome",
     "TaskRunSummary",
     "canonical_json",
@@ -76,6 +87,7 @@ __all__ = [
     "advise_pair",
     "content_id",
     "extract_pair_features",
+    "extract_outcome_pair_features",
     "execute_certificate_task",
     "execute_many_certificate_tasks",
     "hash_certificate",

@@ -296,3 +296,41 @@ Primitive exact hits remain highest priority in `KernelOracle`. Derived hits
 are returned only when no primitive exact trace exists, and they carry
 `trust_level = "derived_from_verified_traces"` plus parent claims and the
 derivation rule as evidence.
+
+## Pair Outcome Dataset and Compounding Diagnostics
+
+The pair outcome dataset turns primitive traces, derived certificates, oracle
+unknowns, and advisory tasks into one compact row format. It is the input layer
+for future route learning, H-tilt scheduling, dashboards, and API metrics.
+
+```bash
+python scripts/build_outcome_dataset.py \
+  --store /external/path/lawbook.sqlite \
+  --out-jsonl /external/path/pair_outcomes.jsonl \
+  --out-json /external/path/pair_outcomes.json \
+  --diagnostics /external/path/compounding_diagnostics.json \
+  --episode-id v19_1_plus_derived \
+  --equation-count 4694
+```
+
+Rows preserve origin and trust level:
+
+- `primitive_trace`
+- `derived_certificate`
+- `oracle_unknown`
+- `advisory_task`
+
+Unknown and advisory rows remain non-promotable. They exist so later systems can
+measure residuals without confusing open work with truth.
+
+Compounding diagnostics include:
+
+- `derived_per_primitive`
+- `corpus_density`
+- `route_yield`
+- `derivation_yield`
+- `trust_level_counts`
+
+These metrics ask whether each episode made the next episode structurally
+better. They do not train a router yet, schedule H-tilt yet, invoke Lean, or
+search for countermodels.
