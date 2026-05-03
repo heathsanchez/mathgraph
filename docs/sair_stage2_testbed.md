@@ -450,6 +450,14 @@ python scripts/build_task_queue.py \
   --out /external/path/task_queue.jsonl \
   --max-tasks 1000 \
   --min-priority 0.2
+
+python scripts/run_finite_countermodel_tasks.py \
+  --task-queue-jsonl /external/path/task_queue.jsonl \
+  --out /external/path/finite_countermodel_results.jsonl \
+  --max-tasks 100 \
+  --max-order 4 \
+  --exhaustive-order-limit 3 \
+  --random-tables-per-order 0
 ```
 
 The frontier builder can use matrix false/true entries and structural contrast
@@ -461,13 +469,23 @@ proofs or refutations.
 The task queue is the constructor-ready chewing surface:
 
 ```text
-build_candidate_frontier.py -> schedule_certificate_tasks.py -> build_task_queue.py
+build_candidate_frontier.py
+-> schedule_certificate_tasks.py
+-> build_task_queue.py
+-> run_finite_countermodel_tasks.py
 ```
 
 Task queue rows include route-specific required inputs, steps, success
 criteria, failure modes, evidence, and anti-promotion warnings. They are still
 not proof or refutation until a verifier or constructor executes them and emits
 an accepted terminal certificate.
+
+`run_finite_countermodel_tasks.py` is the first executor. It only runs
+`finite_countermodel_search` rows, never proof-template rows, and never calls
+Lean. A found finite countermodel gets `verification_status = "FINITE_VERIFIED"`
+only after the finite table is checked exactly: the source holds for all
+assignments and the target fails on a recorded witness. The result is still not
+promoted into permanent lawbook memory by this executor.
 
 The flywheel writes:
 

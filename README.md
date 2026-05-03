@@ -463,6 +463,14 @@ python scripts/build_task_queue.py \
   --out /external/path/task_queue.jsonl \
   --max-tasks 1000 \
   --min-priority 0.2
+
+python scripts/run_finite_countermodel_tasks.py \
+  --task-queue-jsonl /external/path/task_queue.jsonl \
+  --out /external/path/finite_countermodel_results.jsonl \
+  --max-tasks 100 \
+  --max-order 4 \
+  --exhaustive-order-limit 3 \
+  --random-tables-per-order 0
 ```
 
 Candidate frontier rows are scheduling candidates only. They can come from
@@ -471,6 +479,9 @@ marked as proven or refuted by the frontier builder.
 
 The task queue is constructor-ready, but still non-promotable until a
 verifier/constructor executes it and emits an accepted terminal certificate.
+The finite countermodel executor is the first executor: it only handles
+`finite_countermodel_search` tasks, checks finite tables exactly, and writes
+result rows without promoting them into permanent lawbook memory.
 
 The flywheel does not add mathematical authority. It composes verified memory,
 sound derived certificates, diagnostics, route policy, and scheduling pressure

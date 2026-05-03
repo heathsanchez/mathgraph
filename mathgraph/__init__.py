@@ -30,6 +30,12 @@ from mathgraph.frontier_builder import (
     FrontierCandidate,
     build_candidate_frontier,
 )
+from mathgraph.finite_countermodel_executor import (
+    FiniteCountermodelConfig,
+    FiniteCountermodelResult,
+    FiniteCountermodelRunResult,
+    run_finite_countermodel_tasks,
+)
 from mathgraph.htilt_scheduler import (
     HTiltScheduler,
     HTiltSchedulerStats,
@@ -100,6 +106,9 @@ __all__ = [
     "DerivedCertificateGenerator",
     "DerivedCertificateStats",
     "Equation",
+    "FiniteCountermodelConfig",
+    "FiniteCountermodelResult",
+    "FiniteCountermodelRunResult",
     "FlywheelConfig",
     "FlywheelResult",
     "FlywheelStageResult",
@@ -162,6 +171,7 @@ __all__ = [
     "residual_outcomes",
     "route_instruction_report",
     "run_mathgraph_flywheel",
+    "run_finite_countermodel_tasks",
     "summarize_task_outcomes",
     "Trace",
     "VerificationStatus",
