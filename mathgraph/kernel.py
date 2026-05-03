@@ -31,10 +31,12 @@ class Kernel:
         self,
         store: InMemoryGraphStore | None = None,
         finite_magmas: Iterable[object] | None = None,
+        ledger: object | None = None,
     ) -> None:
         self.store = store or InMemoryGraphStore()
         self.certificates: list[Certificate] = []
         self.finite_magmas = list(finite_magmas) if finite_magmas is not None else _default_magmas()
+        self.ledger = ledger
 
     def add_equation(self, name: str, equation: Equation | str) -> Equation:
         parsed = parse_equation(equation) if isinstance(equation, str) else equation
@@ -60,13 +62,23 @@ class Kernel:
     def record_named_obstruction(self, claim: str, name: str, detail: str = "") -> Certificate:
         return self.accept_certificate(named_obstruction(claim, name, detail))
 
-    def prove(self, source: Equation | str, target: Equation | str | None = None) -> Trace:
+    def prove(
+        self,
+        source: Equation | str,
+        target: Equation | str | None = None,
+        *,
+        lean_code: str | None = None,
+        lean_file: str | None = None,
+    ) -> Trace:
         """Try the deliberately small v0.1 route set for a claim.
 
         This method checks only exact/symmetric/renaming structural routes and
         finite magma countermodels over registered small tables. Failure to find
         either is recorded as an obstruction, not as proof.
         """
+
+        if lean_code is not None and lean_file is not None:
+            raise ValueError("provide at most one of lean_code or lean_file")
 
         source_eq = parse_equation(source) if isinstance(source, str) else source
         target_eq = parse_equation(target) if isinstance(target, str) else target
@@ -77,7 +89,8 @@ class Kernel:
             routes_tried.append("structural_reflexive")
             if source_eq.lhs == source_eq.rhs:
                 cert = self.accept_certificate(verified_proof(claim, "structural_reflexive"))
-                return self._trace(claim, routes_tried, cert)
+                trace = self._trace(claim, routes_tried, cert, source=str(source_eq), target=None)
+                return self._attach_external_verification(trace, lean_code, lean_file)
 
             routes_tried.append("finite_magma_countermodel")
             for magma in self.finite_magmas:
@@ -95,7 +108,8 @@ class Kernel:
                         "table_invariants": magma.invariants(),
                     }
                     cert = self.accept_certificate(finite_countermodel(claim, payload))
-                    return self._trace(claim, routes_tried, cert)
+                    trace = self._trace(claim, routes_tried, cert, source=str(source_eq), target=None)
+                    return self._attach_external_verification(trace, lean_code, lean_file)
 
             obstruction = self.accept_certificate(
                 named_obstruction(
@@ -104,21 +118,24 @@ class Kernel:
                     "No structural proof or finite countermodel was found. This is not a truth claim.",
                 )
             )
-            return self._trace(claim, routes_tried, obstruction)
+            trace = self._trace(claim, routes_tried, obstruction, source=str(source_eq), target=None)
+            return self._attach_external_verification(trace, lean_code, lean_file)
 
         claim = f"{source_eq} => {target_eq}"
 
         structural_route = self._structural_route(source_eq, target_eq, routes_tried)
         if structural_route is not None:
             cert = self.accept_certificate(verified_proof(claim, structural_route))
-            return self._trace(claim, routes_tried, cert)
+            trace = self._trace(claim, routes_tried, cert, source=str(source_eq), target=str(target_eq))
+            return self._attach_external_verification(trace, lean_code, lean_file)
 
         routes_tried.append("finite_magma_countermodel")
         for magma in self.finite_magmas:
             payload = magma.countermodel_certificate_payload(source_eq, target_eq)
             if payload is not None:
                 cert = self.accept_certificate(finite_countermodel(claim, payload))
-                return self._trace(claim, routes_tried, cert)
+                trace = self._trace(claim, routes_tried, cert, source=str(source_eq), target=str(target_eq))
+                return self._attach_external_verification(trace, lean_code, lean_file)
 
         obstruction = self.accept_certificate(
             named_obstruction(
@@ -127,7 +144,8 @@ class Kernel:
                 "No structural proof or finite countermodel was found. This is not a truth claim.",
             )
         )
-        return self._trace(claim, routes_tried, obstruction)
+        trace = self._trace(claim, routes_tried, obstruction, source=str(source_eq), target=str(target_eq))
+        return self._attach_external_verification(trace, lean_code, lean_file)
 
     def _structural_route(
         self,
@@ -156,10 +174,14 @@ class Kernel:
         claim: str,
         routes_tried: list[str],
         certificate: Certificate,
+        source: str | None,
+        target: str | None,
     ) -> Trace:
         if certificate.terminal_form == TerminalForm.VERIFIED_PROOF:
             return Trace(
                 claim=claim,
+                source=source,
+                target=target,
                 routes_tried=routes_tried,
                 terminal_form=certificate.terminal_form,
                 verification_status=VerificationStatus.VERIFIED,
@@ -168,6 +190,8 @@ class Kernel:
         if certificate.terminal_form == TerminalForm.FINITE_COUNTERMODEL:
             return Trace(
                 claim=claim,
+                source=source,
+                target=target,
                 routes_tried=routes_tried,
                 terminal_form=certificate.terminal_form,
                 verification_status=VerificationStatus.REFUTED,
@@ -175,11 +199,37 @@ class Kernel:
             )
         return Trace(
             claim=claim,
+            source=source,
+            target=target,
             routes_tried=routes_tried,
             terminal_form=certificate.terminal_form,
             verification_status=VerificationStatus.OBSTRUCTED,
             obstruction=certificate,
         )
+
+    def _attach_external_verification(
+        self,
+        trace: Trace,
+        lean_code: str | None,
+        lean_file: str | None,
+    ) -> Trace:
+        if lean_code is None and lean_file is None:
+            return self._append_trace(trace)
+
+        from mathgraph.verification import verify_external_artifact
+
+        if lean_code is not None:
+            result = verify_external_artifact("lean_code", {"code": lean_code})
+        else:
+            result = verify_external_artifact("lean_file", {"path": lean_file})
+        trace.add_external_verification(result)
+        self._append_trace(trace)
+        return trace
+
+    def _append_trace(self, trace: Trace) -> Trace:
+        if self.ledger is not None:
+            self.ledger.append_trace(trace)
+        return trace
 
     def check_finite_magma_implication(
         self,

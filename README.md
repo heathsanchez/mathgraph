@@ -73,6 +73,67 @@ print(sample_false_pairs(matrix, limit=5, seed=0))
 Matrix loading uses numpy when it is installed. `.npy`, `.npz`, `.csv`,
 `.parquet`, and `.sqlite` artifacts stay ignored by git.
 
+## Optional Lean Verification
+
+The Lean adapter only checks local Lean files or snippets with the `lean`
+executable on your `PATH`. It does not generate proofs, create Lake projects,
+add Mathlib, or interpret Lean failures as counterexamples.
+
+```python
+from adapters.lean_adapter import detect_lean, verify_lean_code
+
+print(detect_lean())
+result = verify_lean_code("theorem t : True := True.intro")
+print(result["status"])
+```
+
+A Lean success means the artifact typechecked. A Lean failure is not a
+counterexample and not a mathematical verdict. MathGraph still requires accepted
+claims to end in exactly one terminal form:
+
+- `VERIFIED_PROOF`
+- `FINITE_COUNTERMODEL`
+- `NAMED_OBSTRUCTION`
+
+External verification events are audit records attached to traces. They do not
+change the terminal form by themselves:
+
+```python
+from mathgraph import Kernel
+
+kernel = Kernel(finite_magmas=[])
+trace = kernel.prove(
+    "x * y = x",
+    "x * y = y",
+    lean_code="theorem t : True := True.intro",
+)
+print(trace.terminal_form)
+print(trace.external_verifications)
+```
+
+Later versions may add exact-claim Lean proof certificates. Until then, an
+unrelated Lean typecheck is not promoted to `VERIFIED_PROOF`.
+
+## JSONL Ledgers
+
+MathGraph traces can be written as append-only JSONL reproducibility records.
+Ledgers are generated proof-run artifacts, so keep them outside Git. GitHub
+stores source code, tests, docs, and small manifests, not generated runs.
+
+```python
+from mathgraph import JsonlLedger, Kernel
+
+ledger = JsonlLedger("/tmp/mathgraph-run/ledger.jsonl")
+kernel = Kernel(ledger=ledger)
+kernel.prove("x = x", "x * x = x")
+
+for trace in ledger.load_all():
+    print(trace.terminal_form)
+```
+
+Each line is one serialized trace with routes tried, terminal form, certificate
+or obstruction payload, external verification audit records, and a timestamp.
+
 ## Repository Layout
 
 - `mathgraph/`: core kernel, typed terms, equations, certificates, graph store

@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 from adapters.finite_magma_adapter import FiniteMagma
+from adapters.lean_adapter import detect_lean
 from mathgraph import Kernel, TerminalForm, VerificationStatus
 
 
@@ -47,14 +48,14 @@ def test_kernel_prove_returns_named_obstruction_not_proof() -> None:
     assert trace.verification_status == VerificationStatus.OBSTRUCTED
     assert trace.certificate is None
     assert trace.obstruction is not None
-    assert trace.verify()
+    assert not trace.verify()
     assert not trace.is_verified_proof()
 
 
 def test_obstruction_verify_is_not_a_true_proof() -> None:
     kernel = Kernel(finite_magmas=[FiniteMagma.from_table([[0]], name="trivial")])
     trace = kernel.prove("x * y = x", "x * y = y")
-    assert trace.verify()
+    assert not trace.verify()
     assert trace.terminal_form == TerminalForm.NAMED_OBSTRUCTION
     assert trace.verification_status != VerificationStatus.VERIFIED
     assert not trace.is_verified_proof()
@@ -74,6 +75,43 @@ def test_structural_routes_reject_unsafe_cases() -> None:
     assert "structural_variable_renaming" in trace.routes_tried
     assert trace.terminal_form == TerminalForm.NAMED_OBSTRUCTION
     assert not trace.is_verified_proof()
+
+
+def test_kernel_prove_attaches_lean_code_external_verification() -> None:
+    trace = Kernel().prove(
+        "x = x",
+        "x * x = x",
+        lean_code="theorem t : True := True.intro",
+    )
+    assert trace.terminal_form == TerminalForm.FINITE_COUNTERMODEL
+    assert len(trace.external_verifications) == 1
+    assert "status" in trace.external_verifications[0]
+    if detect_lean()["lean_available"]:
+        assert trace.external_verifications[0]["status"] == "lean_verified"
+    else:
+        assert trace.external_verifications[0]["status"] == "lean_unavailable"
+
+
+def test_lean_verified_unrelated_theorem_does_not_promote_obstruction() -> None:
+    trace = Kernel(finite_magmas=[]).prove(
+        "x * y = x",
+        "x * y = y",
+        lean_code="theorem t : True := True.intro",
+    )
+    assert trace.external_verifications
+    assert trace.terminal_form == TerminalForm.NAMED_OBSTRUCTION
+    assert trace.verification_status == VerificationStatus.OBSTRUCTED
+    assert not trace.verify()
+    assert not trace.is_verified_proof()
+
+
+def test_kernel_prove_rejects_both_lean_code_and_lean_file() -> None:
+    try:
+        Kernel().prove("x = x", lean_code="theorem t : True := True.intro", lean_file="x.lean")
+    except ValueError as exc:
+        assert "at most one" in str(exc)
+    else:
+        raise AssertionError("expected ValueError")
 
 
 def test_basic_kernel_demo_runs() -> None:

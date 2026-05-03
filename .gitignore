@@ -17,6 +17,7 @@ run*/
 runs/
 ledgers/
 *.ledger
+*.jsonl
 *.csv
 *.parquet
 *.sqlite
