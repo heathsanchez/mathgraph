@@ -519,6 +519,22 @@ certificates and outcome diagnostics. Scheduler scores are not truth, executor
 rows are not permanent memory until the importer accepts them, and unknown
 remains unknown.
 
+For a self-contained synthetic system harness, use:
+
+```bash
+python scripts/run_vision_smoke.py \
+  --out-dir /tmp/mathgraph_vision_smoke \
+  --max-order 3
+```
+
+`run_vision_smoke.py` uses the current finite executor API and writes
+`schedule.jsonl`, `task_queue.jsonl`, `finite_results.jsonl`, `lawbook.sqlite`,
+`oracle_probe.json`, and a report. If the scheduler produces only
+`obstruction_analysis` rows for the tiny synthetic examples, it creates a
+transparent fallback queue of finite-countermodel tasks so the checked finite
+path is still exercised. The fallback is still non-promotable until the finite
+executor verifies a table and the importer revalidates it.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

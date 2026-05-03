@@ -528,6 +528,30 @@ LawbookStore memory, and `KernelOracle` should answer imported pairs as
 Scheduler scores are search pressure, not truth. Missing countermodels are not
 proofs, executor failures are not refutations, and unknown remains unknown.
 
+For Colab/system harness checks that do not require external artifacts, run the
+synthetic vision smoke:
+
+```bash
+python scripts/run_vision_smoke.py \
+  --out-dir /tmp/mathgraph_vision_smoke \
+  --max-order 3
+```
+
+This script uses the current executor interface:
+
+```text
+--task-queue-jsonl <queue>
+--out <finite_results.jsonl>
+--max-order 3
+--max-tasks 10
+```
+
+It builds synthetic candidate pairs, schedules them, builds a task queue,
+inspects the route/task-kind distribution, and falls back to explicit
+`finite_countermodel_search` rows only when the scheduler created no finite
+tasks. That fallback is a harness device, not truth: only executor rows with
+`FINITE_COUNTERMODEL` / `FINITE_VERIFIED` can be revalidated and imported.
+
 The flywheel writes:
 
 - `lawbook_store.sqlite`
