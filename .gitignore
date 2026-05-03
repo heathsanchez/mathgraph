@@ -22,6 +22,7 @@ ledgers/
 *.jsonl
 *.jsonl.gz
 *.csv
+*.csv.gz
 *.parquet
 *.sqlite
 *.sqlite3

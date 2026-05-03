@@ -73,6 +73,24 @@ print(sample_false_pairs(matrix, limit=5, seed=0))
 Matrix loading uses numpy when it is installed. `.npy`, `.npz`, `.csv`,
 `.parquet`, and `.sqlite` artifacts stay ignored by git.
 
+## External SAIR Stage 2 Results
+
+SAIR/ETP route and certificate result tables can be imported from external
+artifact paths. Keep generated CSV, Parquet, SQLite, matrix, and ledger outputs
+outside GitHub.
+
+```python
+from adapters.sair_stage2_adapter import import_traces, load_results_table, summarize_results
+
+records = load_results_table("/external/path/routelean_results_v19_1.parquet")
+print(summarize_results(records))
+traces = import_traces("/external/path/routelean_results_v19_1.parquet", limit=10)
+```
+
+The importer only promotes rows that explicitly verify true or verify false.
+Missing verification, finite-search failure, and failed Lean execution become
+non-promotable obstruction traces.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
