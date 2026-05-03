@@ -233,3 +233,32 @@ Failed finite search is not proof. Failed proof construction is not refutation.
 Residuals are the next source of learning: they identify blocked routes,
 missing evidence, and constructor improvements needed before any future
 promotion.
+
+## Persistent LawbookStore + KernelOracle
+
+`LawbookStore` stores verified terminal traces in a compact SQLite memory layer.
+It keeps enough JSON to explain and replay trace records while indexing common
+questions by claim, source/target pair, source, target, route, terminal form,
+and verification status.
+
+```bash
+python scripts/build_lawbook_store.py \
+  --traces-json /external/path/traces.json \
+  --out /external/path/lawbook.sqlite \
+  --replace
+```
+
+`KernelOracle` is query and inspection only. It does not call constructors,
+search finite magmas, invoke Lean, or create new terminal certificates.
+
+```bash
+python scripts/query_kernel_oracle.py \
+  --store /external/path/lawbook.sqlite \
+  --source "x = x ◇ y" \
+  --target "x = y ◇ x"
+```
+
+Unknown means no exact verified trace was found, not false. Missing answers stay
+`NAMED_OBSTRUCTION` / `UNKNOWN` and include anti-promotion warnings. This layer
+is the foundation for derived certificate generation, chewing harnesses, API
+service layers, and H-Tilt scheduling.

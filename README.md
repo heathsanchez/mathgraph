@@ -308,6 +308,28 @@ Directory mode writes `summary.json`, `outcomes.json`, `outcomes.jsonl`, and
 `NAMED_OBSTRUCTION` until a real verified proof or finite countermodel
 certificate exists.
 
+## Persistent LawbookStore + KernelOracle
+
+`LawbookStore` is a small SQLite memory layer over verified terminal traces.
+`KernelOracle` queries that memory and explains exact hits; it does not generate
+proofs, search countermodels, or promote advisory output.
+
+```bash
+python scripts/build_lawbook_store.py \
+  --traces-json /external/path/traces.json \
+  --out /external/path/lawbook.sqlite \
+  --replace
+
+python scripts/query_kernel_oracle.py \
+  --store /external/path/lawbook.sqlite \
+  --source "x = x ◇ y" \
+  --target "x = y ◇ x"
+```
+
+Unknown means no exact verified trace was found. It does not mean false. This
+persistent memory is the foundation for derived certificate generation, chewing
+harnesses, API service layers, and H-Tilt scheduling.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

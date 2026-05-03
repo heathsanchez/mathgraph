@@ -14,7 +14,9 @@ from mathgraph.hashing import (
     sha256_text,
 )
 from mathgraph.kernel import Kernel
+from mathgraph.kernel_oracle import KernelOracle, OracleAnswer
 from mathgraph.lawbook import CertificateLawbook
+from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
 from mathgraph.pair_advisor import PairAdvice, advise_many, advise_pair, extract_pair_features
 from mathgraph.route_instructor import (
@@ -50,7 +52,11 @@ __all__ = [
     "CertificateTask",
     "Equation",
     "Kernel",
+    "KernelOracle",
     "JsonlLedger",
+    "LawbookStore",
+    "LawbookStoreStats",
+    "OracleAnswer",
     "PairAdvice",
     "TaskOutcome",
     "TaskRunSummary",
