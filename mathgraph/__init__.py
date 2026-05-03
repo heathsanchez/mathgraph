@@ -16,6 +16,7 @@ from mathgraph.hashing import (
 from mathgraph.kernel import Kernel
 from mathgraph.lawbook import CertificateLawbook
 from mathgraph.ledger import JsonlLedger
+from mathgraph.pair_advisor import PairAdvice, advise_many, advise_pair, extract_pair_features
 from mathgraph.route_instructor import (
     RouteInstruction,
     build_all_route_instructions,
@@ -32,11 +33,15 @@ __all__ = [
     "Equation",
     "Kernel",
     "JsonlLedger",
+    "PairAdvice",
     "canonical_json",
     "RouteInstruction",
     "build_all_route_instructions",
     "build_route_instruction",
+    "advise_many",
+    "advise_pair",
     "content_id",
+    "extract_pair_features",
     "hash_certificate",
     "hash_file",
     "hash_trace",

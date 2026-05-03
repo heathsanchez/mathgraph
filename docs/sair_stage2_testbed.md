@@ -162,3 +162,26 @@ python scripts/build_route_instructions.py \
   --traces-json traces.json \
   --out route_instructions.json
 ```
+
+## Pair Advice
+
+The Pair Advisor uses lawbook traces and route instructions to suggest
+candidate routes for a new source/target pair. Exact lawbook matches return the
+known terminal trace. Unknown pairs remain advisory only and must not be treated
+as proofs or refutations.
+
+```python
+from mathgraph import CertificateLawbook, advise_pair
+
+lawbook = CertificateLawbook.from_json("traces.json")
+advice = advise_pair(lawbook, "x = x ◇ y", "x = x ◇ x")
+print(advice.to_dict())
+```
+
+```bash
+python scripts/advise_pair.py \
+  --traces-json traces.json \
+  --source "x = x ◇ y" \
+  --target "x = x ◇ x" \
+  --out advice.json
+```

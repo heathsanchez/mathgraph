@@ -255,6 +255,11 @@ class CertificateLawbook:
 
         return build_all_route_instructions(self, sample_limit=sample_limit)
 
+    def advise_pair(self, source: str, target: str, max_routes: int = 5) -> Any:
+        from mathgraph.pair_advisor import advise_pair
+
+        return advise_pair(self, source, target, max_routes=max_routes)
+
     def to_summary_dict(self) -> dict[str, Any]:
         return {"summary": self.summary(), "route_summary": self.route_summary()}
 

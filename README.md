@@ -248,6 +248,28 @@ python scripts/build_route_instructions.py \
   --out route_instructions.json
 ```
 
+## Pair Advice
+
+Pair advice suggests evidence routes for a new source/target pair. If the pair
+already exists in the lawbook, it returns the known terminal certificate. If not,
+the result is advisory only and remains `NAMED_OBSTRUCTION` / `UNKNOWN`.
+
+```python
+from mathgraph import CertificateLawbook, advise_pair
+
+lawbook = CertificateLawbook.from_json("traces.json")
+advice = advise_pair(lawbook, "x = x ◇ y", "x = x ◇ x")
+print(advice.to_dict())
+```
+
+```bash
+python scripts/advise_pair.py \
+  --traces-json traces.json \
+  --source "x = x ◇ y" \
+  --target "x = x ◇ x" \
+  --out advice.json
+```
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
