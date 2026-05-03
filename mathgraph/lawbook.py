@@ -245,6 +245,16 @@ class CertificateLawbook:
     def all_route_cards(self) -> dict[str, dict[str, Any]]:
         return {route: self.route_card(route) for route in sorted(self._route_index)}
 
+    def route_instruction(self, route: str, sample_limit: int = 5) -> Any:
+        from mathgraph.route_instructor import build_route_instruction
+
+        return build_route_instruction(self, route, sample_limit=sample_limit)
+
+    def all_route_instructions(self, sample_limit: int = 5) -> dict[str, Any]:
+        from mathgraph.route_instructor import build_all_route_instructions
+
+        return build_all_route_instructions(self, sample_limit=sample_limit)
+
     def to_summary_dict(self) -> dict[str, Any]:
         return {"summary": self.summary(), "route_summary": self.route_summary()}
 

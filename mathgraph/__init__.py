@@ -16,6 +16,12 @@ from mathgraph.hashing import (
 from mathgraph.kernel import Kernel
 from mathgraph.lawbook import CertificateLawbook
 from mathgraph.ledger import JsonlLedger
+from mathgraph.route_instructor import (
+    RouteInstruction,
+    build_all_route_instructions,
+    build_route_instruction,
+    route_instruction_report,
+)
 from mathgraph.terms import Term, parse_term
 from mathgraph.trace import Trace
 
@@ -27,6 +33,9 @@ __all__ = [
     "Kernel",
     "JsonlLedger",
     "canonical_json",
+    "RouteInstruction",
+    "build_all_route_instructions",
+    "build_route_instruction",
     "content_id",
     "hash_certificate",
     "hash_file",
@@ -38,6 +47,7 @@ __all__ = [
     "TerminalForm",
     "parse_equation",
     "parse_term",
+    "route_instruction_report",
     "Trace",
     "VerificationStatus",
 ]

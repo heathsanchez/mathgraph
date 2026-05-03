@@ -142,3 +142,23 @@ The lawbook can report route counts, source/target basins, proof payloads, and
 countermodel payloads. It does not replace Lean verification and does not
 promote candidates. It is a memory/index layer over traces that already obey the
 terminal-form contract.
+
+## Route Instructions
+
+Route instruction cards summarize verified lawbook routes into compact guidance
+for future construction attempts. They describe what evidence a route used and
+what warnings prevent overclaiming; they do not generate proofs.
+
+```python
+from mathgraph import CertificateLawbook, build_route_instruction
+
+lawbook = CertificateLawbook.from_json("traces.json")
+instruction = build_route_instruction(lawbook, "finite_countermodel")
+print(instruction.to_dict())
+```
+
+```bash
+python scripts/build_route_instructions.py \
+  --traces-json traces.json \
+  --out route_instructions.json
+```

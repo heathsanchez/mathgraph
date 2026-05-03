@@ -229,6 +229,25 @@ python scripts/build_lawbook_summary.py \
   --route-summary /external/path/route_summary.json
 ```
 
+## Route Instructions
+
+Route instruction cards summarize what verified lawbook routes have certified
+so far. They are guidance for future routing, not proof generators.
+
+```python
+from mathgraph import CertificateLawbook, build_route_instruction
+
+lawbook = CertificateLawbook.from_json("traces.json")
+instruction = build_route_instruction(lawbook, "finite_countermodel")
+print(instruction.to_dict())
+```
+
+```bash
+python scripts/build_route_instructions.py \
+  --traces-json traces.json \
+  --out route_instructions.json
+```
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
