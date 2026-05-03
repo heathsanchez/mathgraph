@@ -84,11 +84,14 @@ def test_lawbook_route_and_endpoint_summaries() -> None:
 def test_lawbook_lookup_and_query() -> None:
     lawbook = CertificateLawbook.from_traces(_traces())
 
-    assert lawbook.get_by_claim("claim-proof")[0].terminal_form == TerminalForm.VERIFIED_PROOF
-    assert lawbook.get_by_pair(1, 3)[0].terminal_form == TerminalForm.FINITE_COUNTERMODEL
+    assert lawbook.get_by_claim("claim-proof").terminal_form == TerminalForm.VERIFIED_PROOF
+    assert lawbook.get_by_pair(1, 3).terminal_form == TerminalForm.FINITE_COUNTERMODEL
     assert lawbook.query(terminal_form="FINITE_COUNTERMODEL")[0].verification_status == VerificationStatus.REFUTED
     assert lawbook.query(route="variable_identification")[0].claim == "x = x => x = x"
     assert len(lawbook.query(limit=2)) == 2
+    assert lawbook.find_by_source(1, limit=1)[0].metadata["source_idx"] == "1"
+    assert lawbook.find_by_target(3)[0].metadata["target_idx"] == "3"
+    assert lawbook.find_by_route("finite_countermodel")[0].terminal_form == TerminalForm.FINITE_COUNTERMODEL
 
 
 def test_lawbook_extraction_helpers() -> None:
@@ -112,13 +115,51 @@ def test_lawbook_missing_fields_do_not_crash() -> None:
 
 def test_lawbook_explain_trace_and_claim_pair() -> None:
     lawbook = CertificateLawbook.from_traces(_traces())
-    explanation = lawbook.explain_pair("1", "3")[0]
+    explanation = lawbook.explain_pair("1", "3")
 
     assert explanation["terminal_form"] == "FINITE_COUNTERMODEL"
-    assert explanation["compiled_route"] == "finite_countermodel"
+    assert explanation["route"] == "finite_countermodel"
     assert explanation["has_certificate"] is True
     assert explanation["has_countermodel"] is True
-    assert lawbook.explain_claim("claim-counter")[0]["target_idx"] == "3"
+    assert explanation["proof_countermodel_obstruction_kind"] == "countermodel"
+    assert lawbook.explain_claim("claim-counter")["target_idx"] == "3"
+
+
+def test_lawbook_top_level_import_and_missing_pair_response() -> None:
+    from mathgraph import CertificateLawbook as ImportedLawbook
+
+    lawbook = ImportedLawbook.from_traces(_traces())
+    explanation = lawbook.explain_pair("missing", "pair")
+
+    assert explanation["terminal_form"] == "NAMED_OBSTRUCTION"
+    assert explanation["verification_status"] == "OBSTRUCTED"
+    assert explanation["proof_countermodel_obstruction_kind"] == "not_in_lawbook"
+    assert explanation["has_certificate"] is False
+
+
+def test_lawbook_route_cards_and_filters() -> None:
+    lawbook = CertificateLawbook.from_traces(_traces())
+    card = lawbook.route_card("finite_countermodel")
+    cards = lawbook.all_route_cards()
+
+    assert card["route"] == "finite_countermodel"
+    assert card["count"] == 1
+    assert card["source_count"] == 1
+    assert card["target_count"] == 1
+    assert card["sample_pairs"] == [{"source_idx": "1", "target_idx": "3"}]
+    assert "variable_identification" in cards
+    assert len(lawbook.countermodels()) == 1
+    assert len(lawbook.verified_proofs()) == 1
+    assert len(lawbook.obstructions()) == 1
+
+
+def test_lawbook_explain_trace_omits_full_payload() -> None:
+    lawbook = CertificateLawbook.from_traces(_traces())
+    explanation = lawbook.explain_trace("claim-counter")
+
+    assert "certificate_payload" not in explanation
+    assert "model" in explanation["certificate_payload_keys"]
+    assert explanation["artifact_counts"] == {"total": 0, "json": 0, "lean": 0}
 
 
 def test_lawbook_save_summary(tmp_path: Path) -> None:

@@ -218,7 +218,7 @@ from mathgraph import CertificateLawbook
 
 lawbook = CertificateLawbook.from_json("/external/path/traces.json")
 print(lawbook.summary())
-print(lawbook.route_summary())
+print(lawbook.route_card("finite_countermodel"))
 print(lawbook.explain_pair(1033, 2637))
 ```
 

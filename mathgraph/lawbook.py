@@ -91,11 +91,40 @@ class CertificateLawbook:
         traces = self._target_index.get(str(target_idx), [])
         return self._endpoint_summary("target_idx", target_idx, traces)
 
-    def get_by_claim(self, claim: str) -> list[Trace]:
-        return list(self._claim_index.get(claim, []))
+    @property
+    def by_claim(self) -> dict[str, list[Trace]]:
+        return dict(self._claim_index)
 
-    def get_by_pair(self, source_idx: str | int, target_idx: str | int) -> list[Trace]:
-        return list(self._pair_index.get((str(source_idx), str(target_idx)), []))
+    @property
+    def by_pair(self) -> dict[tuple[str, str], list[Trace]]:
+        return dict(self._pair_index)
+
+    @property
+    def by_source(self) -> dict[str, list[Trace]]:
+        return dict(self._source_index)
+
+    @property
+    def by_target(self) -> dict[str, list[Trace]]:
+        return dict(self._target_index)
+
+    @property
+    def by_route(self) -> dict[str, list[Trace]]:
+        return dict(self._route_index)
+
+    def get_by_claim(self, claim_hash: str) -> Trace | None:
+        return _first(self._claim_index.get(claim_hash, []))
+
+    def get_by_pair(self, source_idx: str | int, target_idx: str | int) -> Trace | None:
+        return _first(self._pair_index.get((str(source_idx), str(target_idx)), []))
+
+    def find_by_source(self, source_idx: str | int, limit: int | None = None) -> list[Trace]:
+        return _limited(self._source_index.get(str(source_idx), []), limit)
+
+    def find_by_target(self, target_idx: str | int, limit: int | None = None) -> list[Trace]:
+        return _limited(self._target_index.get(str(target_idx), []), limit)
+
+    def find_by_route(self, route: str, limit: int | None = None) -> list[Trace]:
+        return _limited(self._route_index.get(route, []), limit)
 
     def query(
         self,
@@ -141,13 +170,18 @@ class CertificateLawbook:
     def extract_proof_payload(self, trace: Trace) -> Any:
         return extract_proof_payload(trace)
 
-    def explain_trace(self, trace: Trace) -> dict[str, Any]:
+    def explain_trace(self, trace_or_claim: Trace | str) -> dict[str, Any]:
+        trace = trace_or_claim if isinstance(trace_or_claim, Trace) else self.get_by_claim(trace_or_claim)
+        if trace is None:
+            return _not_in_lawbook(str(trace_or_claim))
         artifacts = _artifact_records(trace)
         hash_values = [
             record.get("sha256_matches")
             for record in artifacts
             if record.get("hash_applicable") is True
         ]
+        route = _primary_route(trace)
+        payload = trace.certificate.payload if trace.certificate is not None else {}
         return {
             "claim": trace.claim,
             "source_idx": _trace_value(trace, "source_idx"),
@@ -156,22 +190,60 @@ class CertificateLawbook:
             "target": trace.target,
             "terminal_form": trace.terminal_form.value,
             "verification_status": trace.verification_status.value,
+            "route": route,
             "routes_tried": list(trace.routes_tried),
-            "compiled_route": _trace_value(trace, "compiled_route"),
+            "proof_countermodel_obstruction_kind": _terminal_kind(trace),
             "lean_status": _trace_value(trace, "lean_status"),
             "promotion_status": _trace_value(trace, "promotion_status"),
             "has_certificate": trace.certificate is not None,
             "has_countermodel": extract_countermodel(trace) is not None,
             "has_proof_payload": extract_proof_payload(trace) is not None,
+            "artifact_counts": _artifact_counts(artifacts),
             "artifact_roles": sorted({str(record.get("role")) for record in artifacts}),
             "hash_status": _hash_status(hash_values),
+            "certificate_payload_keys": sorted(payload.keys()) if isinstance(payload, dict) else [],
         }
 
-    def explain_claim(self, claim: str) -> list[dict[str, Any]]:
-        return [self.explain_trace(trace) for trace in self.get_by_claim(claim)]
+    def explain_claim(self, claim: str) -> dict[str, Any]:
+        return self.explain_trace(claim)
 
-    def explain_pair(self, source_idx: str | int, target_idx: str | int) -> list[dict[str, Any]]:
-        return [self.explain_trace(trace) for trace in self.get_by_pair(source_idx, target_idx)]
+    def explain_pair(self, source_idx: str | int, target_idx: str | int) -> dict[str, Any]:
+        trace = self.get_by_pair(source_idx, target_idx)
+        if trace is None:
+            return _not_in_lawbook(
+                f"{source_idx}->{target_idx}",
+                source_idx=str(source_idx),
+                target_idx=str(target_idx),
+            )
+        return self.explain_trace(trace)
+
+    def route_card(self, route: str) -> dict[str, Any]:
+        traces = self._route_index.get(route, [])
+        return {
+            "route": route,
+            "count": len(traces),
+            "source_count": len(
+                {_trace_value(trace, "source_idx") for trace in traces if _trace_value(trace, "source_idx") is not None}
+            ),
+            "target_count": len(
+                {_trace_value(trace, "target_idx") for trace in traces if _trace_value(trace, "target_idx") is not None}
+            ),
+            "terminal_form_counts": self._counts(trace.terminal_form.value for trace in traces),
+            "verification_status_counts": self._counts(
+                trace.verification_status.value for trace in traces
+            ),
+            "sample_claims": [trace.claim for trace in traces[:5]],
+            "sample_pairs": [
+                {
+                    "source_idx": _trace_value(trace, "source_idx"),
+                    "target_idx": _trace_value(trace, "target_idx"),
+                }
+                for trace in traces[:5]
+            ],
+        }
+
+    def all_route_cards(self) -> dict[str, dict[str, Any]]:
+        return {route: self.route_card(route) for route in sorted(self._route_index)}
 
     def to_summary_dict(self) -> dict[str, Any]:
         return {"summary": self.summary(), "route_summary": self.route_summary()}
@@ -277,6 +349,11 @@ def _routes(trace: Trace) -> list[str]:
     return [str(route) for route in trace.routes_tried]
 
 
+def _primary_route(trace: Trace) -> str | None:
+    routes = _routes(trace)
+    return routes[0] if routes else None
+
+
 def _trace_value(trace: Trace, key: str) -> str | None:
     for payload in _payloads(trace):
         value = _nested_value(payload, key)
@@ -358,3 +435,54 @@ def _write_json(path: str | Path, payload: Any) -> None:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _first(traces: list[Trace]) -> Trace | None:
+    return traces[0] if traces else None
+
+
+def _limited(traces: list[Trace], limit: int | None) -> list[Trace]:
+    return list(traces if limit is None else traces[:limit])
+
+
+def _terminal_kind(trace: Trace) -> str:
+    if trace.terminal_form == TerminalForm.FINITE_COUNTERMODEL:
+        return "countermodel"
+    if trace.terminal_form == TerminalForm.VERIFIED_PROOF:
+        return "proof"
+    return "obstruction"
+
+
+def _artifact_counts(records: list[dict[str, Any]]) -> dict[str, int]:
+    return {
+        "total": len(records),
+        "json": sum(1 for record in records if record.get("kind") == "json"),
+        "lean": sum(1 for record in records if record.get("kind") == "lean"),
+    }
+
+
+def _not_in_lawbook(
+    claim: str,
+    *,
+    source_idx: str | None = None,
+    target_idx: str | None = None,
+) -> dict[str, Any]:
+    return {
+        "claim": claim,
+        "source_idx": source_idx,
+        "target_idx": target_idx,
+        "source": None,
+        "target": None,
+        "terminal_form": TerminalForm.NAMED_OBSTRUCTION.value,
+        "verification_status": VerificationStatus.OBSTRUCTED.value,
+        "route": None,
+        "proof_countermodel_obstruction_kind": "not_in_lawbook",
+        "detail": "No matching verified terminal trace was found in this lawbook.",
+        "has_certificate": False,
+        "has_countermodel": False,
+        "has_proof_payload": False,
+        "artifact_counts": {"total": 0, "json": 0, "lean": 0},
+        "artifact_roles": [],
+        "hash_status": None,
+        "certificate_payload_keys": [],
+    }
