@@ -30,3 +30,13 @@ def test_task_runner_public_exports() -> None:
     assert callable(write_outcomes_json)
     assert callable(read_outcomes_jsonl)
     assert callable(write_outcomes_jsonl)
+
+
+def test_asset_materialization_public_exports() -> None:
+    from mathgraph import AssetMaterializationConfig
+    from mathgraph import AssetMaterializationResult
+    from mathgraph import materialize_mathgraph_assets
+
+    assert AssetMaterializationConfig.__name__ == "AssetMaterializationConfig"
+    assert AssetMaterializationResult.__name__ == "AssetMaterializationResult"
+    assert callable(materialize_mathgraph_assets)

@@ -610,6 +610,41 @@ stdout/stderr for every subprocess and writes a JSON/Markdown report. Fallback
 certificates are clearly synthetic and must never be treated as real asset
 certificates.
 
+## Real Asset Materialization
+
+When real assets exist outside Git, materialize them into a stable local bundle:
+
+```bash
+python scripts/materialize_mathgraph_assets.py \
+  --out-dir /tmp/mathgraph_assets
+```
+
+Explicit paths always take priority:
+
+```bash
+python scripts/materialize_mathgraph_assets.py \
+  --traces-json /path/to/traces.json \
+  --equations-path /path/to/equations.txt \
+  --matrix-path /path/to/etp_matrix_full_best_bool.npy \
+  --out-dir /tmp/mathgraph_assets
+```
+
+Then validate using the materialized assets:
+
+```bash
+python scripts/validate_real_asset_pipeline.py \
+  --traces-json /tmp/mathgraph_assets/assets/traces.json \
+  --equations-path /tmp/mathgraph_assets/assets/equations.txt \
+  --matrix-path /tmp/mathgraph_assets/assets/etp_matrix_full_best_bool.npy \
+  --out-dir /tmp/mathgraph_validation \
+  --allow-synthetic-fallback
+```
+
+The materializer supports `copy`, `symlink`, and `manifest-only` modes. It
+reports `routelean_results_v19_1.parquet` as a related artifact only; parquet
+results are not silently treated as `traces.json`. Missing assets are surfaced
+as `complete=false`, never faked.
+
 The flywheel writes:
 
 - `lawbook_store.sqlite`

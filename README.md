@@ -579,6 +579,40 @@ The validator captures subprocess stdout/stderr under `logs/`, writes
 `validation_summary.json` and `validation_report.md`, and never reports
 synthetic fallback as real data.
 
+## Real Asset Materialization
+
+Use the materializer when assets exist outside the repository and you want a
+stable local bundle for validation:
+
+```bash
+python scripts/materialize_mathgraph_assets.py \
+  --out-dir /tmp/mathgraph_assets
+```
+
+With explicit paths:
+
+```bash
+python scripts/materialize_mathgraph_assets.py \
+  --traces-json /path/to/traces.json \
+  --equations-path /path/to/equations.txt \
+  --matrix-path /path/to/etp_matrix_full_best_bool.npy \
+  --out-dir /tmp/mathgraph_assets
+```
+
+Then validate against the materialized bundle:
+
+```bash
+python scripts/validate_real_asset_pipeline.py \
+  --traces-json /tmp/mathgraph_assets/assets/traces.json \
+  --equations-path /tmp/mathgraph_assets/assets/equations.txt \
+  --matrix-path /tmp/mathgraph_assets/assets/etp_matrix_full_best_bool.npy \
+  --out-dir /tmp/mathgraph_validation \
+  --allow-synthetic-fallback
+```
+
+`routelean_results_v19_1.parquet` is reported as a related artifact, not as
+`traces.json`. The tool does not synthesize missing real assets.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

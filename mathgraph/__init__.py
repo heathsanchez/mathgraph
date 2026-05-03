@@ -6,6 +6,11 @@ from mathgraph.asset_discovery import (
     AssetDiscoveryResult,
     discover_mathgraph_assets,
 )
+from mathgraph.asset_materialization import (
+    AssetMaterializationConfig,
+    AssetMaterializationResult,
+    materialize_mathgraph_assets,
+)
 from mathgraph.chewing_smoke import (
     ChewingSmokeConfig,
     ChewingSmokeResult,
@@ -120,6 +125,8 @@ __all__ = [
     "CertificateTask",
     "AssetDiscoveryConfig",
     "AssetDiscoveryResult",
+    "AssetMaterializationConfig",
+    "AssetMaterializationResult",
     "ChewingSmokeConfig",
     "ChewingSmokeResult",
     "ChewingSmokeStageResult",
@@ -184,6 +191,7 @@ __all__ = [
     "hash_trace",
     "import_finite_countermodel_results",
     "make_basin_key",
+    "materialize_mathgraph_assets",
     "sha256_hex",
     "sha256_json",
     "sha256_text",
