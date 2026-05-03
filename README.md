@@ -457,11 +457,20 @@ python scripts/run_mathgraph_flywheel.py \
   --out /external/path/mathgraph_flywheel \
   --unknown-pairs-jsonl /external/path/candidate_frontier.jsonl \
   --derived-limit 100000
+
+python scripts/build_task_queue.py \
+  --schedule-jsonl /external/path/mathgraph_flywheel/scheduled_tasks.jsonl \
+  --out /external/path/task_queue.jsonl \
+  --max-tasks 1000 \
+  --min-priority 0.2
 ```
 
 Candidate frontier rows are scheduling candidates only. They can come from
 matrix false/true entries or structural unknown pairs, but they are never
 marked as proven or refuted by the frontier builder.
+
+The task queue is constructor-ready, but still non-promotable until a
+verifier/constructor executes it and emits an accepted terminal certificate.
 
 The flywheel does not add mathematical authority. It composes verified memory,
 sound derived certificates, diagnostics, route policy, and scheduling pressure

@@ -69,6 +69,12 @@ from mathgraph.task_planner import (
     plan_certificate_task,
     plan_many_certificate_tasks,
 )
+from mathgraph.task_queue import (
+    TaskQueueConfig,
+    TaskQueueItem,
+    TaskQueueResult,
+    build_task_queue,
+)
 from mathgraph.task_runner import (
     TaskOutcome,
     TaskRunSummary,
@@ -117,6 +123,9 @@ __all__ = [
     "RouteLearner",
     "RouteLearnerStats",
     "TaskOutcome",
+    "TaskQueueConfig",
+    "TaskQueueItem",
+    "TaskQueueResult",
     "TaskRunSummary",
     "canonical_json",
     "RouteInstruction",
@@ -127,6 +136,7 @@ __all__ = [
     "build_all_route_instructions",
     "build_route_instruction",
     "build_candidate_frontier",
+    "build_task_queue",
     "advise_many",
     "advise_pair",
     "content_id",

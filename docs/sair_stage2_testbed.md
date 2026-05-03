@@ -444,6 +444,12 @@ python scripts/run_mathgraph_flywheel.py \
   --out /external/path/mathgraph_flywheel \
   --unknown-pairs-jsonl /external/path/candidate_frontier.jsonl \
   --derived-limit 100000
+
+python scripts/build_task_queue.py \
+  --schedule-jsonl /external/path/mathgraph_flywheel/scheduled_tasks.jsonl \
+  --out /external/path/task_queue.jsonl \
+  --max-tasks 1000 \
+  --min-priority 0.2
 ```
 
 The frontier builder can use matrix false/true entries and structural contrast
@@ -451,6 +457,17 @@ between equations to create high-value candidate pairs. It can also consult a
 LawbookStore to skip exact primitive or derived certificates that are already
 known. Frontier rows are candidate scheduling inputs only; they are not terminal
 proofs or refutations.
+
+The task queue is the constructor-ready chewing surface:
+
+```text
+build_candidate_frontier.py -> schedule_certificate_tasks.py -> build_task_queue.py
+```
+
+Task queue rows include route-specific required inputs, steps, success
+criteria, failure modes, evidence, and anti-promotion warnings. They are still
+not proof or refutation until a verifier or constructor executes them and emits
+an accepted terminal certificate.
 
 The flywheel writes:
 
