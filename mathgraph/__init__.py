@@ -1,6 +1,12 @@
 """MathGraph: a lightweight kernel for verifiable mathematical claims."""
 
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
+from mathgraph.chewing_smoke import (
+    ChewingSmokeConfig,
+    ChewingSmokeResult,
+    ChewingSmokeStageResult,
+    run_chewing_smoke,
+)
 from mathgraph.countermodel_importer import (
     CountermodelImportConfig,
     CountermodelImportResult,
@@ -107,6 +113,9 @@ __all__ = [
     "CertificateCorpus",
     "CertificateLawbook",
     "CertificateTask",
+    "ChewingSmokeConfig",
+    "ChewingSmokeResult",
+    "ChewingSmokeStageResult",
     "CompoundingDiagnostics",
     "CountermodelImportConfig",
     "CountermodelImportResult",
@@ -181,6 +190,7 @@ __all__ = [
     "residual_outcomes",
     "route_instruction_report",
     "run_mathgraph_flywheel",
+    "run_chewing_smoke",
     "run_finite_countermodel_tasks",
     "summarize_task_outcomes",
     "Trace",

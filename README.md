@@ -495,6 +495,30 @@ The flywheel does not add mathematical authority. It composes verified memory,
 sound derived certificates, diagnostics, route policy, and scheduling pressure
 into `flywheel_report.json` and `flywheel_report.md`.
 
+## End-to-End Chewing Smoke
+
+The chewing smoke harness runs the finite-countermodel feedback loop on a small
+deterministic batch:
+
+```bash
+python scripts/run_chewing_smoke.py \
+  --equations-path /content/equations.txt \
+  --matrix-path /content/etp_matrix_full_best_bool.npy \
+  --traces-json /content/drive/MyDrive/MathGraphKernel/github_imports/repo_cli_v19_1_artifact_provenance_fixed/traces.json \
+  --out-dir /content/drive/MyDrive/MathGraphKernel/chewing_smoke_runs/smoke_001 \
+  --max-frontier-pairs 100 \
+  --top-k-schedule 50 \
+  --max-tasks 50 \
+  --max-countermodel-order 3
+```
+
+This is a correctness smoke, not a benchmark. It builds a frontier, schedules
+candidate pressure, builds a task queue, runs finite countermodel tasks,
+revalidates imported results, probes `KernelOracle`, then rebuilds derived
+certificates and outcome diagnostics. Scheduler scores are not truth, executor
+rows are not permanent memory until the importer accepts them, and unknown
+remains unknown.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

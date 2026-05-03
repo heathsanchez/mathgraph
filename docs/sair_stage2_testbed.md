@@ -500,6 +500,34 @@ by default, and imports only verified `FINITE_COUNTERMODEL` rows into
 parse failures, executor errors, and finite search failures are not imported as
 truth. Unknown remains unknown.
 
+## End-to-End Chewing Smoke
+
+The smoke harness validates the complete finite-countermodel feedback loop on a
+small deterministic batch:
+
+```bash
+python scripts/run_chewing_smoke.py \
+  --equations-path /content/equations.txt \
+  --matrix-path /content/etp_matrix_full_best_bool.npy \
+  --traces-json /content/drive/MyDrive/MathGraphKernel/github_imports/repo_cli_v19_1_artifact_provenance_fixed/traces.json \
+  --out-dir /content/drive/MyDrive/MathGraphKernel/chewing_smoke_runs/smoke_001 \
+  --max-frontier-pairs 100 \
+  --top-k-schedule 50 \
+  --max-tasks 50 \
+  --max-countermodel-order 3
+```
+
+This is a correctness smoke, not a benchmark. It writes the frontier, schedule,
+task queue, finite-countermodel executor results, import summary, oracle probe,
+derived refresh, outcome refresh, and a compact report. It proves that the
+finite-countermodel chewing path is wired end to end: executor results are
+revalidated before import, imported finite countermodels become primitive
+LawbookStore memory, and `KernelOracle` should answer imported pairs as
+`REFUTED` / `FINITE_COUNTERMODEL`.
+
+Scheduler scores are search pressure, not truth. Missing countermodels are not
+proofs, executor failures are not refutations, and unknown remains unknown.
+
 The flywheel writes:
 
 - `lawbook_store.sqlite`
