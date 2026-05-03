@@ -291,6 +291,23 @@ python scripts/plan_certificate_task.py \
   --out task.json
 ```
 
+## Running Planned Certificate Tasks Safely
+
+The task runner is a mock/safe execution shell. It does not prove or refute
+unknown claims; it records what would be attempted next and emits residuals for
+future constructors.
+
+```bash
+python scripts/run_certificate_tasks.py \
+  --tasks-json /external/path/planned_tasks.json \
+  --out /external/path/task_run_mock/
+```
+
+Directory mode writes `summary.json`, `outcomes.json`, `outcomes.jsonl`, and
+`residual.json`. Mock proof-template and countermodel-search outcomes remain
+`NAMED_OBSTRUCTION` until a real verified proof or finite countermodel
+certificate exists.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

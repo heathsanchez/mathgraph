@@ -28,6 +28,18 @@ from mathgraph.task_planner import (
     plan_certificate_task,
     plan_many_certificate_tasks,
 )
+from mathgraph.task_runner import (
+    TaskOutcome,
+    TaskRunSummary,
+    execute_certificate_task,
+    execute_many_certificate_tasks,
+    read_outcomes_json,
+    read_outcomes_jsonl,
+    residual_outcomes,
+    summarize_task_outcomes,
+    write_outcomes_json,
+    write_outcomes_jsonl,
+)
 from mathgraph.terms import Term, parse_term
 from mathgraph.trace import Trace
 
@@ -40,6 +52,8 @@ __all__ = [
     "Kernel",
     "JsonlLedger",
     "PairAdvice",
+    "TaskOutcome",
+    "TaskRunSummary",
     "canonical_json",
     "RouteInstruction",
     "build_all_route_instructions",
@@ -48,6 +62,8 @@ __all__ = [
     "advise_pair",
     "content_id",
     "extract_pair_features",
+    "execute_certificate_task",
+    "execute_many_certificate_tasks",
     "hash_certificate",
     "hash_file",
     "hash_trace",
@@ -60,7 +76,13 @@ __all__ = [
     "parse_term",
     "plan_certificate_task",
     "plan_many_certificate_tasks",
+    "read_outcomes_json",
+    "read_outcomes_jsonl",
+    "residual_outcomes",
     "route_instruction_report",
+    "summarize_task_outcomes",
     "Trace",
     "VerificationStatus",
+    "write_outcomes_json",
+    "write_outcomes_jsonl",
 ]

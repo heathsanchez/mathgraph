@@ -208,3 +208,28 @@ python scripts/plan_certificate_task.py \
   --target "x = x ◇ x" \
   --out task.json
 ```
+
+## Batch Task Runner and Residual Ledger
+
+The batch runner executes planned certificate tasks through conservative mock
+executors. This is the safe chewing loop:
+
+```text
+plan -> attempt shell -> ledger -> residual split -> constructor improvement
+```
+
+```bash
+python scripts/run_certificate_tasks.py \
+  --tasks-json /external/path/planned_tasks.json \
+  --out /external/path/task_run_mock/
+```
+
+The planner decides what kind of certificate work is appropriate. The runner
+records mock outcomes, warnings, and residuals. It does not call Lean, does not
+search finite magmas, and does not promote planned work to terminal proof or
+refutation.
+
+Failed finite search is not proof. Failed proof construction is not refutation.
+Residuals are the next source of learning: they identify blocked routes,
+missing evidence, and constructor improvements needed before any future
+promotion.
