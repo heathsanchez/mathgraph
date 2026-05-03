@@ -112,6 +112,24 @@ python scripts/import_sair_stage2_results.py \
   --sqlite-index /external/path/trace_index.sqlite
 ```
 
+## CertificateCorpus
+
+`CertificateCorpus` is a lightweight in-memory layer for replaying and querying
+imported terminal traces. It is not a database and does not verify new claims by
+itself.
+
+```python
+from mathgraph import CertificateCorpus, TerminalForm
+
+corpus = CertificateCorpus.from_json("/external/path/mathgraph_import/traces.json")
+print(corpus.summary())
+print(len(corpus.query(terminal_form=TerminalForm.FINITE_COUNTERMODEL)))
+print(corpus.get_by_claim_hash("claimabc123"))
+```
+
+The corpus can also load JSONL ledgers, query by source/target indices or route,
+and compute stable trace hashes plus a Merkle root for audit summaries.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

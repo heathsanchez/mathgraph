@@ -1,6 +1,7 @@
 """MathGraph: a lightweight kernel for verifiable mathematical claims."""
 
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
+from mathgraph.corpus import CertificateCorpus
 from mathgraph.equations import Equation, parse_equation
 from mathgraph.hashing import (
     canonical_json,
@@ -19,6 +20,7 @@ from mathgraph.trace import Trace
 
 __all__ = [
     "Certificate",
+    "CertificateCorpus",
     "Equation",
     "Kernel",
     "JsonlLedger",
