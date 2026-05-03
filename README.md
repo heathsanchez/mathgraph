@@ -374,6 +374,34 @@ Key metrics include `derived_per_primitive`, `corpus_density`, `route_yield`,
 `derivation_yield`, and `trust_level_counts`. This is the substrate for future
 router learning, dashboard/API metrics, and H-tilt scheduling.
 
+## Route Learner v1
+
+Route Learner v1 builds deterministic constructor/route policy cards from pair
+outcomes. It learns success basins from verified and derived evidence, then
+uses those basins to recommend future route pressure.
+
+```bash
+python scripts/build_route_policy.py \
+  --outcomes-jsonl /external/path/pair_outcomes.jsonl \
+  --out-policy-json /external/path/route_policy_cards.json \
+  --out-policy-jsonl /external/path/route_policy_cards.jsonl \
+  --out-stats /external/path/route_learner_stats.json \
+  --min-support 1
+```
+
+Optional recommendation:
+
+```bash
+python scripts/build_route_policy.py \
+  --outcomes-jsonl /external/path/pair_outcomes.jsonl \
+  --recommend-source "x = x ◇ y" \
+  --recommend-target "x = x ◇ x"
+```
+
+Route learner scores are search pressure, not truth. They feed future scheduler
+and planner priorities; they do not prove, refute, invoke Lean, search
+countermodels, or promote unknowns.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

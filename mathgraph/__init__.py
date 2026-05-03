@@ -37,6 +37,14 @@ from mathgraph.route_instructor import (
     build_route_instruction,
     route_instruction_report,
 )
+from mathgraph.route_learner import (
+    RouteBasinKey,
+    RouteLearner,
+    RouteLearnerStats,
+    RoutePolicyCard,
+    RouteRecommendation,
+    make_basin_key,
+)
 from mathgraph.task_planner import (
     CertificateTask,
     plan_certificate_task,
@@ -77,10 +85,15 @@ __all__ = [
     "OutcomeDatasetStats",
     "PairAdvice",
     "PairOutcome",
+    "RouteBasinKey",
+    "RouteLearner",
+    "RouteLearnerStats",
     "TaskOutcome",
     "TaskRunSummary",
     "canonical_json",
     "RouteInstruction",
+    "RoutePolicyCard",
+    "RouteRecommendation",
     "build_all_route_instructions",
     "build_route_instruction",
     "advise_many",
@@ -93,6 +106,7 @@ __all__ = [
     "hash_certificate",
     "hash_file",
     "hash_trace",
+    "make_basin_key",
     "sha256_hex",
     "sha256_json",
     "sha256_text",

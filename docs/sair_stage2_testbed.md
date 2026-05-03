@@ -334,3 +334,38 @@ Compounding diagnostics include:
 These metrics ask whether each episode made the next episode structurally
 better. They do not train a router yet, schedule H-tilt yet, invoke Lean, or
 search for countermodels.
+
+## Route Learner v1
+
+Route Learner v1 is the first explicit feedback edge:
+
+```text
+outcomes -> proposal weights
+```
+
+It builds deterministic policy cards from pair outcomes by grouping route
+examples into small, explainable basins: variable-count buckets, operation and
+length deltas, new target variables, rough skeleton agreement, and repeated
+variable patterns.
+
+```bash
+python scripts/build_route_policy.py \
+  --outcomes-jsonl /external/path/pair_outcomes.jsonl \
+  --out-policy-json /external/path/route_policy_cards.json \
+  --out-policy-jsonl /external/path/route_policy_cards.jsonl \
+  --out-stats /external/path/route_learner_stats.json \
+  --min-support 1
+```
+
+The learner can also emit a route recommendation for a new source/target pair:
+
+```bash
+python scripts/build_route_policy.py \
+  --outcomes-jsonl /external/path/pair_outcomes.jsonl \
+  --recommend-source "x = x ◇ y" \
+  --recommend-target "x = x ◇ x"
+```
+
+The recommendation is advisory scheduling evidence only. It does not prove or
+refute a claim, does not call Lean, does not search for countermodels, and does
+not promote unknowns. Route learner confidence is search pressure, not truth.
