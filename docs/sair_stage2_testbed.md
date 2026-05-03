@@ -405,3 +405,53 @@ terminal MathGraph outcome.
 
 Full spectral H-tilt with Perron eigenvectors and killed generator `K = L - V`
 remains future work.
+
+## End-to-End Flywheel Runner
+
+The flywheel CLI composes the current repository layers into a reproducible
+episode:
+
+```text
+traces.json
+-> LawbookStore
+-> Derived Certificates
+-> Pair Outcome Dataset
+-> Route Policy
+-> H-Tilt Schedule
+-> Flywheel Report
+```
+
+```bash
+python scripts/run_mathgraph_flywheel.py \
+  --traces-json /external/path/traces.json \
+  --out /external/path/mathgraph_flywheel \
+  --schedule-top-k 100
+```
+
+With candidate pairs:
+
+```bash
+python scripts/run_mathgraph_flywheel.py \
+  --traces-json /external/path/traces.json \
+  --out /external/path/mathgraph_flywheel \
+  --unknown-pairs-jsonl /external/path/candidate_pairs.jsonl \
+  --derived-limit 100000
+```
+
+The flywheel writes:
+
+- `lawbook_store.sqlite`
+- `derived_certificates.jsonl`
+- `derived_certificates_summary.json`
+- `pair_outcomes.jsonl`
+- `pair_outcome_diagnostics.json`
+- `route_policy.json`
+- `route_policy_stats.json`
+- `scheduled_tasks.jsonl`
+- `scheduled_tasks_summary.json`
+- `flywheel_report.json`
+- `flywheel_report.md`
+
+It does not call Lean, search countermodels, or promote scheduler/advisory
+rows. It only composes verified primitive traces, sound derived certificates,
+diagnostics, route policies, and H-tilt scheduling pressure.

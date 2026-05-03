@@ -18,6 +18,12 @@ from mathgraph.hashing import (
     sha256_json,
     sha256_text,
 )
+from mathgraph.flywheel import (
+    FlywheelConfig,
+    FlywheelResult,
+    FlywheelStageResult,
+    run_mathgraph_flywheel,
+)
 from mathgraph.htilt_scheduler import (
     HTiltScheduler,
     HTiltSchedulerStats,
@@ -82,6 +88,9 @@ __all__ = [
     "DerivedCertificateGenerator",
     "DerivedCertificateStats",
     "Equation",
+    "FlywheelConfig",
+    "FlywheelResult",
+    "FlywheelStageResult",
     "HTiltScheduler",
     "HTiltSchedulerStats",
     "HTiltScoreBreakdown",
@@ -132,6 +141,7 @@ __all__ = [
     "read_outcomes_jsonl",
     "residual_outcomes",
     "route_instruction_report",
+    "run_mathgraph_flywheel",
     "summarize_task_outcomes",
     "Trace",
     "VerificationStatus",

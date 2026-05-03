@@ -425,6 +425,36 @@ to try next; it does not prove, refute, invoke Lean, search countermodels, or
 promote unknowns. Full spectral H-tilt with killed generator `K = L - V`
 remains future work.
 
+## End-to-End Flywheel
+
+The flywheel runner composes the repo layers into one reproducible pipeline:
+
+```text
+traces.json -> LawbookStore -> Derived Certificates -> Outcome Dataset
+-> Route Policy -> H-Tilt Schedule -> Flywheel Report
+```
+
+```bash
+python scripts/run_mathgraph_flywheel.py \
+  --traces-json /external/path/traces.json \
+  --out /external/path/mathgraph_flywheel \
+  --schedule-top-k 100
+```
+
+Optional candidate scheduling:
+
+```bash
+python scripts/run_mathgraph_flywheel.py \
+  --traces-json /external/path/traces.json \
+  --out /external/path/mathgraph_flywheel \
+  --unknown-pairs-jsonl /external/path/candidate_pairs.jsonl \
+  --derived-limit 100000
+```
+
+The flywheel does not add mathematical authority. It composes verified memory,
+sound derived certificates, diagnostics, route policy, and scheduling pressure
+into `flywheel_report.json` and `flywheel_report.md`.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
