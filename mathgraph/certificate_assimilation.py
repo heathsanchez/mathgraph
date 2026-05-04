@@ -123,6 +123,13 @@ class CertificateAssimilationSummary:
     oracle_probe_success_count: int
     residual_count: int
     elapsed_sec: float
+    verified_count: int = 0
+    not_found_count: int = 0
+    verification_failed_count: int = 0
+    obstruction_candidate_count: int = 0
+    import_rate: float = 0.0
+    unique_import_rate: float = 0.0
+    duplicate_rate: float = 0.0
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     paths: dict[str, str] = field(default_factory=dict)
@@ -153,6 +160,13 @@ class CertificateAssimilationSummary:
             "oracle_probe_success_count": self.oracle_probe_success_count,
             "residual_count": self.residual_count,
             "elapsed_sec": self.elapsed_sec,
+            "verified_count": self.verified_count,
+            "not_found_count": self.not_found_count,
+            "verification_failed_count": self.verification_failed_count,
+            "obstruction_candidate_count": self.obstruction_candidate_count,
+            "import_rate": self.import_rate,
+            "unique_import_rate": self.unique_import_rate,
+            "duplicate_rate": self.duplicate_rate,
             "warnings": list(self.warnings),
             "errors": list(self.errors),
             "paths": dict(self.paths),
@@ -185,6 +199,13 @@ class CertificateAssimilationSummary:
             oracle_probe_success_count=int(data.get("oracle_probe_success_count", 0)),
             residual_count=int(data.get("residual_count", 0)),
             elapsed_sec=float(data.get("elapsed_sec", 0.0)),
+            verified_count=int(data.get("verified_count", 0)),
+            not_found_count=int(data.get("not_found_count", 0)),
+            verification_failed_count=int(data.get("verification_failed_count", 0)),
+            obstruction_candidate_count=int(data.get("obstruction_candidate_count", 0)),
+            import_rate=float(data.get("import_rate", 0.0)),
+            unique_import_rate=float(data.get("unique_import_rate", 0.0)),
+            duplicate_rate=float(data.get("duplicate_rate", 0.0)),
             warnings=[str(item) for item in data.get("warnings", [])],
             errors=[str(item) for item in data.get("errors", [])],
             paths=dict(data.get("paths", {})),
@@ -294,6 +315,7 @@ def run_certificate_assimilation(
     queue_rows: list[dict[str, Any]] = []
     finite_rows: list[dict[str, Any]] = []
     import_rows: list[dict[str, Any]] = []
+    task_outcomes: list[dict[str, Any]] = []
     oracle_probe = {"summary": {"oracle_probe_count": 0, "oracle_probe_success_count": 0}, "probes": []}
 
     try:
@@ -388,14 +410,25 @@ def run_certificate_assimilation(
                 _write_json(oracle_probe, paths["oracle_probe"])
 
         with logger.stage("assimilation_residual_export"):
-            residual_tasks = _residuals(queue_rows, finite_rows, import_rows, paths)
+            task_outcomes = _task_outcome_ledger(queue_rows, finite_rows, import_rows, paths)
+            _write_jsonl(task_outcomes, paths["task_outcome_ledger"])
+            duplicates = [row for row in task_outcomes if row.get("duplicate_status") == "duplicate"]
+            _write_jsonl(duplicates, paths["duplicate_certificates"])
+            residual_tasks = _residuals_from_outcomes(task_outcomes)
             _write_jsonl(residual_tasks, paths["residual_queue"])
+            obstruction_candidates = [
+                row for row in task_outcomes if row.get("task_kind") == "obstruction_analysis" or row.get("execution_status") in {"residual", "not_executed"}
+            ]
+            _write_jsonl(obstruction_candidates, paths["residual_obstruction_candidates"])
     finally:
         store.close()
 
     finite_summary = _read_json(paths["finite_summary"])
     import_summary = _read_json(paths["import_summary"]).get("summary", {})
     task_summary = _read_json(paths["task_queue_summary"])
+    episode_diagnostics = _episode_diagnostics(task_outcomes)
+    _write_json(episode_diagnostics, paths["episode_diagnostics_json"])
+    _write_diagnostics_markdown(episode_diagnostics, paths["episode_diagnostics_md"])
     summary = CertificateAssimilationSummary(
         ok=not errors,
         real_asset_mode=real_asset_mode,
@@ -421,6 +454,13 @@ def run_certificate_assimilation(
         oracle_probe_success_count=int(oracle_probe["summary"].get("oracle_probe_success_count", 0)),
         residual_count=len(residual_tasks),
         elapsed_sec=time.perf_counter() - started,
+        verified_count=episode_diagnostics["summary"]["verified_count"],
+        not_found_count=episode_diagnostics["summary"]["not_found_count"],
+        verification_failed_count=episode_diagnostics["summary"]["verification_failed_count"],
+        obstruction_candidate_count=episode_diagnostics["summary"]["obstruction_candidate_count"],
+        import_rate=episode_diagnostics["summary"]["import_rate"],
+        unique_import_rate=episode_diagnostics["summary"]["unique_import_rate"],
+        duplicate_rate=episode_diagnostics["summary"]["duplicate_rate"],
         warnings=[*warnings, *([] if new_certificates else ["No new primitive certificates were promoted."])],
         errors=errors,
         paths={key: str(value) for key, value in paths.items()},
@@ -513,6 +553,156 @@ def _residuals(
     return residuals
 
 
+def _task_outcome_ledger(
+    queue_rows: list[dict[str, Any]],
+    finite_rows: list[dict[str, Any]],
+    import_rows: list[dict[str, Any]],
+    paths: dict[str, Path],
+) -> list[dict[str, Any]]:
+    finite_by_task = {row.get("task_id"): row for row in finite_rows}
+    import_by_task = {row.get("task_id"): row for row in import_rows}
+    rows = []
+    for task in queue_rows:
+        task_id = task.get("task_id")
+        finite = finite_by_task.get(task_id)
+        imported = import_by_task.get(task_id)
+        execution_status = "not_executed"
+        verification_status = "NOT_VERIFIED"
+        import_status = "not_attempted"
+        duplicate_status = "not_duplicate"
+        certificate_id = None
+        reason = None
+        table_order = None
+        witness = None
+        elapsed_sec = 0.0
+        artifacts = {"task_queue": str(paths["task_queue"])}
+
+        if task.get("task_kind") != "finite_countermodel_search":
+            execution_status = "residual"
+            reason = "task_kind_not_supported_by_live_constructor"
+        elif finite is None:
+            execution_status = "missing_result"
+            reason = "finite executor did not emit a result"
+        else:
+            artifacts["finite_result"] = str(paths["finite_results"])
+            execution_status = str(finite.get("status") or "")
+            verification_status = str(finite.get("verification_status") or "NOT_VERIFIED")
+            certificate_id = finite.get("certificate_id")
+            countermodel = finite.get("countermodel") or {}
+            table_order = countermodel.get("order")
+            witness = finite.get("witness")
+            elapsed_sec = float(finite.get("elapsed_sec") or 0.0)
+            reason = finite.get("failure_reason")
+            if finite.get("status") == "finite_countermodel_found":
+                import_status = "missing_import_result"
+            if imported is not None:
+                artifacts["import_summary"] = str(paths["import_summary"])
+                import_status = str(imported.get("status") or "not_imported")
+                duplicate_status = "duplicate" if import_status == "skipped_duplicate" else "not_duplicate"
+                if imported.get("imported"):
+                    import_status = "imported"
+                    reason = None
+                elif imported.get("reason"):
+                    reason = imported.get("reason")
+
+        rows.append(
+            {
+                "task_id": task_id,
+                "source": task.get("source"),
+                "target": task.get("target"),
+                "source_idx": task.get("source_idx"),
+                "target_idx": task.get("target_idx"),
+                "route": task.get("route"),
+                "task_kind": task.get("task_kind"),
+                "terminal_goal": task.get("terminal_goal"),
+                "execution_status": execution_status,
+                "verification_status": verification_status,
+                "import_status": import_status,
+                "duplicate_status": duplicate_status,
+                "certificate_id": certificate_id,
+                "reason": reason,
+                "artifact_paths": artifacts,
+                "table_order": table_order,
+                "witness": witness,
+                "elapsed_sec": elapsed_sec,
+                "priority": task.get("priority"),
+            }
+        )
+    return rows
+
+
+def _residuals_from_outcomes(task_outcomes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    residuals = []
+    for row in task_outcomes:
+        if row.get("import_status") == "imported":
+            continue
+        residuals.append(
+            {
+                "task_id": row.get("task_id"),
+                "source": row.get("source"),
+                "target": row.get("target"),
+                "route": row.get("route"),
+                "task_kind": row.get("task_kind"),
+                "reason": row.get("reason") or row.get("execution_status") or row.get("import_status"),
+                "priority": row.get("priority"),
+                "source_idx": row.get("source_idx"),
+                "target_idx": row.get("target_idx"),
+                "upstream_file": row.get("artifact_paths", {}).get("finite_result") or row.get("artifact_paths", {}).get("task_queue"),
+            }
+        )
+    return residuals
+
+
+def _episode_diagnostics(task_outcomes: list[dict[str, Any]]) -> dict[str, Any]:
+    task_count = len(task_outcomes)
+    verified = [row for row in task_outcomes if row.get("verification_status") == "FINITE_VERIFIED"]
+    imported = [row for row in task_outcomes if row.get("import_status") == "imported"]
+    duplicates = [row for row in task_outcomes if row.get("duplicate_status") == "duplicate"]
+    not_found = [row for row in task_outcomes if row.get("execution_status") == "no_countermodel_found"]
+    failed = [row for row in task_outcomes if row.get("execution_status") in {"parse_failed", "error"} or row.get("import_status") == "skipped_revalidation_failed"]
+    residuals = [row for row in task_outcomes if row.get("import_status") != "imported"]
+    obstructions = [row for row in residuals if row.get("task_kind") == "obstruction_analysis" or row.get("execution_status") in {"residual", "no_countermodel_found"}]
+    by_route: dict[str, dict[str, int]] = {}
+    for row in task_outcomes:
+        route = str(row.get("route") or "unknown")
+        bucket = by_route.setdefault(route, {"task_count": 0, "verified_count": 0, "imported_count": 0, "duplicate_count": 0})
+        bucket["task_count"] += 1
+        if row.get("verification_status") == "FINITE_VERIFIED":
+            bucket["verified_count"] += 1
+        if row.get("import_status") == "imported":
+            bucket["imported_count"] += 1
+        if row.get("duplicate_status") == "duplicate":
+            bucket["duplicate_count"] += 1
+    best_route = None
+    if by_route:
+        best_route = sorted(
+            by_route.items(),
+            key=lambda item: (-(item[1]["imported_count"] / item[1]["task_count"] if item[1]["task_count"] else 0.0), item[0]),
+        )[0][0]
+    return {
+        "summary": {
+            "task_count": task_count,
+            "verified_count": len(verified),
+            "imported_count": len(imported),
+            "duplicate_count": len(duplicates),
+            "not_found_count": len(not_found),
+            "verification_failed_count": len(failed),
+            "residual_count": len(residuals),
+            "obstruction_candidate_count": len(obstructions),
+            "import_rate": len(imported) / len(verified) if verified else 0.0,
+            "unique_import_rate": len(imported) / task_count if task_count else 0.0,
+            "duplicate_rate": len(duplicates) / len(verified) if verified else 0.0,
+            "best_yield_route": best_route,
+        },
+        "new_certificates": imported,
+        "duplicate_certificates": duplicates,
+        "unresolved": residuals,
+        "try_next": sorted(residuals, key=lambda row: (-(float(row.get("priority") or 0.0)), str(row.get("task_id"))))[:10],
+        "route_yield": by_route,
+        "truth_boundary": TRUTH_BOUNDARY_NOTE,
+    }
+
+
 def _make_summary(
     *,
     ok: bool,
@@ -548,6 +738,13 @@ def _make_summary(
         oracle_probe_success_count=0,
         residual_count=0,
         elapsed_sec=time.perf_counter() - started,
+        verified_count=0,
+        not_found_count=0,
+        verification_failed_count=0,
+        obstruction_candidate_count=0,
+        import_rate=0.0,
+        unique_import_rate=0.0,
+        duplicate_rate=0.0,
         warnings=warnings,
         errors=errors,
         paths={key: str(value) for key, value in paths.items()},
@@ -613,6 +810,11 @@ def _paths(out_dir: Path) -> dict[str, Path]:
         "import_summary": out_dir / "countermodel_import_summary.json",
         "new_certificates": out_dir / "new_certificates.jsonl",
         "residual_queue": out_dir / "residual_queue.jsonl",
+        "task_outcome_ledger": out_dir / "task_outcome_ledger.jsonl",
+        "duplicate_certificates": out_dir / "duplicate_certificates.jsonl",
+        "residual_obstruction_candidates": out_dir / "residual_obstruction_candidates.jsonl",
+        "episode_diagnostics_json": out_dir / "assimilation_episode_diagnostics.json",
+        "episode_diagnostics_md": out_dir / "assimilation_episode_diagnostics.md",
         "oracle_probe": out_dir / "oracle_probe.json",
         "summary_json": out_dir / "certificate_assimilation_summary.json",
         "report_json": out_dir / "certificate_assimilation_report.json",
@@ -635,7 +837,9 @@ def _write_result_reports(result: CertificateAssimilationResult, paths: dict[str
         f"- outcome rows: `{summary.outcome_row_count_before}` -> `{summary.outcome_row_count_after}`",
         f"- frontier/scheduled/tasks: `{summary.frontier_count}` / `{summary.scheduled_count}` / `{summary.task_count}`",
         f"- finite verified/imported: `{summary.finite_executor_verified_count}` / `{summary.imported_count}`",
+        f"- duplicates: `{summary.duplicate_count}`",
         f"- residual count: `{summary.residual_count}`",
+        f"- import rate: `{summary.import_rate:.3f}`",
         f"- elapsed seconds: `{summary.elapsed_sec:.2f}`",
         "",
         "## Warnings",
@@ -651,6 +855,43 @@ def _write_result_reports(result: CertificateAssimilationResult, paths: dict[str
         TRUTH_BOUNDARY_NOTE,
     ]
     paths["report_md"].write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _write_diagnostics_markdown(diagnostics: dict[str, Any], path: Path) -> None:
+    summary = diagnostics.get("summary", {})
+    lines = [
+        "# Assimilation Episode Diagnostics",
+        "",
+        "## What New Certificates Were Added?",
+        "",
+        f"- imported_count: `{summary.get('imported_count', 0)}`",
+        "",
+        "## What Verified Results Were Duplicates?",
+        "",
+        f"- duplicate_count: `{summary.get('duplicate_count', 0)}`",
+        "",
+        "## What Remains Unresolved?",
+        "",
+        f"- residual_count: `{summary.get('residual_count', 0)}`",
+        f"- not_found_count: `{summary.get('not_found_count', 0)}`",
+        f"- verification_failed_count: `{summary.get('verification_failed_count', 0)}`",
+        "",
+        "## Which Residuals Should Be Tried Next?",
+        "",
+        *(
+            f"- `{row.get('task_id')}` {row.get('route')} priority={row.get('priority')} reason={row.get('reason')}"
+            for row in diagnostics.get("try_next", [])[:5]
+        ),
+        "",
+        "## Which Route/Constructor Had The Best Yield?",
+        "",
+        f"- best_yield_route: `{summary.get('best_yield_route')}`",
+        "",
+        "## Truth Boundary",
+        "",
+        TRUTH_BOUNDARY_NOTE,
+    ]
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def _read_json(path: str | Path) -> dict[str, Any]:

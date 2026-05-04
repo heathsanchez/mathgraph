@@ -8,6 +8,9 @@ from mathgraph.certificate_assimilation import (
     CertificateAssimilationConfig,
     CertificateAssimilationResult,
     CertificateAssimilationSummary,
+    _episode_diagnostics,
+    _task_outcome_ledger,
+    _write_diagnostics_markdown,
     run_certificate_assimilation,
 )
 
@@ -114,6 +117,63 @@ def test_new_certificates_only_contains_imported_revalidated_rows(tmp_path: Path
     assert result.summary.new_primitive_count == result.summary.imported_count
 
 
+def test_task_outcome_ledger_counts_match_summary(tmp_path: Path) -> None:
+    result = run_certificate_assimilation(_config(tmp_path))
+    ledger = [
+        json.loads(line)
+        for line in Path(result.summary.paths["task_outcome_ledger"]).read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    assert ledger
+    assert result.summary.task_count == len(ledger)
+    assert result.summary.verified_count == sum(1 for row in ledger if row["verification_status"] == "FINITE_VERIFIED")
+    assert result.summary.imported_count == sum(1 for row in ledger if row["import_status"] == "imported")
+    assert result.summary.not_found_count == sum(1 for row in ledger if row["execution_status"] == "no_countermodel_found")
+
+
+def test_duplicate_verified_countermodel_recorded_as_duplicate(tmp_path: Path) -> None:
+    paths = {
+        "task_queue": tmp_path / "task_queue.jsonl",
+        "finite_results": tmp_path / "finite_results.jsonl",
+        "import_summary": tmp_path / "countermodel_import_summary.json",
+    }
+    task = {
+        "task_id": "task_1",
+        "source": "x = x",
+        "target": "x = y",
+        "source_idx": 0,
+        "target_idx": 1,
+        "route": "finite_countermodel",
+        "task_kind": "finite_countermodel_search",
+        "terminal_goal": "FINITE_COUNTERMODEL",
+        "priority": 1.0,
+    }
+    finite = {
+        **task,
+        "status": "finite_countermodel_found",
+        "verification_status": "FINITE_VERIFIED",
+        "certificate_id": "cert_1",
+        "countermodel": {"order": 2, "table": [[0, 0], [1, 1]], "table_hash": "h", "family": "left_projection"},
+        "witness": {"assignment": {"x": 0, "y": 1}},
+        "elapsed_sec": 0.01,
+    }
+    imported = {
+        **task,
+        "status": "skipped_duplicate",
+        "imported": False,
+        "certificate_id": "cert_1",
+        "reason": "exact primitive pair already exists",
+    }
+    ledger = _task_outcome_ledger([task], [finite], [imported], paths)
+    assert ledger[0]["verification_status"] == "FINITE_VERIFIED"
+    assert ledger[0]["duplicate_status"] == "duplicate"
+    assert ledger[0]["import_status"] == "skipped_duplicate"
+    diagnostics = _episode_diagnostics(ledger)
+    assert diagnostics["summary"]["verified_count"] == 1
+    assert diagnostics["summary"]["duplicate_count"] == 1
+    assert diagnostics["summary"]["imported_count"] == 0
+
+
 def test_residual_queue_preserves_unpromoted_work(tmp_path: Path) -> None:
     traces, equations = _write_fixture_assets(tmp_path)
     equations.write_text("x = x\n", encoding="utf-8")
@@ -134,6 +194,12 @@ def test_residual_queue_preserves_unpromoted_work(tmp_path: Path) -> None:
     assert residual_path.exists()
     assert result.summary.imported_count == 0
     assert "No new primitive certificates were promoted." in result.summary.warnings
+    residual_rows = [
+        json.loads(line)
+        for line in Path(result.summary.paths["residual_queue"]).read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    assert residual_rows or result.summary.task_count == 0
 
 
 def test_progress_jsonl_contains_stage_events(tmp_path: Path) -> None:
@@ -145,6 +211,27 @@ def test_progress_jsonl_contains_stage_events(tmp_path: Path) -> None:
     ]
     assert any(event["event"] == "stage_start" for event in events)
     assert any(event["event"] == "stage_end" for event in events)
+
+
+def test_diagnostics_report_contains_imported_duplicate_residual_sections(tmp_path: Path) -> None:
+    diagnostics = {
+        "summary": {
+            "imported_count": 1,
+            "duplicate_count": 1,
+            "residual_count": 1,
+            "not_found_count": 1,
+            "verification_failed_count": 0,
+            "best_yield_route": "finite_countermodel",
+        },
+        "try_next": [{"task_id": "t", "route": "finite_countermodel", "priority": 0.5, "reason": "no_countermodel_found"}],
+    }
+    report = tmp_path / "diagnostics.md"
+    _write_diagnostics_markdown(diagnostics, report)
+    text = report.read_text(encoding="utf-8")
+    assert "What New Certificates Were Added" in text
+    assert "What Verified Results Were Duplicates" in text
+    assert "What Remains Unresolved" in text
+    assert "Which Residuals Should Be Tried Next" in text
 
 
 def test_missing_assets_fail_clearly_unless_synthetic_fallback(tmp_path: Path) -> None:
