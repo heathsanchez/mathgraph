@@ -601,6 +601,25 @@ revalidated terminal certificates; advisory rows, scheduler scores, finite
 search misses, unknowns, and obstruction-analysis-only rows remain residual
 work.
 
+## Certificate Assimilation To Episode Learning
+
+Episode learning turns one or more assimilation run directories into reusable
+route and constructor diagnostics:
+
+```bash
+python scripts/learn_from_assimilation_episode.py \
+  --episode-dir /tmp/mathgraph_assimilation_episode \
+  --out-dir /tmp/mathgraph_episode_learning \
+  --progress
+```
+
+It reads the task outcome ledger, new certificates, duplicates, residual
+obstruction candidates, and diagnostics reports. It writes route yields,
+constructor yields, residual basin rows, duplicate motifs, new certificate
+motifs, next-run recommendations, and a Markdown report. The learning layer is
+diagnostic only: duplicates, residuals, advisory rows, and finite search misses
+are never promoted.
+
 For CI/local validation of the whole repo-native pipeline:
 
 ```bash

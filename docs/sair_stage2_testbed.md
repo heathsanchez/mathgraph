@@ -632,6 +632,31 @@ Lean proof construction is still pending. Scheduler/advisory/unknown rows,
 bounded finite-search misses, and obstruction-analysis-only rows are never
 promoted.
 
+## Certificate Assimilation To Episode Learning
+
+Each assimilation episode can be converted into reusable learning data:
+
+```bash
+python scripts/learn_from_assimilation_episode.py \
+  --episode-dir /tmp/mathgraph_assimilation_episode \
+  --out-dir /tmp/mathgraph_episode_learning \
+  --progress
+```
+
+The learner reads:
+
+- `certificate_assimilation_summary.json`
+- `task_outcome_ledger.jsonl`
+- `new_certificates.jsonl`
+- `duplicate_certificates.jsonl`
+- `residual_obstruction_candidates.jsonl`
+- `assimilation_episode_diagnostics.json`
+
+It writes route-yield stats, constructor-yield stats, residual basin rows,
+duplicate motifs, new certificate motifs, and next-run recommendations. These
+recommendations are search and scheduling guidance only. They do not promote
+duplicates, residuals, advisory rows, or finite search misses.
+
 For a repo-native local/CI validation wrapper:
 
 ```bash

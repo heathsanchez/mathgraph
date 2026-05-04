@@ -31,6 +31,15 @@ from mathgraph.countermodel_importer import (
 )
 from mathgraph.corpus import CertificateCorpus
 from mathgraph.equations import Equation, parse_equation
+from mathgraph.episode_learning import (
+    AssimilationLearningRecord,
+    ConstructorYieldStats,
+    EpisodeLearningConfig,
+    EpisodeLearningResult,
+    ResidualBasinStats,
+    RouteYieldStats,
+    learn_from_assimilation_episodes,
+)
 from mathgraph.derived_certificates import (
     DerivedCertificate,
     DerivedCertificateGenerator,
@@ -137,6 +146,7 @@ __all__ = [
     "AssetDiscoveryResult",
     "AssetMaterializationConfig",
     "AssetMaterializationResult",
+    "AssimilationLearningRecord",
     "ChewingSmokeConfig",
     "ChewingSmokeResult",
     "ChewingSmokeStageResult",
@@ -148,6 +158,8 @@ __all__ = [
     "DerivedCertificateGenerator",
     "DerivedCertificateStats",
     "Equation",
+    "EpisodeLearningConfig",
+    "EpisodeLearningResult",
     "FiniteCountermodelConfig",
     "FiniteCountermodelResult",
     "FiniteCountermodelRunResult",
@@ -174,6 +186,9 @@ __all__ = [
     "RouteBasinKey",
     "RouteLearner",
     "RouteLearnerStats",
+    "RouteYieldStats",
+    "ConstructorYieldStats",
+    "ResidualBasinStats",
     "TaskOutcome",
     "TaskQueueConfig",
     "TaskQueueItem",
@@ -201,6 +216,7 @@ __all__ = [
     "hash_file",
     "hash_trace",
     "import_finite_countermodel_results",
+    "learn_from_assimilation_episodes",
     "make_basin_key",
     "materialize_mathgraph_assets",
     "sha256_hex",
