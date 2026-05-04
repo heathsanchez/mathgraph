@@ -94,6 +94,7 @@ def main(argv: list[str] | None = None) -> int:
         "--out-dir",
         str(discovery_dir),
     ]
+    _append_progress_flags(discovery_cmd, args, out_dir / "progress" / "asset_discovery.jsonl")
     _append_optional(discovery_cmd, "--traces-json", args.traces_json)
     _append_optional(discovery_cmd, "--equations-path", args.equations_path)
     _append_optional(discovery_cmd, "--matrix-path", args.matrix_path)
@@ -119,6 +120,7 @@ def main(argv: list[str] | None = None) -> int:
         "--random-tables-per-order",
         str(args.random_tables_per_order),
     ]
+    _append_progress_flags(real_cmd, args, out_dir / "progress" / "real_chewing_smoke.jsonl")
     _append_optional(real_cmd, "--traces-json", args.traces_json)
     _append_optional(real_cmd, "--equations-path", args.equations_path)
     _append_optional(real_cmd, "--matrix-path", args.matrix_path)
@@ -153,6 +155,7 @@ def main(argv: list[str] | None = None) -> int:
             str(args.random_tables_per_order),
             "--allow-synthetic-fallback",
         ]
+        _append_progress_flags(fallback_cmd, args, out_dir / "progress" / "fallback_chewing_smoke.jsonl")
         fallback = _run_stage("fallback_chewing_smoke", fallback_cmd, repo_root, logs_dir, failed, progress, args, allow_fail=True)
         fallback_report_path = fallback_dir / "real_chewing_smoke_report.json"
         fallback_report = _read_json(fallback_report_path)
@@ -244,24 +247,27 @@ def _run_stage(
     args: argparse.Namespace,
     allow_fail: bool = False,
 ) -> subprocess.CompletedProcess[str]:
-    if args.progress:
-        result = stream_subprocess(
-            cmd,
-            cwd=cwd,
-            log_path=logs_dir / f"{name}.stdout.txt",
-            timeout_sec=args.timeout_sec,
-            heartbeat_sec=args.heartbeat_sec,
-            logger=progress,
-            stage=name,
+    result = stream_subprocess(
+        cmd,
+        cwd=cwd,
+        log_path=logs_dir / f"{name}.stdout.txt",
+        timeout_sec=args.timeout_sec,
+        heartbeat_sec=args.heartbeat_sec,
+        logger=progress,
+        stage=name,
+        quiet=args.quiet,
+    )
+    (logs_dir / f"{name}.stderr.txt").write_text("", encoding="utf-8")
+    proc = subprocess.CompletedProcess(cmd, int(result["returncode"]), "", "")
+    if result.get("timed_out"):
+        failed.append(
+            {
+                "stage": name,
+                "returncode": proc.returncode,
+                "reason": "timeout",
+                "last_50_lines": result.get("last_50_lines", []),
+            }
         )
-        (logs_dir / f"{name}.stderr.txt").write_text("", encoding="utf-8")
-        proc = subprocess.CompletedProcess(cmd, int(result["returncode"]), "", "")
-        if proc.returncode != 0 and not allow_fail:
-            failed.append({"stage": name, "returncode": proc.returncode, "reason": "subprocess failed"})
-        return proc
-    proc = subprocess.run(cmd, cwd=str(cwd), text=True, capture_output=True, check=False)
-    (logs_dir / f"{name}.stdout.txt").write_text(proc.stdout, encoding="utf-8")
-    (logs_dir / f"{name}.stderr.txt").write_text(proc.stderr, encoding="utf-8")
     if proc.returncode != 0 and not allow_fail:
         failed.append({"stage": name, "returncode": proc.returncode, "reason": "subprocess failed"})
     return proc
@@ -270,6 +276,10 @@ def _run_stage(
 def _append_optional(cmd: list[str], flag: str, value: str | None) -> None:
     if value:
         cmd.extend([flag, value])
+
+
+def _append_progress_flags(cmd: list[str], args: argparse.Namespace, progress_jsonl: Path) -> None:
+    cmd.extend(["--progress", "--heartbeat-sec", str(args.heartbeat_sec), "--progress-jsonl", str(progress_jsonl)])
 
 
 def _read_json(path: Path) -> dict[str, Any]:

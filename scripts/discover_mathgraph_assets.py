@@ -16,6 +16,7 @@ from mathgraph.asset_discovery import (  # noqa: E402
     discover_mathgraph_assets,
     materialize_assets,
 )
+from mathgraph.progress import ProgressLogger  # noqa: E402
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -29,7 +30,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--traces-json", default=None)
     parser.add_argument("--equations-path", default=None)
     parser.add_argument("--matrix-path", default=None)
+    parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--heartbeat-sec", type=float, default=10.0)
+    parser.add_argument("--progress-jsonl", default=None)
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
+    progress = ProgressLogger("discover_mathgraph_assets", args.progress_jsonl, args.heartbeat_sec, args.progress, args.quiet)
 
     if args.copy_assets and args.symlink_assets:
         parser.error("--copy-assets and --symlink-assets are mutually exclusive")
@@ -63,13 +69,14 @@ def main(argv: list[str] | None = None) -> int:
             max_depth=config.max_depth,
             max_files=config.max_files,
         )
-    result = discover_mathgraph_assets(config)
-    materialized = materialize_assets(
-        result,
-        out_dir,
-        copy=args.copy_assets,
-        symlink=args.symlink_assets,
-    )
+    with progress.stage("asset_discovery", output=str(out_dir)):
+        result = discover_mathgraph_assets(config)
+        materialized = materialize_assets(
+            result,
+            out_dir,
+            copy=args.copy_assets,
+            symlink=args.symlink_assets,
+        )
     payload = {
         **result.to_dict(),
         "materialized": materialized,
@@ -80,10 +87,11 @@ def main(argv: list[str] | None = None) -> int:
     }
     _write_json(payload, out_dir / "asset_discovery_report.json")
     _write_md(payload, out_dir / "asset_discovery_report.md")
-    if args.json_only:
-        print(json.dumps(result.summary, sort_keys=True))
-    else:
-        print(json.dumps(payload, indent=2, sort_keys=True))
+    if not args.quiet:
+        if args.json_only:
+            print(json.dumps(result.summary, sort_keys=True))
+        else:
+            print(json.dumps(payload, indent=2, sort_keys=True))
     return 0
 
 

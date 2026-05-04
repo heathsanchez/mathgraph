@@ -695,6 +695,17 @@ kept with run artifacts under the output directory for later diagnosis.
 Progress is not part of the truth layer. It records what is happening; it does
 not verify, refute, or promote any claim.
 
+For a live view of a long run:
+
+```bash
+tail -f /tmp/mathgraph_real_smoke/progress.jsonl
+tail -f /tmp/mathgraph_validate_real_assets/logs/real_chewing_smoke.stdout.txt
+```
+
+Timeouts are reported as `stage_error` events. The validator also records the
+last 50 streamed lines in `validation_summary.json` so a stuck stage is
+diagnosable without pretending any scheduler output is a certificate.
+
 The flywheel writes:
 
 - `lawbook_store.sqlite`

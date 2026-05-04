@@ -665,6 +665,33 @@ progress, done, failed, elapsed seconds, counts, and rates where available.
 Progress logging is diagnostic only; it never promotes a terminal certificate
 or changes verification semantics.
 
+### How To Debug Long Runs
+
+For Colab, CI, or remote shells, give every long command a JSONL progress file
+and keep a second terminal on the live log:
+
+```bash
+tail -f /tmp/mathgraph_real_smoke/progress.jsonl
+```
+
+The repo-native validator forwards progress flags to child commands and stores
+their streamed output under `logs/`:
+
+```bash
+python scripts/validate_real_asset_pipeline.py \
+  --repo-root . \
+  --out-dir /tmp/mathgraph_validate_real_assets \
+  --allow-missing-assets \
+  --allow-synthetic-fallback \
+  --progress \
+  --heartbeat-sec 10
+
+tail -f /tmp/mathgraph_validate_real_assets/logs/real_chewing_smoke.stdout.txt
+```
+
+If a stage times out, the validator records a `stage_error` event and includes
+the last 50 streamed lines in `validation_summary.json`.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

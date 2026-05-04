@@ -1,6 +1,7 @@
 import json
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import pytest
@@ -68,4 +69,15 @@ def test_build_lawbook_store_cli_progress_jsonl(tmp_path: Path) -> None:
     assert completed.returncode == 0, completed.stderr
     events = [json.loads(line) for line in progress.read_text(encoding="utf-8").splitlines()]
     assert any(event["event"] == "stage_start" for event in events)
-    assert any(event["event"] == "stage_done" for event in events)
+    assert any(event["event"] == "stage_end" for event in events)
+
+
+def test_slow_stage_emits_heartbeat_before_completion(tmp_path: Path) -> None:
+    log = tmp_path / "progress.jsonl"
+    logger = ProgressLogger("slow", log_jsonl=log, heartbeat_sec=0.05, enabled=False)
+    with logger.stage("sleepy"):
+        time.sleep(0.14)
+    events = [json.loads(line) for line in log.read_text(encoding="utf-8").splitlines()]
+    heartbeat_index = next(i for i, event in enumerate(events) if event["event"] == "heartbeat")
+    end_index = next(i for i, event in enumerate(events) if event["event"] == "stage_end")
+    assert heartbeat_index < end_index
