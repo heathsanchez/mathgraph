@@ -19,6 +19,7 @@ from mathgraph import (
 )
 from mathgraph.frontier_builder import score_frontier_pair
 from mathgraph.htilt_scheduler import SchedulerInputPair
+from mathgraph.progress import ProgressLogger
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -168,3 +169,34 @@ def test_cli_smoke(tmp_path: Path) -> None:
     assert payload["candidate_count"] == 4
     assert out.exists()
     assert out.with_name("frontier_summary.json").exists()
+
+
+def test_small_max_candidates_does_not_scan_full_pair_space(tmp_path: Path) -> None:
+    equations = tmp_path / "equations.txt"
+    out = tmp_path / "frontier.jsonl"
+    equations.write_text("\n".join(f"x{i} = x{i}" for i in range(80)) + "\n", encoding="utf-8")
+    result = build_candidate_frontier(
+        FrontierBuilderConfig(str(equations), str(out), max_candidates=20, frontier_mode="small_sample")
+    )
+    assert result.summary["candidate_count"] == 20
+    assert result.summary["pair_candidates_considered"] < 80 * 80
+    assert result.summary["scan_limit"] <= 1000
+
+
+def test_frontier_progress_events_include_counts(tmp_path: Path) -> None:
+    equations = tmp_path / "equations.txt"
+    out = tmp_path / "frontier.jsonl"
+    progress_path = tmp_path / "progress.jsonl"
+    _write_equations(equations)
+    logger = ProgressLogger("frontier_test", log_jsonl=progress_path, heartbeat_sec=100.0)
+    build_candidate_frontier(
+        FrontierBuilderConfig(str(equations), str(out), max_candidates=2, frontier_mode="small_sample"),
+        progress=logger,
+    )
+    events = [json.loads(line) for line in progress_path.read_text(encoding="utf-8").splitlines()]
+    progress_events = [event for event in events if event["event"] == "frontier_progress"]
+    assert progress_events
+    last = progress_events[-1]
+    assert "pair_candidates_considered" in last
+    assert "emitted_frontier_rows" in last
+    assert "known_skipped" in last

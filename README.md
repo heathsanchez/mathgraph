@@ -550,6 +550,8 @@ Then run the real chewing smoke:
 python scripts/run_real_chewing_smoke.py \
   --out-dir /tmp/mathgraph_real_smoke \
   --max-frontier-pairs 250 \
+  --frontier-mode small_sample \
+  --frontier-scan-limit 5000 \
   --top-k-schedule 100 \
   --max-tasks 100
 ```
@@ -560,6 +562,11 @@ The real smoke composes raw assets into frontier possibilities, H-Tilt search
 pressure, task queue rows, finite verification, conservative promotion, and
 oracle memory. Scheduler rows are not truth, and finite imports are revalidated
 before they become primitive `LawbookStore` certificates.
+
+For fast diagnostics, use `--frontier-mode small_sample` and
+`--frontier-scan-limit N`; this bounds candidate-pair scanning before schedule
+construction. To bypass frontier generation entirely, pass a tiny scheduler
+compatible file with `--candidate-pairs-jsonl /path/to/candidates.jsonl`.
 
 For CI/local validation of the whole repo-native pipeline:
 

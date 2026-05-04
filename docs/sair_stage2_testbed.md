@@ -568,6 +568,8 @@ Then run the real chewing smoke:
 python scripts/run_real_chewing_smoke.py \
   --out-dir /tmp/mathgraph_real_smoke \
   --max-frontier-pairs 250 \
+  --frontier-mode small_sample \
+  --frontier-scan-limit 5000 \
   --top-k-schedule 100 \
   --max-tasks 100
 ```
@@ -583,6 +585,12 @@ The real smoke demonstrates:
 raw assets -> frontier possibilities -> H-Tilt search pressure -> task queue
 -> finite verifier -> conservative promotion -> oracle memory
 ```
+
+Use `--frontier-mode small_sample` for smoke tests, `--frontier-mode
+matrix_false` when the matrix is trusted as a source of unverified false
+candidates, and `--candidate-pairs-jsonl` when a tiny hand-built frontier should
+bypass generation. These options only affect search pressure; they do not
+promote claims.
 
 If assets are missing, the report records `missing_assets` and exits without
 pretending the run succeeded. Scheduler rows are search pressure only, finite

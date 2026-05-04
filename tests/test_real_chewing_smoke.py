@@ -62,12 +62,38 @@ def test_missing_assets_report_ok_false_without_crash(tmp_path: Path) -> None:
 
 
 def test_real_chewing_tiny_assets_runs_store_frontier_schedule(tmp_path: Path) -> None:
-    report = run_real_chewing_smoke(_args(tmp_path))
+    report = run_real_chewing_smoke(_args(tmp_path, frontier_scan_limit=20))
     assert report["summary"]["primitive_count_before"] >= 1
     assert report["summary"]["frontier_count"] > 0
     assert report["summary"]["scheduled_count"] > 0
     assert report["summary"]["task_count"] > 0
     assert Path(report["paths"]["report_json"]).exists()
+
+
+def test_real_chewing_can_bypass_frontier_with_candidate_pairs(tmp_path: Path) -> None:
+    candidate_pairs = tmp_path / "pairs.jsonl"
+    candidate_pairs.write_text(
+        json.dumps(
+            {
+                "source": "x = x",
+                "target": "x = y",
+                "source_idx": 0,
+                "target_idx": 1,
+                "label": "tiny_pair",
+                "candidate_origin": "test_fixture",
+                "frontier_score": 0.8,
+                "features": {},
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    report = run_real_chewing_smoke(
+        _args(tmp_path, candidate_pairs_jsonl=str(candidate_pairs), skip_frontier_build=False)
+    )
+    assert report["summary"]["frontier_count"] == 1
+    frontier_rows = Path(report["paths"]["frontier"]).read_text(encoding="utf-8").splitlines()
+    assert len(frontier_rows) == 1
 
 
 def test_no_overclaiming_when_no_imported_countermodels(tmp_path: Path) -> None:
@@ -108,6 +134,8 @@ def test_cli_help_works() -> None:
     )
     assert completed.returncode == 0
     assert "--out-dir" in completed.stdout
+    assert "--frontier-mode" in completed.stdout
+    assert "--candidate-pairs-jsonl" in completed.stdout
 
 
 def test_cli_missing_assets_writes_report(tmp_path: Path) -> None:

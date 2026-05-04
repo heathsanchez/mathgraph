@@ -27,6 +27,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--no-skip-known", action="store_true")
     parser.add_argument("--source-limit", type=int, default=None)
     parser.add_argument("--target-limit", type=int, default=None)
+    parser.add_argument("--frontier-mode", choices=["small_sample", "matrix_false", "structural", "mixed"], default="small_sample")
+    parser.add_argument("--frontier-scan-limit", type=int, default=None)
     parser.add_argument("--random-seed", type=int, default=42)
     parser.add_argument("--progress", action="store_true")
     parser.add_argument("--heartbeat-sec", type=float, default=10.0)
@@ -49,7 +51,10 @@ def main(argv: list[str] | None = None) -> int:
                 include_matrix_true=args.include_matrix_true,
                 skip_known=not args.no_skip_known,
                 random_seed=args.random_seed,
-            )
+                frontier_mode=args.frontier_mode,
+                frontier_scan_limit=args.frontier_scan_limit,
+            ),
+            progress=progress,
         )
     if not args.quiet:
         print(json.dumps(result.to_dict()["summary"], indent=2, sort_keys=True))

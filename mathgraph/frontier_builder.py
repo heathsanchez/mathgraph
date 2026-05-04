@@ -14,6 +14,7 @@ from mathgraph.hashing import content_id
 from mathgraph.kernel_oracle import KernelOracle
 from mathgraph.lawbook_store import LawbookStore
 from mathgraph.outcome_dataset import extract_pair_features
+from mathgraph.progress import ProgressLogger
 
 
 @dataclass(frozen=True)
@@ -73,6 +74,8 @@ class FrontierBuilderConfig:
     include_unknown_matrix_missing: bool = True
     skip_known: bool = True
     random_seed: int = 42
+    frontier_mode: str = "small_sample"
+    frontier_scan_limit: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -88,6 +91,8 @@ class FrontierBuilderConfig:
             "include_unknown_matrix_missing": self.include_unknown_matrix_missing,
             "skip_known": self.skip_known,
             "random_seed": self.random_seed,
+            "frontier_mode": self.frontier_mode,
+            "frontier_scan_limit": self.frontier_scan_limit,
         }
 
     @classmethod
@@ -105,6 +110,8 @@ class FrontierBuilderConfig:
             include_unknown_matrix_missing=bool(data.get("include_unknown_matrix_missing", True)),
             skip_known=bool(data.get("skip_known", True)),
             random_seed=int(data.get("random_seed", 42)),
+            frontier_mode=str(data.get("frontier_mode", "small_sample")),
+            frontier_scan_limit=_optional_int(data.get("frontier_scan_limit")),
         )
 
 
@@ -132,8 +139,11 @@ class FrontierBuilderResult:
 
 def build_candidate_frontier(
     config: FrontierBuilderConfig | dict[str, Any],
+    progress: ProgressLogger | None = None,
 ) -> FrontierBuilderResult:
     config = config if isinstance(config, FrontierBuilderConfig) else FrontierBuilderConfig.from_dict(config)
+    if config.frontier_mode not in {"small_sample", "matrix_false", "structural", "mixed"}:
+        raise ValueError(f"unknown frontier_mode: {config.frontier_mode}")
     equations = load_equations(config.equations_path)
     source_indices = list(range(len(equations)))[: config.source_limit]
     target_indices = list(range(len(equations)))[: config.target_limit]
@@ -151,17 +161,30 @@ def build_candidate_frontier(
     oracle = KernelOracle(store) if store is not None else None
     skipped_known = 0
     attempted = 0
+    emitted = 0
+    pairs_considered = 0
+    equations_scanned: set[int] = set()
     candidates: dict[tuple[int, int, str], FrontierCandidate] = {}
     rng = random.Random(config.random_seed)
+    total_pairs = len(source_indices) * len(target_indices)
+    scan_limit = _effective_scan_limit(config, total_pairs)
+    every = max(1, min(250, max(config.max_candidates, 1)))
 
     try:
-        pair_order = [(i, j) for i in source_indices for j in target_indices]
-        rng.shuffle(pair_order)
-        for i, j in pair_order:
+        for i, j in _iter_pair_order(source_indices, target_indices, rng, config.frontier_mode):
+            if pairs_considered >= scan_limit:
+                warnings.append(f"frontier scan stopped at scan_limit={scan_limit}")
+                break
+            if len(candidates) >= config.max_candidates:
+                break
+            pairs_considered += 1
+            equations_scanned.update((i, j))
             if i >= len(equations) or j >= len(equations):
                 continue
             labels = _labels_for_pair(matrix, i, j, config)
             for label, origin in labels:
+                if len(candidates) >= config.max_candidates:
+                    break
                 attempted += 1
                 if oracle is not None and config.skip_known:
                     answer = oracle.query(equations[i], equations[j])
@@ -175,7 +198,21 @@ def build_candidate_frontier(
                     label=label,
                     origin=origin,
                 )
-                candidates[(i, j, label)] = candidate
+                key = (i, j, label)
+                if key not in candidates:
+                    candidates[key] = candidate
+                    emitted = len(candidates)
+            if progress and (pairs_considered % every == 0 or emitted >= config.max_candidates):
+                progress.event(
+                    "frontier_progress",
+                    "frontier_scan",
+                    equations_scanned=len(equations_scanned),
+                    pair_candidates_considered=pairs_considered,
+                    known_skipped=skipped_known,
+                    emitted_frontier_rows=emitted,
+                    scan_limit=scan_limit,
+                    max_candidates=config.max_candidates,
+                )
 
         selected = sorted(
             candidates.values(),
@@ -187,6 +224,11 @@ def build_candidate_frontier(
             selected,
             skipped_known=skipped_known,
             attempted_pair_count=attempted,
+            pair_candidates_considered=pairs_considered,
+            equations_scanned=len(equations_scanned),
+            emitted_frontier_rows=len(selected),
+            scan_limit=scan_limit,
+            frontier_mode=config.frontier_mode,
             equations_count=len(equations),
             matrix_loaded=matrix_loaded,
             store_loaded=store is not None,
@@ -233,16 +275,46 @@ def score_frontier_pair(source: str, target: str, label: str = "structural_unkno
 
 def _labels_for_pair(matrix: Any, i: int, j: int, config: FrontierBuilderConfig) -> list[tuple[str, str]]:
     labels: list[tuple[str, str]] = []
-    if matrix is not None:
+    if matrix is not None and config.frontier_mode in {"small_sample", "matrix_false", "mixed"}:
         if i < matrix.shape[0] and j < matrix.shape[1]:
             value = bool(matrix[i, j])
             if not value and config.include_matrix_false:
                 labels.append(("matrix_false_unverified", "matrix_false_frontier"))
-            if value and config.include_matrix_true:
+            if value and config.include_matrix_true and config.frontier_mode != "matrix_false":
                 labels.append(("matrix_true_unverified", "matrix_true_frontier"))
-    if matrix is None or config.include_unknown_matrix_missing:
+    if config.frontier_mode == "matrix_false":
+        return labels
+    if config.frontier_mode in {"small_sample", "structural", "mixed"} and (matrix is None or config.include_unknown_matrix_missing):
         labels.append(("structural_unknown", "structural_frontier"))
     return labels
+
+
+def _effective_scan_limit(config: FrontierBuilderConfig, total_pairs: int) -> int:
+    if config.frontier_scan_limit is not None:
+        return max(0, min(total_pairs, config.frontier_scan_limit))
+    return max(config.max_candidates, min(total_pairs, max(config.max_candidates * 50, 1000)))
+
+
+def _iter_pair_order(
+    source_indices: list[int],
+    target_indices: list[int],
+    rng: random.Random,
+    frontier_mode: str,
+):
+    if frontier_mode == "small_sample":
+        sources = list(source_indices)
+        targets = list(target_indices)
+        rng.shuffle(sources)
+        rng.shuffle(targets)
+        for offset in range(max(len(sources), len(targets), 1)):
+            for source_pos, i in enumerate(sources):
+                if not targets:
+                    return
+                yield i, targets[(source_pos + offset) % len(targets)]
+        return
+    for i in source_indices:
+        for j in target_indices:
+            yield i, j
 
 
 def _candidate(
@@ -279,6 +351,11 @@ def _summary(
     *,
     skipped_known: int,
     attempted_pair_count: int,
+    pair_candidates_considered: int,
+    equations_scanned: int,
+    emitted_frontier_rows: int,
+    scan_limit: int,
+    frontier_mode: str,
     equations_count: int,
     matrix_loaded: bool,
     store_loaded: bool,
@@ -292,6 +369,11 @@ def _summary(
         "candidate_count": len(candidates),
         "skipped_known_count": skipped_known,
         "attempted_pair_count": attempted_pair_count,
+        "pair_candidates_considered": pair_candidates_considered,
+        "equations_scanned_count": equations_scanned,
+        "emitted_frontier_rows": emitted_frontier_rows,
+        "scan_limit": scan_limit,
+        "frontier_mode": frontier_mode,
         "by_label": dict(Counter(candidate.label for candidate in candidates)),
         "by_origin": dict(Counter(candidate.candidate_origin for candidate in candidates)),
         "top_reason_codes": dict(reason_counts.most_common(10)),

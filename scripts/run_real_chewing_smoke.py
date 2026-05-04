@@ -104,20 +104,47 @@ def run_real_chewing_smoke(args: argparse.Namespace) -> dict[str, Any]:
     import_summary: dict[str, Any] = {"imported_count": 0, "duplicate_count": 0}
     oracle_probe = {"summary": {"oracle_probe_count": 0, "oracle_probe_success_count": 0}, "probes": []}
 
-    if equations_path:
+    candidate_pairs_jsonl = getattr(args, "candidate_pairs_jsonl", None)
+    skip_frontier_build = bool(getattr(args, "skip_frontier_build", False))
+    frontier_mode = getattr(args, "frontier_mode", "small_sample")
+    frontier_scan_limit = getattr(args, "frontier_scan_limit", None)
+
+    if equations_path or candidate_pairs_jsonl:
         with progress.stage("frontier_build", output=str(paths["frontier"])):
-            frontier = build_candidate_frontier(
-                FrontierBuilderConfig(
-                    equations_path=equations_path,
-                    matrix_path=matrix_path,
-                    store_path=str(paths["store"]),
-                    out_jsonl=str(paths["frontier"]),
-                    max_candidates=args.max_frontier_pairs,
-                    random_seed=42,
+            if candidate_pairs_jsonl:
+                pairs = _read_jsonl(candidate_pairs_jsonl)
+                pairs = pairs[: args.max_frontier_pairs]
+                _write_jsonl(pairs, paths["frontier"])
+                frontier_summary = {
+                    "candidate_count": len(pairs),
+                    "candidate_pairs_jsonl": candidate_pairs_jsonl,
+                    "frontier_mode": "provided_jsonl",
+                    "warnings": [],
+                }
+            elif skip_frontier_build:
+                pairs = []
+                _write_jsonl([], paths["frontier"])
+                frontier_summary = {
+                    "candidate_count": 0,
+                    "frontier_mode": "skipped",
+                    "warnings": ["Frontier build was skipped by --skip-frontier-build."],
+                }
+            else:
+                frontier = build_candidate_frontier(
+                    FrontierBuilderConfig(
+                        equations_path=equations_path,
+                        matrix_path=matrix_path,
+                        store_path=str(paths["store"]),
+                        out_jsonl=str(paths["frontier"]),
+                        max_candidates=args.max_frontier_pairs,
+                        random_seed=42,
+                        frontier_mode=frontier_mode,
+                        frontier_scan_limit=frontier_scan_limit,
+                    ),
+                    progress=progress,
                 )
-            )
-            frontier_summary = frontier.summary
-            pairs = _read_jsonl(paths["frontier"])
+                frontier_summary = frontier.summary
+                pairs = _read_jsonl(paths["frontier"])
         store = LawbookStore(paths["store"])
         try:
             with progress.stage("schedule_build", total=len(pairs), output=str(paths["schedule"])):
@@ -233,6 +260,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--equations-path", default=None)
     parser.add_argument("--matrix-path", default=None)
     parser.add_argument("--max-frontier-pairs", type=int, default=250)
+    parser.add_argument("--frontier-mode", choices=["small_sample", "matrix_false", "structural"], default="small_sample")
+    parser.add_argument("--frontier-scan-limit", type=int, default=None)
+    parser.add_argument("--skip-frontier-build", action="store_true")
+    parser.add_argument("--candidate-pairs-jsonl", default=None)
     parser.add_argument("--top-k-schedule", type=int, default=100)
     parser.add_argument("--max-tasks", type=int, default=100)
     parser.add_argument("--max-countermodel-order", type=int, default=3)
