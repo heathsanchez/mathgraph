@@ -568,6 +568,39 @@ For fast diagnostics, use `--frontier-mode small_sample` and
 construction. To bypass frontier generation entirely, pass a tiny scheduler
 compatible file with `--candidate-pairs-jsonl /path/to/candidates.jsonl`.
 
+## Certificate Processing and Assimilation Pipeline
+
+The assimilation pipeline is the repeatable real-asset episode runner for
+growth experiments. It performs ingestion, processing, construction,
+verification, promotion, assimilation, and residual export:
+
+```text
+traces/equations -> LawbookStore -> derived closure -> outcome dataset
+-> route policy -> bounded frontier -> schedule -> task queue
+-> finite construction -> revalidation/import -> refreshed memory + residuals
+```
+
+```bash
+python scripts/run_certificate_assimilation.py \
+  --traces-json /path/to/traces.json \
+  --equations-path /path/to/equations.txt \
+  --matrix-path /path/to/etp_matrix_full_best_bool.npy \
+  --out-dir /tmp/mathgraph_assimilation_episode \
+  --frontier-mode small_sample \
+  --frontier-scan-limit 500 \
+  --max-frontier-pairs 100 \
+  --top-k-schedule 50 \
+  --max-tasks 50 \
+  --max-countermodel-order 3 \
+  --progress
+```
+
+The current live constructor is finite-countermodel construction. Lean proof
+construction remains pending. The pipeline promotes only imported and
+revalidated terminal certificates; advisory rows, scheduler scores, finite
+search misses, unknowns, and obstruction-analysis-only rows remain residual
+work.
+
 For CI/local validation of the whole repo-native pipeline:
 
 ```bash

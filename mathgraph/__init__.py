@@ -1,6 +1,12 @@
 """MathGraph: a lightweight kernel for verifiable mathematical claims."""
 
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
+from mathgraph.certificate_assimilation import (
+    CertificateAssimilationConfig,
+    CertificateAssimilationResult,
+    CertificateAssimilationSummary,
+    run_certificate_assimilation,
+)
 from mathgraph.asset_discovery import (
     AssetDiscoveryConfig,
     AssetDiscoveryResult,
@@ -121,6 +127,9 @@ from mathgraph.verify_api import MathGraphVerifier, VerifyConfig, VerifyRequest,
 
 __all__ = [
     "Certificate",
+    "CertificateAssimilationConfig",
+    "CertificateAssimilationResult",
+    "CertificateAssimilationSummary",
     "CertificateCorpus",
     "CertificateLawbook",
     "CertificateTask",
@@ -209,6 +218,7 @@ __all__ = [
     "route_instruction_report",
     "run_mathgraph_flywheel",
     "run_chewing_smoke",
+    "run_certificate_assimilation",
     "run_finite_countermodel_tasks",
     "summarize_task_outcomes",
     "Trace",

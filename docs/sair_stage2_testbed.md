@@ -597,6 +597,41 @@ pretending the run succeeded. Scheduler rows are search pressure only, finite
 search failure is obstruction evidence only, and only revalidated finite
 countermodel results are imported as new primitive certificates.
 
+## Certificate Processing and Assimilation Pipeline
+
+The Certificate Processing and Assimilation Pipeline is the repeatable
+real-asset episode runner. It replaces one-off smoke runs for growth
+experiments while preserving the terminal-form contract.
+
+```bash
+python scripts/run_certificate_assimilation.py \
+  --traces-json /path/to/traces.json \
+  --equations-path /path/to/equations.txt \
+  --matrix-path /path/to/etp_matrix_full_best_bool.npy \
+  --out-dir /tmp/mathgraph_assimilation_episode \
+  --frontier-mode small_sample \
+  --frontier-scan-limit 500 \
+  --max-frontier-pairs 100 \
+  --top-k-schedule 50 \
+  --max-tasks 50 \
+  --max-countermodel-order 3 \
+  --progress
+```
+
+Terminology:
+
+- Ingestion: bring traces, equations, and optional matrix assets into the run.
+- Processing: normalize memory, build frontier rows, schedule, and construct tasks.
+- Construction: generate candidate artifacts; currently finite countermodels only.
+- Verification: check candidate finite tables exactly.
+- Promotion: import only revalidated terminal certificates.
+- Assimilation: refresh lawbook counts, derived closure, outcomes, route stats,
+  oracle probes, reports, and residual queues.
+
+Lean proof construction is still pending. Scheduler/advisory/unknown rows,
+bounded finite-search misses, and obstruction-analysis-only rows are never
+promoted.
+
 For a repo-native local/CI validation wrapper:
 
 ```bash
