@@ -645,6 +645,36 @@ reports `routelean_results_v19_1.parquet` as a related artifact only; parquet
 results are not silently treated as `traces.json`. Missing assets are surfaced
 as `complete=false`, never faked.
 
+## Verify API v1
+
+The Verify API is the middleware contract between model proposals and MathGraph
+verification:
+
+```bash
+python scripts/verify_claim.py \
+  --store-path lawbook.sqlite \
+  --source "x * y = x" \
+  --target "x * y = y" \
+  --out result.json \
+  --max-countermodel-order 3
+```
+
+It enforces:
+
+```text
+models propose -> MathGraph verifies/refutes/obstructs -> verifiers decide
+```
+
+The verifier checks `KernelOracle` / `LawbookStore` first. Exact primitive or
+derived hits return their existing terminal status. If the pair is unknown and
+construction is allowed, the API may run bounded finite-countermodel
+construction for magma equations and revalidate any found finite certificate
+before returning `REFUTED` / `FINITE_COUNTERMODEL`.
+
+No scheduler score, route advice, or failed finite search is promoted to truth.
+If no countermodel is found, the API returns `UNKNOWN` or `OBSTRUCTED`, never
+`VERIFIED`.
+
 The flywheel writes:
 
 - `lawbook_store.sqlite`

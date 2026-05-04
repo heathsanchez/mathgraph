@@ -117,6 +117,7 @@ from mathgraph.task_runner import (
 )
 from mathgraph.terms import Term, parse_term
 from mathgraph.trace import Trace
+from mathgraph.verify_api import MathGraphVerifier, VerifyConfig, VerifyRequest, VerifyResult
 
 __all__ = [
     "Certificate",
@@ -155,6 +156,7 @@ __all__ = [
     "JsonlLedger",
     "LawbookStore",
     "LawbookStoreStats",
+    "MathGraphVerifier",
     "OracleAnswer",
     "OutcomeDatasetBuilder",
     "OutcomeDatasetStats",
@@ -211,6 +213,9 @@ __all__ = [
     "summarize_task_outcomes",
     "Trace",
     "VerificationStatus",
+    "VerifyConfig",
+    "VerifyRequest",
+    "VerifyResult",
     "write_outcomes_json",
     "write_outcomes_jsonl",
 ]

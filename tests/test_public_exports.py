@@ -40,3 +40,15 @@ def test_asset_materialization_public_exports() -> None:
     assert AssetMaterializationConfig.__name__ == "AssetMaterializationConfig"
     assert AssetMaterializationResult.__name__ == "AssetMaterializationResult"
     assert callable(materialize_mathgraph_assets)
+
+
+def test_verify_api_public_exports() -> None:
+    from mathgraph import MathGraphVerifier
+    from mathgraph import VerifyConfig
+    from mathgraph import VerifyRequest
+    from mathgraph import VerifyResult
+
+    assert MathGraphVerifier.__name__ == "MathGraphVerifier"
+    assert VerifyConfig.__name__ == "VerifyConfig"
+    assert VerifyRequest.__name__ == "VerifyRequest"
+    assert VerifyResult.__name__ == "VerifyResult"

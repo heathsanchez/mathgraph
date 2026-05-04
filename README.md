@@ -613,6 +613,40 @@ python scripts/validate_real_asset_pipeline.py \
 `routelean_results_v19_1.parquet` is reported as a related artifact, not as
 `traces.json`. The tool does not synthesize missing real assets.
 
+## Verify API v1
+
+`MathGraphVerifier` is the high-level middleware interface for a source/target
+claim:
+
+```python
+from mathgraph import MathGraphVerifier, VerifyRequest
+
+result = MathGraphVerifier().verify(
+    VerifyRequest(
+        source="x * y = x",
+        target="x * y = y",
+        max_countermodel_order=3,
+    )
+)
+print(result.status, result.terminal_form)
+```
+
+CLI:
+
+```bash
+python scripts/verify_claim.py \
+  --store-path lawbook.sqlite \
+  --source "x * y = x" \
+  --target "x * y = y" \
+  --out result.json \
+  --max-countermodel-order 3
+```
+
+Models propose. MathGraph verifies, refutes, or obstructs. Verifiers decide.
+The API checks known primitive/derived lawbook memory first, then may run a
+bounded finite countermodel construction for magma equations. Scheduler scores
+remain search pressure only, and finite search failure is never proof.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`
