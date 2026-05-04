@@ -647,6 +647,24 @@ The API checks known primitive/derived lawbook memory first, then may run a
 bounded finite countermodel construction for magma equations. Scheduler scores
 remain search pressure only, and finite search failure is never proof.
 
+## Progress and Diagnostics
+
+Long-running MathGraph CLIs support lightweight progress logging:
+
+```bash
+python scripts/run_real_chewing_smoke.py \
+  --out-dir /tmp/mathgraph_real_smoke \
+  --progress \
+  --heartbeat-sec 10 \
+  --progress-jsonl /tmp/mathgraph_real_smoke/progress.jsonl
+```
+
+Use `--heartbeat-sec 10` in Colab or CI when commands may run quietly for a
+while. Progress events are standard-library JSONL records with stage start,
+progress, done, failed, elapsed seconds, counts, and rates where available.
+Progress logging is diagnostic only; it never promotes a terminal certificate
+or changes verification semantics.
+
 ## Optional Lean Verification
 
 The Lean adapter only checks local Lean files or snippets with the `lean`

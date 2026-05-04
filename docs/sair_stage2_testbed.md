@@ -675,6 +675,26 @@ No scheduler score, route advice, or failed finite search is promoted to truth.
 If no countermodel is found, the API returns `UNKNOWN` or `OBSTRUCTED`, never
 `VERIFIED`.
 
+## Progress and Diagnostics
+
+Long-running repo CLIs support progress flags:
+
+```bash
+python scripts/run_real_chewing_smoke.py \
+  --out-dir /tmp/mathgraph_real_smoke \
+  --progress \
+  --heartbeat-sec 10 \
+  --progress-jsonl /tmp/mathgraph_real_smoke/progress.jsonl
+```
+
+Progress logs are useful in Colab because they show visible stage boundaries
+and heartbeat messages instead of leaving a cell silent during asset import,
+frontier building, scheduling, finite search, or promotion. JSONL events can be
+kept with run artifacts under the output directory for later diagnosis.
+
+Progress is not part of the truth layer. It records what is happening; it does
+not verify, refute, or promote any claim.
+
 The flywheel writes:
 
 - `lawbook_store.sqlite`

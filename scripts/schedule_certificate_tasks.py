@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from mathgraph import HTiltScheduler, KernelOracle, LawbookStore, PairOutcome, RouteLearner
+from mathgraph.progress import ProgressLogger
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -29,32 +30,44 @@ def main(argv: list[str] | None = None) -> int:
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--skip-known", dest="skip_known", action="store_true", default=True)
     group.add_argument("--include-known", dest="skip_known", action="store_false")
+    parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--heartbeat-sec", type=float, default=10.0)
+    parser.add_argument("--progress-jsonl", default=None)
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
+    progress = ProgressLogger("schedule_certificate_tasks", args.progress_jsonl, args.heartbeat_sec, args.progress, args.quiet)
 
-    pairs = _read_jsonl(args.pairs_jsonl)
+    with progress.stage("read_pairs", input=args.pairs_jsonl):
+        pairs = _read_jsonl(args.pairs_jsonl)
     store = LawbookStore(args.lawbook_store) if args.lawbook_store else None
     try:
         oracle = KernelOracle(store) if store is not None else None
-        outcomes = _read_outcomes(args.outcomes_jsonl) if args.outcomes_jsonl else None
-        policy_cards = _read_json(args.policy_json) if args.policy_json else None
+        with progress.stage("load_policy_inputs"):
+            outcomes = _read_outcomes(args.outcomes_jsonl) if args.outcomes_jsonl else None
+            policy_cards = _read_json(args.policy_json) if args.policy_json else None
         route_learner = None
         if outcomes is not None:
             route_learner = RouteLearner(outcomes)
-            route_learner.build_policy_cards()
+            with progress.stage("build_route_learner", total=len(outcomes)):
+                route_learner.build_policy_cards()
         scheduler = HTiltScheduler(
             oracle=oracle,
             route_learner=route_learner,
             policy_cards=policy_cards,
             beta=args.beta,
         )
-        tasks = scheduler.schedule(pairs, top_k=args.top_k, skip_known=args.skip_known)
-        stats = scheduler.stats(tasks)
+        with progress.stage("schedule", total=len(pairs)):
+            tasks = scheduler.schedule(pairs, top_k=args.top_k, skip_known=args.skip_known)
+            stats = scheduler.stats(tasks)
         if args.out_tasks_json:
-            scheduler.save_tasks_json(args.out_tasks_json, tasks)
+            with progress.stage("write_tasks_json", total=len(tasks), output=args.out_tasks_json):
+                scheduler.save_tasks_json(args.out_tasks_json, tasks)
         if args.out_tasks_jsonl:
-            scheduler.save_tasks_jsonl(args.out_tasks_jsonl, tasks)
+            with progress.stage("write_tasks_jsonl", total=len(tasks), output=args.out_tasks_jsonl):
+                scheduler.save_tasks_jsonl(args.out_tasks_jsonl, tasks)
         if args.out_stats:
-            scheduler.save_stats_json(args.out_stats, stats)
+            with progress.stage("write_stats", output=args.out_stats):
+                scheduler.save_stats_json(args.out_stats, stats)
         payload = {
             "stats": stats.to_dict(),
             "task_count": len(tasks),
@@ -64,7 +77,8 @@ def main(argv: list[str] | None = None) -> int:
                 "stats": args.out_stats,
             },
         }
-        print(json.dumps(payload, indent=2, sort_keys=True))
+        if not args.quiet:
+            print(json.dumps(payload, indent=2, sort_keys=True))
     finally:
         if store is not None:
             store.close()

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from mathgraph import MathGraphVerifier, VerifyConfig, VerifyRequest
+from mathgraph.progress import ProgressLogger
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -22,16 +23,22 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", default=None)
     parser.add_argument("--max-countermodel-order", type=int, default=3)
     parser.add_argument("--no-construction", action="store_true")
+    parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--heartbeat-sec", type=float, default=10.0)
+    parser.add_argument("--progress-jsonl", default=None)
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
+    progress = ProgressLogger("verify_claim", args.progress_jsonl, args.heartbeat_sec, args.progress, args.quiet)
 
-    result = MathGraphVerifier(VerifyConfig(store_path=args.store_path)).verify(
-        VerifyRequest(
-            source=args.source,
-            target=args.target,
-            allow_construction=not args.no_construction,
-            max_countermodel_order=args.max_countermodel_order,
+    with progress.stage("verify_claim"):
+        result = MathGraphVerifier(VerifyConfig(store_path=args.store_path)).verify(
+            VerifyRequest(
+                source=args.source,
+                target=args.target,
+                allow_construction=not args.no_construction,
+                max_countermodel_order=args.max_countermodel_order,
+            )
         )
-    )
     payload = result.to_dict()
     if args.out:
         output = Path(args.out)
@@ -45,7 +52,8 @@ def main(argv: list[str] | None = None) -> int:
         "route": result.route,
         "explanation": result.explanation,
     }
-    print(json.dumps(compact, indent=2, sort_keys=True))
+    if not args.quiet:
+        print(json.dumps(compact, indent=2, sort_keys=True))
     return 0 if result.status != "ERROR" else 1
 
 

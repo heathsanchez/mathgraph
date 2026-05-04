@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from mathgraph import TaskQueueConfig, build_task_queue
+from mathgraph.progress import ProgressLogger
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -21,18 +22,25 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--max-tasks", type=int, default=1000)
     parser.add_argument("--min-priority", type=float, default=0.0)
     parser.add_argument("--include-known", action="store_true")
+    parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--heartbeat-sec", type=float, default=10.0)
+    parser.add_argument("--progress-jsonl", default=None)
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
+    progress = ProgressLogger("build_task_queue", args.progress_jsonl, args.heartbeat_sec, args.progress, args.quiet)
 
-    result = build_task_queue(
-        TaskQueueConfig(
-            schedule_jsonl=args.schedule_jsonl,
-            out_jsonl=args.out,
-            max_tasks=args.max_tasks,
-            min_priority=args.min_priority,
-            include_known=args.include_known,
+    with progress.stage("build_task_queue", output=args.out):
+        result = build_task_queue(
+            TaskQueueConfig(
+                schedule_jsonl=args.schedule_jsonl,
+                out_jsonl=args.out,
+                max_tasks=args.max_tasks,
+                min_priority=args.min_priority,
+                include_known=args.include_known,
+            )
         )
-    )
-    print(json.dumps(result.summary, indent=2, sort_keys=True))
+    if not args.quiet:
+        print(json.dumps(result.summary, indent=2, sort_keys=True))
     return 0
 
 

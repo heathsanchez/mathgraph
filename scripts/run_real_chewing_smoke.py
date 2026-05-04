@@ -27,6 +27,7 @@ from mathgraph import (  # noqa: E402
     import_finite_countermodel_results,
     run_finite_countermodel_tasks,
 )
+from mathgraph.progress import ProgressLogger  # noqa: E402
 from mathgraph.asset_discovery import (  # noqa: E402
     AssetDiscoveryConfig,
     discover_mathgraph_assets,
@@ -42,9 +43,17 @@ def run_real_chewing_smoke(args: argparse.Namespace) -> dict[str, Any]:
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     paths = _paths(out_dir)
-    discovery = discover_mathgraph_assets(AssetDiscoveryConfig())
-    materialized = materialize_assets(discovery, out_dir, copy=args.copy_assets)
-    _write_json(discovery.to_dict(), paths["asset_discovery"])
+    progress = ProgressLogger(
+        "real_chewing_smoke",
+        getattr(args, "progress_jsonl", None),
+        getattr(args, "heartbeat_sec", 10.0),
+        getattr(args, "progress", False),
+        getattr(args, "quiet", False),
+    )
+    with progress.stage("asset_validation", output=str(paths["asset_discovery"])):
+        discovery = discover_mathgraph_assets(AssetDiscoveryConfig())
+        materialized = materialize_assets(discovery, out_dir, copy=args.copy_assets)
+        _write_json(discovery.to_dict(), paths["asset_discovery"])
 
     traces_json = args.traces_json or materialized.get("traces_json") or _selected_path(discovery, "traces_json")
     equations_path = args.equations_path or materialized.get("equations") or _selected_path(discovery, "equations")
@@ -68,16 +77,20 @@ def run_real_chewing_smoke(args: argparse.Namespace) -> dict[str, Any]:
 
     store = LawbookStore(paths["store"])
     try:
-        store.init_schema()
-        if traces_json:
-            store.import_traces_json(traces_json, replace=True)
-        primitive_before = store.stats().trace_count
-        derived_before = _derive_and_store(store, paths["derived_before"])
-        outcomes_before = _build_outcomes(store, paths["outcomes_before"], paths["diagnostics_before"])
-        route_learner = RouteLearner(outcomes_before)
-        route_learner.build_policy_cards()
-        route_learner.save_policy_cards_json(paths["route_policy"])
-        route_learner.save_stats_json(paths["route_policy_stats"])
+        with progress.stage("lawbook_build", input=traces_json, output=str(paths["store"])):
+            store.init_schema()
+            if traces_json:
+                store.import_traces_json(traces_json, replace=True)
+            primitive_before = store.stats().trace_count
+        with progress.stage("derived_certificate_generation"):
+            derived_before = _derive_and_store(store, paths["derived_before"])
+        with progress.stage("outcome_dataset_build"):
+            outcomes_before = _build_outcomes(store, paths["outcomes_before"], paths["diagnostics_before"])
+        with progress.stage("route_policy_build", total=len(outcomes_before)):
+            route_learner = RouteLearner(outcomes_before)
+            route_learner.build_policy_cards()
+            route_learner.save_policy_cards_json(paths["route_policy"])
+            route_learner.save_stats_json(paths["route_policy_stats"])
     finally:
         store.close()
 
@@ -92,38 +105,41 @@ def run_real_chewing_smoke(args: argparse.Namespace) -> dict[str, Any]:
     oracle_probe = {"summary": {"oracle_probe_count": 0, "oracle_probe_success_count": 0}, "probes": []}
 
     if equations_path:
-        frontier = build_candidate_frontier(
-            FrontierBuilderConfig(
-                equations_path=equations_path,
-                matrix_path=matrix_path,
-                store_path=str(paths["store"]),
-                out_jsonl=str(paths["frontier"]),
-                max_candidates=args.max_frontier_pairs,
-                random_seed=42,
+        with progress.stage("frontier_build", output=str(paths["frontier"])):
+            frontier = build_candidate_frontier(
+                FrontierBuilderConfig(
+                    equations_path=equations_path,
+                    matrix_path=matrix_path,
+                    store_path=str(paths["store"]),
+                    out_jsonl=str(paths["frontier"]),
+                    max_candidates=args.max_frontier_pairs,
+                    random_seed=42,
+                )
             )
-        )
-        frontier_summary = frontier.summary
-        pairs = _read_jsonl(paths["frontier"])
+            frontier_summary = frontier.summary
+            pairs = _read_jsonl(paths["frontier"])
         store = LawbookStore(paths["store"])
         try:
-            learner = RouteLearner(_read_jsonl(paths["outcomes_before"]))
-            learner.build_policy_cards()
-            scheduler = HTiltScheduler(oracle=KernelOracle(store), route_learner=learner)
-            scheduled = scheduler.schedule(pairs, top_k=args.top_k_schedule, skip_known=True)
-            scheduler.save_tasks_jsonl(paths["schedule"], scheduled)
-            _write_json(scheduler.stats(scheduled).to_dict(), paths["schedule_summary"])
-            scheduled_count = len(scheduled)
+            with progress.stage("schedule_build", total=len(pairs), output=str(paths["schedule"])):
+                learner = RouteLearner(_read_jsonl(paths["outcomes_before"]))
+                learner.build_policy_cards()
+                scheduler = HTiltScheduler(oracle=KernelOracle(store), route_learner=learner)
+                scheduled = scheduler.schedule(pairs, top_k=args.top_k_schedule, skip_known=True)
+                scheduler.save_tasks_jsonl(paths["schedule"], scheduled)
+                _write_json(scheduler.stats(scheduled).to_dict(), paths["schedule_summary"])
+                scheduled_count = len(scheduled)
         finally:
             store.close()
-        queue = build_task_queue(
-            TaskQueueConfig(
-                schedule_jsonl=str(paths["schedule"]),
-                out_jsonl=str(paths["task_queue"]),
-                max_tasks=args.max_tasks,
+        with progress.stage("task_queue_build", output=str(paths["task_queue"])):
+            queue = build_task_queue(
+                TaskQueueConfig(
+                    schedule_jsonl=str(paths["schedule"]),
+                    out_jsonl=str(paths["task_queue"]),
+                    max_tasks=args.max_tasks,
+                )
             )
-        )
-        task_count = int(queue.summary.get("task_count", 0))
-        finite_task_count = int(queue.summary.get("by_task_kind", {}).get("finite_countermodel_search", 0))
+            task_count = int(queue.summary.get("task_count", 0))
+            finite_task_count = int(queue.summary.get("by_task_kind", {}).get("finite_countermodel_search", 0))
         no_finite_tasks = finite_task_count == 0
         if no_finite_tasks and args.allow_synthetic_fallback:
             synthetic_fallback_used = True
@@ -132,28 +148,31 @@ def run_real_chewing_smoke(args: argparse.Namespace) -> dict[str, Any]:
             task_count = len(fallback)
             finite_task_count = len(fallback)
         if finite_task_count > 0:
-            finite_run = run_finite_countermodel_tasks(
-                FiniteCountermodelConfig(
-                    task_queue_jsonl=str(paths["task_queue"]),
-                    out_jsonl=str(paths["finite_results"]),
-                    max_tasks=args.max_tasks,
-                    max_order=args.max_countermodel_order,
-                    exhaustive_order_limit=min(args.max_countermodel_order, 3),
-                    random_tables_per_order=args.random_tables_per_order,
+            with progress.stage("finite_executor", output=str(paths["finite_results"])):
+                finite_run = run_finite_countermodel_tasks(
+                    FiniteCountermodelConfig(
+                        task_queue_jsonl=str(paths["task_queue"]),
+                        out_jsonl=str(paths["finite_results"]),
+                        max_tasks=args.max_tasks,
+                        max_order=args.max_countermodel_order,
+                        exhaustive_order_limit=min(args.max_countermodel_order, 3),
+                        random_tables_per_order=args.random_tables_per_order,
+                    )
                 )
-            )
-            finite_summary = finite_run.summary
-            imported = import_finite_countermodel_results(
-                CountermodelImportConfig(
-                    results_jsonl=str(paths["finite_results"]),
-                    store_path=str(paths["store"]),
-                    out_json=str(paths["import_summary"]),
-                    revalidate=True,
+                finite_summary = finite_run.summary
+            with progress.stage("importer", output=str(paths["import_summary"])):
+                imported = import_finite_countermodel_results(
+                    CountermodelImportConfig(
+                        results_jsonl=str(paths["finite_results"]),
+                        store_path=str(paths["store"]),
+                        out_json=str(paths["import_summary"]),
+                        revalidate=True,
+                    )
                 )
-            )
-            import_summary = imported.summary
-            oracle_probe = _oracle_probe(paths["store"], imported.to_dict()["results"])
-            _write_json(oracle_probe, paths["oracle_probe"])
+                import_summary = imported.summary
+            with progress.stage("oracle_probe", output=str(paths["oracle_probe"])):
+                oracle_probe = _oracle_probe(paths["store"], imported.to_dict()["results"])
+                _write_json(oracle_probe, paths["oracle_probe"])
         else:
             _write_jsonl([], paths["finite_results"])
             _write_json({"summary": import_summary, "results": []}, paths["import_summary"])
@@ -161,9 +180,11 @@ def run_real_chewing_smoke(args: argparse.Namespace) -> dict[str, Any]:
 
     store = LawbookStore(paths["store"])
     try:
-        primitive_after = store.stats().trace_count
-        derived_after = _derive_and_store(store, paths["derived_after"])
-        outcomes_after = _build_outcomes(store, paths["outcomes_after"], paths["diagnostics_after"])
+        with progress.stage("derived_after_import"):
+            primitive_after = store.stats().trace_count
+            derived_after = _derive_and_store(store, paths["derived_after"])
+        with progress.stage("outcome_after_import"):
+            outcomes_after = _build_outcomes(store, paths["outcomes_after"], paths["diagnostics_after"])
     finally:
         store.close()
 
@@ -200,7 +221,8 @@ def run_real_chewing_smoke(args: argparse.Namespace) -> dict[str, Any]:
         "asset_discovery": discovery.to_dict(),
         "paths": {key: str(value) for key, value in paths.items()},
     }
-    _write_reports(report, paths)
+    with progress.stage("report_writing", output=str(paths["report_json"])):
+        _write_reports(report, paths)
     return report
 
 
@@ -217,10 +239,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--random-tables-per-order", type=int, default=100)
     parser.add_argument("--allow-synthetic-fallback", action="store_true")
     parser.add_argument("--copy-assets", action="store_true")
+    parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--heartbeat-sec", type=float, default=10.0)
+    parser.add_argument("--progress-jsonl", default=None)
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
 
     report = run_real_chewing_smoke(args)
-    print(json.dumps(report, indent=2, sort_keys=True))
+    if not args.quiet:
+        print(json.dumps(report, indent=2, sort_keys=True))
     return 0 if report["ok"] or args.allow_synthetic_fallback else 1
 
 

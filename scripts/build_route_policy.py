@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from mathgraph import PairOutcome, RouteLearner
+from mathgraph.progress import ProgressLogger
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -24,19 +25,29 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--recommend-source", default=None)
     parser.add_argument("--recommend-target", default=None)
     parser.add_argument("--out-recommendation", default=None)
+    parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--heartbeat-sec", type=float, default=10.0)
+    parser.add_argument("--progress-jsonl", default=None)
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
+    progress = ProgressLogger("build_route_policy", args.progress_jsonl, args.heartbeat_sec, args.progress, args.quiet)
 
-    outcomes = _read_outcomes_jsonl(args.outcomes_jsonl)
+    with progress.stage("read_outcomes", input=args.outcomes_jsonl):
+        outcomes = _read_outcomes_jsonl(args.outcomes_jsonl)
     learner = RouteLearner(outcomes)
-    cards = learner.build_policy_cards(min_support=args.min_support)
-    stats = learner.stats()
+    with progress.stage("build_policy_cards", total=len(outcomes)):
+        cards = learner.build_policy_cards(min_support=args.min_support)
+        stats = learner.stats()
 
     if args.out_policy_json:
-        learner.save_policy_cards_json(args.out_policy_json)
+        with progress.stage("write_policy_json", total=len(cards), output=args.out_policy_json):
+            learner.save_policy_cards_json(args.out_policy_json)
     if args.out_policy_jsonl:
-        learner.save_policy_cards_jsonl(args.out_policy_jsonl)
+        with progress.stage("write_policy_jsonl", total=len(cards), output=args.out_policy_jsonl):
+            learner.save_policy_cards_jsonl(args.out_policy_jsonl)
     if args.out_stats:
-        learner.save_stats_json(args.out_stats)
+        with progress.stage("write_stats", output=args.out_stats):
+            learner.save_stats_json(args.out_stats)
 
     recommendation = None
     if args.recommend_source is not None and args.recommend_target is not None:
@@ -55,7 +66,8 @@ def main(argv: list[str] | None = None) -> int:
             "recommendation": args.out_recommendation,
         },
     }
-    print(json.dumps(payload, indent=2, sort_keys=True))
+    if not args.quiet:
+        print(json.dumps(payload, indent=2, sort_keys=True))
     return 0
 
 

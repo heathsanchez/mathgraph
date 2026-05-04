@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from mathgraph import LawbookStore, OutcomeDatasetBuilder
+from mathgraph.progress import ProgressLogger
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -28,31 +29,41 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--unknown-pairs-json", default=None)
     parser.add_argument("--advisory-tasks-json", default=None)
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--heartbeat-sec", type=float, default=10.0)
+    parser.add_argument("--progress-jsonl", default=None)
+    parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
+    progress = ProgressLogger("build_outcome_dataset", args.progress_jsonl, args.heartbeat_sec, args.progress, args.quiet)
 
     store = LawbookStore(args.store)
     try:
         builder = OutcomeDatasetBuilder(store)
-        outcomes = builder.build(
-            include_primitive=not args.no_primitive,
-            include_derived=not args.no_derived,
-            unknown_pairs=_load_optional_list(args.unknown_pairs_json),
-            advisory_tasks=_load_optional_list(args.advisory_tasks_json),
-        )
+        with progress.stage("build_outcomes"):
+            outcomes = builder.build(
+                include_primitive=not args.no_primitive,
+                include_derived=not args.no_derived,
+                unknown_pairs=_load_optional_list(args.unknown_pairs_json),
+                advisory_tasks=_load_optional_list(args.advisory_tasks_json),
+            )
         if args.limit is not None:
             outcomes = outcomes[: args.limit]
-        stats = builder.stats(outcomes)
-        diagnostics = builder.diagnostics(
-            outcomes,
-            episode_id=args.episode_id,
-            equation_count=args.equation_count,
-        )
+        with progress.stage("compute_stats", total=len(outcomes)):
+            stats = builder.stats(outcomes)
+            diagnostics = builder.diagnostics(
+                outcomes,
+                episode_id=args.episode_id,
+                equation_count=args.equation_count,
+            )
         if args.out_jsonl:
-            builder.save_jsonl(outcomes, args.out_jsonl)
+            with progress.stage("write_jsonl", total=len(outcomes), output=args.out_jsonl):
+                builder.save_jsonl(outcomes, args.out_jsonl)
         if args.out_json:
-            builder.save_json(outcomes, args.out_json)
+            with progress.stage("write_json", total=len(outcomes), output=args.out_json):
+                builder.save_json(outcomes, args.out_json)
         if args.diagnostics:
-            builder.save_diagnostics(diagnostics, args.diagnostics)
+            with progress.stage("write_diagnostics", output=args.diagnostics):
+                builder.save_diagnostics(diagnostics, args.diagnostics)
         payload = {
             "stats": stats.to_dict(),
             "diagnostics": diagnostics.to_dict(),
@@ -62,7 +73,8 @@ def main(argv: list[str] | None = None) -> int:
                 "diagnostics": args.diagnostics,
             },
         }
-        print(json.dumps(payload, indent=2, sort_keys=True))
+        if not args.quiet:
+            print(json.dumps(payload, indent=2, sort_keys=True))
     finally:
         store.close()
     return 0

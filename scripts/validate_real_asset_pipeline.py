@@ -11,6 +11,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from mathgraph.progress import ProgressLogger, stream_subprocess
+
 
 COUNT_KEYS = [
     "primitive_count_before",
@@ -42,9 +47,16 @@ def main(argv: list[str] | None = None) -> int:
     warnings: list[str] = []
     install_passed: bool | None = None
     pytest_passed: bool | None = None
+    progress = ProgressLogger(
+        "validate_real_asset_pipeline",
+        args.progress_jsonl,
+        args.heartbeat_sec,
+        args.progress,
+        args.quiet,
+    )
 
     if (repo_root / ".git").exists():
-        _run_stage("git_status", ["git", "status", "--short"], repo_root, logs_dir, failed, allow_fail=True)
+        _run_stage("git_status", ["git", "status", "--short"], repo_root, logs_dir, failed, progress, args, allow_fail=True)
 
     if args.skip_install:
         install_passed = None
@@ -55,6 +67,8 @@ def main(argv: list[str] | None = None) -> int:
             repo_root,
             logs_dir,
             failed,
+            progress,
+            args,
         )
         install_passed = install.returncode == 0
 
@@ -65,6 +79,8 @@ def main(argv: list[str] | None = None) -> int:
             repo_root,
             logs_dir,
             failed,
+            progress,
+            args,
             allow_fail=True,
         )
         pytest_passed = pytest.returncode == 0
@@ -81,7 +97,7 @@ def main(argv: list[str] | None = None) -> int:
     _append_optional(discovery_cmd, "--traces-json", args.traces_json)
     _append_optional(discovery_cmd, "--equations-path", args.equations_path)
     _append_optional(discovery_cmd, "--matrix-path", args.matrix_path)
-    discovery = _run_stage("asset_discovery", discovery_cmd, repo_root, logs_dir, failed, allow_fail=True)
+    discovery = _run_stage("asset_discovery", discovery_cmd, repo_root, logs_dir, failed, progress, args, allow_fail=True)
     asset_report_path = discovery_dir / "asset_discovery_report.json"
     asset_report = _read_json(asset_report_path)
     asset_discovery_ok = discovery.returncode == 0 and bool(asset_report)
@@ -106,7 +122,7 @@ def main(argv: list[str] | None = None) -> int:
     _append_optional(real_cmd, "--traces-json", args.traces_json)
     _append_optional(real_cmd, "--equations-path", args.equations_path)
     _append_optional(real_cmd, "--matrix-path", args.matrix_path)
-    real = _run_stage("real_chewing_smoke", real_cmd, repo_root, logs_dir, failed, allow_fail=True)
+    real = _run_stage("real_chewing_smoke", real_cmd, repo_root, logs_dir, failed, progress, args, allow_fail=True)
     real_report_path = real_dir / "real_chewing_smoke_report.json"
     real_report = _read_json(real_report_path)
     real_summary = parse_smoke_summary(real_report)
@@ -137,7 +153,7 @@ def main(argv: list[str] | None = None) -> int:
             str(args.random_tables_per_order),
             "--allow-synthetic-fallback",
         ]
-        fallback = _run_stage("fallback_chewing_smoke", fallback_cmd, repo_root, logs_dir, failed, allow_fail=True)
+        fallback = _run_stage("fallback_chewing_smoke", fallback_cmd, repo_root, logs_dir, failed, progress, args, allow_fail=True)
         fallback_report_path = fallback_dir / "real_chewing_smoke_report.json"
         fallback_report = _read_json(fallback_report_path)
         fallback_summary = parse_smoke_summary(fallback_report)
@@ -203,7 +219,8 @@ def main(argv: list[str] | None = None) -> int:
     summary["overall_ok"] = required_ok and not failed
     _write_json(summary, out_dir / "validation_summary.json")
     _write_markdown(summary, asset_report, real_report, fallback_summary, out_dir / "validation_report.md")
-    print(json.dumps(summary, indent=2, sort_keys=True))
+    if not args.quiet:
+        print(json.dumps(summary, indent=2, sort_keys=True))
     return 0 if summary["overall_ok"] else 1
 
 
@@ -223,8 +240,25 @@ def _run_stage(
     cwd: Path,
     logs_dir: Path,
     failed: list[dict[str, Any]],
+    progress: ProgressLogger,
+    args: argparse.Namespace,
     allow_fail: bool = False,
 ) -> subprocess.CompletedProcess[str]:
+    if args.progress:
+        result = stream_subprocess(
+            cmd,
+            cwd=cwd,
+            log_path=logs_dir / f"{name}.stdout.txt",
+            timeout_sec=args.timeout_sec,
+            heartbeat_sec=args.heartbeat_sec,
+            logger=progress,
+            stage=name,
+        )
+        (logs_dir / f"{name}.stderr.txt").write_text("", encoding="utf-8")
+        proc = subprocess.CompletedProcess(cmd, int(result["returncode"]), "", "")
+        if proc.returncode != 0 and not allow_fail:
+            failed.append({"stage": name, "returncode": proc.returncode, "reason": "subprocess failed"})
+        return proc
     proc = subprocess.run(cmd, cwd=str(cwd), text=True, capture_output=True, check=False)
     (logs_dir / f"{name}.stdout.txt").write_text(proc.stdout, encoding="utf-8")
     (logs_dir / f"{name}.stderr.txt").write_text(proc.stderr, encoding="utf-8")
@@ -310,6 +344,11 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--max-tasks", type=int, default=100)
     parser.add_argument("--max-countermodel-order", type=int, default=3)
     parser.add_argument("--random-tables-per-order", type=int, default=100)
+    parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--heartbeat-sec", type=float, default=10.0)
+    parser.add_argument("--progress-jsonl", default=None)
+    parser.add_argument("--timeout-sec", type=float, default=None)
+    parser.add_argument("--quiet", action="store_true")
     return parser.parse_args(argv)
 
 
