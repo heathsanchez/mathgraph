@@ -129,6 +129,8 @@ def test_task_outcome_ledger_counts_match_summary(tmp_path: Path) -> None:
     assert result.summary.verified_count == sum(1 for row in ledger if row["verification_status"] == "FINITE_VERIFIED")
     assert result.summary.imported_count == sum(1 for row in ledger if row["import_status"] == "imported")
     assert result.summary.not_found_count == sum(1 for row in ledger if row["execution_status"] == "no_countermodel_found")
+    assert all("terminal_form" in row for row in ledger)
+    assert all("countermodel_order" in row for row in ledger)
 
 
 def test_duplicate_verified_countermodel_recorded_as_duplicate(tmp_path: Path) -> None:
@@ -172,6 +174,8 @@ def test_duplicate_verified_countermodel_recorded_as_duplicate(tmp_path: Path) -
     assert diagnostics["summary"]["verified_count"] == 1
     assert diagnostics["summary"]["duplicate_count"] == 1
     assert diagnostics["summary"]["imported_count"] == 0
+    assert diagnostics["summary"]["residual_count"] == 0
+    assert diagnostics["consistency_checks"]["imported_plus_duplicate_plus_residual_equals_task_count"]
 
 
 def test_residual_queue_preserves_unpromoted_work(tmp_path: Path) -> None:
@@ -200,6 +204,12 @@ def test_residual_queue_preserves_unpromoted_work(tmp_path: Path) -> None:
         if line.strip()
     ]
     assert residual_rows or result.summary.task_count == 0
+    obstruction_rows = [
+        json.loads(line)
+        for line in Path(result.summary.paths["residual_obstruction_candidates"]).read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    assert len(obstruction_rows) == result.summary.residual_count
 
 
 def test_progress_jsonl_contains_stage_events(tmp_path: Path) -> None:
@@ -228,10 +238,13 @@ def test_diagnostics_report_contains_imported_duplicate_residual_sections(tmp_pa
     report = tmp_path / "diagnostics.md"
     _write_diagnostics_markdown(diagnostics, report)
     text = report.read_text(encoding="utf-8")
-    assert "What New Certificates Were Added" in text
-    assert "What Verified Results Were Duplicates" in text
-    assert "What Remains Unresolved" in text
-    assert "Which Residuals Should Be Tried Next" in text
+    assert "Episode Summary" in text
+    assert "Outcome Ledger" in text
+    assert "Imported Certificates" in text
+    assert "Duplicate Certificates" in text
+    assert "Residual / Obstruction Candidates" in text
+    assert "Consistency Checks" in text
+    assert "Safety Notes" in text
 
 
 def test_missing_assets_fail_clearly_unless_synthetic_fallback(tmp_path: Path) -> None:
@@ -286,3 +299,27 @@ def test_cli_runs_and_writes_summary(tmp_path: Path) -> None:
     summary = json.loads(completed.stdout)
     assert summary["ok"]
     assert (out_dir / "certificate_assimilation_summary.json").exists()
+    required = [
+        "task_outcome_ledger.jsonl",
+        "duplicate_certificates.jsonl",
+        "residual_obstruction_candidates.jsonl",
+        "assimilation_episode_diagnostics.json",
+        "assimilation_episode_diagnostics.md",
+    ]
+    for filename in required:
+        assert (out_dir / filename).exists()
+    ledger = _read_jsonl(out_dir / "task_outcome_ledger.jsonl")
+    duplicates = _read_jsonl(out_dir / "duplicate_certificates.jsonl")
+    residuals = _read_jsonl(out_dir / "residual_obstruction_candidates.jsonl")
+    new_certs = _read_jsonl(out_dir / "new_certificates.jsonl")
+    assert len(ledger) == summary["task_count"]
+    assert len(duplicates) == summary["duplicate_count"]
+    assert len(residuals) == summary["residual_count"]
+    assert len(new_certs) == summary["new_primitive_count"]
+    assert summary["imported_count"] + summary["duplicate_count"] + summary["residual_count"] == summary["task_count"]
+    assert all(row["duplicate_status"] == "duplicate" and row["import_status"] != "imported" for row in duplicates)
+    assert all(row["import_status"] != "imported" for row in residuals)
+
+
+def _read_jsonl(path: Path) -> list[dict]:
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]

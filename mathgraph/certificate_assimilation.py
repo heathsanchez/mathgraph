@@ -302,6 +302,7 @@ def run_certificate_assimilation(
             paths=paths,
         )
         result = CertificateAssimilationResult(config, summary, [], [], str(paths["report_json"]), str(paths["report_md"]))
+        _write_empty_episode_artifacts(paths)
         _write_result_reports(result, paths)
         return result
 
@@ -416,10 +417,11 @@ def run_certificate_assimilation(
             _write_jsonl(duplicates, paths["duplicate_certificates"])
             residual_tasks = _residuals_from_outcomes(task_outcomes)
             _write_jsonl(residual_tasks, paths["residual_queue"])
-            obstruction_candidates = [
-                row for row in task_outcomes if row.get("task_kind") == "obstruction_analysis" or row.get("execution_status") in {"residual", "not_executed"}
+            residual_outcome_rows = [
+                row for row in task_outcomes
+                if row.get("import_status") != "imported" and row.get("duplicate_status") != "duplicate"
             ]
-            _write_jsonl(obstruction_candidates, paths["residual_obstruction_candidates"])
+            _write_jsonl(residual_outcome_rows, paths["residual_obstruction_candidates"])
     finally:
         store.close()
 
@@ -571,8 +573,9 @@ def _task_outcome_ledger(
         import_status = "not_attempted"
         duplicate_status = "not_duplicate"
         certificate_id = None
+        terminal_form = None
         reason = None
-        table_order = None
+        countermodel_order = None
         witness = None
         elapsed_sec = 0.0
         artifacts = {"task_queue": str(paths["task_queue"])}
@@ -588,8 +591,9 @@ def _task_outcome_ledger(
             execution_status = str(finite.get("status") or "")
             verification_status = str(finite.get("verification_status") or "NOT_VERIFIED")
             certificate_id = finite.get("certificate_id")
+            terminal_form = finite.get("terminal_form")
             countermodel = finite.get("countermodel") or {}
-            table_order = countermodel.get("order")
+            countermodel_order = countermodel.get("order")
             witness = finite.get("witness")
             elapsed_sec = float(finite.get("elapsed_sec") or 0.0)
             reason = finite.get("failure_reason")
@@ -620,9 +624,10 @@ def _task_outcome_ledger(
                 "import_status": import_status,
                 "duplicate_status": duplicate_status,
                 "certificate_id": certificate_id,
+                "terminal_form": terminal_form,
                 "reason": reason,
                 "artifact_paths": artifacts,
-                "table_order": table_order,
+                "countermodel_order": countermodel_order,
                 "witness": witness,
                 "elapsed_sec": elapsed_sec,
                 "priority": task.get("priority"),
@@ -634,7 +639,7 @@ def _task_outcome_ledger(
 def _residuals_from_outcomes(task_outcomes: list[dict[str, Any]]) -> list[dict[str, Any]]:
     residuals = []
     for row in task_outcomes:
-        if row.get("import_status") == "imported":
+        if row.get("import_status") == "imported" or row.get("duplicate_status") == "duplicate":
             continue
         residuals.append(
             {
@@ -660,8 +665,17 @@ def _episode_diagnostics(task_outcomes: list[dict[str, Any]]) -> dict[str, Any]:
     duplicates = [row for row in task_outcomes if row.get("duplicate_status") == "duplicate"]
     not_found = [row for row in task_outcomes if row.get("execution_status") == "no_countermodel_found"]
     failed = [row for row in task_outcomes if row.get("execution_status") in {"parse_failed", "error"} or row.get("import_status") == "skipped_revalidation_failed"]
-    residuals = [row for row in task_outcomes if row.get("import_status") != "imported"]
+    residuals = [
+        row for row in task_outcomes
+        if row.get("import_status") != "imported" and row.get("duplicate_status") != "duplicate"
+    ]
     obstructions = [row for row in residuals if row.get("task_kind") == "obstruction_analysis" or row.get("execution_status") in {"residual", "no_countermodel_found"}]
+    task_outcome_counts = {
+        "by_execution_status": _count_by(task_outcomes, "execution_status"),
+        "by_verification_status": _count_by(task_outcomes, "verification_status"),
+        "by_import_status": _count_by(task_outcomes, "import_status"),
+        "by_duplicate_status": _count_by(task_outcomes, "duplicate_status"),
+    }
     by_route: dict[str, dict[str, int]] = {}
     for row in task_outcomes:
         route = str(row.get("route") or "unknown")
@@ -687,12 +701,22 @@ def _episode_diagnostics(task_outcomes: list[dict[str, Any]]) -> dict[str, Any]:
             "duplicate_count": len(duplicates),
             "not_found_count": len(not_found),
             "verification_failed_count": len(failed),
+            "revalidation_failed_count": sum(1 for row in task_outcomes if row.get("import_status") == "skipped_revalidation_failed"),
             "residual_count": len(residuals),
             "obstruction_candidate_count": len(obstructions),
             "import_rate": len(imported) / len(verified) if verified else 0.0,
             "unique_import_rate": len(imported) / task_count if task_count else 0.0,
             "duplicate_rate": len(duplicates) / len(verified) if verified else 0.0,
             "best_yield_route": best_route,
+        },
+        "task_outcome_counts": task_outcome_counts,
+        "consistency_checks": {
+            "task_count_matches_ledger": task_count == len(task_outcomes),
+            "imported_plus_duplicate_plus_residual_equals_task_count": (
+                len(imported) + len(duplicates) + len(residuals) == task_count
+            ),
+            "duplicates_not_promoted": all(row.get("import_status") != "imported" for row in duplicates),
+            "residuals_not_terminal_imports": all(row.get("import_status") != "imported" for row in residuals),
         },
         "new_certificates": imported,
         "duplicate_certificates": duplicates,
@@ -862,19 +886,45 @@ def _write_diagnostics_markdown(diagnostics: dict[str, Any], path: Path) -> None
     lines = [
         "# Assimilation Episode Diagnostics",
         "",
-        "## What New Certificates Were Added?",
+        "## Episode Summary",
+        "",
+        f"- task_count: `{summary.get('task_count', 0)}`",
+        f"- verified_count: `{summary.get('verified_count', 0)}`",
+        f"- imported_count: `{summary.get('imported_count', 0)}`",
+        f"- duplicate_count: `{summary.get('duplicate_count', 0)}`",
+        f"- residual_count: `{summary.get('residual_count', 0)}`",
+        f"- import_rate: `{summary.get('import_rate', 0.0):.3f}`",
+        f"- unique_import_rate: `{summary.get('unique_import_rate', 0.0):.3f}`",
+        f"- duplicate_rate: `{summary.get('duplicate_rate', 0.0):.3f}`",
+        "",
+        "## Outcome Ledger",
+        "",
+        "Every scheduled task has one final outcome row in `task_outcome_ledger.jsonl`.",
+        "",
+        "## Imported Certificates",
         "",
         f"- imported_count: `{summary.get('imported_count', 0)}`",
         "",
-        "## What Verified Results Were Duplicates?",
+        "## Duplicate Certificates",
         "",
         f"- duplicate_count: `{summary.get('duplicate_count', 0)}`",
         "",
-        "## What Remains Unresolved?",
+        "## Residual / Obstruction Candidates",
         "",
         f"- residual_count: `{summary.get('residual_count', 0)}`",
         f"- not_found_count: `{summary.get('not_found_count', 0)}`",
         f"- verification_failed_count: `{summary.get('verification_failed_count', 0)}`",
+        "",
+        "## Consistency Checks",
+        "",
+        *(
+            f"- {key}: `{value}`"
+            for key, value in diagnostics.get("consistency_checks", {}).items()
+        ),
+        "",
+        "## Safety Notes",
+        "",
+        "Duplicates are not promoted. Finite search misses are residual evidence only. Scheduler/advisory rows are not truth.",
         "",
         "## Which Residuals Should Be Tried Next?",
         "",
@@ -892,6 +942,17 @@ def _write_diagnostics_markdown(diagnostics: dict[str, Any], path: Path) -> None
         TRUTH_BOUNDARY_NOTE,
     ]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _write_empty_episode_artifacts(paths: dict[str, Path]) -> None:
+    _write_jsonl([], paths["task_outcome_ledger"])
+    _write_jsonl([], paths["duplicate_certificates"])
+    _write_jsonl([], paths["residual_obstruction_candidates"])
+    _write_jsonl([], paths["residual_queue"])
+    _write_jsonl([], paths["new_certificates"])
+    diagnostics = _episode_diagnostics([])
+    _write_json(diagnostics, paths["episode_diagnostics_json"])
+    _write_diagnostics_markdown(diagnostics, paths["episode_diagnostics_md"])
 
 
 def _read_json(path: str | Path) -> dict[str, Any]:
@@ -920,6 +981,14 @@ def _write_jsonl(rows: list[dict[str, Any]], path: str | Path) -> None:
     with target.open("w", encoding="utf-8") as handle:
         for row in rows:
             handle.write(json.dumps(row, sort_keys=True) + "\n")
+
+
+def _count_by(rows: list[dict[str, Any]], key: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        value = str(row.get(key) or "none")
+        counts[value] = counts.get(value, 0) + 1
+    return counts
 
 
 def _optional_int(value: Any) -> int | None:
