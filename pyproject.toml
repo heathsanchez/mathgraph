@@ -18,5 +18,5 @@ include = ["mathgraph*", "adapters*"]
 exclude = ["SAIR_MathGraph*", "codex*", "scripts*", "tests*", "docs*"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "competitions/sair_stage2/tests"]
 pythonpath = ["."]

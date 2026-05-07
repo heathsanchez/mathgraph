@@ -187,6 +187,15 @@ JSON/JSONL artifacts and a Markdown report. This proves the feedback loop is
 wired; it is not full theorem proving or Lean automation. See
 [Metabolic Cycle Testbed](docs/metabolic_cycle.md).
 
+## SAIR Stage 2 Competition Solver Path
+
+The competition-specific single-file solver target lives in
+`competitions/sair_stage2/`. It compiles a standalone
+`competitions/sair_stage2/dist/solver.py` under 500KB from compact SAIR runtime
+logic. This path is intentionally isolated: `mathgraph` remains the general
+verification kernel, and the generated solver must not import MathGraph or
+runtime dependencies outside the Python standard library.
+
 ## Quick Start
 
 ```bash
