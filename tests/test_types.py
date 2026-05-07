@@ -26,6 +26,7 @@ def test_type_expr_parsing_and_roundtrip():
 
 def test_typed_object_and_hyperintensional_merge_guard():
     object_id = canonical_encoded_object_id("k", "w", "<i>", {"motif": "projection_left"})
+    assert object_id == canonical_encoded_object_id("k", "w", "< i >", {"motif": "projection_left"})
     obj = TypedObject(
         object_id=object_id,
         type_expr="<i>",

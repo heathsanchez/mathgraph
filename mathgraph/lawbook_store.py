@@ -508,6 +508,120 @@ class LawbookStore:
                 created_at TEXT NOT NULL
             );
             CREATE INDEX IF NOT EXISTS idx_reason_containment_reason ON reason_containment_records(reason_node_id);
+
+            CREATE TABLE IF NOT EXISTS object_language_terms (
+                term_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                raw_text TEXT,
+                normalized_text TEXT,
+                type_expr TEXT,
+                denotation_status TEXT,
+                role TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_object_terms_kernel ON object_language_terms(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS object_language_formulas (
+                formula_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                raw_text TEXT,
+                normalized_text TEXT,
+                type_expr TEXT,
+                formula_role TEXT,
+                denotation_status TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_object_formulas_kernel ON object_language_formulas(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS theory_declarations (
+                declaration_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                declaration_kind TEXT,
+                name TEXT,
+                statement TEXT,
+                source_file TEXT,
+                source_line INTEGER,
+                trust_level TEXT,
+                provenance_type TEXT,
+                host_logic TEXT,
+                object_logic TEXT,
+                object_theory_verified INTEGER,
+                host_embedding_verified INTEGER,
+                artifact_risk TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_theory_declarations_kernel ON theory_declarations(domain_kernel_id);
+            CREATE INDEX IF NOT EXISTS idx_theory_declarations_kind ON theory_declarations(declaration_kind);
+
+            CREATE TABLE IF NOT EXISTS proof_methods (
+                proof_method_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                name TEXT,
+                method_kind TEXT,
+                source_file TEXT,
+                source_line INTEGER,
+                trust_level TEXT,
+                provenance_type TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_proof_methods_kernel ON proof_methods(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS inference_rules (
+                inference_rule_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                name TEXT,
+                rule_kind TEXT,
+                statement TEXT,
+                source_file TEXT,
+                source_line INTEGER,
+                trust_level TEXT,
+                provenance_type TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_inference_rules_kernel ON inference_rules(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS isabelle_export_records (
+                export_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                name TEXT,
+                source_file TEXT,
+                host_logic TEXT,
+                object_logic TEXT,
+                export_status TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_isabelle_exports_kernel ON isabelle_export_records(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS host_object_theorem_links (
+                link_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                host_theorem_id TEXT,
+                object_theorem_id TEXT,
+                export_status TEXT,
+                proof_transport_status TEXT,
+                artifact_risk TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_host_object_links_kernel ON host_object_theorem_links(domain_kernel_id);
             """
         )
         self._ensure_columns(
@@ -521,6 +635,8 @@ class LawbookStore:
                 "default_denotation_policy": "TEXT",
                 "default_type_system": "TEXT",
                 "default_identity_policy": "TEXT",
+                "default_hyperintensional_identity_policy": "TEXT",
+                "extensional_collapse_policy": "TEXT",
                 "notes": "TEXT",
             },
         )
@@ -838,8 +954,9 @@ class LawbookStore:
                 ontology_summary_json, metadata_json, created_at, host_logic,
                 object_logic, object_theory, artifact_risk, proof_transport_status,
                 default_denotation_policy, default_type_system, default_identity_policy,
+                default_hyperintensional_identity_policy, extensional_collapse_policy,
                 notes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 data["kernel_id"],
@@ -862,6 +979,8 @@ class LawbookStore:
                 data.get("default_denotation_policy", ""),
                 data.get("default_type_system", ""),
                 data.get("default_identity_policy", ""),
+                data.get("default_hyperintensional_identity_policy", ""),
+                data.get("extensional_collapse_policy", "NEVER_BY_DEFAULT"),
                 data.get("notes", ""),
             ),
         )
@@ -1011,6 +1130,13 @@ class LawbookStore:
                 "formal_worlds",
                 "paradox_guards",
                 "reason_containment_records",
+                "object_language_terms",
+                "object_language_formulas",
+                "theory_declarations",
+                "proof_methods",
+                "inference_rules",
+                "isabelle_export_records",
+                "host_object_theorem_links",
             )
         }
         by_host = Counter(
@@ -1352,6 +1478,135 @@ class LawbookStore:
         clauses, params = _filters({"reason_node_id": reason_node_id, "domain_kernel_id": domain_kernel_id})
         return [_payload_record(row) for row in self._select("reason_containment_records", clauses, params)]
 
+    def add_object_language_term(self, term: Any) -> None:
+        self._insert_payload_table(
+            "object_language_terms",
+            _as_dict(term),
+            "term_id",
+            (
+                "domain_kernel_id", "formal_world_id", "raw_text", "normalized_text",
+                "type_expr", "denotation_status", "role",
+            ),
+        )
+
+    def list_object_language_terms(
+        self, domain_kernel_id: str | None = None, formal_world_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "formal_world_id": formal_world_id})
+        return [_payload_record(row) for row in self._select("object_language_terms", clauses, params)]
+
+    def add_object_language_formula(self, formula: Any) -> None:
+        self._insert_payload_table(
+            "object_language_formulas",
+            _as_dict(formula),
+            "formula_id",
+            (
+                "domain_kernel_id", "formal_world_id", "raw_text", "normalized_text",
+                "type_expr", "formula_role", "denotation_status",
+            ),
+        )
+
+    def list_object_language_formulas(
+        self, domain_kernel_id: str | None = None, formal_world_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "formal_world_id": formal_world_id})
+        return [_payload_record(row) for row in self._select("object_language_formulas", clauses, params)]
+
+    def add_theory_declaration(self, declaration: Any) -> None:
+        self._insert_payload_table(
+            "theory_declarations",
+            _as_dict(declaration),
+            "declaration_id",
+            (
+                "domain_kernel_id", "formal_world_id", "theory_id", "declaration_kind",
+                "name", "statement", "source_file", "source_line", "trust_level",
+                "provenance_type", "host_logic", "object_logic", "object_theory_verified",
+                "host_embedding_verified", "artifact_risk",
+            ),
+        )
+
+    def list_theory_declarations(
+        self,
+        domain_kernel_id: str | None = None,
+        theory_id: str | None = None,
+        declaration_kind: str | None = None,
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters(
+            {"domain_kernel_id": domain_kernel_id, "theory_id": theory_id, "declaration_kind": declaration_kind}
+        )
+        return [_payload_record(row) for row in self._select("theory_declarations", clauses, params)]
+
+    def add_proof_method(self, method: Any) -> None:
+        self._insert_payload_table(
+            "proof_methods",
+            _as_dict(method),
+            "proof_method_id",
+            (
+                "domain_kernel_id", "formal_world_id", "theory_id", "name",
+                "method_kind", "source_file", "source_line", "trust_level",
+                "provenance_type",
+            ),
+        )
+
+    def list_proof_methods(
+        self, domain_kernel_id: str | None = None, theory_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
+        return [_payload_record(row) for row in self._select("proof_methods", clauses, params)]
+
+    def add_inference_rule(self, rule: Any) -> None:
+        self._insert_payload_table(
+            "inference_rules",
+            _as_dict(rule),
+            "inference_rule_id",
+            (
+                "domain_kernel_id", "formal_world_id", "theory_id", "name",
+                "rule_kind", "statement", "source_file", "source_line",
+                "trust_level", "provenance_type",
+            ),
+        )
+
+    def list_inference_rules(
+        self, domain_kernel_id: str | None = None, theory_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
+        return [_payload_record(row) for row in self._select("inference_rules", clauses, params)]
+
+    def add_isabelle_export_record(self, record: Any) -> None:
+        self._insert_payload_table(
+            "isabelle_export_records",
+            _as_dict(record),
+            "export_id",
+            (
+                "domain_kernel_id", "formal_world_id", "theory_id", "name",
+                "source_file", "host_logic", "object_logic", "export_status",
+            ),
+        )
+
+    def list_isabelle_export_records(
+        self, domain_kernel_id: str | None = None, theory_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
+        return [_payload_record(row) for row in self._select("isabelle_export_records", clauses, params)]
+
+    def add_host_object_theorem_link(self, link: Any) -> None:
+        self._insert_payload_table(
+            "host_object_theorem_links",
+            _as_dict(link),
+            "link_id",
+            (
+                "domain_kernel_id", "formal_world_id", "theory_id", "host_theorem_id",
+                "object_theorem_id", "export_status", "proof_transport_status",
+                "artifact_risk",
+            ),
+        )
+
+    def list_host_object_theorem_links(
+        self, domain_kernel_id: str | None = None, theory_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
+        return [_payload_record(row) for row in self._select("host_object_theorem_links", clauses, params)]
+
     def _select(self, table: str, clauses: list[str], params: list[Any]) -> list[sqlite3.Row]:
         self.init_schema()
         where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
@@ -1515,6 +1770,13 @@ class LawbookStore:
                 "formal_worlds",
                 "paradox_guards",
                 "reason_containment_records",
+                "object_language_terms",
+                "object_language_formulas",
+                "theory_declarations",
+                "proof_methods",
+                "inference_rules",
+                "isabelle_export_records",
+                "host_object_theorem_links",
             )
         }
         cert_rows = [dict(row) for row in self.conn.execute("SELECT terminal_form FROM certificates")]
@@ -2011,6 +2273,8 @@ def _domain_kernel_record(row: sqlite3.Row) -> dict[str, Any]:
         "default_denotation_policy": data.get("default_denotation_policy") or "",
         "default_type_system": data.get("default_type_system") or "",
         "default_identity_policy": data.get("default_identity_policy") or "",
+        "default_hyperintensional_identity_policy": data.get("default_hyperintensional_identity_policy") or "",
+        "extensional_collapse_policy": data.get("extensional_collapse_policy") or "NEVER_BY_DEFAULT",
         "notes": data.get("notes") or "",
         "created_at": data["created_at"],
         "advisory_only": True,

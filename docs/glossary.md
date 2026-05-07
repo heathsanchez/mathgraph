@@ -57,3 +57,7 @@
 - **Reason Containment**: advisory explanation scaffold for source-containing-target or countermodel-separating-target patterns.
 - **Hyperintensional Identity**: identity policy that refuses to collapse objects merely by same extension, examples, coverage, or truth value.
 - **Artifact Risk**: explicit risk that a host-logic or embedding artifact is not yet a target-theory certificate.
+- **Object-Language IR**: stable container for imported term/formula text before full parsing or verification.
+- **Theory Registry**: advisory index of axioms, definitions, theorems, proof methods, and inference rules.
+- **AOT Scanner**: metadata-only scanner for AOT `.thy` / `.ML` declarations; it does not run Isabelle.
+- **Host/Object Theorem Link**: explicit record connecting host theorem metadata to target-theory theorem metadata.

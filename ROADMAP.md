@@ -9,6 +9,8 @@
 - Keep trust/provenance separate from terminal truth.
 - Keep encoding distinct from exemplification.
 - Keep denotation/free-logic and artifact-risk guardrails explicit.
+- Store object-language IR, theory declarations, proof-method metadata, and
+  advisory AOT scanner output without treating them as verification.
 - Preserve derived-false replay semantics: logical rows are not finite
   certificates until table/witness replay succeeds.
 - Maintain root, reason, and obstruction schemas for v16.7 artifacts.
@@ -19,6 +21,7 @@
 
 - Root-aware oracle advice backed by typed predication and lawbook metadata.
 - Real Isabelle session importer for AOT metadata and proof dependencies.
+- Host/object theorem transport validation for scanned/imported AOT artifacts.
 - Constructor pressure from the Obstruction Atlas.
 - Larger canonical root consolidation over full external v16.7 artifacts.
 - Reason compression and root/reason/obstruction query UX.

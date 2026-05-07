@@ -6,6 +6,7 @@ from mathgraph.paradox_guards import set_collapse_guard
 from mathgraph.predication import encodes
 from mathgraph.reason_containment import ReasonContainmentRecord
 from mathgraph.semantic_embeddings import ArtifactRisk, EmbeddingKind, SemanticEmbedding
+from mathgraph.object_language import ObjectLanguageFormula, ObjectLanguageTerm
 from mathgraph.theory_objectification import (
     AnalyticTruth,
     TheoryDenotation,
@@ -13,6 +14,14 @@ from mathgraph.theory_objectification import (
     TheoryObjectificationMap,
     TheoryReading,
 )
+from mathgraph.theory_registry import (
+    InferenceRule,
+    ProofMethod,
+    ProofMethodKind,
+    TheoryDeclaration,
+    TheoryDeclarationKind,
+)
+from mathgraph.isabelle_exports import HostObjectTheoremLink, IsabelleExportRecord
 from mathgraph.types import TypedObject
 
 
@@ -67,6 +76,48 @@ def test_lawbook_store_persists_v1610_objects(tmp_path):
         store.add_reason_containment_record(
             ReasonContainmentRecord("rc1", "reason1", "etp_magma", "formal_world_etp_magma", "s", "t")
         )
+        store.add_object_language_term(
+            ObjectLanguageTerm("term1", "etp_magma", "formal_world_etp_magma", "x")
+        )
+        store.add_object_language_formula(
+            ObjectLanguageFormula("formula1", "etp_magma", "formal_world_etp_magma", "x = x")
+        )
+        store.add_theory_declaration(
+            TheoryDeclaration(
+                "decl1",
+                "etp_magma",
+                "formal_world_etp_magma",
+                "T",
+                TheoryDeclarationKind.THEOREM,
+                "refl",
+            )
+        )
+        store.add_proof_method(
+            ProofMethod(
+                "pm1",
+                "etp_magma",
+                "formal_world_etp_magma",
+                "T",
+                "simp",
+                ProofMethodKind.REWRITE_RULE,
+            )
+        )
+        store.add_inference_rule(
+            InferenceRule(
+                "ir1",
+                "etp_magma",
+                "formal_world_etp_magma",
+                "T",
+                "intro",
+                ProofMethodKind.INTRO_RULE,
+            )
+        )
+        store.add_isabelle_export_record(
+            IsabelleExportRecord("ex1", "aot", "formal_world_aot_precedent", "AOT", "foo")
+        )
+        store.add_host_object_theorem_link(
+            HostObjectTheoremLink("link1", "aot", "formal_world_aot_precedent", "AOT", "host.foo", "obj.foo")
+        )
 
         assert store.get_typed_object("root1")["object_id"] == "root1"
         assert len(store.list_predication_facts(subject_id="root1")) == 1
@@ -80,8 +131,16 @@ def test_lawbook_store_persists_v1610_objects(tmp_path):
         assert len(store.list_theory_readings("etp_magma")) == 1
         assert len(store.list_analytic_truths("etp_magma")) == 1
         assert len(store.list_reason_containment_records("reason1")) == 1
+        assert len(store.list_object_language_terms("etp_magma")) == 1
+        assert len(store.list_object_language_formulas("etp_magma")) == 1
+        assert len(store.list_theory_declarations("etp_magma")) == 1
+        assert len(store.list_proof_methods("etp_magma")) == 1
+        assert len(store.list_inference_rules("etp_magma")) == 1
+        assert len(store.list_isabelle_export_records("aot")) == 1
+        assert len(store.list_host_object_theorem_links("aot")) == 1
         summary = store.summary()
         assert summary["warehouse"]["typed_objects"] == 1
         assert summary["warehouse"]["predication_facts"] == 1
+        assert summary["warehouse"]["theory_declarations"] == 1
     finally:
         store.close()

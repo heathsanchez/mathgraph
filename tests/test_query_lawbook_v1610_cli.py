@@ -4,9 +4,11 @@ import sys
 
 from mathgraph.denotation import DenotationRecord, DenotationStatus
 from mathgraph.lawbook_store import LawbookStore
+from mathgraph.object_language import ObjectLanguageFormula, ObjectLanguageTerm
 from mathgraph.predication import encodes
 from mathgraph.reason_containment import ReasonContainmentRecord
 from mathgraph.theory_objectification import AnalyticTruth, TheoryObjectificationMap
+from mathgraph.theory_registry import ProofMethod, TheoryDeclaration, TheoryDeclarationKind, InferenceRule
 from mathgraph.types import TypedObject
 
 
@@ -20,6 +22,11 @@ def test_query_lawbook_v1610_tables(tmp_path):
         store.add_theory_objectification_map(TheoryObjectificationMap("m", "k", None, "T"))
         store.add_analytic_truth(AnalyticTruth("a", "k", None, "T", "S", "r"))
         store.add_reason_containment_record(ReasonContainmentRecord("c", "r", "k", None, "s", "t"))
+        store.add_object_language_term(ObjectLanguageTerm("term", "k", None, "x"))
+        store.add_object_language_formula(ObjectLanguageFormula("formula", "k", None, "x=x"))
+        store.add_theory_declaration(TheoryDeclaration("decl", "k", None, "T", TheoryDeclarationKind.AXIOM, "ax"))
+        store.add_proof_method(ProofMethod("pm", "k", None, "T", "method"))
+        store.add_inference_rule(InferenceRule("ir", "k", None, "T", "rule"))
     finally:
         store.close()
 
@@ -30,6 +37,11 @@ def test_query_lawbook_v1610_tables(tmp_path):
         "--theory-objectification-maps",
         "--analytic-truths",
         "--reason-containment",
+        "--object-language-terms",
+        "--object-language-formulas",
+        "--theory-declarations",
+        "--proof-methods",
+        "--inference-rules",
     ):
         result = subprocess.run(
             [sys.executable, "scripts/query_lawbook.py", "--db", str(db), flag],

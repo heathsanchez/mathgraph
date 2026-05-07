@@ -107,6 +107,8 @@ class DomainKernel:
     default_denotation_policy: str = ""
     default_type_system: str = ""
     default_identity_policy: str = ""
+    default_hyperintensional_identity_policy: str = ""
+    extensional_collapse_policy: str = "NEVER_BY_DEFAULT"
     notes: str = ""
 
     @classmethod
@@ -131,6 +133,8 @@ class DomainKernel:
         default_denotation_policy: str = "",
         default_type_system: str = "",
         default_identity_policy: str = "",
+        default_hyperintensional_identity_policy: str = "",
+        extensional_collapse_policy: str = "NEVER_BY_DEFAULT",
         notes: str = "",
     ) -> "DomainKernel":
         return cls(
@@ -155,6 +159,8 @@ class DomainKernel:
             default_denotation_policy=default_denotation_policy,
             default_type_system=default_type_system,
             default_identity_policy=default_identity_policy,
+            default_hyperintensional_identity_policy=default_hyperintensional_identity_policy,
+            extensional_collapse_policy=extensional_collapse_policy,
             notes=notes,
         )
 
@@ -190,6 +196,8 @@ class DomainKernel:
             "default_denotation_policy": self.default_denotation_policy,
             "default_type_system": self.default_type_system,
             "default_identity_policy": self.default_identity_policy,
+            "default_hyperintensional_identity_policy": self.default_hyperintensional_identity_policy,
+            "extensional_collapse_policy": self.extensional_collapse_policy,
             "notes": self.notes,
         }
 
@@ -226,6 +234,10 @@ class DomainKernel:
             default_denotation_policy=str(data.get("default_denotation_policy", "")),
             default_type_system=str(data.get("default_type_system", "")),
             default_identity_policy=str(data.get("default_identity_policy", "")),
+            default_hyperintensional_identity_policy=str(
+                data.get("default_hyperintensional_identity_policy", "")
+            ),
+            extensional_collapse_policy=str(data.get("extensional_collapse_policy", "NEVER_BY_DEFAULT")),
             notes=str(data.get("notes", "")),
         )
         return kernel.validate()
@@ -408,10 +420,13 @@ def make_aot_domain_kernel(source_commit: str = "") -> DomainKernel:
         default_type_system="relational_type_theory",
         default_denotation_policy="negative_free_logic_guarded",
         default_identity_policy="abstract_identity_by_encoded_properties",
+        default_hyperintensional_identity_policy="ENCODED_PROPERTIES",
+        extensional_collapse_policy="NEVER_BY_DEFAULT",
         notes=(
             "AOT metadata preset: encoding/exemplification, abstract vs ordinary "
             "objects, canonical descriptions, shallow semantic embedding precedent, "
-            "artifact theorem risk, denotation guardrails for complex terms, no "
+            "artifact theorem risk, denotation guardrails for complex terms, "
+            "hyperintensional identity, no "
             "Isabelle import yet."
         ),
     )
@@ -438,6 +453,8 @@ def make_etp_domain_kernel(source_commit: str = "") -> DomainKernel:
         default_type_system="single binary operation magma language",
         default_denotation_policy="all parsed core equations denote unless parser fails",
         default_identity_policy="equation_id_and_normalized_syntax",
+        default_hyperintensional_identity_policy="NORMALIZED_SYNTAX",
+        extensional_collapse_policy="ALLOW_IF_VERIFIED_EQUIVALENCE",
         notes="Native finite-checker metadata for the SAIR/ETP algebraic nursery.",
     )
 

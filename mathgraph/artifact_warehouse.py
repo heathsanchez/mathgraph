@@ -128,9 +128,9 @@ def _store_advisory_objectification(store: LawbookStore, rows: list[Any], kind: 
     from mathgraph.types import TypedObject, canonical_encoded_object_id
 
     property_fields = {
-        "RootNode": ("table_motif", "algebra_shape", "source_target_basin"),
-        "ReasonNode": ("reason_type", "source_basin", "target_basin"),
-        "ObstructionNode": ("failure_reason", "next_constructor_pressure"),
+        "RootNode": ("table_motif", "algebra_shape", "source_target_basin", "forced_transition", "root_type"),
+        "ReasonNode": ("reason_type", "source_basin", "target_basin", "table_motif", "algebra_shape"),
+        "ObstructionNode": ("failure_reason", "next_constructor_pressure", "source_target_basin", "table_motif"),
     }[kind]
     id_key = {
         "RootNode": "root_node_id",

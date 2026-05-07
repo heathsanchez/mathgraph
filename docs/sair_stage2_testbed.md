@@ -880,3 +880,7 @@ This does not change certificate semantics. A root may encode a table motif, a
 reason may encode a containment pattern, and an obstruction may encode a failed
 route, but these encoding facts are not verifier results. Only verified proofs,
 finite countermodels, and named obstructions cross the terminal-form boundary.
+
+The same substrate also supports advisory object-language formulas, theory
+declarations, proof methods, and AOT scanner rows. These are context for future
+constructors/importers, not terminal claims.

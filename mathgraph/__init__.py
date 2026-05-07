@@ -114,6 +114,26 @@ from mathgraph.theory_objectification import (
     TheoryObjectificationMap,
     TheoryReading,
 )
+from mathgraph.object_language import (
+    FormulaRole,
+    ObjectLanguageFormula,
+    ObjectLanguageKind,
+    ObjectLanguageTerm,
+    normalize_object_language_text,
+)
+from mathgraph.theory_registry import (
+    InferenceRule,
+    ProofMethod,
+    ProofMethodKind,
+    TheoryDeclaration,
+    TheoryDeclarationKind,
+)
+from mathgraph.aot_scanner import AOTScannedDeclaration, AOTScanResult, scan_aot_repository
+from mathgraph.isabelle_exports import (
+    HostObjectTheoremLink,
+    IsabelleExportRecord,
+    IsabelleExportStatus,
+)
 from mathgraph.types import (
     ExtensionalCollapsePolicy,
     HyperintensionalIdentityMode,
@@ -427,4 +447,20 @@ __all__ = [
     "semantic_embedding_artifact_guard",
     "set_collapse_guard",
     "should_merge_objects",
+    "AOTScanResult",
+    "AOTScannedDeclaration",
+    "FormulaRole",
+    "HostObjectTheoremLink",
+    "InferenceRule",
+    "IsabelleExportRecord",
+    "IsabelleExportStatus",
+    "ObjectLanguageFormula",
+    "ObjectLanguageKind",
+    "ObjectLanguageTerm",
+    "ProofMethod",
+    "ProofMethodKind",
+    "TheoryDeclaration",
+    "TheoryDeclarationKind",
+    "normalize_object_language_text",
+    "scan_aot_repository",
 ]

@@ -43,6 +43,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--theory-readings", action="store_true")
     parser.add_argument("--analytic-truths", action="store_true")
     parser.add_argument("--reason-containment", action="store_true")
+    parser.add_argument("--object-language-terms", action="store_true")
+    parser.add_argument("--object-language-formulas", action="store_true")
+    parser.add_argument("--theory-declarations", action="store_true")
+    parser.add_argument("--proof-methods", action="store_true")
+    parser.add_argument("--inference-rules", action="store_true")
+    parser.add_argument("--isabelle-exports", action="store_true")
+    parser.add_argument("--host-object-links", action="store_true")
     args = parser.parse_args(argv)
     store = LawbookStore(args.db)
     try:
@@ -95,6 +102,20 @@ def main(argv: list[str] | None = None) -> int:
             payload = store.list_analytic_truths()
         elif args.reason_containment:
             payload = store.list_reason_containment_records()
+        elif args.object_language_terms:
+            payload = store.list_object_language_terms()
+        elif args.object_language_formulas:
+            payload = store.list_object_language_formulas()
+        elif args.theory_declarations:
+            payload = store.list_theory_declarations()
+        elif args.proof_methods:
+            payload = store.list_proof_methods()
+        elif args.inference_rules:
+            payload = store.list_inference_rules()
+        elif args.isabelle_exports:
+            payload = store.list_isabelle_export_records()
+        elif args.host_object_links:
+            payload = store.list_host_object_theorem_links()
         else:
             parser.error("provide a query option")
         print(json.dumps(payload, indent=2, sort_keys=True))

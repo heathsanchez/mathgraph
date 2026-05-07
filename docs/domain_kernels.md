@@ -40,3 +40,8 @@ The key distinction is still the truth boundary: registering a kernel, encoding
 a property, or importing an object-theory metadata row does not verify a target
 theorem. Host-logic proof becomes target-logic proof only when proof transport
 or native verification is explicit and low risk.
+
+The AOT scanner and theory registry can index declarations and proof-method
+infrastructure from local `.thy` / `.ML` files, but those rows remain advisory
+until connected to verified Isabelle export artifacts and validated
+host/object theorem links.

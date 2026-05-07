@@ -31,3 +31,7 @@ that precedent: encoding/exemplification, denotation status, bounded fragments,
 formal worlds, and artifact-risk metadata. The substrate is deliberately
 conservative: same extension is not same law, and a host theorem is not a
 target-theory theorem until transport or native checking is explicit.
+
+The AOT scanner indexes `.thy` and `.ML` declarations as advisory theory
+registry rows only. It does not run Isabelle and does not make AOT theorems
+verified inside MathGraph.

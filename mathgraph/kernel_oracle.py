@@ -65,6 +65,12 @@ class KernelOracle:
                 "advisory_only": True,
                 "warning": "Predication/root/reason/obstruction data is advisory unless backed by a terminal certificate.",
             }
+        if hasattr(self.store, "list_reason_containment_records"):
+            answer.evidence["advisory_reason_containment"] = {
+                "records": self.store.list_reason_containment_records()[:10],
+                "advisory_only": True,
+                "warning": "Reason-containment records are advisory unless backed by proof/refutation.",
+            }
         if self.root_oracle is not None:
             pressure = _root_pressure(self.root_oracle, source, target)
             answer.evidence.update(pressure)

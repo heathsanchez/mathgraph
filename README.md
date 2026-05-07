@@ -111,7 +111,12 @@ behavior is not same root, and same truth value is not same continuation.
 See [Typed Predication Kernel](docs/typed_predication_kernel.md),
 [Theory Objectification](docs/theory_objectification.md),
 [Formal Worlds](docs/formal_worlds.md), [Paradox Guards](docs/paradox_guards.md),
-and [Reason Containment](docs/reason_containment.md).
+and [Reason Containment](docs/reason_containment.md). The companion
+[Formal Object-Language IR](docs/formal_object_language.md),
+[Theory Registry](docs/theory_registry.md),
+[AOT Scanner](docs/aot_scanner.md), and
+[Hyperintensional Identity](docs/hyperintensional_identity.md) pages describe
+the advisory scanner/registry layer for future Isabelle/AOT imports.
 
 ## Quick Start
 
