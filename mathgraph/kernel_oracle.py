@@ -59,6 +59,12 @@ class KernelOracle:
         if claim.get("status") == "hit":
             return _answer_from_warehouse_claim(claim)
         answer = _answer_from_record(self.store.explain_pair(source, target))
+        if hasattr(self.store, "list_predication_facts"):
+            answer.evidence["advisory_predication"] = {
+                "facts": self.store.list_predication_facts()[:10],
+                "advisory_only": True,
+                "warning": "Predication/root/reason/obstruction data is advisory unless backed by a terminal certificate.",
+            }
         if self.root_oracle is not None:
             pressure = _root_pressure(self.root_oracle, source, target)
             answer.evidence.update(pressure)

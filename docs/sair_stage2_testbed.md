@@ -868,3 +868,15 @@ python scripts/query_lawbook.py \
 
 DomainKernel rows are metadata. Proof authority remains with the host verifier
 and explicitly imported proof/certificate artifacts.
+
+## Typed Predication and Objectification
+
+The SAIR magma nursery now sits inside the v16.10 typed predication substrate.
+ETP equations, implications, finite tables, witnesses, roots, reasons, and
+obstructions can be represented as typed formal objects and advisory
+predication facts.
+
+This does not change certificate semantics. A root may encode a table motif, a
+reason may encode a containment pattern, and an obstruction may encode a failed
+route, but these encoding facts are not verifier results. Only verified proofs,
+finite countermodels, and named obstructions cross the terminal-form boundary.

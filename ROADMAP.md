@@ -2,9 +2,13 @@
 
 ## Now
 
+- v16.10 typed predication kernel and theory objectification substrate.
+- v16.9 DomainKernel registry, including AOT/Isabelle metadata registration.
 - v16.8 persistent LawbookStore / Artifact Warehouse for external v16.6.2 and
   v16.7 artifacts.
 - Keep trust/provenance separate from terminal truth.
+- Keep encoding distinct from exemplification.
+- Keep denotation/free-logic and artifact-risk guardrails explicit.
 - Preserve derived-false replay semantics: logical rows are not finite
   certificates until table/witness replay succeeds.
 - Maintain root, reason, and obstruction schemas for v16.7 artifacts.
@@ -13,8 +17,8 @@
 
 ## Next
 
-- v16.9 DomainKernel registry, including AOT/Isabelle metadata registration.
-- Root-aware oracle advice backed by the persistent warehouse.
+- Root-aware oracle advice backed by typed predication and lawbook metadata.
+- Real Isabelle session importer for AOT metadata and proof dependencies.
 - Constructor pressure from the Obstruction Atlas.
 - Larger canonical root consolidation over full external v16.7 artifacts.
 - Reason compression and root/reason/obstruction query UX.

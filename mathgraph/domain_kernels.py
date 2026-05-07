@@ -99,6 +99,15 @@ class DomainKernel:
     trust_policy: str = ""
     ontology_summary: list[str] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
+    host_logic: str = ""
+    object_logic: str = ""
+    object_theory: str = ""
+    artifact_risk: str = "UNKNOWN"
+    proof_transport_status: str = "NOT_ATTEMPTED"
+    default_denotation_policy: str = ""
+    default_type_system: str = ""
+    default_identity_policy: str = ""
+    notes: str = ""
 
     @classmethod
     def create(
@@ -114,6 +123,15 @@ class DomainKernel:
         trust_policy: str = "",
         ontology_summary: list[str] | None = None,
         metadata: dict[str, Any] | None = None,
+        host_logic: str = "",
+        object_logic: str = "",
+        object_theory: str = "",
+        artifact_risk: str = "UNKNOWN",
+        proof_transport_status: str = "NOT_ATTEMPTED",
+        default_denotation_policy: str = "",
+        default_type_system: str = "",
+        default_identity_policy: str = "",
+        notes: str = "",
     ) -> "DomainKernel":
         return cls(
             kernel_id=make_kernel_id(name, source_uri, source_commit),
@@ -129,6 +147,15 @@ class DomainKernel:
             trust_policy=trust_policy,
             ontology_summary=list(ontology_summary or []),
             metadata=dict(metadata or {}),
+            host_logic=host_logic,
+            object_logic=object_logic,
+            object_theory=object_theory,
+            artifact_risk=artifact_risk,
+            proof_transport_status=proof_transport_status,
+            default_denotation_policy=default_denotation_policy,
+            default_type_system=default_type_system,
+            default_identity_policy=default_identity_policy,
+            notes=notes,
         )
 
     def validate(self) -> "DomainKernel":
@@ -155,6 +182,15 @@ class DomainKernel:
             "trust_policy": self.trust_policy,
             "ontology_summary": list(self.ontology_summary),
             "metadata": dict(self.metadata),
+            "host_logic": self.host_logic,
+            "object_logic": self.object_logic,
+            "object_theory": self.object_theory,
+            "artifact_risk": self.artifact_risk,
+            "proof_transport_status": self.proof_transport_status,
+            "default_denotation_policy": self.default_denotation_policy,
+            "default_type_system": self.default_type_system,
+            "default_identity_policy": self.default_identity_policy,
+            "notes": self.notes,
         }
 
     @classmethod
@@ -182,6 +218,15 @@ class DomainKernel:
             trust_policy=str(data.get("trust_policy", "")),
             ontology_summary=[str(item) for item in data.get("ontology_summary", [])],
             metadata=dict(data.get("metadata", {})),
+            host_logic=str(data.get("host_logic", "")),
+            object_logic=str(data.get("object_logic", "")),
+            object_theory=str(data.get("object_theory", "")),
+            artifact_risk=str(data.get("artifact_risk", "UNKNOWN")),
+            proof_transport_status=str(data.get("proof_transport_status", "NOT_ATTEMPTED")),
+            default_denotation_policy=str(data.get("default_denotation_policy", "")),
+            default_type_system=str(data.get("default_type_system", "")),
+            default_identity_policy=str(data.get("default_identity_policy", "")),
+            notes=str(data.get("notes", "")),
         )
         return kernel.validate()
 
@@ -322,7 +367,8 @@ class ImportedTheoryRelation:
 
 
 def make_aot_domain_kernel(source_commit: str = "") -> DomainKernel:
-    return DomainKernel.create(
+    return DomainKernel(
+        kernel_id="aot",
         name="Abstract Object Theory",
         description=(
             "Metadata registration for Daniel Kirchner's Isabelle/HOL embedding "
@@ -354,6 +400,45 @@ def make_aot_domain_kernel(source_commit: str = "") -> DomainKernel:
             "formal_world": "computational_metaphysics",
             "truth_boundary": "metadata_only_until_proof_artifacts_are_imported",
         },
+        host_logic="Isabelle/HOL",
+        object_logic="AOT / second-order modal object theory",
+        object_theory="Abstract Object Theory",
+        artifact_risk="UNKNOWN",
+        proof_transport_status="NOT_ATTEMPTED",
+        default_type_system="relational_type_theory",
+        default_denotation_policy="negative_free_logic_guarded",
+        default_identity_policy="abstract_identity_by_encoded_properties",
+        notes=(
+            "AOT metadata preset: encoding/exemplification, abstract vs ordinary "
+            "objects, canonical descriptions, shallow semantic embedding precedent, "
+            "artifact theorem risk, denotation guardrails for complex terms, no "
+            "Isabelle import yet."
+        ),
+    )
+
+
+def make_etp_domain_kernel(source_commit: str = "") -> DomainKernel:
+    return DomainKernel(
+        kernel_id="etp_magma",
+        name="Equational Theories Project Magma Fragment",
+        description="Native MathGraph nursery for magma equational implication.",
+        native_language="SAIR/ETP magma equations",
+        host_verifier=HostVerifier.PYTHON_FINITE_CHECKER,
+        embedding_kind=SemanticEmbeddingKind.DIRECT_NATIVE,
+        source_uri="",
+        source_commit=source_commit,
+        trust_policy="Finite refutation authority comes from exact finite table checking.",
+        ontology_summary=["equations", "magma operation", "implication claims", "finite tables", "witness assignments"],
+        metadata={"truth_boundary": "finite_search_failure_is_not_proof"},
+        host_logic="Python finite table checker / optional Lean",
+        object_logic="universal equational logic over magmas",
+        object_theory="ETP magma implication fragment",
+        artifact_risk="LOW",
+        proof_transport_status="NOT_APPLICABLE",
+        default_type_system="single binary operation magma language",
+        default_denotation_policy="all parsed core equations denote unless parser fails",
+        default_identity_policy="equation_id_and_normalized_syntax",
+        notes="Native finite-checker metadata for the SAIR/ETP algebraic nursery.",
     )
 
 

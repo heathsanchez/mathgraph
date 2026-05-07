@@ -31,6 +31,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--obstruction")
     parser.add_argument("--domain-kernels", action="store_true")
     parser.add_argument("--domain-kernel")
+    parser.add_argument("--typed-objects", action="store_true")
+    parser.add_argument("--predications", nargs="?", const="", default=None, metavar="SUBJECT_ID")
+    parser.add_argument("--denotations", action="store_true")
+    parser.add_argument("--semantic-embeddings", action="store_true")
+    parser.add_argument("--language-fragments", action="store_true")
+    parser.add_argument("--formal-worlds", action="store_true")
+    parser.add_argument("--paradox-guards", action="store_true")
+    parser.add_argument("--theory-objectification-maps", action="store_true")
+    parser.add_argument("--theory-denotations", action="store_true")
+    parser.add_argument("--theory-readings", action="store_true")
+    parser.add_argument("--analytic-truths", action="store_true")
+    parser.add_argument("--reason-containment", action="store_true")
     args = parser.parse_args(argv)
     store = LawbookStore(args.db)
     try:
@@ -59,6 +71,30 @@ def main(argv: list[str] | None = None) -> int:
             payload = store.list_domain_kernels()
         elif args.domain_kernel:
             payload = store.get_domain_kernel(args.domain_kernel)
+        elif args.typed_objects:
+            payload = store.list_typed_objects()
+        elif args.predications is not None:
+            payload = store.list_predication_facts(subject_id=args.predications or None)
+        elif args.denotations:
+            payload = store.list_denotation_records()
+        elif args.semantic_embeddings:
+            payload = store.list_semantic_embeddings()
+        elif args.language_fragments:
+            payload = store.list_language_fragments()
+        elif args.formal_worlds:
+            payload = store.list_formal_worlds()
+        elif args.paradox_guards:
+            payload = store.list_paradox_guards()
+        elif args.theory_objectification_maps:
+            payload = store.list_theory_objectification_maps()
+        elif args.theory_denotations:
+            payload = store.list_theory_denotations()
+        elif args.theory_readings:
+            payload = store.list_theory_readings()
+        elif args.analytic_truths:
+            payload = store.list_analytic_truths()
+        elif args.reason_containment:
+            payload = store.list_reason_containment_records()
         else:
             parser.error("provide a query option")
         print(json.dumps(payload, indent=2, sort_keys=True))

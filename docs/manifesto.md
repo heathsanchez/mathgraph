@@ -31,6 +31,11 @@ mathematical authority.
 LOGOS middleware means a model can propose, but the verifier boundary decides.
 MathGraph is the bridge between generative imagination and lawful continuation.
 
-Near term: canonical root consolidation, reason compression, root/reason/
-obstruction oracle, and finite-countermodel constructor improvement. Later:
-Lean proof constructors, domain-agnostic claims, and spectral H-tilt.
+Typed predication gives MathGraph a safer metaphysical grammar: encoding is not
+exemplification, denotation matters, semantic embeddings carry artifact risk,
+and same extension is not same law. Formal worlds are context boundaries, not
+proof objects.
+
+Near term: root-aware oracle advice, reason compression, richer
+objectification, and finite-countermodel constructor improvement. Later:
+Lean/Isabelle proof importers, domain-agnostic claims, and spectral H-tilt.

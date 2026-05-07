@@ -25,3 +25,9 @@ Compactly:
 
 This repo currently registers AOT as metadata only. It does not clone AOT, run
 Isabelle, extract theorem dependencies, or verify AOT claims.
+
+v16.10 adds the typed predication and objectification substrate suggested by
+that precedent: encoding/exemplification, denotation status, bounded fragments,
+formal worlds, and artifact-risk metadata. The substrate is deliberately
+conservative: same extension is not same law, and a host theorem is not a
+target-theory theorem until transport or native checking is explicit.

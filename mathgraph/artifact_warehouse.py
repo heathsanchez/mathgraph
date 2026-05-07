@@ -16,7 +16,7 @@ from mathgraph.artifact_importers import (
 )
 from mathgraph.lawbook_store import LawbookStore
 from mathgraph.root_consolidation import build_root_alias_map, consolidate_root_nodes
-from mathgraph.domain_kernels import DomainKernel, make_aot_domain_kernel
+from mathgraph.domain_kernels import DomainKernel, make_aot_domain_kernel, make_etp_domain_kernel
 
 
 def import_v16_6_2_elevated_false_dir(
@@ -66,6 +66,7 @@ def import_v16_7_root_atlas_dir(
         roots = load_v167_root_nodes(roots_path, limit=limit)
         canonical = consolidate_root_nodes(roots)
         summary["roots"] = store.import_roots(canonical)
+        _store_advisory_objectification(store, canonical, "RootNode")
         alias_rows = [
             {"alias": alias, "canonical_name": canonical_name}
             for alias, canonical_name in build_root_alias_map(canonical).items()
@@ -77,10 +78,12 @@ def import_v16_7_root_atlas_dir(
     if reasons_path:
         reasons = load_v167_reason_nodes(reasons_path, limit=limit)
         summary["reasons"] = store.import_reasons(reasons)
+        _store_advisory_objectification(store, reasons, "ReasonNode")
         store.record_artifact_import(reasons_path, "v16_7_reasons", len(reasons))
     if obstructions_path:
         obstructions = load_v167_obstructions(obstructions_path, limit=limit)
         summary["obstructions"] = store.import_obstructions(obstructions)
+        _store_advisory_objectification(store, obstructions, "ObstructionNode")
         store.record_artifact_import(obstructions_path, "v16_7_obstructions", len(obstructions))
     if tables_path:
         rows = load_v167_table_atlas(tables_path, limit=limit)
@@ -110,6 +113,62 @@ def register_domain_kernel_in_store(store: LawbookStore, kernel: DomainKernel) -
 
 def register_aot_kernel(store: LawbookStore, source_commit: str = "") -> dict[str, Any]:
     return register_domain_kernel_in_store(store, make_aot_domain_kernel(source_commit))
+
+
+def register_etp_kernel(store: LawbookStore, source_commit: str = "") -> dict[str, Any]:
+    return register_domain_kernel_in_store(store, make_etp_domain_kernel(source_commit))
+
+
+def _store_advisory_objectification(store: LawbookStore, rows: list[Any], kind: str) -> None:
+    if not hasattr(store, "add_typed_object") or not hasattr(store, "add_predication_fact"):
+        return
+    from mathgraph.denotation import DenotationStatus
+    from mathgraph.predication import PredicateKind, encodes
+    from mathgraph.trust import ProvenanceType, TrustLevel
+    from mathgraph.types import TypedObject, canonical_encoded_object_id
+
+    property_fields = {
+        "RootNode": ("table_motif", "algebra_shape", "source_target_basin"),
+        "ReasonNode": ("reason_type", "source_basin", "target_basin"),
+        "ObstructionNode": ("failure_reason", "next_constructor_pressure"),
+    }[kind]
+    id_key = {
+        "RootNode": "root_node_id",
+        "ReasonNode": "reason_node_id",
+        "ObstructionNode": "obstruction_id",
+    }[kind]
+    for row in rows:
+        data = row.to_dict() if hasattr(row, "to_dict") else dict(row)
+        object_id = str(data.get(id_key) or canonical_encoded_object_id("mathgraph", None, "i", data))
+        store.add_typed_object(
+            TypedObject(
+                object_id=object_id,
+                type_expr="i",
+                object_kind=kind,
+                ordinary_or_abstract="ABSTRACT",
+                domain_kernel_id="mathgraph",
+                label=data.get("canonical_name") or data.get("reason_key") or data.get("obstruction_signature"),
+                encoded_properties={key: data.get(key) for key in property_fields if data.get(key) not in (None, "")},
+                payload={"advisory_only": True, "source": "v16_7_artifact_import"},
+            )
+        )
+        for field in property_fields:
+            value = data.get(field)
+            if value in (None, ""):
+                continue
+            predicate_id = f"{kind}:{field}:{value}"
+            store.add_predication_fact(
+                encodes(
+                    object_id,
+                    predicate_id,
+                    predicate_kind=PredicateKind.ADVISORY_FEATURE,
+                    domain_kernel_id="mathgraph",
+                    trust_level=TrustLevel.ADVISORY_ROUTE,
+                    provenance_type=ProvenanceType.IMPORTED,
+                    denotation_status=DenotationStatus.DENOTES,
+                    payload={"field": field, "value": value, "truth_boundary": "advisory encoding, not verification"},
+                )
+            )
 
 
 def _first_existing(directory: Path, names: tuple[str, ...]) -> Path | None:

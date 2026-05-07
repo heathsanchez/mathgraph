@@ -322,9 +322,233 @@ class LawbookStore:
             );
             CREATE INDEX IF NOT EXISTS idx_theory_relations_kernel ON imported_theory_relations(domain_kernel_id);
             CREATE INDEX IF NOT EXISTS idx_theory_relations_source ON imported_theory_relations(source_object_id);
+
+            CREATE TABLE IF NOT EXISTS typed_objects (
+                object_id TEXT PRIMARY KEY,
+                type_expr TEXT NOT NULL,
+                object_kind TEXT NOT NULL,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                ordinary_or_abstract TEXT,
+                identity_mode TEXT,
+                uniqueness_status TEXT,
+                hyperintensional_identity_mode TEXT,
+                label TEXT,
+                encoded_properties_json TEXT NOT NULL,
+                exemplified_properties_json TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_typed_objects_kernel ON typed_objects(domain_kernel_id);
+            CREATE INDEX IF NOT EXISTS idx_typed_objects_world ON typed_objects(formal_world_id);
+            CREATE INDEX IF NOT EXISTS idx_typed_objects_kind ON typed_objects(object_kind);
+
+            CREATE TABLE IF NOT EXISTS predication_facts (
+                predication_id TEXT PRIMARY KEY,
+                subject_id TEXT NOT NULL,
+                predicate_id TEXT NOT NULL,
+                mode TEXT NOT NULL,
+                predicate_kind TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                denotation_status TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_predication_subject ON predication_facts(subject_id);
+            CREATE INDEX IF NOT EXISTS idx_predication_mode ON predication_facts(mode);
+            CREATE INDEX IF NOT EXISTS idx_predication_kernel ON predication_facts(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS denotation_records (
+                denotation_id TEXT PRIMARY KEY,
+                object_id TEXT NOT NULL,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                denotation_status TEXT NOT NULL,
+                reason TEXT,
+                checked_by TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_denotation_object ON denotation_records(object_id);
+            CREATE INDEX IF NOT EXISTS idx_denotation_kernel ON denotation_records(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS language_fragments (
+                fragment_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                language_name TEXT,
+                width_bound INTEGER,
+                height_bound INTEGER,
+                supported_type_exprs_json TEXT NOT NULL,
+                supported_term_constructors_json TEXT NOT NULL,
+                supported_claim_types_json TEXT NOT NULL,
+                supported_verifiers_json TEXT NOT NULL,
+                blocked_term_patterns_json TEXT NOT NULL,
+                paradox_guard_policy TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_language_fragments_kernel ON language_fragments(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS theory_objectification_maps (
+                map_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                description TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_objectification_maps_kernel ON theory_objectification_maps(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS theory_denotations (
+                denotation_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                source_symbol TEXT,
+                source_kind TEXT,
+                target_object_id TEXT,
+                target_type_expr TEXT,
+                denotation_status TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_theory_denotations_kernel ON theory_denotations(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS theory_readings (
+                reading_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                source_statement TEXT,
+                reading_statement TEXT,
+                reading_type_expr TEXT,
+                denotation_status TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_theory_readings_kernel ON theory_readings(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS analytic_truths (
+                analytic_truth_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theory_id TEXT,
+                statement TEXT,
+                reading_id TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                verifier_id TEXT,
+                denotation_status TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_analytic_truths_kernel ON analytic_truths(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS formal_worlds (
+                formal_world_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                name TEXT,
+                world_kind TEXT,
+                object_logic TEXT,
+                identity_policy TEXT,
+                denotation_policy TEXT,
+                verifier_policy TEXT,
+                language_fragment_ids_json TEXT NOT NULL,
+                semantic_embedding_ids_json TEXT NOT NULL,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_formal_worlds_kernel ON formal_worlds(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS paradox_guards (
+                guard_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                guard_kind TEXT,
+                name TEXT,
+                description TEXT,
+                severity TEXT,
+                blocked_patterns_json TEXT NOT NULL,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_paradox_guards_kernel ON paradox_guards(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS reason_containment_records (
+                containment_id TEXT PRIMARY KEY,
+                reason_node_id TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                source_id TEXT,
+                target_id TEXT,
+                containment_mode TEXT,
+                source_constraints TEXT,
+                target_demand TEXT,
+                separator_certificate_id TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                denotation_status TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_reason_containment_reason ON reason_containment_records(reason_node_id);
             """
         )
+        self._ensure_columns(
+            "domain_kernels",
+            {
+                "host_logic": "TEXT",
+                "object_logic": "TEXT",
+                "object_theory": "TEXT",
+                "artifact_risk": "TEXT",
+                "proof_transport_status": "TEXT",
+                "default_denotation_policy": "TEXT",
+                "default_type_system": "TEXT",
+                "default_identity_policy": "TEXT",
+                "notes": "TEXT",
+            },
+        )
+        self._ensure_columns(
+            "semantic_embeddings",
+            {
+                "formal_world_id": "TEXT",
+                "host_logic": "TEXT",
+                "object_logic": "TEXT",
+                "object_theory": "TEXT",
+                "artifact_risk": "TEXT",
+                "object_theory_verified": "INTEGER",
+                "host_embedding_verified": "INTEGER",
+                "proof_transport_status": "TEXT",
+                "notes": "TEXT",
+                "payload_json": "TEXT",
+            },
+        )
         self.conn.commit()
+
+    def _ensure_columns(self, table: str, columns: dict[str, str]) -> None:
+        existing = {
+            str(row["name"])
+            for row in self.conn.execute(f"PRAGMA table_info({table})").fetchall()
+        }
+        for name, spec in columns.items():
+            if name not in existing:
+                self.conn.execute(f"ALTER TABLE {table} ADD COLUMN {name} {spec}")
 
     def close(self) -> None:
         self.conn.close()
@@ -611,8 +835,11 @@ class LawbookStore:
             INSERT OR REPLACE INTO domain_kernels (
                 kernel_id, name, description, native_language, host_verifier,
                 embedding_kind, source_uri, source_commit, trust_policy,
-                ontology_summary_json, metadata_json, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ontology_summary_json, metadata_json, created_at, host_logic,
+                object_logic, object_theory, artifact_risk, proof_transport_status,
+                default_denotation_policy, default_type_system, default_identity_policy,
+                notes
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 data["kernel_id"],
@@ -627,6 +854,15 @@ class LawbookStore:
                 json.dumps(data.get("ontology_summary", []), sort_keys=True),
                 json.dumps(data.get("metadata", {}), sort_keys=True),
                 datetime.now(timezone.utc).isoformat(),
+                data.get("host_logic", ""),
+                data.get("object_logic", ""),
+                data.get("object_theory", ""),
+                data.get("artifact_risk", "UNKNOWN"),
+                data.get("proof_transport_status", "NOT_ATTEMPTED"),
+                data.get("default_denotation_policy", ""),
+                data.get("default_type_system", ""),
+                data.get("default_identity_policy", ""),
+                data.get("notes", ""),
             ),
         )
         self.conn.commit()
@@ -665,21 +901,34 @@ class LawbookStore:
             INSERT OR REPLACE INTO semantic_embeddings (
                 embedding_id, domain_kernel_id, source_logic, target_logic,
                 host_verifier, embedding_kind, description, soundness_status,
-                artifact_uri, metadata_json, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                artifact_uri, metadata_json, created_at, formal_world_id,
+                host_logic, object_logic, object_theory, artifact_risk,
+                object_theory_verified, host_embedding_verified,
+                proof_transport_status, notes, payload_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 data["embedding_id"],
                 data["domain_kernel_id"],
-                data.get("source_logic", ""),
-                data.get("target_logic", ""),
+                data.get("source_logic", data.get("object_logic", "")),
+                data.get("target_logic", data.get("host_logic", "")),
                 data.get("host_verifier", ""),
                 data.get("embedding_kind", ""),
                 data.get("description", ""),
-                data.get("soundness_status", ""),
+                data.get("soundness_status", data.get("proof_transport_status", "")),
                 data.get("artifact_uri", ""),
                 json.dumps(data.get("metadata", {}), sort_keys=True),
                 datetime.now(timezone.utc).isoformat(),
+                data.get("formal_world_id", ""),
+                data.get("host_logic", data.get("target_logic", "")),
+                data.get("object_logic", data.get("source_logic", "")),
+                data.get("object_theory", ""),
+                data.get("artifact_risk", "UNKNOWN"),
+                int(bool(data.get("object_theory_verified", False))),
+                int(bool(data.get("host_embedding_verified", False))),
+                data.get("proof_transport_status", data.get("soundness_status", "")),
+                data.get("notes", data.get("description", "")),
+                json.dumps(data.get("payload", data), sort_keys=True),
             ),
         )
         self.conn.commit()
@@ -751,6 +1000,17 @@ class LawbookStore:
                 "semantic_embeddings",
                 "imported_theory_objects",
                 "imported_theory_relations",
+                "typed_objects",
+                "predication_facts",
+                "denotation_records",
+                "language_fragments",
+                "theory_objectification_maps",
+                "theory_denotations",
+                "theory_readings",
+                "analytic_truths",
+                "formal_worlds",
+                "paradox_guards",
+                "reason_containment_records",
             )
         }
         by_host = Counter(
@@ -765,6 +1025,355 @@ class LawbookStore:
             "by_embedding_kind": dict(by_embedding),
             "truth_boundary": "DomainKernel registration is metadata, not verification.",
         }
+
+    def add_typed_object(self, obj: Any) -> None:
+        self.init_schema()
+        data = _as_dict(obj)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO typed_objects (
+                object_id, type_expr, object_kind, domain_kernel_id, formal_world_id,
+                ordinary_or_abstract, identity_mode, uniqueness_status,
+                hyperintensional_identity_mode, label, encoded_properties_json,
+                exemplified_properties_json, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["object_id"],
+                data.get("type_expr", ""),
+                data.get("object_kind", ""),
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("ordinary_or_abstract", "UNKNOWN"),
+                data.get("identity_mode", "UNKNOWN"),
+                data.get("uniqueness_status", "UNKNOWN"),
+                data.get("hyperintensional_identity_mode", "UNKNOWN"),
+                data.get("label"),
+                json.dumps(data.get("encoded_properties", {}), sort_keys=True),
+                json.dumps(data.get("exemplified_properties", {}), sort_keys=True),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_typed_objects(
+        self,
+        domain_kernel_id: str | None = None,
+        formal_world_id: str | None = None,
+        object_kind: str | None = None,
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters(
+            {
+                "domain_kernel_id": domain_kernel_id,
+                "formal_world_id": formal_world_id,
+                "object_kind": object_kind,
+            }
+        )
+        return [_typed_object_record(row) for row in self._select("typed_objects", clauses, params)]
+
+    def get_typed_object(self, object_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM typed_objects WHERE object_id = ?", (object_id,)).fetchone()
+        return _typed_object_record(row) if row else None
+
+    def add_predication_fact(self, fact: Any) -> None:
+        self.init_schema()
+        data = _as_dict(fact)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO predication_facts (
+                predication_id, subject_id, predicate_id, mode, predicate_kind,
+                domain_kernel_id, formal_world_id, trust_level, provenance_type,
+                denotation_status, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["predication_id"],
+                data.get("subject_id", ""),
+                data.get("predicate_id", ""),
+                data.get("mode", ""),
+                data.get("predicate_kind", ""),
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("trust_level"),
+                data.get("provenance_type"),
+                data.get("denotation_status"),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_predication_facts(
+        self,
+        subject_id: str | None = None,
+        mode: str | None = None,
+        domain_kernel_id: str | None = None,
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters(
+            {"subject_id": subject_id, "mode": mode, "domain_kernel_id": domain_kernel_id}
+        )
+        return [_payload_record(row) for row in self._select("predication_facts", clauses, params)]
+
+    def add_denotation_record(self, record: Any) -> None:
+        self.init_schema()
+        data = _as_dict(record)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO denotation_records (
+                denotation_id, object_id, domain_kernel_id, formal_world_id,
+                denotation_status, reason, checked_by, trust_level, provenance_type,
+                payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["denotation_id"],
+                data.get("object_id", ""),
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("denotation_status", ""),
+                data.get("reason", ""),
+                data.get("checked_by", ""),
+                data.get("trust_level"),
+                data.get("provenance_type"),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_denotation_records(
+        self, object_id: str | None = None, domain_kernel_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"object_id": object_id, "domain_kernel_id": domain_kernel_id})
+        return [_payload_record(row) for row in self._select("denotation_records", clauses, params)]
+
+    def add_semantic_embedding(self, embedding: Any) -> None:
+        self.upsert_semantic_embedding(embedding)
+
+    def list_semantic_embeddings(self, domain_kernel_id: str | None = None) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id})
+        return [_semantic_embedding_record(row) for row in self._select("semantic_embeddings", clauses, params)]
+
+    def add_language_fragment(self, fragment: Any) -> None:
+        self.init_schema()
+        data = _as_dict(fragment)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO language_fragments (
+                fragment_id, domain_kernel_id, formal_world_id, language_name,
+                width_bound, height_bound, supported_type_exprs_json,
+                supported_term_constructors_json, supported_claim_types_json,
+                supported_verifiers_json, blocked_term_patterns_json,
+                paradox_guard_policy, notes, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["fragment_id"],
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("language_name", ""),
+                data.get("width_bound"),
+                data.get("height_bound"),
+                json.dumps(data.get("supported_type_exprs", []), sort_keys=True),
+                json.dumps(data.get("supported_term_constructors", []), sort_keys=True),
+                json.dumps(data.get("supported_claim_types", []), sort_keys=True),
+                json.dumps(data.get("supported_verifiers", []), sort_keys=True),
+                json.dumps(data.get("blocked_term_patterns", []), sort_keys=True),
+                data.get("paradox_guard_policy"),
+                data.get("notes", ""),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_language_fragments(self, domain_kernel_id: str | None = None) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id})
+        return [_json_columns_record(row) for row in self._select("language_fragments", clauses, params)]
+
+    def add_theory_objectification_map(self, map_obj: Any) -> None:
+        self._insert_payload_table(
+            "theory_objectification_maps",
+            _as_dict(map_obj),
+            "map_id",
+            ("domain_kernel_id", "formal_world_id", "theory_id", "description", "trust_level", "provenance_type"),
+        )
+
+    def list_theory_objectification_maps(
+        self, domain_kernel_id: str | None = None, theory_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
+        return [_payload_record(row) for row in self._select("theory_objectification_maps", clauses, params)]
+
+    def add_theory_denotation(self, denotation: Any) -> None:
+        self._insert_payload_table(
+            "theory_denotations",
+            _as_dict(denotation),
+            "denotation_id",
+            (
+                "domain_kernel_id", "formal_world_id", "theory_id", "source_symbol",
+                "source_kind", "target_object_id", "target_type_expr", "denotation_status",
+                "trust_level", "provenance_type",
+            ),
+        )
+
+    def list_theory_denotations(
+        self, domain_kernel_id: str | None = None, theory_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
+        return [_payload_record(row) for row in self._select("theory_denotations", clauses, params)]
+
+    def add_theory_reading(self, reading: Any) -> None:
+        self._insert_payload_table(
+            "theory_readings",
+            _as_dict(reading),
+            "reading_id",
+            (
+                "domain_kernel_id", "formal_world_id", "theory_id", "source_statement",
+                "reading_statement", "reading_type_expr", "denotation_status",
+                "trust_level", "provenance_type",
+            ),
+        )
+
+    def list_theory_readings(
+        self, domain_kernel_id: str | None = None, theory_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
+        return [_payload_record(row) for row in self._select("theory_readings", clauses, params)]
+
+    def add_analytic_truth(self, truth: Any) -> None:
+        self._insert_payload_table(
+            "analytic_truths",
+            _as_dict(truth),
+            "analytic_truth_id",
+            (
+                "domain_kernel_id", "formal_world_id", "theory_id", "statement",
+                "reading_id", "trust_level", "provenance_type", "verifier_id",
+                "denotation_status",
+            ),
+        )
+
+    def list_analytic_truths(
+        self, domain_kernel_id: str | None = None, theory_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
+        return [_payload_record(row) for row in self._select("analytic_truths", clauses, params)]
+
+    def add_formal_world(self, world: Any) -> None:
+        self.init_schema()
+        data = _as_dict(world)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO formal_worlds (
+                formal_world_id, domain_kernel_id, name, world_kind, object_logic,
+                identity_policy, denotation_policy, verifier_policy,
+                language_fragment_ids_json, semantic_embedding_ids_json, notes,
+                payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["formal_world_id"],
+                data.get("domain_kernel_id"),
+                data.get("name", ""),
+                data.get("world_kind", ""),
+                data.get("object_logic", ""),
+                data.get("identity_policy", ""),
+                data.get("denotation_policy", ""),
+                data.get("verifier_policy", ""),
+                json.dumps(data.get("language_fragment_ids", []), sort_keys=True),
+                json.dumps(data.get("semantic_embedding_ids", []), sort_keys=True),
+                data.get("notes", ""),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_formal_worlds(self, domain_kernel_id: str | None = None) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id})
+        return [_json_columns_record(row) for row in self._select("formal_worlds", clauses, params)]
+
+    def get_formal_world(self, formal_world_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM formal_worlds WHERE formal_world_id = ?", (formal_world_id,)).fetchone()
+        return _json_columns_record(row) if row else None
+
+    def add_paradox_guard(self, guard: Any) -> None:
+        self.init_schema()
+        data = _as_dict(guard)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO paradox_guards (
+                guard_id, domain_kernel_id, formal_world_id, guard_kind, name,
+                description, severity, blocked_patterns_json, notes, payload_json,
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["guard_id"],
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("guard_kind", ""),
+                data.get("name", ""),
+                data.get("description", ""),
+                data.get("severity", ""),
+                json.dumps(data.get("blocked_patterns", []), sort_keys=True),
+                data.get("notes", ""),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_paradox_guards(
+        self, domain_kernel_id: str | None = None, formal_world_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "formal_world_id": formal_world_id})
+        return [_json_columns_record(row) for row in self._select("paradox_guards", clauses, params)]
+
+    def add_reason_containment_record(self, record: Any) -> None:
+        self._insert_payload_table(
+            "reason_containment_records",
+            _as_dict(record),
+            "containment_id",
+            (
+                "reason_node_id", "domain_kernel_id", "formal_world_id", "source_id",
+                "target_id", "containment_mode", "source_constraints", "target_demand",
+                "separator_certificate_id", "trust_level", "provenance_type",
+                "denotation_status",
+            ),
+        )
+
+    def list_reason_containment_records(
+        self, reason_node_id: str | None = None, domain_kernel_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"reason_node_id": reason_node_id, "domain_kernel_id": domain_kernel_id})
+        return [_payload_record(row) for row in self._select("reason_containment_records", clauses, params)]
+
+    def _select(self, table: str, clauses: list[str], params: list[Any]) -> list[sqlite3.Row]:
+        self.init_schema()
+        where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
+        return self.conn.execute(f"SELECT * FROM {table}{where} ORDER BY 1", tuple(params)).fetchall()
+
+    def _insert_payload_table(
+        self, table: str, data: dict[str, Any], id_key: str, columns: tuple[str, ...]
+    ) -> None:
+        self.init_schema()
+        names = (id_key, *columns, "payload_json", "created_at")
+        placeholders = ", ".join("?" for _ in names)
+        values = [
+            data[id_key],
+            *(_sql_value(data.get(name)) for name in columns),
+            json.dumps(data.get("payload", data), sort_keys=True),
+            datetime.now(timezone.utc).isoformat(),
+        ]
+        self.conn.execute(
+            f"INSERT OR REPLACE INTO {table} ({', '.join(names)}) VALUES ({placeholders})",
+            values,
+        )
+        self.conn.commit()
 
     def stats(self) -> LawbookStoreStats:
         self.init_schema()
@@ -895,6 +1504,17 @@ class LawbookStore:
                 "semantic_embeddings",
                 "imported_theory_objects",
                 "imported_theory_relations",
+                "typed_objects",
+                "predication_facts",
+                "denotation_records",
+                "language_fragments",
+                "theory_objectification_maps",
+                "theory_denotations",
+                "theory_readings",
+                "analytic_truths",
+                "formal_worlds",
+                "paradox_guards",
+                "reason_containment_records",
             )
         }
         cert_rows = [dict(row) for row in self.conn.execute("SELECT terminal_form FROM certificates")]
@@ -1383,10 +2003,73 @@ def _domain_kernel_record(row: sqlite3.Row) -> dict[str, Any]:
         "trust_policy": data["trust_policy"],
         "ontology_summary": json.loads(data["ontology_summary_json"]),
         "metadata": json.loads(data["metadata_json"]),
+        "host_logic": data.get("host_logic") or "",
+        "object_logic": data.get("object_logic") or "",
+        "object_theory": data.get("object_theory") or "",
+        "artifact_risk": data.get("artifact_risk") or "UNKNOWN",
+        "proof_transport_status": data.get("proof_transport_status") or "NOT_ATTEMPTED",
+        "default_denotation_policy": data.get("default_denotation_policy") or "",
+        "default_type_system": data.get("default_type_system") or "",
+        "default_identity_policy": data.get("default_identity_policy") or "",
+        "notes": data.get("notes") or "",
         "created_at": data["created_at"],
         "advisory_only": True,
         "truth_boundary": "DomainKernel registration is metadata, not verification.",
     }
+
+
+def _filters(values: dict[str, Any]) -> tuple[list[str], list[Any]]:
+    clauses: list[str] = []
+    params: list[Any] = []
+    for key, value in values.items():
+        if value is not None:
+            clauses.append(f"{key} = ?")
+            params.append(value)
+    return clauses, params
+
+
+def _payload_record(row: sqlite3.Row) -> dict[str, Any]:
+    data = dict(row)
+    payload = json.loads(data.pop("payload_json", "{}") or "{}")
+    data["payload"] = payload
+    data["advisory_only"] = True
+    return data
+
+
+def _json_columns_record(row: sqlite3.Row) -> dict[str, Any]:
+    data = _payload_record(row)
+    for key in list(data):
+        if key.endswith("_json"):
+            decoded_key = key[:-5]
+            try:
+                data[decoded_key] = json.loads(data.pop(key) or "null")
+            except json.JSONDecodeError:
+                pass
+    return data
+
+
+def _typed_object_record(row: sqlite3.Row) -> dict[str, Any]:
+    data = dict(row)
+    data["encoded_properties"] = json.loads(data.pop("encoded_properties_json") or "{}")
+    data["exemplified_properties"] = json.loads(data.pop("exemplified_properties_json") or "{}")
+    data["payload"] = json.loads(data.pop("payload_json") or "{}")
+    data["advisory_only"] = True
+    return data
+
+
+def _semantic_embedding_record(row: sqlite3.Row) -> dict[str, Any]:
+    data = dict(row)
+    data["metadata"] = json.loads(data.pop("metadata_json") or "{}")
+    payload_json = data.pop("payload_json", None)
+    data["payload"] = json.loads(payload_json) if payload_json else {}
+    data["object_theory_verified"] = bool(data.get("object_theory_verified"))
+    data["host_embedding_verified"] = bool(data.get("host_embedding_verified"))
+    data["advisory_only"] = not (
+        data.get("object_theory_verified")
+        and data.get("proof_transport_status") == "TRANSPORT_VALIDATED"
+        and data.get("artifact_risk") in {"NONE", "LOW"}
+    )
+    return data
 
 
 def _as_dict(value: Any) -> dict[str, Any]:
@@ -1422,6 +2105,12 @@ def _jsonish(value: Any) -> Any:
         except json.JSONDecodeError:
             return value
     return value
+
+
+def _sql_value(value: Any) -> Any:
+    if isinstance(value, (dict, list, tuple)):
+        return json.dumps(value, sort_keys=True)
+    return value.value if hasattr(value, "value") else value
 
 
 def _warehouse_id(kind: str, data: dict[str, Any]) -> str:

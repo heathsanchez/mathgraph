@@ -46,3 +46,14 @@
 - **Certificate preservation**: whether a concrete witness survives derivation.
 - **Replay elevation**: revalidating a logical derived row as a finite certificate.
 - **Canonical root consolidation**: merging root aliases into stable root families.
+- **TypedObject**: a formal MathGraph object with a type expression, identity mode, and uniqueness status.
+- **Encoding**: predication mode where an abstract object carries or characterizes a property; not truth by itself.
+- **Exemplification**: predication mode where an object instantiates a property; still requires verifier-backed trust to be authoritative.
+- **Denotation status**: whether a formal object or complex term denotes, is non-denoting, unknown, or blocked by free-logic guardrails.
+- **Language Fragment**: bounded object language declared by a DomainKernel or FormalWorld.
+- **Paradox Guard**: pre-verification metadata/check that warns or blocks unsafe term patterns.
+- **Theory Objectification**: mapping from theory symbols, claims, witnesses, or theorems to typed MathGraph objects.
+- **Analytic Reading**: theory-relative reading of a statement through objectified denotations.
+- **Reason Containment**: advisory explanation scaffold for source-containing-target or countermodel-separating-target patterns.
+- **Hyperintensional Identity**: identity policy that refuses to collapse objects merely by same extension, examples, coverage, or truth value.
+- **Artifact Risk**: explicit risk that a host-logic or embedding artifact is not yet a target-theory certificate.

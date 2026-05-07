@@ -28,3 +28,15 @@ trusted only according to explicit trust and provenance fields. Root, reason,
 and obstruction advice remains advisory unless backed by certificate chains.
 Proof authority stays with the host verifier and imported certificate/proof
 artifacts.
+
+## v16.10 typed metadata
+
+DomainKernels may now be accompanied by semantic embedding risk metadata,
+bounded language fragments, formal worlds, paradox guards, typed objects,
+denotation records, and theory-objectification maps. These rows make the
+formal-world boundary explicit.
+
+The key distinction is still the truth boundary: registering a kernel, encoding
+a property, or importing an object-theory metadata row does not verify a target
+theorem. Host-logic proof becomes target-logic proof only when proof transport
+or native verification is explicit and low risk.

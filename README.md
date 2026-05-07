@@ -92,6 +92,27 @@ Isabelle, or verify AOT claims. See
 [DomainKernels](docs/domain_kernels.md) and
 [Computational Metaphysics](docs/computational_metaphysics.md).
 
+## Typed Predication and Objectification
+
+v16.10 adds the substrate needed for AOT-like formal worlds without importing
+Isabelle yet:
+
+- typed formal objects with relational type expressions such as `i`, `<>`,
+  `<i>`, and `<i,i>`;
+- explicit **encoding** vs **exemplification** predication;
+- denotation/free-logic guardrails for complex terms;
+- semantic embedding risk metadata and proof-transport status;
+- bounded language fragments, formal-world metadata, paradox guards, and
+  theory-relative objectification maps.
+
+This is metadata and safety infrastructure, not a new proof authority. Same
+extension is not same law, same coverage is not same reason, same table
+behavior is not same root, and same truth value is not same continuation.
+See [Typed Predication Kernel](docs/typed_predication_kernel.md),
+[Theory Objectification](docs/theory_objectification.md),
+[Formal Worlds](docs/formal_worlds.md), [Paradox Guards](docs/paradox_guards.md),
+and [Reason Containment](docs/reason_containment.md).
+
 ## Quick Start
 
 ```bash
