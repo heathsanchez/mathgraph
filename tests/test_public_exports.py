@@ -52,3 +52,31 @@ def test_verify_api_public_exports() -> None:
     assert VerifyConfig.__name__ == "VerifyConfig"
     assert VerifyRequest.__name__ == "VerifyRequest"
     assert VerifyResult.__name__ == "VerifyResult"
+
+
+def test_duplicate_frontier_public_export() -> None:
+    from mathgraph import KnownPairFilter
+
+    assert KnownPairFilter.__name__ == "KnownPairFilter"
+
+
+def test_post_v167_public_exports() -> None:
+    from mathgraph import GeneralClaim
+    from mathgraph import ObstructionNode
+    from mathgraph import ProvenanceType
+    from mathgraph import ReasonNode
+    from mathgraph import RefutationCertificate
+    from mathgraph import RootNode
+    from mathgraph import RootNodeOracle
+    from mathgraph import TrustLevel
+    from mathgraph import consolidate_root_nodes
+
+    assert GeneralClaim.__name__ == "GeneralClaim"
+    assert RootNode.__name__ == "RootNode"
+    assert ReasonNode.__name__ == "ReasonNode"
+    assert ObstructionNode.__name__ == "ObstructionNode"
+    assert RootNodeOracle.__name__ == "RootNodeOracle"
+    assert RefutationCertificate.__name__ == "RefutationCertificate"
+    assert TrustLevel.FINITE_VERIFIED.value == "FINITE_VERIFIED"
+    assert ProvenanceType.DERIVED.value == "DERIVED"
+    assert callable(consolidate_root_nodes)

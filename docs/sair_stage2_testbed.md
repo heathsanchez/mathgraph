@@ -791,3 +791,36 @@ The flywheel writes:
 It does not call Lean, search countermodels, or promote scheduler/advisory
 rows. It only composes verified primitive traces, sound derived certificates,
 diagnostics, route policies, and H-tilt scheduling pressure.
+
+## Root Node Atlas and Certificate Universe
+
+Post-v16.7 MathGraph treats the SAIR magma nursery as a source of reusable
+certificate structure, not as the whole product. External artifact runs can be
+imported with:
+
+```bash
+python scripts/import_root_node_atlas.py \
+  --roots-csv /external/path/root_nodes.csv \
+  --reasons-csv /external/path/reason_nodes.csv \
+  --obstructions-csv /external/path/obstructions.csv \
+  --out-dir /external/path/root_atlas_import
+
+python scripts/consolidate_root_atlas.py \
+  --roots-json /external/path/root_atlas_import/root_nodes.json \
+  --reasons-json /external/path/root_atlas_import/reason_nodes.json \
+  --obstructions-json /external/path/root_atlas_import/obstructions.json \
+  --out-dir /external/path/canonical_root_atlas
+
+python scripts/query_root_oracle.py \
+  --atlas-dir /external/path/canonical_root_atlas \
+  --top-roots 10
+```
+
+Root, reason, and obstruction oracle output is advisory only. It can explain
+which motifs, basins, and constructor pressures recur, but it cannot promote an
+unknown pair to proof or refutation.
+
+Derived false rows are tracked with replay metadata. Target strengthening may
+preserve a seed witness by replay, while source weakening often needs a new
+source-preserving countermodel. See
+[Derived False Elevation](derived_false_elevation.md).

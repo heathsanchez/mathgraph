@@ -41,8 +41,9 @@ class OracleAnswer:
 
 
 class KernelOracle:
-    def __init__(self, store: LawbookStore) -> None:
+    def __init__(self, store: LawbookStore, root_oracle: Any | None = None) -> None:
         self.store = store
+        self.root_oracle = root_oracle
 
     def query(self, source: str, target: str) -> OracleAnswer:
         primitive = self.store.get_by_pair(source, target)
@@ -51,7 +52,11 @@ class KernelOracle:
         derived = self.store.get_derived_by_pair(source, target)
         if derived is not None:
             return _answer_from_record(derived)
-        return _answer_from_record(self.store.explain_pair(source, target))
+        answer = _answer_from_record(self.store.explain_pair(source, target))
+        if self.root_oracle is not None:
+            pressure = _root_pressure(self.root_oracle, source, target)
+            answer.evidence.update(pressure)
+        return answer
 
     def explain_claim(self, claim: str) -> OracleAnswer:
         return _answer_from_record(self.store.explain_claim(claim))
@@ -159,3 +164,20 @@ def _answer_from_record(record: dict[str, Any]) -> OracleAnswer:
         },
         warnings=[],
     )
+
+
+def _root_pressure(root_oracle: Any, source: str, target: str) -> dict[str, Any]:
+    try:
+        roots = root_oracle.top_roots(5)
+        reasons = root_oracle.top_reasons(5)
+        obstructions = root_oracle.top_obstructions(5)
+    except Exception as exc:
+        return {"root_pressure": {"advisory_only": True, "error": str(exc)}}
+    return {
+        "root_pressure": roots,
+        "reason_pressure": reasons,
+        "obstruction_pressure": obstructions,
+        "advisory_only": True,
+        "source": source,
+        "target": target,
+    }

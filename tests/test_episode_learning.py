@@ -86,6 +86,8 @@ def _write_episode(path: Path) -> None:
         "residual_count": 1,
         "not_found_count": 1,
         "revalidation_failed_count": 0,
+        "frontier_known_pair_skipped_count": 2,
+        "frontier_episode_duplicate_skipped_count": 1,
     }
     _write_json(path / "certificate_assimilation_summary.json", summary)
     _write_json(path / "assimilation_episode_diagnostics.json", {"summary": summary})
@@ -109,6 +111,7 @@ def test_learns_from_synthetic_episode(tmp_path: Path) -> None:
     assert result.summary["imported_count"] == 1
     assert result.summary["duplicate_count"] == 1
     assert result.summary["residual_count"] == 1
+    assert result.summary["estimated_duplicate_work_avoided"] == 3
     route = result.route_yield_stats[0]
     assert route["route"] == "finite_countermodel"
     assert route["verified_count"] == 2
@@ -128,6 +131,7 @@ def test_recommendations_for_duplicate_and_scale_up(tmp_path: Path) -> None:
     text = json.dumps(result.next_run_recommendations)
     assert "Duplicate rate is high" in text
     assert "Unique import rate is high" in text
+    assert "skipped 3 known or repeated candidate pairs" in text
     assert "finite search misses are not proof" in text.lower()
 
 

@@ -76,6 +76,7 @@ class FrontierBuilderConfig:
     random_seed: int = 42
     frontier_mode: str = "small_sample"
     frontier_scan_limit: int | None = None
+    duplicate_filter: bool = True
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -93,6 +94,7 @@ class FrontierBuilderConfig:
             "random_seed": self.random_seed,
             "frontier_mode": self.frontier_mode,
             "frontier_scan_limit": self.frontier_scan_limit,
+            "duplicate_filter": self.duplicate_filter,
         }
 
     @classmethod
@@ -112,6 +114,7 @@ class FrontierBuilderConfig:
             random_seed=int(data.get("random_seed", 42)),
             frontier_mode=str(data.get("frontier_mode", "small_sample")),
             frontier_scan_limit=_optional_int(data.get("frontier_scan_limit")),
+            duplicate_filter=bool(data.get("duplicate_filter", True)),
         )
 
 
@@ -158,13 +161,15 @@ def build_candidate_frontier(
             warnings.append(str(exc))
 
     store = LawbookStore(config.store_path) if config.store_path else None
-    oracle = KernelOracle(store) if store is not None else None
+    known_filter = KnownPairFilter.from_store(store) if store is not None and config.duplicate_filter else KnownPairFilter()
     skipped_known = 0
+    episode_duplicate_skipped = 0
     attempted = 0
     emitted = 0
     pairs_considered = 0
     equations_scanned: set[int] = set()
     candidates: dict[tuple[int, int, str], FrontierCandidate] = {}
+    emitted_pairs: set[tuple[str, str] | tuple[int, int]] = set()
     rng = random.Random(config.random_seed)
     total_pairs = len(source_indices) * len(target_indices)
     scan_limit = _effective_scan_limit(config, total_pairs)
@@ -181,16 +186,20 @@ def build_candidate_frontier(
             equations_scanned.update((i, j))
             if i >= len(equations) or j >= len(equations):
                 continue
+            source = equations[i]
+            target = equations[j]
+            if config.duplicate_filter and known_filter.contains(source, target, i, j):
+                skipped_known += 1
+                continue
+            pair_key = _pair_key(source, target, i, j)
+            if config.duplicate_filter and pair_key in emitted_pairs:
+                episode_duplicate_skipped += 1
+                continue
             labels = _labels_for_pair(matrix, i, j, config)
             for label, origin in labels:
                 if len(candidates) >= config.max_candidates:
                     break
                 attempted += 1
-                if oracle is not None and config.skip_known:
-                    answer = oracle.query(equations[i], equations[j])
-                    if answer.status in {"VERIFIED", "REFUTED"}:
-                        skipped_known += 1
-                        continue
                 candidate = _candidate(
                     equations=equations,
                     source_idx=i,
@@ -201,7 +210,10 @@ def build_candidate_frontier(
                 key = (i, j, label)
                 if key not in candidates:
                     candidates[key] = candidate
+                    emitted_pairs.add(pair_key)
                     emitted = len(candidates)
+                    if config.duplicate_filter:
+                        break
             if progress and (pairs_considered % every == 0 or emitted >= config.max_candidates):
                 progress.event(
                     "frontier_progress",
@@ -209,7 +221,10 @@ def build_candidate_frontier(
                     equations_scanned=len(equations_scanned),
                     pair_candidates_considered=pairs_considered,
                     known_skipped=skipped_known,
+                    known_pair_skipped_count=skipped_known,
+                    episode_duplicate_skipped_count=episode_duplicate_skipped,
                     emitted_frontier_rows=emitted,
+                    emitted_count=emitted,
                     scan_limit=scan_limit,
                     max_candidates=config.max_candidates,
                 )
@@ -223,12 +238,14 @@ def build_candidate_frontier(
         summary = _summary(
             selected,
             skipped_known=skipped_known,
+            episode_duplicate_skipped=episode_duplicate_skipped,
             attempted_pair_count=attempted,
             pair_candidates_considered=pairs_considered,
             equations_scanned=len(equations_scanned),
             emitted_frontier_rows=len(selected),
             scan_limit=scan_limit,
             frontier_mode=config.frontier_mode,
+            duplicate_filter=config.duplicate_filter,
             equations_count=len(equations),
             matrix_loaded=matrix_loaded,
             store_loaded=store is not None,
@@ -243,6 +260,51 @@ def build_candidate_frontier(
     finally:
         if store is not None:
             store.close()
+
+
+class KnownPairFilter:
+    """Compact primitive-pair filter for frontier selection."""
+
+    def __init__(self, pairs: set[tuple[str, str]] | None = None, index_pairs: set[tuple[int, int]] | None = None) -> None:
+        self.pairs = pairs or set()
+        self.index_pairs = index_pairs or set()
+
+    @classmethod
+    def from_store(cls, store: LawbookStore | None) -> "KnownPairFilter":
+        if store is None:
+            return cls()
+        pairs: set[tuple[str, str]] = set()
+        index_pairs: set[tuple[int, int]] = set()
+        for record in store.iter_primitive_traces():
+            source = record.get("source")
+            target = record.get("target")
+            if source is not None and target is not None:
+                pairs.add((_normalize_pair_text(str(source)), _normalize_pair_text(str(target))))
+            source_idx = _optional_int(record.get("source_idx"))
+            target_idx = _optional_int(record.get("target_idx"))
+            if source_idx is not None and target_idx is not None:
+                index_pairs.add((source_idx, target_idx))
+        return cls(pairs=pairs, index_pairs=index_pairs)
+
+    @classmethod
+    def from_outcome_rows(cls, rows: list[dict[str, Any]]) -> "KnownPairFilter":
+        pairs: set[tuple[str, str]] = set()
+        index_pairs: set[tuple[int, int]] = set()
+        for row in rows:
+            source = row.get("source")
+            target = row.get("target")
+            if source is not None and target is not None:
+                pairs.add((_normalize_pair_text(str(source)), _normalize_pair_text(str(target))))
+            source_idx = _optional_int(row.get("source_idx"))
+            target_idx = _optional_int(row.get("target_idx"))
+            if source_idx is not None and target_idx is not None:
+                index_pairs.add((source_idx, target_idx))
+        return cls(pairs=pairs, index_pairs=index_pairs)
+
+    def contains(self, source: str, target: str, source_idx: int | None = None, target_idx: int | None = None) -> bool:
+        if source_idx is not None and target_idx is not None and (source_idx, target_idx) in self.index_pairs:
+            return True
+        return (_normalize_pair_text(source), _normalize_pair_text(target)) in self.pairs
 
 
 def score_frontier_pair(source: str, target: str, label: str = "structural_unknown") -> tuple[float, list[str], dict[str, Any]]:
@@ -350,12 +412,14 @@ def _summary(
     candidates: list[FrontierCandidate],
     *,
     skipped_known: int,
+    episode_duplicate_skipped: int,
     attempted_pair_count: int,
     pair_candidates_considered: int,
     equations_scanned: int,
     emitted_frontier_rows: int,
     scan_limit: int,
     frontier_mode: str,
+    duplicate_filter: bool,
     equations_count: int,
     matrix_loaded: bool,
     store_loaded: bool,
@@ -368,12 +432,17 @@ def _summary(
     return {
         "candidate_count": len(candidates),
         "skipped_known_count": skipped_known,
+        "known_pair_skipped_count": skipped_known,
+        "episode_duplicate_skipped_count": episode_duplicate_skipped,
         "attempted_pair_count": attempted_pair_count,
         "pair_candidates_considered": pair_candidates_considered,
+        "considered_count": pair_candidates_considered,
         "equations_scanned_count": equations_scanned,
         "emitted_frontier_rows": emitted_frontier_rows,
+        "emitted_count": emitted_frontier_rows,
         "scan_limit": scan_limit,
         "frontier_mode": frontier_mode,
+        "duplicate_filter": duplicate_filter,
         "by_label": dict(Counter(candidate.label for candidate in candidates)),
         "by_origin": dict(Counter(candidate.candidate_origin for candidate in candidates)),
         "top_reason_codes": dict(reason_counts.most_common(10)),
@@ -399,6 +468,16 @@ def _write_json(payload: Any, path: str | Path) -> None:
     output = Path(path)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+
+
+def _pair_key(
+    source: str, target: str, source_idx: int | None, target_idx: int | None
+) -> tuple[str, str]:
+    return (_normalize_pair_text(source), _normalize_pair_text(target))
+
+
+def _normalize_pair_text(value: str) -> str:
+    return " ".join(value.strip().split())
 
 
 def _optional_int(value: Any) -> int | None:

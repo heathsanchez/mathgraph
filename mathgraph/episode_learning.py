@@ -288,6 +288,7 @@ def learn_from_assimilation_episodes(
             "residual_count": len(residual_rows),
             "route_count": len(route_stats),
             "constructor_count": len(constructor_stats),
+            "estimated_duplicate_work_avoided": _estimated_duplicate_work_avoided(episodes),
             "truth_boundary": TRUTH_WARNING,
         }
     result = EpisodeLearningResult(
@@ -416,11 +417,15 @@ def _recommendations(
         recs.append({"kind": "audit_verifier_importer", "route": "all", "detail": "Revalidation failures exist; audit verifier/importer path."})
     if totals["finite_executor_verified_count"] > 0 and totals["imported_count"] < totals["finite_executor_verified_count"]:
         recs.append({"kind": "duplicate_aware_frontier", "route": "all", "detail": "Finite executor verified more rows than were imported; use duplicate-aware frontier selection."})
+    avoided = _estimated_duplicate_work_avoided(episodes)
+    if avoided > 0:
+        recs.append({"kind": "frontier_filter_work_avoided", "route": "all", "detail": f"Duplicate-aware frontier filtering skipped {avoided} known or repeated candidate pairs before execution."})
     recs.append({"kind": "truth_boundary", "route": "all", "detail": "Never promote without revalidation; finite search misses are not proof."})
     return {
         "recommendations": recs,
         "duplicate_certificate_count": duplicate_stats.get("count", 0),
         "new_certificate_count": new_stats.get("count", 0),
+        "estimated_duplicate_work_avoided": avoided,
         "truth_boundary": TRUTH_WARNING,
     }
 
@@ -434,6 +439,16 @@ def _summary_totals(episodes: list[dict[str, Any]]) -> dict[str, int]:
         for key in keys:
             totals[key] += int(summary.get(key, diagnostics_summary.get(key, 0)) or 0)
     return totals
+
+
+def _estimated_duplicate_work_avoided(episodes: list[dict[str, Any]]) -> int:
+    total = 0
+    for episode in episodes:
+        summary = episode.get("summary", {})
+        diagnostics_summary = episode.get("diagnostics", {}).get("summary", {})
+        total += int(summary.get("frontier_known_pair_skipped_count", diagnostics_summary.get("frontier_known_pair_skipped_count", 0)) or 0)
+        total += int(summary.get("frontier_episode_duplicate_skipped_count", diagnostics_summary.get("frontier_episode_duplicate_skipped_count", 0)) or 0)
+    return total
 
 
 def _rough_features(source: str, target: str) -> dict[str, Any]:
@@ -513,6 +528,7 @@ def _write_report(result: EpisodeLearningResult, path: Path) -> None:
         f"- imported_count: `{result.summary.get('imported_count')}`",
         f"- duplicate_count: `{result.summary.get('duplicate_count')}`",
         f"- residual_count: `{result.summary.get('residual_count')}`",
+        f"- estimated_duplicate_work_avoided: `{result.summary.get('estimated_duplicate_work_avoided')}`",
         "",
         "## Recommendations",
         "",

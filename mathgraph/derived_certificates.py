@@ -29,6 +29,13 @@ class DerivedCertificate:
     explanation: str
     evidence: dict[str, Any] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
+    certificate_preservation_status: str = "logical_only"
+    requires_replay: bool = True
+    replay_status: str = "not_replayed"
+    seed_table_hash: str | None = None
+    elevated_table_hash: str | None = None
+    elevation_method: str | None = None
+    failure_reason: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -47,6 +54,13 @@ class DerivedCertificate:
             "explanation": self.explanation,
             "evidence": dict(self.evidence),
             "warnings": list(self.warnings),
+            "certificate_preservation_status": self.certificate_preservation_status,
+            "requires_replay": self.requires_replay,
+            "replay_status": self.replay_status,
+            "seed_table_hash": self.seed_table_hash,
+            "elevated_table_hash": self.elevated_table_hash,
+            "elevation_method": self.elevation_method,
+            "failure_reason": self.failure_reason,
         }
 
     @classmethod
@@ -67,6 +81,15 @@ class DerivedCertificate:
             explanation=str(data["explanation"]),
             evidence=dict(data.get("evidence", {})),
             warnings=[str(item) for item in data.get("warnings", [])],
+            certificate_preservation_status=str(
+                data.get("certificate_preservation_status", "logical_only")
+            ),
+            requires_replay=bool(data.get("requires_replay", True)),
+            replay_status=str(data.get("replay_status", "not_replayed")),
+            seed_table_hash=data.get("seed_table_hash"),
+            elevated_table_hash=data.get("elevated_table_hash"),
+            elevation_method=data.get("elevation_method"),
+            failure_reason=data.get("failure_reason"),
         )
 
 
@@ -344,6 +367,15 @@ def _make_derived(
     parents: list[dict[str, Any]],
     explanation: str,
 ) -> DerivedCertificate:
+    is_false = terminal_form == "FINITE_COUNTERMODEL"
+    preservation_status = "proof_chain" if not is_false else "logical_derived_false_requires_replay"
+    requires_replay = bool(is_false)
+    replay_status = "not_required_for_proof_chain" if not is_false else "not_replayed"
+    seed_table_hash = _seed_table_hash(parents)
+    if derivation_rule == "false_target_strengthening" and seed_table_hash:
+        preservation_status = "seed_table_replay_possible"
+    if derivation_rule == "false_source_weakening":
+        preservation_status = "source_preservation_requires_replay"
     payload = {
         "source": source,
         "target": target,
@@ -379,11 +411,21 @@ def _make_derived(
             "parent_verification_statuses": [
                 parent.get("verification_status") for parent in parents
             ],
+            "certificate_preservation_status": preservation_status,
+            "requires_replay": requires_replay,
+            "replay_status": replay_status,
+            "seed_table_hash": seed_table_hash,
         },
         warnings=[
             "This is a derived certificate by logical composition of verified traces.",
             "Primitive certificates remain distinct from derived certificates.",
         ],
+        certificate_preservation_status=preservation_status,
+        requires_replay=requires_replay,
+        replay_status=replay_status,
+        seed_table_hash=seed_table_hash,
+        elevation_method=None,
+        failure_reason=None,
     )
 
 
@@ -417,3 +459,16 @@ def _optional_int(value: Any) -> int | None:
         return int(value)
     except (TypeError, ValueError):
         return None
+
+
+def _seed_table_hash(parents: list[dict[str, Any]]) -> str | None:
+    for parent in parents:
+        for key in ("countermodel", "model", "certificate", "trace"):
+            value = parent.get(key)
+            if isinstance(value, dict):
+                for hash_key in ("table_hash", "countermodel_table_hash", "seed_table_hash"):
+                    if value.get(hash_key):
+                        return str(value[hash_key])
+        if parent.get("table_hash"):
+            return str(parent["table_hash"])
+    return None

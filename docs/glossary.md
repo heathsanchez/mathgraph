@@ -1,0 +1,38 @@
+# Glossary
+
+- **MathGraph**: a generative verification kernel and compounding verification metabolism.
+- **MathGraph Kernel**: the layer that accepts only terminal certificates.
+- **LOGOS**: lawful continuation under explicit verifier constraints.
+- **LOGOS Operator**: the boundary that converts proposals into accepted or rejected certificate work.
+- **CuC / Continuation Under Constraint**: propose, constrain, verify, promote.
+- **H-tilt**: scheduler pressure for what to try next; never truth.
+- **Lawbook**: persistent memory of verified primitive and derived certificates.
+- **Certificate Universe**: the collection of promoted survivor certificates.
+- **Terminal Form Contract**: accepted claims end as verified proof, refutation certificate, or named obstruction.
+- **Verified Proof**: proof artifact accepted by a verifier.
+- **Refutation Certificate**: artifact showing a claim fails.
+- **Finite Countermodel**: current concrete magma refutation certificate.
+- **Named Obstruction**: explicit residual/failure form, not a proof/refutation.
+- **Obstruction Atlas**: indexed residual patterns and constructor pressure.
+- **Root Node**: atom of discovery behind many certificates.
+- **Root Node Atlas**: compressed map of load-bearing certificate motifs.
+- **Reason Node**: atom of understanding that explains a recurring pattern.
+- **Reason Atlas**: compressed explanations for roots and certificates.
+- **Certificate Factory**: constructors plus verifiers plus promotion boundary.
+- **Constructor**: builds candidate artifacts.
+- **Verifier**: checks candidate artifacts.
+- **Promoter**: imports only verified/revalidated terminal certificates.
+- **Residual**: unresolved work left after construction/verification.
+- **Better-shaped unknown**: an unknown made more nameable and constructible.
+- **Trust level**: confidence/provenance state orthogonal to terminal form.
+- **Provenance type**: primitive, derived, imported, or human-reviewed origin.
+- **Primitive certificate**: directly verified/imported terminal certificate.
+- **Derived certificate**: logical composition of verified certificates.
+- **Table motif**: recurring finite-table behavior.
+- **Algebra shape**: coarse structural family for a table/certificate.
+- **Basin**: source/target structural region.
+- **Source weakening**: derived false rule requiring replay for finite elevation.
+- **Target strengthening**: derived false rule often preserving the seed witness.
+- **Certificate preservation**: whether a concrete witness survives derivation.
+- **Replay elevation**: revalidating a logical derived row as a finite certificate.
+- **Canonical root consolidation**: merging root aliases into stable root families.

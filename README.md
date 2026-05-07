@@ -3,20 +3,46 @@
 MathGraph is a lightweight generative verification kernel for verifiable
 mathematics and trustworthy AI.
 
-It is not a passive database and not a static encyclopedia. It is a living,
-typed semantic hypergraph where axioms, definitions, theorems, proofs,
-transformations, finite countermodels, obstructions, and verification traces can
-be represented as formal nodes and edges.
+It is not a passive database and not a static encyclopedia. It is a compounding
+verification metabolism: models propose, MathGraph constrains, verifiers decide,
+the lawbook remembers, and reasons compress.
 
 Every accepted claim must collapse into exactly one terminal form:
 
 - `VERIFIED_PROOF`
-- `FINITE_COUNTERMODEL`
+- `FINITE_COUNTERMODEL` (the current concrete refutation certificate)
 - `NAMED_OBSTRUCTION`
 
 The first practical testbed is SAIR Stage 2: equational implication over
 magmas. The repository is organized as a general MathGraph kernel rather than a
 competition-only solver.
+
+Read the [manifesto](docs/manifesto.md) and [glossary](docs/glossary.md) for
+the post-v16.7 architecture language: Certificate Universe, Obstruction Atlas,
+Root Node Atlas, Reason Atlas, LawbookStore / KernelOracle, constructor/verifier
+boundary, H-tilt route pressure, and the integrity spine.
+
+## Current Empirical Milestone
+
+External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains
+the schemas, importers, consolidators, oracles, docs, and tests that make them
+replayable and queryable.
+
+- v16.6 derived closure: 250,000 derived TRUE rows, 750,000 derived FALSE rows,
+  1,084,694 oracle lookup rows, and zero sampled matrix contradictions.
+- v16.6.1 derived false elevation audit: zero elevated rows when primitive table
+  payloads were unavailable. Lesson: logical derived false rows are not concrete
+  finite certificates unless witness/table replay is preserved.
+- v16.6.2 table-aware false elevation: 401,742 of 500,000 attempted false rows
+  elevated to finite-verified certificates with zero sampled contradictions.
+- v16.7 distillation: 401,742 finite false certificates, 56 unique tables, 1,835
+  motifs, 524 supported root candidates, 733 reason candidates, and 102
+  obstruction candidates.
+
+This repo stores source, tests, docs, schemas, and small examples. Large CSV,
+JSONL, SQLite, Parquet, matrix, and run artifacts belong in external artifact
+storage. Next: canonical root consolidation and root/reason/obstruction oracle
+work over those external artifacts.
 
 ## Quick Start
 

@@ -1,6 +1,7 @@
 """MathGraph: a lightweight kernel for verifiable mathematical claims."""
 
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
+from mathgraph.claims import GeneralClaim
 from mathgraph.certificate_assimilation import (
     CertificateAssimilationConfig,
     CertificateAssimilationResult,
@@ -45,6 +46,12 @@ from mathgraph.derived_certificates import (
     DerivedCertificateGenerator,
     DerivedCertificateStats,
 )
+from mathgraph.artifact_importers import (
+    load_v1662_elevated_false_certificates,
+    load_v167_obstructions,
+    load_v167_reason_nodes,
+    load_v167_root_nodes,
+)
 from mathgraph.hashing import (
     canonical_json,
     content_id,
@@ -65,6 +72,7 @@ from mathgraph.frontier_builder import (
     FrontierBuilderConfig,
     FrontierBuilderResult,
     FrontierCandidate,
+    KnownPairFilter,
     build_candidate_frontier,
 )
 from mathgraph.finite_countermodel_executor import (
@@ -92,7 +100,19 @@ from mathgraph.outcome_dataset import (
     PairOutcome,
     extract_pair_features as extract_outcome_pair_features,
 )
+from mathgraph.obstruction_atlas import ConstructorPressure, ObstructionNode
 from mathgraph.pair_advisor import PairAdvice, advise_many, advise_pair, extract_pair_features
+from mathgraph.reason_nodes import ReasonNode
+from mathgraph.refutations import RefutationCertificate
+from mathgraph.root_consolidation import consolidate_root_nodes
+from mathgraph.root_nodes import (
+    RootAlias,
+    RootCertificateCoverage,
+    RootNode,
+    RootObstructionLink,
+    RootReasonLink,
+)
+from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
     build_all_route_instructions,
@@ -132,6 +152,7 @@ from mathgraph.task_runner import (
 )
 from mathgraph.terms import Term, parse_term
 from mathgraph.trace import Trace
+from mathgraph.trust import ProvenanceType, TrustLevel
 from mathgraph.verify_api import MathGraphVerifier, VerifyConfig, VerifyRequest, VerifyResult
 
 __all__ = [
@@ -142,6 +163,7 @@ __all__ = [
     "CertificateCorpus",
     "CertificateLawbook",
     "CertificateTask",
+    "ConstructorPressure",
     "AssetDiscoveryConfig",
     "AssetDiscoveryResult",
     "AssetMaterializationConfig",
@@ -158,6 +180,7 @@ __all__ = [
     "DerivedCertificateGenerator",
     "DerivedCertificateStats",
     "Equation",
+    "GeneralClaim",
     "EpisodeLearningConfig",
     "EpisodeLearningResult",
     "FiniteCountermodelConfig",
@@ -174,21 +197,28 @@ __all__ = [
     "HTiltScoreBreakdown",
     "Kernel",
     "KernelOracle",
+    "KnownPairFilter",
     "JsonlLedger",
     "LawbookStore",
     "LawbookStoreStats",
     "MathGraphVerifier",
     "OracleAnswer",
+    "ObstructionNode",
     "OutcomeDatasetBuilder",
     "OutcomeDatasetStats",
     "PairAdvice",
     "PairOutcome",
+    "ProvenanceType",
+    "ReasonNode",
+    "RefutationCertificate",
     "RouteBasinKey",
     "RouteLearner",
     "RouteLearnerStats",
     "RouteYieldStats",
     "ConstructorYieldStats",
     "ResidualBasinStats",
+    "RootAlias",
+    "RootCertificateCoverage",
     "TaskOutcome",
     "TaskQueueConfig",
     "TaskQueueItem",
@@ -196,6 +226,10 @@ __all__ = [
     "TaskRunSummary",
     "canonical_json",
     "RouteInstruction",
+    "RootNode",
+    "RootNodeOracle",
+    "RootObstructionLink",
+    "RootReasonLink",
     "RoutePolicyCard",
     "RouteRecommendation",
     "ScheduledTask",
@@ -207,6 +241,7 @@ __all__ = [
     "advise_many",
     "advise_pair",
     "content_id",
+    "consolidate_root_nodes",
     "discover_mathgraph_assets",
     "extract_pair_features",
     "extract_outcome_pair_features",
@@ -217,6 +252,10 @@ __all__ = [
     "hash_trace",
     "import_finite_countermodel_results",
     "learn_from_assimilation_episodes",
+    "load_v1662_elevated_false_certificates",
+    "load_v167_obstructions",
+    "load_v167_reason_nodes",
+    "load_v167_root_nodes",
     "make_basin_key",
     "materialize_mathgraph_assets",
     "sha256_hex",
@@ -238,6 +277,7 @@ __all__ = [
     "run_finite_countermodel_tasks",
     "summarize_task_outcomes",
     "Trace",
+    "TrustLevel",
     "VerificationStatus",
     "VerifyConfig",
     "VerifyRequest",

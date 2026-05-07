@@ -102,6 +102,8 @@ def test_fixture_run_succeeds_and_writes_outputs(tmp_path: Path) -> None:
     assert Path(summary.paths["report_md"]).exists()
     assert Path(summary.paths["new_certificates"]).exists()
     assert Path(summary.paths["residual_queue"]).exists()
+    assert "frontier_known_pair_skipped_count" in summary.to_dict()
+    assert "frontier_episode_duplicate_skipped_count" in summary.to_dict()
 
 
 def test_new_certificates_only_contains_imported_revalidated_rows(tmp_path: Path) -> None:
@@ -319,6 +321,43 @@ def test_cli_runs_and_writes_summary(tmp_path: Path) -> None:
     assert summary["imported_count"] + summary["duplicate_count"] + summary["residual_count"] == summary["task_count"]
     assert all(row["duplicate_status"] == "duplicate" and row["import_status"] != "imported" for row in duplicates)
     assert all(row["import_status"] != "imported" for row in residuals)
+    diagnostics = json.loads((out_dir / "assimilation_episode_diagnostics.json").read_text(encoding="utf-8"))
+    assert "frontier_known_pair_skipped_count" in diagnostics["summary"]
+
+
+def test_duplicate_aware_frontier_reduces_known_toy_tasks(tmp_path: Path) -> None:
+    traces, equations = _write_fixture_assets(tmp_path)
+    out_dir = tmp_path / "dedupe_episode"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "run_certificate_assimilation.py"),
+            "--traces-json",
+            str(traces),
+            "--equations-path",
+            str(equations),
+            "--out-dir",
+            str(out_dir),
+            "--frontier-mode",
+            "structural",
+            "--frontier-scan-limit",
+            "9",
+            "--max-frontier-pairs",
+            "9",
+            "--top-k-schedule",
+            "9",
+            "--max-tasks",
+            "9",
+            "--quiet",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0, completed.stderr
+    summary = json.loads(completed.stdout)
+    assert summary["frontier_known_pair_skipped_count"] >= 1
+    assert summary["scheduled_count"] < 9
 
 
 def _read_jsonl(path: Path) -> list[dict]:

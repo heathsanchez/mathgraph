@@ -2,18 +2,23 @@
 
 ## Now
 
-- Maintain a small pure-Python kernel.
-- Keep terminal-form validation explicit.
-- Use finite magma checks as the first real verification route.
+- Keep trust/provenance separate from terminal truth.
+- Preserve derived-false replay semantics: logical rows are not finite
+  certificates until table/witness replay succeeds.
+- Maintain root, reason, and obstruction schemas for v16.7 artifacts.
+- Consolidate root aliases into canonical root families.
+- Keep all generated artifacts outside Git.
 
 ## Next
 
-- Add richer certificate serialization.
-- Add small graph query helpers.
-- Expand SAIR Stage 2 examples without committing generated artifacts.
+- Root-aware oracle advice for constructor pressure.
+- Constructor pressure from the Obstruction Atlas.
+- Canonical root consolidation over full external v16.7 artifacts.
+- Reason compression and root/reason/obstruction query UX.
+- Lean proof constructors behind the verifier boundary.
 
 ## Later
 
-- Wire Lean and external theorem prover integrations.
-- Add artifact manifests that point to external storage.
-- Grow typed hypergraph schemas as the kernel proves it needs them.
+- Full spectral H-tilt killed generator `K = L - V`.
+- Domain-agnostic `GeneralClaim` expansion beyond SAIR magma equations.
+- LOGOS middleware API for model proposal / MathGraph verification.

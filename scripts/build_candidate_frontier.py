@@ -29,6 +29,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--target-limit", type=int, default=None)
     parser.add_argument("--frontier-mode", choices=["small_sample", "matrix_false", "structural", "mixed"], default="small_sample")
     parser.add_argument("--frontier-scan-limit", type=int, default=None)
+    parser.add_argument("--no-duplicate-filter", action="store_true")
     parser.add_argument("--random-seed", type=int, default=42)
     parser.add_argument("--progress", action="store_true")
     parser.add_argument("--heartbeat-sec", type=float, default=10.0)
@@ -53,6 +54,7 @@ def main(argv: list[str] | None = None) -> int:
                 random_seed=args.random_seed,
                 frontier_mode=args.frontier_mode,
                 frontier_scan_limit=args.frontier_scan_limit,
+                duplicate_filter=not args.no_duplicate_filter,
             ),
             progress=progress,
         )

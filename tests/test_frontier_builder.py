@@ -130,7 +130,27 @@ def test_skip_known_behavior(tmp_path: Path) -> None:
         )
     )
     assert result.summary["skipped_known_count"] == 1
+    assert result.summary["known_pair_skipped_count"] == 1
     assert result.summary["candidate_count"] == 0
+
+
+def test_repeated_candidate_pair_emitted_once_with_duplicate_filter(tmp_path: Path) -> None:
+    equations = tmp_path / "equations.txt"
+    out = tmp_path / "frontier.jsonl"
+    equations.write_text("x = x\nx = x\n", encoding="utf-8")
+    result = build_candidate_frontier(
+        FrontierBuilderConfig(
+            str(equations),
+            str(out),
+            max_candidates=4,
+            frontier_mode="structural",
+            duplicate_filter=True,
+        )
+    )
+    pairs = {(row["source"], row["target"]) for row in result.candidates}
+    assert len(result.candidates) == len(pairs)
+    assert result.summary["episode_duplicate_skipped_count"] > 0
+    assert result.summary["emitted_count"] == result.summary["candidate_count"]
 
 
 def test_jsonl_and_summary_exist_and_scheduler_compatible(tmp_path: Path) -> None:

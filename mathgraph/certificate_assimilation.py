@@ -130,6 +130,10 @@ class CertificateAssimilationSummary:
     import_rate: float = 0.0
     unique_import_rate: float = 0.0
     duplicate_rate: float = 0.0
+    frontier_known_pair_skipped_count: int = 0
+    frontier_episode_duplicate_skipped_count: int = 0
+    frontier_emitted_count: int = 0
+    frontier_considered_count: int = 0
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     paths: dict[str, str] = field(default_factory=dict)
@@ -167,6 +171,10 @@ class CertificateAssimilationSummary:
             "import_rate": self.import_rate,
             "unique_import_rate": self.unique_import_rate,
             "duplicate_rate": self.duplicate_rate,
+            "frontier_known_pair_skipped_count": self.frontier_known_pair_skipped_count,
+            "frontier_episode_duplicate_skipped_count": self.frontier_episode_duplicate_skipped_count,
+            "frontier_emitted_count": self.frontier_emitted_count,
+            "frontier_considered_count": self.frontier_considered_count,
             "warnings": list(self.warnings),
             "errors": list(self.errors),
             "paths": dict(self.paths),
@@ -206,6 +214,10 @@ class CertificateAssimilationSummary:
             import_rate=float(data.get("import_rate", 0.0)),
             unique_import_rate=float(data.get("unique_import_rate", 0.0)),
             duplicate_rate=float(data.get("duplicate_rate", 0.0)),
+            frontier_known_pair_skipped_count=int(data.get("frontier_known_pair_skipped_count", 0)),
+            frontier_episode_duplicate_skipped_count=int(data.get("frontier_episode_duplicate_skipped_count", 0)),
+            frontier_emitted_count=int(data.get("frontier_emitted_count", 0)),
+            frontier_considered_count=int(data.get("frontier_considered_count", 0)),
             warnings=[str(item) for item in data.get("warnings", [])],
             errors=[str(item) for item in data.get("errors", [])],
             paths=dict(data.get("paths", {})),
@@ -348,6 +360,7 @@ def run_certificate_assimilation(
                     max_candidates=config.max_frontier_pairs,
                     frontier_mode=config.frontier_mode,
                     frontier_scan_limit=config.frontier_scan_limit,
+                    duplicate_filter=True,
                     random_seed=42,
                 ),
                 progress=logger,
@@ -429,6 +442,10 @@ def run_certificate_assimilation(
     import_summary = _read_json(paths["import_summary"]).get("summary", {})
     task_summary = _read_json(paths["task_queue_summary"])
     episode_diagnostics = _episode_diagnostics(task_outcomes)
+    episode_diagnostics["summary"]["frontier_known_pair_skipped_count"] = int(frontier_summary.get("known_pair_skipped_count", 0))
+    episode_diagnostics["summary"]["frontier_episode_duplicate_skipped_count"] = int(frontier_summary.get("episode_duplicate_skipped_count", 0))
+    episode_diagnostics["summary"]["frontier_emitted_count"] = int(frontier_summary.get("emitted_count", frontier_summary.get("candidate_count", 0)))
+    episode_diagnostics["summary"]["frontier_considered_count"] = int(frontier_summary.get("considered_count", frontier_summary.get("pair_candidates_considered", 0)))
     _write_json(episode_diagnostics, paths["episode_diagnostics_json"])
     _write_diagnostics_markdown(episode_diagnostics, paths["episode_diagnostics_md"])
     summary = CertificateAssimilationSummary(
@@ -463,6 +480,10 @@ def run_certificate_assimilation(
         import_rate=episode_diagnostics["summary"]["import_rate"],
         unique_import_rate=episode_diagnostics["summary"]["unique_import_rate"],
         duplicate_rate=episode_diagnostics["summary"]["duplicate_rate"],
+        frontier_known_pair_skipped_count=int(frontier_summary.get("known_pair_skipped_count", 0)),
+        frontier_episode_duplicate_skipped_count=int(frontier_summary.get("episode_duplicate_skipped_count", 0)),
+        frontier_emitted_count=int(frontier_summary.get("emitted_count", frontier_summary.get("candidate_count", 0))),
+        frontier_considered_count=int(frontier_summary.get("considered_count", frontier_summary.get("pair_candidates_considered", 0))),
         warnings=[*warnings, *([] if new_certificates else ["No new primitive certificates were promoted."])],
         errors=errors,
         paths={key: str(value) for key, value in paths.items()},
@@ -708,6 +729,8 @@ def _episode_diagnostics(task_outcomes: list[dict[str, Any]]) -> dict[str, Any]:
             "unique_import_rate": len(imported) / task_count if task_count else 0.0,
             "duplicate_rate": len(duplicates) / len(verified) if verified else 0.0,
             "best_yield_route": best_route,
+            "frontier_known_pair_skipped_count": 0,
+            "frontier_episode_duplicate_skipped_count": 0,
         },
         "task_outcome_counts": task_outcome_counts,
         "consistency_checks": {
@@ -769,6 +792,10 @@ def _make_summary(
         import_rate=0.0,
         unique_import_rate=0.0,
         duplicate_rate=0.0,
+        frontier_known_pair_skipped_count=0,
+        frontier_episode_duplicate_skipped_count=0,
+        frontier_emitted_count=0,
+        frontier_considered_count=0,
         warnings=warnings,
         errors=errors,
         paths={key: str(value) for key, value in paths.items()},
@@ -864,6 +891,8 @@ def _write_result_reports(result: CertificateAssimilationResult, paths: dict[str
         f"- duplicates: `{summary.duplicate_count}`",
         f"- residual count: `{summary.residual_count}`",
         f"- import rate: `{summary.import_rate:.3f}`",
+        f"- frontier known-pair skipped: `{summary.frontier_known_pair_skipped_count}`",
+        f"- frontier episode-duplicate skipped: `{summary.frontier_episode_duplicate_skipped_count}`",
         f"- elapsed seconds: `{summary.elapsed_sec:.2f}`",
         "",
         "## Warnings",
