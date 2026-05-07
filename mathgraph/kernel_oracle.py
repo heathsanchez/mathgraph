@@ -71,6 +71,33 @@ class KernelOracle:
                 "advisory_only": True,
                 "warning": "Reason-containment records are advisory unless backed by proof/refutation.",
             }
+        if hasattr(self.store, "list_logical_workbenches"):
+            answer.evidence["advisory_workbench_metadata"] = {
+                "logical_workbenches": self.store.list_logical_workbenches()[:5],
+                "semantic_embeddings": self.store.list_semantic_embeddings()[:5]
+                if hasattr(self.store, "list_semantic_embeddings")
+                else [],
+                "faithfulness": self.store.list_faithfulness_assessments()[:5]
+                if hasattr(self.store, "list_faithfulness_assessments")
+                else [],
+                "verifier_backends": self.store.list_verifier_backend_profiles()[:5]
+                if hasattr(self.store, "list_verifier_backend_profiles")
+                else [],
+                "benchmark_suites": self.store.list_benchmark_suites()[:5]
+                if hasattr(self.store, "list_benchmark_suites")
+                else [],
+                "correspondences": self.store.list_correspondence_claims()[:5]
+                if hasattr(self.store, "list_correspondence_claims")
+                else [],
+                "interpretation_choices": self.store.list_interpretation_choice_points()[:5]
+                if hasattr(self.store, "list_interpretation_choice_points")
+                else [],
+                "advisory_only": True,
+                "warning": (
+                    "Workbench, faithfulness, backend, benchmark, correspondence, "
+                    "and interpretation metadata never override verifier terminal forms."
+                ),
+            }
         if self.root_oracle is not None:
             pressure = _root_pressure(self.root_oracle, source, target)
             answer.evidence.update(pressure)

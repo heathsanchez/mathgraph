@@ -50,6 +50,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--inference-rules", action="store_true")
     parser.add_argument("--isabelle-exports", action="store_true")
     parser.add_argument("--host-object-links", action="store_true")
+    parser.add_argument("--logical-workbenches", action="store_true")
+    parser.add_argument("--embedding-strategies", action="store_true")
+    parser.add_argument("--faithfulness", action="store_true")
+    parser.add_argument("--logic-combinations", action="store_true")
+    parser.add_argument("--verifier-backends", action="store_true")
+    parser.add_argument("--proof-results", action="store_true")
+    parser.add_argument("--model-results", action="store_true")
+    parser.add_argument("--benchmark-suites", action="store_true")
+    parser.add_argument("--benchmark-runs", action="store_true")
+    parser.add_argument("--benchmark-results", action="store_true")
+    parser.add_argument("--correspondences", action="store_true")
+    parser.add_argument("--interpretation-choices", action="store_true")
     args = parser.parse_args(argv)
     store = LawbookStore(args.db)
     try:
@@ -116,6 +128,30 @@ def main(argv: list[str] | None = None) -> int:
             payload = store.list_isabelle_export_records()
         elif args.host_object_links:
             payload = store.list_host_object_theorem_links()
+        elif args.logical_workbenches:
+            payload = store.list_logical_workbenches()
+        elif args.embedding_strategies:
+            payload = store.list_embedding_strategy_profiles()
+        elif args.faithfulness:
+            payload = store.list_faithfulness_assessments()
+        elif args.logic_combinations:
+            payload = store.list_logic_combinations()
+        elif args.verifier_backends:
+            payload = store.list_verifier_backend_profiles()
+        elif args.proof_results:
+            payload = store.list_proof_finder_results()
+        elif args.model_results:
+            payload = store.list_model_finder_results()
+        elif args.benchmark_suites:
+            payload = store.list_benchmark_suites()
+        elif args.benchmark_runs:
+            payload = store.list_benchmark_runs()
+        elif args.benchmark_results:
+            payload = store.list_benchmark_results()
+        elif args.correspondences:
+            payload = store.list_correspondence_claims()
+        elif args.interpretation_choices:
+            payload = store.list_interpretation_choice_points()
         else:
             parser.error("provide a query option")
         print(json.dumps(payload, indent=2, sort_keys=True))

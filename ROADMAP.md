@@ -2,6 +2,7 @@
 
 ## Now
 
+- v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
 - v16.10 typed predication kernel and theory objectification substrate.
 - v16.9 DomainKernel registry, including AOT/Isabelle metadata registration.
 - v16.8 persistent LawbookStore / Artifact Warehouse for external v16.6.2 and
@@ -11,6 +12,9 @@
 - Keep denotation/free-logic and artifact-risk guardrails explicit.
 - Store object-language IR, theory declarations, proof-method metadata, and
   advisory AOT scanner output without treating them as verification.
+- Track L0/L1/L2/L3 formal-world layers, embedding strategies, faithfulness
+  assessments, backend profiles, benchmark metadata, correspondence claims, and
+  interpretation choice points.
 - Preserve derived-false replay semantics: logical rows are not finite
   certificates until table/witness replay succeeds.
 - Maintain root, reason, and obstruction schemas for v16.7 artifacts.
@@ -20,6 +24,9 @@
 ## Next
 
 - Root-aware oracle advice backed by typed predication and lawbook metadata.
+- Real faithfulness links from imported proof artifacts to semantic embeddings.
+- Workbench-driven constructor/verifier routing that still leaves truth to
+  verifiers.
 - Real Isabelle session importer for AOT metadata and proof dependencies.
 - Host/object theorem transport validation for scanned/imported AOT artifacts.
 - Constructor pressure from the Obstruction Atlas.

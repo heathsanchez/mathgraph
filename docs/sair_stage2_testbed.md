@@ -51,6 +51,21 @@ Rows without explicit true/false verification become `NAMED_OBSTRUCTION`.
 Missing verification, failed finite search, or failed Lean execution is never
 promoted to proof.
 
+## Workbench Metadata
+
+The ETP magma fragment can be registered as a MathGraph workbench preset:
+
+```bash
+python scripts/register_logical_workbench.py \
+  --db /tmp/mathgraph_etp.sqlite \
+  --preset etp
+```
+
+This records the Python finite table checker backend, ETP matrix benchmark
+metadata, and native embedding strategy profile. The matrix remains
+benchmark/evaluation data, not proof. Finite search misses remain residual
+evidence only.
+
 ## Artifact-Backed Imports
 
 The v19.1 importer can optionally inspect external JSON and Lean artifacts. This

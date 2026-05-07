@@ -61,3 +61,14 @@
 - **Theory Registry**: advisory index of axioms, definitions, theorems, proof methods, and inference rules.
 - **AOT Scanner**: metadata-only scanner for AOT `.thy` / `.ML` declarations; it does not run Isabelle.
 - **Host/Object Theorem Link**: explicit record connecting host theorem metadata to target-theory theorem metadata.
+- **LogicWorkbench**: layered metadata object for managing formal worlds, embeddings, backends, benchmarks, and lifecycle state.
+- **Workbench Layer**: L0 meta-logical substrate, L1 logic/embedding layer, L2 domain theories, or L3 applications/episodes.
+- **Faithfulness Assessment**: bridge-safety record for an embedding; it can reduce artifact risk but does not prove arbitrary claims.
+- **Embedding Strategy Profile**: explicit shallow/deep/hybrid/native representation choice with automation strengths and risks.
+- **Logic Combination**: advisory metadata for combining formal worlds or logics, including conflict policy and faithfulness status.
+- **Verifier Backend Profile**: metadata for proof finders, model finders, certificate checkers, importers, and analyzers.
+- **Proof Finder Result**: backend attempt record; no-proof-found is not refutation.
+- **Model Finder Result**: backend attempt record; no-model-found is not proof.
+- **Benchmark Suite**: regression/evidence set for a formal world or backend; benchmarks are not certificates.
+- **Correspondence Claim**: proposed bridge between semantic condition and syntactic law, root motif and certificate family, or obstruction and blocked continuation.
+- **Interpretation Choice Point**: explicit record of ambiguous symbol/objectification choices and selected/rejected readings.

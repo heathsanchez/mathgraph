@@ -45,3 +45,14 @@ The AOT scanner and theory registry can index declarations and proof-method
 infrastructure from local `.thy` / `.ML` files, but those rows remain advisory
 until connected to verified Isabelle export artifacts and validated
 host/object theorem links.
+
+## v16.11 workbench metadata
+
+DomainKernels may now point at workbench, lifecycle, embedding strategy,
+faithfulness, benchmark, and default formal-world metadata. This is the
+LogiKEy-style engineering layer around formal worlds.
+
+Faithfulness rows reduce bridge risk for a specific embedding only when they
+carry sound support. Benchmarks are regression/evidence, not proof. Logic
+combinations remain advisory until interaction semantics and conflict policy
+are assessed.

@@ -126,6 +126,16 @@ def _store_advisory_objectification(store: LawbookStore, rows: list[Any], kind: 
     from mathgraph.predication import PredicateKind, encodes
     from mathgraph.trust import ProvenanceType, TrustLevel
     from mathgraph.types import TypedObject, canonical_encoded_object_id
+    if hasattr(store, "add_correspondence_claim"):
+        from mathgraph.correspondence import (
+            CorrespondenceClaim,
+            CorrespondenceDirection,
+            CorrespondenceStatus,
+        )
+    else:
+        CorrespondenceClaim = None
+        CorrespondenceDirection = None
+        CorrespondenceStatus = None
 
     property_fields = {
         "RootNode": ("table_motif", "algebra_shape", "source_target_basin", "forced_transition", "root_type"),
@@ -169,6 +179,58 @@ def _store_advisory_objectification(store: LawbookStore, rows: list[Any], kind: 
                     payload={"field": field, "value": value, "truth_boundary": "advisory encoding, not verification"},
                 )
             )
+        if CorrespondenceClaim is not None:
+            if kind == "RootNode":
+                correspondence = CorrespondenceClaim(
+                    correspondence_id=f"corr_root_{object_id}",
+                    domain_kernel_id="mathgraph",
+                    formal_world_id=None,
+                    semantic_condition_id=data.get("table_motif"),
+                    syntactic_axiom_id=None,
+                    source_object_id=object_id,
+                    target_object_id=data.get("root_key"),
+                    direction=CorrespondenceDirection.MOTIF_IMPLIES_CERTIFICATE_FAMILY,
+                    status=CorrespondenceStatus.ADVISORY,
+                    trust_level=TrustLevel.ADVISORY_ROUTE.value,
+                    provenance_type=ProvenanceType.IMPORTED.value,
+                    notes="Imported root motif to certificate-family correspondence; advisory only.",
+                    payload={"source": "v16_7_artifact_import"},
+                )
+                store.add_correspondence_claim(correspondence)
+            elif kind == "ReasonNode":
+                correspondence = CorrespondenceClaim(
+                    correspondence_id=f"corr_reason_{object_id}",
+                    domain_kernel_id="mathgraph",
+                    formal_world_id=None,
+                    semantic_condition_id=data.get("reason_key"),
+                    syntactic_axiom_id=None,
+                    source_object_id=object_id,
+                    target_object_id=data.get("table_motif"),
+                    direction=CorrespondenceDirection.ROOT_EXPLAINS_REASON,
+                    status=CorrespondenceStatus.ADVISORY,
+                    trust_level=TrustLevel.ADVISORY_ROUTE.value,
+                    provenance_type=ProvenanceType.IMPORTED.value,
+                    notes="Imported reason-to-root-family correspondence; advisory only.",
+                    payload={"source": "v16_7_artifact_import"},
+                )
+                store.add_correspondence_claim(correspondence)
+            elif kind == "ObstructionNode":
+                correspondence = CorrespondenceClaim(
+                    correspondence_id=f"corr_obstruction_{object_id}",
+                    domain_kernel_id="mathgraph",
+                    formal_world_id=None,
+                    semantic_condition_id=data.get("obstruction_signature") or data.get("failure_reason"),
+                    syntactic_axiom_id=None,
+                    source_object_id=object_id,
+                    target_object_id=data.get("next_constructor_pressure"),
+                    direction=CorrespondenceDirection.UNKNOWN,
+                    status=CorrespondenceStatus.ADVISORY,
+                    trust_level=TrustLevel.ADVISORY_ROUTE.value,
+                    provenance_type=ProvenanceType.IMPORTED.value,
+                    notes="Imported obstruction signature to blocked-route family; advisory only.",
+                    payload={"source": "v16_7_artifact_import"},
+                )
+                store.add_correspondence_claim(correspondence)
 
 
 def _first_existing(directory: Path, names: tuple[str, ...]) -> Path | None:

@@ -21,3 +21,7 @@ claiming target-theory authority.
 Hyperintensional identity is explicit. Same extension is not same law; same
 coverage is not same reason; same table behavior is not same root; same truth
 value is not same continuation.
+
+v16.11 places typed predication inside a broader workbench. Predication facts,
+correspondence claims, backend results, and benchmark rows are all advisory
+unless a verifier-backed certificate chain promotes a terminal form.

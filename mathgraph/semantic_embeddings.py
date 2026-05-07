@@ -55,6 +55,11 @@ class SemanticEmbedding:
     object_theory_verified: bool = False
     host_embedding_verified: bool = False
     proof_transport_status: ProofTransportStatus = ProofTransportStatus.NOT_ATTEMPTED
+    embedding_strategy_profile_id: str | None = None
+    faithfulness_assessment_id: str | None = None
+    syntax_representation: str | None = None
+    semantics_representation: str | None = None
+    automation_bias: str | None = None
     notes: str = ""
     payload: dict[str, Any] = field(default_factory=dict)
 
@@ -62,10 +67,14 @@ class SemanticEmbedding:
         low_risk = self.artifact_risk in {ArtifactRisk.NONE, ArtifactRisk.LOW}
         if self.embedding_kind is EmbeddingKind.NATIVE_KERNEL:
             return low_risk and self.object_theory_verified
+        faithfulness_validated = bool(self.faithfulness_assessment_id) or bool(
+            self.payload.get("faithfulness_validated")
+        )
         return (
             low_risk
             and self.object_theory_verified
             and self.proof_transport_status is ProofTransportStatus.TRANSPORT_VALIDATED
+            and faithfulness_validated
         )
 
     def advisory_warning(self) -> str:
@@ -89,6 +98,11 @@ class SemanticEmbedding:
             "object_theory_verified": self.object_theory_verified,
             "host_embedding_verified": self.host_embedding_verified,
             "proof_transport_status": self.proof_transport_status.value,
+            "embedding_strategy_profile_id": self.embedding_strategy_profile_id,
+            "faithfulness_assessment_id": self.faithfulness_assessment_id,
+            "syntax_representation": self.syntax_representation,
+            "semantics_representation": self.semantics_representation,
+            "automation_bias": self.automation_bias,
             "notes": self.notes,
             "payload": dict(self.payload),
         }
@@ -112,6 +126,11 @@ class SemanticEmbedding:
                 data.get("proof_transport_status"),
                 ProofTransportStatus.NOT_ATTEMPTED,
             ),
+            embedding_strategy_profile_id=data.get("embedding_strategy_profile_id"),
+            faithfulness_assessment_id=data.get("faithfulness_assessment_id"),
+            syntax_representation=data.get("syntax_representation"),
+            semantics_representation=data.get("semantics_representation"),
+            automation_bias=data.get("automation_bias"),
             notes=str(data.get("notes", "")),
             payload=dict(data.get("payload", {})),
         )

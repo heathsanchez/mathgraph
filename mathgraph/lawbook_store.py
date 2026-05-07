@@ -622,6 +622,237 @@ class LawbookStore:
                 created_at TEXT NOT NULL
             );
             CREATE INDEX IF NOT EXISTS idx_host_object_links_kernel ON host_object_theorem_links(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS logical_workbenches (
+                workbench_id TEXT PRIMARY KEY,
+                name TEXT,
+                description TEXT,
+                layer TEXT,
+                domain_kernel_ids_json TEXT NOT NULL,
+                formal_world_ids_json TEXT NOT NULL,
+                logic_combination_ids_json TEXT NOT NULL,
+                benchmark_suite_ids_json TEXT NOT NULL,
+                lifecycle_status TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_logical_workbenches_layer ON logical_workbenches(layer);
+
+            CREATE TABLE IF NOT EXISTS embedding_strategy_profiles (
+                profile_id TEXT PRIMARY KEY,
+                embedding_id TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                strategy TEXT,
+                syntax_representation TEXT,
+                semantics_representation TEXT,
+                automation_bias TEXT,
+                expected_strengths_json TEXT NOT NULL,
+                expected_risks_json TEXT NOT NULL,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_embedding_profiles_kernel ON embedding_strategy_profiles(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS faithfulness_assessments (
+                assessment_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                embedding_id TEXT,
+                object_logic TEXT,
+                host_logic TEXT,
+                status TEXT,
+                soundness_status TEXT,
+                completeness_status TEXT,
+                benchmark_suite_id TEXT,
+                proof_artifact_id TEXT,
+                counterexamples_found INTEGER,
+                assessed_by TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_faithfulness_kernel ON faithfulness_assessments(domain_kernel_id);
+            CREATE INDEX IF NOT EXISTS idx_faithfulness_embedding ON faithfulness_assessments(embedding_id);
+
+            CREATE TABLE IF NOT EXISTS logic_combinations (
+                combination_id TEXT PRIMARY KEY,
+                name TEXT,
+                component_kernel_ids_json TEXT NOT NULL,
+                component_formal_world_ids_json TEXT NOT NULL,
+                combination_method TEXT,
+                shared_semantic_domains_json TEXT NOT NULL,
+                interaction_axioms_json TEXT NOT NULL,
+                conflict_policy TEXT,
+                faithfulness_status TEXT,
+                benchmark_status TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS verifier_backend_profiles (
+                backend_id TEXT PRIMARY KEY,
+                name TEXT,
+                backend_kind TEXT,
+                roles_json TEXT NOT NULL,
+                host_logic TEXT,
+                object_logic TEXT,
+                supports_proofs INTEGER,
+                supports_models INTEGER,
+                produces_replayable_artifacts INTEGER,
+                native_to_domain_kernel INTEGER,
+                artifact_risk TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_backend_kind ON verifier_backend_profiles(backend_kind);
+
+            CREATE TABLE IF NOT EXISTS proof_finder_results (
+                result_id TEXT PRIMARY KEY,
+                claim_id TEXT,
+                backend_id TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                status TEXT,
+                proof_artifact_id TEXT,
+                proof_text TEXT,
+                runtime_sec REAL,
+                trust_level TEXT,
+                provenance_type TEXT,
+                artifact_risk TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_proof_results_claim ON proof_finder_results(claim_id);
+
+            CREATE TABLE IF NOT EXISTS model_finder_results (
+                result_id TEXT PRIMARY KEY,
+                claim_id TEXT,
+                backend_id TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                status TEXT,
+                model_artifact_id TEXT,
+                model_payload_json TEXT NOT NULL,
+                scope_bounds_json TEXT NOT NULL,
+                runtime_sec REAL,
+                trust_level TEXT,
+                provenance_type TEXT,
+                artifact_risk TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_model_results_claim ON model_finder_results(claim_id);
+
+            CREATE TABLE IF NOT EXISTS benchmark_suites (
+                suite_id TEXT PRIMARY KEY,
+                name TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                description TEXT,
+                case_count INTEGER,
+                source TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_benchmark_suites_kernel ON benchmark_suites(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS benchmark_cases (
+                case_id TEXT PRIMARY KEY,
+                suite_id TEXT,
+                claim_id TEXT,
+                source_statement TEXT,
+                target_statement TEXT,
+                expected_status TEXT,
+                expected_terminal_form TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_benchmark_cases_suite ON benchmark_cases(suite_id);
+
+            CREATE TABLE IF NOT EXISTS benchmark_runs (
+                run_id TEXT PRIMARY KEY,
+                suite_id TEXT,
+                backend_id TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                started_at TEXT,
+                finished_at TEXT,
+                total_cases INTEGER,
+                passed_cases INTEGER,
+                failed_cases INTEGER,
+                unknown_cases INTEGER,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_benchmark_runs_suite ON benchmark_runs(suite_id);
+
+            CREATE TABLE IF NOT EXISTS benchmark_results (
+                result_id TEXT PRIMARY KEY,
+                run_id TEXT,
+                case_id TEXT,
+                observed_status TEXT,
+                expected_status TEXT,
+                verifier_backend_id TEXT,
+                runtime_sec REAL,
+                proof_result_id TEXT,
+                model_result_id TEXT,
+                artifact_risk TEXT,
+                regression_status TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_benchmark_results_run ON benchmark_results(run_id);
+
+            CREATE TABLE IF NOT EXISTS correspondence_claims (
+                correspondence_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                semantic_condition_id TEXT,
+                syntactic_axiom_id TEXT,
+                source_object_id TEXT,
+                target_object_id TEXT,
+                direction TEXT,
+                status TEXT,
+                proof_artifact_id TEXT,
+                countermodel_artifact_id TEXT,
+                benchmark_suite_id TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_correspondence_kernel ON correspondence_claims(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS interpretation_choice_points (
+                choice_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                ambiguous_symbol TEXT,
+                context TEXT,
+                candidate_readings_json TEXT NOT NULL,
+                selected_reading_id TEXT,
+                rejected_reading_ids_json TEXT NOT NULL,
+                downstream_effects_json TEXT NOT NULL,
+                status TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                notes TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_interpretation_choices_kernel ON interpretation_choice_points(domain_kernel_id);
             """
         )
         self._ensure_columns(
@@ -637,6 +868,13 @@ class LawbookStore:
                 "default_identity_policy": "TEXT",
                 "default_hyperintensional_identity_policy": "TEXT",
                 "extensional_collapse_policy": "TEXT",
+                "workbench_id": "TEXT",
+                "workbench_layer": "TEXT",
+                "lifecycle_status": "TEXT",
+                "embedding_strategy": "TEXT",
+                "faithfulness_status": "TEXT",
+                "benchmark_status": "TEXT",
+                "default_formal_world_id": "TEXT",
                 "notes": "TEXT",
             },
         )
@@ -651,8 +889,26 @@ class LawbookStore:
                 "object_theory_verified": "INTEGER",
                 "host_embedding_verified": "INTEGER",
                 "proof_transport_status": "TEXT",
+                "embedding_strategy_profile_id": "TEXT",
+                "faithfulness_assessment_id": "TEXT",
+                "syntax_representation": "TEXT",
+                "semantics_representation": "TEXT",
+                "automation_bias": "TEXT",
                 "notes": "TEXT",
                 "payload_json": "TEXT",
+            },
+        )
+        self._ensure_columns(
+            "formal_worlds",
+            {
+                "workbench_id": "TEXT",
+                "lifecycle_status": "TEXT",
+                "embedding_strategy_profile_ids_json": "TEXT",
+                "faithfulness_assessment_ids_json": "TEXT",
+                "benchmark_suite_ids_json": "TEXT",
+                "verifier_backend_ids_json": "TEXT",
+                "logic_combination_ids_json": "TEXT",
+                "interpretation_choice_ids_json": "TEXT",
             },
         )
         self.conn.commit()
@@ -955,8 +1211,9 @@ class LawbookStore:
                 object_logic, object_theory, artifact_risk, proof_transport_status,
                 default_denotation_policy, default_type_system, default_identity_policy,
                 default_hyperintensional_identity_policy, extensional_collapse_policy,
-                notes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                workbench_id, workbench_layer, lifecycle_status, embedding_strategy,
+                faithfulness_status, benchmark_status, default_formal_world_id, notes
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 data["kernel_id"],
@@ -981,6 +1238,13 @@ class LawbookStore:
                 data.get("default_identity_policy", ""),
                 data.get("default_hyperintensional_identity_policy", ""),
                 data.get("extensional_collapse_policy", "NEVER_BY_DEFAULT"),
+                data.get("workbench_id", ""),
+                data.get("workbench_layer", ""),
+                data.get("lifecycle_status", ""),
+                data.get("embedding_strategy", ""),
+                data.get("faithfulness_status", ""),
+                data.get("benchmark_status", ""),
+                data.get("default_formal_world_id", ""),
                 data.get("notes", ""),
             ),
         )
@@ -1023,8 +1287,10 @@ class LawbookStore:
                 artifact_uri, metadata_json, created_at, formal_world_id,
                 host_logic, object_logic, object_theory, artifact_risk,
                 object_theory_verified, host_embedding_verified,
-                proof_transport_status, notes, payload_json
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                proof_transport_status, embedding_strategy_profile_id,
+                faithfulness_assessment_id, syntax_representation,
+                semantics_representation, automation_bias, notes, payload_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 data["embedding_id"],
@@ -1046,6 +1312,11 @@ class LawbookStore:
                 int(bool(data.get("object_theory_verified", False))),
                 int(bool(data.get("host_embedding_verified", False))),
                 data.get("proof_transport_status", data.get("soundness_status", "")),
+                data.get("embedding_strategy_profile_id"),
+                data.get("faithfulness_assessment_id"),
+                data.get("syntax_representation"),
+                data.get("semantics_representation"),
+                data.get("automation_bias"),
                 data.get("notes", data.get("description", "")),
                 json.dumps(data.get("payload", data), sort_keys=True),
             ),
@@ -1137,6 +1408,19 @@ class LawbookStore:
                 "inference_rules",
                 "isabelle_export_records",
                 "host_object_theorem_links",
+                "logical_workbenches",
+                "embedding_strategy_profiles",
+                "faithfulness_assessments",
+                "logic_combinations",
+                "verifier_backend_profiles",
+                "proof_finder_results",
+                "model_finder_results",
+                "benchmark_suites",
+                "benchmark_cases",
+                "benchmark_runs",
+                "benchmark_results",
+                "correspondence_claims",
+                "interpretation_choice_points",
             )
         }
         by_host = Counter(
@@ -1396,8 +1680,11 @@ class LawbookStore:
                 formal_world_id, domain_kernel_id, name, world_kind, object_logic,
                 identity_policy, denotation_policy, verifier_policy,
                 language_fragment_ids_json, semantic_embedding_ids_json, notes,
-                payload_json, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                workbench_id, lifecycle_status, embedding_strategy_profile_ids_json,
+                faithfulness_assessment_ids_json, benchmark_suite_ids_json,
+                verifier_backend_ids_json, logic_combination_ids_json,
+                interpretation_choice_ids_json, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 data["formal_world_id"],
@@ -1411,6 +1698,14 @@ class LawbookStore:
                 json.dumps(data.get("language_fragment_ids", []), sort_keys=True),
                 json.dumps(data.get("semantic_embedding_ids", []), sort_keys=True),
                 data.get("notes", ""),
+                data.get("workbench_id"),
+                data.get("lifecycle_status", "DECLARED"),
+                json.dumps(data.get("embedding_strategy_profile_ids", []), sort_keys=True),
+                json.dumps(data.get("faithfulness_assessment_ids", []), sort_keys=True),
+                json.dumps(data.get("benchmark_suite_ids", []), sort_keys=True),
+                json.dumps(data.get("verifier_backend_ids", []), sort_keys=True),
+                json.dumps(data.get("logic_combination_ids", []), sort_keys=True),
+                json.dumps(data.get("interpretation_choice_ids", []), sort_keys=True),
                 json.dumps(data.get("payload", data), sort_keys=True),
                 datetime.now(timezone.utc).isoformat(),
             ),
@@ -1607,6 +1902,390 @@ class LawbookStore:
         clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "theory_id": theory_id})
         return [_payload_record(row) for row in self._select("host_object_theorem_links", clauses, params)]
 
+    def add_logical_workbench(self, workbench: Any) -> None:
+        self.init_schema()
+        data = _as_dict(workbench)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO logical_workbenches (
+                workbench_id, name, description, layer, domain_kernel_ids_json,
+                formal_world_ids_json, logic_combination_ids_json,
+                benchmark_suite_ids_json, lifecycle_status, notes, payload_json,
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["workbench_id"],
+                data.get("name", ""),
+                data.get("description", ""),
+                data.get("layer", ""),
+                json.dumps(data.get("domain_kernel_ids", []), sort_keys=True),
+                json.dumps(data.get("formal_world_ids", []), sort_keys=True),
+                json.dumps(data.get("logic_combination_ids", []), sort_keys=True),
+                json.dumps(data.get("benchmark_suite_ids", []), sort_keys=True),
+                data.get("lifecycle_status", ""),
+                data.get("notes", ""),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_logical_workbenches(
+        self, layer: str | None = None, lifecycle_status: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"layer": layer, "lifecycle_status": lifecycle_status})
+        return [_json_columns_record(row) for row in self._select("logical_workbenches", clauses, params)]
+
+    def get_logical_workbench(self, workbench_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM logical_workbenches WHERE workbench_id = ?", (workbench_id,)).fetchone()
+        return _json_columns_record(row) if row else None
+
+    def add_embedding_strategy_profile(self, profile: Any) -> None:
+        self.init_schema()
+        data = _as_dict(profile)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO embedding_strategy_profiles (
+                profile_id, embedding_id, domain_kernel_id, formal_world_id,
+                strategy, syntax_representation, semantics_representation,
+                automation_bias, expected_strengths_json, expected_risks_json,
+                notes, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["profile_id"],
+                data.get("embedding_id"),
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("strategy", ""),
+                data.get("syntax_representation", ""),
+                data.get("semantics_representation", ""),
+                data.get("automation_bias", ""),
+                json.dumps(data.get("expected_strengths", []), sort_keys=True),
+                json.dumps(data.get("expected_risks", []), sort_keys=True),
+                data.get("notes", ""),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_embedding_strategy_profiles(
+        self, domain_kernel_id: str | None = None, formal_world_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "formal_world_id": formal_world_id})
+        return [_json_columns_record(row) for row in self._select("embedding_strategy_profiles", clauses, params)]
+
+    def get_embedding_strategy_profile(self, profile_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM embedding_strategy_profiles WHERE profile_id = ?", (profile_id,)).fetchone()
+        return _json_columns_record(row) if row else None
+
+    def add_faithfulness_assessment(self, assessment: Any) -> None:
+        self._insert_payload_table(
+            "faithfulness_assessments",
+            _as_dict(assessment),
+            "assessment_id",
+            (
+                "domain_kernel_id", "formal_world_id", "embedding_id", "object_logic",
+                "host_logic", "status", "soundness_status", "completeness_status",
+                "benchmark_suite_id", "proof_artifact_id", "counterexamples_found",
+                "assessed_by", "notes",
+            ),
+        )
+
+    def list_faithfulness_assessments(
+        self, domain_kernel_id: str | None = None, embedding_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "embedding_id": embedding_id})
+        return [_payload_record(row) for row in self._select("faithfulness_assessments", clauses, params)]
+
+    def get_faithfulness_assessment(self, assessment_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute(
+            "SELECT * FROM faithfulness_assessments WHERE assessment_id = ?", (assessment_id,)
+        ).fetchone()
+        return _payload_record(row) if row else None
+
+    def add_logic_combination(self, combination: Any) -> None:
+        self.init_schema()
+        data = _as_dict(combination)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO logic_combinations (
+                combination_id, name, component_kernel_ids_json,
+                component_formal_world_ids_json, combination_method,
+                shared_semantic_domains_json, interaction_axioms_json,
+                conflict_policy, faithfulness_status, benchmark_status, notes,
+                payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["combination_id"],
+                data.get("name", ""),
+                json.dumps(data.get("component_kernel_ids", []), sort_keys=True),
+                json.dumps(data.get("component_formal_world_ids", []), sort_keys=True),
+                data.get("combination_method", ""),
+                json.dumps(data.get("shared_semantic_domains", []), sort_keys=True),
+                json.dumps(data.get("interaction_axioms", []), sort_keys=True),
+                data.get("conflict_policy", ""),
+                data.get("faithfulness_status", "UNKNOWN"),
+                data.get("benchmark_status", "UNKNOWN"),
+                data.get("notes", ""),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_logic_combinations(self, domain_kernel_id: str | None = None) -> list[dict[str, Any]]:
+        rows = self._select("logic_combinations", [], [])
+        records = [_json_columns_record(row) for row in rows]
+        if domain_kernel_id is not None:
+            records = [row for row in records if domain_kernel_id in row.get("component_kernel_ids", [])]
+        return records
+
+    def get_logic_combination(self, combination_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM logic_combinations WHERE combination_id = ?", (combination_id,)).fetchone()
+        return _json_columns_record(row) if row else None
+
+    def add_verifier_backend_profile(self, profile: Any) -> None:
+        self.init_schema()
+        data = _as_dict(profile)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO verifier_backend_profiles (
+                backend_id, name, backend_kind, roles_json, host_logic,
+                object_logic, supports_proofs, supports_models,
+                produces_replayable_artifacts, native_to_domain_kernel,
+                artifact_risk, notes, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["backend_id"],
+                data.get("name", ""),
+                data.get("backend_kind", ""),
+                json.dumps(data.get("roles", []), sort_keys=True),
+                data.get("host_logic"),
+                data.get("object_logic"),
+                int(bool(data.get("supports_proofs", False))),
+                int(bool(data.get("supports_models", False))),
+                int(bool(data.get("produces_replayable_artifacts", False))),
+                int(bool(data.get("native_to_domain_kernel", False))),
+                data.get("artifact_risk", "UNKNOWN"),
+                data.get("notes", ""),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_verifier_backend_profiles(
+        self, backend_kind: str | None = None, role: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"backend_kind": backend_kind})
+        records = [_json_columns_record(row) for row in self._select("verifier_backend_profiles", clauses, params)]
+        for record in records:
+            record["supports_proofs"] = bool(record.get("supports_proofs"))
+            record["supports_models"] = bool(record.get("supports_models"))
+            record["produces_replayable_artifacts"] = bool(record.get("produces_replayable_artifacts"))
+            record["native_to_domain_kernel"] = bool(record.get("native_to_domain_kernel"))
+        if role is not None:
+            records = [row for row in records if role in row.get("roles", [])]
+        return records
+
+    def get_verifier_backend_profile(self, backend_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM verifier_backend_profiles WHERE backend_id = ?", (backend_id,)).fetchone()
+        if not row:
+            return None
+        record = _json_columns_record(row)
+        for key in ("supports_proofs", "supports_models", "produces_replayable_artifacts", "native_to_domain_kernel"):
+            record[key] = bool(record.get(key))
+        return record
+
+    def add_proof_finder_result(self, result: Any) -> None:
+        self._insert_payload_table(
+            "proof_finder_results",
+            _as_dict(result),
+            "result_id",
+            (
+                "claim_id", "backend_id", "domain_kernel_id", "formal_world_id",
+                "status", "proof_artifact_id", "proof_text", "runtime_sec",
+                "trust_level", "provenance_type", "artifact_risk", "notes",
+            ),
+        )
+
+    def list_proof_finder_results(
+        self, claim_id: str | None = None, backend_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"claim_id": claim_id, "backend_id": backend_id})
+        return [_payload_record(row) for row in self._select("proof_finder_results", clauses, params)]
+
+    def add_model_finder_result(self, result: Any) -> None:
+        data = _as_dict(result)
+        data["model_payload_json"] = data.get("model_payload", {})
+        data["scope_bounds_json"] = data.get("scope_bounds", {})
+        self._insert_payload_table(
+            "model_finder_results",
+            data,
+            "result_id",
+            (
+                "claim_id", "backend_id", "domain_kernel_id", "formal_world_id",
+                "status", "model_artifact_id", "model_payload_json",
+                "scope_bounds_json", "runtime_sec", "trust_level",
+                "provenance_type", "artifact_risk", "notes",
+            ),
+        )
+
+    def list_model_finder_results(
+        self, claim_id: str | None = None, backend_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"claim_id": claim_id, "backend_id": backend_id})
+        return [_json_columns_record(row) for row in self._select("model_finder_results", clauses, params)]
+
+    def add_benchmark_suite(self, suite: Any) -> None:
+        self._insert_payload_table(
+            "benchmark_suites",
+            _as_dict(suite),
+            "suite_id",
+            ("name", "domain_kernel_id", "formal_world_id", "description", "case_count", "source", "notes"),
+        )
+
+    def list_benchmark_suites(
+        self, domain_kernel_id: str | None = None, formal_world_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "formal_world_id": formal_world_id})
+        return [_payload_record(row) for row in self._select("benchmark_suites", clauses, params)]
+
+    def get_benchmark_suite(self, suite_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM benchmark_suites WHERE suite_id = ?", (suite_id,)).fetchone()
+        return _payload_record(row) if row else None
+
+    def add_benchmark_case(self, case: Any) -> None:
+        self._insert_payload_table(
+            "benchmark_cases",
+            _as_dict(case),
+            "case_id",
+            (
+                "suite_id", "claim_id", "source_statement", "target_statement",
+                "expected_status", "expected_terminal_form", "notes",
+            ),
+        )
+
+    def list_benchmark_cases(self, suite_id: str | None = None) -> list[dict[str, Any]]:
+        clauses, params = _filters({"suite_id": suite_id})
+        return [_payload_record(row) for row in self._select("benchmark_cases", clauses, params)]
+
+    def add_benchmark_run(self, run: Any) -> None:
+        self._insert_payload_table(
+            "benchmark_runs",
+            _as_dict(run),
+            "run_id",
+            (
+                "suite_id", "backend_id", "domain_kernel_id", "formal_world_id",
+                "started_at", "finished_at", "total_cases", "passed_cases",
+                "failed_cases", "unknown_cases", "notes",
+            ),
+        )
+
+    def list_benchmark_runs(self, suite_id: str | None = None) -> list[dict[str, Any]]:
+        clauses, params = _filters({"suite_id": suite_id})
+        return [_payload_record(row) for row in self._select("benchmark_runs", clauses, params)]
+
+    def add_benchmark_result(self, result: Any) -> None:
+        self._insert_payload_table(
+            "benchmark_results",
+            _as_dict(result),
+            "result_id",
+            (
+                "run_id", "case_id", "observed_status", "expected_status",
+                "verifier_backend_id", "runtime_sec", "proof_result_id",
+                "model_result_id", "artifact_risk", "regression_status", "notes",
+            ),
+        )
+
+    def list_benchmark_results(
+        self, run_id: str | None = None, case_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"run_id": run_id, "case_id": case_id})
+        return [_payload_record(row) for row in self._select("benchmark_results", clauses, params)]
+
+    def add_correspondence_claim(self, claim: Any) -> None:
+        self._insert_payload_table(
+            "correspondence_claims",
+            _as_dict(claim),
+            "correspondence_id",
+            (
+                "domain_kernel_id", "formal_world_id", "semantic_condition_id",
+                "syntactic_axiom_id", "source_object_id", "target_object_id",
+                "direction", "status", "proof_artifact_id", "countermodel_artifact_id",
+                "benchmark_suite_id", "trust_level", "provenance_type", "notes",
+            ),
+        )
+
+    def list_correspondence_claims(
+        self, domain_kernel_id: str | None = None, status: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "status": status})
+        return [_payload_record(row) for row in self._select("correspondence_claims", clauses, params)]
+
+    def get_correspondence_claim(self, correspondence_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute(
+            "SELECT * FROM correspondence_claims WHERE correspondence_id = ?", (correspondence_id,)
+        ).fetchone()
+        return _payload_record(row) if row else None
+
+    def add_interpretation_choice_point(self, choice: Any) -> None:
+        self.init_schema()
+        data = _as_dict(choice)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO interpretation_choice_points (
+                choice_id, domain_kernel_id, formal_world_id, ambiguous_symbol,
+                context, candidate_readings_json, selected_reading_id,
+                rejected_reading_ids_json, downstream_effects_json, status,
+                trust_level, provenance_type, notes, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["choice_id"],
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("ambiguous_symbol", ""),
+                data.get("context", ""),
+                json.dumps(data.get("candidate_readings", []), sort_keys=True),
+                data.get("selected_reading_id"),
+                json.dumps(data.get("rejected_reading_ids", []), sort_keys=True),
+                json.dumps(data.get("downstream_effects", []), sort_keys=True),
+                data.get("status", "OPEN"),
+                data.get("trust_level", "ADVISORY_ROUTE"),
+                data.get("provenance_type", "IMPORTED"),
+                data.get("notes", ""),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_interpretation_choice_points(
+        self, domain_kernel_id: str | None = None, status: str | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id, "status": status})
+        return [_json_columns_record(row) for row in self._select("interpretation_choice_points", clauses, params)]
+
+    def get_interpretation_choice_point(self, choice_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute(
+            "SELECT * FROM interpretation_choice_points WHERE choice_id = ?", (choice_id,)
+        ).fetchone()
+        return _json_columns_record(row) if row else None
+
     def _select(self, table: str, clauses: list[str], params: list[Any]) -> list[sqlite3.Row]:
         self.init_schema()
         where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
@@ -1777,6 +2456,19 @@ class LawbookStore:
                 "inference_rules",
                 "isabelle_export_records",
                 "host_object_theorem_links",
+                "logical_workbenches",
+                "embedding_strategy_profiles",
+                "faithfulness_assessments",
+                "logic_combinations",
+                "verifier_backend_profiles",
+                "proof_finder_results",
+                "model_finder_results",
+                "benchmark_suites",
+                "benchmark_cases",
+                "benchmark_runs",
+                "benchmark_results",
+                "correspondence_claims",
+                "interpretation_choice_points",
             )
         }
         cert_rows = [dict(row) for row in self.conn.execute("SELECT terminal_form FROM certificates")]
@@ -2275,6 +2967,13 @@ def _domain_kernel_record(row: sqlite3.Row) -> dict[str, Any]:
         "default_identity_policy": data.get("default_identity_policy") or "",
         "default_hyperintensional_identity_policy": data.get("default_hyperintensional_identity_policy") or "",
         "extensional_collapse_policy": data.get("extensional_collapse_policy") or "NEVER_BY_DEFAULT",
+        "workbench_id": data.get("workbench_id") or "",
+        "workbench_layer": data.get("workbench_layer") or "",
+        "lifecycle_status": data.get("lifecycle_status") or "",
+        "embedding_strategy": data.get("embedding_strategy") or "",
+        "faithfulness_status": data.get("faithfulness_status") or "",
+        "benchmark_status": data.get("benchmark_status") or "",
+        "default_formal_world_id": data.get("default_formal_world_id") or "",
         "notes": data.get("notes") or "",
         "created_at": data["created_at"],
         "advisory_only": True,
@@ -2328,10 +3027,14 @@ def _semantic_embedding_record(row: sqlite3.Row) -> dict[str, Any]:
     data["payload"] = json.loads(payload_json) if payload_json else {}
     data["object_theory_verified"] = bool(data.get("object_theory_verified"))
     data["host_embedding_verified"] = bool(data.get("host_embedding_verified"))
+    faithfulness_validated = bool(data.get("faithfulness_assessment_id")) or bool(
+        data.get("payload", {}).get("faithfulness_validated")
+    )
+    native = data.get("embedding_kind") in {"NATIVE_KERNEL", "DIRECT_NATIVE"}
     data["advisory_only"] = not (
         data.get("object_theory_verified")
-        and data.get("proof_transport_status") == "TRANSPORT_VALIDATED"
         and data.get("artifact_risk") in {"NONE", "LOW"}
+        and (native or (data.get("proof_transport_status") == "TRANSPORT_VALIDATED" and faithfulness_validated))
     )
     return data
 

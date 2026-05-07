@@ -21,3 +21,9 @@ The current presets are:
 
 Formal worlds encode admissible propositions and safety policies. They do not
 promote claims to truth.
+v16.11 treats a formal world as part of a meta-logical workbench. A world may
+reference embedding strategy profiles, faithfulness assessments, benchmark
+suites, verifier backends, logic combinations, and interpretation choices.
+
+These references describe context and risk. A formal world remains a metadata
+boundary, not a proof object.

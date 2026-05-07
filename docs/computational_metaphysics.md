@@ -32,6 +32,13 @@ formal worlds, and artifact-risk metadata. The substrate is deliberately
 conservative: same extension is not same law, and a host theorem is not a
 target-theory theorem until transport or native checking is explicit.
 
+v16.11 adds the LogiKEy lesson: formal worlds need a workbench, not just a
+registry row. MathGraph now records layered L0/L1/L2/L3 workbench metadata,
+embedding strategy profiles, faithfulness assessments, backend profiles,
+benchmark suites, correspondence claims, and interpretation choice points.
+These rows make bridge risk visible. They do not import LogiKEy or make shallow
+embedding results target-theory theorems.
+
 The AOT scanner indexes `.thy` and `.ML` declarations as advisory theory
 registry rows only. It does not run Isabelle and does not make AOT theorems
 verified inside MathGraph.

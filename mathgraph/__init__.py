@@ -134,6 +134,63 @@ from mathgraph.isabelle_exports import (
     IsabelleExportRecord,
     IsabelleExportStatus,
 )
+from mathgraph.logical_workbench import (
+    LogicWorkbench,
+    WorkbenchLayer,
+    WorkbenchLifecycleStatus,
+    logikey_style_workbench,
+    mathgraph_default_workbench,
+)
+from mathgraph.embedding_strategies import (
+    AutomationBias,
+    EmbeddingStrategy,
+    EmbeddingStrategyProfile,
+    SemanticsRepresentation,
+    SyntaxRepresentation,
+)
+from mathgraph.faithfulness import (
+    CompletenessStatus,
+    FaithfulnessAssessment,
+    FaithfulnessStatus,
+    SoundnessStatus,
+)
+from mathgraph.logic_combinations import CombinationMethod, ConflictPolicy, LogicCombination
+from mathgraph.verifier_backends import (
+    BackendRole,
+    VerifierBackendKind,
+    VerifierBackendProfile,
+    isabelle_nitpick_backend_placeholder,
+    isabelle_nunchaku_backend_placeholder,
+    isabelle_sledgehammer_backend_placeholder,
+    lean_backend_placeholder,
+    python_finite_table_checker_backend,
+)
+from mathgraph.backend_results import (
+    ModelFinderResult,
+    ModelFinderStatus,
+    ProofFinderResult,
+    ProofFinderStatus,
+)
+from mathgraph.benchmarking import (
+    BenchmarkCase,
+    BenchmarkExpectedStatus,
+    BenchmarkObservedStatus,
+    BenchmarkResult,
+    BenchmarkRun,
+    BenchmarkSuite,
+    etp_matrix_benchmark_suite_metadata,
+    logikey_methodology_benchmark_suite_metadata,
+)
+from mathgraph.correspondence import (
+    CorrespondenceClaim,
+    CorrespondenceDirection,
+    CorrespondenceStatus,
+)
+from mathgraph.interpretation_choice import ChoicePointStatus, InterpretationChoicePoint
+from mathgraph.workbench_presets import (
+    build_logikey_style_workbench_bundle,
+    build_mathgraph_etp_workbench_bundle,
+)
 from mathgraph.types import (
     ExtensionalCollapsePolicy,
     HyperintensionalIdentityMode,
@@ -463,4 +520,48 @@ __all__ = [
     "TheoryDeclarationKind",
     "normalize_object_language_text",
     "scan_aot_repository",
+    "AutomationBias",
+    "BackendRole",
+    "BenchmarkCase",
+    "BenchmarkExpectedStatus",
+    "BenchmarkObservedStatus",
+    "BenchmarkResult",
+    "BenchmarkRun",
+    "BenchmarkSuite",
+    "ChoicePointStatus",
+    "CombinationMethod",
+    "CompletenessStatus",
+    "ConflictPolicy",
+    "CorrespondenceClaim",
+    "CorrespondenceDirection",
+    "CorrespondenceStatus",
+    "EmbeddingStrategy",
+    "EmbeddingStrategyProfile",
+    "FaithfulnessAssessment",
+    "FaithfulnessStatus",
+    "InterpretationChoicePoint",
+    "LogicCombination",
+    "LogicWorkbench",
+    "ModelFinderResult",
+    "ModelFinderStatus",
+    "ProofFinderResult",
+    "ProofFinderStatus",
+    "SemanticsRepresentation",
+    "SoundnessStatus",
+    "SyntaxRepresentation",
+    "VerifierBackendKind",
+    "VerifierBackendProfile",
+    "WorkbenchLayer",
+    "WorkbenchLifecycleStatus",
+    "build_logikey_style_workbench_bundle",
+    "build_mathgraph_etp_workbench_bundle",
+    "etp_matrix_benchmark_suite_metadata",
+    "isabelle_nitpick_backend_placeholder",
+    "isabelle_nunchaku_backend_placeholder",
+    "isabelle_sledgehammer_backend_placeholder",
+    "lean_backend_placeholder",
+    "logikey_methodology_benchmark_suite_metadata",
+    "logikey_style_workbench",
+    "mathgraph_default_workbench",
+    "python_finite_table_checker_backend",
 ]

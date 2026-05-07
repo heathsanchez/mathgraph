@@ -118,6 +118,34 @@ and [Reason Containment](docs/reason_containment.md). The companion
 [Hyperintensional Identity](docs/hyperintensional_identity.md) pages describe
 the advisory scanner/registry layer for future Isabelle/AOT imports.
 
+## LogiKEy-Style Workbench and Faithfulness
+
+v16.11 adds a meta-logical workbench layer inspired by the LogiKEy methodology:
+formal worlds are organized into L0/L1/L2/L3 layers, semantic embedding
+strategies are explicit, backend profiles distinguish proof-finders from
+model-finders, and faithfulness assessments record bridge risk.
+
+```bash
+python scripts/register_logical_workbench.py \
+  --db /tmp/mathgraph.sqlite \
+  --preset logikey
+
+python scripts/query_lawbook.py \
+  --db /tmp/mathgraph.sqlite \
+  --logical-workbenches
+```
+
+This is still substrate, not prover integration. Faithfulness assessments can
+reduce embedding risk for a specific bridge, but they do not prove arbitrary
+claims. Benchmarks are evidence and regression checks, not proof. A
+model-finder miss is not proof; a proof-finder miss is not refutation; logic
+combinations remain advisory until interaction semantics and conflict policy
+are assessed. See [LogiKEy Workbench](docs/logikey_workbench.md),
+[Faithfulness Assessment](docs/faithfulness_assessment.md),
+[Verifier Backends](docs/verifier_backends.md),
+[Benchmarking](docs/benchmarking.md), [Correspondence Claims](docs/correspondence_claims.md),
+and [Interpretation Choice Points](docs/interpretation_choice_points.md).
+
 ## Quick Start
 
 ```bash

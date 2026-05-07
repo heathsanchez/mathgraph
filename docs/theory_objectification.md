@@ -17,3 +17,10 @@ authoritative only when their denotations are known to denote and when a verifie
 or imported proof artifact supplies the appropriate trust.
 
 Non-denoting and unknown-denoting terms are stored as advisory metadata only.
+v16.11 adds interpretation choice points and correspondence claims around
+objectification. A mapping choice can be stored, compared, selected, rejected,
+or left ambiguous without silently becoming truth.
+
+Correspondence claims between semantic conditions and syntactic laws are
+advisory until backed by explicit proof/refutation artifacts. Same extension is
+not same law, and same truth value is not same continuation.

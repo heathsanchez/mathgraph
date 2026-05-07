@@ -36,12 +36,30 @@ from mathgraph.semantic_embeddings import (  # noqa: E402
     SemanticEmbedding,
 )
 from mathgraph.types import TypedObject  # noqa: E402
+from mathgraph.benchmarking import logikey_methodology_benchmark_suite_metadata  # noqa: E402
+from mathgraph.faithfulness import (  # noqa: E402
+    CompletenessStatus,
+    FaithfulnessAssessment,
+    FaithfulnessStatus,
+    SoundnessStatus,
+)
+from mathgraph.embedding_strategies import (  # noqa: E402
+    AutomationBias,
+    EmbeddingStrategy,
+    EmbeddingStrategyProfile,
+    SemanticsRepresentation,
+    SyntaxRepresentation,
+)
+from mathgraph.workbench_presets import (  # noqa: E402
+    build_logikey_style_workbench_bundle,
+    build_mathgraph_etp_workbench_bundle,
+)
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db", required=True)
-    parser.add_argument("--preset", choices=["aot", "etp"])
+    parser.add_argument("--preset", choices=["aot", "etp", "logikey"])
     parser.add_argument("--name")
     parser.add_argument("--description", default="")
     parser.add_argument("--native-language", default="")
@@ -56,6 +74,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--with-embedding", action="store_true")
     parser.add_argument("--with-formal-world", action="store_true")
     parser.add_argument("--with-paradox-guards", action="store_true")
+    parser.add_argument("--with-workbench", action="store_true")
+    parser.add_argument("--with-backends", action="store_true")
+    parser.add_argument("--with-faithfulness", action="store_true")
+    parser.add_argument("--with-benchmarks", action="store_true")
+    parser.add_argument("--with-logic-combinations", action="store_true")
     args = parser.parse_args(argv)
 
     metadata = json.loads(args.metadata_json) if args.metadata_json else {}
@@ -63,6 +86,8 @@ def main(argv: list[str] | None = None) -> int:
         kernel = make_aot_domain_kernel(args.source_commit)
     elif args.preset == "etp":
         kernel = make_etp_domain_kernel(args.source_commit)
+    elif args.preset == "logikey":
+        kernel = None
     else:
         if not args.name:
             parser.error("--name is required without --preset")
@@ -82,15 +107,19 @@ def main(argv: list[str] | None = None) -> int:
 
     store = LawbookStore(args.db)
     try:
-        result = register_domain_kernel_in_store(store, kernel)
+        result = (
+            register_domain_kernel_in_store(store, kernel)
+            if kernel is not None
+            else {"truth_boundary": "LogiKEy workbench metadata is not verification."}
+        )
         extras = _register_preset_extras(store, args.preset, args) if args.preset else {}
         payload = {
             "status": "registered",
-            "kernel_id": kernel.kernel_id,
-            "name": kernel.name,
-            "host_verifier": kernel.host_verifier.value,
-            "embedding_kind": kernel.embedding_kind.value,
-            "source_uri": kernel.source_uri,
+            "kernel_id": kernel.kernel_id if kernel is not None else None,
+            "name": kernel.name if kernel is not None else "LogiKEy-style workbench",
+            "host_verifier": kernel.host_verifier.value if kernel is not None else None,
+            "embedding_kind": kernel.embedding_kind.value if kernel is not None else None,
+            "source_uri": kernel.source_uri if kernel is not None else "",
             "extras": extras,
             "truth_boundary": result["truth_boundary"],
         }
@@ -115,9 +144,25 @@ def _register_preset_extras(store: LawbookStore, preset: str | None, args: argpa
         "embedding": args.with_embedding,
         "formal_world": args.with_formal_world,
         "paradox_guards": args.with_paradox_guards,
+        "workbench": args.with_workbench,
+        "backends": args.with_backends,
+        "faithfulness": args.with_faithfulness,
+        "benchmarks": args.with_benchmarks,
+        "logic_combinations": args.with_logic_combinations,
     }
     register_all = not any(requested.values())
-    extras = {"fragments": 0, "embeddings": 0, "formal_worlds": 0, "paradox_guards": 0}
+    extras = {
+        "fragments": 0,
+        "embeddings": 0,
+        "formal_worlds": 0,
+        "paradox_guards": 0,
+        "logical_workbenches": 0,
+        "embedding_strategies": 0,
+        "backends": 0,
+        "faithfulness": 0,
+        "benchmarks": 0,
+        "logic_combinations": 0,
+    }
     if preset == "aot":
         if register_all or requested["embedding"]:
             store.add_semantic_embedding(
@@ -134,6 +179,11 @@ def _register_preset_extras(store: LawbookStore, preset: str | None, args: argpa
                     object_theory_verified=False,
                     host_embedding_verified=False,
                     proof_transport_status=ProofTransportStatus.NOT_ATTEMPTED,
+                    embedding_strategy_profile_id="strategy_logikey_shallow_hol",
+                    faithfulness_assessment_id="faithfulness_logikey_style_placeholder",
+                    syntax_representation="SHALLOW_HOST_TERMS",
+                    semantics_representation="HOST_LAMBDA_SEMANTICS",
+                    automation_bias="PROVER_FRIENDLY",
                     notes="Metadata-only AOT shallow semantic embedding precedent; no Isabelle import yet.",
                 )
             )
@@ -150,6 +200,19 @@ def _register_preset_extras(store: LawbookStore, preset: str | None, args: argpa
             for guard in (aot_complex_term_guard(), semantic_embedding_artifact_guard(), set_collapse_guard()):
                 store.add_paradox_guard(guard)
                 extras["paradox_guards"] += 1
+        if register_all or requested["workbench"] or requested["backends"] or requested["faithfulness"] or requested["benchmarks"]:
+            _register_workbench_bundle(
+                store,
+                build_logikey_style_workbench_bundle(),
+                extras,
+                include={
+                    "logical_workbenches": register_all or requested["workbench"],
+                    "embedding_strategy_profiles": register_all or requested["embedding"],
+                    "verifier_backend_profiles": register_all or requested["backends"],
+                    "faithfulness_assessments": register_all or requested["faithfulness"],
+                    "benchmark_suites": register_all or requested["benchmarks"],
+                },
+            )
     elif preset == "etp":
         if register_all or requested["embedding"]:
             store.add_semantic_embedding(
@@ -166,6 +229,11 @@ def _register_preset_extras(store: LawbookStore, preset: str | None, args: argpa
                     object_theory_verified=True,
                     host_embedding_verified=True,
                     proof_transport_status=ProofTransportStatus.NOT_APPLICABLE,
+                    embedding_strategy_profile_id="strategy_etp_native_finite_checker",
+                    faithfulness_assessment_id="faithfulness_etp_native_not_applicable",
+                    syntax_representation="NATIVE_OBJECTS",
+                    semantics_representation="FINITE_CHECKER",
+                    automation_bias="CERTIFICATE_FRIENDLY",
                     notes="Native finite-checker metadata; finite search failure remains non-proof.",
                 )
             )
@@ -178,7 +246,58 @@ def _register_preset_extras(store: LawbookStore, preset: str | None, args: argpa
             store.add_formal_world(world)
             _register_world_objectification(store, world)
             extras["formal_worlds"] += 1
+        if register_all or requested["workbench"] or requested["backends"] or requested["faithfulness"] or requested["benchmarks"]:
+            _register_workbench_bundle(
+                store,
+                build_mathgraph_etp_workbench_bundle(),
+                extras,
+                include={
+                    "logical_workbenches": register_all or requested["workbench"],
+                    "embedding_strategy_profiles": register_all or requested["embedding"],
+                    "verifier_backend_profiles": register_all or requested["backends"],
+                    "faithfulness_assessments": register_all or requested["faithfulness"],
+                    "benchmark_suites": register_all or requested["benchmarks"],
+                },
+            )
+    elif preset == "logikey":
+        _register_workbench_bundle(
+            store,
+            build_logikey_style_workbench_bundle(),
+            extras,
+            include={
+                "logical_workbenches": True,
+                "embedding_strategy_profiles": True,
+                "verifier_backend_profiles": True,
+                "faithfulness_assessments": True,
+                "benchmark_suites": True,
+            },
+        )
     return extras
+
+
+def _register_workbench_bundle(
+    store: LawbookStore,
+    bundle: dict[str, list[object]],
+    extras: dict[str, int],
+    include: dict[str, bool],
+) -> None:
+    method_map = {
+        "logical_workbenches": ("add_logical_workbench", "logical_workbenches"),
+        "embedding_strategy_profiles": ("add_embedding_strategy_profile", "embedding_strategies"),
+        "verifier_backend_profiles": ("add_verifier_backend_profile", "backends"),
+        "faithfulness_assessments": ("add_faithfulness_assessment", "faithfulness"),
+        "benchmark_suites": ("add_benchmark_suite", "benchmarks"),
+    }
+    for key, rows in bundle.items():
+        if not include.get(key, False):
+            continue
+        method_name, extras_key = method_map.get(key, ("", ""))
+        if not method_name or not hasattr(store, method_name):
+            continue
+        method = getattr(store, method_name)
+        for row in rows:
+            method(row)
+            extras[extras_key] += 1
 
 
 def _register_world_objectification(store: LawbookStore, world: object) -> None:

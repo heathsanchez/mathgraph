@@ -109,6 +109,13 @@ class DomainKernel:
     default_identity_policy: str = ""
     default_hyperintensional_identity_policy: str = ""
     extensional_collapse_policy: str = "NEVER_BY_DEFAULT"
+    workbench_id: str = ""
+    workbench_layer: str = ""
+    lifecycle_status: str = ""
+    embedding_strategy: str = ""
+    faithfulness_status: str = ""
+    benchmark_status: str = ""
+    default_formal_world_id: str = ""
     notes: str = ""
 
     @classmethod
@@ -135,6 +142,13 @@ class DomainKernel:
         default_identity_policy: str = "",
         default_hyperintensional_identity_policy: str = "",
         extensional_collapse_policy: str = "NEVER_BY_DEFAULT",
+        workbench_id: str = "",
+        workbench_layer: str = "",
+        lifecycle_status: str = "",
+        embedding_strategy: str = "",
+        faithfulness_status: str = "",
+        benchmark_status: str = "",
+        default_formal_world_id: str = "",
         notes: str = "",
     ) -> "DomainKernel":
         return cls(
@@ -161,6 +175,13 @@ class DomainKernel:
             default_identity_policy=default_identity_policy,
             default_hyperintensional_identity_policy=default_hyperintensional_identity_policy,
             extensional_collapse_policy=extensional_collapse_policy,
+            workbench_id=workbench_id,
+            workbench_layer=workbench_layer,
+            lifecycle_status=lifecycle_status,
+            embedding_strategy=embedding_strategy,
+            faithfulness_status=faithfulness_status,
+            benchmark_status=benchmark_status,
+            default_formal_world_id=default_formal_world_id,
             notes=notes,
         )
 
@@ -198,6 +219,13 @@ class DomainKernel:
             "default_identity_policy": self.default_identity_policy,
             "default_hyperintensional_identity_policy": self.default_hyperintensional_identity_policy,
             "extensional_collapse_policy": self.extensional_collapse_policy,
+            "workbench_id": self.workbench_id,
+            "workbench_layer": self.workbench_layer,
+            "lifecycle_status": self.lifecycle_status,
+            "embedding_strategy": self.embedding_strategy,
+            "faithfulness_status": self.faithfulness_status,
+            "benchmark_status": self.benchmark_status,
+            "default_formal_world_id": self.default_formal_world_id,
             "notes": self.notes,
         }
 
@@ -238,6 +266,13 @@ class DomainKernel:
                 data.get("default_hyperintensional_identity_policy", "")
             ),
             extensional_collapse_policy=str(data.get("extensional_collapse_policy", "NEVER_BY_DEFAULT")),
+            workbench_id=str(data.get("workbench_id", "")),
+            workbench_layer=str(data.get("workbench_layer", "")),
+            lifecycle_status=str(data.get("lifecycle_status", "")),
+            embedding_strategy=str(data.get("embedding_strategy", "")),
+            faithfulness_status=str(data.get("faithfulness_status", "")),
+            benchmark_status=str(data.get("benchmark_status", "")),
+            default_formal_world_id=str(data.get("default_formal_world_id", "")),
             notes=str(data.get("notes", "")),
         )
         return kernel.validate()
@@ -422,6 +457,13 @@ def make_aot_domain_kernel(source_commit: str = "") -> DomainKernel:
         default_identity_policy="abstract_identity_by_encoded_properties",
         default_hyperintensional_identity_policy="ENCODED_PROPERTIES",
         extensional_collapse_policy="NEVER_BY_DEFAULT",
+        workbench_id="workbench_logikey_style",
+        workbench_layer="L1_LOGIC_AND_EMBEDDINGS",
+        lifecycle_status="SEMANTICS_SELECTED",
+        embedding_strategy="SHALLOW_SEMANTIC_EMBEDDING",
+        faithfulness_status="UNKNOWN",
+        benchmark_status="UNKNOWN",
+        default_formal_world_id="formal_world_aot_precedent",
         notes=(
             "AOT metadata preset: encoding/exemplification, abstract vs ordinary "
             "objects, canonical descriptions, shallow semantic embedding precedent, "
@@ -455,7 +497,17 @@ def make_etp_domain_kernel(source_commit: str = "") -> DomainKernel:
         default_identity_policy="equation_id_and_normalized_syntax",
         default_hyperintensional_identity_policy="NORMALIZED_SYNTAX",
         extensional_collapse_policy="ALLOW_IF_VERIFIED_EQUIVALENCE",
-        notes="Native finite-checker metadata for the SAIR/ETP algebraic nursery.",
+        workbench_id="workbench_mathgraph_default",
+        workbench_layer="L3_APPLICATION_SCENARIOS",
+        lifecycle_status="BENCHMARKED",
+        embedding_strategy="NATIVE_KERNEL",
+        faithfulness_status="NOT_APPLICABLE",
+        benchmark_status="ETP_MATRIX_AVAILABLE",
+        default_formal_world_id="formal_world_etp_magma",
+        notes=(
+            "Native finite-checker metadata for the SAIR/ETP algebraic nursery. "
+            "The matrix is benchmark/evaluation data, not proof; Lean proof side remains future."
+        ),
     )
 
 
