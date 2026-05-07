@@ -17,6 +17,9 @@ from mathgraph.artifact_warehouse import (
     import_v16_7_root_atlas_dir,
 )
 from mathgraph.progress import ProgressLogger
+from mathgraph.lean_artifacts import LeanArtifact, LeanArtifactKind, LeanVerificationStatus, make_lean_artifact_id, render_lean_skeleton
+from mathgraph.proof_atlas import build_proof_atlas_from_true_rows
+from mathgraph.proof_importers import import_true_proof_artifacts_to_store, load_true_proof_rows
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -26,6 +29,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out-db")
     parser.add_argument("--v1662-dir")
     parser.add_argument("--v167-dir")
+    parser.add_argument("--true-proofs")
+    parser.add_argument("--proof-atlas", action="store_true")
+    parser.add_argument("--emit-lean-sketches")
+    parser.add_argument("--max-lemma-candidates", type=int, default=50)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--replace", action="store_true")
     parser.add_argument("--summary-json", default=None)
@@ -45,8 +52,8 @@ def main(argv: list[str] | None = None) -> int:
     db_path = args.out_db or args.out
     if not db_path:
         parser.error("--out-db or --out is required")
-    if not args.traces_json and not args.v1662_dir and not args.v167_dir:
-        parser.error("provide --traces-json and/or --v1662-dir/--v167-dir")
+    if not args.traces_json and not args.v1662_dir and not args.v167_dir and not args.true_proofs:
+        parser.error("provide --traces-json and/or --v1662-dir/--v167-dir/--true-proofs")
 
     store = LawbookStore(db_path)
     try:
@@ -64,6 +71,60 @@ def main(argv: list[str] | None = None) -> int:
         if args.v167_dir:
             with progress.stage("import_v16_7", input=args.v167_dir):
                 imports["v16_7"] = import_v16_7_root_atlas_dir(args.v167_dir, store, limit=args.limit)
+        true_rows = []
+        if args.true_proofs:
+            with progress.stage("import_true_proofs", input=args.true_proofs):
+                imports["true_proofs"] = import_true_proof_artifacts_to_store(store, args.true_proofs, limit=args.limit)
+                true_rows = load_true_proof_rows(args.true_proofs, limit=args.limit)
+        if args.proof_atlas and true_rows:
+            with progress.stage("build_proof_atlas", row_count=len(true_rows)):
+                atlas = build_proof_atlas_from_true_rows(
+                    true_rows,
+                    max_lemma_candidates=args.max_lemma_candidates,
+                )
+                lean_artifacts = []
+                if args.emit_lean_sketches:
+                    sketches_dir = Path(args.emit_lean_sketches)
+                    sketches_dir.mkdir(parents=True, exist_ok=True)
+                    for candidate in atlas.lemma_candidates[: args.max_lemma_candidates]:
+                        sketch = render_lean_skeleton(candidate)
+                        path = sketches_dir / f"{candidate.candidate_name}.lean"
+                        path.write_text(sketch, encoding="utf-8")
+                        artifact = LeanArtifact(
+                            lean_artifact_id=make_lean_artifact_id(
+                                candidate.candidate_name,
+                                LeanArtifactKind.PROOF_SKETCH.value,
+                                candidate.lean_statement,
+                            ),
+                            artifact_kind=LeanArtifactKind.PROOF_SKETCH,
+                            name=candidate.candidate_name,
+                            domain_kernel_id=candidate.domain_kernel_id,
+                            formal_world_id=candidate.formal_world_id,
+                            theorem_name=candidate.candidate_name,
+                            statement=candidate.lean_statement,
+                            proof_text=sketch,
+                            imports=["Mathlib"],
+                            verification_status=LeanVerificationStatus.GENERATED,
+                            source_file=str(path),
+                            payload={"lemma_candidate_id": candidate.lemma_candidate_id},
+                        )
+                        lean_artifacts.append(artifact)
+                        store.add_lean_artifact(artifact)
+                for motif in atlas.proof_motifs:
+                    store.add_proof_motif(motif)
+                for candidate in atlas.lemma_candidates[: args.max_lemma_candidates]:
+                    store.add_lemma_candidate(candidate)
+                atlas = type(atlas)(
+                    atlas_id=atlas.atlas_id,
+                    domain_kernel_id=atlas.domain_kernel_id,
+                    formal_world_id=atlas.formal_world_id,
+                    proof_motifs=atlas.proof_motifs,
+                    lemma_candidates=atlas.lemma_candidates[: args.max_lemma_candidates],
+                    lean_artifacts=lean_artifacts,
+                    payload=atlas.payload,
+                )
+                store.add_proof_atlas(atlas)
+                imports["proof_atlas"] = atlas.summary()
         payload = {"store_path": str(db_path), "imports": imports, "summary": store.summary()}
         if "traces" in imports and isinstance(imports["traces"], dict):
             payload = {**imports["traces"], **payload}

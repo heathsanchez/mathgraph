@@ -72,3 +72,9 @@
 - **Benchmark Suite**: regression/evidence set for a formal world or backend; benchmarks are not certificates.
 - **Correspondence Claim**: proposed bridge between semantic condition and syntactic law, root motif and certificate family, or obstruction and blocked continuation.
 - **Interpretation Choice Point**: explicit record of ambiguous symbol/objectification choices and selected/rejected readings.
+- **Proof Motif**: repeated TRUE-side proof shape; advisory unless backed by verified proof artifacts.
+- **Proof Motif Atlas**: compressed index of TRUE proof motifs and their support.
+- **Lemma Candidate**: proposed reusable cut or theorem skeleton; not authoritative until verified.
+- **Cut Introduction**: proof-shaping move that proposes an intermediate lemma for Lean to validate.
+- **Lean Artifact**: theorem/proof/sketch metadata; generated sketches are not Lean verification.
+- **Lean Skeleton**: conservative generated `.lean` text for a candidate lemma, marked advisory until checked.

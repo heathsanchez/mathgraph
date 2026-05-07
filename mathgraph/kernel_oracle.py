@@ -98,6 +98,21 @@ class KernelOracle:
                     "and interpretation metadata never override verifier terminal forms."
                 ),
             }
+        if hasattr(self.store, "list_proof_motifs"):
+            answer.evidence["advisory_proof_atlas"] = {
+                "proof_motifs": self.store.list_proof_motifs(limit=10),
+                "lemma_candidates": self.store.list_lemma_candidates(limit=10)
+                if hasattr(self.store, "list_lemma_candidates")
+                else [],
+                "verified_lean_artifacts": self.store.list_lean_artifacts(verification_status="LEAN_VERIFIED", limit=10)
+                if hasattr(self.store, "list_lean_artifacts")
+                else [],
+                "advisory_only": True,
+                "warning": (
+                    "Proof motifs and lemma candidates are advisory unless backed by "
+                    "verified Lean artifacts or certificate chains."
+                ),
+            }
         if self.root_oracle is not None:
             pressure = _root_pressure(self.root_oracle, source, target)
             answer.evidence.update(pressure)

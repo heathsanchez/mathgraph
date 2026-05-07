@@ -66,6 +66,21 @@ metadata, and native embedding strategy profile. The matrix remains
 benchmark/evaluation data, not proof. Finite search misses remain residual
 evidence only.
 
+## TRUE-Side Proof Motifs
+
+Synthetic or imported TRUE proof rows can be grouped into proof motifs and
+lemma candidates:
+
+```bash
+python scripts/build_proof_atlas.py \
+  --input /external/path/true_proofs.csv \
+  --out-dir /tmp/proof_atlas \
+  --emit-lean-sketches
+```
+
+This proposes reusable cuts for Lean. It does not verify them. Lean sketches
+remain advisory until a real Lean result is imported.
+
 ## Artifact-Backed Imports
 
 The v19.1 importer can optionally inspect external JSON and Lean artifacts. This

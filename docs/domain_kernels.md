@@ -56,3 +56,7 @@ Faithfulness rows reduce bridge risk for a specific embedding only when they
 carry sound support. Benchmarks are regression/evidence, not proof. Logic
 combinations remain advisory until interaction semantics and conflict policy
 are assessed.
+
+Proof motif and lemma-candidate rows may be attached to a DomainKernel as
+proof-side search pressure. They do not change the DomainKernel truth policy:
+candidate cuts require explicit verifier results before promotion.

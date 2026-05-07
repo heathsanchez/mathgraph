@@ -62,6 +62,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--benchmark-results", action="store_true")
     parser.add_argument("--correspondences", action="store_true")
     parser.add_argument("--interpretation-choices", action="store_true")
+    parser.add_argument("--proof-motifs", action="store_true")
+    parser.add_argument("--lemma-candidates", action="store_true")
+    parser.add_argument("--lean-artifacts", action="store_true")
+    parser.add_argument("--proof-atlases", action="store_true")
+    parser.add_argument("--proof-motif")
+    parser.add_argument("--lemma-candidate")
+    parser.add_argument("--lean-artifact")
+    parser.add_argument("--top-proof-motifs", type=int)
+    parser.add_argument("--top-lemma-candidates", type=int)
+    parser.add_argument("--verified-lean-artifacts", action="store_true")
     args = parser.parse_args(argv)
     store = LawbookStore(args.db)
     try:
@@ -152,6 +162,29 @@ def main(argv: list[str] | None = None) -> int:
             payload = store.list_correspondence_claims()
         elif args.interpretation_choices:
             payload = store.list_interpretation_choice_points()
+        elif args.proof_motifs:
+            payload = store.list_proof_motifs()
+        elif args.lemma_candidates:
+            payload = store.list_lemma_candidates()
+        elif args.lean_artifacts:
+            payload = store.list_lean_artifacts()
+        elif args.proof_atlases:
+            payload = store.list_proof_atlases()
+        elif args.proof_motif:
+            payload = store.get_proof_motif(args.proof_motif)
+        elif args.lemma_candidate:
+            payload = store.get_lemma_candidate(args.lemma_candidate)
+        elif args.lean_artifact:
+            payload = store.get_lean_artifact(args.lean_artifact)
+        elif args.top_proof_motifs:
+            payload = store.list_proof_motifs(limit=args.top_proof_motifs)
+        elif args.top_lemma_candidates:
+            payload = store.list_lemma_candidates(limit=args.top_lemma_candidates)
+        elif args.verified_lean_artifacts:
+            payload = [
+                *store.list_lean_artifacts(verification_status="LEAN_VERIFIED"),
+                *store.list_lean_artifacts(verification_status="IMPORTED_VERIFIED"),
+            ]
         else:
             parser.error("provide a query option")
         print(json.dumps(payload, indent=2, sort_keys=True))

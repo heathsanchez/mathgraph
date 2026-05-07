@@ -853,6 +853,98 @@ class LawbookStore:
                 created_at TEXT NOT NULL
             );
             CREATE INDEX IF NOT EXISTS idx_interpretation_choices_kernel ON interpretation_choice_points(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS proof_motifs (
+                proof_motif_id TEXT PRIMARY KEY,
+                motif_kind TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                source_basin TEXT,
+                target_basin TEXT,
+                source_shape TEXT,
+                target_shape TEXT,
+                route_signature TEXT,
+                normalized_pattern TEXT,
+                support_count INTEGER,
+                unique_sources INTEGER,
+                unique_targets INTEGER,
+                unique_claims INTEGER,
+                example_claim_ids_json TEXT NOT NULL,
+                example_source_idxs_json TEXT NOT NULL,
+                example_target_idxs_json TEXT NOT NULL,
+                trust_level TEXT,
+                provenance_type TEXT,
+                verification_status TEXT,
+                status TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_proof_motifs_kind ON proof_motifs(motif_kind);
+            CREATE INDEX IF NOT EXISTS idx_proof_motifs_support ON proof_motifs(support_count);
+
+            CREATE TABLE IF NOT EXISTS lemma_candidates (
+                lemma_candidate_id TEXT PRIMARY KEY,
+                candidate_name TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                proof_motif_id TEXT,
+                reason_node_id TEXT,
+                root_node_id TEXT,
+                cut_kind TEXT,
+                statement_text TEXT,
+                normalized_statement TEXT,
+                lean_statement TEXT,
+                lean_sketch TEXT,
+                expected_covered_claims INTEGER,
+                example_claim_ids_json TEXT NOT NULL,
+                example_source_idxs_json TEXT NOT NULL,
+                example_target_idxs_json TEXT NOT NULL,
+                status TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                verification_status TEXT,
+                verifier_id TEXT,
+                proof_artifact_id TEXT,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_lemma_candidates_status ON lemma_candidates(status);
+            CREATE INDEX IF NOT EXISTS idx_lemma_candidates_coverage ON lemma_candidates(expected_covered_claims);
+
+            CREATE TABLE IF NOT EXISTS lean_artifacts (
+                lean_artifact_id TEXT PRIMARY KEY,
+                artifact_kind TEXT,
+                name TEXT,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                theorem_name TEXT,
+                statement TEXT,
+                proof_text TEXT,
+                imports_json TEXT NOT NULL,
+                depends_on_json TEXT NOT NULL,
+                verification_status TEXT,
+                trust_level TEXT,
+                provenance_type TEXT,
+                source_file TEXT,
+                line_start INTEGER,
+                line_end INTEGER,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_lean_artifacts_status ON lean_artifacts(verification_status);
+            CREATE INDEX IF NOT EXISTS idx_lean_artifacts_kind ON lean_artifacts(artifact_kind);
+
+            CREATE TABLE IF NOT EXISTS proof_atlases (
+                atlas_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT,
+                formal_world_id TEXT,
+                proof_motif_ids_json TEXT NOT NULL,
+                lemma_candidate_ids_json TEXT NOT NULL,
+                lean_artifact_ids_json TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_proof_atlases_kernel ON proof_atlases(domain_kernel_id);
             """
         )
         self._ensure_columns(
@@ -1421,6 +1513,10 @@ class LawbookStore:
                 "benchmark_results",
                 "correspondence_claims",
                 "interpretation_choice_points",
+                "proof_motifs",
+                "lemma_candidates",
+                "lean_artifacts",
+                "proof_atlases",
             )
         }
         by_host = Counter(
@@ -2286,6 +2382,225 @@ class LawbookStore:
         ).fetchone()
         return _json_columns_record(row) if row else None
 
+    def add_proof_motif(self, motif: Any) -> None:
+        self.init_schema()
+        data = _as_dict(motif)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO proof_motifs (
+                proof_motif_id, motif_kind, domain_kernel_id, formal_world_id,
+                source_basin, target_basin, source_shape, target_shape,
+                route_signature, normalized_pattern, support_count, unique_sources,
+                unique_targets, unique_claims, example_claim_ids_json,
+                example_source_idxs_json, example_target_idxs_json, trust_level,
+                provenance_type, verification_status, status, payload_json,
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["proof_motif_id"],
+                data.get("motif_kind", ""),
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("source_basin"),
+                data.get("target_basin"),
+                data.get("source_shape"),
+                data.get("target_shape"),
+                data.get("route_signature"),
+                data.get("normalized_pattern"),
+                data.get("support_count", 0),
+                data.get("unique_sources", 0),
+                data.get("unique_targets", 0),
+                data.get("unique_claims", 0),
+                json.dumps(data.get("example_claim_ids", []), sort_keys=True),
+                json.dumps(data.get("example_source_idxs", []), sort_keys=True),
+                json.dumps(data.get("example_target_idxs", []), sort_keys=True),
+                data.get("trust_level", "ADVISORY_ROUTE"),
+                data.get("provenance_type", "IMPORTED"),
+                data.get("verification_status", "UNKNOWN"),
+                data.get("status", "ADVISORY"),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_proof_motifs(
+        self,
+        domain_kernel_id: str | None = None,
+        motif_kind: str | None = None,
+        verification_status: str | None = None,
+        limit: int | None = None,
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters(
+            {"domain_kernel_id": domain_kernel_id, "motif_kind": motif_kind, "verification_status": verification_status}
+        )
+        records = [_json_columns_record(row) for row in self._select("proof_motifs", clauses, params)]
+        records.sort(key=lambda row: (row.get("support_count") or 0, row.get("unique_claims") or 0), reverse=True)
+        return records[:limit] if limit is not None else records
+
+    def get_proof_motif(self, proof_motif_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM proof_motifs WHERE proof_motif_id = ?", (proof_motif_id,)).fetchone()
+        return _json_columns_record(row) if row else None
+
+    def add_lemma_candidate(self, candidate: Any) -> None:
+        self.init_schema()
+        data = _as_dict(candidate)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO lemma_candidates (
+                lemma_candidate_id, candidate_name, domain_kernel_id, formal_world_id,
+                proof_motif_id, reason_node_id, root_node_id, cut_kind,
+                statement_text, normalized_statement, lean_statement, lean_sketch,
+                expected_covered_claims, example_claim_ids_json,
+                example_source_idxs_json, example_target_idxs_json, status,
+                trust_level, provenance_type, verification_status, verifier_id,
+                proof_artifact_id, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["lemma_candidate_id"],
+                data.get("candidate_name", ""),
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("proof_motif_id"),
+                data.get("reason_node_id"),
+                data.get("root_node_id"),
+                data.get("cut_kind", ""),
+                data.get("statement_text", ""),
+                data.get("normalized_statement"),
+                data.get("lean_statement"),
+                data.get("lean_sketch"),
+                data.get("expected_covered_claims", 0),
+                json.dumps(data.get("example_claim_ids", []), sort_keys=True),
+                json.dumps(data.get("example_source_idxs", []), sort_keys=True),
+                json.dumps(data.get("example_target_idxs", []), sort_keys=True),
+                data.get("status", "CANDIDATE"),
+                data.get("trust_level", "ADVISORY_ROUTE"),
+                data.get("provenance_type", "GENERATED"),
+                data.get("verification_status", "UNKNOWN"),
+                data.get("verifier_id"),
+                data.get("proof_artifact_id"),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_lemma_candidates(
+        self,
+        domain_kernel_id: str | None = None,
+        status: str | None = None,
+        verification_status: str | None = None,
+        limit: int | None = None,
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters(
+            {"domain_kernel_id": domain_kernel_id, "status": status, "verification_status": verification_status}
+        )
+        records = [_json_columns_record(row) for row in self._select("lemma_candidates", clauses, params)]
+        records.sort(key=lambda row: row.get("expected_covered_claims") or 0, reverse=True)
+        return records[:limit] if limit is not None else records
+
+    def get_lemma_candidate(self, lemma_candidate_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute(
+            "SELECT * FROM lemma_candidates WHERE lemma_candidate_id = ?", (lemma_candidate_id,)
+        ).fetchone()
+        return _json_columns_record(row) if row else None
+
+    def add_lean_artifact(self, artifact: Any) -> None:
+        self.init_schema()
+        data = _as_dict(artifact)
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO lean_artifacts (
+                lean_artifact_id, artifact_kind, name, domain_kernel_id,
+                formal_world_id, theorem_name, statement, proof_text, imports_json,
+                depends_on_json, verification_status, trust_level, provenance_type,
+                source_file, line_start, line_end, payload_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["lean_artifact_id"],
+                data.get("artifact_kind", ""),
+                data.get("name", ""),
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                data.get("theorem_name"),
+                data.get("statement"),
+                data.get("proof_text"),
+                json.dumps(data.get("imports", []), sort_keys=True),
+                json.dumps(data.get("depends_on", []), sort_keys=True),
+                data.get("verification_status", "NOT_ATTEMPTED"),
+                data.get("trust_level", "ADVISORY_ROUTE"),
+                data.get("provenance_type", "GENERATED"),
+                data.get("source_file"),
+                data.get("line_start"),
+                data.get("line_end"),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_lean_artifacts(
+        self,
+        domain_kernel_id: str | None = None,
+        verification_status: str | None = None,
+        artifact_kind: str | None = None,
+        limit: int | None = None,
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters(
+            {"domain_kernel_id": domain_kernel_id, "verification_status": verification_status, "artifact_kind": artifact_kind}
+        )
+        records = [_json_columns_record(row) for row in self._select("lean_artifacts", clauses, params)]
+        return records[:limit] if limit is not None else records
+
+    def get_lean_artifact(self, lean_artifact_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM lean_artifacts WHERE lean_artifact_id = ?", (lean_artifact_id,)).fetchone()
+        return _json_columns_record(row) if row else None
+
+    def add_proof_atlas(self, atlas: Any) -> None:
+        self.init_schema()
+        data = _as_dict(atlas)
+        motifs = data.get("proof_motifs", [])
+        candidates = data.get("lemma_candidates", [])
+        artifacts = data.get("lean_artifacts", [])
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO proof_atlases (
+                atlas_id, domain_kernel_id, formal_world_id, proof_motif_ids_json,
+                lemma_candidate_ids_json, lean_artifact_ids_json, payload_json,
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["atlas_id"],
+                data.get("domain_kernel_id"),
+                data.get("formal_world_id"),
+                json.dumps([_row_id(row, "proof_motif_id") for row in motifs], sort_keys=True),
+                json.dumps([_row_id(row, "lemma_candidate_id") for row in candidates], sort_keys=True),
+                json.dumps([_row_id(row, "lean_artifact_id") for row in artifacts], sort_keys=True),
+                json.dumps(data.get("payload", data), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def list_proof_atlases(
+        self, domain_kernel_id: str | None = None, limit: int | None = None
+    ) -> list[dict[str, Any]]:
+        clauses, params = _filters({"domain_kernel_id": domain_kernel_id})
+        records = [_json_columns_record(row) for row in self._select("proof_atlases", clauses, params)]
+        return records[:limit] if limit is not None else records
+
+    def get_proof_atlas(self, atlas_id: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute("SELECT * FROM proof_atlases WHERE atlas_id = ?", (atlas_id,)).fetchone()
+        return _json_columns_record(row) if row else None
+
     def _select(self, table: str, clauses: list[str], params: list[Any]) -> list[sqlite3.Row]:
         self.init_schema()
         where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
@@ -2469,12 +2784,20 @@ class LawbookStore:
                 "benchmark_results",
                 "correspondence_claims",
                 "interpretation_choice_points",
+                "proof_motifs",
+                "lemma_candidates",
+                "lean_artifacts",
+                "proof_atlases",
             )
         }
         cert_rows = [dict(row) for row in self.conn.execute("SELECT terminal_form FROM certificates")]
+        verified_lean_count = self.conn.execute(
+            "SELECT COUNT(*) FROM lean_artifacts WHERE verification_status IN ('LEAN_VERIFIED', 'IMPORTED_VERIFIED')"
+        ).fetchone()[0]
         return {
             **counts,
             "certificate_terminal_form_counts": dict(Counter(row["terminal_form"] for row in cert_rows)),
+            "verified_lean_artifacts": verified_lean_count,
         }
 
     def summary(self) -> dict[str, Any]:
@@ -3078,6 +3401,11 @@ def _sql_value(value: Any) -> Any:
     if isinstance(value, (dict, list, tuple)):
         return json.dumps(value, sort_keys=True)
     return value.value if hasattr(value, "value") else value
+
+
+def _row_id(row: Any, key: str) -> str:
+    data = _as_dict(row)
+    return str(data.get(key, ""))
 
 
 def _warehouse_id(kind: str, data: dict[str, Any]) -> str:

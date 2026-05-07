@@ -146,6 +146,26 @@ are assessed. See [LogiKEy Workbench](docs/logikey_workbench.md),
 [Benchmarking](docs/benchmarking.md), [Correspondence Claims](docs/correspondence_claims.md),
 and [Interpretation Choice Points](docs/interpretation_choice_points.md).
 
+## Proof Motif Atlas and Lemma Candidates
+
+The TRUE side now has a proof-shaping substrate mirroring the FALSE-side
+certificate atlas:
+
+```bash
+python scripts/build_proof_atlas.py \
+  --input /external/path/true_proofs.csv \
+  --out-dir /tmp/mathgraph_proof_atlas \
+  --out-db /tmp/mathgraph_proof_atlas.sqlite \
+  --emit-lean-sketches
+```
+
+MathGraph can store proof motifs, lemma/cut candidates, and Lean artifact
+metadata, then query them through `query_lawbook.py`. A proof motif is not a
+proof, a lemma candidate is not a theorem, and a generated Lean sketch is not
+Lean verification. See [Proof Motif Atlas](docs/proof_motif_atlas.md),
+[Lemma Candidate Generator](docs/lemma_candidate_generator.md), and
+[Lean Artifacts](docs/lean_artifacts.md).
+
 ## Quick Start
 
 ```bash

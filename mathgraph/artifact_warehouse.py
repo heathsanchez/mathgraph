@@ -17,6 +17,7 @@ from mathgraph.artifact_importers import (
 from mathgraph.lawbook_store import LawbookStore
 from mathgraph.root_consolidation import build_root_alias_map, consolidate_root_nodes
 from mathgraph.domain_kernels import DomainKernel, make_aot_domain_kernel, make_etp_domain_kernel
+from mathgraph.proof_importers import discover_true_proof_artifacts, import_true_proof_artifacts_to_store
 
 
 def import_v16_6_2_elevated_false_dir(
@@ -89,6 +90,9 @@ def import_v16_7_root_atlas_dir(
         rows = load_v167_table_atlas(tables_path, limit=limit)
         summary["tables"] = store.import_tables(rows)
         store.record_artifact_import(tables_path, "v16_7_tables", len(rows))
+    true_artifacts = discover_true_proof_artifacts(directory)
+    if true_artifacts:
+        summary["true_proofs"] = import_true_proof_artifacts_to_store(store, directory, limit=limit)
     return summary
 
 

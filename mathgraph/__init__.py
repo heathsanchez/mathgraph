@@ -191,6 +191,33 @@ from mathgraph.workbench_presets import (
     build_logikey_style_workbench_bundle,
     build_mathgraph_etp_workbench_bundle,
 )
+from mathgraph.proof_motifs import (
+    ProofMotif,
+    ProofMotifKind,
+    ProofRouteStatus,
+    infer_proof_motif_kind,
+    make_proof_motif_id,
+)
+from mathgraph.lemma_candidates import (
+    CutIntroductionKind,
+    LemmaCandidate,
+    LemmaCandidateStatus,
+    canonical_lemma_name,
+    make_lemma_candidate_id,
+)
+from mathgraph.lean_artifacts import (
+    LeanArtifact,
+    LeanArtifactKind,
+    LeanVerificationStatus,
+    render_lean_skeleton,
+)
+from mathgraph.proof_atlas import ProofAtlas, build_proof_atlas_from_true_rows
+from mathgraph.proof_importers import (
+    discover_true_proof_artifacts,
+    import_true_proof_artifacts_to_store,
+    load_true_proof_rows,
+    normalize_true_proof_row,
+)
 from mathgraph.types import (
     ExtensionalCollapsePolicy,
     HyperintensionalIdentityMode,
@@ -564,4 +591,24 @@ __all__ = [
     "logikey_style_workbench",
     "mathgraph_default_workbench",
     "python_finite_table_checker_backend",
+    "ProofMotif",
+    "ProofMotifKind",
+    "ProofRouteStatus",
+    "make_proof_motif_id",
+    "infer_proof_motif_kind",
+    "LemmaCandidate",
+    "LemmaCandidateStatus",
+    "CutIntroductionKind",
+    "make_lemma_candidate_id",
+    "canonical_lemma_name",
+    "LeanArtifact",
+    "LeanArtifactKind",
+    "LeanVerificationStatus",
+    "render_lean_skeleton",
+    "ProofAtlas",
+    "build_proof_atlas_from_true_rows",
+    "discover_true_proof_artifacts",
+    "load_true_proof_rows",
+    "normalize_true_proof_row",
+    "import_true_proof_artifacts_to_store",
 ]

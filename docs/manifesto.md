@@ -41,6 +41,10 @@ embedding strategies, faithfulness assessments, backend profiles, benchmarks,
 correspondence claims, and interpretation choices. It makes bridge risk visible
 without pretending that metadata is proof.
 
+The proof motif atlas does the same for TRUE-side proof discovery: motifs,
+proof roots, and lemma candidates shape the next cut, but Lean or another
+verifier must validate the theorem before it becomes authority.
+
 Near term: root-aware oracle advice, reason compression, richer
 objectification, workbench-aware verifier routing, and finite-countermodel constructor improvement. Later:
 Lean/Isabelle proof importers, domain-agnostic claims, and spectral H-tilt.
