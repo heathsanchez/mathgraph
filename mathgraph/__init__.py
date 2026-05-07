@@ -218,6 +218,19 @@ from mathgraph.proof_importers import (
     load_true_proof_rows,
     normalize_true_proof_row,
 )
+from mathgraph.metabolic_cycle import (
+    MetabolicCycleConfig,
+    MetabolicCycleResult,
+    MetabolicCycleStageResult,
+    run_metabolic_cycle,
+)
+from mathgraph.metabolic_diagnostics import (
+    MetabolicDiagnostics,
+    compute_derived_amplification_factor,
+    compute_residual_compression_gain,
+    evaluate_better_shaped_unknown,
+)
+from mathgraph.synthetic_cycle_data import build_synthetic_metabolic_frontier
 from mathgraph.types import (
     ExtensionalCollapsePolicy,
     HyperintensionalIdentityMode,
@@ -611,4 +624,13 @@ __all__ = [
     "load_true_proof_rows",
     "normalize_true_proof_row",
     "import_true_proof_artifacts_to_store",
+    "MetabolicCycleConfig",
+    "MetabolicCycleResult",
+    "MetabolicCycleStageResult",
+    "MetabolicDiagnostics",
+    "build_synthetic_metabolic_frontier",
+    "compute_derived_amplification_factor",
+    "compute_residual_compression_gain",
+    "evaluate_better_shaped_unknown",
+    "run_metabolic_cycle",
 ]

@@ -72,6 +72,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--top-proof-motifs", type=int)
     parser.add_argument("--top-lemma-candidates", type=int)
     parser.add_argument("--verified-lean-artifacts", action="store_true")
+    parser.add_argument("--cycle-summary")
+    parser.add_argument("--recent-certificates", type=int)
+    parser.add_argument("--recent-obstructions", type=int)
+    parser.add_argument("--route-yields", action="store_true")
+    parser.add_argument("--next-frontier")
     args = parser.parse_args(argv)
     store = LawbookStore(args.db)
     try:
@@ -185,6 +190,30 @@ def main(argv: list[str] | None = None) -> int:
                 *store.list_lean_artifacts(verification_status="LEAN_VERIFIED"),
                 *store.list_lean_artifacts(verification_status="IMPORTED_VERIFIED"),
             ]
+        elif args.cycle_summary:
+            payload = json.loads(Path(args.cycle_summary).read_text(encoding="utf-8"))
+        elif args.recent_certificates:
+            primitive = list(store.iter_primitive_traces(limit=args.recent_certificates))
+            derived = list(store.iter_derived_certificates(limit=args.recent_certificates))
+            payload = {
+                "primitive": primitive[-args.recent_certificates :],
+                "derived": derived[-args.recent_certificates :],
+                "truth_boundary": "Only verified proof and finite countermodel traces are authoritative terminal artifacts.",
+            }
+        elif args.recent_obstructions:
+            payload = {
+                "primitive_obstructions": store.find_by_terminal_form(
+                    "NAMED_OBSTRUCTION", limit=args.recent_obstructions
+                ),
+                "truth_boundary": "Named obstructions record residual pressure; they are not proofs or refutations.",
+            }
+        elif args.route_yields:
+            payload = {
+                "route_counts": store.stats().route_counts,
+                "truth_boundary": "Route yields are advisory search pressure, not truth.",
+            }
+        elif args.next_frontier:
+            payload = _read_jsonl(Path(args.next_frontier))
         else:
             parser.error("provide a query option")
         print(json.dumps(payload, indent=2, sort_keys=True))
@@ -224,6 +253,15 @@ def _query_explicit_pair(store: LawbookStore, source_idx: str, target_idx: str) 
         "explanation": explanation,
         "refutation": refutation,
     }
+
+
+def _read_jsonl(path: Path) -> list[dict]:
+    rows = []
+    with path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                rows.append(json.loads(line))
+    return rows
 
 
 if __name__ == "__main__":

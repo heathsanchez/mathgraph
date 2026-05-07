@@ -166,6 +166,27 @@ Lean verification. See [Proof Motif Atlas](docs/proof_motif_atlas.md),
 [Lemma Candidate Generator](docs/lemma_candidate_generator.md), and
 [Lean Artifacts](docs/lean_artifacts.md).
 
+## Metabolic Cycle Testbed
+
+v16.12 wires the nouns into a local episode runner:
+
+```bash
+python scripts/run_metabolic_cycle.py \
+  --store /tmp/mathgraph_cycle.sqlite \
+  --out-dir /tmp/mathgraph_cycle \
+  --synthetic-seed \
+  --strict \
+  --json
+```
+
+The cycle builds or loads a frontier, checks lawbook memory, schedules routes,
+runs bounded kernel construction, imports verified terminal traces, derives
+chain-safe certificates, records residual obstructions, updates route-yield
+pressure, and emits a sharper next frontier. It writes both machine-readable
+JSON/JSONL artifacts and a Markdown report. This proves the feedback loop is
+wired; it is not full theorem proving or Lean automation. See
+[Metabolic Cycle Testbed](docs/metabolic_cycle.md).
+
 ## Quick Start
 
 ```bash

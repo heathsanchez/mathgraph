@@ -2,6 +2,8 @@
 
 ## Now
 
+- v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
+  -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
 - v16.11 proof motif atlas and lemma candidate substrate for TRUE-side proof
   shaping.
@@ -19,6 +21,8 @@
   interpretation choice points.
 - Store proof motifs, lemma candidates, and Lean artifact metadata without
   treating sketches as verification.
+- Measure residual compression, derived amplification, route yields, and
+  better-shaped unknowns in a synthetic SAIR/ETP-like episode.
 - Preserve derived-false replay semantics: logical rows are not finite
   certificates until table/witness replay succeeds.
 - Maintain root, reason, and obstruction schemas for v16.7 artifacts.
@@ -27,6 +31,8 @@
 
 ## Next
 
+- Connect the metabolic cycle runner to larger imported certificate rows and
+  constructor backends.
 - Root-aware oracle advice backed by typed predication and lawbook metadata.
 - Real faithfulness links from imported proof artifacts to semantic embeddings.
 - Workbench-driven constructor/verifier routing that still leaves truth to
