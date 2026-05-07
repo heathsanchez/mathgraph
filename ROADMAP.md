@@ -2,6 +2,8 @@
 
 ## Now
 
+- v16.8 persistent LawbookStore / Artifact Warehouse for external v16.6.2 and
+  v16.7 artifacts.
 - Keep trust/provenance separate from terminal truth.
 - Preserve derived-false replay semantics: logical rows are not finite
   certificates until table/witness replay succeeds.
@@ -11,9 +13,9 @@
 
 ## Next
 
-- Root-aware oracle advice for constructor pressure.
+- Root-aware oracle advice backed by the persistent warehouse.
 - Constructor pressure from the Obstruction Atlas.
-- Canonical root consolidation over full external v16.7 artifacts.
+- Larger canonical root consolidation over full external v16.7 artifacts.
 - Reason compression and root/reason/obstruction query UX.
 - Lean proof constructors behind the verifier boundary.
 

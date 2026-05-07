@@ -44,6 +44,32 @@ JSONL, SQLite, Parquet, matrix, and run artifacts belong in external artifact
 storage. Next: canonical root consolidation and root/reason/obstruction oracle
 work over those external artifacts.
 
+## Building a Local LawbookStore
+
+The v16.8 warehouse layer builds a local SQLite lawbook from external artifact
+directories without copying those large artifacts into Git:
+
+```bash
+python scripts/build_lawbook_store.py \
+  --out-db /external/path/mathgraph_lawbook.sqlite \
+  --v1662-dir /external/path/mathgraph_v16_6_2 \
+  --v167-dir /external/path/mathgraph_v16_7
+
+python scripts/query_lawbook.py \
+  --db /external/path/mathgraph_lawbook.sqlite \
+  --summary
+
+python scripts/query_lawbook.py \
+  --db /external/path/mathgraph_lawbook.sqlite \
+  --claim 0 1
+```
+
+The warehouse stores claims, certificates, finite refutations, derived chains,
+roots, reasons, obstructions, tables, aliases, and import manifests in
+normalized SQLite tables. Root/reason/obstruction rows are advisory and
+compressive unless backed by concrete certificate chains; they do not verify or
+refute unknown claims.
+
 ## Quick Start
 
 ```bash

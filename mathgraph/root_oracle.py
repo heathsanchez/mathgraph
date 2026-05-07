@@ -41,6 +41,15 @@ class RootNodeOracle:
         obstruction_links = _load_dicts(directory / "root_obstruction_links.json")
         return cls(roots, reasons, obstructions, reason_links, obstruction_links)
 
+    @classmethod
+    def from_store(cls, store: Any) -> "RootNodeOracle":
+        roots = [RootNode.from_dict(row) for row in store.top_roots(1_000_000)]
+        reasons = [ReasonNode.from_dict(row) for row in store.top_reasons(1_000_000)]
+        obstructions = [
+            ObstructionNode.from_dict(row) for row in store.top_obstructions(1_000_000)
+        ]
+        return cls(roots=roots, reasons=reasons, obstructions=obstructions)
+
     def summary(self) -> dict[str, Any]:
         return {
             "root_count": len(self.roots),

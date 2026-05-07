@@ -18,6 +18,12 @@ from mathgraph.asset_materialization import (
     AssetMaterializationResult,
     materialize_mathgraph_assets,
 )
+from mathgraph.artifact_warehouse import (
+    import_closure_oracle_csv,
+    import_table_registry_csv,
+    import_v16_6_2_elevated_false_dir,
+    import_v16_7_root_atlas_dir,
+)
 from mathgraph.chewing_smoke import (
     ChewingSmokeConfig,
     ChewingSmokeResult,
@@ -251,6 +257,10 @@ __all__ = [
     "hash_file",
     "hash_trace",
     "import_finite_countermodel_results",
+    "import_closure_oracle_csv",
+    "import_table_registry_csv",
+    "import_v16_6_2_elevated_false_dir",
+    "import_v16_7_root_atlas_dir",
     "learn_from_assimilation_episodes",
     "load_v1662_elevated_false_certificates",
     "load_v167_obstructions",

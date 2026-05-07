@@ -52,6 +52,12 @@ class KernelOracle:
         derived = self.store.get_derived_by_pair(source, target)
         if derived is not None:
             return _answer_from_record(derived)
+        refutation = self.store.query_refutation(source, target)
+        if refutation is not None:
+            return _answer_from_warehouse_refutation(refutation)
+        claim = self.store.query_claim(source, target)
+        if claim.get("status") == "hit":
+            return _answer_from_warehouse_claim(claim)
         answer = _answer_from_record(self.store.explain_pair(source, target))
         if self.root_oracle is not None:
             pressure = _root_pressure(self.root_oracle, source, target)
@@ -181,3 +187,52 @@ def _root_pressure(root_oracle: Any, source: str, target: str) -> dict[str, Any]
         "source": source,
         "target": target,
     }
+
+
+def _answer_from_warehouse_refutation(record: dict[str, Any]) -> OracleAnswer:
+    return OracleAnswer(
+        status="REFUTED",
+        terminal_form=record.get("terminal_form") or "FINITE_COUNTERMODEL",
+        verification_status=record.get("verification_status") or "FINITE_VERIFIED",
+        source=record.get("source"),
+        target=record.get("target"),
+        claim=record.get("claim_id"),
+        route=record.get("derivation_rule") or "finite_countermodel",
+        certificate_id=record.get("refutation_id"),
+        trust_level=record.get("trust_level") or "finite_verified",
+        explanation="Exact finite refutation certificate found in LawbookStore warehouse.",
+        evidence={
+            "table_hash": record.get("table_hash"),
+            "table": record.get("table"),
+            "witness": record.get("witness"),
+            "derivation_rule": record.get("derivation_rule"),
+            "elevation_method": record.get("elevation_method"),
+        },
+        warnings=[],
+    )
+
+
+def _answer_from_warehouse_claim(record: dict[str, Any]) -> OracleAnswer:
+    terminal = record.get("terminal_form") or "NAMED_OBSTRUCTION"
+    status = "UNKNOWN"
+    if terminal == "VERIFIED_PROOF":
+        status = "VERIFIED"
+    elif terminal == "FINITE_COUNTERMODEL":
+        status = "REFUTED"
+    return OracleAnswer(
+        status=status,
+        terminal_form=terminal,
+        verification_status=record.get("verification_status") or "UNKNOWN",
+        source=record.get("source"),
+        target=record.get("target"),
+        claim=record.get("claim_id"),
+        route=None,
+        certificate_id=None,
+        trust_level=record.get("trust_level") or "unknown",
+        explanation="Exact claim row found in LawbookStore warehouse.",
+        evidence={
+            "provenance_type": record.get("provenance_type"),
+            "metadata": record.get("metadata", {}),
+        },
+        warnings=[] if status != "UNKNOWN" else ["Warehouse claim row is not a verifier result."],
+    )

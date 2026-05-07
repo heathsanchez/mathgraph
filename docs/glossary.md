@@ -7,6 +7,7 @@
 - **CuC / Continuation Under Constraint**: propose, constrain, verify, promote.
 - **H-tilt**: scheduler pressure for what to try next; never truth.
 - **Lawbook**: persistent memory of verified primitive and derived certificates.
+- **Artifact Warehouse**: SQLite-backed local index over external artifact files.
 - **Certificate Universe**: the collection of promoted survivor certificates.
 - **Terminal Form Contract**: accepted claims end as verified proof, refutation certificate, or named obstruction.
 - **Verified Proof**: proof artifact accepted by a verifier.

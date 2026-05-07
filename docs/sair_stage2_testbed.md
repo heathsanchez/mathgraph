@@ -824,3 +824,28 @@ Derived false rows are tracked with replay metadata. Target strengthening may
 preserve a seed witness by replay, while source weakening often needs a new
 source-preserving countermodel. See
 [Derived False Elevation](derived_false_elevation.md).
+
+## Artifact Warehouse Workflow
+
+The v16.8 warehouse persists external artifact imports into normalized SQLite
+tables while leaving large CSV/JSONL/SQLite/matrix files outside the repo:
+
+```bash
+python scripts/build_lawbook_store.py \
+  --out-db /external/path/mathgraph_lawbook.sqlite \
+  --v1662-dir /external/path/mathgraph_v16_6_2 \
+  --v167-dir /external/path/mathgraph_v16_7
+
+python scripts/query_lawbook.py \
+  --db /external/path/mathgraph_lawbook.sqlite \
+  --top-roots 20
+
+python scripts/query_lawbook.py \
+  --db /external/path/mathgraph_lawbook.sqlite \
+  --refutation 1033 2637
+```
+
+Finite verified refutations preserve `table_hash`, table payload, witness,
+derivation rule, elevation method, trust level, and provenance type. Derived
+chains remain distinct from primitive/replayed certificates. Root/reason/
+obstruction rows are queryable pressure and explanation layers only.

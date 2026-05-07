@@ -21,9 +21,23 @@ class ArtifactImportError(ValueError):
 def load_v1662_elevated_false_certificates(
     path: str | Path, limit: int | None = None
 ) -> list[dict[str, Any]]:
-    rows = _load_rows(path, limit=limit)
-    _require_any(rows, path, ("source", "target", "terminal_form", "verification_status"))
+    rows = [normalize_artifact_row(row) for row in _load_rows(path, limit=limit)]
+    _require_any(
+        rows,
+        path,
+        ("source", "target", "source_idx", "target_idx", "terminal_form", "verification_status"),
+    )
     return rows
+
+
+def load_v1662_finite_verified_oracle_update(
+    path: str | Path, limit: int | None = None
+) -> list[dict[str, Any]]:
+    return [normalize_artifact_row(row) for row in _load_rows(path, limit=limit)]
+
+
+def load_table_registry(path: str | Path, limit: int | None = None) -> list[dict[str, Any]]:
+    return [normalize_artifact_row(row) for row in _load_rows(path, limit=limit)]
 
 
 def load_v167_root_nodes(path: str | Path, limit: int | None = None) -> list[RootNode]:
@@ -45,11 +59,47 @@ def load_v167_obstructions(path: str | Path, limit: int | None = None) -> list[O
 
 
 def load_v167_table_atlas(path: str | Path, limit: int | None = None) -> list[dict[str, Any]]:
-    return _load_rows(path, limit=limit)
+    return [normalize_artifact_row(row) for row in _load_rows(path, limit=limit)]
 
 
 def load_v167_motif_summary(path: str | Path, limit: int | None = None) -> list[dict[str, Any]]:
-    return _load_rows(path, limit=limit)
+    return [normalize_artifact_row(row) for row in _load_rows(path, limit=limit)]
+
+
+ALIASES = {
+    "source_id": "source_idx",
+    "target_id": "target_idx",
+    "src_idx": "source_idx",
+    "tgt_idx": "target_idx",
+    "hash": "table_hash",
+    "operation_table": "table",
+    "cayley_table": "table",
+    "countermodel_table": "table",
+    "assignment": "witness",
+}
+
+
+def normalize_artifact_row(row: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(row)
+    for old, new in ALIASES.items():
+        if old in normalized and new not in normalized:
+            normalized[new] = normalized[old]
+    if "terminal_form" not in normalized and _truthy(normalized.get("finite_verified")):
+        normalized["terminal_form"] = "FINITE_COUNTERMODEL"
+    if "verification_status" not in normalized and _truthy(normalized.get("finite_verified")):
+        normalized["verification_status"] = "FINITE_VERIFIED"
+    if "trust_level" not in normalized and normalized.get("verification_status") in {
+        "FINITE_VERIFIED",
+        "REFUTED",
+    }:
+        normalized["trust_level"] = "FINITE_VERIFIED"
+    if "provenance_type" not in normalized:
+        normalized["provenance_type"] = "IMPORTED"
+    return normalized
+
+
+def _truthy(value: Any) -> bool:
+    return str(value).strip().lower() in {"1", "true", "yes", "y"}
 
 
 def _load_rows(path: str | Path, limit: int | None = None) -> list[dict[str, Any]]:
