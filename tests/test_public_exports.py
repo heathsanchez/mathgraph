@@ -61,7 +61,10 @@ def test_duplicate_frontier_public_export() -> None:
 
 
 def test_post_v167_public_exports() -> None:
+    from mathgraph import DomainKernel
     from mathgraph import GeneralClaim
+    from mathgraph import HostVerifier
+    from mathgraph import SemanticEmbeddingKind
     from mathgraph import ObstructionNode
     from mathgraph import ProvenanceType
     from mathgraph import ReasonNode
@@ -70,7 +73,9 @@ def test_post_v167_public_exports() -> None:
     from mathgraph import RootNodeOracle
     from mathgraph import TrustLevel
     from mathgraph import consolidate_root_nodes
+    from mathgraph import make_aot_domain_kernel
 
+    assert DomainKernel.__name__ == "DomainKernel"
     assert GeneralClaim.__name__ == "GeneralClaim"
     assert RootNode.__name__ == "RootNode"
     assert ReasonNode.__name__ == "ReasonNode"
@@ -78,5 +83,8 @@ def test_post_v167_public_exports() -> None:
     assert RootNodeOracle.__name__ == "RootNodeOracle"
     assert RefutationCertificate.__name__ == "RefutationCertificate"
     assert TrustLevel.FINITE_VERIFIED.value == "FINITE_VERIFIED"
+    assert HostVerifier.ISABELLE_HOL.value == "ISABELLE_HOL"
+    assert SemanticEmbeddingKind.SHALLOW_SEMANTIC_EMBEDDING.value == "SHALLOW_SEMANTIC_EMBEDDING"
     assert ProvenanceType.DERIVED.value == "DERIVED"
     assert callable(consolidate_root_nodes)
+    assert callable(make_aot_domain_kernel)

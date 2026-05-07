@@ -70,6 +70,28 @@ normalized SQLite tables. Root/reason/obstruction rows are advisory and
 compressive unless backed by concrete certificate chains; they do not verify or
 refute unknown claims.
 
+## Formal Worlds / DomainKernels
+
+ETP over magmas is MathGraph's first nursery, not the whole product. Inspired
+by AOT-style computational metaphysics, MathGraph can now register external
+formal domains as metadata in the `LawbookStore`:
+
+```bash
+python scripts/register_domain_kernel.py \
+  --db /tmp/mathgraph.sqlite \
+  --preset aot
+
+python scripts/query_lawbook.py \
+  --db /tmp/mathgraph.sqlite \
+  --domain-kernels
+```
+
+AOT is registered as an Isabelle/HOL shallow semantic embedding precedent.
+Registration is advisory metadata only: it does not import AOT theorems, run
+Isabelle, or verify AOT claims. See
+[DomainKernels](docs/domain_kernels.md) and
+[Computational Metaphysics](docs/computational_metaphysics.md).
+
 ## Quick Start
 
 ```bash

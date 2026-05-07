@@ -8,6 +8,15 @@
 - **H-tilt**: scheduler pressure for what to try next; never truth.
 - **Lawbook**: persistent memory of verified primitive and derived certificates.
 - **Artifact Warehouse**: SQLite-backed local index over external artifact files.
+- **DomainKernel**: registered formal world with native language, host verifier, embedding kind, and trust policy.
+- **HostVerifier**: verifier or host logic such as Isabelle/HOL, Lean, Z3, or the Python finite checker.
+- **SemanticEmbedding**: representation of a target logic/theory in a host verifier.
+- **Shallow Semantic Embedding**: embedding style that maps target semantics into host logic rather than implementing a full deep syntax.
+- **ImportedTheoryObject**: imported axiom, definition, theorem, proof artifact, abstract object, proposition, term, or related formal-world node.
+- **ImportedTheoryRelation**: typed relation between imported formal-world objects.
+- **AOTKernel**: metadata registration of Abstract Object Theory as an Isabelle/HOL shallow semantic embedding precedent.
+- **Formal World**: a theory/domain with native objects, relations, artifacts, and verifier trust rules.
+- **World-Kernel Metabolism**: MathGraph's process of registering formal worlds, importing artifacts, verifying certificates, and compounding lawbook memory.
 - **Certificate Universe**: the collection of promoted survivor certificates.
 - **Terminal Form Contract**: accepted claims end as verified proof, refutation certificate, or named obstruction.
 - **Verified Proof**: proof artifact accepted by a verifier.

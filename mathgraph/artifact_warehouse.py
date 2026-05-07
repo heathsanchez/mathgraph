@@ -16,6 +16,7 @@ from mathgraph.artifact_importers import (
 )
 from mathgraph.lawbook_store import LawbookStore
 from mathgraph.root_consolidation import build_root_alias_map, consolidate_root_nodes
+from mathgraph.domain_kernels import DomainKernel, make_aot_domain_kernel
 
 
 def import_v16_6_2_elevated_false_dir(
@@ -96,6 +97,19 @@ def import_closure_oracle_csv(path: str | Path, store: LawbookStore, limit: int 
 def import_table_registry_csv(path: str | Path, store: LawbookStore, limit: int | None = None) -> dict[str, Any]:
     rows = load_table_registry(path, limit=limit)
     return {"tables": store.import_tables(rows), "row_count": len(rows)}
+
+
+def register_domain_kernel_in_store(store: LawbookStore, kernel: DomainKernel) -> dict[str, Any]:
+    store.upsert_domain_kernel(kernel)
+    return {
+        "status": "registered",
+        "kernel": kernel.to_dict(),
+        "truth_boundary": "DomainKernel registration is metadata, not verification.",
+    }
+
+
+def register_aot_kernel(store: LawbookStore, source_commit: str = "") -> dict[str, Any]:
+    return register_domain_kernel_in_store(store, make_aot_domain_kernel(source_commit))
 
 
 def _first_existing(directory: Path, names: tuple[str, ...]) -> Path | None:

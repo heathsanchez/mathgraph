@@ -260,6 +260,68 @@ class LawbookStore:
                 key TEXT PRIMARY KEY,
                 value_json TEXT NOT NULL
             );
+
+            CREATE TABLE IF NOT EXISTS domain_kernels (
+                kernel_id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                description TEXT,
+                native_language TEXT,
+                host_verifier TEXT NOT NULL,
+                embedding_kind TEXT NOT NULL,
+                source_uri TEXT,
+                source_commit TEXT,
+                trust_policy TEXT,
+                ontology_summary_json TEXT NOT NULL,
+                metadata_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_domain_kernels_name ON domain_kernels(name);
+            CREATE INDEX IF NOT EXISTS idx_domain_kernels_host ON domain_kernels(host_verifier);
+
+            CREATE TABLE IF NOT EXISTS semantic_embeddings (
+                embedding_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT NOT NULL,
+                source_logic TEXT,
+                target_logic TEXT,
+                host_verifier TEXT,
+                embedding_kind TEXT,
+                description TEXT,
+                soundness_status TEXT,
+                artifact_uri TEXT,
+                metadata_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_embeddings_kernel ON semantic_embeddings(domain_kernel_id);
+
+            CREATE TABLE IF NOT EXISTS imported_theory_objects (
+                object_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT NOT NULL,
+                kind TEXT NOT NULL,
+                name TEXT,
+                statement TEXT,
+                source_file TEXT,
+                source_line INTEGER,
+                trust_level TEXT,
+                provenance_type TEXT,
+                metadata_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_theory_objects_kernel ON imported_theory_objects(domain_kernel_id);
+            CREATE INDEX IF NOT EXISTS idx_theory_objects_kind ON imported_theory_objects(kind);
+
+            CREATE TABLE IF NOT EXISTS imported_theory_relations (
+                relation_id TEXT PRIMARY KEY,
+                domain_kernel_id TEXT NOT NULL,
+                source_object_id TEXT,
+                target_object_id TEXT,
+                relation_kind TEXT NOT NULL,
+                trust_level TEXT,
+                provenance_type TEXT,
+                metadata_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_theory_relations_kernel ON imported_theory_relations(domain_kernel_id);
+            CREATE INDEX IF NOT EXISTS idx_theory_relations_source ON imported_theory_relations(source_object_id);
             """
         )
         self.conn.commit()
@@ -539,6 +601,171 @@ class LawbookStore:
         )
         self.conn.commit()
 
+    def upsert_domain_kernel(self, kernel: Any) -> None:
+        from mathgraph.domain_kernels import DomainKernel
+
+        self.init_schema()
+        data = kernel.to_dict() if hasattr(kernel, "to_dict") else DomainKernel.from_dict(dict(kernel)).to_dict()
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO domain_kernels (
+                kernel_id, name, description, native_language, host_verifier,
+                embedding_kind, source_uri, source_commit, trust_policy,
+                ontology_summary_json, metadata_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["kernel_id"],
+                data["name"],
+                data.get("description", ""),
+                data.get("native_language", ""),
+                data["host_verifier"],
+                data["embedding_kind"],
+                data.get("source_uri", ""),
+                data.get("source_commit", ""),
+                data.get("trust_policy", ""),
+                json.dumps(data.get("ontology_summary", []), sort_keys=True),
+                json.dumps(data.get("metadata", {}), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def get_domain_kernel(self, kernel_id_or_name: str) -> dict[str, Any] | None:
+        self.init_schema()
+        row = self.conn.execute(
+            """
+            SELECT * FROM domain_kernels
+            WHERE kernel_id = ? OR name = ?
+            ORDER BY created_at DESC LIMIT 1
+            """,
+            (kernel_id_or_name, kernel_id_or_name),
+        ).fetchone()
+        return _domain_kernel_record(row) if row else None
+
+    def list_domain_kernels(self, limit: int = 100) -> list[dict[str, Any]]:
+        self.init_schema()
+        rows = self.conn.execute(
+            "SELECT * FROM domain_kernels ORDER BY name LIMIT ?",
+            (int(limit),),
+        ).fetchall()
+        return [_domain_kernel_record(row) for row in rows]
+
+    def upsert_semantic_embedding(self, embedding: Any) -> None:
+        from mathgraph.domain_kernels import SemanticEmbedding
+
+        self.init_schema()
+        data = (
+            embedding.to_dict()
+            if hasattr(embedding, "to_dict")
+            else SemanticEmbedding.from_dict(dict(embedding)).to_dict()
+        )
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO semantic_embeddings (
+                embedding_id, domain_kernel_id, source_logic, target_logic,
+                host_verifier, embedding_kind, description, soundness_status,
+                artifact_uri, metadata_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["embedding_id"],
+                data["domain_kernel_id"],
+                data.get("source_logic", ""),
+                data.get("target_logic", ""),
+                data.get("host_verifier", ""),
+                data.get("embedding_kind", ""),
+                data.get("description", ""),
+                data.get("soundness_status", ""),
+                data.get("artifact_uri", ""),
+                json.dumps(data.get("metadata", {}), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def upsert_imported_theory_object(self, obj: Any) -> None:
+        from mathgraph.domain_kernels import ImportedTheoryObject
+
+        self.init_schema()
+        data = obj.to_dict() if hasattr(obj, "to_dict") else ImportedTheoryObject.from_dict(dict(obj)).to_dict()
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO imported_theory_objects (
+                object_id, domain_kernel_id, kind, name, statement, source_file,
+                source_line, trust_level, provenance_type, metadata_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["object_id"],
+                data["domain_kernel_id"],
+                data["kind"],
+                data.get("name", ""),
+                data.get("statement", ""),
+                data.get("source_file", ""),
+                data.get("source_line"),
+                data.get("trust_level", ""),
+                data.get("provenance_type", ""),
+                json.dumps(data.get("metadata", {}), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def upsert_imported_theory_relation(self, rel: Any) -> None:
+        from mathgraph.domain_kernels import ImportedTheoryRelation
+
+        self.init_schema()
+        data = (
+            rel.to_dict()
+            if hasattr(rel, "to_dict")
+            else ImportedTheoryRelation.from_dict(dict(rel)).to_dict()
+        )
+        self.conn.execute(
+            """
+            INSERT OR REPLACE INTO imported_theory_relations (
+                relation_id, domain_kernel_id, source_object_id, target_object_id,
+                relation_kind, trust_level, provenance_type, metadata_json, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                data["relation_id"],
+                data["domain_kernel_id"],
+                data.get("source_object_id", ""),
+                data.get("target_object_id", ""),
+                data["relation_kind"],
+                data.get("trust_level", ""),
+                data.get("provenance_type", ""),
+                json.dumps(data.get("metadata", {}), sort_keys=True),
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self.conn.commit()
+
+    def domain_kernel_summary(self) -> dict[str, Any]:
+        self.init_schema()
+        counts = {
+            name: self.conn.execute(f"SELECT COUNT(*) FROM {name}").fetchone()[0]
+            for name in (
+                "domain_kernels",
+                "semantic_embeddings",
+                "imported_theory_objects",
+                "imported_theory_relations",
+            )
+        }
+        by_host = Counter(
+            row["host_verifier"] for row in self.conn.execute("SELECT host_verifier FROM domain_kernels")
+        )
+        by_embedding = Counter(
+            row["embedding_kind"] for row in self.conn.execute("SELECT embedding_kind FROM domain_kernels")
+        )
+        return {
+            **counts,
+            "by_host_verifier": dict(by_host),
+            "by_embedding_kind": dict(by_embedding),
+            "truth_boundary": "DomainKernel registration is metadata, not verification.",
+        }
+
     def stats(self) -> LawbookStoreStats:
         self.init_schema()
         rows = [dict(row) for row in self.conn.execute("SELECT * FROM traces")]
@@ -664,6 +891,10 @@ class LawbookStore:
                 "obstructions",
                 "tables",
                 "artifact_imports",
+                "domain_kernels",
+                "semantic_embeddings",
+                "imported_theory_objects",
+                "imported_theory_relations",
             )
         }
         cert_rows = [dict(row) for row in self.conn.execute("SELECT terminal_form FROM certificates")]
@@ -677,6 +908,7 @@ class LawbookStore:
             "primitive": self.stats().to_dict(),
             "derived": self.derived_stats(),
             "warehouse": self.warehouse_summary(),
+            "domain_kernels": self.domain_kernel_summary(),
             "truth_boundary": "Root/reason/obstruction rows are advisory unless backed by concrete certificate chains.",
         }
 
@@ -1135,6 +1367,26 @@ def _reason_store_record(row: sqlite3.Row) -> dict[str, Any]:
 
 def _obstruction_store_record(row: sqlite3.Row) -> dict[str, Any]:
     return json.loads(dict(row)["payload_json"])
+
+
+def _domain_kernel_record(row: sqlite3.Row) -> dict[str, Any]:
+    data = dict(row)
+    return {
+        "kernel_id": data["kernel_id"],
+        "name": data["name"],
+        "description": data["description"],
+        "native_language": data["native_language"],
+        "host_verifier": data["host_verifier"],
+        "embedding_kind": data["embedding_kind"],
+        "source_uri": data["source_uri"],
+        "source_commit": data["source_commit"],
+        "trust_policy": data["trust_policy"],
+        "ontology_summary": json.loads(data["ontology_summary_json"]),
+        "metadata": json.loads(data["metadata_json"]),
+        "created_at": data["created_at"],
+        "advisory_only": True,
+        "truth_boundary": "DomainKernel registration is metadata, not verification.",
+    }
 
 
 def _as_dict(value: Any) -> dict[str, Any]:

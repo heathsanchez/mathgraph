@@ -13,6 +13,7 @@
 
 ## Next
 
+- v16.9 DomainKernel registry, including AOT/Isabelle metadata registration.
 - Root-aware oracle advice backed by the persistent warehouse.
 - Constructor pressure from the Obstruction Atlas.
 - Larger canonical root consolidation over full external v16.7 artifacts.
@@ -24,3 +25,5 @@
 - Full spectral H-tilt killed generator `K = L - V`.
 - Domain-agnostic `GeneralClaim` expansion beyond SAIR magma equations.
 - LOGOS middleware API for model proposal / MathGraph verification.
+- Real Isabelle session importer, AOT theorem/dependency extraction, and
+  cross-domain root/reason atlas.

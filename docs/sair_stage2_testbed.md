@@ -849,3 +849,22 @@ Finite verified refutations preserve `table_hash`, table payload, witness,
 derivation rule, elevation method, trust level, and provenance type. Derived
 chains remain distinct from primitive/replayed certificates. Root/reason/
 obstruction rows are queryable pressure and explanation layers only.
+
+## DomainKernel Registry
+
+SAIR/ETP is one DomainKernel-like nursery. AOT demonstrates another kind of
+formal world: a target metaphysical theory embedded in Isabelle/HOL. MathGraph
+can register such domains without treating registration as verification:
+
+```bash
+python scripts/register_domain_kernel.py \
+  --db /external/path/mathgraph_lawbook.sqlite \
+  --preset aot
+
+python scripts/query_lawbook.py \
+  --db /external/path/mathgraph_lawbook.sqlite \
+  --domain-kernels
+```
+
+DomainKernel rows are metadata. Proof authority remains with the host verifier
+and explicitly imported proof/certificate artifacts.
