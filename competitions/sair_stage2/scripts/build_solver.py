@@ -18,15 +18,18 @@ def main(argv=None):
     parser.add_argument("--assets")
     parser.add_argument("--out", default=str(ROOT / "dist" / "solver.py"))
     parser.add_argument("--max-bytes", type=int, default=500000)
+    parser.add_argument("--contract", default=str(ROOT / "artifacts" / "official_stage2_contract.json"))
     args = parser.parse_args(argv)
     out = Path(args.out)
     assets = Path(args.assets) if args.assets else SRC / "solver_assets.py"
+    contract = _read_contract(Path(args.contract))
     modules = [
         SRC / "equation_core.py",
         SRC / "finite_magma_core.py",
         SRC / "true_constructors.py",
         SRC / "false_constructors.py",
         assets,
+        SRC / "official_adapter.py",
         SRC / "solver_runtime.py",
     ]
     sections = {}
@@ -46,6 +49,7 @@ def main(argv=None):
         "under_budget": size < args.max_bytes,
         "sections": sections,
         "standalone": True,
+        "official_contract": _contract_summary(contract),
     }
     artifacts = ROOT / "artifacts"
     artifacts.mkdir(parents=True, exist_ok=True)
@@ -124,7 +128,28 @@ def _report_md(report):
     lines = ["# Solver Build Report", "", f"- Solver: `{report['solver']}`", f"- Size: {report['size_bytes']} bytes", f"- Max: {report['max_bytes']} bytes", f"- Under budget: {report['under_budget']}", "", "## Sections"]
     for name, size in sorted(report["sections"].items()):
         lines.append(f"- `{name}`: {size} bytes")
+    lines.extend(["", "## Official Contract", "", "```json", json.dumps(report.get("official_contract", {}), indent=2, sort_keys=True), "```"])
     return "\n".join(lines) + "\n"
+
+
+def _read_contract(path):
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def _contract_summary(contract):
+    if not contract:
+        return {"status": "absent", "note": "No official contract JSON found; built compatibility solver."}
+    return {
+        "status": "loaded",
+        "expected_solver_location": contract.get("expected_solver_location"),
+        "submission_file_names": contract.get("submission_file_names"),
+        "invocation_commands": contract.get("invocation_commands"),
+    }
 
 
 if __name__ == "__main__":

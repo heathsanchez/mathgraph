@@ -10,6 +10,7 @@ try:
     from .equation_core import canonical_equation, parse_equation
     from .false_constructors import prove_false
     from .finite_magma_core import verify_countermodel_certificate
+    from .official_adapter import run_official_solo
     from .solver_assets import EXACT_FALSE, EXACT_TRUE
     from .true_constructors import prove_true
 except ImportError:  # standalone build
@@ -67,7 +68,16 @@ def main(argv=None):
     if args.equation1 is not None and args.equation2 is not None:
         outputs.append(solve(args.equation1, args.equation2, args.eq1_id, args.eq2_id))
     else:
-        text = sys.stdin.read().strip()
+        first = sys.stdin.readline()
+        if not first:
+            parser.error("provide --equation1/--equation2 or JSON/JSONL stdin")
+        try:
+            first_obj = json.loads(first)
+        except Exception:
+            first_obj = None
+        if isinstance(first_obj, dict) and first_obj.get("type") == "start":
+            return run_official_solo(first_obj, solve)
+        text = (first + sys.stdin.read()).strip()
         if not text:
             parser.error("provide --equation1/--equation2 or JSON/JSONL stdin")
         if text.startswith("["):
@@ -128,4 +138,3 @@ def _unknown(method, notes):
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
