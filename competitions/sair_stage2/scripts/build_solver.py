@@ -26,6 +26,9 @@ def main(argv=None):
     modules = [
         SRC / "equation_core.py",
         SRC / "finite_magma_core.py",
+        SRC / "certificate_models.py",
+        SRC / "lean_templates.py",
+        SRC / "lean_false_emitter.py",
         SRC / "true_constructors.py",
         SRC / "false_constructors.py",
         assets,

@@ -5,6 +5,11 @@ from __future__ import annotations
 import json
 import sys
 
+try:
+    from .lean_false_emitter import build_false_certificate, emit_false_judge_call
+except ImportError:  # standalone build
+    pass
+
 
 def official_contract_mode(contract=None):
     """Return a compact runtime mode inferred from an inspected contract."""
@@ -53,8 +58,16 @@ def run_official_solo(startup, solve_fn, stdin=None, stdout=None):
         problem.get("eq2_id"),
     )
     if result.get("terminal_form") == "FINITE_COUNTERMODEL":
-        code = make_false_lean_code(result.get("certificate", {}))
-        print(json.dumps({"call": "judge", "verdict": "false", "code": code}), file=stdout, flush=True)
+        cert = build_false_certificate(
+            problem.get("eq1_id"),
+            problem.get("eq2_id"),
+            problem.get("equation1", ""),
+            problem.get("equation2", ""),
+            result.get("certificate", {}).get("table", []),
+        )
+        if cert is None:
+            return 0
+        print(json.dumps(emit_false_judge_call(cert)), file=stdout, flush=True)
         try:
             stdin.readline()
         except Exception:
@@ -63,21 +76,7 @@ def run_official_solo(startup, solve_fn, stdin=None, stdout=None):
 
 
 def make_false_lean_code(cert):
-    table = cert.get("table", [])
-    n = int(cert.get("carrier_size", len(table) or 1))
-    table_s = json.dumps(table)
-    return (
-        "import JudgeProblem\n"
-        "import JudgeDecide.DecideBang\n"
-        "import JudgeFinOp.MemoFinOp\n"
-        "open MemoFinOp\n\n"
-        "def submission : Goal := by\n"
-        f"  let m : Magma (Fin {n}) := {{\n"
-        f"    op := finOpTable \"{table_s}\"\n"
-        "  }\n"
-        f"  refine ⟨Fin {n}, m, ?_⟩\n"
-        "  decideFin!\n"
-    )
+    return emit_false_judge_call(cert)["code"]
 
 
 def _value(field):

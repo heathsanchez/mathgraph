@@ -9,7 +9,7 @@ import json
 import sys
 from itertools import product
 
-SOLVER_BUILD = '2026-05-07T22:04:17.609506+00:00'
+SOLVER_BUILD = '2026-05-07T22:16:06.451528+00:00'
 
 
 # section: equation_core.py
@@ -269,6 +269,217 @@ def verify_countermodel_certificate(eq1, eq2, cert):
 
 
 
+# section: certificate_models.py
+class FiniteMagmaCertificate:
+    def __init__(
+        self,
+        eq1_id=None,
+        eq2_id=None,
+        equation1="",
+        equation2="",
+        n=0,
+        table=None,
+        witness=None,
+        source_holds_verified_python=False,
+        target_fails_verified_python=False,
+        family="unknown",
+        method="finite_table_search",
+        certificate_hash=None,
+    ):
+        self.eq1_id = eq1_id
+        self.eq2_id = eq2_id
+        self.equation1 = equation1
+        self.equation2 = equation2
+        self.n = int(n)
+        self.table = [list(row) for row in (table or [])]
+        self.witness = dict(witness or {})
+        self.source_holds_verified_python = bool(source_holds_verified_python)
+        self.target_fails_verified_python = bool(target_fails_verified_python)
+        self.family = family or "unknown"
+        self.method = method or "finite_table_search"
+        self.certificate_hash = certificate_hash or stable_certificate_hash(self.to_dict(include_hash=False))
+
+    def to_dict(self, include_hash=True):
+        out = {
+            "eq1_id": self.eq1_id,
+            "eq2_id": self.eq2_id,
+            "equation1": self.equation1,
+            "equation2": self.equation2,
+            "n": self.n,
+            "table": self.table,
+            "witness": self.witness,
+            "source_holds_verified_python": self.source_holds_verified_python,
+            "target_fails_verified_python": self.target_fails_verified_python,
+            "family": self.family,
+            "method": self.method,
+        }
+        if include_hash:
+            out["certificate_hash"] = self.certificate_hash
+        return out
+
+    @classmethod
+    def from_dict(cls, data):
+        data = dict(data or {})
+        if "n" not in data and "carrier_size" in data:
+            data["n"] = data.get("carrier_size")
+        if "witness" not in data and "violating_assignment" in data:
+            data["witness"] = data.get("violating_assignment")
+        allowed = {
+            "eq1_id",
+            "eq2_id",
+            "equation1",
+            "equation2",
+            "n",
+            "table",
+            "witness",
+            "source_holds_verified_python",
+            "target_fails_verified_python",
+            "family",
+            "method",
+            "certificate_hash",
+        }
+        return cls(**{k: v for k, v in data.items() if k in allowed})
+
+class LeanJudgeResult:
+    def __init__(
+        self,
+        eq1_id=None,
+        eq2_id=None,
+        verdict="false",
+        status="unknown",
+        stdout="",
+        stderr="",
+        code_hash="",
+        elapsed_s=0.0,
+    ):
+        self.eq1_id = eq1_id
+        self.eq2_id = eq2_id
+        self.verdict = verdict
+        self.status = status
+        self.stdout = stdout
+        self.stderr = stderr
+        self.code_hash = code_hash
+        self.elapsed_s = float(elapsed_s or 0.0)
+
+    def to_dict(self):
+        return {
+            "eq1_id": self.eq1_id,
+            "eq2_id": self.eq2_id,
+            "verdict": self.verdict,
+            "status": self.status,
+            "stdout": self.stdout,
+            "stderr": self.stderr,
+            "code_hash": self.code_hash,
+            "elapsed_s": self.elapsed_s,
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(**dict(data or {}))
+
+def stable_certificate_hash(payload):
+    text = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    h = 2166136261
+    for ch in text:
+        h ^= ord(ch)
+        h = (h * 16777619) & 0xFFFFFFFF
+    return "%08x" % h
+
+
+
+# section: lean_templates.py
+def render_false_countermodel_lean(cert, contract=None):
+
+    if isinstance(cert, dict):
+        cert = FiniteMagmaCertificate.from_dict(cert)
+    n = int(cert.n)
+    table_s = json.dumps(cert.table, separators=(",", ":"))
+    local_name = "mg_false_" + str(cert.eq1_id) + "_" + str(cert.eq2_id) + "_" + cert.certificate_hash[:8]
+    return (
+        "import JudgeProblem\n"
+        "import JudgeDecide.DecideBang\n"
+        "import JudgeFinOp.MemoFinOp\n"
+        "open MemoFinOp\n\n"
+        f"def {local_name} : Magma (Fin {n}) := {{\n"
+        f"  op := finOpTable \"{table_s}\"\n"
+        "}\n\n"
+        "def submission : Goal := by\n"
+        f"  refine ⟨Fin {n}, {local_name}, ?_⟩\n"
+        "  decideFin!\n"
+    )
+
+
+
+# section: lean_false_emitter.py
+def build_false_certificate(eq1_id, eq2_id, equation1, equation2, table, parser=None, evaluator=None):
+
+    parser = parser or parse_equation
+    try:
+        eq1 = parser(equation1)
+        eq2 = parser(equation2)
+        table_t = tuple(tuple(int(x) for x in row) for row in table)
+        if not satisfies_equation(eq1, table_t):
+            return None
+        violation = find_violation(eq2, table_t)
+        if violation is None:
+            return None
+        raw = {
+            "carrier_size": len(table_t),
+            "table": [list(row) for row in table_t],
+            "violating_assignment": dict(violation["assignment"]),
+            "source_satisfied": True,
+            "target_violated": True,
+            "target_lhs": violation["lhs"],
+            "target_rhs": violation["rhs"],
+        }
+        if not verify_countermodel_certificate(eq1, eq2, raw):
+            return None
+        return FiniteMagmaCertificate(
+            eq1_id=eq1_id,
+            eq2_id=eq2_id,
+            equation1=equation1,
+            equation2=equation2,
+            n=len(table_t),
+            table=[list(row) for row in table_t],
+            witness=dict(violation["assignment"]),
+            source_holds_verified_python=True,
+            target_fails_verified_python=True,
+            family=_table_family(table_t),
+            method="finite_table_search",
+        )
+    except Exception:
+        return None
+
+def emit_false_judge_call(cert):
+    if isinstance(cert, dict):
+        cert = FiniteMagmaCertificate.from_dict(cert)
+    return {
+        "call": "judge",
+        "verdict": "false",
+        "code": render_false_countermodel_lean(cert),
+    }
+
+def _table_family(table):
+    n = len(table)
+    if all(table[i][j] == i for i in range(n) for j in range(n)):
+        return "left_projection"
+    if all(table[i][j] == j for i in range(n) for j in range(n)):
+        return "right_projection"
+    vals = {table[i][j] for i in range(n) for j in range(n)}
+    if len(vals) == 1:
+        return "constant"
+    if all(table[i][j] == (i + j) % n for i in range(n) for j in range(n)):
+        return "add_mod"
+    if all(table[i][j] == (i - j) % n for i in range(n) for j in range(n)):
+        return "sub_mod"
+    if all(table[i][j] == min(i, j) for i in range(n) for j in range(n)):
+        return "min"
+    if all(table[i][j] == max(i, j) for i in range(n) for j in range(n)):
+        return "max"
+    return "custom"
+
+
+
 # section: true_constructors.py
 def prove_alpha_or_swap(eq1, eq2):
     variants = [
@@ -467,8 +678,16 @@ def run_official_solo(startup, solve_fn, stdin=None, stdout=None):
         problem.get("eq2_id"),
     )
     if result.get("terminal_form") == "FINITE_COUNTERMODEL":
-        code = make_false_lean_code(result.get("certificate", {}))
-        print(json.dumps({"call": "judge", "verdict": "false", "code": code}), file=stdout, flush=True)
+        cert = build_false_certificate(
+            problem.get("eq1_id"),
+            problem.get("eq2_id"),
+            problem.get("equation1", ""),
+            problem.get("equation2", ""),
+            result.get("certificate", {}).get("table", []),
+        )
+        if cert is None:
+            return 0
+        print(json.dumps(emit_false_judge_call(cert)), file=stdout, flush=True)
         try:
             stdin.readline()
         except Exception:
@@ -476,21 +695,7 @@ def run_official_solo(startup, solve_fn, stdin=None, stdout=None):
     return 0
 
 def make_false_lean_code(cert):
-    table = cert.get("table", [])
-    n = int(cert.get("carrier_size", len(table) or 1))
-    table_s = json.dumps(table)
-    return (
-        "import JudgeProblem\n"
-        "import JudgeDecide.DecideBang\n"
-        "import JudgeFinOp.MemoFinOp\n"
-        "open MemoFinOp\n\n"
-        "def submission : Goal := by\n"
-        f"  let m : Magma (Fin {n}) := {{\n"
-        f"    op := finOpTable \"{table_s}\"\n"
-        "  }\n"
-        f"  refine ⟨Fin {n}, m, ?_⟩\n"
-        "  decideFin!\n"
-    )
+    return emit_false_judge_call(cert)["code"]
 
 def _value(field):
     if isinstance(field, dict):
