@@ -408,6 +408,14 @@ from mathgraph.route_policy_scheduler_adapter import (
     match_priority_hint,
     route_policy_to_priority_hints,
 )
+from mathgraph.residual_atlas import (
+    ResidualAtlasReport,
+    ResidualCase,
+    ResidualCluster,
+    build_residual_atlas_from_rows,
+    build_residual_atlas_from_traces,
+    write_residual_atlas,
+)
 from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -539,6 +547,9 @@ __all__ = [
     "ObstructionCandidate",
     "PersistentFiltrationSummary",
     "ReplayReport",
+    "ResidualAtlasReport",
+    "ResidualCase",
+    "ResidualCluster",
     "RouteReplaySignal",
     "RoutePolicyV2Card",
     "RoutePolicyV2Report",
@@ -560,6 +571,8 @@ __all__ = [
     "build_replay_queue",
     "build_route_policy_v2_from_replay",
     "build_route_policy_v2_from_trace_store",
+    "build_residual_atlas_from_rows",
+    "build_residual_atlas_from_traces",
     "choose_canonical_root",
     "choose_constructor_type",
     "collapse_root_shadows",
@@ -583,6 +596,7 @@ __all__ = [
     "summarize_persistence",
     "summarize_root_discovery",
     "write_route_policy_v2",
+    "write_residual_atlas",
     "RootObstructionLink",
     "RootReasonLink",
     "RoutePolicyCard",

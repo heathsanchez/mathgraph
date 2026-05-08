@@ -37,3 +37,10 @@ stubborn residuals into constructible certificates or named obstructions.
 Residual membrane analysis is advisory. A membrane, ridge, phase gate, or root
 spine does not prove or refute any claim. Only terminal certificates can cross
 the truth boundary.
+
+## Residual Atlas v1
+
+The Residual Atlas is the first persistent advisory map of this membrane. It
+turns unresolved continuation traces into residual cases and clusters, consumes
+Route Policy v2 priorities as pressure, and recommends next actions without
+changing terminal truth.

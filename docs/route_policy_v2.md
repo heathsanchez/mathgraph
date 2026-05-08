@@ -37,3 +37,10 @@ used to compute `htilt_priority`.
 Route policy does not verify or refute claims. It does not promote roots,
 certificates, or obstructions. The verifier/importer boundary still decides all
 terminal certificates.
+
+## Downstream Residual Atlas
+
+Residual Atlas v1 consumes Route Policy v2 cards as pressure signals. The atlas
+uses `htilt_priority` to decide which unresolved membranes look ready for
+another attempt, which look saturated, and which should become obstruction or
+representation-shift pressure.

@@ -135,6 +135,18 @@ python scripts/build_route_policy_v2.py \
   --out-dir /tmp/root_lab/route_policy_v2
 ```
 
+## Residual Atlas v1
+
+Residual Atlas v1 maps unresolved continuation traces into advisory membrane
+cases and clusters:
+
+```bash
+python scripts/build_residual_atlas.py \
+  --traces /tmp/root_lab/continuation_traces.jsonl \
+  --route-policy /tmp/root_lab/route_policy_v2/route_policy_v2_report.json \
+  --out-dir /tmp/root_lab/residual_atlas
+```
+
 ## Formal Worlds / DomainKernels
 
 ETP over magmas is MathGraph's first nursery, not the whole product. Inspired
