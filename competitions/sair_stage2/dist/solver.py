@@ -1,15 +1,13 @@
 #!/usr/bin/env python
-"""Standalone SAIR Stage 2 compact solver.
-
-Generated from competitions/sair_stage2. Uses only Python stdlib.
-"""
+"""Standalone SAIR Stage 2 compact solver. Uses only Python stdlib."""
 from __future__ import annotations
 import argparse
 import json
+import os
 import sys
 from itertools import product
 
-SOLVER_BUILD = '2026-05-07T22:16:06.451528+00:00'
+SOLVER_BUILD = '2026-05-08T02:02:36.630879+00:00'
 
 
 # section: equation_core.py
@@ -418,13 +416,18 @@ def build_false_certificate(eq1_id, eq2_id, equation1, equation2, table, parser=
         eq1 = parser(equation1)
         eq2 = parser(equation2)
         table_t = tuple(tuple(int(x) for x in row) for row in table)
+        n = len(table_t)
+        if n < 2 or any(len(row) != n for row in table_t):
+            return None
+        if any(x < 0 or x >= n for row in table_t for x in row):
+            return None
         if not satisfies_equation(eq1, table_t):
             return None
         violation = find_violation(eq2, table_t)
         if violation is None:
             return None
         raw = {
-            "carrier_size": len(table_t),
+            "carrier_size": n,
             "table": [list(row) for row in table_t],
             "violating_assignment": dict(violation["assignment"]),
             "source_satisfied": True,
@@ -439,7 +442,7 @@ def build_false_certificate(eq1_id, eq2_id, equation1, equation2, table, parser=
             eq2_id=eq2_id,
             equation1=equation1,
             equation2=equation2,
-            n=len(table_t),
+            n=n,
             table=[list(row) for row in table_t],
             witness=dict(violation["assignment"]),
             source_holds_verified_python=True,
@@ -453,6 +456,12 @@ def build_false_certificate(eq1_id, eq2_id, equation1, equation2, table, parser=
 def emit_false_judge_call(cert):
     if isinstance(cert, dict):
         cert = FiniteMagmaCertificate.from_dict(cert)
+    if cert is None or int(cert.n) < 2:
+        return None
+    if len(cert.table) != int(cert.n) or any(len(row) != int(cert.n) for row in cert.table):
+        return None
+    if not cert.source_holds_verified_python or not cert.target_fails_verified_python:
+        return None
     return {
         "call": "judge",
         "verdict": "false",
@@ -485,8 +494,6 @@ def prove_alpha_or_swap(eq1, eq2):
     variants = [
         ("alpha", eq1),
         ("side_swap_alpha", (eq1[1], eq1[0])),
-        ("dual_alpha", dual_equation(eq1)),
-        ("dual_side_swap_alpha", (dual_equation(eq1)[1], dual_equation(eq1)[0])),
     ]
     target = alpha_canonical_equation(eq2)
     for method, eq in variants:
@@ -546,8 +553,6 @@ def prove_true(eq1, eq2):
         prove_alpha_or_swap,
         prove_direct_substitution,
         prove_bounded_rewrite,
-        prove_normal_form,
-        prove_contextual_fixed_point,
     ):
         result = fn(eq1, eq2)
         if result is not None:
@@ -555,7 +560,7 @@ def prove_true(eq1, eq2):
     return None
 
 def _proof(method, cert):
-    return {"terminal_form": "VERIFIED_PROOF", "method": method, "certificate": cert}
+    return {"terminal_form": "ADVISORY_TRUE_CANDIDATE", "method": method, "certificate": cert}
 
 def _orient(a, b):
     ka = (term_size(a), term_depth(a), canonical_term(a))
@@ -671,31 +676,56 @@ def run_official_solo(startup, solve_fn, stdin=None, stdout=None):
     stdin = stdin or sys.stdin
     stdout = stdout or sys.stdout
     problem = startup.get("problem", {})
-    result = solve_fn(
-        problem.get("equation1", ""),
-        problem.get("equation2", ""),
-        problem.get("eq1_id"),
-        problem.get("eq2_id"),
-    )
-    if result.get("terminal_form") == "FINITE_COUNTERMODEL":
-        cert = build_false_certificate(
-            problem.get("eq1_id"),
-            problem.get("eq2_id"),
-            problem.get("equation1", ""),
-            problem.get("equation2", ""),
-            result.get("certificate", {}).get("table", []),
-        )
-        if cert is None:
-            return 0
-        print(json.dumps(emit_false_judge_call(cert)), file=stdout, flush=True)
+    msg = false_judge_call_for_problem(problem, solve_fn)
+    if msg is not None:
+        print(json.dumps(msg), file=stdout, flush=True)
         try:
             stdin.readline()
         except Exception:
             pass
     return 0
 
+def run_marathon_mode(manifest_path, output_path, solve_fn):
+
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    with open(manifest_path, "r", encoding="utf-8") as src, open(output_path, "a", encoding="utf-8") as dst:
+        for line in src:
+            if not line.strip():
+                continue
+            problem = json.loads(line)
+            msg = false_judge_call_for_problem(problem, solve_fn)
+            if msg is None:
+                continue
+            row = {"id": problem.get("id"), "verdict": msg["verdict"], "code": msg["code"]}
+            dst.write(json.dumps(row, sort_keys=True) + "\n")
+            dst.flush()
+    return 0
+
+def false_judge_call_for_problem(problem, solve_fn):
+    result = solve_fn(
+        problem.get("equation1", ""),
+        problem.get("equation2", ""),
+        problem.get("eq1_id"),
+        problem.get("eq2_id"),
+    )
+    if result.get("terminal_form") != "FINITE_COUNTERMODEL":
+        return None
+    cert = build_false_certificate(
+        problem.get("eq1_id"),
+        problem.get("eq2_id"),
+        problem.get("equation1", ""),
+        problem.get("equation2", ""),
+        result.get("certificate", {}).get("table", []),
+    )
+    if cert is None:
+        return None
+    return emit_false_judge_call(cert)
+
 def make_false_lean_code(cert):
-    return emit_false_judge_call(cert)["code"]
+    call = emit_false_judge_call(cert)
+    return call["code"] if call else ""
 
 def _value(field):
     if isinstance(field, dict):
@@ -754,6 +784,8 @@ def main(argv=None):
     if args.equation1 is not None and args.equation2 is not None:
         outputs.append(solve(args.equation1, args.equation2, args.eq1_id, args.eq2_id))
     else:
+        if os.environ.get("JUDGE_MARATHON_MANIFEST") and os.environ.get("JUDGE_MARATHON_OUTPUT"):
+            return run_marathon_mode(os.environ["JUDGE_MARATHON_MANIFEST"], os.environ["JUDGE_MARATHON_OUTPUT"], solve)
         first = sys.stdin.readline()
         if not first:
             parser.error("provide --equation1/--equation2 or JSON/JSONL stdin")
@@ -790,11 +822,11 @@ def _asset_key(eq1, eq2, eq1_id, eq2_id):
 def _true(method, cert):
     return {
         "verdict": "TRUE",
-        "terminal_form": "VERIFIED_PROOF",
+        "terminal_form": "ADVISORY_TRUE_CANDIDATE",
         "method": method,
         "certificate": cert,
         "confidence": 1.0,
-        "notes": "Replayable internal proof constructor succeeded.",
+        "notes": "Internal replayable TRUE candidate only; no official Lean proof emitted yet.",
     }
 
 def _false(method, cert):

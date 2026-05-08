@@ -9,7 +9,6 @@ try:
         bounded_rewrite_derives,
         canonical_equation,
         canonical_term,
-        dual_equation,
         match_pattern,
         parse_equation,
         replace_subterm_once,
@@ -25,8 +24,6 @@ def prove_alpha_or_swap(eq1, eq2):
     variants = [
         ("alpha", eq1),
         ("side_swap_alpha", (eq1[1], eq1[0])),
-        ("dual_alpha", dual_equation(eq1)),
-        ("dual_side_swap_alpha", (dual_equation(eq1)[1], dual_equation(eq1)[0])),
     ]
     target = alpha_canonical_equation(eq2)
     for method, eq in variants:
@@ -91,8 +88,6 @@ def prove_true(eq1, eq2):
         prove_alpha_or_swap,
         prove_direct_substitution,
         prove_bounded_rewrite,
-        prove_normal_form,
-        prove_contextual_fixed_point,
     ):
         result = fn(eq1, eq2)
         if result is not None:
@@ -101,7 +96,7 @@ def prove_true(eq1, eq2):
 
 
 def _proof(method, cert):
-    return {"terminal_form": "VERIFIED_PROOF", "method": method, "certificate": cert}
+    return {"terminal_form": "ADVISORY_TRUE_CANDIDATE", "method": method, "certificate": cert}
 
 
 def _orient(a, b):
@@ -137,4 +132,3 @@ def _subst_var(term, name, value):
     if term[0] == "v":
         return value if term[1] == name else term
     return ("*", _subst_var(term[1], name, value), _subst_var(term[2], name, value))
-

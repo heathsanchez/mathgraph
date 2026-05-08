@@ -30,7 +30,10 @@ def test_build_solver_creates_standalone_under_budget(tmp_path):
         ],
         check=True,
     )
-    tree = ast.parse(out.read_text(encoding="utf-8"))
+    text = out.read_text(encoding="utf-8")
+    assert "from competitions" not in text
+    assert "from competitions/sair_stage2" not in text
+    tree = ast.parse(text)
     imports = {
         alias.name.split(".")[0]
         for node in ast.walk(tree)

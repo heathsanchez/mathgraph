@@ -21,7 +21,8 @@ def main(argv=None):
     parser.add_argument("--contract", default=str(ROOT / "artifacts" / "official_stage2_contract.json"))
     args = parser.parse_args(argv)
     out = Path(args.out)
-    assets = Path(args.assets) if args.assets else SRC / "solver_assets.py"
+    generated_assets = ROOT / "artifacts" / "generated_solver_assets.py"
+    assets = Path(args.assets) if args.assets else (generated_assets if generated_assets.exists() else SRC / "solver_assets.py")
     contract = _read_contract(Path(args.contract))
     modules = [
         SRC / "equation_core.py",
@@ -66,13 +67,11 @@ def main(argv=None):
 
 def _header():
     return '''#!/usr/bin/env python
-"""Standalone SAIR Stage 2 compact solver.
-
-Generated from competitions/sair_stage2. Uses only Python stdlib.
-"""
+"""Standalone SAIR Stage 2 compact solver. Uses only Python stdlib."""
 from __future__ import annotations
 import argparse
 import json
+import os
 import sys
 from itertools import product
 

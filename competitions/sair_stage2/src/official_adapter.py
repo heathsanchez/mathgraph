@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 
 try:
@@ -51,23 +52,9 @@ def run_official_solo(startup, solve_fn, stdin=None, stdout=None):
     stdin = stdin or sys.stdin
     stdout = stdout or sys.stdout
     problem = startup.get("problem", {})
-    result = solve_fn(
-        problem.get("equation1", ""),
-        problem.get("equation2", ""),
-        problem.get("eq1_id"),
-        problem.get("eq2_id"),
-    )
-    if result.get("terminal_form") == "FINITE_COUNTERMODEL":
-        cert = build_false_certificate(
-            problem.get("eq1_id"),
-            problem.get("eq2_id"),
-            problem.get("equation1", ""),
-            problem.get("equation2", ""),
-            result.get("certificate", {}).get("table", []),
-        )
-        if cert is None:
-            return 0
-        print(json.dumps(emit_false_judge_call(cert)), file=stdout, flush=True)
+    msg = false_judge_call_for_problem(problem, solve_fn)
+    if msg is not None:
+        print(json.dumps(msg), file=stdout, flush=True)
         try:
             stdin.readline()
         except Exception:
@@ -75,8 +62,54 @@ def run_official_solo(startup, solve_fn, stdin=None, stdout=None):
     return 0
 
 
+def run_marathon_mode(manifest_path, output_path, solve_fn):
+    """Official Marathon mode: read JSONL problems and append certified answers.
+
+    Unknown problems and TRUE candidates are skipped. Rows are emitted only when
+    a real finite countermodel can be rechecked and rendered as Lean.
+    """
+
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    with open(manifest_path, "r", encoding="utf-8") as src, open(output_path, "a", encoding="utf-8") as dst:
+        for line in src:
+            if not line.strip():
+                continue
+            problem = json.loads(line)
+            msg = false_judge_call_for_problem(problem, solve_fn)
+            if msg is None:
+                continue
+            row = {"id": problem.get("id"), "verdict": msg["verdict"], "code": msg["code"]}
+            dst.write(json.dumps(row, sort_keys=True) + "\n")
+            dst.flush()
+    return 0
+
+
+def false_judge_call_for_problem(problem, solve_fn):
+    result = solve_fn(
+        problem.get("equation1", ""),
+        problem.get("equation2", ""),
+        problem.get("eq1_id"),
+        problem.get("eq2_id"),
+    )
+    if result.get("terminal_form") != "FINITE_COUNTERMODEL":
+        return None
+    cert = build_false_certificate(
+        problem.get("eq1_id"),
+        problem.get("eq2_id"),
+        problem.get("equation1", ""),
+        problem.get("equation2", ""),
+        result.get("certificate", {}).get("table", []),
+    )
+    if cert is None:
+        return None
+    return emit_false_judge_call(cert)
+
+
 def make_false_lean_code(cert):
-    return emit_false_judge_call(cert)["code"]
+    call = emit_false_judge_call(cert)
+    return call["code"] if call else ""
 
 
 def _value(field):

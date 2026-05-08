@@ -24,13 +24,18 @@ def build_false_certificate(eq1_id, eq2_id, equation1, equation2, table, parser=
         eq1 = parser(equation1)
         eq2 = parser(equation2)
         table_t = tuple(tuple(int(x) for x in row) for row in table)
+        n = len(table_t)
+        if n < 2 or any(len(row) != n for row in table_t):
+            return None
+        if any(x < 0 or x >= n for row in table_t for x in row):
+            return None
         if not satisfies_equation(eq1, table_t):
             return None
         violation = find_violation(eq2, table_t)
         if violation is None:
             return None
         raw = {
-            "carrier_size": len(table_t),
+            "carrier_size": n,
             "table": [list(row) for row in table_t],
             "violating_assignment": dict(violation["assignment"]),
             "source_satisfied": True,
@@ -45,7 +50,7 @@ def build_false_certificate(eq1_id, eq2_id, equation1, equation2, table, parser=
             eq2_id=eq2_id,
             equation1=equation1,
             equation2=equation2,
-            n=len(table_t),
+            n=n,
             table=[list(row) for row in table_t],
             witness=dict(violation["assignment"]),
             source_holds_verified_python=True,
@@ -60,6 +65,12 @@ def build_false_certificate(eq1_id, eq2_id, equation1, equation2, table, parser=
 def emit_false_judge_call(cert):
     if isinstance(cert, dict):
         cert = FiniteMagmaCertificate.from_dict(cert)
+    if cert is None or int(cert.n) < 2:
+        return None
+    if len(cert.table) != int(cert.n) or any(len(row) != int(cert.n) for row in cert.table):
+        return None
+    if not cert.source_holds_verified_python or not cert.target_fails_verified_python:
+        return None
     return {
         "call": "judge",
         "verdict": "false",
@@ -85,4 +96,3 @@ def _table_family(table):
     if all(table[i][j] == max(i, j) for i in range(n) for j in range(n)):
         return "max"
     return "custom"
-

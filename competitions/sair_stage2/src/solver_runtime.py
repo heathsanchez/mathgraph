@@ -4,13 +4,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 
 try:
     from .equation_core import canonical_equation, parse_equation
     from .false_constructors import prove_false
     from .finite_magma_core import verify_countermodel_certificate
-    from .official_adapter import run_official_solo
+    from .official_adapter import run_marathon_mode, run_official_solo
     from .solver_assets import EXACT_FALSE, EXACT_TRUE
     from .true_constructors import prove_true
 except ImportError:  # standalone build
@@ -68,6 +69,8 @@ def main(argv=None):
     if args.equation1 is not None and args.equation2 is not None:
         outputs.append(solve(args.equation1, args.equation2, args.eq1_id, args.eq2_id))
     else:
+        if os.environ.get("JUDGE_MARATHON_MANIFEST") and os.environ.get("JUDGE_MARATHON_OUTPUT"):
+            return run_marathon_mode(os.environ["JUDGE_MARATHON_MANIFEST"], os.environ["JUDGE_MARATHON_OUTPUT"], solve)
         first = sys.stdin.readline()
         if not first:
             parser.error("provide --equation1/--equation2 or JSON/JSONL stdin")
@@ -106,11 +109,11 @@ def _asset_key(eq1, eq2, eq1_id, eq2_id):
 def _true(method, cert):
     return {
         "verdict": "TRUE",
-        "terminal_form": "VERIFIED_PROOF",
+        "terminal_form": "ADVISORY_TRUE_CANDIDATE",
         "method": method,
         "certificate": cert,
         "confidence": 1.0,
-        "notes": "Replayable internal proof constructor succeeded.",
+        "notes": "Internal replayable TRUE candidate only; no official Lean proof emitted yet.",
     }
 
 

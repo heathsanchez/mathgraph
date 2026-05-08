@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 BANNED = {"mathgraph", "competitions", "numpy", "pandas", "z3", "requests", "sqlite3", "sklearn", "torch", "tensorflow"}
-ALLOWED = {"argparse", "json", "sys", "itertools", "__future__"}
+ALLOWED = {"argparse", "json", "os", "sys", "itertools", "__future__"}
 
 
 def main(argv=None):
@@ -54,4 +54,3 @@ def _imports(path):
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

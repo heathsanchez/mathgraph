@@ -52,6 +52,22 @@ def test_emit_false_judge_call_exact_keys():
     assert call["verdict"] == "false"
 
 
+def test_invalid_or_empty_certificates_do_not_emit_judge_calls():
+    assert build_false_certificate(1, 2, "x = x", "x = x", []) is None
+    assert build_false_certificate(1, 2, "x = x", "x = x", [[0]]) is None
+    assert build_false_certificate(1, 2, "x = x", "x = x", [[0, 0]]) is None
+    assert emit_false_judge_call({"carrier_size": 0, "table": [], "violating_assignment": {}}) is None
+    assert emit_false_judge_call({"carrier_size": 1, "table": [[0]], "violating_assignment": {"x": 0}}) is None
+
+
+def test_emitted_false_lean_uses_nontrivial_fin_carrier():
+    cert = build_false_certificate(1, 2, "x = x", "x * x = x", [[0, 0], [0, 0]])
+    code = emit_false_judge_call(cert)["code"]
+    assert "Fin 0" not in code
+    assert "Fin 1" not in code
+    assert "Fin 2" in code
+
+
 def test_solver_official_solo_emits_valid_json_for_false_case():
     solver = "competitions/sair_stage2/dist/solver.py"
     startup = {
@@ -77,4 +93,3 @@ def test_solver_official_solo_emits_valid_json_for_false_case():
     assert set(msg) == {"call", "verdict", "code"}
     assert msg["verdict"] == "false"
     assert "def submission" in msg["code"]
-

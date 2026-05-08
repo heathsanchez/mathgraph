@@ -44,7 +44,19 @@ def main(argv=None):
         pairs = pairs[: args.sample_size]
     solver = _load_solver(Path(args.solver))
     errors = []
-    metrics = {"total_tested": len(pairs), "answered": 0, "unknown": 0, "correct_true": 0, "correct_false": 0, "wrong_true": 0, "wrong_false": 0, "false_certificate_verification_pass": 0, "true_certificate_replay_pass": 0}
+    metrics = {
+        "total_tested": len(pairs),
+        "answered": 0,
+        "unknown": 0,
+        "correct_true": 0,
+        "wrong_true": 0,
+        "correct_false": 0,
+        "wrong_false": 0,
+        "method_summary": {},
+        "unsound_true_examples": [],
+        "false_certificate_verification_pass_count": 0,
+        "true_proof_replay_pass_count": 0,
+    }
     runtimes = []
     for i, j in pairs:
         start = time.perf_counter()
@@ -55,12 +67,17 @@ def main(argv=None):
             metrics["unknown"] += 1
             continue
         metrics["answered"] += 1
+        method = ans.get("method", "unknown")
+        metrics["method_summary"][method] = metrics["method_summary"].get(method, 0) + 1
         if ans["verdict"] == "TRUE":
             if expected:
                 metrics["correct_true"] += 1
-                metrics["true_certificate_replay_pass"] += 1
+                if ans.get("terminal_form") == "VERIFIED_PROOF":
+                    metrics["true_proof_replay_pass_count"] += 1
             else:
                 metrics["wrong_true"] += 1
+                if len(metrics["unsound_true_examples"]) < 20:
+                    metrics["unsound_true_examples"].append({"i": i, "j": j, "equation1": equations[i], "equation2": equations[j], "answer": ans})
                 errors.append({"i": i, "j": j, "expected": expected, "answer": ans})
         elif ans["verdict"] == "FALSE":
             cert_ok = solver.verify_countermodel_certificate(
@@ -70,7 +87,7 @@ def main(argv=None):
             )
             if not expected and cert_ok:
                 metrics["correct_false"] += 1
-                metrics["false_certificate_verification_pass"] += 1
+                metrics["false_certificate_verification_pass_count"] += 1
             else:
                 metrics["wrong_false"] += 1
                 errors.append({"i": i, "j": j, "expected": expected, "certificate_ok": cert_ok, "answer": ans})
@@ -83,9 +100,11 @@ def main(argv=None):
         "max_runtime": max(runtimes) if runtimes else 0.0,
         "solver_size": Path(args.solver).stat().st_size,
     })
+    metrics["false_certificate_verification_pass"] = metrics["false_certificate_verification_pass_count"]
+    metrics["true_certificate_replay_pass"] = metrics["true_proof_replay_pass_count"]
     _write_outputs(out_dir, metrics, errors)
     print(json.dumps(metrics, sort_keys=True))
-    return 0
+    return 2 if metrics["wrong_true"] > 0 or metrics["wrong_false"] > 0 else 0
 
 
 def _load_solver(path):
