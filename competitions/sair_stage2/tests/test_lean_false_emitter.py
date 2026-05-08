@@ -40,8 +40,18 @@ def test_render_false_countermodel_lean_contains_official_shape():
     assert code
     assert "import JudgeProblem" in code
     assert "def submission : Goal := by" in code
+    assert "let candidateMagma : Magma (Fin 2)" in code
+    assert "refine ⟨Fin 2, candidateMagma, ?_⟩" in code
     assert "decideFin!" in code
     assert "finOpTable" in code
+
+
+def test_render_false_countermodel_lean_has_no_extra_top_level_magma_def():
+    cert = build_false_certificate(1, 2, "x = x", "x * x = x", [[0, 0], [0, 0]])
+    code = render_false_countermodel_lean(cert)
+    assert "def mg_false" not in code
+    assert "mg_false_" not in code
+    assert "let candidateMagma" in code
 
 
 def test_emit_false_judge_call_exact_keys():
@@ -93,3 +103,5 @@ def test_solver_official_solo_emits_valid_json_for_false_case():
     assert set(msg) == {"call", "verdict", "code"}
     assert msg["verdict"] == "false"
     assert "def submission" in msg["code"]
+    assert "let candidateMagma" in msg["code"]
+    assert "mg_false_" not in msg["code"]
