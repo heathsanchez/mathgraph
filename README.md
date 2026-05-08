@@ -88,6 +88,15 @@ pressure and discovery artifacts only; importer-revalidated certificates,
 chain-audited derivations, or formal verification remain the only route to
 terminal truth. See [Root Discovery Architecture](docs/root_discovery_architecture.md).
 
+## Root Node Discovery Notes
+
+Root scoring is advisory. A root is a persistent load-bearing continuation
+point, not merely a frequent motif or high-yield table. Residuals are membranes,
+not backlog: they show where the current language and constructors stop being
+sufficient. See [Root Node Discovery](docs/root_node_discovery.md) and
+[Residual Membrane](docs/residual_membrane.md). Terminal certificates remain the
+only truth boundary.
+
 ## Formal Worlds / DomainKernels
 
 ETP over magmas is MathGraph's first nursery, not the whole product. Inspired

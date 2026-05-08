@@ -33,6 +33,17 @@
 - **Verifier**: checks candidate artifacts.
 - **Promoter**: imports only verified/revalidated terminal certificates.
 - **Residual**: unresolved work left after construction/verification.
+- **Residual Membrane**: boundary of unresolved cases left after current language, constructors, routes, and certificates are exhausted.
+- **Viability Ridge**: structured high-pressure path along a residual membrane where failures remain nameable and fertile.
+- **Representation Elevator**: movement from concrete failures up into motifs/obstructions/invariants and back down into constructors/certificates.
+- **Phase Gate**: root-node location where a representation change turns stubborn residuals into constructible certificates or named obstructions.
+- **Root Spine**: connected chain of persistent roots along a viability ridge.
+- **Shadow Duplication**: repeated views or aliases of the same support pillar that can make support look stronger than it is.
+- **Effective Filtration Count**: filtration support after overlap, shadow, and duplicate-evidence discounting.
+- **Null Lift**: evidence that a candidate performs above null or background expectation.
+- **Route Plasticity**: advisory update of route pressure from successes, failures, near misses, and replay outcomes.
+- **Replay Engine**: system for reattempting constructor families near residuals to test reusable certificate production.
+- **Support Pillar**: persistent load-bearing root candidate whose consequences compress residuals or generate certificate pressure.
 - **Better-shaped unknown**: an unknown made more nameable and constructible.
 - **Trust level**: confidence/provenance state orthogonal to terminal form.
 - **Provenance type**: primitive, derived, imported, or human-reviewed origin.

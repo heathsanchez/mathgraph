@@ -220,6 +220,71 @@ class ConstructorFamilyCard:
         return asdict(self)
 
 
+@dataclass(frozen=True)
+class RootDiscoverySignals:
+    support: float = 0.0
+    purity: float = 0.0
+    holdout_stability: float = 0.0
+    persistence_across_filtrations: float = 0.0
+    effective_filtration_count: float = 0.0
+    null_lift: float = 0.0
+    coverage: float = 0.0
+    residual_compression_gain: float = 0.0
+    certificate_pressure: float = 0.0
+    constructor_pressure: float = 0.0
+    shadow_duplication_score: float = 0.0
+    load_bearing_coverage: float = 0.0
+
+    @classmethod
+    def from_any(cls, value: "RootDiscoverySignals | dict[str, Any] | None") -> "RootDiscoverySignals":
+        if value is None:
+            return cls()
+        if isinstance(value, cls):
+            return value
+        data = dict(value)
+        return cls(
+            support=_clamp01(_optional_float(data.get("support")) or 0.0),
+            purity=_clamp01(_optional_float(data.get("purity")) or 0.0),
+            holdout_stability=_clamp01(_optional_float(data.get("holdout_stability")) or 0.0),
+            persistence_across_filtrations=_clamp01(
+                _optional_float(data.get("persistence_across_filtrations")) or 0.0
+            ),
+            effective_filtration_count=max(0.0, _optional_float(data.get("effective_filtration_count")) or 0.0),
+            null_lift=_clamp01(_optional_float(data.get("null_lift")) or 0.0),
+            coverage=_clamp01(_optional_float(data.get("coverage")) or 0.0),
+            residual_compression_gain=_clamp01(_optional_float(data.get("residual_compression_gain")) or 0.0),
+            certificate_pressure=_clamp01(_optional_float(data.get("certificate_pressure")) or 0.0),
+            constructor_pressure=_clamp01(_optional_float(data.get("constructor_pressure")) or 0.0),
+            shadow_duplication_score=_clamp01(_optional_float(data.get("shadow_duplication_score")) or 0.0),
+            load_bearing_coverage=_clamp01(_optional_float(data.get("load_bearing_coverage")) or 0.0),
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class RootDiscoveryScore:
+    root_node_id: str
+    canonical_name: str
+    persistence_score: float
+    shadow_penalty: float
+    load_bearing_score: float
+    viability_ridge_score: float
+    phase_gate_score: float
+    promotion_score: float
+    recommendation: str
+    explanation: str
+    signals: RootDiscoverySignals
+    warnings: list[str] = field(default_factory=list)
+    evidence: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["signals"] = self.signals.to_dict()
+        return payload
+
+
 def distill_root_candidates(
     rows: Iterable[CompletionTelemetryRow | dict[str, Any]],
     *,
@@ -332,6 +397,121 @@ def distill_root_candidates(
             )
         )
     return sorted(candidates, key=lambda item: (-item.load_bearing_score, item.root_node_id))
+
+
+def score_root_candidate(
+    root: RootNode | dict[str, Any],
+    signals: RootDiscoverySignals | dict[str, Any] | None = None,
+) -> RootDiscoveryScore:
+    node = root if isinstance(root, RootNode) else RootNode.from_dict(dict(root))
+    signal_obj = RootDiscoverySignals.from_any(signals) if signals is not None else _derive_root_signals(node)
+    effective_norm = min(1.0, signal_obj.effective_filtration_count / 5.0)
+    persistence_score = (
+        0.30 * signal_obj.persistence_across_filtrations
+        + 0.25 * signal_obj.holdout_stability
+        + 0.20 * effective_norm
+        + 0.25 * signal_obj.null_lift
+    )
+    shadow_penalty = min(1.0, signal_obj.shadow_duplication_score)
+    load_bearing_score = (
+        0.30 * signal_obj.coverage
+        + 0.25 * signal_obj.residual_compression_gain
+        + 0.25 * signal_obj.certificate_pressure
+        + 0.20 * signal_obj.constructor_pressure
+    )
+    viability_ridge_score = (
+        0.40 * signal_obj.residual_compression_gain
+        + 0.25 * signal_obj.constructor_pressure
+        + 0.20 * signal_obj.null_lift
+        + 0.15 * signal_obj.holdout_stability
+    )
+    phase_gate_score = 0.45 * viability_ridge_score + 0.35 * load_bearing_score + 0.20 * persistence_score
+    promotion_score = phase_gate_score * (1.0 - shadow_penalty)
+    recommendation = _recommend_root(signal_obj, persistence_score, load_bearing_score, phase_gate_score, promotion_score)
+    warnings = [
+        "Root scoring is advisory.",
+        "Root nodes do not verify or refute claims.",
+        "Only terminal certificates cross the truth boundary.",
+    ]
+    explanation = _score_explanation(recommendation)
+    return RootDiscoveryScore(
+        root_node_id=node.root_node_id,
+        canonical_name=node.canonical_name,
+        persistence_score=round(persistence_score, 6),
+        shadow_penalty=round(shadow_penalty, 6),
+        load_bearing_score=round(load_bearing_score, 6),
+        viability_ridge_score=round(viability_ridge_score, 6),
+        phase_gate_score=round(phase_gate_score, 6),
+        promotion_score=round(promotion_score, 6),
+        recommendation=recommendation,
+        explanation=explanation,
+        signals=signal_obj,
+        warnings=warnings,
+        evidence={
+            "advisory_only": True,
+            "not_terminal_truth": True,
+            "root_status": node.status,
+            "root_type": node.root_type,
+            "root_key": node.root_key,
+            "source": "external_signals" if signals is not None else "derived_weak_defaults",
+        },
+    )
+
+
+def score_root_candidates(
+    roots: Iterable[RootNode | dict[str, Any]],
+    signal_map: dict[str, Any] | None = None,
+) -> list[RootDiscoveryScore]:
+    signal_map = signal_map or {}
+    scores = []
+    for root in roots:
+        node = root if isinstance(root, RootNode) else RootNode.from_dict(dict(root))
+        signals = signal_map.get(node.root_node_id) or signal_map.get(node.canonical_name)
+        scores.append(score_root_candidate(node, signals))
+    return sorted(scores, key=lambda item: (-item.promotion_score, item.root_node_id))
+
+
+def attach_root_discovery_scores(
+    roots: Iterable[RootNode | dict[str, Any]],
+    signal_map: dict[str, Any] | None = None,
+) -> list[RootNode]:
+    signal_map = signal_map or {}
+    output: list[RootNode] = []
+    for root in roots:
+        node = root if isinstance(root, RootNode) else RootNode.from_dict(dict(root))
+        signals = signal_map.get(node.root_node_id) or signal_map.get(node.canonical_name)
+        score = score_root_candidate(node, signals)
+        evidence = dict(node.evidence)
+        evidence["root_discovery_score"] = score.to_dict()
+        evidence["advisory_only"] = True
+        output.append(
+            RootNode(
+                root_node_id=node.root_node_id,
+                canonical_name=node.canonical_name,
+                root_type=node.root_type,
+                root_key=node.root_key,
+                root_key_fields=dict(node.root_key_fields),
+                table_motif=node.table_motif,
+                algebra_shape=node.algebra_shape,
+                source_target_basin=node.source_target_basin,
+                forced_transition=node.forced_transition,
+                support_count=node.support_count,
+                rows=node.rows,
+                unique_pairs=node.unique_pairs,
+                unique_sources=node.unique_sources,
+                unique_targets=node.unique_targets,
+                unique_tables=node.unique_tables,
+                unique_motifs=node.unique_motifs,
+                load_bearing_score=node.load_bearing_score,
+                compression_ratio=node.compression_ratio,
+                coverage_density=node.coverage_density,
+                status=node.status,
+                evidence=evidence,
+                aliases=list(node.aliases),
+                created_from_run_id=node.created_from_run_id,
+            )
+        )
+    return output
 
 
 def distill_obstruction_candidates(
@@ -547,6 +727,63 @@ def _choose_obstruction_type(cluster: list[CompletionTelemetryRow], unsat: int, 
     return "unsat_boundary_obstruction"
 
 
+def _derive_root_signals(node: RootNode) -> RootDiscoverySignals:
+    rows = max(1, int(node.rows or node.support_count or 0))
+    support = _clamp01(float(node.support_count or 0) / rows)
+    unique_pairs = float(node.unique_pairs or node.support_count or 0)
+    unique_sources = float(node.unique_sources or 0)
+    unique_targets = float(node.unique_targets or 0)
+    unique_motifs = float(node.unique_motifs or node.unique_tables or 0)
+    effective_filtration = min(5.0, len([v for v in (unique_sources, unique_targets, unique_motifs, unique_pairs) if v > 0]))
+    coverage = _clamp01(float(node.coverage_density or 0.0))
+    compression = _clamp01(float(node.compression_ratio or 0.0))
+    load_bearing = _clamp01(float(node.load_bearing_score or 0.0) / 10.0)
+    return RootDiscoverySignals(
+        support=support,
+        purity=support,
+        holdout_stability=_clamp01(coverage or support * 0.5),
+        persistence_across_filtrations=_clamp01(effective_filtration / 5.0),
+        effective_filtration_count=effective_filtration,
+        null_lift=_clamp01(load_bearing or compression),
+        coverage=coverage or _clamp01(unique_pairs / max(1.0, rows)),
+        residual_compression_gain=compression,
+        certificate_pressure=_clamp01(float(node.support_count or 0) / 10.0),
+        constructor_pressure=load_bearing,
+        shadow_duplication_score=_clamp01(float(node.evidence.get("shadow_duplication_score", 0.0) or 0.0)),
+        load_bearing_coverage=load_bearing,
+    )
+
+
+def _recommend_root(
+    signals: RootDiscoverySignals,
+    persistence_score: float,
+    load_bearing_score: float,
+    phase_gate_score: float,
+    promotion_score: float,
+) -> str:
+    if signals.shadow_duplication_score >= 0.72:
+        return "shadow_duplicate"
+    if signals.support < 0.05 and signals.effective_filtration_count < 1.0:
+        return "insufficient_evidence"
+    if signals.residual_compression_gain >= 0.45 and signals.constructor_pressure >= 0.35:
+        return "obstruction_pressure"
+    if promotion_score >= 0.58 and persistence_score >= 0.45 and load_bearing_score >= 0.45:
+        return "promote_candidate"
+    if signals.effective_filtration_count >= 1.0 or phase_gate_score >= 0.25:
+        return "hold_for_more_filtration"
+    return "insufficient_evidence"
+
+
+def _score_explanation(recommendation: str) -> str:
+    return {
+        "promote_candidate": "Persistent, low-shadow, load-bearing candidate ready for advisory constructor planning.",
+        "hold_for_more_filtration": "Candidate has some signal but needs more independent filtration evidence.",
+        "shadow_duplicate": "Candidate appears to duplicate another root view; preserve as alias/shadow.",
+        "obstruction_pressure": "Candidate is more useful as residual or obstruction pressure than direct root promotion.",
+        "insufficient_evidence": "Candidate lacks enough persistence, null lift, or load-bearing coverage.",
+    }.get(recommendation, "Advisory root scoring result.")
+
+
 def _load_bearing_score(
     *,
     sat_count: int,
@@ -610,6 +847,10 @@ def _max_metric(rows: list[CompletionTelemetryRow], key: str, default: float) ->
 
 def _ratio(num: int | float, denom: int | float) -> float:
     return float(num) / float(denom) if denom else 0.0
+
+
+def _clamp01(value: float) -> float:
+    return max(0.0, min(1.0, float(value)))
 
 
 def _first_sorted(counter: Counter[Any]) -> str | None:

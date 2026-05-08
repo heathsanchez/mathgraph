@@ -1,14 +1,23 @@
+import json
+import subprocess
+import sys
+from pathlib import Path
+
 from mathgraph.root_discovery import (
     DISCOVERY_STATUS,
+    RootDiscoverySignals,
     SAT,
     UNKNOWN,
     UNSAT,
+    attach_root_discovery_scores,
     build_constructor_family_cards,
     build_replay_queue,
     distill_obstruction_candidates,
     distill_root_candidates,
+    score_root_candidate,
     summarize_root_discovery,
 )
+from mathgraph.root_nodes import RootNode
 
 
 def _row(
@@ -159,3 +168,187 @@ def test_stable_deterministic_output_and_replay_queue():
     assert queue
     assert queue[0]["solver_status"] == UNKNOWN
     assert "not a truth claim" in queue[0]["reason"]
+
+
+def _root_node(**overrides):
+    data = {
+        "root_node_id": "root_score_1",
+        "canonical_name": "ROOT_SCORE_1",
+        "root_type": "certificate_root",
+        "root_key": "score_key",
+        "support_count": 10,
+        "rows": 20,
+        "unique_pairs": 8,
+        "unique_sources": 3,
+        "unique_targets": 5,
+        "unique_motifs": 2,
+        "load_bearing_score": 0.4,
+        "compression_ratio": 0.3,
+        "coverage_density": 0.5,
+        "evidence": {"seed": True},
+    }
+    data.update(overrides)
+    return RootNode(**data)
+
+
+def test_score_root_candidate_is_deterministic():
+    root = _root_node()
+    signals = RootDiscoverySignals(
+        support=0.7,
+        holdout_stability=0.6,
+        persistence_across_filtrations=0.7,
+        effective_filtration_count=3.0,
+        null_lift=0.6,
+        coverage=0.7,
+        residual_compression_gain=0.3,
+        certificate_pressure=0.7,
+        constructor_pressure=0.3,
+    )
+
+    first = score_root_candidate(root, signals)
+    second = score_root_candidate(root.to_dict(), signals.to_dict())
+
+    assert first.to_dict() == second.to_dict()
+    assert first.evidence["advisory_only"] is True
+    assert first.evidence["not_terminal_truth"] is True
+
+
+def test_high_persistence_low_shadow_recommends_promote_candidate():
+    score = score_root_candidate(
+        _root_node(),
+        {
+            "support": 0.9,
+            "purity": 0.9,
+            "holdout_stability": 0.9,
+            "persistence_across_filtrations": 0.9,
+            "effective_filtration_count": 5.0,
+            "null_lift": 0.9,
+            "coverage": 0.95,
+            "residual_compression_gain": 0.35,
+            "certificate_pressure": 0.95,
+            "constructor_pressure": 0.45,
+            "shadow_duplication_score": 0.05,
+        },
+    )
+
+    assert score.recommendation == "promote_candidate"
+    assert score.promotion_score > 0.58
+
+
+def test_high_shadow_duplication_recommends_shadow_duplicate():
+    score = score_root_candidate(
+        _root_node(),
+        {
+            "support": 0.9,
+            "holdout_stability": 0.9,
+            "persistence_across_filtrations": 0.9,
+            "effective_filtration_count": 5.0,
+            "null_lift": 0.9,
+            "coverage": 0.9,
+            "certificate_pressure": 0.9,
+            "constructor_pressure": 0.7,
+            "shadow_duplication_score": 0.95,
+        },
+    )
+
+    assert score.recommendation == "shadow_duplicate"
+    assert score.shadow_penalty == 0.95
+
+
+def test_low_evidence_recommends_insufficient_evidence():
+    score = score_root_candidate(
+        RootNode(root_node_id="root_empty", canonical_name="ROOT_EMPTY"),
+        RootDiscoverySignals(),
+    )
+
+    assert score.recommendation == "insufficient_evidence"
+
+
+def test_attach_root_discovery_scores_preserves_root_identity_and_adds_evidence():
+    root = _root_node(root_node_id="root_attach", canonical_name="ROOT_ATTACH")
+    attached = attach_root_discovery_scores([root], {root.root_node_id: {"coverage": 0.5}})
+
+    assert len(attached) == 1
+    assert attached[0].root_node_id == root.root_node_id
+    assert attached[0].canonical_name == root.canonical_name
+    assert attached[0].evidence["seed"] is True
+    assert attached[0].evidence["advisory_only"] is True
+    assert attached[0].evidence["root_discovery_score"]["root_node_id"] == root.root_node_id
+
+
+def test_score_root_candidates_cli_writes_json_and_jsonl(tmp_path):
+    repo_root = Path(__file__).resolve().parents[1]
+    root = _root_node(root_node_id="root_cli", canonical_name="ROOT_CLI")
+    input_path = tmp_path / "roots.jsonl"
+    signals_path = tmp_path / "signals.json"
+    out_json = tmp_path / "scores.json"
+    out_jsonl = tmp_path / "scores.jsonl"
+    input_path.write_text(json.dumps(root.to_dict()) + "\n", encoding="utf-8")
+    signals_path.write_text(
+        json.dumps({root.root_node_id: {"coverage": 0.9, "certificate_pressure": 0.8}}),
+        encoding="utf-8",
+    )
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "scripts/score_root_candidates.py",
+            "--input",
+            str(input_path),
+            "--signals",
+            str(signals_path),
+            "--out-json",
+            str(out_json),
+            "--out-jsonl",
+            str(out_jsonl),
+        ],
+        cwd=str(repo_root),
+        capture_output=True,
+        text=True,
+    )
+
+    assert completed.returncode == 0, completed.stderr
+    payload = json.loads(out_json.read_text(encoding="utf-8"))
+    rows = [json.loads(line) for line in out_jsonl.read_text(encoding="utf-8").splitlines()]
+    assert payload["advisory_only"] is True
+    assert payload["scores"][0]["root_node_id"] == "root_cli"
+    assert rows[0]["root_node_id"] == "root_cli"
+
+
+def test_root_scoring_does_not_touch_lawbook_store(tmp_path):
+    store_path = tmp_path / "lawbook.sqlite"
+
+    score = score_root_candidate(_root_node(), {"coverage": 0.5})
+
+    assert score.evidence["advisory_only"] is True
+    assert not store_path.exists()
+
+
+def test_root_discovery_docs_and_glossary_entries_exist():
+    required = [
+        "docs/root_node_discovery.md",
+        "docs/residual_membrane.md",
+        "docs/replay_and_route_plasticity.md",
+        "docs/stage2_sair_strategy.md",
+    ]
+    for path in required:
+        with open(path, "r", encoding="utf-8") as handle:
+            text = handle.read()
+        assert text.strip()
+
+    with open("docs/glossary.md", "r", encoding="utf-8") as handle:
+        glossary = handle.read()
+    for term in [
+        "Residual Membrane",
+        "Viability Ridge",
+        "Representation Elevator",
+        "Phase Gate",
+        "Root Spine",
+        "Shadow Duplication",
+        "Effective Filtration Count",
+        "Null Lift",
+        "Route Plasticity",
+        "Replay Engine",
+        "Support Pillar",
+    ]:
+        assert term in glossary
