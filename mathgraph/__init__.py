@@ -423,6 +423,12 @@ from mathgraph.frontier_v2 import (
     frontier_v2_to_task_queue_rows,
     write_frontier_v2,
 )
+from mathgraph.episode_runner_v2 import (
+    EpisodeRunnerV2Config,
+    EpisodeRunnerV2Report,
+    EpisodeTaskResult,
+    run_episode_v2,
+)
 from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -495,6 +501,9 @@ __all__ = [
     "GeneralClaim",
     "EpisodeLearningConfig",
     "EpisodeLearningResult",
+    "EpisodeRunnerV2Config",
+    "EpisodeRunnerV2Report",
+    "EpisodeTaskResult",
     "FiniteCountermodelConfig",
     "FiniteCountermodelResult",
     "FiniteCountermodelRunResult",
@@ -826,6 +835,7 @@ __all__ = [
     "compute_residual_compression_gain",
     "evaluate_better_shaped_unknown",
     "run_m0_episode",
+    "run_episode_v2",
     "audit_m0_store",
     "make_server",
     "run_metabolic_cycle",

@@ -39,6 +39,15 @@ score, and stable residual id.
 `task_id`, `task_kind`, `source`, `target`, indices, route, constructor family,
 root label, priority, origin, warnings, and evidence.
 
+## Episode Runner v2
+
+Episode Runner v2 consumes the Frontier v2 task queue and executes only
+`finite_countermodel_search` rows. Advisory rows such as obstruction analysis,
+representation-shift probes, near-miss replay, and suppressed regions become
+continuation traces rather than certificate attempts.
+
+See [Episode Runner v2](episode_runner_v2.md) for the bounded next-cycle loop.
+
 ## Trust Boundary
 
 Frontier tasks are proposals. Scheduling pressure is not truth. Only the

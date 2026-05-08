@@ -1187,6 +1187,23 @@ Each line stores a serialized trace, its trace hash, and a timestamp. The
 records are replayable: a later audit can reload the ledger, recompute trace
 hashes, and check what was actually claimed.
 
+## Episode Runner v2
+
+Episode Runner v2 consumes a Frontier v2 task queue, executes only
+`finite_countermodel_search` rows through the existing verifier/importer
+boundary, emits continuation traces, and regenerates replay, route policy,
+residual atlas, and next-frontier artifacts.
+
+```bash
+python scripts/run_episode_v2.py \
+  --frontier-task-queue /tmp/root_lab/frontier_v2/frontier_v2_task_queue.jsonl \
+  --store /tmp/episode_v2/lawbook.sqlite \
+  --out-dir /tmp/episode_v2
+```
+
+Advisory task kinds are remembered as traces, not treated as certificates.
+Finite search failure is still not proof.
+
 ## Integrity Layer
 
 MathGraph can hash traces and certificates with deterministic JSON, making them
