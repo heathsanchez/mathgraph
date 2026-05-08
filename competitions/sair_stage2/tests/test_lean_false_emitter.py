@@ -78,8 +78,12 @@ def test_emitted_false_lean_uses_nontrivial_fin_carrier():
     assert "Fin 2" in code
 
 
-def test_solver_official_solo_emits_valid_json_for_false_case():
-    solver = "competitions/sair_stage2/dist/solver.py"
+def test_solver_official_solo_emits_valid_json_for_false_case(tmp_path):
+    solver = tmp_path / "solver.py"
+    subprocess.run(
+        [sys.executable, "competitions/sair_stage2/scripts/build_solver.py", "--out", str(solver)],
+        check=True,
+    )
     startup = {
         "type": "start",
         "problem": {
@@ -92,13 +96,13 @@ def test_solver_official_solo_emits_valid_json_for_false_case():
         "budget": {},
     }
     proc = subprocess.run(
-        [sys.executable, solver],
+        [sys.executable, str(solver)],
         input=json.dumps(startup) + "\n{}\n",
         text=True,
         capture_output=True,
         timeout=10,
+        check=True,
     )
-    assert proc.returncode == 0
     msg = json.loads(proc.stdout.splitlines()[0])
     assert set(msg) == {"call", "verdict", "code"}
     assert msg["verdict"] == "false"
