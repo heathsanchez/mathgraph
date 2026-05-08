@@ -40,8 +40,18 @@ def test_render_false_countermodel_lean_contains_official_shape():
     assert code
     assert "import JudgeProblem" in code
     assert "def submission : Goal := by" in code
+    assert "let candidateMagma : Magma (Fin 2)" in code
+    assert "refine ⟨Fin 2, candidateMagma, ?_⟩" in code
     assert "decideFin!" in code
     assert "finOpTable" in code
+
+
+def test_render_false_countermodel_lean_has_no_extra_top_level_magma_def():
+    cert = build_false_certificate(1, 2, "x = x", "x * x = x", [[0, 0], [0, 0]])
+    code = render_false_countermodel_lean(cert)
+    assert "def mg_false" not in code
+    assert "mg_false_" not in code
+    assert "let candidateMagma" in code
 
 
 def test_emit_false_judge_call_exact_keys():
@@ -68,8 +78,12 @@ def test_emitted_false_lean_uses_nontrivial_fin_carrier():
     assert "Fin 2" in code
 
 
-def test_solver_official_solo_emits_valid_json_for_false_case():
-    solver = "competitions/sair_stage2/dist/solver.py"
+def test_solver_official_solo_emits_valid_json_for_false_case(tmp_path):
+    solver = tmp_path / "solver.py"
+    subprocess.run(
+        [sys.executable, "competitions/sair_stage2/scripts/build_solver.py", "--out", str(solver)],
+        check=True,
+    )
     startup = {
         "type": "start",
         "problem": {
@@ -82,14 +96,16 @@ def test_solver_official_solo_emits_valid_json_for_false_case():
         "budget": {},
     }
     proc = subprocess.run(
-        [sys.executable, solver],
+        [sys.executable, str(solver)],
         input=json.dumps(startup) + "\n{}\n",
         text=True,
         capture_output=True,
         timeout=10,
+        check=True,
     )
-    assert proc.returncode == 0
     msg = json.loads(proc.stdout.splitlines()[0])
     assert set(msg) == {"call", "verdict", "code"}
     assert msg["verdict"] == "false"
     assert "def submission" in msg["code"]
+    assert "let candidateMagma" in msg["code"]
+    assert "mg_false_" not in msg["code"]
