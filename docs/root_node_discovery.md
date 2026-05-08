@@ -76,3 +76,26 @@ deleted: preserving aliases keeps the discovery history auditable.
 
 Root scoring is advisory. Root nodes do not verify or refute claims. Only
 terminal certificates cross the truth boundary.
+
+## Constructor Validation
+
+Observed roots become generative roots only after constructor validation. A
+root candidate is valuable when it can drive a narrow basin into constructor
+families that produce verified certificates, residual compression, constructor
+pressure, or named obstructions with lift over a null/random comparison basin.
+
+The validation loop is:
+
+```text
+root candidate
+→ basin
+→ constructor family
+→ verified certificates
+→ null lift
+→ promotion recommendation
+```
+
+Constructor validation still does not verify a root as truth. It measures
+whether the root bears weight as scheduling and constructor pressure. Any FALSE
+certificate produced during validation must pass through the existing
+M0/importer path; finite search failure remains residual evidence, not proof.

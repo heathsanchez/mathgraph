@@ -97,6 +97,20 @@ sufficient. See [Root Node Discovery](docs/root_node_discovery.md) and
 [Residual Membrane](docs/residual_membrane.md). Terminal certificates remain the
 only truth boundary.
 
+## Root Constructor Validation Lab
+
+The local lab tests whether advisory root candidates can route a basin into
+constructor families that produce importer-revalidated finite refutations with
+lift over a null basin. Root recommendations remain advisory:
+
+```bash
+python scripts/run_root_constructor_lab.py \
+  --pairs /tmp/pairs.jsonl \
+  --out-dir /tmp/root_constructor_lab \
+  --max-pairs-per-root 50 \
+  --null-pairs-per-root 50
+```
+
 ## Formal Worlds / DomainKernels
 
 ETP over magmas is MathGraph's first nursery, not the whole product. Inspired
