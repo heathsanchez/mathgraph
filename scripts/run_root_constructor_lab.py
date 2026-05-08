@@ -10,6 +10,7 @@ from pathlib import Path
 
 from mathgraph.replay_engine import replay_continuation_traces
 from mathgraph.residual_atlas import build_residual_atlas_from_traces
+from mathgraph.frontier_v2 import build_frontier_v2_from_atlas
 from mathgraph.route_policy_v2 import build_route_policy_v2_from_replay, write_route_policy_v2
 from mathgraph.root_constructor_lab import ROOT_LABELS, run_root_constructor_lab
 
@@ -29,6 +30,10 @@ def main(argv=None) -> int:
     parser.add_argument("--route-policy-out-dir")
     parser.add_argument("--build-residual-atlas", action="store_true")
     parser.add_argument("--residual-atlas-out-dir")
+    parser.add_argument("--build-frontier-v2", action="store_true")
+    parser.add_argument("--frontier-v2-out-dir")
+    parser.add_argument("--frontier-max-tasks", type=int, default=100)
+    parser.add_argument("--include-suppressed-frontier", action="store_true")
     parser.add_argument(
         "--roots",
         default=",".join(ROOT_LABELS),
@@ -40,7 +45,7 @@ def main(argv=None) -> int:
         pairs = _read_jsonl(args.pairs)
         roots = [item.strip() for item in args.roots.split(",") if item.strip()]
         trace_store = args.trace_store
-        if (args.replay or args.build_route_policy or args.build_residual_atlas) and not trace_store:
+        if (args.replay or args.build_route_policy or args.build_residual_atlas or args.build_frontier_v2) and not trace_store:
             trace_store = str(Path(args.out_dir) / "continuation_traces.jsonl")
         report = run_root_constructor_lab(
             pairs,
@@ -53,7 +58,7 @@ def main(argv=None) -> int:
             trace_store_path=trace_store,
         )
         replay_report = None
-        if args.replay or args.build_route_policy or args.build_residual_atlas:
+        if args.replay or args.build_route_policy or args.build_residual_atlas or args.build_frontier_v2:
             replay_out = args.replay_out_dir or str(Path(args.out_dir) / "replay")
             replay_report = replay_continuation_traces(trace_store, replay_out)
             _merge_replay_outputs(report.outputs["root_constructor_lab_report_json"], replay_report.outputs)
@@ -64,7 +69,8 @@ def main(argv=None) -> int:
             policy = build_route_policy_v2_from_replay(replay_report)
             policy_outputs = write_route_policy_v2(policy, policy_out)
             _merge_replay_outputs(report.outputs["root_constructor_lab_report_json"], policy_outputs)
-        if args.build_residual_atlas:
+        atlas = None
+        if args.build_residual_atlas or args.build_frontier_v2:
             if policy is None:
                 policy = build_route_policy_v2_from_replay(replay_report)
                 policy_out = args.route_policy_out_dir or str(Path(args.out_dir) / "route_policy_v2")
@@ -73,6 +79,15 @@ def main(argv=None) -> int:
             atlas_out = args.residual_atlas_out_dir or str(Path(args.out_dir) / "residual_atlas")
             atlas = build_residual_atlas_from_traces(trace_store, route_policy=policy, out_dir=atlas_out)
             _merge_replay_outputs(report.outputs["root_constructor_lab_report_json"], atlas.outputs)
+        if args.build_frontier_v2:
+            frontier_out = args.frontier_v2_out_dir or str(Path(args.out_dir) / "frontier_v2")
+            frontier = build_frontier_v2_from_atlas(
+                atlas,
+                max_tasks=args.frontier_max_tasks,
+                include_suppressed=args.include_suppressed_frontier,
+                out_dir=frontier_out,
+            )
+            _merge_replay_outputs(report.outputs["root_constructor_lab_report_json"], frontier.outputs)
     except Exception as exc:
         print(json.dumps({"ok": False, "error": str(exc), "error_type": type(exc).__name__}), file=sys.stderr)
         return 1
@@ -91,6 +106,8 @@ def main(argv=None) -> int:
         print(f"route_policy_v2_report_json: {policy_outputs.get('route_policy_v2_report_json')}")
     if args.build_residual_atlas:
         print(f"residual_atlas_report_json: {atlas.outputs.get('residual_atlas_report_json')}")
+    if args.build_frontier_v2:
+        print(f"frontier_v2_report_json: {frontier.outputs.get('frontier_v2_report_json')}")
     return 0
 
 

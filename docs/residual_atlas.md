@@ -58,3 +58,9 @@ Residual atlas output is scheduling and discovery pressure only. Failed search
 is not proof. A near miss is not a certificate. Terminal truth still requires
 verified proof, finite refutation/importer revalidation, or named obstruction
 under the existing terminal contract.
+
+## Frontier v2
+
+Frontier Builder v2 consumes Residual Atlas cases and clusters to produce the
+next prioritized task frontier. This keeps the next episode aligned with the
+membrane instead of restarting from a flat backlog.

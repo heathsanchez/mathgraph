@@ -44,3 +44,6 @@ Residual Atlas v1 consumes Route Policy v2 cards as pressure signals. The atlas
 uses `htilt_priority` to decide which unresolved membranes look ready for
 another attempt, which look saturated, and which should become obstruction or
 representation-shift pressure.
+
+Frontier Builder v2 then turns those atlas cases into prioritized task proposals
+for the next episode.

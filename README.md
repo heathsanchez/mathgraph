@@ -147,6 +147,18 @@ python scripts/build_residual_atlas.py \
   --out-dir /tmp/root_lab/residual_atlas
 ```
 
+## Frontier Builder v2
+
+Frontier Builder v2 turns residual atlas cases into advisory next-episode task
+proposals:
+
+```bash
+python scripts/build_frontier_v2.py \
+  --residual-atlas /tmp/root_lab/residual_atlas/residual_atlas_report.json \
+  --out-dir /tmp/root_lab/frontier_v2 \
+  --max-tasks 100
+```
+
 ## Formal Worlds / DomainKernels
 
 ETP over magmas is MathGraph's first nursery, not the whole product. Inspired

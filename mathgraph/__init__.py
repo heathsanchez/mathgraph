@@ -416,6 +416,13 @@ from mathgraph.residual_atlas import (
     build_residual_atlas_from_traces,
     write_residual_atlas,
 )
+from mathgraph.frontier_v2 import (
+    FrontierTaskV2,
+    FrontierV2Report,
+    build_frontier_v2_from_atlas,
+    frontier_v2_to_task_queue_rows,
+    write_frontier_v2,
+)
 from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -497,6 +504,8 @@ __all__ = [
     "FrontierBuilderConfig",
     "FrontierBuilderResult",
     "FrontierCandidate",
+    "FrontierTaskV2",
+    "FrontierV2Report",
     "HTiltScheduler",
     "HTiltSchedulerStats",
     "HTiltScoreBreakdown",
@@ -569,6 +578,7 @@ __all__ = [
     "build_filtration_evidence",
     "build_constructor_family_cards",
     "build_replay_queue",
+    "build_frontier_v2_from_atlas",
     "build_route_policy_v2_from_replay",
     "build_route_policy_v2_from_trace_store",
     "build_residual_atlas_from_rows",
@@ -597,6 +607,8 @@ __all__ = [
     "summarize_root_discovery",
     "write_route_policy_v2",
     "write_residual_atlas",
+    "frontier_v2_to_task_queue_rows",
+    "write_frontier_v2",
     "RootObstructionLink",
     "RootReasonLink",
     "RoutePolicyCard",
