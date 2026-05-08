@@ -150,6 +150,7 @@ def test_root_constructor_lab_cli_runs_and_writes_reports(tmp_path):
             "--trace-store",
             str(out_dir / "continuation_traces.jsonl"),
             "--replay",
+            "--build-route-policy",
         ],
         cwd=str(repo_root),
         capture_output=True,
@@ -162,5 +163,7 @@ def test_root_constructor_lab_cli_runs_and_writes_reports(tmp_path):
     assert (out_dir / "root_constructor_lab_report.md").exists()
     assert (out_dir / "continuation_traces.jsonl").exists()
     assert (out_dir / "replay" / "replay_report.json").exists()
+    assert (out_dir / "route_policy_v2" / "route_policy_v2_report.json").exists()
     payload = json.loads((out_dir / "root_constructor_lab_report.json").read_text(encoding="utf-8"))
     assert "replay_report_json" in payload["outputs"]
+    assert "route_policy_v2_report_json" in payload["outputs"]

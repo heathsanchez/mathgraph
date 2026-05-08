@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from mathgraph.replay_engine import replay_continuation_traces
+from mathgraph.route_policy_v2 import build_route_policy_v2_from_replay, write_route_policy_v2
 from mathgraph.root_constructor_lab import ROOT_LABELS, run_root_constructor_lab
 
 
@@ -23,6 +24,8 @@ def main(argv=None) -> int:
     parser.add_argument("--trace-store")
     parser.add_argument("--replay", action="store_true")
     parser.add_argument("--replay-out-dir")
+    parser.add_argument("--build-route-policy", action="store_true")
+    parser.add_argument("--route-policy-out-dir")
     parser.add_argument(
         "--roots",
         default=",".join(ROOT_LABELS),
@@ -34,7 +37,7 @@ def main(argv=None) -> int:
         pairs = _read_jsonl(args.pairs)
         roots = [item.strip() for item in args.roots.split(",") if item.strip()]
         trace_store = args.trace_store
-        if args.replay and not trace_store:
+        if (args.replay or args.build_route_policy) and not trace_store:
             trace_store = str(Path(args.out_dir) / "continuation_traces.jsonl")
         report = run_root_constructor_lab(
             pairs,
@@ -47,10 +50,15 @@ def main(argv=None) -> int:
             trace_store_path=trace_store,
         )
         replay_report = None
-        if args.replay:
+        if args.replay or args.build_route_policy:
             replay_out = args.replay_out_dir or str(Path(args.out_dir) / "replay")
             replay_report = replay_continuation_traces(trace_store, replay_out)
             _merge_replay_outputs(report.outputs["root_constructor_lab_report_json"], replay_report.outputs)
+        if args.build_route_policy:
+            policy_out = args.route_policy_out_dir or str(Path(args.out_dir) / "route_policy_v2")
+            policy = build_route_policy_v2_from_replay(replay_report)
+            policy_outputs = write_route_policy_v2(policy, policy_out)
+            _merge_replay_outputs(report.outputs["root_constructor_lab_report_json"], policy_outputs)
     except Exception as exc:
         print(json.dumps({"ok": False, "error": str(exc), "error_type": type(exc).__name__}), file=sys.stderr)
         return 1
@@ -65,6 +73,8 @@ def main(argv=None) -> int:
     print(f"report_md: {report.outputs['root_constructor_lab_report_md']}")
     if args.replay:
         print(f"replay_report_json: {replay_report.outputs.get('replay_report_json')}")
+    if args.build_route_policy:
+        print(f"route_policy_v2_report_json: {policy_outputs.get('route_policy_v2_report_json')}")
     return 0
 
 

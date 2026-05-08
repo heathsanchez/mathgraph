@@ -73,3 +73,10 @@ It emits advisory route signals such as `strengthen_route`,
 `preserve_for_replay`, `convert_to_obstruction_pressure`, and `weaken_route`.
 Those signals are route pressure only; they do not verify claims or promote
 roots.
+
+## Route Policy v2
+
+Route Policy v2 converts replay signals into H-tilt-compatible policy cards.
+The cards separate exploitation pressure, exploration pressure, obstruction
+pressure, and residual penalty before producing `htilt_priority`. This priority
+is scheduler pressure only; it does not change truth status.

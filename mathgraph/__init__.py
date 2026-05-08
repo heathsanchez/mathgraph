@@ -396,6 +396,18 @@ from mathgraph.replay_engine import (
     RouteReplaySignal,
     replay_continuation_traces,
 )
+from mathgraph.route_policy_v2 import (
+    RoutePolicyV2Card,
+    RoutePolicyV2Report,
+    build_route_policy_v2_from_replay,
+    build_route_policy_v2_from_trace_store,
+    write_route_policy_v2,
+)
+from mathgraph.route_policy_scheduler_adapter import (
+    RoutePriorityHint,
+    match_priority_hint,
+    route_policy_to_priority_hints,
+)
 from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -528,6 +540,9 @@ __all__ = [
     "PersistentFiltrationSummary",
     "ReplayReport",
     "RouteReplaySignal",
+    "RoutePolicyV2Card",
+    "RoutePolicyV2Report",
+    "RoutePriorityHint",
     "RootBasinPair",
     "RootCandidate",
     "RootConstructorLabReport",
@@ -543,6 +558,8 @@ __all__ = [
     "build_filtration_evidence",
     "build_constructor_family_cards",
     "build_replay_queue",
+    "build_route_policy_v2_from_replay",
+    "build_route_policy_v2_from_trace_store",
     "choose_canonical_root",
     "choose_constructor_type",
     "collapse_root_shadows",
@@ -557,12 +574,15 @@ __all__ = [
     "root_overlap_score",
     "run_root_constructor_lab",
     "make_trace_id",
+    "match_priority_hint",
     "replay_continuation_traces",
+    "route_policy_to_priority_hints",
     "score_root_candidate",
     "score_root_candidates",
     "score_pair_for_root",
     "summarize_persistence",
     "summarize_root_discovery",
+    "write_route_policy_v2",
     "RootObstructionLink",
     "RootReasonLink",
     "RoutePolicyCard",

@@ -124,6 +124,17 @@ python scripts/run_root_constructor_lab.py \
   --replay
 ```
 
+## Route Policy v2
+
+Replay signals can be compiled into advisory H-tilt-compatible route policy
+cards:
+
+```bash
+python scripts/build_route_policy_v2.py \
+  --traces /tmp/root_lab/continuation_traces.jsonl \
+  --out-dir /tmp/root_lab/route_policy_v2
+```
+
 ## Formal Worlds / DomainKernels
 
 ETP over magmas is MathGraph's first nursery, not the whole product. Inspired
