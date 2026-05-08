@@ -214,6 +214,23 @@ or:
 mathgraph/root_discovery.py
 ```
 
+This is now implemented as `mathgraph.root_discovery`. The module defines
+`CompletionTelemetryRow`, `RootCandidate`, `ObstructionCandidate`, and
+`ConstructorFamilyCard`, plus small deterministic APIs:
+
+```text
+distill_root_candidates(...)
+distill_obstruction_candidates(...)
+build_constructor_family_cards(...)
+build_replay_queue(...)
+summarize_root_discovery(...)
+```
+
+The implementation is deliberately discovery-only. Candidate roots and
+obstructions carry `status = discovery_candidate` and advisory evidence. They
+can be adapted into existing `RootNode` and `ObstructionNode` schemas for atlas
+work, but they do not become terminal claims.
+
 Its job:
 
 ```text
