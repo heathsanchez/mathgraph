@@ -78,6 +78,11 @@ and distilled into candidate roots, obstruction candidates, constructor-family
 cards, and replay queues. Root nodes are SAT-clusters carved out by UNSAT
 boundaries: the contrast is the point.
 
+The consolidation layer adds persistent filtration, shadow collapse, advisory
+root promotion records, and constructor-plan compilation. This turns residual
+telemetry into replay pressure without pretending that discovery artifacts are
+proof.
+
 This does not change the verifier boundary. Root discovery creates scheduling
 pressure and discovery artifacts only; importer-revalidated certificates,
 chain-audited derivations, or formal verification remain the only route to

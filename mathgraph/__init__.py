@@ -344,6 +344,32 @@ from mathgraph.root_discovery import (
     distill_root_candidates,
     summarize_root_discovery,
 )
+from mathgraph.persistent_filtration import (
+    FiltrationEvidence,
+    FiltrationSpec,
+    PersistentFiltrationSummary,
+    build_filtration_evidence,
+    default_filtration_specs,
+    summarize_persistence,
+)
+from mathgraph.root_shadow_collapse import (
+    RootShadowCollapseResult,
+    ShadowLink,
+    choose_canonical_root,
+    collapse_root_shadows,
+    root_overlap_score,
+)
+from mathgraph.root_promotion import (
+    RootPromotionPolicy,
+    RootPromotionRecord,
+    promote_roots,
+    promotion_summary,
+)
+from mathgraph.root_compiler import (
+    ConstructorPlan,
+    choose_constructor_type,
+    compile_constructor_plans,
+)
 from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -465,13 +491,31 @@ __all__ = [
     "RootNode",
     "RootNodeOracle",
     "CompletionTelemetryRow",
+    "ConstructorPlan",
     "ConstructorFamilyCard",
+    "FiltrationEvidence",
+    "FiltrationSpec",
     "ObstructionCandidate",
+    "PersistentFiltrationSummary",
     "RootCandidate",
+    "RootPromotionPolicy",
+    "RootPromotionRecord",
+    "RootShadowCollapseResult",
+    "ShadowLink",
+    "build_filtration_evidence",
     "build_constructor_family_cards",
     "build_replay_queue",
+    "choose_canonical_root",
+    "choose_constructor_type",
+    "collapse_root_shadows",
+    "compile_constructor_plans",
+    "default_filtration_specs",
     "distill_obstruction_candidates",
     "distill_root_candidates",
+    "promote_roots",
+    "promotion_summary",
+    "root_overlap_score",
+    "summarize_persistence",
     "summarize_root_discovery",
     "RootObstructionLink",
     "RootReasonLink",

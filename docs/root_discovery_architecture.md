@@ -69,6 +69,23 @@ The module includes adapters to existing `RootNode` and `ObstructionNode`
 schemas, but the resulting records remain candidates until backed by verified
 certificate families.
 
+The next consolidation layer is:
+
+```text
+completion telemetry
+-> persistent filtration
+-> shadow collapse
+-> effective filtration count
+-> advisory root promotion
+-> root compiler
+-> constructor family plan
+-> replay/elevation
+```
+
+See [Root Node Discovery Doctrine](root_node_discovery_doctrine.md),
+[Persistent Filtration](persistent_filtration.md),
+[Shadow Collapse](shadow_collapse.md), and [Root Compiler](root_compiler.md).
+
 ## Verifier Boundary
 
 Root discovery does not change the terminal contract.
