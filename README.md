@@ -268,6 +268,32 @@ Every `MathGraphAnswer` exposes `terminal_form`, `trust_level`,
 `audit_after_write` defaults to true, so write-path answers include the M0 audit
 summary unless the client is configured otherwise.
 
+## Local HTTP Service Smoke
+
+Expose the same M0 SDK boundary over local HTTP:
+
+```bash
+python scripts/serve_mathgraph.py --store /tmp/mathgraph_api.sqlite
+```
+
+Then query it from another shell:
+
+```bash
+curl http://127.0.0.1:8765/health
+
+curl -X POST http://127.0.0.1:8765/query \
+  -H "Content-Type: application/json" \
+  -d '{"source":"(x*x)=x","target":"(x*y)=x"}'
+
+curl -X POST http://127.0.0.1:8765/submit \
+  -H "Content-Type: application/json" \
+  -d '{"source":"(x*x)=x","target":"(x*y)=x","allow_construction":true}'
+```
+
+`/query` is read-only. `/submit` may construct and promote only verified
+certificates. `/audit` checks the M0 trust boundary. All claim responses expose
+`terminal_form`, `trust_level`, `provenance_type`, and `verifier_boundary`.
+
 ## SAIR Stage 2 Competition Solver Path
 
 The competition-specific single-file solver target lives in

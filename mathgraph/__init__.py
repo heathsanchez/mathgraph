@@ -147,6 +147,11 @@ from mathgraph.logical_workbench import (
     logikey_style_workbench,
     mathgraph_default_workbench,
 )
+from mathgraph.local_service import (
+    MathGraphHTTPServer,
+    MathGraphRequestHandler,
+    make_server,
+)
 from mathgraph.embedding_strategies import (
     AutomationBias,
     EmbeddingStrategy,
@@ -654,6 +659,8 @@ __all__ = [
     "MathGraphAuditError",
     "MathGraphClient",
     "MathGraphClientConfig",
+    "MathGraphHTTPServer",
+    "MathGraphRequestHandler",
     "AuditFinding",
     "AuditReport",
     "TerminalContractResult",
@@ -664,5 +671,6 @@ __all__ = [
     "evaluate_better_shaped_unknown",
     "run_m0_episode",
     "audit_m0_store",
+    "make_server",
     "run_metabolic_cycle",
 ]
