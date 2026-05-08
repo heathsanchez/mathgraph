@@ -224,6 +224,13 @@ from mathgraph.metabolic_cycle import (
     MetabolicCycleStageResult,
     run_metabolic_cycle,
 )
+from mathgraph.m0_certificate_factory import (
+    M0EpisodeConfig,
+    M0EpisodeMetrics,
+    M0EpisodeResult,
+    M0PairResult,
+    run_m0_episode,
+)
 from mathgraph.metabolic_diagnostics import (
     MetabolicDiagnostics,
     compute_derived_amplification_factor,
@@ -628,9 +635,14 @@ __all__ = [
     "MetabolicCycleResult",
     "MetabolicCycleStageResult",
     "MetabolicDiagnostics",
+    "M0EpisodeConfig",
+    "M0EpisodeMetrics",
+    "M0EpisodeResult",
+    "M0PairResult",
     "build_synthetic_metabolic_frontier",
     "compute_derived_amplification_factor",
     "compute_residual_compression_gain",
     "evaluate_better_shaped_unknown",
+    "run_m0_episode",
     "run_metabolic_cycle",
 ]

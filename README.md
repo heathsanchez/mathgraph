@@ -187,6 +187,32 @@ JSON/JSONL artifacts and a Markdown report. This proves the feedback loop is
 wired; it is not full theorem proving or Lean automation. See
 [Metabolic Cycle Testbed](docs/metabolic_cycle.md).
 
+## Milestone 0 Closed-Loop Smoke
+
+The canonical M0 certificate factory chews JSONL implication pairs, checks
+LawbookStore memory, runs finite countermodel construction only for unknown
+pairs, revalidates imports, and writes a report:
+
+```bash
+printf '%s\n' '{"source":"(x*x)=x","target":"(x*y)=x","source_idx":1,"target_idx":2}' \
+  > /tmp/mathgraph_m0_pairs.jsonl
+
+python scripts/chew_certificate_tasks.py \
+  --pairs /tmp/mathgraph_m0_pairs.jsonl \
+  --store /tmp/mathgraph_m0.sqlite \
+  --ledger /tmp/mathgraph_m0_ledger.jsonl \
+  --report /tmp/mathgraph_m0_report.json \
+  --metrics-history /tmp/mathgraph_m0_metrics.jsonl \
+  --episode-id m0_smoke_001 \
+  --max-countermodel-order 3
+```
+
+Expected first-run summary includes `verified_false: 1`,
+`new_unique_certificates: 1`, and `compounding_confirmed: true`. Rerun the same
+command with `--episode-id m0_smoke_002`; the summary should show
+`known_skipped: 1` and no new primitive certificate. Finite-search misses remain
+constructor failures or residuals, never proofs.
+
 ## SAIR Stage 2 Competition Solver Path
 
 The competition-specific single-file solver target lives in
