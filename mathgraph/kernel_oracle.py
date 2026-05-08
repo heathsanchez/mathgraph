@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from mathgraph.lawbook_store import LawbookStore
+from mathgraph.terminal_contract import ProvenanceType, TrustLevel, VerifierBoundary
 
 
 @dataclass(frozen=True)
@@ -22,6 +23,9 @@ class OracleAnswer:
     explanation: str
     evidence: dict[str, Any]
     warnings: list[str]
+    provenance_type: str = ProvenanceType.SYSTEM
+    verifier_boundary: str = VerifierBoundary.NOT_VERIFIED
+    certificate_chain: list[str] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -34,6 +38,9 @@ class OracleAnswer:
             "route": self.route,
             "certificate_id": self.certificate_id,
             "trust_level": self.trust_level,
+            "provenance_type": self.provenance_type,
+            "verifier_boundary": self.verifier_boundary,
+            "certificate_chain": list(self.certificate_chain or []),
             "explanation": self.explanation,
             "evidence": dict(self.evidence),
             "warnings": list(self.warnings),
@@ -164,6 +171,9 @@ def _answer_from_record(record: dict[str, Any]) -> OracleAnswer:
                 "No exact verified lawbook trace found.",
                 "Do not promote advisory output to proof or refutation.",
             ],
+            provenance_type=ProvenanceType.SYSTEM,
+            verifier_boundary=VerifierBoundary.NOT_VERIFIED,
+            certificate_chain=[],
         )
 
     if record.get("status") == "derived_hit":
@@ -194,6 +204,9 @@ def _answer_from_record(record: dict[str, Any]) -> OracleAnswer:
                 "This is a derived certificate by logical composition of verified traces.",
                 *list(record.get("warnings", [])),
             ],
+            provenance_type=ProvenanceType.DERIVED,
+            verifier_boundary=VerifierBoundary.CHAIN_AUDITED,
+            certificate_chain=[record.get("certificate_id")] if record.get("certificate_id") else [],
         )
 
     terminal = record["terminal_form"]
@@ -222,7 +235,14 @@ def _answer_from_record(record: dict[str, Any]) -> OracleAnswer:
             "promotion_status": record.get("promotion_status"),
             "lean_status": record.get("lean_status"),
         },
-        warnings=[],
+        warnings=["Legacy lawbook row lacks full terminal contract fields."],
+        provenance_type=ProvenanceType.PRIMITIVE,
+        verifier_boundary=(
+            VerifierBoundary.IMPORTER_REVALIDATED
+            if terminal == "FINITE_COUNTERMODEL"
+            else VerifierBoundary.LEAN_TYPECHECKED
+        ),
+        certificate_chain=[record.get("certificate_id")] if record.get("certificate_id") else [],
     )
 
 
@@ -262,7 +282,10 @@ def _answer_from_warehouse_refutation(record: dict[str, Any]) -> OracleAnswer:
             "derivation_rule": record.get("derivation_rule"),
             "elevation_method": record.get("elevation_method"),
         },
-        warnings=[],
+        warnings=["Legacy warehouse refutation row mapped into terminal contract fields."],
+        provenance_type=record.get("provenance_type") or ProvenanceType.IMPORTED,
+        verifier_boundary=VerifierBoundary.IMPORTER_REVALIDATED,
+        certificate_chain=[record.get("refutation_id")] if record.get("refutation_id") else [],
     )
 
 
@@ -289,4 +312,7 @@ def _answer_from_warehouse_claim(record: dict[str, Any]) -> OracleAnswer:
             "metadata": record.get("metadata", {}),
         },
         warnings=[] if status != "UNKNOWN" else ["Warehouse claim row is not a verifier result."],
+        provenance_type=record.get("provenance_type") or ProvenanceType.IMPORTED,
+        verifier_boundary=VerifierBoundary.NOT_VERIFIED,
+        certificate_chain=[],
     )

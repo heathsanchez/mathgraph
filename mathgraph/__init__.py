@@ -40,6 +40,12 @@ from mathgraph.countermodel_importer import (
     import_finite_countermodel_results,
 )
 from mathgraph.corpus import CertificateCorpus
+from mathgraph.client import (
+    MathGraphAnswer,
+    MathGraphAuditError,
+    MathGraphClient,
+    MathGraphClientConfig,
+)
 from mathgraph.equations import Equation, parse_equation
 from mathgraph.episode_learning import (
     AssimilationLearningRecord,
@@ -644,6 +650,10 @@ __all__ = [
     "M0EpisodeMetrics",
     "M0EpisodeResult",
     "M0PairResult",
+    "MathGraphAnswer",
+    "MathGraphAuditError",
+    "MathGraphClient",
+    "MathGraphClientConfig",
     "AuditFinding",
     "AuditReport",
     "TerminalContractResult",

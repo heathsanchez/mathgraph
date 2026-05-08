@@ -245,6 +245,29 @@ python scripts/audit_m0_store.py \
 Audit failures are machine-readable. Critical findings mean something unsafe
 crossed, or appears to have crossed, the verified-certificate boundary.
 
+## Python SDK Smoke
+
+Use `MathGraphClient` when embedding the M0 middleware boundary in local Python
+code:
+
+```python
+from mathgraph import MathGraphClient
+
+client = MathGraphClient("/tmp/mathgraph.sqlite")
+answer = client.submit_claim(
+    source="(x*x)=x",
+    target="(x*y)=x",
+)
+print(answer.to_json())
+```
+
+`query_claim` is read-only and never constructs. `submit_claim` may run the M0
+finite-countermodel factory and promote only importer-revalidated certificates.
+Every `MathGraphAnswer` exposes `terminal_form`, `trust_level`,
+`provenance_type`, `verifier_boundary`, and `certificate_chain`.
+`audit_after_write` defaults to true, so write-path answers include the M0 audit
+summary unless the client is configured otherwise.
+
 ## SAIR Stage 2 Competition Solver Path
 
 The competition-specific single-file solver target lives in
