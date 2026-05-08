@@ -70,6 +70,19 @@ normalized SQLite tables. Root/reason/obstruction rows are advisory and
 compressive unless backed by concrete certificate chains; they do not verify or
 refute unknown claims.
 
+## Root Discovery
+
+MathGraph now treats completion/search telemetry as a contrastive source of
+root-node candidates. SAT, UNSAT, UNKNOWN, TIMEOUT, and ERROR rows are preserved
+and distilled into candidate roots, obstruction candidates, constructor-family
+cards, and replay queues. Root nodes are SAT-clusters carved out by UNSAT
+boundaries: the contrast is the point.
+
+This does not change the verifier boundary. Root discovery creates scheduling
+pressure and discovery artifacts only; importer-revalidated certificates,
+chain-audited derivations, or formal verification remain the only route to
+terminal truth. See [Root Discovery Architecture](docs/root_discovery_architecture.md).
+
 ## Formal Worlds / DomainKernels
 
 ETP over magmas is MathGraph's first nursery, not the whole product. Inspired

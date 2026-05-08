@@ -333,6 +333,17 @@ from mathgraph.root_nodes import (
     RootObstructionLink,
     RootReasonLink,
 )
+from mathgraph.root_discovery import (
+    CompletionTelemetryRow,
+    ConstructorFamilyCard,
+    ObstructionCandidate,
+    RootCandidate,
+    build_constructor_family_cards,
+    build_replay_queue,
+    distill_obstruction_candidates,
+    distill_root_candidates,
+    summarize_root_discovery,
+)
 from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -453,6 +464,15 @@ __all__ = [
     "RouteInstruction",
     "RootNode",
     "RootNodeOracle",
+    "CompletionTelemetryRow",
+    "ConstructorFamilyCard",
+    "ObstructionCandidate",
+    "RootCandidate",
+    "build_constructor_family_cards",
+    "build_replay_queue",
+    "distill_obstruction_candidates",
+    "distill_root_candidates",
+    "summarize_root_discovery",
     "RootObstructionLink",
     "RootReasonLink",
     "RoutePolicyCard",
