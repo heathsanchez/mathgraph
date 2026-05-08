@@ -19,6 +19,7 @@ from mathgraph.finite_countermodel_executor import (
 from mathgraph.hashing import content_id
 from mathgraph.kernel_oracle import KernelOracle
 from mathgraph.lawbook_store import LawbookStore
+from mathgraph.terminal_contract import ProvenanceType, TerminalForm, TrustLevel, VerifierBoundary
 
 
 VERIFY_WARNINGS = [
@@ -98,6 +99,9 @@ class VerifyResult:
     certificate_id: str | None
     route: str | None
     explanation: str
+    provenance_type: str = ProvenanceType.SYSTEM
+    verifier_boundary: str = VerifierBoundary.NOT_VERIFIED
+    certificate_chain: list[str] = field(default_factory=list)
     evidence: dict[str, Any] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
     trace: dict[str, Any] | None = None
@@ -107,6 +111,9 @@ class VerifyResult:
             "status": self.status,
             "terminal_form": self.terminal_form,
             "trust_level": self.trust_level,
+            "provenance_type": self.provenance_type,
+            "verifier_boundary": self.verifier_boundary,
+            "certificate_chain": list(self.certificate_chain),
             "source": self.source,
             "target": self.target,
             "claim": self.claim,
@@ -124,6 +131,9 @@ class VerifyResult:
             status=str(data["status"]),
             terminal_form=str(data["terminal_form"]),
             trust_level=str(data["trust_level"]),
+            provenance_type=str(data.get("provenance_type", ProvenanceType.SYSTEM)),
+            verifier_boundary=str(data.get("verifier_boundary", VerifierBoundary.NOT_VERIFIED)),
+            certificate_chain=[str(item) for item in data.get("certificate_chain", [])],
             source=str(data.get("source", "")),
             target=str(data.get("target", "")),
             claim=str(data.get("claim", "")),
@@ -165,14 +175,16 @@ class MathGraphVerifier:
         except Exception as exc:
             return VerifyResult(
                 status="ERROR",
-                terminal_form="NONE",
-                trust_level="error",
+                terminal_form=TerminalForm.NONE,
+                trust_level=TrustLevel.ERROR,
                 source=request.source,
                 target=request.target,
                 claim=claim,
                 certificate_id=None,
                 route=None,
                 explanation=str(exc),
+                provenance_type=ProvenanceType.SYSTEM,
+                verifier_boundary=VerifierBoundary.ERROR,
                 evidence={"error_type": type(exc).__name__},
                 warnings=list(VERIFY_WARNINGS),
                 trace=None,
@@ -241,14 +253,17 @@ class MathGraphVerifier:
             row = imported_rows[0]
             return VerifyResult(
                 status="REFUTED",
-                terminal_form="FINITE_COUNTERMODEL",
-                trust_level="finite_verified",
+                terminal_form=TerminalForm.REFUTATION_CERTIFICATE,
+                trust_level=TrustLevel.FINITE_VERIFIED,
                 source=request.source,
                 target=request.target,
                 claim=_claim(request.source, request.target),
                 certificate_id=row.get("certificate_id"),
                 route="finite_countermodel",
                 explanation="A finite magma countermodel was found and revalidated for this exact source/target claim.",
+                provenance_type=ProvenanceType.PRIMITIVE,
+                verifier_boundary=VerifierBoundary.IMPORTER_REVALIDATED,
+                certificate_chain=[row.get("certificate_id")] if row.get("certificate_id") else [],
                 evidence={
                     "finite_executor": run.summary,
                     "importer": imported.summary,
@@ -261,12 +276,17 @@ class MathGraphVerifier:
 
 
 def _from_oracle(request: VerifyRequest, answer: Any) -> VerifyResult:
-    trust = "known_trace"
+    trust = TrustLevel.FINITE_VERIFIED if answer.terminal_form == "FINITE_COUNTERMODEL" else TrustLevel.LEAN_VERIFIED
+    terminal = TerminalForm.REFUTATION_CERTIFICATE if answer.terminal_form == "FINITE_COUNTERMODEL" else answer.terminal_form
+    boundary = VerifierBoundary.IMPORTER_REVALIDATED if answer.terminal_form == "FINITE_COUNTERMODEL" else VerifierBoundary.LEAN_TYPECHECKED
+    provenance = ProvenanceType.PRIMITIVE
     if answer.trust_level == "derived_from_verified_traces":
-        trust = "derived_verified"
+        trust = TrustLevel.DERIVED_CHAIN_VERIFIED
+        boundary = VerifierBoundary.CHAIN_AUDITED
+        provenance = ProvenanceType.DERIVED
     return VerifyResult(
         status=answer.status,
-        terminal_form=answer.terminal_form,
+        terminal_form=terminal,
         trust_level=trust,
         source=request.source,
         target=request.target,
@@ -274,6 +294,9 @@ def _from_oracle(request: VerifyRequest, answer: Any) -> VerifyResult:
         certificate_id=answer.certificate_id,
         route=answer.route,
         explanation=answer.explanation,
+        provenance_type=provenance,
+        verifier_boundary=boundary,
+        certificate_chain=[answer.certificate_id] if answer.certificate_id else [],
         evidence=answer.evidence,
         warnings=[*list(answer.warnings), *VERIFY_WARNINGS],
         trace=None,
@@ -289,14 +312,17 @@ def _safe_unknown(
 ) -> VerifyResult:
     return VerifyResult(
         status=status,
-        terminal_form="NAMED_OBSTRUCTION",
-        trust_level="advisory_only",
+        terminal_form=TerminalForm.NAMED_OBSTRUCTION,
+        trust_level=TrustLevel.ADVISORY_ROUTE,
         source=request.source,
         target=request.target,
         claim=_claim(request.source, request.target),
         certificate_id=None,
         route=None,
         explanation=explanation,
+        provenance_type=ProvenanceType.SYSTEM,
+        verifier_boundary=VerifierBoundary.NOT_VERIFIED,
+        certificate_chain=[],
         evidence=evidence,
         warnings=list(VERIFY_WARNINGS),
         trace=None,

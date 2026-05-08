@@ -7,6 +7,7 @@ import sys
 from mathgraph.kernel_oracle import KernelOracle
 from mathgraph.lawbook_store import LawbookStore
 from mathgraph.m0_certificate_factory import M0EpisodeConfig, run_m0_episode
+from mathgraph.terminal_contract import ProvenanceType, Status, TerminalForm, TrustLevel, VerifierBoundary
 
 
 def _write_pairs(path, rows):
@@ -50,11 +51,13 @@ def test_m0_promotes_known_false_pair(tmp_path):
     assert result.metrics.new_unique_certificates == 1
     assert result.metrics.compounding_confirmed is True
     row = result.results[0]
-    assert row.status == "verified_false"
-    assert row.terminal_form == "FINITE_COUNTERMODEL"
-    assert row.trust_level == "finite_verified"
-    assert row.provenance_type == "primitive"
+    assert row.status == Status.VERIFIED_FALSE
+    assert row.terminal_form == TerminalForm.REFUTATION_CERTIFICATE
+    assert row.trust_level == TrustLevel.FINITE_VERIFIED
+    assert row.provenance_type == ProvenanceType.PRIMITIVE
+    assert row.verifier_boundary == VerifierBoundary.IMPORTER_REVALIDATED
     assert row.certificate_id
+    assert row.certificate_chain == [row.certificate_id]
     assert report.exists()
     assert store.exists()
 
@@ -85,8 +88,10 @@ def test_m0_rerun_skips_known_certificate_without_duplicate(tmp_path):
     assert first.metrics.new_unique_certificates == 1
     assert second.metrics.known_skipped == 1
     assert second.metrics.new_unique_certificates == 0
-    assert second.results[0].status == "known_certificate_found"
+    assert second.results[0].status == Status.KNOWN_CERTIFICATE_FOUND
     assert second.results[0].certificate_id
+    assert second.results[0].terminal_form == TerminalForm.REFUTATION_CERTIFICATE
+    assert second.results[0].certificate_chain == [second.results[0].certificate_id]
     store = LawbookStore(store_path)
     try:
         store.init_schema()
@@ -113,8 +118,8 @@ def test_m0_finite_miss_is_not_proof(tmp_path):
 
     assert result.metrics.verified_true == 0
     assert result.metrics.promoted == 0
-    assert result.results[0].status in {"constructor_failed", "residual"}
-    assert result.results[0].terminal_form is None
+    assert result.results[0].status in {Status.CONSTRUCTOR_FAILED, Status.RESIDUAL}
+    assert result.results[0].terminal_form == TerminalForm.NONE
 
 
 def test_m0_bad_parse_does_not_crash_or_promote(tmp_path):
@@ -126,7 +131,7 @@ def test_m0_bad_parse_does_not_crash_or_promote(tmp_path):
 
     assert result.metrics.parse_failed == 1
     assert result.metrics.promoted == 0
-    assert result.results[0].status == "parse_failed"
+    assert result.results[0].status == Status.PARSE_FAILED
 
 
 def test_m0_cli_smoke(tmp_path):
@@ -157,6 +162,9 @@ def test_m0_cli_smoke(tmp_path):
             "10",
             "--max-countermodel-order",
             "3",
+            "--audit",
+            "--audit-report",
+            str(tmp_path / "audit.json"),
         ],
         text=True,
         capture_output=True,
@@ -166,8 +174,21 @@ def test_m0_cli_smoke(tmp_path):
     assert proc.returncode == 0, proc.stderr
     summary = json.loads(proc.stdout)
     assert summary["verified_false"] == 1
+    assert summary["audit_passed"] is True
+    assert summary["critical_count"] == 0
     assert report.exists()
     payload = json.loads(report.read_text(encoding="utf-8"))
     assert payload["metrics"]["promoted"] == 1
+    assert payload["audit"]["passed"] is True
+    for key in [
+        "status",
+        "terminal_form",
+        "trust_level",
+        "provenance_type",
+        "verifier_boundary",
+        "certificate_id",
+        "certificate_chain",
+        "warnings",
+    ]:
+        assert key in payload["results"][0]
     assert payload["results"][0]["warnings"]
-

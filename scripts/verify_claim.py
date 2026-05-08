@@ -48,7 +48,10 @@ def main(argv: list[str] | None = None) -> int:
         "status": result.status,
         "terminal_form": result.terminal_form,
         "trust_level": result.trust_level,
+        "provenance_type": result.provenance_type,
+        "verifier_boundary": result.verifier_boundary,
         "certificate_id": result.certificate_id,
+        "certificate_chain": result.certificate_chain,
         "route": result.route,
         "explanation": result.explanation,
     }

@@ -231,6 +231,11 @@ from mathgraph.m0_certificate_factory import (
     M0PairResult,
     run_m0_episode,
 )
+from mathgraph.m0_audit import AuditFinding, AuditReport, audit_m0_store
+from mathgraph.terminal_contract import (
+    TerminalContractResult,
+    VerifierBoundary,
+)
 from mathgraph.metabolic_diagnostics import (
     MetabolicDiagnostics,
     compute_derived_amplification_factor,
@@ -639,10 +644,15 @@ __all__ = [
     "M0EpisodeMetrics",
     "M0EpisodeResult",
     "M0PairResult",
+    "AuditFinding",
+    "AuditReport",
+    "TerminalContractResult",
+    "VerifierBoundary",
     "build_synthetic_metabolic_frontier",
     "compute_derived_amplification_factor",
     "compute_residual_compression_gain",
     "evaluate_better_shaped_unknown",
     "run_m0_episode",
+    "audit_m0_store",
     "run_metabolic_cycle",
 ]

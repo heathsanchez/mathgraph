@@ -12,6 +12,7 @@ from mathgraph import (
     VerifyRequest,
     VerifyResult,
 )
+from mathgraph.terminal_contract import ProvenanceType, TerminalForm, TrustLevel, VerifierBoundary
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,8 +35,8 @@ def test_dataclass_roundtrip() -> None:
     assert VerifyConfig.from_dict(config.to_dict()) == config
     result = VerifyResult(
         status="UNKNOWN",
-        terminal_form="NAMED_OBSTRUCTION",
-        trust_level="advisory_only",
+        terminal_form=TerminalForm.NAMED_OBSTRUCTION,
+        trust_level=TrustLevel.ADVISORY_ROUTE,
         source="x = x",
         target="x = y",
         claim="x = x => x = y",
@@ -53,10 +54,14 @@ def test_known_lawbook_hits_return_verified_and_refuted(tmp_path: Path) -> None:
     proof = verifier.verify(VerifyRequest("x = x", "x = x", allow_construction=False))
     assert proof.status == "VERIFIED"
     assert proof.terminal_form == "VERIFIED_PROOF"
-    assert proof.trust_level == "known_trace"
+    assert proof.trust_level == TrustLevel.LEAN_VERIFIED
+    assert proof.provenance_type == ProvenanceType.PRIMITIVE
+    assert proof.verifier_boundary == VerifierBoundary.LEAN_TYPECHECKED
     counter = verifier.verify(VerifyRequest("x = x", "(x * x) = x", allow_construction=False))
     assert counter.status == "REFUTED"
-    assert counter.terminal_form == "FINITE_COUNTERMODEL"
+    assert counter.terminal_form == TerminalForm.REFUTATION_CERTIFICATE
+    assert counter.trust_level == TrustLevel.FINITE_VERIFIED
+    assert counter.verifier_boundary == VerifierBoundary.IMPORTER_REVALIDATED
 
 
 def test_unknown_false_magma_pair_can_produce_finite_countermodel() -> None:
@@ -64,8 +69,11 @@ def test_unknown_false_magma_pair_can_produce_finite_countermodel() -> None:
         VerifyRequest("x = x", "x = y", max_countermodel_order=2)
     )
     assert result.status == "REFUTED"
-    assert result.terminal_form == "FINITE_COUNTERMODEL"
-    assert result.trust_level == "finite_verified"
+    assert result.terminal_form == TerminalForm.REFUTATION_CERTIFICATE
+    assert result.trust_level == TrustLevel.FINITE_VERIFIED
+    assert result.provenance_type == ProvenanceType.PRIMITIVE
+    assert result.verifier_boundary == VerifierBoundary.IMPORTER_REVALIDATED
+    assert result.certificate_chain == [result.certificate_id]
     assert result.evidence["countermodel_result"]["verification_status"] == "FINITE_VERIFIED"
 
 
@@ -84,7 +92,9 @@ def test_allow_construction_false_only_queries_memory(tmp_path: Path) -> None:
     result = verifier.verify(VerifyRequest("x = x", "x = y", allow_construction=False))
     assert result.status == "UNKNOWN"
     assert result.terminal_form == "NAMED_OBSTRUCTION"
-    assert result.trust_level == "advisory_only"
+    assert result.trust_level == TrustLevel.ADVISORY_ROUTE
+    assert result.provenance_type == ProvenanceType.SYSTEM
+    assert result.verifier_boundary == VerifierBoundary.NOT_VERIFIED
 
 
 def test_malformed_equation_returns_error_without_promotion() -> None:
@@ -118,4 +128,7 @@ def test_cli_smoke(tmp_path: Path) -> None:
     compact = json.loads(completed.stdout)
     assert compact["status"] == "REFUTED"
     payload = json.loads(out.read_text(encoding="utf-8"))
-    assert payload["terminal_form"] == "FINITE_COUNTERMODEL"
+    assert payload["terminal_form"] == TerminalForm.REFUTATION_CERTIFICATE
+    assert payload["provenance_type"] == ProvenanceType.PRIMITIVE
+    assert payload["verifier_boundary"] == VerifierBoundary.IMPORTER_REVALIDATED
+    assert payload["certificate_chain"]

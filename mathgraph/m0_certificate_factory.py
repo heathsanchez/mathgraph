@@ -21,6 +21,14 @@ from mathgraph.finite_countermodel_executor import run_finite_countermodel_tasks
 from mathgraph.hashing import sha256_hex
 from mathgraph.kernel_oracle import KernelOracle
 from mathgraph.lawbook_store import LawbookStore
+from mathgraph.terminal_contract import (
+    ProvenanceType,
+    Status,
+    TerminalContractResult,
+    TerminalForm,
+    TrustLevel,
+    VerifierBoundary,
+)
 
 M0_WARNINGS = [
     "Finite search failure is not proof.",
@@ -65,7 +73,9 @@ class M0PairResult:
     terminal_form: str | None
     trust_level: str | None
     provenance_type: str | None
+    verifier_boundary: str | None
     certificate_id: str | None
+    certificate_chain: list[str]
     promoted: bool
     known_skipped: bool
     tables_tried: int
@@ -170,7 +180,7 @@ def _run_with_workdir(
                 source_idx,
                 target_idx,
                 pair_hash,
-                status="parse_failed",
+                status=Status.PARSE_FAILED,
                 elapsed=time.perf_counter() - pair_started,
                 explanation=str(exc),
             )
@@ -186,11 +196,13 @@ def _run_with_workdir(
                 source_idx,
                 target_idx,
                 pair_hash,
-                status="known_certificate_found",
-                terminal_form=known.terminal_form,
-                trust_level=known.trust_level,
+                status=Status.KNOWN_CERTIFICATE_FOUND,
+                terminal_form=_public_terminal_form(known.terminal_form),
+                trust_level=_public_trust_for_known(known),
                 provenance_type=_provenance_from_answer(known),
+                verifier_boundary=_verifier_boundary_for_known(known),
                 certificate_id=known.certificate_id,
+                certificate_chain=[known.certificate_id] if known.certificate_id else [],
                 known_skipped=True,
                 elapsed=time.perf_counter() - pair_started,
                 explanation=known.explanation,
@@ -207,7 +219,7 @@ def _run_with_workdir(
                 source_idx,
                 target_idx,
                 pair_hash,
-                status="residual",
+                status=Status.RESIDUAL,
                 elapsed=time.perf_counter() - pair_started,
                 explanation="Construction disabled.",
             )
@@ -282,11 +294,13 @@ def _run_with_workdir(
                 info["source_idx"],
                 info["target_idx"],
                 info["pair_hash"],
-                status="verified_false",
-                terminal_form="FINITE_COUNTERMODEL",
-                trust_level="finite_verified",
-                provenance_type="primitive",
+                status=Status.VERIFIED_FALSE,
+                terminal_form=TerminalForm.REFUTATION_CERTIFICATE,
+                trust_level=TrustLevel.FINITE_VERIFIED,
+                provenance_type=ProvenanceType.PRIMITIVE,
+                verifier_boundary=VerifierBoundary.IMPORTER_REVALIDATED,
                 certificate_id=after.certificate_id or import_row.get("certificate_id"),
+                certificate_chain=[after.certificate_id or import_row.get("certificate_id")],
                 promoted=True,
                 tables_tried=tables_tried,
                 elapsed=elapsed,
@@ -295,6 +309,7 @@ def _run_with_workdir(
                     "executor": executor_row,
                     "importer": import_row,
                     "oracle_after": after.to_dict(),
+                    "legacy_terminal_form": "FINITE_COUNTERMODEL",
                 },
             )
         elif executor_row.get("status") == "finite_countermodel_found":
@@ -306,14 +321,14 @@ def _run_with_workdir(
                 info["source_idx"],
                 info["target_idx"],
                 info["pair_hash"],
-                status="verification_failed",
+                status=Status.VERIFICATION_FAILED,
                 tables_tried=tables_tried,
                 elapsed=elapsed,
                 explanation=import_row.get("reason") or "Countermodel candidate was not imported.",
                 evidence={"executor": executor_row, "importer": import_row, "oracle_after": after.to_dict()},
             )
         elif executor_row.get("status") in {"no_countermodel_found", "parse_failed"}:
-            status = "constructor_failed" if executor_row.get("status") == "no_countermodel_found" else "parse_failed"
+            status = Status.CONSTRUCTOR_FAILED if executor_row.get("status") == "no_countermodel_found" else Status.PARSE_FAILED
             results_by_index[index] = _pair_result(
                 episode_id,
                 index,
@@ -337,7 +352,7 @@ def _run_with_workdir(
                 info["source_idx"],
                 info["target_idx"],
                 info["pair_hash"],
-                status="error" if executor_row.get("status") == "error" else "residual",
+                status=Status.ERROR if executor_row.get("status") == "error" else Status.RESIDUAL,
                 tables_tried=tables_tried,
                 elapsed=elapsed,
                 explanation=executor_row.get("failure_reason") or "No terminal certificate was produced.",
@@ -370,12 +385,12 @@ def _metrics(
 ) -> M0EpisodeMetrics:
     attempted = len(results)
     known_skipped = sum(1 for item in results if item.known_skipped)
-    verified_false = sum(1 for item in results if item.status == "verified_false")
+    verified_false = sum(1 for item in results if item.status == Status.VERIFIED_FALSE)
     verified_true = sum(1 for item in results if item.terminal_form == "VERIFIED_PROOF")
-    constructor_failed = sum(1 for item in results if item.status == "constructor_failed")
-    parse_failed = sum(1 for item in results if item.status == "parse_failed")
-    verification_failed = sum(1 for item in results if item.status == "verification_failed")
-    residual = sum(1 for item in results if item.status in {"residual", "error"})
+    constructor_failed = sum(1 for item in results if item.status == Status.CONSTRUCTOR_FAILED)
+    parse_failed = sum(1 for item in results if item.status == Status.PARSE_FAILED)
+    verification_failed = sum(1 for item in results if item.status == Status.VERIFICATION_FAILED)
+    residual = sum(1 for item in results if item.status in {Status.RESIDUAL, Status.ERROR})
     promoted = sum(1 for item in results if item.promoted)
     new_unique = len({item.certificate_id for item in results if item.promoted and item.certificate_id})
     unresolved = constructor_failed + parse_failed + verification_failed + residual
@@ -435,7 +450,9 @@ def _pair_result(
     terminal_form: str | None = None,
     trust_level: str | None = None,
     provenance_type: str | None = None,
+    verifier_boundary: str | None = None,
     certificate_id: str | None = None,
+    certificate_chain: list[str] | None = None,
     promoted: bool = False,
     known_skipped: bool = False,
     tables_tried: int = 0,
@@ -443,6 +460,19 @@ def _pair_result(
     explanation: str = "",
     evidence: dict[str, Any] | None = None,
 ) -> M0PairResult:
+    contract = TerminalContractResult(
+        status=status,
+        terminal_form=terminal_form or TerminalForm.NONE,
+        trust_level=trust_level or (TrustLevel.ERROR if status == Status.ERROR else TrustLevel.ADVISORY_ROUTE),
+        provenance_type=provenance_type or (ProvenanceType.SYSTEM if status != Status.RESIDUAL else ProvenanceType.ADVISORY),
+        verifier_boundary=verifier_boundary or (
+            VerifierBoundary.ERROR if status == Status.ERROR else VerifierBoundary.NOT_VERIFIED
+        ),
+        certificate_id=certificate_id,
+        certificate_chain=list(certificate_chain or ([] if not certificate_id else [certificate_id])),
+        warnings=list(M0_WARNINGS),
+        evidence=dict(evidence or {}),
+    )
     return M0PairResult(
         episode_id=episode_id,
         pair_index=pair_index,
@@ -451,18 +481,20 @@ def _pair_result(
         source_idx=source_idx,
         target_idx=target_idx,
         pair_hash=pair_hash,
-        status=status,
-        terminal_form=terminal_form,
-        trust_level=trust_level,
-        provenance_type=provenance_type,
-        certificate_id=certificate_id,
+        status=contract.status,
+        terminal_form=contract.terminal_form,
+        trust_level=contract.trust_level,
+        provenance_type=contract.provenance_type,
+        verifier_boundary=contract.verifier_boundary,
+        certificate_id=contract.certificate_id,
+        certificate_chain=contract.certificate_chain,
         promoted=promoted,
         known_skipped=known_skipped,
         tables_tried=tables_tried,
         elapsed_sec=elapsed,
         explanation=explanation,
-        warnings=list(M0_WARNINGS),
-        evidence=dict(evidence or {}),
+        warnings=contract.warnings,
+        evidence=contract.evidence,
     )
 
 
@@ -479,8 +511,38 @@ def _pair_hash(source: str, target: str, source_idx: int | None, target_idx: int
 
 def _provenance_from_answer(answer: Any) -> str:
     if answer.trust_level == "derived_from_verified_traces":
-        return "derived"
-    return "primitive"
+        return ProvenanceType.DERIVED
+    return ProvenanceType.PRIMITIVE
+
+
+def _public_terminal_form(terminal_form: str | None) -> str:
+    if terminal_form == "FINITE_COUNTERMODEL":
+        return TerminalForm.REFUTATION_CERTIFICATE
+    if terminal_form == "VERIFIED_PROOF":
+        return TerminalForm.VERIFIED_PROOF
+    if terminal_form == "NAMED_OBSTRUCTION":
+        return TerminalForm.NAMED_OBSTRUCTION
+    return TerminalForm.NONE
+
+
+def _public_trust_for_known(answer: Any) -> str:
+    if answer.terminal_form == "FINITE_COUNTERMODEL":
+        return TrustLevel.FINITE_VERIFIED
+    if answer.terminal_form == "VERIFIED_PROOF":
+        return TrustLevel.LEAN_VERIFIED
+    if answer.trust_level == "derived_from_verified_traces":
+        return TrustLevel.DERIVED_CHAIN_VERIFIED
+    return TrustLevel.ADVISORY_ROUTE
+
+
+def _verifier_boundary_for_known(answer: Any) -> str:
+    if answer.terminal_form == "FINITE_COUNTERMODEL":
+        return VerifierBoundary.IMPORTER_REVALIDATED
+    if answer.terminal_form == "VERIFIED_PROOF":
+        return VerifierBoundary.LEAN_TYPECHECKED
+    if answer.trust_level == "derived_from_verified_traces":
+        return VerifierBoundary.CHAIN_AUDITED
+    return VerifierBoundary.NOT_VERIFIED
 
 
 def _normalize_equation(source: str) -> str:
@@ -534,4 +596,3 @@ def _optional_int(value: Any) -> int | None:
         return int(value)
     except (TypeError, ValueError):
         return None
-

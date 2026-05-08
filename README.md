@@ -213,6 +213,38 @@ command with `--episode-id m0_smoke_002`; the summary should show
 `known_skipped: 1` and no new primitive certificate. Finite-search misses remain
 constructor failures or residuals, never proofs.
 
+## M0 Trust Boundary And Audit
+
+The finite constructor may find a candidate table, but only the importer can
+promote it after rechecking that the source equation holds and the target
+equation fails on the witness. Advisory routes, candidate certificates,
+obstructions, parse failures, verification failures, and finite-search misses
+are not certificates.
+
+Run the M0 loop with an audit:
+
+```bash
+python scripts/chew_certificate_tasks.py \
+  --pairs /tmp/mathgraph_m0_pairs.jsonl \
+  --store /tmp/mathgraph_m0.sqlite \
+  --report /tmp/mathgraph_m0_report.json \
+  --audit \
+  --audit-report /tmp/mathgraph_m0_audit.json \
+  --fail-on-critical-audit
+```
+
+Or audit an existing store directly:
+
+```bash
+python scripts/audit_m0_store.py \
+  --store /tmp/mathgraph_m0.sqlite \
+  --report /tmp/mathgraph_m0_audit.json \
+  --fail-on-critical
+```
+
+Audit failures are machine-readable. Critical findings mean something unsafe
+crossed, or appears to have crossed, the verified-certificate boundary.
+
 ## SAIR Stage 2 Competition Solver Path
 
 The competition-specific single-file solver target lives in

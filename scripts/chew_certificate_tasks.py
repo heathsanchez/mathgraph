@@ -7,6 +7,7 @@ import argparse
 import json
 import sys
 
+from mathgraph.m0_audit import audit_m0_store, write_audit_report
 from mathgraph.m0_certificate_factory import M0EpisodeConfig, run_m0_episode
 
 
@@ -24,6 +25,9 @@ def main(argv=None) -> int:
     parser.add_argument("--exhaustive-order-limit", type=int, default=3)
     parser.add_argument("--working-dir")
     parser.add_argument("--no-construction", action="store_true")
+    parser.add_argument("--audit", action="store_true")
+    parser.add_argument("--audit-report")
+    parser.add_argument("--fail-on-critical-audit", action="store_true")
     args = parser.parse_args(argv)
     try:
         result = run_m0_episode(
@@ -46,6 +50,14 @@ def main(argv=None) -> int:
         print(json.dumps({"status": "fatal_error", "error": str(exc)}, sort_keys=True), file=sys.stderr)
         return 1
     metrics = result.metrics.to_dict()
+    audit_payload = None
+    if args.audit:
+        audit = audit_m0_store(args.store)
+        audit_payload = audit.to_dict()
+        if args.audit_report:
+            write_audit_report(audit, args.audit_report)
+        if args.report:
+            _merge_audit_into_report(args.report, audit_payload)
     summary = {
         "attempted": metrics["attempted"],
         "known_skipped": metrics["known_skipped"],
@@ -56,10 +68,30 @@ def main(argv=None) -> int:
         "report": args.report,
         "store": args.store,
     }
+    if audit_payload is not None:
+        summary.update(
+            {
+                "audit_passed": audit_payload["passed"],
+                "critical_count": audit_payload["critical_count"],
+                "warning_count": audit_payload["warning_count"],
+            }
+        )
     print(json.dumps(summary, sort_keys=True))
+    if audit_payload is not None and args.fail_on_critical_audit and audit_payload["critical_count"] > 0:
+        return 2
     return 0
+
+
+def _merge_audit_into_report(report_path: str, audit_payload: dict) -> None:
+    try:
+        with open(report_path, "r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except FileNotFoundError:
+        payload = {}
+    payload["audit"] = audit_payload
+    with open(report_path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, sort_keys=True)
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
