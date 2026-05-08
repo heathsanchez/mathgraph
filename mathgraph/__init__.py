@@ -386,6 +386,16 @@ from mathgraph.root_constructor_lab import (
     run_root_constructor_lab,
     score_pair_for_root,
 )
+from mathgraph.continuation_traces import (
+    ContinuationTrace,
+    ContinuationTraceStore,
+    make_trace_id,
+)
+from mathgraph.replay_engine import (
+    ReplayReport,
+    RouteReplaySignal,
+    replay_continuation_traces,
+)
 from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -510,10 +520,14 @@ __all__ = [
     "ConstructorPlan",
     "ConstructorFamilyCard",
     "ConstructorFamilyResult",
+    "ContinuationTrace",
+    "ContinuationTraceStore",
     "FiltrationEvidence",
     "FiltrationSpec",
     "ObstructionCandidate",
     "PersistentFiltrationSummary",
+    "ReplayReport",
+    "RouteReplaySignal",
     "RootBasinPair",
     "RootCandidate",
     "RootConstructorLabReport",
@@ -542,6 +556,8 @@ __all__ = [
     "promotion_summary",
     "root_overlap_score",
     "run_root_constructor_lab",
+    "make_trace_id",
+    "replay_continuation_traces",
     "score_root_candidate",
     "score_root_candidates",
     "score_pair_for_root",

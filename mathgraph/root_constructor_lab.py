@@ -17,6 +17,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
+from mathgraph.continuation_traces import ContinuationTrace, ContinuationTraceStore, make_trace_id
 from mathgraph.equations import Equation, parse_equation
 from mathgraph.m0_certificate_factory import M0EpisodeConfig, run_m0_episode
 from mathgraph.terms import Term
@@ -228,6 +229,7 @@ def run_root_constructor_lab(
     null_pairs_per_root: int = 50,
     max_countermodel_order: int = 3,
     random_seed: int = 0,
+    trace_store_path: str | None = None,
 ) -> RootConstructorLabReport:
     started = time.perf_counter()
     out = Path(out_dir)
@@ -291,6 +293,8 @@ def run_root_constructor_lab(
                 pairs=[item.to_dict() for item in selected],
                 out_dir=out,
                 max_countermodel_order=max_countermodel_order,
+                trace_store_path=trace_store_path,
+                basin_label="root_basin",
             )
             constructor_results.append(family_result)
             constructor_output_rows.append(family_result.to_dict())
@@ -305,6 +309,8 @@ def run_root_constructor_lab(
                 pairs=null_rows,
                 out_dir=out,
                 max_countermodel_order=max_countermodel_order,
+                trace_store_path=trace_store_path,
+                basin_label="null_comparison",
             )
             null_verified_false = null_result.verified_false
             constructor_output_rows.append(null_result.to_dict())
@@ -330,6 +336,8 @@ def run_root_constructor_lab(
         "constructor_results_jsonl": str(out / "constructor_results.jsonl"),
         "verified_certificates_jsonl": str(out / "verified_certificates.jsonl"),
     }
+    if trace_store_path:
+        outputs["continuation_traces_jsonl"] = trace_store_path
     report = RootConstructorLabReport(
         run_id=run_id,
         status="completed",
@@ -351,6 +359,8 @@ def _run_family(
     pairs: list[dict[str, Any]],
     out_dir: Path,
     max_countermodel_order: int,
+    trace_store_path: str | None = None,
+    basin_label: str = "root_basin",
 ) -> tuple[ConstructorFamilyResult, list[dict[str, Any]]]:
     started = time.perf_counter()
     safe_root = _safe_name(root_label)
@@ -380,6 +390,20 @@ def _run_family(
         results = episode.results
     else:
         results = []
+    if trace_store_path:
+        traces = [
+            _trace_from_m0_result(
+                run_id=run_id,
+                root_label=root_label,
+                family=family,
+                basin_label=basin_label,
+                pair=pairs[index],
+                result=result,
+                constructor_config={"max_countermodel_order": order, "family": family},
+            )
+            for index, result in enumerate(results)
+        ]
+        ContinuationTraceStore(trace_store_path).append_many(traces)
     cert_ids = sorted({result.certificate_id for result in results if result.certificate_id})
     verified_rows = [
         {
@@ -504,6 +528,90 @@ def _root_validation_result(
             "selected_detector_scores": [item.detector_score for item in selected],
         },
     )
+
+
+def _trace_from_m0_result(
+    *,
+    run_id: str,
+    root_label: str,
+    family: str,
+    basin_label: str,
+    pair: dict[str, Any],
+    result: Any,
+    constructor_config: dict[str, Any],
+) -> ContinuationTrace:
+    status = _trace_status(result.status)
+    root_score = _optional_float(pair.get("detector_score"))
+    detector_evidence = dict(pair.get("detector_evidence") or {})
+    near_miss_score = 0.0
+    if status in {"constructor_failed", "verification_failed", "residual"}:
+        near_miss_score = round((root_score or 0.0) * 0.75, 6)
+    payload = {
+        "episode_id": run_id,
+        "claim_id": result.pair_hash,
+        "source": result.source,
+        "target": result.target,
+        "source_idx": result.source_idx,
+        "target_idx": result.target_idx,
+        "root_label": root_label,
+        "root_score": root_score,
+        "basin_label": basin_label,
+        "detector_evidence": detector_evidence,
+        "route_type": "finite_countermodel_search",
+        "constructor_family": family,
+        "constructor_config": constructor_config,
+        "status": status,
+        "terminal_form": result.terminal_form,
+        "trust_level": result.trust_level,
+        "provenance_type": result.provenance_type,
+        "verifier_boundary": result.verifier_boundary,
+        "certificate_id": result.certificate_id,
+        "obstruction_label": None if result.certificate_id else _obstruction_label(root_label, family, status),
+        "attempted": True,
+        "verified": status in {"verified_false", "verified_true", "known_certificate_found"},
+        "promoted": bool(result.promoted),
+        "known_skipped": bool(result.known_skipped),
+        "near_miss_score": near_miss_score,
+        "residual_compression_delta": 1.0 if status in {"verified_false", "verified_true"} else 0.0,
+        "novelty_score": 1.0 if result.promoted else 0.0,
+        "elapsed_sec": result.elapsed_sec,
+        "warnings": list(result.warnings) + ["Continuation traces are memory, not truth."],
+        "evidence": {
+            "root_lab_run_id": run_id,
+            "m0_result": result.to_dict(),
+            "basin_membership": basin_label,
+            "advisory_only": True,
+        },
+    }
+    payload["trace_id"] = make_trace_id(payload)
+    return ContinuationTrace.from_dict(payload)
+
+
+def _trace_status(status: str) -> str:
+    lowered = str(status).lower()
+    if lowered == "verified_false":
+        return "verified_false"
+    if lowered == "verified_true":
+        return "verified_true"
+    if lowered == "known_certificate_found":
+        return "known_certificate_found"
+    if lowered == "constructor_failed":
+        return "constructor_failed"
+    if lowered == "parse_failed":
+        return "parse_failed"
+    if lowered == "verification_failed":
+        return "verification_failed"
+    if lowered == "error":
+        return "error"
+    if lowered == "residual":
+        return "residual"
+    return "residual"
+
+
+def _obstruction_label(root_label: str, family: str, status: str) -> str | None:
+    if status in {"verified_false", "verified_true", "known_certificate_found"}:
+        return None
+    return f"{root_label}:{family}:{status}"
 
 
 def _recommend(
@@ -829,5 +937,14 @@ def _optional_int(value: Any) -> int | None:
         return None
     try:
         return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _optional_float(value: Any) -> float | None:
+    if value in (None, ""):
+        return None
+    try:
+        return float(value)
     except (TypeError, ValueError):
         return None

@@ -8,6 +8,7 @@ import json
 import sys
 from pathlib import Path
 
+from mathgraph.replay_engine import replay_continuation_traces
 from mathgraph.root_constructor_lab import ROOT_LABELS, run_root_constructor_lab
 
 
@@ -19,6 +20,9 @@ def main(argv=None) -> int:
     parser.add_argument("--null-pairs-per-root", type=int, default=50)
     parser.add_argument("--max-countermodel-order", type=int, default=3)
     parser.add_argument("--random-seed", type=int, default=0)
+    parser.add_argument("--trace-store")
+    parser.add_argument("--replay", action="store_true")
+    parser.add_argument("--replay-out-dir")
     parser.add_argument(
         "--roots",
         default=",".join(ROOT_LABELS),
@@ -29,6 +33,9 @@ def main(argv=None) -> int:
     try:
         pairs = _read_jsonl(args.pairs)
         roots = [item.strip() for item in args.roots.split(",") if item.strip()]
+        trace_store = args.trace_store
+        if args.replay and not trace_store:
+            trace_store = str(Path(args.out_dir) / "continuation_traces.jsonl")
         report = run_root_constructor_lab(
             pairs,
             args.out_dir,
@@ -37,7 +44,13 @@ def main(argv=None) -> int:
             null_pairs_per_root=args.null_pairs_per_root,
             max_countermodel_order=args.max_countermodel_order,
             random_seed=args.random_seed,
+            trace_store_path=trace_store,
         )
+        replay_report = None
+        if args.replay:
+            replay_out = args.replay_out_dir or str(Path(args.out_dir) / "replay")
+            replay_report = replay_continuation_traces(trace_store, replay_out)
+            _merge_replay_outputs(report.outputs["root_constructor_lab_report_json"], replay_report.outputs)
     except Exception as exc:
         print(json.dumps({"ok": False, "error": str(exc), "error_type": type(exc).__name__}), file=sys.stderr)
         return 1
@@ -50,6 +63,8 @@ def main(argv=None) -> int:
     print(f"top_root_value_score: {summary['top_root_value_score']}")
     print(f"report_json: {report.outputs['root_constructor_lab_report_json']}")
     print(f"report_md: {report.outputs['root_constructor_lab_report_md']}")
+    if args.replay:
+        print(f"replay_report_json: {replay_report.outputs.get('replay_report_json')}")
     return 0
 
 
@@ -60,6 +75,13 @@ def _read_jsonl(path: str) -> list[dict]:
             if line.strip():
                 rows.append(json.loads(line))
     return rows
+
+
+def _merge_replay_outputs(report_json: str, replay_outputs: dict) -> None:
+    path = Path(report_json)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload.setdefault("outputs", {}).update(replay_outputs)
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
 
 
 if __name__ == "__main__":

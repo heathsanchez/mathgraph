@@ -61,3 +61,15 @@ Trivial success:
 Route weights are scheduling pressure, not truth. They may affect what
 MathGraph tries next, but they must not change terminal form, trust level, or
 provenance.
+
+## ContinuationTraceStore and ReplayEngine
+
+`ContinuationTraceStore` is the first append-only JSONL memory for continuation
+routes. It stores the claim, root/basin detector evidence, constructor family,
+M0 verifier/importer outcome, near-miss score, and residual-compression signal.
+
+`ReplayEngine` groups these traces by root, constructor family, and route type.
+It emits advisory route signals such as `strengthen_route`,
+`preserve_for_replay`, `convert_to_obstruction_pressure`, and `weaken_route`.
+Those signals are route pressure only; they do not verify claims or promote
+roots.

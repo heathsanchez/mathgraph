@@ -79,6 +79,7 @@ def test_detect_root_basin_returns_advisory_signals():
 
 
 def test_run_root_constructor_lab_writes_reports_and_all_roots(tmp_path):
+    trace_path = tmp_path / "continuation_traces.jsonl"
     report = run_root_constructor_lab(
         _pairs(),
         str(tmp_path),
@@ -86,12 +87,15 @@ def test_run_root_constructor_lab_writes_reports_and_all_roots(tmp_path):
         null_pairs_per_root=1,
         max_countermodel_order=2,
         random_seed=1,
+        trace_store_path=str(trace_path),
     )
 
     assert Path(report.outputs["root_constructor_lab_report_json"]).exists()
     assert Path(report.outputs["root_constructor_lab_report_md"]).exists()
     assert Path(report.outputs["root_basin_pairs_jsonl"]).exists()
     assert Path(report.outputs["constructor_results_jsonl"]).exists()
+    assert Path(report.outputs["continuation_traces_jsonl"]).exists()
+    assert trace_path.exists()
     assert {result.root_label for result in report.results} == set(ROOT_LABELS)
     assert all(result.evidence["advisory_only"] is True for result in report.results)
     assert all("verified root" not in result.recommendation for result in report.results)
@@ -143,6 +147,9 @@ def test_root_constructor_lab_cli_runs_and_writes_reports(tmp_path):
             "1",
             "--max-countermodel-order",
             "2",
+            "--trace-store",
+            str(out_dir / "continuation_traces.jsonl"),
+            "--replay",
         ],
         cwd=str(repo_root),
         capture_output=True,
@@ -153,3 +160,7 @@ def test_root_constructor_lab_cli_runs_and_writes_reports(tmp_path):
     assert "root_count:" in completed.stdout
     assert (out_dir / "root_constructor_lab_report.json").exists()
     assert (out_dir / "root_constructor_lab_report.md").exists()
+    assert (out_dir / "continuation_traces.jsonl").exists()
+    assert (out_dir / "replay" / "replay_report.json").exists()
+    payload = json.loads((out_dir / "root_constructor_lab_report.json").read_text(encoding="utf-8"))
+    assert "replay_report_json" in payload["outputs"]

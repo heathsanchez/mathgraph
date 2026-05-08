@@ -111,6 +111,19 @@ python scripts/run_root_constructor_lab.py \
   --null-pairs-per-root 50
 ```
 
+## Continuation Trace Replay
+
+Root lab runs can now emit append-only continuation traces and replay them into
+advisory route pressure:
+
+```bash
+python scripts/run_root_constructor_lab.py \
+  --pairs /tmp/pairs.jsonl \
+  --out-dir /tmp/root_lab \
+  --trace-store /tmp/root_lab/continuation_traces.jsonl \
+  --replay
+```
+
 ## Formal Worlds / DomainKernels
 
 ETP over magmas is MathGraph's first nursery, not the whole product. Inspired
