@@ -429,6 +429,12 @@ from mathgraph.episode_runner_v2 import (
     EpisodeTaskResult,
     run_episode_v2,
 )
+from mathgraph.multi_episode_harness import (
+    EpisodeSummaryRow,
+    MultiEpisodeConfig,
+    MultiEpisodeReport,
+    run_multi_episode_harness,
+)
 from mathgraph.root_oracle import RootNodeOracle
 from mathgraph.route_instructor import (
     RouteInstruction,
@@ -504,6 +510,7 @@ __all__ = [
     "EpisodeRunnerV2Config",
     "EpisodeRunnerV2Report",
     "EpisodeTaskResult",
+    "EpisodeSummaryRow",
     "FiniteCountermodelConfig",
     "FiniteCountermodelResult",
     "FiniteCountermodelRunResult",
@@ -820,6 +827,8 @@ __all__ = [
     "M0EpisodeMetrics",
     "M0EpisodeResult",
     "M0PairResult",
+    "MultiEpisodeConfig",
+    "MultiEpisodeReport",
     "MathGraphAnswer",
     "MathGraphAuditError",
     "MathGraphClient",
@@ -836,6 +845,7 @@ __all__ = [
     "evaluate_better_shaped_unknown",
     "run_m0_episode",
     "run_episode_v2",
+    "run_multi_episode_harness",
     "audit_m0_store",
     "make_server",
     "run_metabolic_cycle",

@@ -67,6 +67,13 @@ python scripts/run_episode_v2.py \
 Disable regeneration stages with `--no-replay`, `--no-route-policy`,
 `--no-residual-atlas`, or `--no-next-frontier`.
 
+## Multi-Episode Harness
+
+The [Multi-Episode Compounding Harness](multi_episode_compounding.md) runs
+Episode Runner v2 repeatedly, feeds each generated next frontier into the next
+episode, and measures whether the unknown becomes smaller, sharper, more
+clustered, more nameable, more constructible, and more compressible.
+
 ## Trust Boundary
 
 - only `finite_countermodel_search` is executable
@@ -74,4 +81,3 @@ Disable regeneration stages with `--no-replay`, `--no-route-policy`,
 - finite search failure is not proof
 - importer/revalidation decides finite refutation promotion
 - replay, route policy, residual atlas, and frontier outputs are advisory
-

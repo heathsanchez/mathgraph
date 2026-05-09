@@ -1204,6 +1204,23 @@ python scripts/run_episode_v2.py \
 Advisory task kinds are remembered as traces, not treated as certificates.
 Finite search failure is still not proof.
 
+## Multi-Episode Compounding Harness
+
+The multi-episode harness runs Episode Runner v2 repeatedly, feeds each next
+frontier into the next bounded episode, and reports whether the unknown becomes
+smaller, sharper, more clustered, more nameable, more constructible, and more
+compressible.
+
+```bash
+python scripts/run_multi_episode_harness.py \
+  --initial-frontier-task-queue /tmp/root_lab/frontier_v2/frontier_v2_task_queue.jsonl \
+  --store /tmp/multi_episode/lawbook.sqlite \
+  --out-dir /tmp/multi_episode \
+  --episodes 3
+```
+
+The compounding score is diagnostic only. It does not verify or refute claims.
+
 ## Integrity Layer
 
 MathGraph can hash traces and certificates with deterministic JSON, making them

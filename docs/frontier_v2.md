@@ -48,6 +48,12 @@ continuation traces rather than certificate attempts.
 
 See [Episode Runner v2](episode_runner_v2.md) for the bounded next-cycle loop.
 
+## Multi-Episode Harness
+
+The [Multi-Episode Compounding Harness](multi_episode_compounding.md) uses each
+generated Frontier v2 task queue as the next episode input and measures whether
+the residual becomes better shaped over repeated bounded loops.
+
 ## Trust Boundary
 
 Frontier tasks are proposals. Scheduling pressure is not truth. Only the
