@@ -30,6 +30,9 @@
 - M6.5 Lean Adapter Hardening: Lean files/skeletons can be represented,
   checked when Lean is available, imported with verified provenance, and bridged
   into proof/alchemy/agent traces without treating Lean text as truth.
+- M6.6 Continuation Action Registry: advisory continuation actions can produce
+  candidate claims, proof tasks, countermodel tasks, projection tasks, episode
+  inputs, and obstruction candidates without treating generated moves as truth.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -69,6 +72,8 @@
 - Real Isabelle session importer for AOT metadata and proof dependencies.
 - Richer domain adapters beyond conservative magma, Lean-skeleton, and
   advisory-only parsing.
+- Richer action policies, learned discovery value, and action ranking over the
+  continuation registry.
 - Host/object theorem transport validation for scanned/imported AOT artifacts.
 - Constructor pressure from the Obstruction Atlas.
 - Larger canonical root consolidation over full external v16.7 artifacts.

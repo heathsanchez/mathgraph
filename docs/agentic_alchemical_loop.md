@@ -213,6 +213,17 @@ boundary are recorded.
 Failed or unavailable Lean checks remain residual/advisory. A theorem name,
 parseable file, or generated skeleton is not truth.
 
+## Continuation Action Registry
+
+Continuation actions generate candidate next moves. They are Chora outputs until
+constrained by LOGOS: possible implications, equivalences, duals, proof tasks,
+countermodel tasks, projection tasks, and obstruction names.
+
+Proof, countermodel, and projection tasks must descend into the existing
+verifier-bound episode machinery before they can matter as terminal artifacts.
+Action output is not Lawbook memory until it is verified, refuted, or named
+through an explicit boundary.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

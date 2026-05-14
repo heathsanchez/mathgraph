@@ -142,6 +142,19 @@ remain advisory. A Lean artifact becomes `VERIFIED_PROOF` only when a Lean check
 or trusted importer produces a proof verification result with a certificate id
 across the verifier boundary. Missing Lean is handled gracefully.
 
+## Continuation Action Registry
+
+M6.6 adds a deterministic continuation action registry. MathGraph can now
+generate advisory next moves from claims and traces: specialize, generalize,
+dualize, form implications/equivalences, emit proof tasks, emit countermodel
+tasks, emit projection tasks, and propose obstruction candidates.
+
+Action outputs are proposals only. A generated theorem statement, proof task,
+countermodel task, projection task, or obstruction name cannot promote truth.
+Outputs may bridge into existing episode/proof/projection machinery, but only a
+verifier, importer, chain audit, or naming boundary can produce a terminal
+form.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

@@ -11,6 +11,10 @@ from typing import Any, Mapping, Sequence
 from mathgraph.agent_biography import AgentExperience, AgentExperienceOutcome
 from mathgraph.alchemy import AlchemicalPhase, AlchemicalStatus, AlchemicalTrace
 from mathgraph.certificates import TerminalForm
+from mathgraph.continuation_actions import (
+    ContinuationActionTrace,
+    ContinuationOutputKind,
+)
 from mathgraph.domain_claims import (
     ClaimIRStatus,
     ClaimParseResult,
@@ -123,6 +127,7 @@ def check_roadmap_alignment(
     claim_parse_results: Sequence[ClaimParseResult] = (),
     formal_world_registries: Sequence[FormalWorldRegistry] = (),
     lean_adapter_traces: Sequence[LeanAdapterTrace] = (),
+    continuation_action_traces: Sequence[ContinuationActionTrace] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -141,6 +146,7 @@ def check_roadmap_alignment(
     parse_results = list(claim_parse_results)
     registries = list(formal_world_registries)
     lean_traces = list(lean_adapter_traces)
+    continuation_traces = list(continuation_action_traces)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -152,6 +158,7 @@ def check_roadmap_alignment(
     _check_spectral_htilt_estimates(spectral_estimates, findings)
     _check_domain_claims(claims, parse_results, registries, findings)
     _check_lean_adapter_traces(lean_traces, findings)
+    _check_continuation_action_traces(continuation_traces, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -166,6 +173,7 @@ def check_roadmap_alignment(
         parse_results,
         registries,
         lean_traces,
+        continuation_traces,
         summary_data,
         findings,
     )
@@ -182,6 +190,7 @@ def check_roadmap_alignment(
         parse_results,
         registries,
         lean_traces,
+        continuation_traces,
         summary_data,
         findings,
     )
@@ -200,6 +209,7 @@ def check_roadmap_alignment(
         "claim_parse_result_count": len(parse_results),
         "formal_world_registry_count": len(registries),
         "lean_adapter_trace_count": len(lean_traces),
+        "continuation_action_trace_count": len(continuation_traces),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -210,6 +220,7 @@ def check_roadmap_alignment(
         "route_telemetry_terminal_count": sum(ledger.terminal_count() for ledger in telemetry_ledgers),
         "spectral_htilt_state_count": sum(len(estimate.states) for estimate in spectral_estimates),
         "lean_adapter_verified_count": sum(trace.verified_count() for trace in lean_traces),
+        "continuation_action_output_count": sum(len(trace.outputs) for trace in continuation_traces),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -817,6 +828,72 @@ def _check_lean_adapter_traces(
                     )
 
 
+def _check_continuation_action_traces(
+    traces: Sequence[ContinuationActionTrace], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for trace in traces:
+        for action in trace.actions:
+            text = json.dumps(action.metadata, sort_keys=True).lower()
+            if "verifier_authority" in text or "truth_authority" in text:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "CONTINUATION_ACTION_CLAIMS_VERIFIER_AUTHORITY",
+                        f"Continuation action {action.action_id} claims verifier authority.",
+                        "Continuation actions are proposal mechanisms only.",
+                    )
+                )
+        for output in trace.outputs:
+            text = json.dumps(output.to_dict(), sort_keys=True).lower()
+            if output.terminal_form and not output.is_terminal():
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "CONTINUATION_OUTPUT_TERMINAL_WITHOUT_BOUNDARY",
+                        f"Continuation output {output.output_id} has terminal form without verifier boundary.",
+                        "Generated continuations must remain advisory unless a real boundary promoted them.",
+                    )
+                )
+            if output.metadata.get("verifier_authority") or output.metadata.get("truth_authority"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "CONTINUATION_OUTPUT_CLAIMS_VERIFIER_AUTHORITY",
+                        f"Continuation output {output.output_id} claims verifier authority.",
+                        "Actions may emit tasks, not truth.",
+                    )
+                )
+            if output.kind in {ContinuationOutputKind.PROOF_ARTIFACT, ContinuationOutputKind.TASK, ContinuationOutputKind.EPISODE_INPUT} and (
+                output.terminal_form or output.certificate_id or output.verifier_boundary_crossed
+            ):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "GENERATED_TASK_TREATED_AS_TERMINAL",
+                        f"Continuation output {output.output_id} treats generated task/artifact as terminal.",
+                        "Proof/countermodel/projection tasks must descend into verifier-bound episodes first.",
+                    )
+                )
+            if output.kind == ContinuationOutputKind.OBSTRUCTION_CANDIDATE and output.terminal_form == TerminalForm.NAMED_OBSTRUCTION and not output.metadata.get("naming_boundary"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "OBSTRUCTION_CANDIDATE_AS_NAMED_OBSTRUCTION",
+                        f"Continuation output {output.output_id} treats obstruction candidate as named obstruction.",
+                        "Use a naming boundary before NAMED_OBSTRUCTION.",
+                    )
+                )
+            if "natural_language" in text and any(term.lower() in text for term in _terminal_values()):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "NATURAL_LANGUAGE_CONTINUATION_AS_TRUTH",
+                        f"Continuation output {output.output_id} turns natural-language pressure into terminal-like output.",
+                        "Natural-language continuations remain advisory/residual.",
+                    )
+                )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -865,10 +942,11 @@ def _check_cross_record_warnings(
     parse_results: Sequence[ClaimParseResult],
     registries: Sequence[FormalWorldRegistry],
     lean_traces: Sequence[LeanAdapterTrace],
+    continuation_traces: Sequence[ContinuationActionTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -1339,6 +1417,46 @@ def _check_cross_record_warnings(
                     "Treat project-level Lean checks as advisory until Lake/project support is available.",
                 )
             )
+    for trace in continuation_traces:
+        if (trace.input.domain_claims or trace.input.raw_texts or trace.input.episode_inputs) and not trace.outputs:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CONTINUATION_INPUTS_WITHOUT_OUTPUTS",
+                    f"Continuation action trace {trace.trace_id} has inputs but no applicable outputs.",
+                    "Record residual/not-applicable outputs for replay.",
+                )
+            )
+        if any(not output.metadata.get("advisory_only") and not output.is_terminal() for output in trace.outputs):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CONTINUATION_OUTPUT_WITHOUT_ADVISORY_METADATA",
+                    f"Continuation action trace {trace.trace_id} has outputs without advisory metadata.",
+                    "Mark generated continuations advisory.",
+                )
+            )
+        if sum(1 for output in trace.outputs if output.domain_claim) >= 10 and not any(
+            output.kind in {ContinuationOutputKind.TASK, ContinuationOutputKind.EPISODE_INPUT, ContinuationOutputKind.PROOF_ARTIFACT}
+            for output in trace.outputs
+        ):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "MANY_CONTINUATION_CLAIMS_NO_ROUTING",
+                    f"Continuation action trace {trace.trace_id} generated many claims without routing/task outputs.",
+                    "Emit episode/proof/projection tasks for actionable continuations.",
+                )
+            )
+        if any(output.metadata.get("warning") or output.metadata.get("unsafe") for output in trace.outputs):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CONTINUATION_UNSAFE_TRANSFORMATION_METADATA",
+                    f"Continuation action trace {trace.trace_id} includes unsafe/warning transformation metadata.",
+                    "Keep unsafe transformations residual until reviewed.",
+                )
+            )
 
 
 def _add_positive_findings(
@@ -1354,10 +1472,11 @@ def _add_positive_findings(
     parse_results: Sequence[ClaimParseResult],
     registries: Sequence[FormalWorldRegistry],
     lean_traces: Sequence[LeanAdapterTrace],
+    continuation_traces: Sequence[ContinuationActionTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -1539,6 +1658,16 @@ def _add_positive_findings(
         findings.append(RoadmapAlignmentFinding("info", "LEAN_UNAVAILABLE_HANDLED", "Lean unavailable handled safely."))
     if any(result.status == LeanArtifactStatus.IMPORTED_VERIFIED for trace in lean_traces for result in trace.results):
         findings.append(RoadmapAlignmentFinding("info", "LEAN_IMPORTED_VERIFIED_RECORDED", "Imported verified Lean artifact recorded."))
+    if any(output.episode_input for trace in continuation_traces for output in trace.outputs):
+        findings.append(RoadmapAlignmentFinding("info", "CONTINUATION_EPISODE_INPUTS_PRODUCED", "Continuation actions produced episode inputs."))
+    if any(output.proof_artifact for trace in continuation_traces for output in trace.outputs):
+        findings.append(RoadmapAlignmentFinding("info", "CONTINUATION_PROOF_ARTIFACTS_PRODUCED", "Continuation actions produced proof artifacts."))
+    if any(output.projection_candidate for trace in continuation_traces for output in trace.outputs):
+        findings.append(RoadmapAlignmentFinding("info", "CONTINUATION_PROJECTION_CANDIDATES_PRODUCED", "Continuation actions produced projection candidates."))
+    if any(output.task_payload.get("task_kind") == "countermodel_search" for trace in continuation_traces for output in trace.outputs):
+        findings.append(RoadmapAlignmentFinding("info", "CONTINUATION_COUNTERMODEL_TASKS_PRODUCED", "Continuation actions produced countermodel tasks."))
+    if continuation_traces and not any(output.is_terminal() for trace in continuation_traces for output in trace.outputs):
+        findings.append(RoadmapAlignmentFinding("info", "CONTINUATION_ADVISORY_BOUNDARY_PRESERVED", "Continuation actions preserved advisory boundary."))
 
 
 def _terminal_values() -> set[str]:
