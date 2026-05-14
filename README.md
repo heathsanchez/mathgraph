@@ -22,6 +22,29 @@ the post-v16.7 architecture language: Certificate Universe, Obstruction Atlas,
 Root Node Atlas, Reason Atlas, LawbookStore / KernelOracle, constructor/verifier
 boundary, H-tilt route pressure, and the integrity spine.
 
+## Agentic Alchemical Alignment
+
+MathGraph now includes a first lightweight agentic/alchemical backend layer:
+
+- `AlchemicalTrace` records the staged movement from raw residuals through
+  calcination, descension, fixation, projection, and related phases.
+- `AgentProfile`, `AgentExperience`, and `AgentBiography` record persistent
+  policy memory: taste, scars, costs, route preferences, and compounding gains.
+- H-tilt-lite scores advisory route pressure from taste, scars, expected cost,
+  projection gain, and compression gain. Full spectral H-tilt `K = L - V`
+  remains future work.
+- `RoadmapAlignmentReport` checks that traces, experiences, and summaries keep
+  advisory pressure out of terminal truth unless a verifier/importer promotes it.
+
+These objects do not create accepted claims. Models propose; MathGraph
+constrains; verifiers decide; the Lawbook remembers; reasons compress. Advisory
+pressure includes route scores, H-tilt scores, roots, motifs, failed searches,
+task plans, agent taste, agent scars, and held-in-Chora ideas. None of that is
+truth until promoted across the verifier boundary into exactly one terminal
+form.
+
+See [Agentic Alchemical Loop](docs/agentic_alchemical_loop.md).
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

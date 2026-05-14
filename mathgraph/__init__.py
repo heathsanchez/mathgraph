@@ -1,6 +1,27 @@
 """MathGraph: a lightweight kernel for verifiable mathematical claims."""
 
 from mathgraph.certificates import Certificate, TerminalForm, VerificationStatus
+from mathgraph.alchemy import (
+    AlchemicalPhase,
+    AlchemicalStatus,
+    AlchemicalStep,
+    AlchemicalTrace,
+    make_alchemical_trace_id,
+)
+from mathgraph.agent_biography import (
+    AgentBiography,
+    AgentExperience,
+    AgentExperienceOutcome,
+    AgentProfile,
+    AgentStatus,
+    HTiltLiteScore,
+    score_route_htilt_lite,
+)
+from mathgraph.roadmap_alignment import (
+    RoadmapAlignmentFinding,
+    RoadmapAlignmentReport,
+    check_roadmap_alignment,
+)
 from mathgraph.claims import GeneralClaim
 from mathgraph.certificate_assimilation import (
     CertificateAssimilationConfig,
@@ -479,6 +500,15 @@ from mathgraph.trust import ProvenanceType, TrustLevel
 from mathgraph.verify_api import MathGraphVerifier, VerifyConfig, VerifyRequest, VerifyResult
 
 __all__ = [
+    "AgentBiography",
+    "AgentExperience",
+    "AgentExperienceOutcome",
+    "AgentProfile",
+    "AgentStatus",
+    "AlchemicalPhase",
+    "AlchemicalStatus",
+    "AlchemicalStep",
+    "AlchemicalTrace",
     "Certificate",
     "CertificateAssimilationConfig",
     "CertificateAssimilationResult",
@@ -522,6 +552,7 @@ __all__ = [
     "FrontierCandidate",
     "FrontierTaskV2",
     "FrontierV2Report",
+    "HTiltLiteScore",
     "HTiltScheduler",
     "HTiltSchedulerStats",
     "HTiltScoreBreakdown",
@@ -544,6 +575,8 @@ __all__ = [
     "ProvenanceType",
     "ReasonNode",
     "RefutationCertificate",
+    "RoadmapAlignmentFinding",
+    "RoadmapAlignmentReport",
     "RouteBasinKey",
     "RouteLearner",
     "RouteLearnerStats",
@@ -612,6 +645,7 @@ __all__ = [
     "promotion_summary",
     "root_overlap_score",
     "run_root_constructor_lab",
+    "make_alchemical_trace_id",
     "make_trace_id",
     "match_priority_hint",
     "replay_continuation_traces",
@@ -619,6 +653,7 @@ __all__ = [
     "score_root_candidate",
     "score_root_candidates",
     "score_pair_for_root",
+    "score_route_htilt_lite",
     "summarize_persistence",
     "summarize_root_discovery",
     "write_route_policy_v2",
@@ -637,6 +672,7 @@ __all__ = [
     "build_route_instruction",
     "build_candidate_frontier",
     "build_task_queue",
+    "check_roadmap_alignment",
     "advise_many",
     "advise_pair",
     "content_id",
