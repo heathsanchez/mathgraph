@@ -83,6 +83,17 @@ need to be installed for the scaffold; optional verifier execution is supported
 when available. The mock verifier exists for tests only and is not production
 trust.
 
+## Unified Verification Episode
+
+The M4.5 unified verification episode orchestrator composes projection,
+root-aware constructors, TRUE-side proof verification, alchemical traces, agent
+experiences, and roadmap alignment into one replayable run.
+
+A verification episode can report terminal truth only when a subtrace crossed a
+verifier/importer/chain-audit boundary with a certificate id. Route decisions,
+H-tilt-lite scores, candidate tables, proof skeletons, and search misses remain
+advisory telemetry.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

@@ -15,6 +15,9 @@
 - M4 TRUE-side proof verification scaffold: proof motifs, lemma/cut candidates,
   theorem schemas, and Lean skeletons enter a replayable verifier/importer/
   chain-audit lifecycle without treating sketches as truth.
+- M4.5 Unified Verification Episode Orchestrator: projection, root-aware
+  constructors, TRUE-side proof verification, alchemical traces, agent
+  experiences, and alignment checks compose into one replayable episode.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.

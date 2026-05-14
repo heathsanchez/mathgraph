@@ -19,6 +19,7 @@ from mathgraph.proof_verification import (
 )
 from mathgraph.projection import ProjectionRuleKind, ProjectionStatus, ProjectionTrace
 from mathgraph.root_constructors import RootConstructorStatus, RootConstructorTrace
+from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 
 
 @dataclass(frozen=True)
@@ -105,6 +106,7 @@ def check_roadmap_alignment(
     projection_traces: Sequence[ProjectionTrace] = (),
     root_constructor_traces: Sequence[RootConstructorTrace] = (),
     proof_verification_traces: Sequence[ProofVerificationTrace] = (),
+    verification_episode_traces: Sequence[VerificationEpisodeTrace] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -116,15 +118,17 @@ def check_roadmap_alignment(
     projections = list(projection_traces)
     root_constructors = list(root_constructor_traces)
     proof_traces = list(proof_verification_traces)
+    episodes = list(verification_episode_traces)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
     _check_projection_traces(projections, findings)
     _check_root_constructor_traces(root_constructors, findings)
     _check_proof_verification_traces(proof_traces, findings)
+    _check_verification_episode_traces(episodes, findings)
     _check_summary(summary_data, findings)
-    _check_cross_record_warnings(traces, experiences, projections, root_constructors, proof_traces, summary_data, findings)
-    _add_positive_findings(traces, experiences, projections, root_constructors, proof_traces, summary_data, findings)
+    _check_cross_record_warnings(traces, experiences, projections, root_constructors, proof_traces, episodes, summary_data, findings)
+    _add_positive_findings(traces, experiences, projections, root_constructors, proof_traces, episodes, summary_data, findings)
 
     report_summary = {
         **summary_data,
@@ -133,11 +137,13 @@ def check_roadmap_alignment(
         "projection_trace_count": len(projections),
         "root_constructor_trace_count": len(root_constructors),
         "proof_verification_trace_count": len(proof_traces),
+        "verification_episode_trace_count": len(episodes),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
         "root_constructor_terminal_count": sum(trace.terminal_count() for trace in root_constructors),
         "proof_verification_terminal_count": sum(trace.terminal_count() for trace in proof_traces),
+        "verification_episode_terminal_count": sum(1 for trace in episodes if trace.is_terminal()),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -417,6 +423,66 @@ def _check_proof_verification_traces(
                     )
 
 
+def _check_verification_episode_traces(
+    episode_traces: Sequence[VerificationEpisodeTrace], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for episode in episode_traces:
+        if episode.terminal_form and (not episode.verifier_boundary_crossed or not episode.certificate_id):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "EPISODE_TERMINAL_WITHOUT_BOUNDARY",
+                    f"Verification episode {episode.episode_id} has terminal form without certificate/boundary.",
+                    "Terminal episodes require a subtrace verifier/importer/chain-audit boundary and certificate id.",
+                )
+            )
+        for decision in episode.route_decisions:
+            if _dict_claims_terminal(decision.to_dict()):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "ROUTE_DECISION_CLAIMS_TERMINAL",
+                        f"Route decision {decision.decision_id} claims terminal truth.",
+                        "Route decisions are advisory telemetry only.",
+                    )
+                )
+        if episode.status == VerificationEpisodeStatus.TERMINAL_VERIFIED_PROOF:
+            if not (
+                episode.proof_verification_trace
+                and any(result.is_terminal() and result.terminal_form == TerminalForm.VERIFIED_PROOF for result in episode.proof_verification_trace.results)
+            ):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "EPISODE_VERIFIED_PROOF_WITHOUT_PROOF_TRACE",
+                        f"Episode {episode.episode_id} claims VERIFIED_PROOF without terminal proof subtrace.",
+                        "Require proof verifier/importer/chain-audit terminal result.",
+                    )
+                )
+        if episode.status == VerificationEpisodeStatus.TERMINAL_FINITE_COUNTERMODEL:
+            if not (
+                episode.root_constructor_trace
+                and any(attempt.is_terminal() and attempt.terminal_form == TerminalForm.FINITE_COUNTERMODEL for attempt in episode.root_constructor_trace.attempts)
+            ):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "EPISODE_COUNTERMODEL_WITHOUT_CONSTRUCTOR_TRACE",
+                        f"Episode {episode.episode_id} claims FINITE_COUNTERMODEL without terminal constructor subtrace.",
+                        "Require importer-verified constructor attempt or equivalent terminal subtrace.",
+                    )
+                )
+        if int(episode.summary.get("alignment_critical_count", 0) or 0) > 0:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "EPISODE_INTERNAL_ALIGNMENT_FAILED",
+                    f"Episode {episode.episode_id} recorded internal alignment criticals.",
+                    "Inspect subtrace alignment before accepting episode output.",
+                )
+            )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -458,10 +524,11 @@ def _check_cross_record_warnings(
     projection_traces: Sequence[ProjectionTrace],
     root_constructor_traces: Sequence[RootConstructorTrace],
     proof_traces: Sequence[ProofVerificationTrace],
+    episode_traces: Sequence[VerificationEpisodeTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -687,6 +754,56 @@ def _check_cross_record_warnings(
                         "Record proof scars or tighten proof artifact generation.",
                     )
                 )
+    for episode in episode_traces:
+        if not episode.route_decisions and episode.status not in {
+            VerificationEpisodeStatus.EMPTY,
+            VerificationEpisodeStatus.RESIDUAL,
+            VerificationEpisodeStatus.ADVISORY_ONLY,
+        }:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "EPISODE_NO_ROUTES_NO_EXPLANATION",
+                    f"Episode {episode.episode_id} ran no routes without residual/advisory explanation.",
+                    "Record route telemetry or mark the episode residual/advisory.",
+                )
+            )
+        selected = {decision.route_kind.value for decision in episode.route_decisions if decision.selected}
+        if "ROOT_CONSTRUCTOR" in selected and "PROOF_VERIFICATION" in selected:
+            produced = bool(
+                (episode.root_constructor_trace and (episode.root_constructor_trace.plans or episode.root_constructor_trace.attempts))
+                or (episode.proof_verification_trace and (episode.proof_verification_trace.artifacts or episode.proof_verification_trace.results))
+            )
+            if not produced:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "EPISODE_BOTH_SIDES_NO_ARTIFACTS",
+                        f"Episode {episode.episode_id} selected both sides but produced no artifacts/results.",
+                        "Record why both routes stayed empty.",
+                    )
+                )
+        if episode.summary.get("projection_gain_total", 0.0) == 0 and episode.summary.get("residual_delta_total", 0) == 0:
+            cost = sum(float(exp.cost_units) for exp in episode.agent_experiences)
+            if cost >= 100.0:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "EPISODE_HIGH_COST_NO_GAIN",
+                        f"Episode {episode.episode_id} has high subtrace cost and no gain.",
+                        "Record route scars or tighten route selection.",
+                    )
+                )
+        text = json.dumps(episode.to_dict(), sort_keys=True).lower()
+        if ("lean_skeleton" in text or "candidate_table_found" in text) and "advisory" not in text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "EPISODE_ARTIFACT_WITHOUT_ADVISORY_METADATA",
+                    f"Episode {episode.episode_id} has skeleton/candidate table without advisory metadata.",
+                    "Mark skeletons and candidate tables advisory until verified.",
+                )
+            )
 
 
 def _add_positive_findings(
@@ -695,10 +812,11 @@ def _add_positive_findings(
     projection_traces: Sequence[ProjectionTrace],
     root_constructor_traces: Sequence[RootConstructorTrace],
     proof_traces: Sequence[ProofVerificationTrace],
+    episode_traces: Sequence[VerificationEpisodeTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -809,6 +927,20 @@ def _add_positive_findings(
         for result in trace.results
     ):
         findings.append(RoadmapAlignmentFinding("info", "PROOF_FAILURE_RECORDED", "Verifier failure recorded as residual/advisory."))
+    if any(ep.status == VerificationEpisodeStatus.TERMINAL_VERIFIED_PROOF for ep in episode_traces):
+        findings.append(RoadmapAlignmentFinding("info", "EPISODE_TERMINAL_VERIFIED_PROOF", "Episode terminal verified proof recorded."))
+    if any(ep.status == VerificationEpisodeStatus.TERMINAL_FINITE_COUNTERMODEL for ep in episode_traces):
+        findings.append(RoadmapAlignmentFinding("info", "EPISODE_TERMINAL_FINITE_COUNTERMODEL", "Episode terminal finite countermodel recorded."))
+    if any(ep.is_advisory() for ep in episode_traces):
+        findings.append(RoadmapAlignmentFinding("info", "EPISODE_ADVISORY_BOUNDARY_PRESERVED", "Episode preserved advisory boundary."))
+    if any(ep.agent_experiences for ep in episode_traces):
+        findings.append(RoadmapAlignmentFinding("info", "EPISODE_AGENT_EXPERIENCES_RECORDED", "Episode produced agent experiences."))
+    if any(float(ep.summary.get("projection_gain_total", 0.0) or 0.0) for ep in episode_traces):
+        findings.append(RoadmapAlignmentFinding("info", "EPISODE_PROJECTION_GAIN", "Episode produced projection gain."))
+    if any(ep.root_constructor_trace and ep.root_constructor_trace.plans for ep in episode_traces):
+        findings.append(RoadmapAlignmentFinding("info", "EPISODE_ROOT_PLAN", "Episode produced root constructor plan."))
+    if any(ep.proof_verification_trace and ep.proof_verification_trace.artifacts for ep in episode_traces):
+        findings.append(RoadmapAlignmentFinding("info", "EPISODE_PROOF_LIFECYCLE", "Episode produced proof artifact lifecycle."))
 
 
 def _terminal_values() -> set[str]:

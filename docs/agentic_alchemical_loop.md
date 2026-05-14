@@ -129,6 +129,27 @@ Theorem schemas cerate: usable proof shapes become reusable material only after
 their boundary status is clear. Projection applies verified proof back to
 residuals; unverified skeletons produce only advisory projection pressure.
 
+## Unified Verification Episode
+
+The unified episode loop is:
+
+```text
+claim enters
+route selected
+projection checks lawbook
+root constructors attempt FALSE-side descent
+proof verification attempts TRUE-side descent
+alchemy records phases
+agent biography records experience
+alignment checker protects boundary
+lawbook/projection receives terminal artifacts only
+```
+
+Episode routing is telemetry, not truth. The episode becomes terminal only when
+a subtrace already crossed a verifier/importer/chain-audit boundary with a
+certificate id. Candidate tables, proof skeletons, search misses, route scores,
+and H-tilt-lite decisions remain advisory.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,
