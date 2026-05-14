@@ -94,6 +94,18 @@ verifier/importer/chain-audit boundary with a certificate id. Route decisions,
 H-tilt-lite scores, candidate tables, proof skeletons, and search misses remain
 advisory telemetry.
 
+## Route Telemetry for Future H-Tilt
+
+The M5-prep route telemetry ledger records what unified episodes tried:
+route choices, transitions, killed routes, costs, gains, outcomes, and terminal
+yield. It can summarize transition counts, killing counts, route/outcome tables,
+gain-per-cost metrics, and advisory H-tilt telemetry scores.
+
+This prepares the data needed for future spectral H-tilt estimation of `L`,
+`V`, `K = L - V`, `h`, `q`, and `pi*`. It is telemetry only. Route telemetry and
+route scores cannot promote claims, override verifiers, or turn misses,
+skeletons, or candidate tables into truth.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

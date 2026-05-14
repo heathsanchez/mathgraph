@@ -18,6 +18,9 @@
 - M4.5 Unified Verification Episode Orchestrator: projection, root-aware
   constructors, TRUE-side proof verification, alchemical traces, agent
   experiences, and alignment checks compose into one replayable episode.
+- M5-prep Route Telemetry Ledger: unified episodes emit advisory route,
+  outcome, transition, kill, cost, and gain telemetry for future spectral
+  H-tilt without treating route scores as truth.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -63,7 +66,8 @@
 
 ## Later
 
-- Full spectral H-tilt killed generator `K = L - V`.
+- Full spectral H-tilt killed generator `K = L - V`, including explicit
+  estimation of `L`, `V`, `h`, `q`, and `pi*`.
 - Full Lean/Isabelle integration remains future work beyond the M4 scaffold.
 - M5 full spectral H-tilt remains future work beyond H-tilt-lite route
   pressure.

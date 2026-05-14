@@ -19,6 +19,7 @@ from mathgraph.proof_verification import (
 )
 from mathgraph.projection import ProjectionRuleKind, ProjectionStatus, ProjectionTrace
 from mathgraph.root_constructors import RootConstructorStatus, RootConstructorTrace
+from mathgraph.route_telemetry import RouteTelemetryLedger
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 
 
@@ -107,6 +108,7 @@ def check_roadmap_alignment(
     root_constructor_traces: Sequence[RootConstructorTrace] = (),
     proof_verification_traces: Sequence[ProofVerificationTrace] = (),
     verification_episode_traces: Sequence[VerificationEpisodeTrace] = (),
+    route_telemetry_ledgers: Sequence[RouteTelemetryLedger] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -119,6 +121,7 @@ def check_roadmap_alignment(
     root_constructors = list(root_constructor_traces)
     proof_traces = list(proof_verification_traces)
     episodes = list(verification_episode_traces)
+    telemetry_ledgers = list(route_telemetry_ledgers)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -126,9 +129,30 @@ def check_roadmap_alignment(
     _check_root_constructor_traces(root_constructors, findings)
     _check_proof_verification_traces(proof_traces, findings)
     _check_verification_episode_traces(episodes, findings)
+    _check_route_telemetry_ledgers(telemetry_ledgers, findings)
     _check_summary(summary_data, findings)
-    _check_cross_record_warnings(traces, experiences, projections, root_constructors, proof_traces, episodes, summary_data, findings)
-    _add_positive_findings(traces, experiences, projections, root_constructors, proof_traces, episodes, summary_data, findings)
+    _check_cross_record_warnings(
+        traces,
+        experiences,
+        projections,
+        root_constructors,
+        proof_traces,
+        episodes,
+        telemetry_ledgers,
+        summary_data,
+        findings,
+    )
+    _add_positive_findings(
+        traces,
+        experiences,
+        projections,
+        root_constructors,
+        proof_traces,
+        episodes,
+        telemetry_ledgers,
+        summary_data,
+        findings,
+    )
 
     report_summary = {
         **summary_data,
@@ -138,12 +162,15 @@ def check_roadmap_alignment(
         "root_constructor_trace_count": len(root_constructors),
         "proof_verification_trace_count": len(proof_traces),
         "verification_episode_trace_count": len(episodes),
+        "route_telemetry_ledger_count": len(telemetry_ledgers),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
         "root_constructor_terminal_count": sum(trace.terminal_count() for trace in root_constructors),
         "proof_verification_terminal_count": sum(trace.terminal_count() for trace in proof_traces),
         "verification_episode_terminal_count": sum(1 for trace in episodes if trace.is_terminal()),
+        "route_telemetry_event_count": sum(len(ledger.events) for ledger in telemetry_ledgers),
+        "route_telemetry_terminal_count": sum(ledger.terminal_count() for ledger in telemetry_ledgers),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -483,6 +510,68 @@ def _check_verification_episode_traces(
             )
 
 
+def _check_route_telemetry_ledgers(
+    ledgers: Sequence[RouteTelemetryLedger], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for ledger in ledgers:
+        summary_text = json.dumps(ledger.summary, sort_keys=True).lower()
+        if "spectral_h_tilt_complete" in summary_text or "full_spectral_h_tilt_complete" in summary_text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "TELEMETRY_CLAIMS_SPECTRAL_HTILT_COMPLETE",
+                    f"Telemetry ledger {ledger.ledger_id} claims full spectral H-tilt is complete.",
+                    "Keep telemetry as preparation until L, V, K=L-V, h, q, and pi* are explicitly estimated.",
+                )
+            )
+        if _dict_claims_terminal(ledger.summary):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "ROUTE_SCORE_AS_TERMINAL_TRUTH",
+                    f"Telemetry ledger {ledger.ledger_id} summary appears to represent route scores as terminal truth.",
+                    "Keep route scores advisory and separate from terminal forms.",
+                )
+            )
+        for event in ledger.events:
+            if event.terminal_form and not event.is_terminal():
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "TELEMETRY_TERMINAL_WITHOUT_BOUNDARY",
+                        f"Telemetry event {event.event_id} carries terminal form without verifier boundary.",
+                        "Telemetry can mirror terminal truth only when the underlying verifier boundary and certificate id exist.",
+                    )
+                )
+            if event.certificate_id and event.terminal_form is None:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "TELEMETRY_CERTIFICATE_WITHOUT_TERMINAL_FORM",
+                        f"Telemetry event {event.event_id} has a certificate id without terminal form.",
+                        "Attach certificate ids only to verifier-bound terminal telemetry.",
+                    )
+                )
+            if event.killed and event.terminal_form == TerminalForm.VERIFIED_PROOF:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "KILLED_ROUTE_EVENT_AS_PROOF",
+                        f"Killed telemetry event {event.event_id} is represented as VERIFIED_PROOF.",
+                        "Killed route events are scheduling pressure, not proofs.",
+                    )
+                )
+            if event.metadata.get("route_score_terminal") or event.metadata.get("telemetry_terminal_truth"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "ROUTE_TELEMETRY_METADATA_CLAIMS_TRUTH",
+                        f"Telemetry event {event.event_id} metadata claims terminal truth.",
+                        "Telemetry metadata may describe provenance but cannot promote truth.",
+                    )
+                )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -525,10 +614,11 @@ def _check_cross_record_warnings(
     root_constructor_traces: Sequence[RootConstructorTrace],
     proof_traces: Sequence[ProofVerificationTrace],
     episode_traces: Sequence[VerificationEpisodeTrace],
+    telemetry_ledgers: Sequence[RouteTelemetryLedger],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -804,6 +894,56 @@ def _check_cross_record_warnings(
                     "Mark skeletons and candidate tables advisory until verified.",
                 )
             )
+    for ledger in telemetry_ledgers:
+        if len(ledger.events) >= 10 and not ledger.transition_counts():
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "TELEMETRY_EVENTS_WITHOUT_TRANSITIONS",
+                    f"Telemetry ledger {ledger.ledger_id} has many events but no transition data.",
+                    "Record from_state/to_state so future H-tilt can estimate transition structure L.",
+                )
+            )
+        killed_without_reason = [event for event in ledger.events if event.killed and not event.kill_reason]
+        if len(killed_without_reason) >= 3:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "TELEMETRY_KILLS_WITHOUT_REASON",
+                    f"Telemetry ledger {ledger.ledger_id} has killed events without kill reasons.",
+                    "Record kill_reason so future H-tilt can estimate killing pressure V.",
+                )
+            )
+        if ledger.total_cost() and not (
+            ledger.total_residual_delta() or ledger.total_compression_gain() or ledger.total_projection_gain()
+        ):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "TELEMETRY_COST_WITHOUT_GAIN",
+                    f"Telemetry ledger {ledger.ledger_id} has cost but no gain metrics.",
+                    "Record compression, projection, residual, or terminal yield metrics.",
+                )
+            )
+        if ledger.summary.get("route_scores") and not _has_advisory_disclaimer(ledger.summary):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "ROUTE_SCORES_WITHOUT_ADVISORY_DISCLAIMER",
+                    f"Telemetry ledger {ledger.ledger_id} has route scores without advisory disclaimer.",
+                    "Declare route scores advisory and full spectral H-tilt future work.",
+                )
+            )
+        text = json.dumps(ledger.summary, sort_keys=True).lower()
+        if ("route_scores" in text or "h_tilt" in text or "htilt" in text) and "future" not in text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "HTILT_TELEMETRY_WITHOUT_FUTURE_WORK_DISCLAIMER",
+                    f"Telemetry ledger {ledger.ledger_id} has route scores without full spectral H-tilt future-work disclaimer.",
+                    "State that L, V, K=L-V, h, q, and pi* remain future work.",
+                )
+            )
 
 
 def _add_positive_findings(
@@ -813,10 +953,11 @@ def _add_positive_findings(
     root_constructor_traces: Sequence[RootConstructorTrace],
     proof_traces: Sequence[ProofVerificationTrace],
     episode_traces: Sequence[VerificationEpisodeTrace],
+    telemetry_ledgers: Sequence[RouteTelemetryLedger],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -941,6 +1082,16 @@ def _add_positive_findings(
         findings.append(RoadmapAlignmentFinding("info", "EPISODE_ROOT_PLAN", "Episode produced root constructor plan."))
     if any(ep.proof_verification_trace and ep.proof_verification_trace.artifacts for ep in episode_traces):
         findings.append(RoadmapAlignmentFinding("info", "EPISODE_PROOF_LIFECYCLE", "Episode produced proof artifact lifecycle."))
+    if any(ledger.events for ledger in telemetry_ledgers):
+        findings.append(RoadmapAlignmentFinding("info", "ROUTE_TELEMETRY_RECORDED", "Route telemetry recorded."))
+    if any(ledger.transition_counts() for ledger in telemetry_ledgers):
+        findings.append(RoadmapAlignmentFinding("info", "TELEMETRY_TRANSITIONS_RECORDED", "Transition counts recorded."))
+    if any(ledger.killing_counts() for ledger in telemetry_ledgers):
+        findings.append(RoadmapAlignmentFinding("info", "TELEMETRY_KILLING_RECORDED", "Killing counts recorded."))
+    if summary.get("route_scores") or any("route_scores" in ledger.summary for ledger in telemetry_ledgers):
+        findings.append(RoadmapAlignmentFinding("info", "ROUTE_SCORE_SUMMARY_RECORDED", "Advisory route score summary recorded."))
+    if any("certificate_yield_per_cost" in ledger.summary for ledger in telemetry_ledgers):
+        findings.append(RoadmapAlignmentFinding("info", "TERMINAL_YIELD_PER_COST_RECORDED", "Terminal yield per cost recorded."))
 
 
 def _terminal_values() -> set[str]:

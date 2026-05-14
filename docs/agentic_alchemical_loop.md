@@ -150,6 +150,24 @@ a subtrace already crossed a verifier/importer/chain-audit boundary with a
 certificate id. Candidate tables, proof skeletons, search misses, route scores,
 and H-tilt-lite decisions remain advisory.
 
+## Route Telemetry for Future H-Tilt
+
+Episode traces become route telemetry. A telemetry event records the route kind,
+outcome, transition, kill state, cost, residual delta, compression gain,
+projection gain, support weight, and survival weight observed during a run.
+
+Route telemetry records transitions and kills:
+
+- transitions approximate the future `L` transition structure;
+- killed route events approximate future `V` killing pressure;
+- cost/gain summaries estimate where route pressure compounds;
+- route scores remain advisory scheduling pressure.
+
+Telemetry feeds future H-tilt, but it is not full spectral H-tilt. Full spectral
+H-tilt remains future work until `L`, `V`, `K = L - V`, `h`, `q`, and `pi*` are
+explicitly estimated. Telemetry cannot promote claims across the verifier
+boundary.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,
