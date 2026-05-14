@@ -45,6 +45,19 @@ form.
 
 See [Agentic Alchemical Loop](docs/agentic_alchemical_loop.md).
 
+## Projection Engine
+
+The M2 projection engine applies fixed lawbook artifacts back to unresolved
+residuals. It can create known skips, chain-safe derived certificate results,
+advisory residual splits, obstruction pressure, projection tasks, and
+compounding metrics.
+
+Projection is not truth. A projection result becomes terminal only when it is
+backed by an existing verifier boundary, an already verified primitive
+certificate, or an explicitly chain-audited derived certificate id. Route
+pressure, projection pressure, finite-search misses, and agent taste remain
+advisory.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

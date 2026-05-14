@@ -11,6 +11,18 @@ Chora -> AlchemicalTrace -> AgentExperience -> H-tilt-lite pressure
 Models propose. MathGraph constrains. Verifiers decide. The Lawbook remembers.
 Reasons compress.
 
+The operational loop is:
+
+```text
+H-tilt selects.
+Alchemy transforms.
+LOGOS constrains.
+Verifiers decide.
+Lawbook remembers.
+Projection scales.
+Biography updates.
+```
+
 ## Alchemical Traces
 
 `AlchemicalTrace` records staged transformation, not truth. Its phases are raw
@@ -61,6 +73,22 @@ doctrine drift:
   advisory;
 - residual compression, projection, derived amplification, and scars should be
   recorded when available.
+
+## Projection Engine
+
+Projection is the bridge from Lawbook to smaller residual. It applies fixed
+lawbook artifacts and chain-safe derived certificate rules back onto unresolved
+pairs, producing known skips, derived certificate results, residual splits,
+obstruction pressure, and scheduling pressure.
+
+Projection scales verified memory into future search, but projection itself is
+not truth. A projection result crosses the truth boundary only when it is backed
+by an existing verifier/importer boundary, an already verified primitive
+certificate, or an explicitly chain-audited derived certificate id.
+
+Advisory similarity, basin expansion, constructor replay pressure, and residual
+splits remain Chora-facing pressure until LOGOS and a verifier/importer make
+them lawful.
 
 ## Lawbook as Forms
 

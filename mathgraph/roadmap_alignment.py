@@ -11,6 +11,7 @@ from typing import Any, Mapping, Sequence
 from mathgraph.agent_biography import AgentExperience, AgentExperienceOutcome
 from mathgraph.alchemy import AlchemicalPhase, AlchemicalStatus, AlchemicalTrace
 from mathgraph.certificates import TerminalForm
+from mathgraph.projection import ProjectionRuleKind, ProjectionStatus, ProjectionTrace
 
 
 @dataclass(frozen=True)
@@ -94,6 +95,7 @@ def check_roadmap_alignment(
     *,
     alchemical_traces: Sequence[AlchemicalTrace] = (),
     agent_experiences: Sequence[AgentExperience] = (),
+    projection_traces: Sequence[ProjectionTrace] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -102,19 +104,23 @@ def check_roadmap_alignment(
     findings: list[RoadmapAlignmentFinding] = []
     traces = list(alchemical_traces)
     experiences = list(agent_experiences)
+    projections = list(projection_traces)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
+    _check_projection_traces(projections, findings)
     _check_summary(summary_data, findings)
-    _check_cross_record_warnings(traces, experiences, summary_data, findings)
-    _add_positive_findings(traces, experiences, summary_data, findings)
+    _check_cross_record_warnings(traces, experiences, projections, summary_data, findings)
+    _add_positive_findings(traces, experiences, projections, summary_data, findings)
 
     report_summary = {
         **summary_data,
         "alchemical_trace_count": len(traces),
         "agent_experience_count": len(experiences),
+        "projection_trace_count": len(projections),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
+        "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -211,6 +217,54 @@ def _check_experiences(
             )
 
 
+def _check_projection_traces(
+    projection_traces: Sequence[ProjectionTrace], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    never_terminal_statuses = {
+        ProjectionStatus.ADVISORY_ONLY,
+        ProjectionStatus.CANDIDATE,
+        ProjectionStatus.OBSTRUCTION_PRESSURE,
+        ProjectionStatus.RESIDUAL_SPLIT,
+        ProjectionStatus.REJECTED,
+    }
+    for trace in projection_traces:
+        for result in trace.results:
+            if result.terminal_form and not result.is_terminal():
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "PROJECTION_TERMINAL_WITHOUT_BOUNDARY",
+                        f"Projection result {result.result_id} carries terminal form without verifier boundary or derived certificate id.",
+                        "Keep projection pressure advisory unless lawbook-backed, chain-audited, or revalidated.",
+                    )
+                )
+            if result.status in never_terminal_statuses and result.terminal_form:
+                code = (
+                    "REJECTED_PROJECTION_CLAIMS_TERMINAL"
+                    if result.status == ProjectionStatus.REJECTED
+                    else "ADVISORY_PROJECTION_CLAIMS_TERMINAL"
+                )
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        code,
+                        f"Projection result {result.result_id} has status {result.status.value} but claims terminal truth.",
+                        "Remove terminal form from advisory/rejected projection results.",
+                    )
+                )
+        if any(candidate.rule_kind == ProjectionRuleKind.ADVISORY_SIMILARITY for candidate in trace.candidates):
+            metadata_text = json.dumps(trace.to_dict(), sort_keys=True).lower()
+            if "advisory" not in metadata_text:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "ADVISORY_SIMILARITY_WITHOUT_DISCLAIMER",
+                        f"Projection trace {trace.trace_id} uses advisory similarity without advisory disclaimer metadata.",
+                        "Mark advisory similarity output as scheduling pressure only.",
+                    )
+                )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -249,13 +303,16 @@ def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFi
 def _check_cross_record_warnings(
     traces: Sequence[AlchemicalTrace],
     experiences: Sequence[AgentExperience],
+    projection_traces: Sequence[ProjectionTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or summary:
+    if traces or experiences or projection_traces or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
-        ) and not any(exp.compression_gain for exp in experiences):
+        ) and not any(exp.compression_gain for exp in experiences) and not any(
+            trace.compression_gain_total() for trace in projection_traces
+        ):
             findings.append(
                 RoadmapAlignmentFinding(
                     "warning",
@@ -266,6 +323,8 @@ def _check_cross_record_warnings(
             )
         if not _has_metric(summary, "derived_amplification") and not any(
             exp.derived_amplification for exp in experiences
+        ) and not any(
+            trace.summary.get("derived_certificates", 0) for trace in projection_traces
         ):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -322,15 +381,37 @@ def _check_cross_record_warnings(
                     "Use cost scars or adjust scheduling taste.",
                 )
             )
+    for trace in projection_traces:
+        if trace.candidates and not trace.results:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "PROJECTION_CANDIDATES_WITHOUT_RESULTS",
+                    f"Projection trace {trace.trace_id} has candidates but no results.",
+                    "Record rejected or advisory results so projection replay is auditable.",
+                )
+            )
+        if len(trace.candidates) >= 100 and not (
+            trace.residual_delta_total() or trace.compression_gain_total() or trace.projection_gain_total()
+        ):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "HIGH_PROJECTION_COUNT_NO_GAIN",
+                    f"Projection trace {trace.trace_id} has many candidates but no residual/compression/projection gain.",
+                    "Tune projection rules or record why the batch produced no measurable pressure.",
+                )
+            )
 
 
 def _add_positive_findings(
     traces: Sequence[AlchemicalTrace],
     experiences: Sequence[AgentExperience],
+    projection_traces: Sequence[ProjectionTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences:
+    if traces or experiences or projection_traces:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -353,6 +434,24 @@ def _add_positive_findings(
         findings.append(
             RoadmapAlignmentFinding("info", "KNOWN_CLAIMS_SKIPPED", "Known claims skipped through lawbook memory.")
         )
+    if any(
+        result.status == ProjectionStatus.KNOWN_SKIP
+        for trace in projection_traces
+        for result in trace.results
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "PROJECTION_KNOWN_SKIP_RECORDED", "Projection known skip recorded."))
+    if any(
+        result.status == ProjectionStatus.DERIVED_CERTIFICATE
+        for trace in projection_traces
+        for result in trace.results
+    ):
+        findings.append(
+            RoadmapAlignmentFinding("info", "PROJECTION_DERIVED_CERTIFICATE_RECORDED", "Projection derived certificate recorded.")
+        )
+    if any(trace.residual_delta_total() for trace in projection_traces):
+        findings.append(RoadmapAlignmentFinding("info", "PROJECTION_RESIDUAL_DELTA_IMPROVED", "Projection residual delta improved."))
+    if any(trace.projection_gain_total() for trace in projection_traces):
+        findings.append(RoadmapAlignmentFinding("info", "PROJECTION_GAIN_OBSERVED", "Projection gain observed."))
 
 
 def _terminal_values() -> set[str]:

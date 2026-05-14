@@ -5,6 +5,9 @@
 - M1 agentic/alchemical alignment layer: first-class `AlchemicalTrace`,
   lightweight `AgentProfile` / `AgentExperience` / `AgentBiography`,
   H-tilt-lite advisory taste scoring, and in-memory roadmap alignment checks.
+- M2 Projection Engine: lawbook entries can create known skips, chain-safe
+  derived certificate results, advisory residual splits, projection traces, and
+  compounding metrics without treating projection pressure as truth.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -51,6 +54,10 @@
 ## Later
 
 - Full spectral H-tilt killed generator `K = L - V`.
+- M5 full spectral H-tilt remains future work beyond H-tilt-lite route
+  pressure.
+- M6 domain-general claim expansion remains future work beyond the current
+  SAIR/ETP nursery.
 - M7: Existential Agent Ecology as an optional higher layer above the
   verification kernel.
 - Domain-agnostic `GeneralClaim` expansion beyond SAIR magma equations.
