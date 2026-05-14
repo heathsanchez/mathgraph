@@ -20,6 +20,7 @@ from mathgraph.proof_verification import (
 from mathgraph.projection import ProjectionRuleKind, ProjectionStatus, ProjectionTrace
 from mathgraph.root_constructors import RootConstructorStatus, RootConstructorTrace
 from mathgraph.route_telemetry import RouteTelemetryLedger
+from mathgraph.spectral_htilt import SpectralHTiltEstimate
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 
 
@@ -109,6 +110,7 @@ def check_roadmap_alignment(
     proof_verification_traces: Sequence[ProofVerificationTrace] = (),
     verification_episode_traces: Sequence[VerificationEpisodeTrace] = (),
     route_telemetry_ledgers: Sequence[RouteTelemetryLedger] = (),
+    spectral_htilt_estimates: Sequence[SpectralHTiltEstimate] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -122,6 +124,7 @@ def check_roadmap_alignment(
     proof_traces = list(proof_verification_traces)
     episodes = list(verification_episode_traces)
     telemetry_ledgers = list(route_telemetry_ledgers)
+    spectral_estimates = list(spectral_htilt_estimates)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -130,6 +133,7 @@ def check_roadmap_alignment(
     _check_proof_verification_traces(proof_traces, findings)
     _check_verification_episode_traces(episodes, findings)
     _check_route_telemetry_ledgers(telemetry_ledgers, findings)
+    _check_spectral_htilt_estimates(spectral_estimates, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -139,6 +143,7 @@ def check_roadmap_alignment(
         proof_traces,
         episodes,
         telemetry_ledgers,
+        spectral_estimates,
         summary_data,
         findings,
     )
@@ -150,6 +155,7 @@ def check_roadmap_alignment(
         proof_traces,
         episodes,
         telemetry_ledgers,
+        spectral_estimates,
         summary_data,
         findings,
     )
@@ -163,6 +169,7 @@ def check_roadmap_alignment(
         "proof_verification_trace_count": len(proof_traces),
         "verification_episode_trace_count": len(episodes),
         "route_telemetry_ledger_count": len(telemetry_ledgers),
+        "spectral_htilt_estimate_count": len(spectral_estimates),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -171,6 +178,7 @@ def check_roadmap_alignment(
         "verification_episode_terminal_count": sum(1 for trace in episodes if trace.is_terminal()),
         "route_telemetry_event_count": sum(len(ledger.events) for ledger in telemetry_ledgers),
         "route_telemetry_terminal_count": sum(ledger.terminal_count() for ledger in telemetry_ledgers),
+        "spectral_htilt_state_count": sum(len(estimate.states) for estimate in spectral_estimates),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -572,6 +580,62 @@ def _check_route_telemetry_ledgers(
                 )
 
 
+def _check_spectral_htilt_estimates(
+    estimates: Sequence[SpectralHTiltEstimate], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for estimate in estimates:
+        metadata_text = json.dumps(estimate.metadata, sort_keys=True).lower()
+        if not estimate.advisory:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "SPECTRAL_HTILT_NOT_ADVISORY",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} is not marked advisory.",
+                    "H-tilt estimates are route pressure only.",
+                )
+            )
+        if "terminal_form" in metadata_text or "certificate_id" in metadata_text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "SPECTRAL_HTILT_METADATA_CLAIMS_TERMINAL_ARTIFACT",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} metadata contains terminal/certificate fields.",
+                    "Keep terminal forms and certificate ids out of spectral estimates.",
+                )
+            )
+        if (
+            estimate.metadata.get("verifier_authority") is True
+            or estimate.metadata.get("no_verifier_authority") is False
+            or estimate.metadata.get("truth_authority") is True
+        ):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "SPECTRAL_HTILT_CLAIMS_VERIFIER_AUTHORITY",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} claims verifier authority.",
+                    "Only verifier/importer/chain-audit boundaries can decide terminal truth.",
+                )
+            )
+        if "route_score_is_truth" in metadata_text or "route_scores_are_truth" in metadata_text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "SPECTRAL_ROUTE_SCORE_AS_TRUTH",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} claims route scores are truth.",
+                    "Route priorities are advisory scheduling pressure only.",
+                )
+            )
+        if "verified_proof" in metadata_text or "finite_countermodel" in metadata_text or "named_obstruction" in metadata_text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "SPECTRAL_HTILT_CLAIMS_TERMINAL_STATUS",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} claims proof/countermodel terminal status.",
+                    "Spectral H-tilt may rank routes but cannot produce terminal forms.",
+                )
+            )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -615,10 +679,11 @@ def _check_cross_record_warnings(
     proof_traces: Sequence[ProofVerificationTrace],
     episode_traces: Sequence[VerificationEpisodeTrace],
     telemetry_ledgers: Sequence[RouteTelemetryLedger],
+    spectral_estimates: Sequence[SpectralHTiltEstimate],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -944,6 +1009,52 @@ def _check_cross_record_warnings(
                     "State that L, V, K=L-V, h, q, and pi* remain future work.",
                 )
             )
+    for estimate in spectral_estimates:
+        if not estimate.states:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "SPECTRAL_HTILT_NO_STATES",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} has no states.",
+                    "Provide route telemetry to estimate L, V, K, h, q, pi*, and mu_beta.",
+                )
+            )
+        if estimate.states and not estimate.converged:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "SPECTRAL_HTILT_NOT_CONVERGED",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} did not converge.",
+                    "Increase max_iterations, adjust damping, or treat priorities as lower-confidence advisory pressure.",
+                )
+            )
+        if estimate.generator_K and not any(value > 0.0 for value in estimate.killing_V.values()):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "SPECTRAL_HTILT_K_WITHOUT_KILLING_PRESSURE",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} has K but no V/killing pressure.",
+                    "Record killed route events to estimate V.",
+                )
+            )
+        if estimate.state_estimates and not _has_advisory_disclaimer(estimate.metadata):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "SPECTRAL_PRIORITIES_WITHOUT_ADVISORY_DISCLAIMER",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} has route priorities without advisory disclaimer.",
+                    "Mark route priorities advisory and not truth-authoritative.",
+                )
+            )
+        if not estimate.metadata.get("telemetry_based") or not estimate.metadata.get("not_truth_authority"):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "SPECTRAL_HTILT_METADATA_OMITS_BOUNDARY",
+                    f"Spectral H-tilt estimate {estimate.estimate_id} omits telemetry/not-truth metadata.",
+                    "Record telemetry_based and not_truth_authority metadata.",
+                )
+            )
 
 
 def _add_positive_findings(
@@ -954,10 +1065,11 @@ def _add_positive_findings(
     proof_traces: Sequence[ProofVerificationTrace],
     episode_traces: Sequence[VerificationEpisodeTrace],
     telemetry_ledgers: Sequence[RouteTelemetryLedger],
+    spectral_estimates: Sequence[SpectralHTiltEstimate],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -1092,6 +1204,23 @@ def _add_positive_findings(
         findings.append(RoadmapAlignmentFinding("info", "ROUTE_SCORE_SUMMARY_RECORDED", "Advisory route score summary recorded."))
     if any("certificate_yield_per_cost" in ledger.summary for ledger in telemetry_ledgers):
         findings.append(RoadmapAlignmentFinding("info", "TERMINAL_YIELD_PER_COST_RECORDED", "Terminal yield per cost recorded."))
+    if any(estimate.transition_L for estimate in spectral_estimates):
+        findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_L_ESTIMATED", "Telemetry-derived L estimated."))
+    if any(estimate.killing_V for estimate in spectral_estimates):
+        findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_V_ESTIMATED", "Telemetry-derived V estimated."))
+    if any(estimate.generator_K for estimate in spectral_estimates):
+        findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_K_ESTIMATED", "Telemetry-derived K=L-V estimated."))
+    if any(
+        any(state.support_q or state.survival_h for state in estimate.state_estimates)
+        for estimate in spectral_estimates
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_H_Q_ESTIMATED", "h/q survival/support estimates recorded."))
+    if any(any(state.survivor_pi for state in estimate.state_estimates) for estimate in spectral_estimates):
+        findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_PI_STAR_ESTIMATED", "pi* survivor distribution estimated."))
+    if any(any(state.tilted_mu_beta for state in estimate.state_estimates) for estimate in spectral_estimates):
+        findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_MU_BETA_ESTIMATED", "mu_beta H-tilt bridge estimated."))
+    if any(estimate.state_estimates for estimate in spectral_estimates):
+        findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_ROUTE_PRIORITIES_AVAILABLE", "Advisory route priorities available."))
 
 
 def _terminal_values() -> set[str]:

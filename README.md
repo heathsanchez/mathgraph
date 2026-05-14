@@ -106,6 +106,17 @@ This prepares the data needed for future spectral H-tilt estimation of `L`,
 route scores cannot promote claims, override verifiers, or turn misses,
 skeletons, or candidate tables into truth.
 
+## Lightweight Spectral H-Tilt
+
+The M5 lightweight spectral H-tilt estimator converts route telemetry into
+approximate `L`, `V`, `K = L - V`, `h`, `q`, `pi*`, and `mu_beta` values using
+pure Python dict matrices and positive iteration helpers.
+
+This is advisory route pressure only. It may rank states or routes for future
+episodes, but it does not verify claims, promote truth, override verifier
+failures, or turn killed routes into proofs. Richer spectral methods remain
+future work.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

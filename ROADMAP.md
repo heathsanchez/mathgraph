@@ -21,6 +21,9 @@
 - M5-prep Route Telemetry Ledger: unified episodes emit advisory route,
   outcome, transition, kill, cost, and gain telemetry for future spectral
   H-tilt without treating route scores as truth.
+- M5 Lightweight Spectral H-Tilt Estimator: route telemetry now yields
+  advisory estimates of `L`, `V`, `K = L - V`, `h`, `q`, `pi*`, and `mu_beta`
+  for scheduling pressure without verifier authority.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -66,8 +69,7 @@
 
 ## Later
 
-- Full spectral H-tilt killed generator `K = L - V`, including explicit
-  estimation of `L`, `V`, `h`, `q`, and `pi*`.
+- Richer spectral H-tilt math beyond the lightweight pure-Python estimator.
 - Full Lean/Isabelle integration remains future work beyond the M4 scaffold.
 - M5 full spectral H-tilt remains future work beyond H-tilt-lite route
   pressure.

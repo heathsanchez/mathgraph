@@ -168,6 +168,21 @@ H-tilt remains future work until `L`, `V`, `K = L - V`, `h`, `q`, and `pi*` are
 explicitly estimated. Telemetry cannot promote claims across the verifier
 boundary.
 
+## Lightweight Spectral H-Tilt
+
+Route telemetry now estimates `L` and `V`: `L` records observed continuation
+transitions, while `V` records killing pressure from failed, rejected, missed,
+or alignment-failed route events.
+
+`K = L - V` gives killed continuation pressure. A lightweight positive
+iteration estimates `h` as forward survival amplitude and `q` as structural
+support. Their product gives `pi*`, an advisory survivor distribution, and
+`mu_beta` gives the multiplicative H-tilt bridge used for scheduling pressure.
+
+All of these remain advisory until some actual artifact crosses a verifier,
+importer, or chain-audit boundary. H-tilt can rank where MathGraph looks next;
+it cannot decide what is true.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,
