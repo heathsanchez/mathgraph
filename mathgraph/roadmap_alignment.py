@@ -18,6 +18,7 @@ from mathgraph.domain_claims import (
     FormalWorldKind as DomainFormalWorldKind,
     FormalWorldRegistry,
 )
+from mathgraph.lean_adapter import LeanAdapterTrace, LeanArtifactStatus
 from mathgraph.proof_verification import (
     ProofArtifactKind,
     ProofVerificationStatus,
@@ -121,6 +122,7 @@ def check_roadmap_alignment(
     domain_claims: Sequence[DomainClaim] = (),
     claim_parse_results: Sequence[ClaimParseResult] = (),
     formal_world_registries: Sequence[FormalWorldRegistry] = (),
+    lean_adapter_traces: Sequence[LeanAdapterTrace] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -138,6 +140,7 @@ def check_roadmap_alignment(
     claims = list(domain_claims)
     parse_results = list(claim_parse_results)
     registries = list(formal_world_registries)
+    lean_traces = list(lean_adapter_traces)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -148,6 +151,7 @@ def check_roadmap_alignment(
     _check_route_telemetry_ledgers(telemetry_ledgers, findings)
     _check_spectral_htilt_estimates(spectral_estimates, findings)
     _check_domain_claims(claims, parse_results, registries, findings)
+    _check_lean_adapter_traces(lean_traces, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -161,6 +165,7 @@ def check_roadmap_alignment(
         claims,
         parse_results,
         registries,
+        lean_traces,
         summary_data,
         findings,
     )
@@ -176,6 +181,7 @@ def check_roadmap_alignment(
         claims,
         parse_results,
         registries,
+        lean_traces,
         summary_data,
         findings,
     )
@@ -193,6 +199,7 @@ def check_roadmap_alignment(
         "domain_claim_count": len(claims),
         "claim_parse_result_count": len(parse_results),
         "formal_world_registry_count": len(registries),
+        "lean_adapter_trace_count": len(lean_traces),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -202,6 +209,7 @@ def check_roadmap_alignment(
         "route_telemetry_event_count": sum(len(ledger.events) for ledger in telemetry_ledgers),
         "route_telemetry_terminal_count": sum(ledger.terminal_count() for ledger in telemetry_ledgers),
         "spectral_htilt_state_count": sum(len(estimate.states) for estimate in spectral_estimates),
+        "lean_adapter_verified_count": sum(trace.verified_count() for trace in lean_traces),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -736,8 +744,77 @@ def _check_domain_claims(
                         "NATURAL_LANGUAGE_WORLD_VERIFIER_SUPPORTED",
                         f"Natural-language world {world.world_id} is verifier-supported.",
                         "Keep natural-language worlds advisory until a real verifier/importer exists.",
+                )
+            )
+
+
+def _check_lean_adapter_traces(
+    traces: Sequence[LeanAdapterTrace], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for trace in traces:
+        text = json.dumps(trace.to_dict(), sort_keys=True).lower()
+        if "lean_text_is_truth" in text or "theorem_name_is_truth" in text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "LEAN_TRACE_TEXT_CLAIMS_TRUTH",
+                    f"Lean adapter trace {trace.trace_id} claims Lean text/theorem names are truth.",
+                    "Lean text and theorem names remain advisory until checked/imported through the proof boundary.",
+                )
+            )
+        for lean_file in trace.files:
+            if lean_file.metadata.get("terminal_form") in _terminal_values() or lean_file.metadata.get("certificate_id"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "LEAN_FILE_ARTIFACT_CLAIMS_TERMINAL",
+                        f"Lean file {lean_file.lean_file_id} claims terminal truth.",
+                        "Lean file artifacts are not terminal proof records.",
                     )
                 )
+        for result in trace.results:
+            if result.is_verified() and (not result.verifier_boundary_crossed or not result.certificate_id):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "LEAN_CHECK_VERIFIED_WITHOUT_BOUNDARY",
+                        f"Lean check result {result.result_id} is verified without certificate/boundary.",
+                        "Require terminal ProofVerificationResult plus certificate id.",
+                    )
+                )
+            if result.status in {LeanArtifactStatus.CHECK_FAILED, LeanArtifactStatus.LEAN_NOT_AVAILABLE} and (
+                result.verifier_boundary_crossed or result.certificate_id or result.is_verified()
+            ):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "LEAN_FAILED_OR_UNAVAILABLE_AS_TERMINAL",
+                        f"Lean check result {result.result_id} treats failed/unavailable Lean as terminal.",
+                        "Failed or unavailable Lean is residual/advisory only.",
+                    )
+                )
+            if result.status == LeanArtifactStatus.IMPORTED_VERIFIED:
+                provenance = result.metadata.get("provenance", {})
+                if not result.certificate_id and not result.metadata.get("external_certificate_id"):
+                    findings.append(
+                        RoadmapAlignmentFinding(
+                            "critical",
+                            "LEAN_IMPORT_WITHOUT_CERTIFICATE",
+                            f"Imported Lean result {result.result_id} lacks certificate/provenance.",
+                            "Trusted Lean imports require verified provenance or external certificate id.",
+                        )
+                    )
+                if isinstance(provenance, Mapping) and not (
+                    provenance.get("verified") is True or result.metadata.get("external_certificate_id")
+                ):
+                    findings.append(
+                        RoadmapAlignmentFinding(
+                            "critical",
+                            "LEAN_IMPORT_UNVERIFIED_PROVENANCE",
+                            f"Imported Lean result {result.result_id} lacks verified provenance.",
+                            "Mark it residual/advisory unless provenance is verified.",
+                        )
+                    )
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
@@ -787,10 +864,11 @@ def _check_cross_record_warnings(
     claims: Sequence[DomainClaim],
     parse_results: Sequence[ClaimParseResult],
     registries: Sequence[FormalWorldRegistry],
+    lean_traces: Sequence[LeanAdapterTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -1213,6 +1291,54 @@ def _check_cross_record_warnings(
                     "Keep errored parse results residual until repaired.",
                 )
             )
+    for trace in lean_traces:
+        if trace.environment.lean_available is False and trace.summary.get("check_requested"):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "LEAN_UNAVAILABLE_CHECK_REQUESTED",
+                    f"Lean adapter trace {trace.trace_id} requested checks but Lean is unavailable.",
+                    "Record LEAN_NOT_AVAILABLE as advisory/residual.",
+                )
+            )
+        for lean_file in trace.files:
+            if not lean_file.theorem_names:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "LEAN_FILE_WITHOUT_THEOREM_NAMES",
+                        f"Lean file {lean_file.lean_file_id} has no theorem/lemma names.",
+                        "Record theorem names when available; examples may remain unnamed.",
+                    )
+                )
+        for result in trace.results:
+            if result.stderr_excerpt and not result.metadata.get("failure_reason"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "LEAN_CHECK_STDERR_WITHOUT_FAILURE_REASON",
+                        f"Lean check result {result.result_id} has stderr without failure reason metadata.",
+                        "Record a failure reason for failed Lean checks.",
+                    )
+                )
+        if len(trace.files) >= 10 and not trace.results:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "LEAN_MANY_FILES_NO_CHECKS",
+                    f"Lean adapter trace {trace.trace_id} has many files but no checks/imports.",
+                    "Record CHECK_NOT_RUN results or request checks/imports.",
+                )
+            )
+        if trace.environment.project_root and trace.environment.lake_available is False:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "LEAN_PROJECT_ROOT_WITHOUT_LAKE",
+                    f"Lean adapter trace {trace.trace_id} has project_root but Lake is unavailable.",
+                    "Treat project-level Lean checks as advisory until Lake/project support is available.",
+                )
+            )
 
 
 def _add_positive_findings(
@@ -1227,10 +1353,11 @@ def _add_positive_findings(
     claims: Sequence[DomainClaim],
     parse_results: Sequence[ClaimParseResult],
     registries: Sequence[FormalWorldRegistry],
+    lean_traces: Sequence[LeanAdapterTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -1400,6 +1527,18 @@ def _add_positive_findings(
         for claim in claims
     ):
         findings.append(RoadmapAlignmentFinding("info", "UNSUPPORTED_CLAIM_SAFELY_ADVISORY", "Unsupported claim safely residual/advisory."))
+    if any(trace.environment.lean_available for trace in lean_traces):
+        findings.append(RoadmapAlignmentFinding("info", "LEAN_AVAILABLE", "Lean available."))
+    if any(trace.files for trace in lean_traces):
+        findings.append(RoadmapAlignmentFinding("info", "LEAN_FILE_RECORDED", "Lean file written/recorded."))
+    if any(result.status == LeanArtifactStatus.CHECK_PASSED for trace in lean_traces for result in trace.results):
+        findings.append(RoadmapAlignmentFinding("info", "LEAN_CHECK_PASSED", "Lean check passed through proof boundary."))
+    if any(result.status == LeanArtifactStatus.CHECK_FAILED for trace in lean_traces for result in trace.results):
+        findings.append(RoadmapAlignmentFinding("info", "LEAN_CHECK_FAILED_SAFELY", "Lean check failed safely as advisory/residual."))
+    if any(result.status == LeanArtifactStatus.LEAN_NOT_AVAILABLE for trace in lean_traces for result in trace.results):
+        findings.append(RoadmapAlignmentFinding("info", "LEAN_UNAVAILABLE_HANDLED", "Lean unavailable handled safely."))
+    if any(result.status == LeanArtifactStatus.IMPORTED_VERIFIED for trace in lean_traces for result in trace.results):
+        findings.append(RoadmapAlignmentFinding("info", "LEAN_IMPORTED_VERIFIED_RECORDED", "Imported verified Lean artifact recorded."))
 
 
 def _terminal_values() -> set[str]:

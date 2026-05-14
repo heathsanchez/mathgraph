@@ -199,6 +199,20 @@ LOGOS still requires a verifier boundary before truth. Parsing, normalization,
 world selection, and semantic resemblance do not create `VERIFIED_PROOF`,
 `FINITE_COUNTERMODEL`, or `NAMED_OBSTRUCTION`.
 
+## Lean Adapter Hardening
+
+Lean skeletons descend into Lean files. The adapter records imports, theorem
+names, file content, local environment availability, and the exact command that
+would be run without using a shell.
+
+Lean checks distill proof artifacts. When Lean is available, a file can be
+checked through the proof verification boundary. Passed Lean checks or trusted
+imports may fix `VERIFIED_PROOF` only when a certificate id and verifier
+boundary are recorded.
+
+Failed or unavailable Lean checks remain residual/advisory. A theorem name,
+parseable file, or generated skeleton is not truth.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

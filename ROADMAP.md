@@ -27,6 +27,9 @@
 - M6 Domain-General Claim IR / Formal World Registry: raw claims can be parsed,
   normalized, classified by formal world, and routed into existing episode or
   proof scaffolds while parsing remains advisory.
+- M6.5 Lean Adapter Hardening: Lean files/skeletons can be represented,
+  checked when Lean is available, imported with verified provenance, and bridged
+  into proof/alchemy/agent traces without treating Lean text as truth.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -62,7 +65,7 @@
 - Real faithfulness links from imported proof artifacts to semantic embeddings.
 - Workbench-driven constructor/verifier routing that still leaves truth to
   verifiers.
-- Lean-side verification importer for generated lemma/cut candidates.
+- Full Lean project integration for generated lemma/cut candidates.
 - Real Isabelle session importer for AOT metadata and proof dependencies.
 - Richer domain adapters beyond conservative magma, Lean-skeleton, and
   advisory-only parsing.

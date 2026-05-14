@@ -130,6 +130,18 @@ theorem statements can route into proof skeletons, but terminal truth still
 requires a verifier/importer/chain-audit boundary. Natural-language and
 unsupported worlds remain advisory/residual until a real verifier exists.
 
+## Lean Adapter Hardening
+
+M6.5 adds a lightweight Lean adapter layer around the proof verification
+scaffold. Lean files and skeletons can be represented, checked when Lean is
+available, imported with trusted provenance, and bridged into proof verification
+traces, alchemical traces, and agent experiences.
+
+Lean text, theorem names, parseable files, failed checks, and unavailable Lean
+remain advisory. A Lean artifact becomes `VERIFIED_PROOF` only when a Lean check
+or trusted importer produces a proof verification result with a certificate id
+across the verifier boundary. Missing Lean is handled gracefully.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains
