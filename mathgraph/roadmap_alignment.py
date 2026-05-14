@@ -35,6 +35,13 @@ from mathgraph.root_constructors import RootConstructorStatus, RootConstructorTr
 from mathgraph.route_telemetry import RouteTelemetryLedger
 from mathgraph.spectral_htilt import SpectralHTiltEstimate
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
+from mathgraph.verifier_feedback import (
+    FlawSeverity,
+    RepairActionKind,
+    RepairLoopTrace,
+    VerifierFeedback,
+    VerifierFeedbackStatus,
+)
 
 
 @dataclass(frozen=True)
@@ -130,6 +137,8 @@ def check_roadmap_alignment(
     lean_adapter_traces: Sequence[LeanAdapterTrace] = (),
     continuation_action_traces: Sequence[ContinuationActionTrace] = (),
     proof_digestion_traces: Sequence[ProofDigestionTrace] = (),
+    verifier_feedback_items: Sequence[VerifierFeedback] = (),
+    repair_loop_traces: Sequence[RepairLoopTrace] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -150,6 +159,8 @@ def check_roadmap_alignment(
     lean_traces = list(lean_adapter_traces)
     continuation_traces = list(continuation_action_traces)
     digestion_traces = list(proof_digestion_traces)
+    feedback_items = list(verifier_feedback_items)
+    repair_traces = list(repair_loop_traces)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -163,6 +174,7 @@ def check_roadmap_alignment(
     _check_lean_adapter_traces(lean_traces, findings)
     _check_continuation_action_traces(continuation_traces, findings)
     _check_proof_digestion_traces(digestion_traces, findings)
+    _check_verifier_feedback(feedback_items, repair_traces, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -179,6 +191,8 @@ def check_roadmap_alignment(
         lean_traces,
         continuation_traces,
         digestion_traces,
+        feedback_items,
+        repair_traces,
         summary_data,
         findings,
     )
@@ -197,6 +211,8 @@ def check_roadmap_alignment(
         lean_traces,
         continuation_traces,
         digestion_traces,
+        feedback_items,
+        repair_traces,
         summary_data,
         findings,
     )
@@ -217,6 +233,8 @@ def check_roadmap_alignment(
         "lean_adapter_trace_count": len(lean_traces),
         "continuation_action_trace_count": len(continuation_traces),
         "proof_digestion_trace_count": len(digestion_traces),
+        "verifier_feedback_count": len(feedback_items),
+        "repair_loop_trace_count": len(repair_traces),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -229,6 +247,7 @@ def check_roadmap_alignment(
         "lean_adapter_verified_count": sum(trace.verified_count() for trace in lean_traces),
         "continuation_action_output_count": sum(len(trace.outputs) for trace in continuation_traces),
         "proof_digestion_ready_count": sum(1 for trace in digestion_traces if trace.summary.get("assimilation_ready") or trace.status.value == "ASSIMILATION_CANDIDATE"),
+        "repair_plan_count": sum(len(trace.repair_plans) for trace in repair_traces),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -978,7 +997,92 @@ def _check_proof_digestion_traces(
                     f"Proof digestion trace {trace.trace_id} treats failed/unverified proof digestion as terminal truth.",
                     "Keep failed or unverified proof digestion advisory/residual.",
                 )
+                )
+
+
+def _check_verifier_feedback(
+    feedback_items: Sequence[VerifierFeedback],
+    repair_traces: Sequence[RepairLoopTrace],
+    findings: list[RoadmapAlignmentFinding],
+) -> None:
+    for feedback in feedback_items:
+        text = json.dumps(feedback.to_dict(), sort_keys=True).lower()
+        if feedback.metadata.get("terminal_form") in _terminal_values() or feedback.metadata.get("certificate_id"):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "VERIFIER_FEEDBACK_CLAIMS_TERMINAL_TRUTH",
+                    f"Verifier feedback {feedback.feedback_id} claims terminal truth directly.",
+                    "Feedback may describe verifier output, but it is not the terminal artifact.",
+                )
             )
+        if "natural_language" in text and ("verifier_boundary" in text or "verified_proof" in text):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "NATURAL_LANGUAGE_REPAIR_AS_VERIFICATION",
+                    f"Verifier feedback {feedback.feedback_id} marks natural-language repair/critique as verification.",
+                    "Natural-language critique is advisory unless a real verifier/importer boundary exists.",
+                )
+            )
+        if "finite_search_miss" in text and "verified_proof" in text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "FAILED_FINITE_SEARCH_AS_TRUE_PROOF",
+                    f"Verifier feedback {feedback.feedback_id} treats failed finite search as proof of TRUE.",
+                    "Finite-search miss is residual/search telemetry, not proof.",
+                )
+            )
+    for trace in repair_traces:
+        text = json.dumps(trace.to_dict(), sort_keys=True).lower()
+        if (trace.terminal_form or trace.certificate_id) and not trace.verifier_boundary_crossed:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "REPAIR_TRACE_TERMINAL_WITHOUT_BOUNDARY",
+                    f"Repair loop trace {trace.trace_id} carries terminal/certificate data without verifier boundary.",
+                    "Repair traces may inherit but must not invent terminal status.",
+                )
+            )
+        if "lawbook_write" in text and ("truth" in text or "terminal" in text):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "REPAIR_PLAN_WRITES_LAWBOOK_TRUTH",
+                    f"Repair loop trace {trace.trace_id} appears to write directly to Lawbook truth.",
+                    "Repair may emit advisory tasks only; Lawbook writes need a separate boundary.",
+                )
+            )
+        for plan in trace.repair_plans:
+            if plan.metadata.get("terminal_form") in _terminal_values() or plan.metadata.get("certificate_id"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "REPAIR_PLAN_CLAIMS_TERMINAL_TRUTH",
+                        f"Repair plan {plan.repair_plan_id} claims terminal truth.",
+                        "Repair plans schedule next moves; they are not certificates.",
+                    )
+                )
+        for output in trace.continuation_outputs:
+            if (output.terminal_form or output.certificate_id or output.verifier_boundary_crossed) and not output.is_terminal():
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "REPAIR_OUTPUT_UNSAFE_TERMINAL",
+                        f"Repair continuation output {output.output_id} claims terminal data without boundary.",
+                        "Repair outputs must remain advisory until reverified.",
+                    )
+                )
+            if output.terminal_form in {TerminalForm.VERIFIED_PROOF, TerminalForm.FINITE_COUNTERMODEL} and not output.is_terminal():
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "REPAIR_OUTPUT_CLAIMS_TRUTH_WITHOUT_CERTIFICATE",
+                        f"Repair output {output.output_id} claims proof/countermodel without certificate.",
+                        "Run a verifier/importer/chain audit before terminal truth.",
+                    )
+                )
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
@@ -1031,10 +1135,12 @@ def _check_cross_record_warnings(
     lean_traces: Sequence[LeanAdapterTrace],
     continuation_traces: Sequence[ContinuationActionTrace],
     digestion_traces: Sequence[ProofDigestionTrace],
+    feedback_items: Sequence[VerifierFeedback],
+    repair_traces: Sequence[RepairLoopTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -1593,6 +1699,74 @@ def _check_cross_record_warnings(
                     "Record why the candidate is not ready.",
                 )
             )
+    failed_feedback_ids = {item.feedback_id for item in feedback_items if item.status == VerifierFeedbackStatus.FAILED}
+    planned_feedback_ids = {plan.feedback_id for trace in repair_traces for plan in trace.repair_plans}
+    for feedback in feedback_items:
+        if feedback.status == VerifierFeedbackStatus.FAILED and feedback.flaw_severity == FlawSeverity.UNKNOWN:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "FAILED_FEEDBACK_UNKNOWN_SEVERITY",
+                    f"Failed verifier feedback {feedback.feedback_id} has UNKNOWN flaw severity.",
+                    "Classify the flaw or mark it hold-in-Chora/residual.",
+                )
+            )
+        if feedback.feedback_id in failed_feedback_ids and feedback.feedback_id not in planned_feedback_ids:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "FAILED_FEEDBACK_WITHOUT_REPAIR_PLAN",
+                    f"Failed verifier feedback {feedback.feedback_id} has no repair, obstruction, or residual plan.",
+                    "Emit a repair plan or residualize the failed artifact.",
+                )
+            )
+    unknown_feedback = [item for item in feedback_items if item.flaw_severity == FlawSeverity.UNKNOWN]
+    if len(unknown_feedback) >= 3:
+        hold_or_residual = any(
+            plan.action_kind in {RepairActionKind.HOLD_IN_CHORA, RepairActionKind.MARK_RESIDUAL}
+            for trace in repair_traces
+            for plan in trace.repair_plans
+        )
+        if not hold_or_residual:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "MANY_UNKNOWN_FEEDBACK_NO_HOLD_OR_RESIDUAL",
+                    "Many UNKNOWN feedback items have no hold-in-Chora or residual plan.",
+                    "Hold uncertain failures in Chora or mark residual.",
+                )
+            )
+    for trace in repair_traces:
+        if not _has_advisory_disclaimer(trace.summary) and not trace.advisory:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "REPAIR_TRACE_WITHOUT_ADVISORY_METADATA",
+                    f"Repair loop trace {trace.trace_id} lacks advisory metadata.",
+                    "Mark repair loops advisory.",
+                )
+            )
+        severities = {item.feedback_id: item.flaw_severity for item in trace.feedback_items}
+        for plan in trace.repair_plans:
+            severity = severities.get(plan.feedback_id)
+            if severity == FlawSeverity.CRITICAL_INVALIDATION and plan.action_kind == RepairActionKind.LOCAL_REVISE:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "CRITICAL_INVALIDATION_LOCAL_REVISE",
+                        f"Repair plan {plan.repair_plan_id} locally revises critical invalidation.",
+                        "Prefer obstruction/residual for critical invalidation.",
+                    )
+                )
+            if severity == FlawSeverity.MINOR_REPAIRABLE and plan.action_kind == RepairActionKind.REGENERATE_ARTIFACT:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "MINOR_REPAIR_REGENERATE_ONLY",
+                        f"Repair plan {plan.repair_plan_id} regenerates artifact for minor repairable flaw.",
+                        "Prefer local revise for minor syntax/import/name flaws.",
+                    )
+                )
 
 
 def _add_positive_findings(
@@ -1610,10 +1784,12 @@ def _add_positive_findings(
     lean_traces: Sequence[LeanAdapterTrace],
     continuation_traces: Sequence[ContinuationActionTrace],
     digestion_traces: Sequence[ProofDigestionTrace],
+    feedback_items: Sequence[VerifierFeedback],
+    repair_traces: Sequence[RepairLoopTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -1819,6 +1995,16 @@ def _add_positive_findings(
         findings.append(RoadmapAlignmentFinding("info", "PROOF_DIGESTION_PROJECTION_HINTS", "Proof digestion projection hints produced."))
     if any(trace.is_truth_terminal() for trace in digestion_traces):
         findings.append(RoadmapAlignmentFinding("info", "VERIFIED_PROOF_INHERITED_IN_DIGESTION", "Verified proof boundary inherited safely into digestion trace."))
+    if any(plan.action_kind == RepairActionKind.LOCAL_REVISE for trace in repair_traces for plan in trace.repair_plans):
+        findings.append(RoadmapAlignmentFinding("info", "MINOR_FLAW_LOCAL_REVISE", "Minor flaw converted to local revise."))
+    if any(plan.action_kind in {RepairActionKind.REROUTE, RepairActionKind.EMIT_PROOF_TASK} for trace in repair_traces for plan in trace.repair_plans):
+        findings.append(RoadmapAlignmentFinding("info", "STRUCTURAL_GAP_REROUTE_OR_PROOF_TASK", "Structural gap converted to reroute/proof task."))
+    if any(plan.action_kind in {RepairActionKind.EMIT_OBSTRUCTION_TASK, RepairActionKind.MARK_RESIDUAL} for trace in repair_traces for plan in trace.repair_plans):
+        findings.append(RoadmapAlignmentFinding("info", "CRITICAL_INVALIDATION_OBSTRUCTION_OR_RESIDUAL", "Critical invalidation converted to obstruction/residual pressure."))
+    if any(plan.action_kind in {RepairActionKind.HOLD_IN_CHORA, RepairActionKind.MARK_RESIDUAL} for trace in repair_traces for plan in trace.repair_plans):
+        findings.append(RoadmapAlignmentFinding("info", "UNAVAILABLE_VERIFIER_HELD_OR_RESIDUAL", "Unavailable/not-run verifier converted to hold-in-Chora/residual."))
+    if repair_traces and not any(trace.is_terminal() for trace in repair_traces):
+        findings.append(RoadmapAlignmentFinding("info", "REPAIR_LOOP_ADVISORY_BOUNDARY_PRESERVED", "Repair loop preserved advisory boundary."))
 
 
 def _terminal_values() -> set[str]:

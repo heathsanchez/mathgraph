@@ -37,6 +37,9 @@
   artifacts can be dependency-mapped, step-classified, compressed into key
   idea/schema candidates, exposition notes, projection hints, and lawbook
   assimilation candidates without treating digestion as verification.
+- M6.8 Verifier Feedback / Repair Loop: verifier failures are classified into
+  minor repairable flaws, structural gaps, critical invalidations, or unknowns
+  and converted into advisory repair, reroute, obstruction, or residual tasks.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -80,6 +83,7 @@
   continuation registry.
 - Lawbook hardening for accepting proof digestion links separately from truth
   certificates.
+- Continuation curriculum and discovery value evaluator over repair outcomes.
 - Host/object theorem transport validation for scanned/imported AOT artifacts.
 - Constructor pressure from the Obstruction Atlas.
 - Larger canonical root consolidation over full external v16.7 artifacts.

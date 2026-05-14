@@ -237,6 +237,17 @@ links separately: a proof certificate records survival through a verifier
 boundary, while digestion records compressed intelligibility around that
 survival.
 
+## Verifier Feedback and Repair
+
+Failed verification is not dead output. It becomes repair pressure, obstruction
+pressure, or residual structure. Minor flaws may be locally revised; structural
+gaps should reroute or emit new proof tasks; critical invalidations should
+become obstruction or residual candidates.
+
+Repair traces remain advisory until a repaired artifact crosses a verifier,
+importer, or chain-audit boundary. A repair hint is not proof, a failed proof is
+not a countermodel, and a failed finite search is not a proof of TRUE.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

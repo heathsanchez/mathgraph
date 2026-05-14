@@ -168,6 +168,17 @@ Digestion is advisory and cannot promote truth. A digestion trace may inherit a
 boundary, but it does not create certificates and is not itself proof
 verification.
 
+## Verifier Feedback and Repair Loops
+
+M6.8 makes verifier failure useful. Verifier messages can now be classified
+into minor repairable flaws, structural gaps, critical invalidations, or
+unknown failures. The repair loop can emit advisory local revision tasks,
+reroute tasks, proof/countermodel tasks, obstruction candidates,
+hold-in-Chora notes, or residual status.
+
+Repair does not verify anything by itself. A repaired artifact becomes terminal
+only after it crosses an existing verifier/importer/chain-audit boundary.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains
