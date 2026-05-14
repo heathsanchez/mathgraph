@@ -11,6 +11,13 @@ from typing import Any, Mapping, Sequence
 from mathgraph.agent_biography import AgentExperience, AgentExperienceOutcome
 from mathgraph.alchemy import AlchemicalPhase, AlchemicalStatus, AlchemicalTrace
 from mathgraph.certificates import TerminalForm
+from mathgraph.domain_claims import (
+    ClaimIRStatus,
+    ClaimParseResult,
+    DomainClaim,
+    FormalWorldKind as DomainFormalWorldKind,
+    FormalWorldRegistry,
+)
 from mathgraph.proof_verification import (
     ProofArtifactKind,
     ProofVerificationStatus,
@@ -111,6 +118,9 @@ def check_roadmap_alignment(
     verification_episode_traces: Sequence[VerificationEpisodeTrace] = (),
     route_telemetry_ledgers: Sequence[RouteTelemetryLedger] = (),
     spectral_htilt_estimates: Sequence[SpectralHTiltEstimate] = (),
+    domain_claims: Sequence[DomainClaim] = (),
+    claim_parse_results: Sequence[ClaimParseResult] = (),
+    formal_world_registries: Sequence[FormalWorldRegistry] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -125,6 +135,9 @@ def check_roadmap_alignment(
     episodes = list(verification_episode_traces)
     telemetry_ledgers = list(route_telemetry_ledgers)
     spectral_estimates = list(spectral_htilt_estimates)
+    claims = list(domain_claims)
+    parse_results = list(claim_parse_results)
+    registries = list(formal_world_registries)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -134,6 +147,7 @@ def check_roadmap_alignment(
     _check_verification_episode_traces(episodes, findings)
     _check_route_telemetry_ledgers(telemetry_ledgers, findings)
     _check_spectral_htilt_estimates(spectral_estimates, findings)
+    _check_domain_claims(claims, parse_results, registries, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -144,6 +158,9 @@ def check_roadmap_alignment(
         episodes,
         telemetry_ledgers,
         spectral_estimates,
+        claims,
+        parse_results,
+        registries,
         summary_data,
         findings,
     )
@@ -156,6 +173,9 @@ def check_roadmap_alignment(
         episodes,
         telemetry_ledgers,
         spectral_estimates,
+        claims,
+        parse_results,
+        registries,
         summary_data,
         findings,
     )
@@ -170,6 +190,9 @@ def check_roadmap_alignment(
         "verification_episode_trace_count": len(episodes),
         "route_telemetry_ledger_count": len(telemetry_ledgers),
         "spectral_htilt_estimate_count": len(spectral_estimates),
+        "domain_claim_count": len(claims),
+        "claim_parse_result_count": len(parse_results),
+        "formal_world_registry_count": len(registries),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -636,6 +659,87 @@ def _check_spectral_htilt_estimates(
             )
 
 
+def _check_domain_claims(
+    claims: Sequence[DomainClaim],
+    parse_results: Sequence[ClaimParseResult],
+    registries: Sequence[FormalWorldRegistry],
+    findings: list[RoadmapAlignmentFinding],
+) -> None:
+    for claim in claims:
+        metadata_text = json.dumps(claim.metadata, sort_keys=True).lower()
+        if "terminal_form" in claim.metadata or "certificate_id" in claim.metadata:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "DOMAIN_CLAIM_METADATA_CLAIMS_TERMINAL",
+                    f"Domain claim {claim.claim_id} metadata contains terminal/certificate fields.",
+                    "Parsing and world routing cannot promote claims.",
+                )
+            )
+        if claim.world == DomainFormalWorldKind.NATURAL_LANGUAGE and (
+            claim.metadata.get("verifier_supported") is True
+            or claim.metadata.get("terminal_truth") is True
+            or "verified_proof" in metadata_text
+            or "finite_countermodel" in metadata_text
+        ):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "NATURAL_LANGUAGE_CLAIM_AS_TERMINAL_TRUTH",
+                    f"Natural-language claim {claim.claim_id} is treated as verifier-supported terminal truth.",
+                    "Natural-language claims remain advisory/residual until connected to a real verifier/importer.",
+                )
+            )
+    for result in parse_results:
+        if result.metadata.get("terminal_form") in _terminal_values() or result.metadata.get("certificate_id"):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "CLAIM_PARSE_RESULT_AS_TERMINAL_TRUTH",
+                    f"Claim parse result {result.result_id} is treated as terminal truth.",
+                    "PARSED/NORMALIZED/ROUTABLE are advisory IR states, not terminal forms.",
+                )
+            )
+        if result.status in {ClaimIRStatus.PARSED, ClaimIRStatus.NORMALIZED} and _dict_claims_terminal(result.metadata):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "PARSED_NORMALIZED_STATUS_AS_TERMINAL",
+                    f"Claim parse result {result.result_id} treats parse status as terminal.",
+                    "Route the claim to a verifier/importer before terminal truth.",
+                )
+            )
+        if result.status == ClaimIRStatus.VERIFIER_SUPPORTED and result.domain_claim.world == DomainFormalWorldKind.NATURAL_LANGUAGE:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "UNSUPPORTED_CLAIM_MARKED_VERIFIER_SUPPORTED",
+                    f"Natural-language parse result {result.result_id} is marked verifier-supported.",
+                    "Use ADVISORY_ONLY or RESIDUAL for unsupported worlds.",
+                )
+            )
+    for registry in registries:
+        for world in registry.worlds.values():
+            if (world.supports_proofs or world.supports_countermodels) and not (world.verifier_kinds and world.adapter_name):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "FORMAL_WORLD_VERIFIER_AUTHORITY_WITHOUT_BOUNDARY",
+                        f"Formal world {world.world_id} claims proof/countermodel support without verifier kinds/adapter.",
+                        "Declare verifier/importer boundary metadata for proof or countermodel support.",
+                    )
+                )
+            if world.kind == DomainFormalWorldKind.NATURAL_LANGUAGE and (world.supports_proofs or world.supports_countermodels):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "NATURAL_LANGUAGE_WORLD_VERIFIER_SUPPORTED",
+                        f"Natural-language world {world.world_id} is verifier-supported.",
+                        "Keep natural-language worlds advisory until a real verifier/importer exists.",
+                    )
+                )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -680,10 +784,13 @@ def _check_cross_record_warnings(
     episode_traces: Sequence[VerificationEpisodeTrace],
     telemetry_ledgers: Sequence[RouteTelemetryLedger],
     spectral_estimates: Sequence[SpectralHTiltEstimate],
+    claims: Sequence[DomainClaim],
+    parse_results: Sequence[ClaimParseResult],
+    registries: Sequence[FormalWorldRegistry],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -1055,6 +1162,57 @@ def _check_cross_record_warnings(
                     "Record telemetry_based and not_truth_authority metadata.",
                 )
             )
+    for claim in claims:
+        if claim.world == DomainFormalWorldKind.NATURAL_LANGUAGE and not _has_advisory_disclaimer(claim.metadata):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "NATURAL_LANGUAGE_CLAIM_WITHOUT_ADVISORY_METADATA",
+                    f"Natural-language claim {claim.claim_id} lacks advisory metadata.",
+                    "Mark natural-language claims advisory/residual.",
+                )
+            )
+        if claim.world == DomainFormalWorldKind.UNKNOWN and not (
+            claim.metadata.get("residual_explanation") or claim.metadata.get("unsupported_or_advisory")
+        ):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "UNKNOWN_WORLD_WITHOUT_RESIDUAL_EXPLANATION",
+                    f"Domain claim {claim.claim_id} has UNKNOWN world without residual explanation.",
+                    "Record why the claim remains unsupported/residual.",
+                )
+            )
+    for registry in registries:
+        if not registry.by_kind(DomainFormalWorldKind.MAGMA_EQUATIONAL):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "REGISTRY_MISSING_MAGMA_EQUATIONAL_WORLD",
+                    f"Formal world registry {registry.registry_id} has no MAGMA_EQUATIONAL world.",
+                    "Include the current SAIR/ETP nursery world.",
+                )
+            )
+        for world in registry.worlds.values():
+            if world.supports_proofs and not world.verifier_kinds:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "PROOF_WORLD_WITHOUT_VERIFIER_KIND",
+                        f"Formal world {world.world_id} supports proofs but has no verifier kind.",
+                        "Record the verifier/importer kind or mark support future/advisory.",
+                    )
+                )
+    for result in parse_results:
+        if result.errors and result.status == ClaimIRStatus.ROUTABLE:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "PARSER_ERRORS_BUT_ROUTABLE",
+                    f"Claim parse result {result.result_id} has parser errors but is routable.",
+                    "Keep errored parse results residual until repaired.",
+                )
+            )
 
 
 def _add_positive_findings(
@@ -1066,10 +1224,13 @@ def _add_positive_findings(
     episode_traces: Sequence[VerificationEpisodeTrace],
     telemetry_ledgers: Sequence[RouteTelemetryLedger],
     spectral_estimates: Sequence[SpectralHTiltEstimate],
+    claims: Sequence[DomainClaim],
+    parse_results: Sequence[ClaimParseResult],
+    registries: Sequence[FormalWorldRegistry],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -1221,6 +1382,24 @@ def _add_positive_findings(
         findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_MU_BETA_ESTIMATED", "mu_beta H-tilt bridge estimated."))
     if any(estimate.state_estimates for estimate in spectral_estimates):
         findings.append(RoadmapAlignmentFinding("info", "SPECTRAL_ROUTE_PRIORITIES_AVAILABLE", "Advisory route priorities available."))
+    if parse_results:
+        findings.append(RoadmapAlignmentFinding("info", "DOMAIN_CLAIM_PARSED", "Domain claim parsed."))
+    if any(result.status == ClaimIRStatus.NORMALIZED for result in parse_results) or any(claim.normalized for claim in claims):
+        findings.append(RoadmapAlignmentFinding("info", "DOMAIN_CLAIM_NORMALIZED", "Domain claim normalized."))
+    if registries:
+        findings.append(RoadmapAlignmentFinding("info", "FORMAL_WORLD_REGISTRY_PRESENT", "Formal world registry present."))
+    if any(
+        claim.world == DomainFormalWorldKind.MAGMA_EQUATIONAL and claim.source and claim.target
+        for claim in claims
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "MAGMA_CLAIM_ROUTABLE_TO_EPISODE", "Magma claim routable to episode input."))
+    if any(claim.world == DomainFormalWorldKind.LEAN for claim in claims):
+        findings.append(RoadmapAlignmentFinding("info", "LEAN_CLAIM_ROUTABLE_TO_PROOF_ARTIFACT", "Lean-looking claim routable to proof artifact."))
+    if any(
+        claim.world in {DomainFormalWorldKind.NATURAL_LANGUAGE, DomainFormalWorldKind.UNKNOWN}
+        for claim in claims
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "UNSUPPORTED_CLAIM_SAFELY_ADVISORY", "Unsupported claim safely residual/advisory."))
 
 
 def _terminal_values() -> set[str]:

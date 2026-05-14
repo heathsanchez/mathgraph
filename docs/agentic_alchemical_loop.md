@@ -183,6 +183,22 @@ All of these remain advisory until some actual artifact crosses a verifier,
 importer, or chain-audit boundary. H-tilt can rank where MathGraph looks next;
 it cannot decide what is true.
 
+## Domain-General Claim IR
+
+Chora receives raw claims from many worlds: magma equations, Lean-looking
+theorems, program properties, scientific hypotheses, semantic assertions, and
+ordinary language. `DomainClaim` IR calcines raw claims into routable structure
+when a conservative parser can do so.
+
+The `FormalWorld` registry records what can be parsed, normalized, routed, or
+eventually verified. Magma equational claims can descend into existing episode
+inputs; Lean-looking theorem statements can descend into proof skeletons.
+Natural-language and unsupported worlds remain advisory/residual.
+
+LOGOS still requires a verifier boundary before truth. Parsing, normalization,
+world selection, and semantic resemblance do not create `VERIFIED_PROOF`,
+`FINITE_COUNTERMODEL`, or `NAMED_OBSTRUCTION`.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

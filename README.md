@@ -117,6 +117,19 @@ episodes, but it does not verify claims, promote truth, override verifier
 failures, or turn killed routes into proofs. Richer spectral methods remain
 future work.
 
+## Domain-General Claim IR
+
+The M6 domain-general claim IR lets MathGraph parse and normalize raw claims
+into lightweight `DomainClaim` records classified by formal world. The
+`FormalWorldRegistry` declares which worlds support which claim kinds, adapters,
+normalization, proofs, or countermodels.
+
+Parsing, normalization, world selection, and routing are advisory. Magma
+equational implications can route into verification episodes, and Lean-looking
+theorem statements can route into proof skeletons, but terminal truth still
+requires a verifier/importer/chain-audit boundary. Natural-language and
+unsupported worlds remain advisory/residual until a real verifier exists.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

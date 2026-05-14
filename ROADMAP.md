@@ -24,6 +24,9 @@
 - M5 Lightweight Spectral H-Tilt Estimator: route telemetry now yields
   advisory estimates of `L`, `V`, `K = L - V`, `h`, `q`, `pi*`, and `mu_beta`
   for scheduling pressure without verifier authority.
+- M6 Domain-General Claim IR / Formal World Registry: raw claims can be parsed,
+  normalized, classified by formal world, and routed into existing episode or
+  proof scaffolds while parsing remains advisory.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -61,6 +64,8 @@
   verifiers.
 - Lean-side verification importer for generated lemma/cut candidates.
 - Real Isabelle session importer for AOT metadata and proof dependencies.
+- Richer domain adapters beyond conservative magma, Lean-skeleton, and
+  advisory-only parsing.
 - Host/object theorem transport validation for scanned/imported AOT artifacts.
 - Constructor pressure from the Obstruction Atlas.
 - Larger canonical root consolidation over full external v16.7 artifacts.
@@ -73,8 +78,8 @@
 - Full Lean/Isabelle integration remains future work beyond the M4 scaffold.
 - M5 full spectral H-tilt remains future work beyond H-tilt-lite route
   pressure.
-- M6 domain-general claim expansion remains future work beyond the current
-  SAIR/ETP nursery.
+- M6 follow-on domain-general claim expansion remains future work beyond the
+  lightweight IR and registry.
 - M7: Existential Agent Ecology as an optional higher layer above the
   verification kernel.
 - Domain-agnostic `GeneralClaim` expansion beyond SAIR magma equations.
