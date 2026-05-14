@@ -12,6 +12,7 @@ from mathgraph.agent_biography import AgentExperience, AgentExperienceOutcome
 from mathgraph.alchemy import AlchemicalPhase, AlchemicalStatus, AlchemicalTrace
 from mathgraph.certificates import TerminalForm
 from mathgraph.projection import ProjectionRuleKind, ProjectionStatus, ProjectionTrace
+from mathgraph.root_constructors import RootConstructorStatus, RootConstructorTrace
 
 
 @dataclass(frozen=True)
@@ -96,6 +97,7 @@ def check_roadmap_alignment(
     alchemical_traces: Sequence[AlchemicalTrace] = (),
     agent_experiences: Sequence[AgentExperience] = (),
     projection_traces: Sequence[ProjectionTrace] = (),
+    root_constructor_traces: Sequence[RootConstructorTrace] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -105,22 +107,26 @@ def check_roadmap_alignment(
     traces = list(alchemical_traces)
     experiences = list(agent_experiences)
     projections = list(projection_traces)
+    root_constructors = list(root_constructor_traces)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
     _check_projection_traces(projections, findings)
+    _check_root_constructor_traces(root_constructors, findings)
     _check_summary(summary_data, findings)
-    _check_cross_record_warnings(traces, experiences, projections, summary_data, findings)
-    _add_positive_findings(traces, experiences, projections, summary_data, findings)
+    _check_cross_record_warnings(traces, experiences, projections, root_constructors, summary_data, findings)
+    _add_positive_findings(traces, experiences, projections, root_constructors, summary_data, findings)
 
     report_summary = {
         **summary_data,
         "alchemical_trace_count": len(traces),
         "agent_experience_count": len(experiences),
         "projection_trace_count": len(projections),
+        "root_constructor_trace_count": len(root_constructors),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
+        "root_constructor_terminal_count": sum(trace.terminal_count() for trace in root_constructors),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -265,6 +271,69 @@ def _check_projection_traces(
                 )
 
 
+def _check_root_constructor_traces(
+    root_constructor_traces: Sequence[RootConstructorTrace], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for trace in root_constructor_traces:
+        for signal in trace.root_signals:
+            if _dict_claims_terminal(signal.to_dict()):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "ROOT_SIGNAL_CLAIMS_TERMINAL",
+                        f"Root signal {signal.root_id} claims terminal truth.",
+                        "Keep root signals advisory; only verifier/importer records may carry terminal forms.",
+                    )
+                )
+        for plan in trace.plans:
+            if _dict_claims_terminal(plan.to_dict()):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "CONSTRUCTOR_PLAN_CLAIMS_TERMINAL",
+                        f"Constructor plan {plan.plan_id} claims terminal truth.",
+                        "Plans are advisory and must not contain accepted terminal truth.",
+                    )
+                )
+        for attempt in trace.attempts:
+            if attempt.terminal_form == TerminalForm.FINITE_COUNTERMODEL and not attempt.is_terminal():
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "CONSTRUCTOR_FINITE_COUNTERMODEL_WITHOUT_IMPORTER",
+                        f"Constructor attempt {attempt.attempt_id} claims FINITE_COUNTERMODEL without importer verification.",
+                        "Promote only importer-revalidated finite countermodel certificates.",
+                    )
+                )
+            if attempt.status == RootConstructorStatus.CANDIDATE_TABLE_FOUND and attempt.terminal_form:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "CANDIDATE_TABLE_TREATED_AS_TERMINAL",
+                        f"Constructor attempt {attempt.attempt_id} treats a candidate table as terminal.",
+                        "Candidate tables must pass importer/revalidator before becoming certificates.",
+                    )
+                )
+            if attempt.status == RootConstructorStatus.SEARCH_MISS and attempt.terminal_form == TerminalForm.VERIFIED_PROOF:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "SEARCH_MISS_AS_VERIFIED_PROOF",
+                        f"Constructor attempt {attempt.attempt_id} treats a search miss as VERIFIED_PROOF.",
+                        "Finite-search misses are residuals, not TRUE proofs.",
+                    )
+                )
+            if attempt.status == RootConstructorStatus.IMPORTER_REJECTED and attempt.terminal_form:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "IMPORTER_REJECTED_CLAIMS_TERMINAL",
+                        f"Constructor attempt {attempt.attempt_id} has importer rejection but claims terminal truth.",
+                        "Rejected imports must remain advisory/residual.",
+                    )
+                )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -304,14 +373,17 @@ def _check_cross_record_warnings(
     traces: Sequence[AlchemicalTrace],
     experiences: Sequence[AgentExperience],
     projection_traces: Sequence[ProjectionTrace],
+    root_constructor_traces: Sequence[RootConstructorTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
             trace.compression_gain_total() for trace in projection_traces
+        ) and not any(
+            trace.compression_gain_total() for trace in root_constructor_traces
         ):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -325,6 +397,8 @@ def _check_cross_record_warnings(
             exp.derived_amplification for exp in experiences
         ) and not any(
             trace.summary.get("derived_certificates", 0) for trace in projection_traces
+        ) and not any(
+            trace.summary.get("importer_verified", 0) for trace in root_constructor_traces
         ):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -402,16 +476,71 @@ def _check_cross_record_warnings(
                     "Tune projection rules or record why the batch produced no measurable pressure.",
                 )
             )
+    for trace in root_constructor_traces:
+        if len(trace.plans) >= 10 and not trace.attempts:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "MANY_CONSTRUCTOR_PLANS_NO_ATTEMPTS",
+                    f"Root constructor trace {trace.trace_id} has many plans but zero attempts.",
+                    "Run dry-run attempts or record why planning did not descend into attempts.",
+                )
+            )
+        if trace.search_miss_count() >= 5 and not any(
+            attempt.status in {RootConstructorStatus.RESIDUAL, RootConstructorStatus.OBSTRUCTION_NAMED}
+            or attempt.obstruction_name
+            for attempt in trace.attempts
+        ):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "SEARCH_MISSES_WITHOUT_RESIDUAL_OR_OBSTRUCTION",
+                    f"Root constructor trace {trace.trace_id} has many search misses without residual/obstruction naming.",
+                    "Turn failed searches into sharper residuals or named obstruction pressure.",
+                )
+            )
+        for attempt in trace.attempts:
+            if attempt.cost_units >= 100.0 and not (
+                attempt.residual_delta or attempt.compression_gain or attempt.projection_gain
+            ):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "HIGH_CONSTRUCTOR_COST_NO_GAIN",
+                        f"Constructor attempt {attempt.attempt_id} has high cost without residual/compression/projection gain.",
+                        "Record cost scars or tighten the constructor plan.",
+                    )
+                )
+        if trace.summary.get("dry_run") and "advisory" not in json.dumps(trace.to_dict(), sort_keys=True).lower():
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "DRY_RUN_WITHOUT_ADVISORY_DISCLAIMER",
+                    f"Root constructor trace {trace.trace_id} is dry-run without advisory disclaimer metadata.",
+                    "Mark dry-run constructor outputs advisory-only.",
+                )
+            )
+        for signal in trace.root_signals:
+            if signal.confidence >= 0.9 and signal.support <= 0 and not signal.metadata.get("provenance"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "HIGH_CONFIDENCE_ROOT_WITHOUT_SUPPORT",
+                        f"Root signal {signal.root_id} has high confidence without support/provenance metadata.",
+                        "Record support counts or provenance for high-confidence root pressure.",
+                    )
+                )
 
 
 def _add_positive_findings(
     traces: Sequence[AlchemicalTrace],
     experiences: Sequence[AgentExperience],
     projection_traces: Sequence[ProjectionTrace],
+    root_constructor_traces: Sequence[RootConstructorTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces:
+    if traces or experiences or projection_traces or root_constructor_traces:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -452,6 +581,46 @@ def _add_positive_findings(
         findings.append(RoadmapAlignmentFinding("info", "PROJECTION_RESIDUAL_DELTA_IMPROVED", "Projection residual delta improved."))
     if any(trace.projection_gain_total() for trace in projection_traces):
         findings.append(RoadmapAlignmentFinding("info", "PROJECTION_GAIN_OBSERVED", "Projection gain observed."))
+    if any(
+        attempt.status == RootConstructorStatus.IMPORTER_VERIFIED
+        for trace in root_constructor_traces
+        for attempt in trace.attempts
+    ):
+        findings.append(
+            RoadmapAlignmentFinding("info", "CONSTRUCTOR_IMPORTER_VERIFIED", "Importer-verified finite countermodel found.")
+        )
+    if any(
+        attempt.status == RootConstructorStatus.CANDIDATE_TABLE_FOUND and not attempt.is_terminal()
+        for trace in root_constructor_traces
+        for attempt in trace.attempts
+    ):
+        findings.append(
+            RoadmapAlignmentFinding(
+                "info",
+                "CANDIDATE_TABLE_BOUNDARY_PRESERVED",
+                "Candidate table found while preserving verifier boundary.",
+            )
+        )
+    if any(
+        attempt.status in {RootConstructorStatus.SEARCH_MISS, RootConstructorStatus.RESIDUAL, RootConstructorStatus.OBSTRUCTION_NAMED}
+        for trace in root_constructor_traces
+        for attempt in trace.attempts
+    ):
+        findings.append(
+            RoadmapAlignmentFinding("info", "CONSTRUCTOR_RESIDUAL_RECORDED", "Obstruction/residual recorded from constructor attempt.")
+        )
+    if any(trace.plans for trace in root_constructor_traces):
+        findings.append(
+            RoadmapAlignmentFinding("info", "ROOT_SIGNAL_COMPILED_TO_PLAN", "Root signal or residual pressure compiled into constructor plan.")
+        )
+    if any(trace.summary.get("bridge_exported") for trace in root_constructor_traces):
+        findings.append(
+            RoadmapAlignmentFinding(
+                "info",
+                "CONSTRUCTOR_BRIDGE_EXPORTED",
+                "Constructor trace converted into alchemical trace or agent experience.",
+            )
+        )
 
 
 def _terminal_values() -> set[str]:
@@ -468,3 +637,12 @@ def _has_advisory_disclaimer(summary: Mapping[str, Any]) -> bool:
         return False
     text = json.dumps(metadata, sort_keys=True).lower()
     return "advisory" in text and ("only" in text or "not truth" in text or "not terminal" in text)
+
+
+def _dict_claims_terminal(data: Mapping[str, Any]) -> bool:
+    if data.get("terminal_form") in _terminal_values():
+        return True
+    metadata = data.get("metadata")
+    if isinstance(metadata, Mapping) and metadata.get("terminal_form") in _terminal_values():
+        return True
+    return False

@@ -90,6 +90,25 @@ Advisory similarity, basin expansion, constructor replay pressure, and residual
 splits remain Chora-facing pressure until LOGOS and a verifier/importer make
 them lawful.
 
+## Root-Aware Constructors
+
+Root signals are SAT/UNSAT boundary pressure. They mark where residual basins,
+obstruction surfaces, motifs, or projection hints suggest a narrow continuation
+may be worth trying.
+
+Constructor plans descend root pressure into concrete attempts. This is the
+descension phase: a basin-shaped idea becomes a bounded finite-table attempt or
+a dry-run record. The plan is still advisory.
+
+Candidate artifacts must be distilled and fixed before entering the Lawbook. A
+candidate finite table is only a candidate until an importer/revalidator checks
+that the source holds and the target fails, records the witness, and promotes a
+finite-countermodel certificate.
+
+Failed attempts should become named obstruction pressure or sharper residuals.
+A search miss is never a TRUE proof; it only says that a bounded attempt did not
+find a countermodel.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

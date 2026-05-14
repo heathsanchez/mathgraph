@@ -8,6 +8,10 @@
 - M2 Projection Engine: lawbook entries can create known skips, chain-safe
   derived certificate results, advisory residual splits, projection traces, and
   compounding metrics without treating projection pressure as truth.
+- M3 Root-Aware Constructors: advisory roots, residual basins, obstruction
+  pressure, and projection pressure compile into narrow constructor plans and
+  safe attempts while candidate tables remain non-terminal until importer
+  verification.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -54,6 +58,7 @@
 ## Later
 
 - Full spectral H-tilt killed generator `K = L - V`.
+- M4 TRUE-side proof verification remains future work.
 - M5 full spectral H-tilt remains future work beyond H-tilt-lite route
   pressure.
 - M6 domain-general claim expansion remains future work beyond the current

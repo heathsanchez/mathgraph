@@ -58,6 +58,18 @@ certificate, or an explicitly chain-audited derived certificate id. Route
 pressure, projection pressure, finite-search misses, and agent taste remain
 advisory.
 
+## Root-Aware Constructors
+
+The M3 root-aware constructor layer compiles advisory root, residual, obstruction,
+and projection pressure into narrow constructor plans. Plans are advisory. Root
+candidates are not theorems, basin matches are not certificates, and candidate
+finite tables are not terminal artifacts.
+
+Only importer-verified finite countermodels cross the truth boundary into
+`FINITE_COUNTERMODEL`. Candidate tables remain candidate artifacts until the
+importer/revalidator accepts them, and finite-search misses remain residuals,
+not TRUE proofs.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains
