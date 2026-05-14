@@ -33,6 +33,10 @@
 - M6.6 Continuation Action Registry: advisory continuation actions can produce
   candidate claims, proof tasks, countermodel tasks, projection tasks, episode
   inputs, and obstruction candidates without treating generated moves as truth.
+- M6.7 Proof Digestion / Assimilation Layer: verified and unverified proof
+  artifacts can be dependency-mapped, step-classified, compressed into key
+  idea/schema candidates, exposition notes, projection hints, and lawbook
+  assimilation candidates without treating digestion as verification.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -74,6 +78,8 @@
   advisory-only parsing.
 - Richer action policies, learned discovery value, and action ranking over the
   continuation registry.
+- Lawbook hardening for accepting proof digestion links separately from truth
+  certificates.
 - Host/object theorem transport validation for scanned/imported AOT artifacts.
 - Constructor pressure from the Obstruction Atlas.
 - Larger canonical root consolidation over full external v16.7 artifacts.

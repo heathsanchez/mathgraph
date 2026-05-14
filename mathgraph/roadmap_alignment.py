@@ -29,6 +29,7 @@ from mathgraph.proof_verification import (
     ProofVerificationTrace,
     ProofVerifierKind,
 )
+from mathgraph.proof_digestion import ProofDigestionTrace
 from mathgraph.projection import ProjectionRuleKind, ProjectionStatus, ProjectionTrace
 from mathgraph.root_constructors import RootConstructorStatus, RootConstructorTrace
 from mathgraph.route_telemetry import RouteTelemetryLedger
@@ -128,6 +129,7 @@ def check_roadmap_alignment(
     formal_world_registries: Sequence[FormalWorldRegistry] = (),
     lean_adapter_traces: Sequence[LeanAdapterTrace] = (),
     continuation_action_traces: Sequence[ContinuationActionTrace] = (),
+    proof_digestion_traces: Sequence[ProofDigestionTrace] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -147,6 +149,7 @@ def check_roadmap_alignment(
     registries = list(formal_world_registries)
     lean_traces = list(lean_adapter_traces)
     continuation_traces = list(continuation_action_traces)
+    digestion_traces = list(proof_digestion_traces)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -159,6 +162,7 @@ def check_roadmap_alignment(
     _check_domain_claims(claims, parse_results, registries, findings)
     _check_lean_adapter_traces(lean_traces, findings)
     _check_continuation_action_traces(continuation_traces, findings)
+    _check_proof_digestion_traces(digestion_traces, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -174,6 +178,7 @@ def check_roadmap_alignment(
         registries,
         lean_traces,
         continuation_traces,
+        digestion_traces,
         summary_data,
         findings,
     )
@@ -191,6 +196,7 @@ def check_roadmap_alignment(
         registries,
         lean_traces,
         continuation_traces,
+        digestion_traces,
         summary_data,
         findings,
     )
@@ -210,6 +216,7 @@ def check_roadmap_alignment(
         "formal_world_registry_count": len(registries),
         "lean_adapter_trace_count": len(lean_traces),
         "continuation_action_trace_count": len(continuation_traces),
+        "proof_digestion_trace_count": len(digestion_traces),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -221,6 +228,7 @@ def check_roadmap_alignment(
         "spectral_htilt_state_count": sum(len(estimate.states) for estimate in spectral_estimates),
         "lean_adapter_verified_count": sum(trace.verified_count() for trace in lean_traces),
         "continuation_action_output_count": sum(len(trace.outputs) for trace in continuation_traces),
+        "proof_digestion_ready_count": sum(1 for trace in digestion_traces if trace.summary.get("assimilation_ready") or trace.status.value == "ASSIMILATION_CANDIDATE"),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -894,6 +902,85 @@ def _check_continuation_action_traces(
                 )
 
 
+def _check_proof_digestion_traces(
+    traces: Sequence[ProofDigestionTrace], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for trace in traces:
+        text = json.dumps(trace.to_dict(), sort_keys=True).lower()
+        if (trace.terminal_form or trace.certificate_id) and not trace.verifier_boundary_crossed:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "DIGESTION_TERMINAL_WITHOUT_BOUNDARY",
+                    f"Proof digestion trace {trace.trace_id} carries terminal/certificate data without inherited verifier boundary.",
+                    "Digestion may inherit a verified proof boundary but must never invent one.",
+                )
+            )
+        if "verifier_authority" in text or "digestion_verifies" in text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "DIGESTION_CLAIMS_VERIFIER_AUTHORITY",
+                    f"Proof digestion trace {trace.trace_id} claims verifier authority.",
+                    "Proof digestion explains and compresses; it is not proof verification.",
+                )
+            )
+        terminal_terms = _terminal_values()
+        for idea in trace.key_ideas:
+            idea_text = json.dumps(idea.to_dict(), sort_keys=True).lower()
+            if any(term.lower() in idea_text for term in terminal_terms):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "KEY_IDEA_CANDIDATE_CLAIMS_PROOF",
+                        f"Key idea candidate {idea.key_idea_id} contains terminal proof language.",
+                        "Key ideas are advisory understanding artifacts, not proof records.",
+                    )
+                )
+        for schema in trace.reusable_schemas:
+            schema_text = json.dumps(schema.to_dict(), sort_keys=True).lower()
+            if any(term.lower() in schema_text for term in terminal_terms):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "SCHEMA_CANDIDATE_CLAIMS_PROOF",
+                        f"Reusable schema candidate {schema.schema_id} contains terminal proof language.",
+                        "Schemas are advisory reuse candidates until separately verified/applied.",
+                    )
+                )
+        for note in trace.exposition_notes:
+            note_text = json.dumps(note.to_dict(), sort_keys=True).lower()
+            if any(term.lower() in note_text for term in terminal_terms):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "EXPOSITION_NOTE_CLAIMS_PROOF",
+                        f"Exposition note {note.note_id} contains terminal proof language.",
+                        "Exposition notes explain; they are not proof certificates.",
+                    )
+                )
+        if trace.summary.get("assimilation_candidate_ready") and not trace.certificate_id:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "ASSIMILATION_READY_WITHOUT_CERTIFICATE",
+                    f"Proof digestion trace {trace.trace_id} marks assimilation ready without certificate id.",
+                    "Lawbook assimilation candidates require an inherited verified certificate.",
+                )
+            )
+        if trace.summary.get("digested_failed_or_unverified_as_terminal") or (
+            not trace.verifier_boundary_crossed and trace.terminal_form
+        ):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "UNVERIFIED_DIGESTION_AS_TERMINAL",
+                    f"Proof digestion trace {trace.trace_id} treats failed/unverified proof digestion as terminal truth.",
+                    "Keep failed or unverified proof digestion advisory/residual.",
+                )
+            )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -943,10 +1030,11 @@ def _check_cross_record_warnings(
     registries: Sequence[FormalWorldRegistry],
     lean_traces: Sequence[LeanAdapterTrace],
     continuation_traces: Sequence[ContinuationActionTrace],
+    digestion_traces: Sequence[ProofDigestionTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -1457,6 +1545,54 @@ def _check_cross_record_warnings(
                     "Keep unsafe transformations residual until reviewed.",
                 )
             )
+    for trace in digestion_traces:
+        if trace.certificate_id and not trace.dependency_maps:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "DIGESTION_CERTIFICATE_WITHOUT_DEPENDENCY_MAP",
+                    f"Proof digestion trace {trace.trace_id} references a certificate without dependency map.",
+                    "Map proof dependencies before lawbook assimilation.",
+                )
+            )
+        for note in trace.exposition_notes:
+            if not note.limitations:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "EXPOSITION_NOTE_WITHOUT_LIMITATIONS",
+                        f"Exposition note {note.note_id} has no limitations.",
+                        "Record that exposition is heuristic/advisory.",
+                    )
+                )
+        if sum(1 for step in trace.step_digests if step.classification == "unknown") >= 10 and not trace.summary.get("residual_note"):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "MANY_UNKNOWN_DIGESTION_STEPS",
+                    f"Proof digestion trace {trace.trace_id} has many unknown steps without residual note.",
+                    "Record residual digestion questions for opaque proof segments.",
+                )
+            )
+        for schema in trace.reusable_schemas:
+            if not schema.conditions and not schema.metadata.get("limitations"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "REUSABLE_SCHEMA_WITHOUT_CONDITIONS",
+                        f"Reusable schema {schema.schema_id} lacks conditions/limitations.",
+                        "Record application conditions and advisory limitations.",
+                    )
+                )
+        if trace.summary.get("assimilation_candidate_ready") is False and not trace.summary.get("not_ready_reason"):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "ASSIMILATION_CANDIDATE_NOT_READY_NO_REASON",
+                    f"Proof digestion trace {trace.trace_id} has a not-ready assimilation candidate without reason.",
+                    "Record why the candidate is not ready.",
+                )
+            )
 
 
 def _add_positive_findings(
@@ -1473,10 +1609,11 @@ def _add_positive_findings(
     registries: Sequence[FormalWorldRegistry],
     lean_traces: Sequence[LeanAdapterTrace],
     continuation_traces: Sequence[ContinuationActionTrace],
+    digestion_traces: Sequence[ProofDigestionTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -1668,6 +1805,20 @@ def _add_positive_findings(
         findings.append(RoadmapAlignmentFinding("info", "CONTINUATION_COUNTERMODEL_TASKS_PRODUCED", "Continuation actions produced countermodel tasks."))
     if continuation_traces and not any(output.is_terminal() for trace in continuation_traces for output in trace.outputs):
         findings.append(RoadmapAlignmentFinding("info", "CONTINUATION_ADVISORY_BOUNDARY_PRESERVED", "Continuation actions preserved advisory boundary."))
+    if any(trace.dependency_maps for trace in digestion_traces):
+        findings.append(RoadmapAlignmentFinding("info", "PROOF_DEPENDENCY_MAP_EXTRACTED", "Proof dependency map extracted."))
+    if any(trace.key_ideas for trace in digestion_traces):
+        findings.append(RoadmapAlignmentFinding("info", "KEY_IDEA_CANDIDATE_EXTRACTED", "Key idea candidate extracted."))
+    if any(trace.reusable_schemas for trace in digestion_traces):
+        findings.append(RoadmapAlignmentFinding("info", "REUSABLE_SCHEMA_CANDIDATE_EXTRACTED", "Reusable schema candidate extracted."))
+    if any(trace.exposition_notes for trace in digestion_traces):
+        findings.append(RoadmapAlignmentFinding("info", "EXPOSITION_NOTE_CREATED", "Exposition note created."))
+    if any(trace.status.value == "ASSIMILATION_CANDIDATE" and trace.certificate_id for trace in digestion_traces):
+        findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_ASSIMILATION_CANDIDATE_READY", "Lawbook assimilation candidate ready."))
+    if any(trace.projection_candidates for trace in digestion_traces):
+        findings.append(RoadmapAlignmentFinding("info", "PROOF_DIGESTION_PROJECTION_HINTS", "Proof digestion projection hints produced."))
+    if any(trace.is_truth_terminal() for trace in digestion_traces):
+        findings.append(RoadmapAlignmentFinding("info", "VERIFIED_PROOF_INHERITED_IN_DIGESTION", "Verified proof boundary inherited safely into digestion trace."))
 
 
 def _terminal_values() -> set[str]:

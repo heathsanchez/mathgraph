@@ -224,6 +224,19 @@ verifier-bound episode machinery before they can matter as terminal artifacts.
 Action output is not Lawbook memory until it is verified, refuted, or named
 through an explicit boundary.
 
+## Proof Digestion
+
+Proof generation and proof verification are not the end. Verified artifacts
+must be digested into reusable mathematical memory before they can meaningfully
+improve future search, projection, and explanation.
+
+Digestion distills dependencies, separates routine and load-bearing steps,
+extracts key idea and reusable schema candidates, creates exposition notes, and
+emits projection hints. The Lawbook should store truth artifacts and digestion
+links separately: a proof certificate records survival through a verifier
+boundary, while digestion records compressed intelligibility around that
+survival.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

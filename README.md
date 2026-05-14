@@ -155,6 +155,19 @@ Outputs may bridge into existing episode/proof/projection machinery, but only a
 verifier, importer, chain audit, or naming boundary can produce a terminal
 form.
 
+## Proof Digestion and Lawbook Assimilation
+
+M6.7 makes proof digestion a first-class post-verification process. A verified
+proof is truth-stable, but not automatically understanding-stable. Digestion
+maps dependencies, separates routine and load-bearing steps, extracts key
+idea/schema candidates, creates exposition notes, and proposes lawbook
+assimilation candidates.
+
+Digestion is advisory and cannot promote truth. A digestion trace may inherit a
+`VERIFIED_PROOF` certificate from an existing verifier/importer/chain-audit
+boundary, but it does not create certificates and is not itself proof
+verification.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains
