@@ -11,6 +11,12 @@ from typing import Any, Mapping, Sequence
 from mathgraph.agent_biography import AgentExperience, AgentExperienceOutcome
 from mathgraph.alchemy import AlchemicalPhase, AlchemicalStatus, AlchemicalTrace
 from mathgraph.certificates import TerminalForm
+from mathgraph.proof_verification import (
+    ProofArtifactKind,
+    ProofVerificationStatus,
+    ProofVerificationTrace,
+    ProofVerifierKind,
+)
 from mathgraph.projection import ProjectionRuleKind, ProjectionStatus, ProjectionTrace
 from mathgraph.root_constructors import RootConstructorStatus, RootConstructorTrace
 
@@ -98,6 +104,7 @@ def check_roadmap_alignment(
     agent_experiences: Sequence[AgentExperience] = (),
     projection_traces: Sequence[ProjectionTrace] = (),
     root_constructor_traces: Sequence[RootConstructorTrace] = (),
+    proof_verification_traces: Sequence[ProofVerificationTrace] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -108,14 +115,16 @@ def check_roadmap_alignment(
     experiences = list(agent_experiences)
     projections = list(projection_traces)
     root_constructors = list(root_constructor_traces)
+    proof_traces = list(proof_verification_traces)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
     _check_projection_traces(projections, findings)
     _check_root_constructor_traces(root_constructors, findings)
+    _check_proof_verification_traces(proof_traces, findings)
     _check_summary(summary_data, findings)
-    _check_cross_record_warnings(traces, experiences, projections, root_constructors, summary_data, findings)
-    _add_positive_findings(traces, experiences, projections, root_constructors, summary_data, findings)
+    _check_cross_record_warnings(traces, experiences, projections, root_constructors, proof_traces, summary_data, findings)
+    _add_positive_findings(traces, experiences, projections, root_constructors, proof_traces, summary_data, findings)
 
     report_summary = {
         **summary_data,
@@ -123,10 +132,12 @@ def check_roadmap_alignment(
         "agent_experience_count": len(experiences),
         "projection_trace_count": len(projections),
         "root_constructor_trace_count": len(root_constructors),
+        "proof_verification_trace_count": len(proof_traces),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
         "root_constructor_terminal_count": sum(trace.terminal_count() for trace in root_constructors),
+        "proof_verification_terminal_count": sum(trace.terminal_count() for trace in proof_traces),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -334,6 +345,78 @@ def _check_root_constructor_traces(
                 )
 
 
+def _check_proof_verification_traces(
+    proof_traces: Sequence[ProofVerificationTrace], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for trace in proof_traces:
+        for artifact in trace.artifacts:
+            if _dict_claims_terminal(artifact.to_dict()):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "PROOF_ARTIFACT_CLAIMS_TERMINAL",
+                        f"Proof artifact {artifact.artifact_id} claims terminal truth.",
+                        "Proof motifs, lemmas, sketches, and skeletons must remain advisory until verified.",
+                    )
+                )
+        for result in trace.results:
+            if result.terminal_form == TerminalForm.VERIFIED_PROOF and not result.is_terminal():
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "PROOF_VERIFIED_WITHOUT_BOUNDARY",
+                        f"Proof result {result.result_id} claims VERIFIED_PROOF without a trusted boundary.",
+                        "Require verifier/importer/chain-audit success plus certificate id.",
+                    )
+                )
+            if result.status in {
+                ProofVerificationStatus.SKELETON_GENERATED,
+                ProofVerificationStatus.VERIFIER_FAILED,
+                ProofVerificationStatus.VERIFIER_NOT_RUN,
+            } and result.terminal_form:
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "UNVERIFIED_PROOF_STATUS_CLAIMS_TERMINAL",
+                        f"Proof result {result.result_id} has status {result.status.value} but claims terminal truth.",
+                        "Skeletons, failed verifier runs, and not-run results cannot become VERIFIED_PROOF.",
+                    )
+                )
+            if (
+                result.verifier_kind == ProofVerifierKind.MOCK_VERIFIER
+                and result.is_terminal()
+                and result.metadata.get("test_only") is not True
+            ):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "MOCK_VERIFIER_PRODUCTION_TRUTH",
+                        f"Proof result {result.result_id} treats mock verifier output as production truth.",
+                        "Mock verifier output must be test-only and cannot be production trust.",
+                    )
+                )
+            if result.status == ProofVerificationStatus.IMPORTED_VERIFIED:
+                provenance = result.metadata.get("provenance", {})
+                if not result.certificate_id and not result.metadata.get("external_certificate_id"):
+                    findings.append(
+                        RoadmapAlignmentFinding(
+                            "critical",
+                            "IMPORTED_PROOF_WITHOUT_CERTIFICATE",
+                            f"Imported proof result {result.result_id} lacks external certificate/provenance.",
+                            "Trusted imports need an external certificate id or verified provenance.",
+                        )
+                    )
+                if isinstance(provenance, Mapping) and not (provenance.get("verified") is True or result.metadata.get("external_certificate_id")):
+                    findings.append(
+                        RoadmapAlignmentFinding(
+                            "critical",
+                            "IMPORTED_PROOF_UNVERIFIED_PROVENANCE",
+                            f"Imported proof result {result.result_id} lacks verified provenance.",
+                            "Trusted imports must preserve verified provenance.",
+                        )
+                    )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -374,16 +457,19 @@ def _check_cross_record_warnings(
     experiences: Sequence[AgentExperience],
     projection_traces: Sequence[ProjectionTrace],
     root_constructor_traces: Sequence[RootConstructorTrace],
+    proof_traces: Sequence[ProofVerificationTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
             trace.compression_gain_total() for trace in projection_traces
         ) and not any(
             trace.compression_gain_total() for trace in root_constructor_traces
+        ) and not any(
+            trace.compression_gain_total() for trace in proof_traces
         ):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -399,6 +485,8 @@ def _check_cross_record_warnings(
             trace.summary.get("derived_certificates", 0) for trace in projection_traces
         ) and not any(
             trace.summary.get("importer_verified", 0) for trace in root_constructor_traces
+        ) and not any(
+            trace.terminal_count() for trace in proof_traces
         ):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -530,6 +618,75 @@ def _check_cross_record_warnings(
                         "Record support counts or provenance for high-confidence root pressure.",
                     )
                 )
+    for trace in proof_traces:
+        skeleton_count = sum(
+            1
+            for artifact in trace.artifacts
+            if artifact.kind in {ProofArtifactKind.LEAN_SKELETON, ProofArtifactKind.ISABELLE_SKELETON}
+        )
+        verifier_runs = sum(
+            1
+            for result in trace.results
+            if result.status
+            in {
+                ProofVerificationStatus.VERIFIER_PASSED,
+                ProofVerificationStatus.VERIFIER_FAILED,
+                ProofVerificationStatus.IMPORTED_VERIFIED,
+                ProofVerificationStatus.CHAIN_AUDITED,
+            }
+        )
+        if skeleton_count >= 10 and verifier_runs == 0:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "MANY_SKELETONS_NO_VERIFIER_RUNS",
+                    f"Proof trace {trace.trace_id} has many skeletons but no verifier runs.",
+                    "Run a verifier/importer or keep the skeleton batch clearly advisory.",
+                )
+            )
+        for artifact in trace.artifacts:
+            if (artifact.source or artifact.target) and not artifact.metadata.get("encoding"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "PROOF_ARTIFACT_TEXT_WITHOUT_ENCODING",
+                        f"Proof artifact {artifact.artifact_id} has source/target text but no encoding metadata.",
+                        "Record formal encoding before treating source/target text as proof content.",
+                    )
+                )
+        for result in trace.results:
+            if result.verifier_kind not in {ProofVerifierKind.NONE, ProofVerifierKind.MOCK_VERIFIER}:
+                if result.status == ProofVerificationStatus.VERIFIER_NOT_RUN and not result.command:
+                    findings.append(
+                        RoadmapAlignmentFinding(
+                            "warning",
+                            "PROOF_VERIFIER_COMMAND_MISSING",
+                            f"Proof result {result.result_id} did not run because verifier command is missing.",
+                            "Provide a verifier command or keep verifier_kind NONE.",
+                        )
+                    )
+            if result.status == ProofVerificationStatus.CHAIN_AUDITED:
+                parents = result.metadata.get("parent_certificate_ids", [])
+                if result.metadata.get("chain_safe") is True and not parents:
+                    findings.append(
+                        RoadmapAlignmentFinding(
+                            "warning",
+                            "CHAIN_AUDIT_SAFE_WITHOUT_PARENTS",
+                            f"Proof result {result.result_id} claims chain_safe without parent certificate ids.",
+                            "Record parent certificate ids for chain-audited proof results.",
+                        )
+                    )
+            if result.metadata.get("cost_units", 0.0) >= 100.0 and not (
+                result.residual_delta or result.compression_gain or result.projection_gain
+            ):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "warning",
+                        "HIGH_PROOF_COST_NO_GAIN",
+                        f"Proof result {result.result_id} has high cost without residual/compression/projection gain.",
+                        "Record proof scars or tighten proof artifact generation.",
+                    )
+                )
 
 
 def _add_positive_findings(
@@ -537,10 +694,11 @@ def _add_positive_findings(
     experiences: Sequence[AgentExperience],
     projection_traces: Sequence[ProjectionTrace],
     root_constructor_traces: Sequence[RootConstructorTrace],
+    proof_traces: Sequence[ProofVerificationTrace],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -621,6 +779,36 @@ def _add_positive_findings(
                 "Constructor trace converted into alchemical trace or agent experience.",
             )
         )
+    if any(
+        result.status == ProofVerificationStatus.VERIFIER_PASSED
+        for trace in proof_traces
+        for result in trace.results
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "PROOF_VERIFIER_PASSED", "Verifier-passed proof recorded."))
+    if any(
+        result.status == ProofVerificationStatus.IMPORTED_VERIFIED
+        for trace in proof_traces
+        for result in trace.results
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "PROOF_IMPORTED_VERIFIED", "Imported verified proof recorded."))
+    if any(
+        result.status == ProofVerificationStatus.CHAIN_AUDITED
+        for trace in proof_traces
+        for result in trace.results
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "PROOF_CHAIN_AUDITED", "Chain-audited proof recorded."))
+    if any(
+        artifact.kind in {ProofArtifactKind.LEAN_SKELETON, ProofArtifactKind.ISABELLE_SKELETON}
+        for trace in proof_traces
+        for artifact in trace.artifacts
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "PROOF_SKELETON_BOUNDARY_PRESERVED", "Proof skeleton boundary preserved."))
+    if any(
+        result.status == ProofVerificationStatus.VERIFIER_FAILED
+        for trace in proof_traces
+        for result in trace.results
+    ):
+        findings.append(RoadmapAlignmentFinding("info", "PROOF_FAILURE_RECORDED", "Verifier failure recorded as residual/advisory."))
 
 
 def _terminal_values() -> set[str]:

@@ -70,6 +70,19 @@ Only importer-verified finite countermodels cross the truth boundary into
 importer/revalidator accepts them, and finite-search misses remain residuals,
 not TRUE proofs.
 
+## TRUE-Side Proof Verification Scaffold
+
+The M4 proof verification scaffold gives TRUE-side artifacts the same explicit
+boundary discipline as finite countermodels. Proof motifs, lemma candidates,
+cut candidates, theorem schemas, and Lean skeletons are advisory until a
+verifier, trusted importer, or chain auditor accepts them.
+
+A proof artifact becomes `VERIFIED_PROOF` only after an explicit
+verifier/importer/chain-audit boundary produces a certificate id. Lean does not
+need to be installed for the scaffold; optional verifier execution is supported
+when available. The mock verifier exists for tests only and is not production
+trust.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

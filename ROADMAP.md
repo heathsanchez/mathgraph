@@ -12,6 +12,9 @@
   pressure, and projection pressure compile into narrow constructor plans and
   safe attempts while candidate tables remain non-terminal until importer
   verification.
+- M4 TRUE-side proof verification scaffold: proof motifs, lemma/cut candidates,
+  theorem schemas, and Lean skeletons enter a replayable verifier/importer/
+  chain-audit lifecycle without treating sketches as truth.
 - v16.12 metabolic cycle testbed for one executable local frontier -> lawbook
   -> verifier -> derived closure -> residual -> next-frontier loop.
 - v16.11 LogiKEy-style meta-logical workbench and faithfulness layer.
@@ -58,7 +61,7 @@
 ## Later
 
 - Full spectral H-tilt killed generator `K = L - V`.
-- M4 TRUE-side proof verification remains future work.
+- Full Lean/Isabelle integration remains future work beyond the M4 scaffold.
 - M5 full spectral H-tilt remains future work beyond H-tilt-lite route
   pressure.
 - M6 domain-general claim expansion remains future work beyond the current

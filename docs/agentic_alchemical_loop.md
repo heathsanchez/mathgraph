@@ -109,6 +109,26 @@ Failed attempts should become named obstruction pressure or sharper residuals.
 A search miss is never a TRUE proof; it only says that a bounded attempt did not
 find a countermodel.
 
+## TRUE-Side Proof Verification
+
+Proof motifs sublime: repeated proof patterns rise from traces as advisory
+structure. Lemma candidates, cut candidates, and theorem schemas are still
+pressure, not law.
+
+Lean skeletons descend: a motif or candidate can become a concrete file or
+skeleton artifact, but syntax is not verification.
+
+Verifier execution distills: Lean, another verifier, a trusted importer, or a
+chain auditor may check the artifact. Failures become residual proof pressure.
+Not-run results stay advisory.
+
+Verified proof fixes: only a passed verifier, verified import, or explicit
+chain-safe audit with certificate id can produce `VERIFIED_PROOF`.
+
+Theorem schemas cerate: usable proof shapes become reusable material only after
+their boundary status is clear. Projection applies verified proof back to
+residuals; unverified skeletons produce only advisory projection pressure.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,
