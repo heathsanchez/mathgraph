@@ -64,6 +64,7 @@ from mathgraph.habit_rules import (
     HabitStatus,
     HabitStore,
 )
+from mathgraph.reason_compression import ReasonCandidate,ReasonCompressionReport,ReasonCompressionReportStatus,ReasonNode,ReasonObservation,ReasonReview
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -188,6 +189,11 @@ def check_roadmap_alignment(
     habit_reviews: Sequence[HabitReview] = (),
     habit_stores: Sequence[HabitStore] = (),
     habit_reports: Sequence[HabitFormationReport] = (),
+    reason_observations: Sequence[ReasonObservation] = (),
+    reason_candidates: Sequence[ReasonCandidate] = (),
+    reason_nodes: Sequence[ReasonNode] = (),
+    reason_reviews: Sequence[ReasonReview] = (),
+    reason_reports: Sequence[ReasonCompressionReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -224,6 +230,7 @@ def check_roadmap_alignment(
     identity_candidates = list(structural_merge_candidates)
     identity_reports = list(structural_identity_reports)
     habit_observations_data = list(habit_observations); habit_candidates_data = list(habit_candidates); habit_rules_data = list(habit_rules); habit_reviews_data = list(habit_reviews); habit_stores_data = list(habit_stores); habit_reports_data = list(habit_reports)
+    reason_observations_data=list(reason_observations); reason_candidates_data=list(reason_candidates); reason_nodes_data=list(reason_nodes); reason_reviews_data=list(reason_reviews); reason_reports_data=list(reason_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -244,6 +251,7 @@ def check_roadmap_alignment(
     _check_lawbook_queries(lawbook_queries_data, lawbook_answers, lawbook_reports, findings)
     _check_structural_identity(identity_graphs, identity_signatures, identity_candidates, identity_reports, findings)
     _check_habits(habit_observations_data, habit_candidates_data, habit_rules_data, habit_reviews_data, habit_stores_data, habit_reports_data, findings)
+    _check_reasons(reason_observations_data,reason_candidates_data,reason_nodes_data,reason_reviews_data,reason_reports_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -337,6 +345,9 @@ def check_roadmap_alignment(
         "habit_observation_count": len(habit_observations_data) + sum(len(report.observations) for report in habit_reports_data),
         "habit_candidate_count": len(habit_candidates_data) + sum(len(report.candidates) for report in habit_reports_data),
         "habit_rule_count": len(habit_rules_data) + sum(len(report.rules) for report in habit_reports_data),
+        "reason_observation_count": len(reason_observations_data)+sum(len(r.observations) for r in reason_reports_data),
+        "reason_candidate_count": len(reason_candidates_data)+sum(len(r.candidates) for r in reason_reports_data),
+        "reason_node_count": len(reason_nodes_data)+sum(len(r.reason_nodes) for r in reason_reports_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1425,6 +1436,8 @@ def _check_lawbook_boundary(
             findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_LAWBOOK_CANDIDATE_ACCEPTED_DIRECTLY", f"Lawbook entry {entry.entry_id} accepts a structural candidate directly.", "Structural merge candidates remain candidates until explicit review."))
         if entry.metadata.get("habit_rule_not_truth") and entry.is_accepted():
             findings.append(RoadmapAlignmentFinding("critical", "HABIT_LAWBOOK_CANDIDATE_ACCEPTED_DIRECTLY", f"Lawbook entry {entry.entry_id} accepts a habit candidate directly.", "Habit-derived Lawbook records remain candidates until explicit Lawbook review."))
+        if entry.metadata.get("reason_node_not_truth") and entry.is_accepted():
+            findings.append(RoadmapAlignmentFinding("critical", "REASON_LAWBOOK_CANDIDATE_ACCEPTED_DIRECTLY", f"Lawbook entry {entry.entry_id} accepts a reason candidate directly.", "Reason-derived Lawbook records remain candidates until explicit review."))
         if entry.metadata.get("natural_language_verifier_boundary") or ("natural_language" in text and "verifier_boundary" in text):
             findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_NATURAL_LANGUAGE_AS_BOUNDARY", f"Lawbook entry {entry.entry_id} marks natural-language text as verifier boundary.", "Natural-language text is not verification."))
         if entry.is_accepted() and entry.acceptance_boundary.value in {"NONE", "UNKNOWN"}:
@@ -1561,6 +1574,25 @@ def _check_habits(
     for store in stores:
         if store.rules and not store.reviews:
             findings.append(RoadmapAlignmentFinding("warning","HABIT_STORE_RULES_NO_REVIEWS",f"Habit store {store.store_id} has rules but no reviews.","Review habits before acceptance."))
+
+
+def _check_reasons(observations, candidates, nodes, reviews, reports, findings):
+    all_candidates=list(candidates)+[c for r in reports for c in r.candidates]; all_nodes=list(nodes)+[n for r in reports for n in r.reason_nodes]
+    for c in all_candidates:
+        text=json.dumps(c.to_dict(),sort_keys=True).lower()
+        if ("verified_proof" in text or "finite_countermodel" in text) and c.metadata.get("treat_as_truth"):
+            findings.append(RoadmapAlignmentFinding("critical","REASON_AS_PROOF",f"Reason candidate {c.candidate_id} treats reason as truth.","Reasons remain advisory."))
+        if c.support_count<3: findings.append(RoadmapAlignmentFinding("warning","REASON_LOW_SUPPORT",f"Reason candidate {c.candidate_id} has low support.","Gather more evidence."))
+        if not c.load_bearing_atoms: findings.append(RoadmapAlignmentFinding("warning","REASON_NO_LOAD_BEARING",f"Reason candidate {c.candidate_id} lacks load-bearing atoms.","Run minimality review."))
+    for n in all_nodes:
+        if not n.advisory: findings.append(RoadmapAlignmentFinding("critical","REASON_NODE_NON_ADVISORY",f"Reason node {n.reason_id} is non-advisory.","Reason nodes do not cross truth boundaries."))
+        if n.is_accepted() and not n.conditions: findings.append(RoadmapAlignmentFinding("critical","REASON_ACCEPTED_WITHOUT_LOAD_BEARING",f"Accepted reason {n.reason_id} lacks load-bearing atoms.","Accepted reasons require explicit conditions."))
+        if n.is_accepted() and n.risk_score>.5: findings.append(RoadmapAlignmentFinding("critical","REASON_ACCEPTED_HIGH_RISK",f"Accepted reason {n.reason_id} is high risk.","Hold or reject high-risk reasons."))
+        if n.reason_text and any(x in n.reason_text.lower() for x in ("proof","certificate","necessity")): findings.append(RoadmapAlignmentFinding("critical","REASON_TEXT_CLAIMS_PROOF",f"Reason node {n.reason_id} claims proof-like force.","Reason text is not formal evidence."))
+    for r in reports:
+        if r.critical_count()>0 and r.status!=ReasonCompressionReportStatus.HAS_CRITICALS: findings.append(RoadmapAlignmentFinding("critical","REASON_REPORT_HIDES_CRITICALS",f"Reason report {r.report_id} hides criticals.","Reflect criticals in report status."))
+        if r.observations and not r.candidates: findings.append(RoadmapAlignmentFinding("warning","REASON_REPORT_NO_CANDIDATES",f"Reason report {r.report_id} has observations but no candidates.","Build or explain candidate absence."))
+        if r.candidates and not r.reviews: findings.append(RoadmapAlignmentFinding("warning","REASON_REPORT_NO_REVIEWS",f"Reason report {r.report_id} has candidates but no reviews.","Review reasons before promotion."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

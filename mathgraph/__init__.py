@@ -740,6 +740,21 @@ from mathgraph.habit_rules import (
     make_habit_review_id, make_habit_rule_id, make_habit_store_id,
     promote_habit_candidate, rank_routes_with_habits, review_habit_candidate,
 )
+from mathgraph.reason_compression import (
+    ReasonAtomKind,ReasonCandidate,ReasonCandidateKind,ReasonCompressionReport,
+    ReasonCompressionReportStatus,ReasonNode,ReasonObservation,ReasonObservationKind,
+    ReasonReview,ReasonReviewDecision,ReasonStatus,apply_reason_nodes,audit_reason_candidate,
+    audit_reason_node,audit_reason_report,build_reason_candidates,build_reason_compression_report,
+    check_reason_minimality,classify_atom_kind,extract_atoms_from_mapping,
+    make_reason_candidate_id,make_reason_compression_report_id,make_reason_node_id,
+    make_reason_observation_id,make_reason_review_id,normalize_reason_atom,
+    promote_reason_candidate,rank_routes_with_reasons,reason_observations_from_object,
+    reason_report_to_agent_experiences,reason_report_to_alchemical_trace,
+    reason_report_to_continuation_outputs,reason_report_to_curriculum,
+    reason_report_to_discovery_value_scores,reason_report_to_lawbook_candidates,
+    reason_report_to_route_telemetry_events,reason_report_to_structural_identity_objects,
+    review_reason_candidate,
+)
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
 from mathgraph.outcome_dataset import (
@@ -1625,6 +1640,16 @@ __all__ = [
     "infer_condition_key","infer_rule_kind","make_habit_candidate_id","make_habit_formation_report_id",
     "make_habit_observation_id","make_habit_review_id","make_habit_rule_id","make_habit_store_id",
     "promote_habit_candidate","rank_routes_with_habits","review_habit_candidate",
+    "ReasonAtomKind","ReasonCandidate","ReasonCandidateKind","ReasonCompressionReport",
+    "ReasonCompressionReportStatus","ReasonNode","ReasonObservation","ReasonObservationKind",
+    "ReasonReview","ReasonReviewDecision","ReasonStatus","apply_reason_nodes","audit_reason_candidate",
+    "audit_reason_node","audit_reason_report","build_reason_candidates","build_reason_compression_report",
+    "check_reason_minimality","classify_atom_kind","extract_atoms_from_mapping","make_reason_candidate_id",
+    "make_reason_compression_report_id","make_reason_node_id","make_reason_observation_id","make_reason_review_id",
+    "normalize_reason_atom","promote_reason_candidate","rank_routes_with_reasons","reason_observations_from_object",
+    "reason_report_to_agent_experiences","reason_report_to_alchemical_trace","reason_report_to_continuation_outputs",
+    "reason_report_to_curriculum","reason_report_to_discovery_value_scores","reason_report_to_lawbook_candidates",
+    "reason_report_to_route_telemetry_events","reason_report_to_structural_identity_objects","review_reason_candidate",
     "score_agent_experience",
     "score_alchemical_trace",
     "score_continuation_output",

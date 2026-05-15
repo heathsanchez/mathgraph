@@ -309,6 +309,14 @@ practice. It is the system's memory of what tends to work, not a truth boundary.
 Habit candidates require support, low risk, explicit conditions, and review
 before they become accepted habit rules.
 
+## Reason Compression
+
+Reason compression is how MathGraph moves from repeated success to reviewable
+explanation. It extracts atoms, tests which are load-bearing, identifies
+decorative conditions, and proposes minimal sufficient reason candidates.
+Reason nodes help humans and schedulers understand why families work, but remain
+advisory unless formalized and verified.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

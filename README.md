@@ -150,6 +150,16 @@ under explicit conditions. Accepted habits can adjust route priority, but they
 do not verify claims, create certificates, accept Lawbook entries, merge
 structural identities, or promote truth.
 
+## Reason Compression and Minimal Sufficient Reasons
+
+MathGraph can extract repeated explanatory atoms from accepted memory, query
+results, structural identity reports, habit rules, discovery value, projection,
+proof digestion, repair, curricula, alchemical traces, and agent experiences.
+It proposes reviewable reason candidates and minimal sufficient reason
+candidates. Accepted reason nodes are advisory explanation and route pressure
+only: they do not verify claims, create certificates, accept Lawbook entries,
+merge structural identity candidates, or promote truth.
+
 ## Projection
 
 Projection applies accepted memory back to unresolved work as known skips,

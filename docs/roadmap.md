@@ -36,10 +36,11 @@ Domain Claim
     advisory memory hygiene.
 12. M6.14 Habit Rules and Route Promotion: implemented/in progress as
     reviewed advisory route practice.
+13. M6.15 Reason Compression and Minimal Sufficient Reasons:
+    implemented/in progress as advisory explanatory compression.
 
 ## Future Work
 
-- M6.15 Reason Compression
 - M6.16 Process Memory
 - M6.17 Structure Registry and Typed Projection
 - M6.18 Role-Based Object Introduction
