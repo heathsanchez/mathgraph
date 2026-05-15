@@ -116,6 +116,22 @@ accepted entry, and acceptance can only record truth already established by an
 existing verifier/importer/finite-validation/chain-audit boundary or structured
 named-obstruction evidence.
 
+## Lawbook Query and Known-Skip Service
+
+MathGraph can query accepted Lawbook memory without constructing or verifying.
+A known skip means the system found an accepted entry backed by existing
+boundary evidence:
+
+- accepted proof -> skip verified proof
+- accepted countermodel -> skip finite countermodel
+- accepted obstruction -> skip accepted obstruction
+- candidate only -> do not skip
+- projection only -> do not skip
+
+Candidate-only, digestion-only, projection-only, and discovery-value-only
+records never permit skip. Querying memory reports what is already accepted; it
+does not accept, verify, or promote anything.
+
 ## Projection
 
 Projection applies accepted memory back to unresolved work as known skips,

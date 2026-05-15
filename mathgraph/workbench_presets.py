@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from mathgraph.benchmarking import (
     etp_matrix_benchmark_suite_metadata,
-    logikey_methodology_benchmark_suite_metadata,
+    reference_methodology_benchmark_suite_metadata,
 )
 from mathgraph.embedding_strategies import (
     AutomationBias,
@@ -19,7 +19,7 @@ from mathgraph.faithfulness import (
     FaithfulnessStatus,
     SoundnessStatus,
 )
-from mathgraph.logical_workbench import logikey_style_workbench, mathgraph_default_workbench
+from mathgraph.logical_workbench import reference_logic_workbench, mathgraph_default_workbench
 from mathgraph.verifier_backends import (
     isabelle_nitpick_backend_placeholder,
     isabelle_nunchaku_backend_placeholder,
@@ -29,11 +29,11 @@ from mathgraph.verifier_backends import (
 )
 
 
-def build_logikey_style_workbench_bundle() -> dict[str, list[object]]:
+def build_reference_logic_workbench_bundle() -> dict[str, list[object]]:
     """Return formal-workbench methodology metadata without importing theories."""
 
     return {
-        "logical_workbenches": [logikey_style_workbench()],
+        "logical_workbenches": [reference_logic_workbench()],
         "embedding_strategy_profiles": [
             EmbeddingStrategyProfile(
                 profile_id="strategy_logikey_shallow_hol",
@@ -45,7 +45,7 @@ def build_logikey_style_workbench_bundle() -> dict[str, list[object]]:
                 automation_bias=AutomationBias.PROVER_FRIENDLY,
                 expected_strengths=["HOL automation", "object-logic experimentation", "benchmarkable embeddings"],
                 expected_risks=["host/object theorem boundary", "faithfulness must be assessed"],
-                notes="LogiKEy-style shallow embedding strategy metadata only.",
+                notes="Reference shallow embedding strategy metadata only.",
             )
         ],
         "verifier_backend_profiles": [
@@ -68,8 +68,14 @@ def build_logikey_style_workbench_bundle() -> dict[str, list[object]]:
                 notes="Placeholder: no MathGraph mechanized faithfulness proof imported.",
             )
         ],
-        "benchmark_suites": [logikey_methodology_benchmark_suite_metadata()],
+        "benchmark_suites": [reference_methodology_benchmark_suite_metadata()],
     }
+
+
+def build_logikey_style_workbench_bundle() -> dict[str, list[object]]:
+    """Legacy internal alias; use ``build_reference_logic_workbench_bundle`` publicly."""
+
+    return build_reference_logic_workbench_bundle()
 
 
 def build_mathgraph_etp_workbench_bundle() -> dict[str, list[object]]:

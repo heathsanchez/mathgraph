@@ -125,13 +125,13 @@ def etp_magma_formal_world() -> FormalWorld:
     )
 
 
-def aot_formal_world_precedent() -> FormalWorld:
+def external_theory_formal_world_precedent() -> FormalWorld:
     return FormalWorld(
         formal_world_id="formal_world_aot_precedent",
         domain_kernel_id="aot",
-        name="AOT computational metaphysics precedent world",
+        name="External theory precedent world",
         world_kind=FormalWorldKind.OBJECT_THEORY_WORLD,
-        object_logic="AOT / second-order modal object theory",
+        object_logic="external object logic",
         identity_policy="abstract_identity_by_encoded_properties",
         denotation_policy="negative_free_logic_guarded",
         verifier_policy="Isabelle/HOL metadata only until proof artifacts imported",
@@ -149,3 +149,9 @@ def aot_formal_world_precedent() -> FormalWorld:
         ],
         notes="Formal-world metadata only; no Isabelle session import yet.",
     )
+
+
+def aot_formal_world_precedent() -> FormalWorld:
+    """Legacy internal alias; use ``external_theory_formal_world_precedent`` publicly."""
+
+    return external_theory_formal_world_precedent()

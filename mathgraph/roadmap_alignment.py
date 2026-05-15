@@ -26,6 +26,14 @@ from mathgraph.domain_claims import (
 )
 from mathgraph.lean_adapter import LeanAdapterTrace, LeanArtifactStatus
 from mathgraph.lawbook import LawbookEntry, LawbookReview, LawbookStore as AcceptedLawbookStore
+from mathgraph.lawbook_query import (
+    KnownSkipDecision,
+    LawbookQuery,
+    LawbookQueryAnswer,
+    LawbookQueryReport,
+    LawbookQueryReportStatus,
+    LawbookQueryStatus,
+)
 from mathgraph.proof_verification import (
     ProofArtifactKind,
     ProofVerificationStatus,
@@ -148,6 +156,9 @@ def check_roadmap_alignment(
     lawbook_entries: Sequence[LawbookEntry] = (),
     lawbook_stores: Sequence[AcceptedLawbookStore] = (),
     lawbook_reviews: Sequence[LawbookReview] = (),
+    lawbook_queries: Sequence[LawbookQuery] = (),
+    lawbook_query_answers: Sequence[LawbookQueryAnswer] = (),
+    lawbook_query_reports: Sequence[LawbookQueryReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -176,6 +187,9 @@ def check_roadmap_alignment(
     accepted_lawbook_entries = list(lawbook_entries)
     accepted_lawbook_stores = list(lawbook_stores)
     accepted_lawbook_reviews = list(lawbook_reviews)
+    lawbook_queries_data = list(lawbook_queries)
+    lawbook_answers = list(lawbook_query_answers)
+    lawbook_reports = list(lawbook_query_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -193,6 +207,7 @@ def check_roadmap_alignment(
     _check_continuation_curricula(curricula, findings)
     _check_discovery_value(value_reports, value_scores, findings)
     _check_lawbook_boundary(accepted_lawbook_entries, accepted_lawbook_stores, accepted_lawbook_reviews, findings)
+    _check_lawbook_queries(lawbook_queries_data, lawbook_answers, lawbook_reports, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -217,6 +232,9 @@ def check_roadmap_alignment(
         accepted_lawbook_entries,
         accepted_lawbook_stores,
         accepted_lawbook_reviews,
+        lawbook_queries_data,
+        lawbook_answers,
+        lawbook_reports,
         summary_data,
         findings,
     )
@@ -243,6 +261,9 @@ def check_roadmap_alignment(
         accepted_lawbook_entries,
         accepted_lawbook_stores,
         accepted_lawbook_reviews,
+        lawbook_queries_data,
+        lawbook_answers,
+        lawbook_reports,
         summary_data,
         findings,
     )
@@ -271,6 +292,9 @@ def check_roadmap_alignment(
         "lawbook_entry_count": len(accepted_lawbook_entries) + sum(len(store.entries) for store in accepted_lawbook_stores),
         "lawbook_store_count": len(accepted_lawbook_stores),
         "lawbook_review_count": len(accepted_lawbook_reviews) + sum(len(store.reviews) for store in accepted_lawbook_stores),
+        "lawbook_query_count": len(lawbook_queries_data),
+        "lawbook_query_answer_count": len(lawbook_answers) + sum(len(report.answers) for report in lawbook_reports),
+        "lawbook_query_report_count": len(lawbook_reports),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1378,6 +1402,48 @@ def _check_lawbook_boundary(
             findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_STORE_NO_PROJECTION_ENTRIES", f"Lawbook store {store.store_id} has no projection-capable entries.", "Projection-capable memory improves reuse."))
 
 
+def _check_lawbook_queries(
+    queries: Sequence[LawbookQuery],
+    answers: Sequence[LawbookQueryAnswer],
+    reports: Sequence[LawbookQueryReport],
+    findings: list[RoadmapAlignmentFinding],
+) -> None:
+    all_answers = list(answers) + [answer for report in reports for answer in report.answers]
+    for query in queries:
+        if query.kind.value not in {"TRUST_SUMMARY", "AUDIT"} and not any((query.claim_id, query.source and query.target, query.raw, query.certificate_id, query.entry_id)):
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_QUERY_WITHOUT_KEY", f"Lawbook query {query.query_id} has no usable lookup key.", "Provide claim, pair, raw, certificate, or entry id."))
+    for answer in all_answers:
+        if answer.terminal_form and not answer.certificate_id and answer.trust_level.value in {"VERIFIED_TRUTH", "FINITE_REFUTATION"}:
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_QUERY_TERMINAL_WITHOUT_CERTIFICATE", f"Lawbook answer {answer.answer_id} marks terminal truth without certificate id.", "Query answers may only inherit certificate-backed truth."))
+        if answer.terminal_form and answer.trust_level.value in {"VERIFIED_TRUTH", "FINITE_REFUTATION"} and not answer.verifier_boundary_crossed:
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_QUERY_TERMINAL_WITHOUT_BOUNDARY", f"Lawbook answer {answer.answer_id} marks terminal truth without verifier boundary.", "Lookup is not verification."))
+        if answer.status == LawbookQueryStatus.FOUND_CANDIDATE_ONLY and answer.is_known_skip():
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_CANDIDATE_SKIP_DRIFT", f"Candidate-only answer {answer.answer_id} permits skip.", "Candidate memory cannot skip verification."))
+        if answer.status == LawbookQueryStatus.FOUND_PROJECTION_ONLY and answer.terminal_form in {TerminalForm.VERIFIED_PROOF, TerminalForm.FINITE_COUNTERMODEL}:
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_PROJECTION_QUERY_AS_TRUTH", f"Projection-only answer {answer.answer_id} claims terminal truth.", "Projection is route pressure, not certificate."))
+        if answer.status == LawbookQueryStatus.FOUND_DIGESTION_ONLY and answer.terminal_form == TerminalForm.VERIFIED_PROOF and not answer.certificate_id:
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_DIGESTION_QUERY_AS_PROOF", f"Digestion-only answer {answer.answer_id} claims proof without inherited certificate.", "Digestion is not verification."))
+        if answer.status == LawbookQueryStatus.AMBIGUOUS and answer.is_known_skip():
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_AMBIGUOUS_SKIP_DRIFT", f"Ambiguous answer {answer.answer_id} permits skip.", "Conflicting accepted memory requires audit."))
+        if answer.is_known_skip() and not answer.matched_entry_ids:
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_SKIP_WITHOUT_ACCEPTED_ENTRY", f"Known-skip answer {answer.answer_id} lacks accepted entry evidence.", "Known skip must point to accepted memory."))
+        if answer.metadata.get("natural_language_verifier_boundary"):
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_QUERY_NATURAL_LANGUAGE_AS_BOUNDARY", f"Lawbook answer {answer.answer_id} marks natural-language explanation as verifier boundary.", "Explanations do not verify claims."))
+        if not answer.explanation:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_QUERY_ANSWER_WITHOUT_EXPLANATION", f"Lawbook answer {answer.answer_id} has no explanation.", "Expose boundary-aware answer text."))
+        if answer.projection_candidate_ids and answer.is_terminal_answer():
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_QUERY_TERMINAL_WITH_PROJECTION_HINTS", f"Lawbook answer {answer.answer_id} is terminal while carrying projection hints.", "Keep projection pressure distinct from terminal truth."))
+        if answer.advisory and not answer.advisory_reasons:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_QUERY_ADVISORY_WITHOUT_REASON", f"Advisory answer {answer.answer_id} lacks advisory reasons.", "Record why advisory memory cannot skip."))
+    for report in reports:
+        if report.critical_count() > 0 and report.status == LawbookQueryReportStatus.ANSWERED:
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_QUERY_REPORT_HIDES_CRITICALS", f"Lawbook query report {report.report_id} has criticals but status ANSWERED.", "Reflect criticals in report status."))
+        if sum(answer.status == LawbookQueryStatus.NOT_FOUND for answer in report.answers) > max(1, len(report.answers) // 2):
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_QUERY_MANY_NOT_FOUND", f"Lawbook query report {report.report_id} has many not-found answers.", "Review query coverage or accepted memory."))
+        if "trust_summary" not in report.metadata:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_QUERY_REPORT_NO_TRUST_SUMMARY", f"Lawbook query report {report.report_id} has no trust summary.", "Include store trust summary for auditability."))
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -1436,10 +1502,13 @@ def _check_cross_record_warnings(
     lawbook_entries: Sequence[LawbookEntry],
     lawbook_stores: Sequence[AcceptedLawbookStore],
     lawbook_reviews: Sequence[LawbookReview],
+    lawbook_queries: Sequence[LawbookQuery],
+    lawbook_answers: Sequence[LawbookQueryAnswer],
+    lawbook_reports: Sequence[LawbookQueryReport],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores or lawbook_entries or lawbook_stores or lawbook_reviews or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores or lawbook_entries or lawbook_stores or lawbook_reviews or lawbook_queries or lawbook_answers or lawbook_reports or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -2091,10 +2160,13 @@ def _add_positive_findings(
     lawbook_entries: Sequence[LawbookEntry],
     lawbook_stores: Sequence[AcceptedLawbookStore],
     lawbook_reviews: Sequence[LawbookReview],
+    lawbook_queries: Sequence[LawbookQuery],
+    lawbook_answers: Sequence[LawbookQueryAnswer],
+    lawbook_reports: Sequence[LawbookQueryReport],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores or lawbook_entries or lawbook_stores or lawbook_reviews:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores or lawbook_entries or lawbook_stores or lawbook_reviews or lawbook_queries or lawbook_answers or lawbook_reports:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -2144,6 +2216,17 @@ def _add_positive_findings(
             findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_CANDIDATE_NON_TERMINAL", f"Lawbook entry {entry.entry_id} remains candidate.", None))
     for store in lawbook_stores:
         findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_PUBLIC_MEMORY_BOUNDARY", f"Lawbook store {store.store_id} preserves explicit acceptance boundary.", None))
+    for answer in list(lawbook_answers) + [answer for report in lawbook_reports for answer in report.answers]:
+        if answer.trust_level.value == "VERIFIED_TRUTH" and answer.is_terminal_answer():
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_QUERY_VERIFIED_TRUST", f"Lawbook answer {answer.answer_id} returns verified trust with boundary.", None))
+        if answer.trust_level.value == "FINITE_REFUTATION" and answer.is_terminal_answer():
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_QUERY_FINITE_REFUTATION", f"Lawbook answer {answer.answer_id} returns finite refutation with boundary.", None))
+        if answer.status == LawbookQueryStatus.FOUND_CANDIDATE_ONLY and not answer.is_known_skip():
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_QUERY_CANDIDATE_REFUSES_SKIP", f"Candidate-only answer {answer.answer_id} refuses skip.", None))
+        if answer.status == LawbookQueryStatus.FOUND_PROJECTION_ONLY:
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_QUERY_PROJECTION_ADVISORY", f"Projection-only answer {answer.answer_id} remains advisory.", None))
+        if answer.status == LawbookQueryStatus.AMBIGUOUS and answer.known_skip_decision == KnownSkipDecision.DO_NOT_SKIP_AMBIGUOUS:
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_QUERY_AMBIGUOUS_REFUSES_SKIP", f"Ambiguous answer {answer.answer_id} refuses skip.", None))
     if any(trace.has_phase(AlchemicalPhase.PROJECTION) for trace in traces):
         findings.append(RoadmapAlignmentFinding("info", "PROJECTION_RECORDED", "Projection phase recorded."))
     if any(exp.taste_delta for exp in experiences) or summary.get("agent_taste_updated"):

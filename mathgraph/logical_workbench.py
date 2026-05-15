@@ -102,10 +102,10 @@ class LogicWorkbench:
         )
 
 
-def logikey_style_workbench() -> LogicWorkbench:
+def reference_logic_workbench() -> LogicWorkbench:
     return LogicWorkbench(
         workbench_id="workbench_logikey_style",
-        name="LogiKEy-style meta-logical workbench",
+        name="Reference logic workbench",
         description=(
             "Methodology metadata for layered object logics, shallow semantic "
             "embeddings in HOL, prover/model-finder experimentation, and "
@@ -116,12 +116,18 @@ def logikey_style_workbench() -> LogicWorkbench:
         benchmark_suite_ids=["benchmark_logikey_methodology"],
         lifecycle_status=WorkbenchLifecycleStatus.DECLARED,
         notes=(
-            "This is not an imported LogiKEy theory. It records the workbench "
+            "This is not an imported external theory. It records the workbench "
             "discipline: L1/L2/L3 separation, logic combinations, interpretation "
             "choice points, backend experimentation, and bridge faithfulness."
         ),
-        payload={"advisory_only": True, "imported_logikey_theories": False},
+        payload={"advisory_only": True, "imported_external_theories": False},
     )
+
+
+def logikey_style_workbench() -> LogicWorkbench:
+    """Legacy internal alias; use ``reference_logic_workbench`` publicly."""
+
+    return reference_logic_workbench()
 
 
 def mathgraph_default_workbench() -> LogicWorkbench:

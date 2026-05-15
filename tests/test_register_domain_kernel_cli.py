@@ -14,11 +14,11 @@ def test_register_domain_kernel_cli_aot_and_query(tmp_path):
         text=True,
     )
     payload = json.loads(result.stdout)
-    assert payload["name"] == "Abstract Object Theory"
+    assert payload["name"] == "External theory kernel"
     assert payload["host_verifier"] == "ISABELLE_HOL"
     store = LawbookStore(db)
     try:
-        assert store.get_domain_kernel("Abstract Object Theory") is not None
+        assert store.get_domain_kernel("External theory kernel") is not None
     finally:
         store.close()
     query = subprocess.run(

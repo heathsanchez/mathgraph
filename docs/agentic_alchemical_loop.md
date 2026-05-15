@@ -290,6 +290,11 @@ named-obstruction boundary.
 Accepted entries can power projection and known-skip behavior. Digestion and
 value may recommend entries; they do not write public memory by themselves.
 
+Accepted memory can be queried. Known skips reduce wasted work by reporting an
+already accepted answer, but known skips are not new proofs. Candidate and
+advisory memory can schedule review or projection; they cannot skip
+verification.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

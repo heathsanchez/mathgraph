@@ -73,7 +73,7 @@ def test_post_v167_public_exports() -> None:
     from mathgraph import RootNodeOracle
     from mathgraph import TrustLevel
     from mathgraph import consolidate_root_nodes
-    from mathgraph import make_aot_domain_kernel
+    from mathgraph import make_external_theory_domain_kernel
 
     assert DomainKernel.__name__ == "DomainKernel"
     assert GeneralClaim.__name__ == "GeneralClaim"
@@ -87,4 +87,4 @@ def test_post_v167_public_exports() -> None:
     assert SemanticEmbeddingKind.SHALLOW_SEMANTIC_EMBEDDING.value == "SHALLOW_SEMANTIC_EMBEDDING"
     assert ProvenanceType.DERIVED.value == "DERIVED"
     assert callable(consolidate_root_nodes)
-    assert callable(make_aot_domain_kernel)
+    assert callable(make_external_theory_domain_kernel)

@@ -13,7 +13,7 @@ def test_v1611_public_exports():
         "BenchmarkSuite",
         "CorrespondenceClaim",
         "InterpretationChoicePoint",
-        "build_logikey_style_workbench_bundle",
+        "build_reference_logic_workbench_bundle",
     ]
     for name in names:
         assert hasattr(mathgraph, name)

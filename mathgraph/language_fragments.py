@@ -94,12 +94,12 @@ def etp_magma_equations_fragment() -> LanguageFragment:
     )
 
 
-def aot_l23_precedent_fragment() -> LanguageFragment:
+def external_theory_precedent_fragment() -> LanguageFragment:
     return LanguageFragment(
         fragment_id="fragment_aot_l23_precedent",
         domain_kernel_id="aot",
         formal_world_id="formal_world_aot_precedent",
-        language_name="AOT L23 precedent fragment",
+        language_name="External theory precedent fragment",
         supported_type_exprs=["i", "<>", "<i>", "<i,i>", "<<i>>", "<<i,i>>"],
         supported_term_constructors=[
             "exemplification",
@@ -112,5 +112,11 @@ def aot_l23_precedent_fragment() -> LanguageFragment:
         supported_verifiers=["Isabelle/HOL precedent metadata only for now"],
         blocked_term_patterns=["unsafe_comprehension", "unguarded_definite_description", "unrestricted_lambda"],
         paradox_guard_policy="negative_free_logic_guarded_complex_terms",
-        notes="Metadata-only AOT precedent; no Isabelle import yet.",
+        notes="Metadata-only external theory precedent; no Isabelle import yet.",
     )
+
+
+def aot_l23_precedent_fragment() -> LanguageFragment:
+    """Legacy internal alias; use ``external_theory_precedent_fragment`` publicly."""
+
+    return external_theory_precedent_fragment()

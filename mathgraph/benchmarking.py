@@ -146,12 +146,18 @@ def etp_matrix_benchmark_suite_metadata() -> BenchmarkSuite:
     )
 
 
-def logikey_methodology_benchmark_suite_metadata() -> BenchmarkSuite:
+def reference_methodology_benchmark_suite_metadata() -> BenchmarkSuite:
     return BenchmarkSuite(
         suite_id="benchmark_logikey_methodology",
-        name="LogiKEy methodology benchmark metadata",
+        name="Reference methodology benchmark metadata",
         description="Object logics and domain theories should be tested by prover/model-finder runs.",
         source="methodology_metadata",
         notes="Benchmarks are regression/evidence, not proof.",
         payload={"advisory_only": True},
     )
+
+
+def logikey_methodology_benchmark_suite_metadata() -> BenchmarkSuite:
+    """Legacy internal alias; use ``reference_methodology_benchmark_suite_metadata`` publicly."""
+
+    return reference_methodology_benchmark_suite_metadata()

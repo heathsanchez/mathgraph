@@ -16,7 +16,7 @@ from mathgraph.artifact_importers import (
 )
 from mathgraph.lawbook_store import LawbookStore
 from mathgraph.root_consolidation import build_root_alias_map, consolidate_root_nodes
-from mathgraph.domain_kernels import DomainKernel, make_aot_domain_kernel, make_etp_domain_kernel
+from mathgraph.domain_kernels import DomainKernel, make_external_theory_domain_kernel, make_etp_domain_kernel
 from mathgraph.proof_importers import discover_true_proof_artifacts, import_true_proof_artifacts_to_store
 
 
@@ -115,8 +115,14 @@ def register_domain_kernel_in_store(store: LawbookStore, kernel: DomainKernel) -
     }
 
 
+def register_external_theory_kernel(store: LawbookStore, source_commit: str = "") -> dict[str, Any]:
+    return register_domain_kernel_in_store(store, make_external_theory_domain_kernel(source_commit))
+
+
 def register_aot_kernel(store: LawbookStore, source_commit: str = "") -> dict[str, Any]:
-    return register_domain_kernel_in_store(store, make_aot_domain_kernel(source_commit))
+    """Legacy internal alias; use ``register_external_theory_kernel`` publicly."""
+
+    return register_external_theory_kernel(store, source_commit)
 
 
 def register_etp_kernel(store: LawbookStore, source_commit: str = "") -> dict[str, Any]:

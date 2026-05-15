@@ -1,13 +1,13 @@
-from mathgraph import LawbookStore, make_aot_domain_kernel
+from mathgraph import LawbookStore, make_external_theory_domain_kernel
 
 
 def test_lawbook_store_domain_kernel_registration(tmp_path):
     store = LawbookStore(tmp_path / "lawbook.sqlite")
     try:
-        kernel = make_aot_domain_kernel()
+        kernel = make_external_theory_domain_kernel()
         store.upsert_domain_kernel(kernel)
         by_id = store.get_domain_kernel(kernel.kernel_id)
-        by_name = store.get_domain_kernel("Abstract Object Theory")
+        by_name = store.get_domain_kernel("External theory kernel")
         assert by_id["host_verifier"] == "ISABELLE_HOL"
         assert by_name["kernel_id"] == kernel.kernel_id
         assert len(store.list_domain_kernels()) == 1

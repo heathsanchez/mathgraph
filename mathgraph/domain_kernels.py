@@ -413,19 +413,19 @@ class ImportedTheoryRelation:
         )
 
 
-def make_aot_domain_kernel(source_commit: str = "") -> DomainKernel:
+def make_external_theory_domain_kernel(source_commit: str = "") -> DomainKernel:
     return DomainKernel(
         kernel_id="aot",
-        name="Abstract Object Theory",
+        name="External theory kernel",
         description=(
-            "Metadata registration for Daniel Kirchner's Isabelle/HOL embedding "
-            "of Edward Zalta's Abstract Object Theory. Registration is not "
+            "Metadata registration for an external Isabelle formalization. "
+            "Registration is not "
             "itself proof import or verification."
         ),
-        native_language="AOT Isabelle/HOL theories",
+        native_language="external Isabelle theories",
         host_verifier=HostVerifier.ISABELLE_HOL,
         embedding_kind=SemanticEmbeddingKind.SHALLOW_SEMANTIC_EMBEDDING,
-        source_uri="https://github.com/ekpyron/AOT",
+        source_uri="",
         source_commit=source_commit,
         trust_policy=(
             "Proof authority remains with Isabelle/HOL and explicitly imported "
@@ -448,8 +448,8 @@ def make_aot_domain_kernel(source_commit: str = "") -> DomainKernel:
             "truth_boundary": "metadata_only_until_proof_artifacts_are_imported",
         },
         host_logic="Isabelle/HOL",
-        object_logic="AOT / second-order modal object theory",
-        object_theory="Abstract Object Theory",
+        object_logic="external object logic",
+        object_theory="external theory",
         artifact_risk="UNKNOWN",
         proof_transport_status="NOT_ATTEMPTED",
         default_type_system="relational_type_theory",
@@ -465,13 +465,19 @@ def make_aot_domain_kernel(source_commit: str = "") -> DomainKernel:
         benchmark_status="UNKNOWN",
         default_formal_world_id="formal_world_aot_precedent",
         notes=(
-            "AOT metadata preset: encoding/exemplification, abstract vs ordinary "
+            "External-theory metadata preset: encoding/exemplification, abstract vs ordinary "
             "objects, canonical descriptions, shallow semantic embedding precedent, "
             "artifact theorem risk, denotation guardrails for complex terms, "
             "hyperintensional identity, no "
             "Isabelle import yet."
         ),
     )
+
+
+def make_aot_domain_kernel(source_commit: str = "") -> DomainKernel:
+    """Legacy internal alias; use ``make_external_theory_domain_kernel`` publicly."""
+
+    return make_external_theory_domain_kernel(source_commit)
 
 
 def make_etp_domain_kernel(source_commit: str = "") -> DomainKernel:

@@ -22,8 +22,6 @@ def test_v1610_public_exports():
         "TheoryDeclaration",
         "ProofMethod",
         "InferenceRule",
-        "scan_aot_repository",
-        "AOTScanResult",
         "IsabelleExportRecord",
         "HostObjectTheoremLink",
         "make_etp_domain_kernel",
