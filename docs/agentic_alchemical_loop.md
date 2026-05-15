@@ -248,6 +248,20 @@ Repair traces remain advisory until a repaired artifact crosses a verifier,
 importer, or chain-audit boundary. A repair hint is not proof, a failed proof is
 not a countermodel, and a failed finite search is not a proof of TRUE.
 
+## Continuation Curricula
+
+A difficult continuation should not be attacked all at once. Curriculum building
+creates staged descent:
+
+```text
+target -> warmups -> simplified cases -> finite examples
+       -> proof/countermodel tasks -> episode inputs
+```
+
+This gives agents and route policies a lawful ladder without corrupting truth.
+Curriculum stages remain advisory until their artifacts cross verifier
+boundaries.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

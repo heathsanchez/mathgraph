@@ -179,6 +179,15 @@ hold-in-Chora notes, or residual status.
 Repair does not verify anything by itself. A repaired artifact becomes terminal
 only after it crosses an existing verifier/importer/chain-audit boundary.
 
+## Continuation Curricula
+
+M6.9 turns a hard target into a staged advisory ladder of warm-up claims,
+simplified cases, finite examples, proof tasks, countermodel tasks, projection
+tasks, repair tasks, and replayable episode inputs.
+
+Curricula are route plans, not proof. They do not verify claims, warm-ups do not
+prove targets, and finite examples do not prove TRUE.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

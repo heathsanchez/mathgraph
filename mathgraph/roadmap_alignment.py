@@ -15,6 +15,7 @@ from mathgraph.continuation_actions import (
     ContinuationActionTrace,
     ContinuationOutputKind,
 )
+from mathgraph.continuation_curriculum import ContinuationCurriculum, CurriculumStageKind
 from mathgraph.domain_claims import (
     ClaimIRStatus,
     ClaimParseResult,
@@ -139,6 +140,7 @@ def check_roadmap_alignment(
     proof_digestion_traces: Sequence[ProofDigestionTrace] = (),
     verifier_feedback_items: Sequence[VerifierFeedback] = (),
     repair_loop_traces: Sequence[RepairLoopTrace] = (),
+    continuation_curricula: Sequence[ContinuationCurriculum] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -161,6 +163,7 @@ def check_roadmap_alignment(
     digestion_traces = list(proof_digestion_traces)
     feedback_items = list(verifier_feedback_items)
     repair_traces = list(repair_loop_traces)
+    curricula = list(continuation_curricula)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -175,6 +178,7 @@ def check_roadmap_alignment(
     _check_continuation_action_traces(continuation_traces, findings)
     _check_proof_digestion_traces(digestion_traces, findings)
     _check_verifier_feedback(feedback_items, repair_traces, findings)
+    _check_continuation_curricula(curricula, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -193,6 +197,7 @@ def check_roadmap_alignment(
         digestion_traces,
         feedback_items,
         repair_traces,
+        curricula,
         summary_data,
         findings,
     )
@@ -213,6 +218,7 @@ def check_roadmap_alignment(
         digestion_traces,
         feedback_items,
         repair_traces,
+        curricula,
         summary_data,
         findings,
     )
@@ -235,6 +241,7 @@ def check_roadmap_alignment(
         "proof_digestion_trace_count": len(digestion_traces),
         "verifier_feedback_count": len(feedback_items),
         "repair_loop_trace_count": len(repair_traces),
+        "continuation_curriculum_count": len(curricula),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -248,6 +255,7 @@ def check_roadmap_alignment(
         "continuation_action_output_count": sum(len(trace.outputs) for trace in continuation_traces),
         "proof_digestion_ready_count": sum(1 for trace in digestion_traces if trace.summary.get("assimilation_ready") or trace.status.value == "ASSIMILATION_CANDIDATE"),
         "repair_plan_count": sum(len(trace.repair_plans) for trace in repair_traces),
+        "continuation_curriculum_stage_count": sum(len(curriculum.stages) for curriculum in curricula),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -1101,6 +1109,143 @@ def _check_verifier_feedback(
                 )
 
 
+def _check_continuation_curricula(
+    curricula: Sequence[ContinuationCurriculum], findings: list[RoadmapAlignmentFinding]
+) -> None:
+    for curriculum in curricula:
+        text = json.dumps(curriculum.to_dict(), sort_keys=True).lower()
+        if (curriculum.terminal_form or curriculum.certificate_id) and not curriculum.verifier_boundary_crossed:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "CURRICULUM_TERMINAL_WITHOUT_BOUNDARY",
+                    f"Continuation curriculum {curriculum.curriculum_id} carries terminal data without verifier boundary.",
+                    "Curricula stage work; they do not verify claims.",
+                )
+            )
+        if "lawbook_write" in text and ("truth" in text or "terminal" in text):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "CURRICULUM_WRITES_LAWBOOK_TRUTH",
+                    f"Continuation curriculum {curriculum.curriculum_id} appears to write Lawbook truth directly.",
+                    "Curricula may emit advisory tasks only.",
+                )
+            )
+        if "warmup_success_is_target_proof" in text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "WARMUP_AS_TARGET_PROOF",
+                    f"Continuation curriculum {curriculum.curriculum_id} treats warm-up success as target proof.",
+                    "Warm-ups are route preparation, not target verification.",
+                )
+            )
+        if "finite_search_miss_is_true" in text or "finite_example_proves_true" in text:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "FINITE_EXAMPLE_AS_TRUE_PROOF",
+                    f"Continuation curriculum {curriculum.curriculum_id} treats finite example/search miss as proof of TRUE.",
+                    "Finite examples and bounded misses remain advisory.",
+                )
+            )
+        if "natural_language" in text and ("verifier_boundary" in text or "verified_proof" in text):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "NATURAL_LANGUAGE_CURRICULUM_AS_VERIFICATION",
+                    f"Continuation curriculum {curriculum.curriculum_id} marks natural-language explanation as verification.",
+                    "Natural-language curriculum notes remain advisory.",
+                )
+            )
+        for stage in curriculum.stages:
+            stage_text = json.dumps(stage.to_dict(), sort_keys=True).lower()
+            if stage.is_terminal() or stage.metadata.get("terminal_form") in _terminal_values() or stage.metadata.get("certificate_id"):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "CURRICULUM_STAGE_CLAIMS_TERMINAL_TRUTH",
+                        f"Curriculum stage {stage.stage_id} claims terminal truth.",
+                        "Curriculum stages are never terminal artifacts.",
+                    )
+                )
+            if any(term.lower() in stage_text for term in ("verified_proof", "finite_countermodel")) and (
+                stage.metadata.get("treat_as_truth") or stage.metadata.get("terminal_form")
+            ):
+                findings.append(
+                    RoadmapAlignmentFinding(
+                        "critical",
+                        "CURRICULUM_OUTPUT_CLAIMS_TRUTH",
+                        f"Curriculum stage {stage.stage_id} treats advisory output as truth.",
+                        "Run verifier/importer/finite validation before terminal claims.",
+                    )
+                )
+        if (curriculum.target_claim_id or curriculum.target_raw or curriculum.target_source or curriculum.target_target) and not curriculum.stages:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CURRICULUM_TARGET_WITHOUT_STAGES",
+                    f"Continuation curriculum {curriculum.curriculum_id} has a target but no stages.",
+                    "Emit at least residual review or held-in-Chora fallback.",
+                )
+            )
+        if any(stage.kind in {CurriculumStageKind.PROOF_TASK, CurriculumStageKind.COUNTERMODEL_TASK} for stage in curriculum.stages) and not curriculum.episode_inputs:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CURRICULUM_TASKS_WITHOUT_EPISODES",
+                    f"Continuation curriculum {curriculum.curriculum_id} has proof/countermodel tasks but no episode inputs.",
+                    "Emit replayable episode-input payloads for staged tasks.",
+                )
+            )
+        if sum(1 for stage in curriculum.stages if stage.kind == CurriculumStageKind.UNKNOWN) > max(1, len(curriculum.stages) // 2):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CURRICULUM_MANY_UNKNOWN_STAGES",
+                    f"Continuation curriculum {curriculum.curriculum_id} has many unknown stages.",
+                    "Prefer explicit stage kinds for route replay.",
+                )
+            )
+        if not curriculum.advisory or not curriculum.metadata.get("advisory_only", curriculum.advisory):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CURRICULUM_MISSING_ADVISORY_METADATA",
+                    f"Continuation curriculum {curriculum.curriculum_id} lacks advisory metadata.",
+                    "Curricula are route plans, not proof.",
+                )
+            )
+        if any(stage.kind == CurriculumStageKind.PROJECTION_TASK for stage in curriculum.stages) and not curriculum.projection_candidates:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CURRICULUM_PROJECTION_WITHOUT_CANDIDATE",
+                    f"Continuation curriculum {curriculum.curriculum_id} has projection tasks without candidates.",
+                    "Preserve projection candidates when available.",
+                )
+            )
+        if "from_verifier_feedback" in text and not any(stage.kind in {CurriculumStageKind.REPAIR_TASK, CurriculumStageKind.RESIDUAL_REVIEW, CurriculumStageKind.HELD_IN_CHORA} for stage in curriculum.stages):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CURRICULUM_FEEDBACK_WITHOUT_REPAIR_STAGE",
+                    f"Continuation curriculum {curriculum.curriculum_id} carries feedback metadata without repair/review stage.",
+                    "Feedback should become repair pressure, review, or residual structure.",
+                )
+            )
+        if curriculum.stages and not any(stage.kind in {CurriculumStageKind.RESIDUAL_REVIEW, CurriculumStageKind.HELD_IN_CHORA} for stage in curriculum.stages):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "warning",
+                    "CURRICULUM_WITHOUT_FALLBACK",
+                    f"Continuation curriculum {curriculum.curriculum_id} has no residual-review fallback.",
+                    "Keep a lawful fallback when staged routes do not close.",
+                )
+            )
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -1153,10 +1298,11 @@ def _check_cross_record_warnings(
     digestion_traces: Sequence[ProofDigestionTrace],
     feedback_items: Sequence[VerifierFeedback],
     repair_traces: Sequence[RepairLoopTrace],
+    curricula: Sequence[ContinuationCurriculum],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -1802,10 +1948,11 @@ def _add_positive_findings(
     digestion_traces: Sequence[ProofDigestionTrace],
     feedback_items: Sequence[VerifierFeedback],
     repair_traces: Sequence[RepairLoopTrace],
+    curricula: Sequence[ContinuationCurriculum],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -1814,6 +1961,24 @@ def _add_positive_findings(
                     "No advisory record crossed into terminal truth without verifier promotion.",
                 )
             )
+    for curriculum in curricula:
+        if curriculum.stages:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "info",
+                    "CURRICULUM_ADVISORY_BOUNDARY_PRESERVED",
+                    f"Continuation curriculum {curriculum.curriculum_id} preserves staged advisory work.",
+                    None,
+                )
+            )
+        if any(stage.kind == CurriculumStageKind.WARMUP_CLAIM for stage in curriculum.stages):
+            findings.append(RoadmapAlignmentFinding("info", "CURRICULUM_EMITS_WARMUPS", f"Continuation curriculum {curriculum.curriculum_id} emits warm-ups.", None))
+        if any(stage.kind == CurriculumStageKind.FINITE_EXAMPLE for stage in curriculum.stages):
+            findings.append(RoadmapAlignmentFinding("info", "CURRICULUM_EMITS_FINITE_EXAMPLES", f"Continuation curriculum {curriculum.curriculum_id} emits finite examples.", None))
+        if any(stage.kind == CurriculumStageKind.PROOF_TASK for stage in curriculum.stages) and any(stage.kind == CurriculumStageKind.COUNTERMODEL_TASK for stage in curriculum.stages):
+            findings.append(RoadmapAlignmentFinding("info", "CURRICULUM_EMITS_BOTH_TASK_SIDES", f"Continuation curriculum {curriculum.curriculum_id} emits proof and countermodel tasks.", None))
+        if curriculum.episode_inputs:
+            findings.append(RoadmapAlignmentFinding("info", "CURRICULUM_EMITS_EPISODE_INPUTS", f"Continuation curriculum {curriculum.curriculum_id} emits replayable episode inputs.", None))
     if any(trace.has_phase(AlchemicalPhase.PROJECTION) for trace in traces):
         findings.append(RoadmapAlignmentFinding("info", "PROJECTION_RECORDED", "Projection phase recorded."))
     if any(exp.taste_delta for exp in experiences) or summary.get("agent_taste_updated"):
