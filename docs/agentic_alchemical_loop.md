@@ -272,6 +272,24 @@ penalties.
 
 Value is not truth. A high-value continuation still needs a verifier boundary.
 
+## Lawbook Acceptance
+
+The Lawbook is the public-memory boundary:
+
+```text
+candidate -> reviewed entry -> accepted entry -> projection rule
+```
+
+Certificates, proof digestion traces, lawbook assimilation candidates,
+projection candidates, and discovery value scores may recommend memory. They do
+not create it. The Lawbook remembers only what has been accepted under explicit
+conditions, and acceptance cannot create truth that was not already established
+by a verifier, trusted importer, finite validator, chain auditor, or structured
+named-obstruction boundary.
+
+Accepted entries can power projection and known-skip behavior. Digestion and
+value may recommend entries; they do not write public memory by themselves.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

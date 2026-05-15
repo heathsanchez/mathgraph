@@ -30,7 +30,7 @@ from mathgraph.verifier_backends import (
 
 
 def build_logikey_style_workbench_bundle() -> dict[str, list[object]]:
-    """Return methodology metadata inspired by LogiKEy, without importing theories."""
+    """Return formal-workbench methodology metadata without importing theories."""
 
     return {
         "logical_workbenches": [logikey_style_workbench()],

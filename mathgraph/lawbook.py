@@ -1,13 +1,24 @@
-"""Certificate lawbook: compact memory over imported MathGraph traces."""
+"""Lawbook memory surfaces for MathGraph.
+
+``CertificateLawbook`` is the older compact query layer over imported traces.
+The accepted-entry dataclasses below it model the explicit public-memory
+boundary: certificates, digestion, assimilation candidates, projection
+candidates, and value scores may recommend memory, but only Lawbook acceptance
+creates accepted public memory.
+"""
 
 from __future__ import annotations
 
 import json
 from collections import Counter, defaultdict
+from dataclasses import dataclass, field, replace
+from datetime import datetime, timezone
+from enum import Enum
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping, Sequence
 
 from mathgraph.certificates import TerminalForm, VerificationStatus
+from mathgraph.hashing import content_id
 from mathgraph.ledger import JsonlLedger
 from mathgraph.trace import Trace
 
@@ -501,3 +512,750 @@ def _not_in_lawbook(
         "hash_status": None,
         "certificate_payload_keys": [],
     }
+
+
+class LawbookEntryKind(str, Enum):
+    VERIFIED_PROOF_ENTRY = "VERIFIED_PROOF_ENTRY"
+    FINITE_COUNTERMODEL_ENTRY = "FINITE_COUNTERMODEL_ENTRY"
+    NAMED_OBSTRUCTION_ENTRY = "NAMED_OBSTRUCTION_ENTRY"
+    DERIVED_CERTIFICATE_ENTRY = "DERIVED_CERTIFICATE_ENTRY"
+    DIGESTED_PROOF_ENTRY = "DIGESTED_PROOF_ENTRY"
+    CONSTRUCTOR_FAMILY_ENTRY = "CONSTRUCTOR_FAMILY_ENTRY"
+    PROJECTION_RULE_ENTRY = "PROJECTION_RULE_ENTRY"
+    ROUTE_RULE_ENTRY = "ROUTE_RULE_ENTRY"
+    BASIN_DETECTOR_ENTRY = "BASIN_DETECTOR_ENTRY"
+    REUSABLE_SCHEMA_ENTRY = "REUSABLE_SCHEMA_ENTRY"
+    UNKNOWN = "UNKNOWN"
+
+
+class LawbookEntryStatus(str, Enum):
+    CANDIDATE = "CANDIDATE"
+    ACCEPTED = "ACCEPTED"
+    REJECTED = "REJECTED"
+    SUPERSEDED = "SUPERSEDED"
+    RETIRED = "RETIRED"
+    NEEDS_REVIEW = "NEEDS_REVIEW"
+    INVALID = "INVALID"
+    UNKNOWN = "UNKNOWN"
+
+
+class LawbookAcceptanceBoundary(str, Enum):
+    VERIFIED_PROOF = "VERIFIED_PROOF"
+    FINITE_COUNTERMODEL = "FINITE_COUNTERMODEL"
+    NAMED_OBSTRUCTION = "NAMED_OBSTRUCTION"
+    TRUSTED_IMPORT = "TRUSTED_IMPORT"
+    CHAIN_AUDIT = "CHAIN_AUDIT"
+    HUMAN_REVIEW = "HUMAN_REVIEW"
+    DIGESTION_REVIEW = "DIGESTION_REVIEW"
+    PROJECTION_REVIEW = "PROJECTION_REVIEW"
+    NONE = "NONE"
+    UNKNOWN = "UNKNOWN"
+
+
+class LawbookReviewDecision(str, Enum):
+    ACCEPT = "ACCEPT"
+    REJECT = "REJECT"
+    NEEDS_MORE_EVIDENCE = "NEEDS_MORE_EVIDENCE"
+    NEEDS_DIGESTION = "NEEDS_DIGESTION"
+    NEEDS_VERIFIER = "NEEDS_VERIFIER"
+    NEEDS_PROJECTION_REVIEW = "NEEDS_PROJECTION_REVIEW"
+    HOLD_IN_CHORA = "HOLD_IN_CHORA"
+    UNKNOWN = "UNKNOWN"
+
+
+class LawbookStoreStatus(str, Enum):
+    EMPTY = "EMPTY"
+    LOADED = "LOADED"
+    UPDATED = "UPDATED"
+    AUDITED = "AUDITED"
+    HAS_CRITICALS = "HAS_CRITICALS"
+    ADVISORY_ONLY = "ADVISORY_ONLY"
+
+
+@dataclass
+class LawbookEntry:
+    entry_id: str
+    kind: LawbookEntryKind
+    status: LawbookEntryStatus = LawbookEntryStatus.CANDIDATE
+    claim_id: str | None = None
+    source: str | None = None
+    target: str | None = None
+    raw: str | None = None
+    terminal_form: TerminalForm | None = None
+    certificate_id: str | None = None
+    verifier_boundary_crossed: bool = False
+    acceptance_boundary: LawbookAcceptanceBoundary = LawbookAcceptanceBoundary.NONE
+    accepted_at: str | None = None
+    accepted_by: str | None = None
+    artifact_ids: tuple[str, ...] = ()
+    digestion_trace_ids: tuple[str, ...] = ()
+    assimilation_candidate_ids: tuple[str, ...] = ()
+    projection_rule_ids: tuple[str, ...] = ()
+    constructor_family_ids: tuple[str, ...] = ()
+    route_rule_ids: tuple[str, ...] = ()
+    basin: str | None = None
+    conditions: tuple[str, ...] = ()
+    failure_boundaries: tuple[str, ...] = ()
+    reason_links: tuple[str, ...] = ()
+    root_links: tuple[str, ...] = ()
+    provenance: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    advisory: bool = False
+
+    def is_candidate(self) -> bool:
+        return self.status == LawbookEntryStatus.CANDIDATE
+
+    def is_accepted(self) -> bool:
+        return self.status == LawbookEntryStatus.ACCEPTED
+
+    def is_truth_entry(self) -> bool:
+        return self.kind in {
+            LawbookEntryKind.VERIFIED_PROOF_ENTRY,
+            LawbookEntryKind.FINITE_COUNTERMODEL_ENTRY,
+            LawbookEntryKind.DERIVED_CERTIFICATE_ENTRY,
+        }
+
+    def is_projection_entry(self) -> bool:
+        return self.kind == LawbookEntryKind.PROJECTION_RULE_ENTRY
+
+    def has_valid_truth_boundary(self) -> bool:
+        return (
+            self.terminal_form is not None
+            and bool(self.certificate_id)
+            and self.verifier_boundary_crossed
+            and self.acceptance_boundary
+            in {
+                LawbookAcceptanceBoundary.VERIFIED_PROOF,
+                LawbookAcceptanceBoundary.FINITE_COUNTERMODEL,
+                LawbookAcceptanceBoundary.TRUSTED_IMPORT,
+                LawbookAcceptanceBoundary.CHAIN_AUDIT,
+            }
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "entry_id": self.entry_id,
+            "kind": self.kind.value,
+            "status": self.status.value,
+            "claim_id": self.claim_id,
+            "source": self.source,
+            "target": self.target,
+            "raw": self.raw,
+            "terminal_form": self.terminal_form.value if self.terminal_form else None,
+            "certificate_id": self.certificate_id,
+            "verifier_boundary_crossed": self.verifier_boundary_crossed,
+            "acceptance_boundary": self.acceptance_boundary.value,
+            "accepted_at": self.accepted_at,
+            "accepted_by": self.accepted_by,
+            "artifact_ids": list(self.artifact_ids),
+            "digestion_trace_ids": list(self.digestion_trace_ids),
+            "assimilation_candidate_ids": list(self.assimilation_candidate_ids),
+            "projection_rule_ids": list(self.projection_rule_ids),
+            "constructor_family_ids": list(self.constructor_family_ids),
+            "route_rule_ids": list(self.route_rule_ids),
+            "basin": self.basin,
+            "conditions": list(self.conditions),
+            "failure_boundaries": list(self.failure_boundaries),
+            "reason_links": list(self.reason_links),
+            "root_links": list(self.root_links),
+            "provenance": dict(self.provenance),
+            "metadata": dict(self.metadata),
+            "advisory": self.advisory,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "LawbookEntry":
+        terminal = data.get("terminal_form")
+        return cls(
+            entry_id=str(data["entry_id"]),
+            kind=LawbookEntryKind(str(data.get("kind", LawbookEntryKind.UNKNOWN.value))),
+            status=LawbookEntryStatus(str(data.get("status", LawbookEntryStatus.CANDIDATE.value))),
+            claim_id=_optional_str(data.get("claim_id")),
+            source=_optional_str(data.get("source")),
+            target=_optional_str(data.get("target")),
+            raw=_optional_str(data.get("raw")),
+            terminal_form=TerminalForm(str(terminal)) if terminal else None,
+            certificate_id=_optional_str(data.get("certificate_id")),
+            verifier_boundary_crossed=bool(data.get("verifier_boundary_crossed", False)),
+            acceptance_boundary=LawbookAcceptanceBoundary(str(data.get("acceptance_boundary", LawbookAcceptanceBoundary.NONE.value))),
+            accepted_at=_optional_str(data.get("accepted_at")),
+            accepted_by=_optional_str(data.get("accepted_by")),
+            artifact_ids=tuple(str(x) for x in data.get("artifact_ids", ())),
+            digestion_trace_ids=tuple(str(x) for x in data.get("digestion_trace_ids", ())),
+            assimilation_candidate_ids=tuple(str(x) for x in data.get("assimilation_candidate_ids", ())),
+            projection_rule_ids=tuple(str(x) for x in data.get("projection_rule_ids", ())),
+            constructor_family_ids=tuple(str(x) for x in data.get("constructor_family_ids", ())),
+            route_rule_ids=tuple(str(x) for x in data.get("route_rule_ids", ())),
+            basin=_optional_str(data.get("basin")),
+            conditions=tuple(str(x) for x in data.get("conditions", ())),
+            failure_boundaries=tuple(str(x) for x in data.get("failure_boundaries", ())),
+            reason_links=tuple(str(x) for x in data.get("reason_links", ())),
+            root_links=tuple(str(x) for x in data.get("root_links", ())),
+            provenance=dict(data.get("provenance", {})),
+            metadata=dict(data.get("metadata", {})),
+            advisory=bool(data.get("advisory", False)),
+        )
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"))
+
+    @classmethod
+    def from_json(cls, text: str) -> "LawbookEntry":
+        return cls.from_dict(json.loads(text))
+
+
+@dataclass
+class LawbookReview:
+    review_id: str
+    candidate_entry_id: str
+    decision: LawbookReviewDecision
+    reviewer: str | None = None
+    reason: str | None = None
+    required_evidence: tuple[str, ...] = ()
+    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    metadata: dict[str, Any] = field(default_factory=dict)
+    advisory: bool = True
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "review_id": self.review_id,
+            "candidate_entry_id": self.candidate_entry_id,
+            "decision": self.decision.value,
+            "reviewer": self.reviewer,
+            "reason": self.reason,
+            "required_evidence": list(self.required_evidence),
+            "created_at": self.created_at,
+            "metadata": dict(self.metadata),
+            "advisory": self.advisory,
+        }
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "LawbookReview":
+        return cls(
+            review_id=str(data["review_id"]),
+            candidate_entry_id=str(data["candidate_entry_id"]),
+            decision=LawbookReviewDecision(str(data.get("decision", LawbookReviewDecision.UNKNOWN.value))),
+            reviewer=_optional_str(data.get("reviewer")),
+            reason=_optional_str(data.get("reason")),
+            required_evidence=tuple(str(x) for x in data.get("required_evidence", ())),
+            created_at=str(data.get("created_at") or datetime.now(timezone.utc).isoformat()),
+            metadata=dict(data.get("metadata", {})),
+            advisory=bool(data.get("advisory", True)),
+        )
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"))
+
+    @classmethod
+    def from_json(cls, text: str) -> "LawbookReview":
+        return cls.from_dict(json.loads(text))
+
+
+@dataclass
+class LawbookStore:
+    store_id: str
+    entries: list[LawbookEntry] = field(default_factory=list)
+    reviews: list[LawbookReview] = field(default_factory=list)
+    status: LawbookStoreStatus = LawbookStoreStatus.EMPTY
+    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    summary: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def entry_count(self) -> int:
+        return len(self.entries)
+
+    def accepted_entries(self) -> list[LawbookEntry]:
+        return [entry for entry in self.entries if entry.is_accepted()]
+
+    def candidate_entries(self) -> list[LawbookEntry]:
+        return [entry for entry in self.entries if entry.is_candidate()]
+
+    def truth_entries(self) -> list[LawbookEntry]:
+        return [entry for entry in self.entries if entry.is_truth_entry()]
+
+    def projection_entries(self) -> list[LawbookEntry]:
+        return [entry for entry in self.entries if entry.is_projection_entry()]
+
+    def find_by_claim_id(self, claim_id: str) -> list[LawbookEntry]:
+        return [entry for entry in self.entries if entry.claim_id == claim_id]
+
+    def find_by_certificate_id(self, certificate_id: str) -> list[LawbookEntry]:
+        return [entry for entry in self.entries if entry.certificate_id == certificate_id]
+
+    def add_entry(self, entry: LawbookEntry) -> None:
+        self.entries.append(entry)
+        self.status = LawbookStoreStatus.UPDATED
+
+    def add_review(self, review: LawbookReview) -> None:
+        self.reviews.append(review)
+        self.status = LawbookStoreStatus.UPDATED
+
+    def summarize(self) -> dict[str, Any]:
+        self.summary = {
+            "entry_total": len(self.entries),
+            "candidate_count": sum(entry.status == LawbookEntryStatus.CANDIDATE for entry in self.entries),
+            "accepted_count": sum(entry.status == LawbookEntryStatus.ACCEPTED for entry in self.entries),
+            "rejected_count": sum(entry.status == LawbookEntryStatus.REJECTED for entry in self.entries),
+            "needs_review_count": sum(entry.status == LawbookEntryStatus.NEEDS_REVIEW for entry in self.entries),
+            "verified_proof_entries": sum(entry.kind == LawbookEntryKind.VERIFIED_PROOF_ENTRY for entry in self.entries),
+            "finite_countermodel_entries": sum(entry.kind == LawbookEntryKind.FINITE_COUNTERMODEL_ENTRY for entry in self.entries),
+            "named_obstruction_entries": sum(entry.kind == LawbookEntryKind.NAMED_OBSTRUCTION_ENTRY for entry in self.entries),
+            "digested_proof_entries": sum(entry.kind == LawbookEntryKind.DIGESTED_PROOF_ENTRY for entry in self.entries),
+            "projection_rule_entries": sum(entry.kind == LawbookEntryKind.PROJECTION_RULE_ENTRY for entry in self.entries),
+            "invalid_count": sum(entry.status == LawbookEntryStatus.INVALID for entry in self.entries),
+            "advisory_count": sum(entry.advisory for entry in self.entries),
+        }
+        return dict(self.summary)
+
+    def audit(self) -> list[dict[str, Any]]:
+        findings = audit_lawbook_store(self)
+        critical_count = sum(item["severity"] == "CRITICAL" for item in findings)
+        self.summary = {**self.summarize(), "critical_count": critical_count, "finding_count": len(findings)}
+        self.status = LawbookStoreStatus.HAS_CRITICALS if critical_count else LawbookStoreStatus.AUDITED
+        return findings
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "store_id": self.store_id,
+            "entries": [entry.to_dict() for entry in self.entries],
+            "reviews": [review.to_dict() for review in self.reviews],
+            "status": self.status.value,
+            "created_at": self.created_at,
+            "summary": dict(self.summary),
+            "metadata": dict(self.metadata),
+        }
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "LawbookStore":
+        return cls(
+            store_id=str(data["store_id"]),
+            entries=[LawbookEntry.from_dict(item) for item in data.get("entries", [])],
+            reviews=[LawbookReview.from_dict(item) for item in data.get("reviews", [])],
+            status=LawbookStoreStatus(str(data.get("status", LawbookStoreStatus.EMPTY.value))),
+            created_at=str(data.get("created_at") or datetime.now(timezone.utc).isoformat()),
+            summary=dict(data.get("summary", {})),
+            metadata=dict(data.get("metadata", {})),
+        )
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"))
+
+    @classmethod
+    def from_json(cls, text: str) -> "LawbookStore":
+        return cls.from_dict(json.loads(text))
+
+    def write_json(self, path: str | Path) -> None:
+        _write_json(path, self.to_dict())
+
+    @classmethod
+    def read_json(cls, path: str | Path) -> "LawbookStore":
+        return cls.from_json(Path(path).read_text(encoding="utf-8"))
+
+    def write_jsonl(self, path: str | Path) -> None:
+        _write_jsonl(path, [entry.to_dict() for entry in self.entries])
+
+    @classmethod
+    def read_jsonl(cls, path: str | Path) -> "LawbookStore":
+        return cls(store_id=make_lawbook_store_id(path), entries=[LawbookEntry.from_dict(item) for item in _read_jsonl(path)])
+
+
+def make_lawbook_entry_id(*parts: Any) -> str:
+    return content_id("lawbook-entry", parts)
+
+
+def make_lawbook_review_id(*parts: Any) -> str:
+    return content_id("lawbook-review", parts)
+
+
+def make_lawbook_store_id(*parts: Any) -> str:
+    return content_id("lawbook-store", parts)
+
+
+def lawbook_entry_from_certificate_like(
+    *,
+    claim_id: str | None = None,
+    source: str | None = None,
+    target: str | None = None,
+    raw: str | None = None,
+    terminal_form: TerminalForm | str | None = None,
+    certificate_id: str | None = None,
+    verifier_boundary_crossed: bool = False,
+    artifact_ids: Sequence[str] = (),
+    provenance: Mapping[str, Any] | None = None,
+    metadata: Mapping[str, Any] | None = None,
+) -> LawbookEntry:
+    terminal = terminal_form if isinstance(terminal_form, TerminalForm) else TerminalForm(str(terminal_form)) if terminal_form else None
+    kind = {
+        TerminalForm.VERIFIED_PROOF: LawbookEntryKind.VERIFIED_PROOF_ENTRY,
+        TerminalForm.FINITE_COUNTERMODEL: LawbookEntryKind.FINITE_COUNTERMODEL_ENTRY,
+        TerminalForm.NAMED_OBSTRUCTION: LawbookEntryKind.NAMED_OBSTRUCTION_ENTRY,
+    }.get(terminal, LawbookEntryKind.UNKNOWN)
+    boundary = {
+        TerminalForm.VERIFIED_PROOF: LawbookAcceptanceBoundary.VERIFIED_PROOF,
+        TerminalForm.FINITE_COUNTERMODEL: LawbookAcceptanceBoundary.FINITE_COUNTERMODEL,
+        TerminalForm.NAMED_OBSTRUCTION: LawbookAcceptanceBoundary.NAMED_OBSTRUCTION,
+    }.get(terminal, LawbookAcceptanceBoundary.NONE)
+    return LawbookEntry(
+        entry_id=make_lawbook_entry_id(claim_id, source, target, raw, terminal.value if terminal else None, certificate_id),
+        kind=kind,
+        claim_id=claim_id,
+        source=source,
+        target=target,
+        raw=raw,
+        terminal_form=terminal,
+        certificate_id=certificate_id,
+        verifier_boundary_crossed=verifier_boundary_crossed,
+        acceptance_boundary=boundary,
+        artifact_ids=tuple(str(x) for x in artifact_ids),
+        provenance=dict(provenance or {}),
+        metadata=dict(metadata or {}),
+    )
+
+
+def lawbook_entry_from_proof_digestion(trace: Any, *, existing_certificate_id: str | None = None) -> LawbookEntry:
+    certificate_id = existing_certificate_id or trace.certificate_id
+    metadata = {
+        "digestion_not_verification": True,
+        "digestion_trace_id": trace.trace_id,
+        "key_idea_count": len(trace.key_ideas),
+        "schema_count": len(trace.reusable_schemas),
+        "projection_candidate_count": len(trace.projection_candidates),
+    }
+    return LawbookEntry(
+        entry_id=make_lawbook_entry_id("digestion", trace.trace_id, certificate_id),
+        kind=LawbookEntryKind.DIGESTED_PROOF_ENTRY,
+        terminal_form=trace.terminal_form if trace.verifier_boundary_crossed else None,
+        certificate_id=certificate_id,
+        verifier_boundary_crossed=bool(trace.verifier_boundary_crossed and certificate_id),
+        acceptance_boundary=LawbookAcceptanceBoundary.DIGESTION_REVIEW,
+        digestion_trace_ids=(trace.trace_id,),
+        metadata=metadata,
+        advisory=True,
+    )
+
+
+def lawbook_entry_from_assimilation_candidate(candidate: Any) -> LawbookEntry:
+    return LawbookEntry(
+        entry_id=make_lawbook_entry_id("assimilation", candidate.assimilation_id),
+        kind=LawbookEntryKind.DIGESTED_PROOF_ENTRY,
+        certificate_id=candidate.certificate_id,
+        assimilation_candidate_ids=(candidate.assimilation_id,),
+        digestion_trace_ids=(candidate.digestion_trace_id,),
+        metadata={"assimilation_candidate_not_lawbook_entry": True, "ready": candidate.ready},
+        advisory=True,
+    )
+
+
+def lawbook_entry_from_projection_candidate(candidate: Any) -> LawbookEntry:
+    return LawbookEntry(
+        entry_id=make_lawbook_entry_id("projection", candidate.candidate_id),
+        kind=LawbookEntryKind.PROJECTION_RULE_ENTRY,
+        claim_id=candidate.target_claim_id,
+        source=candidate.source,
+        target=candidate.target,
+        certificate_id=None,
+        projection_rule_ids=(candidate.candidate_id,),
+        conditions=tuple(str(x) for x in candidate.metadata.get("conditions", ())),
+        provenance={"projection_candidate_id": candidate.candidate_id},
+        metadata={"projection_candidate_not_certificate": True, **dict(candidate.metadata)},
+        advisory=True,
+    )
+
+
+def lawbook_entry_from_discovery_value_score(score: Any) -> LawbookEntry:
+    status = LawbookEntryStatus.NEEDS_REVIEW if getattr(score, "decision", None) else LawbookEntryStatus.CANDIDATE
+    return LawbookEntry(
+        entry_id=make_lawbook_entry_id("discovery-value", score.score_id),
+        kind=LawbookEntryKind.UNKNOWN,
+        status=status,
+        metadata={
+            "value_score_not_truth": True,
+            "discovery_value_score_id": score.score_id,
+            "decision": score.decision.value,
+            "normalized_score": score.normalized_score,
+        },
+        advisory=True,
+    )
+
+
+def review_lawbook_candidate(entry: LawbookEntry, *, reviewer: str | None = None, allow_human_review: bool = True) -> LawbookReview:
+    decision = LawbookReviewDecision.NEEDS_MORE_EVIDENCE
+    required: tuple[str, ...] = ()
+    reason = "Candidate requires more evidence."
+    if entry.kind == LawbookEntryKind.VERIFIED_PROOF_ENTRY:
+        decision = LawbookReviewDecision.ACCEPT if entry.has_valid_truth_boundary() else LawbookReviewDecision.NEEDS_VERIFIER
+        reason = "Verified proof boundary present." if decision == LawbookReviewDecision.ACCEPT else "Verified proof entry lacks valid verifier boundary."
+    elif entry.kind == LawbookEntryKind.FINITE_COUNTERMODEL_ENTRY:
+        valid = entry.terminal_form == TerminalForm.FINITE_COUNTERMODEL and bool(entry.certificate_id) and entry.verifier_boundary_crossed
+        decision = LawbookReviewDecision.ACCEPT if valid else LawbookReviewDecision.NEEDS_VERIFIER
+        reason = "Finite validator boundary present." if valid else "Finite countermodel entry lacks validated boundary."
+    elif entry.kind == LawbookEntryKind.DERIVED_CERTIFICATE_ENTRY:
+        valid = entry.acceptance_boundary == LawbookAcceptanceBoundary.CHAIN_AUDIT and bool(entry.certificate_id)
+        decision = LawbookReviewDecision.ACCEPT if valid else LawbookReviewDecision.NEEDS_VERIFIER
+        reason = "Chain audit present." if valid else "Derived certificate lacks chain audit."
+    elif entry.kind == LawbookEntryKind.NAMED_OBSTRUCTION_ENTRY:
+        evidence = bool(entry.provenance or entry.metadata.get("obstruction") or entry.failure_boundaries)
+        valid = entry.acceptance_boundary in {LawbookAcceptanceBoundary.NAMED_OBSTRUCTION, LawbookAcceptanceBoundary.HUMAN_REVIEW} and evidence
+        decision = LawbookReviewDecision.ACCEPT if valid else LawbookReviewDecision.NEEDS_MORE_EVIDENCE
+        reason = "Named obstruction evidence present." if valid else "Named obstruction needs reviewed obstruction evidence."
+    elif entry.kind == LawbookEntryKind.DIGESTED_PROOF_ENTRY:
+        valid = bool(entry.certificate_id) and bool(entry.metadata.get("digestion_not_verification"))
+        decision = LawbookReviewDecision.ACCEPT if valid else (LawbookReviewDecision.NEEDS_VERIFIER if not entry.certificate_id else LawbookReviewDecision.NEEDS_DIGESTION)
+        reason = "Digestion linked to existing certificate." if valid else "Digestion needs certificate linkage and review metadata."
+    elif entry.kind == LawbookEntryKind.PROJECTION_RULE_ENTRY:
+        valid = bool(entry.metadata.get("projection_candidate_not_certificate")) and bool(entry.conditions or entry.provenance)
+        decision = LawbookReviewDecision.ACCEPT if valid else LawbookReviewDecision.NEEDS_PROJECTION_REVIEW
+        reason = "Projection review prerequisites present." if valid else "Projection rule needs conditions or provenance."
+    elif entry.kind == LawbookEntryKind.REUSABLE_SCHEMA_ENTRY:
+        valid = bool(entry.digestion_trace_ids or entry.certificate_id)
+        decision = LawbookReviewDecision.ACCEPT if valid else LawbookReviewDecision.NEEDS_MORE_EVIDENCE
+        reason = "Schema linked to digestion/certificate." if valid else "Reusable schema needs digestion or certificate link."
+    return LawbookReview(
+        review_id=make_lawbook_review_id(entry.entry_id, decision.value, reviewer),
+        candidate_entry_id=entry.entry_id,
+        decision=decision,
+        reviewer=reviewer,
+        reason=reason,
+        required_evidence=required,
+    )
+
+
+def accept_lawbook_entry(entry: LawbookEntry, review: LawbookReview, *, accepted_by: str | None = None) -> LawbookEntry:
+    if review.decision != LawbookReviewDecision.ACCEPT:
+        status = LawbookEntryStatus.REJECTED if review.decision == LawbookReviewDecision.REJECT else LawbookEntryStatus.NEEDS_REVIEW
+        return replace(entry, status=status)
+    if entry.is_truth_entry() and not entry.has_valid_truth_boundary():
+        raise ValueError("cannot accept truth entry without valid truth boundary")
+    boundary = entry.acceptance_boundary
+    if boundary in {LawbookAcceptanceBoundary.NONE, LawbookAcceptanceBoundary.UNKNOWN}:
+        boundary = {
+            LawbookEntryKind.VERIFIED_PROOF_ENTRY: LawbookAcceptanceBoundary.VERIFIED_PROOF,
+            LawbookEntryKind.FINITE_COUNTERMODEL_ENTRY: LawbookAcceptanceBoundary.FINITE_COUNTERMODEL,
+            LawbookEntryKind.DERIVED_CERTIFICATE_ENTRY: LawbookAcceptanceBoundary.CHAIN_AUDIT,
+            LawbookEntryKind.DIGESTED_PROOF_ENTRY: LawbookAcceptanceBoundary.DIGESTION_REVIEW,
+            LawbookEntryKind.PROJECTION_RULE_ENTRY: LawbookAcceptanceBoundary.PROJECTION_REVIEW,
+        }.get(entry.kind, LawbookAcceptanceBoundary.HUMAN_REVIEW)
+    return replace(
+        entry,
+        status=LawbookEntryStatus.ACCEPTED,
+        accepted_at=datetime.now(timezone.utc).isoformat(),
+        accepted_by=accepted_by,
+        acceptance_boundary=boundary,
+    )
+
+
+def build_lawbook_store(
+    *,
+    entries: Sequence[LawbookEntry] = (),
+    reviews: Sequence[LawbookReview] = (),
+    auto_review: bool = False,
+    auto_accept: bool = False,
+    reviewer: str | None = None,
+) -> LawbookStore:
+    store = LawbookStore(store_id=make_lawbook_store_id(*(entry.entry_id for entry in entries)), entries=list(entries), reviews=list(reviews), status=LawbookStoreStatus.LOADED if entries else LawbookStoreStatus.EMPTY)
+    if auto_review:
+        known = {review.candidate_entry_id for review in store.reviews}
+        for entry in store.entries:
+            if entry.is_candidate() and entry.entry_id not in known:
+                store.add_review(review_lawbook_candidate(entry, reviewer=reviewer))
+    if auto_accept:
+        review_by_entry = {review.candidate_entry_id: review for review in store.reviews}
+        store.entries = [accept_lawbook_entry(entry, review_by_entry[entry.entry_id], accepted_by=reviewer) if review_by_entry.get(entry.entry_id, None) and review_by_entry[entry.entry_id].decision == LawbookReviewDecision.ACCEPT else entry for entry in store.entries]
+    store.audit()
+    return store
+
+
+def audit_lawbook_entry(entry: LawbookEntry) -> list[dict[str, Any]]:
+    findings: list[dict[str, Any]] = []
+
+    def add(severity: str, code: str, message: str) -> None:
+        findings.append({"severity": severity, "code": code, "message": message, "entry_id": entry.entry_id})
+
+    text = json.dumps(entry.to_dict(), sort_keys=True).lower()
+    if entry.is_accepted() and entry.is_truth_entry() and not entry.has_valid_truth_boundary():
+        add("CRITICAL", "ACCEPTED_TRUTH_WITHOUT_BOUNDARY", "Accepted truth entry lacks valid truth boundary.")
+    if entry.is_accepted() and entry.kind == LawbookEntryKind.VERIFIED_PROOF_ENTRY and entry.terminal_form != TerminalForm.VERIFIED_PROOF:
+        add("CRITICAL", "ACCEPTED_PROOF_WRONG_TERMINAL", "Accepted verified proof entry lacks VERIFIED_PROOF terminal form.")
+    if entry.is_accepted() and entry.kind == LawbookEntryKind.FINITE_COUNTERMODEL_ENTRY and entry.terminal_form != TerminalForm.FINITE_COUNTERMODEL:
+        add("CRITICAL", "ACCEPTED_COUNTERMODEL_WRONG_TERMINAL", "Accepted countermodel entry lacks FINITE_COUNTERMODEL terminal form.")
+    if entry.is_accepted() and entry.certificate_id and not entry.verifier_boundary_crossed and entry.is_truth_entry():
+        add("CRITICAL", "CERTIFICATE_WITHOUT_BOUNDARY", "Accepted truth entry has certificate id without verifier boundary.")
+    if entry.kind == LawbookEntryKind.DIGESTED_PROOF_ENTRY and entry.metadata.get("digestion_creates_proof"):
+        add("CRITICAL", "DIGESTION_AS_PROOF", "Digested proof entry claims digestion creates proof.")
+    if entry.kind == LawbookEntryKind.PROJECTION_RULE_ENTRY and (entry.metadata.get("projection_is_certificate") or entry.terminal_form):
+        add("CRITICAL", "PROJECTION_AS_CERTIFICATE", "Projection rule entry claims certificate status.")
+    if entry.metadata.get("value_score_as_truth"):
+        add("CRITICAL", "VALUE_AS_LAWBOOK_TRUTH", "Discovery value score accepted as truth.")
+    if entry.metadata.get("assimilation_candidate_as_truth"):
+        add("CRITICAL", "ASSIMILATION_AS_TRUTH", "Assimilation candidate accepted as truth without review.")
+    if entry.metadata.get("natural_language_verifier_boundary"):
+        add("CRITICAL", "NATURAL_LANGUAGE_AS_BOUNDARY", "Natural-language note accepted as verifier boundary.")
+    if entry.is_accepted() and entry.acceptance_boundary in {LawbookAcceptanceBoundary.NONE, LawbookAcceptanceBoundary.UNKNOWN}:
+        add("CRITICAL", "ACCEPTED_WITHOUT_ACCEPTANCE_BOUNDARY", "Accepted entry lacks acceptance boundary.")
+    if entry.is_candidate() and not entry.provenance:
+        add("WARNING", "CANDIDATE_WITHOUT_PROVENANCE", "Candidate has no provenance.")
+    if entry.is_candidate() and not entry.conditions:
+        add("WARNING", "CANDIDATE_WITHOUT_CONDITIONS", "Candidate has no conditions.")
+    if entry.kind == LawbookEntryKind.PROJECTION_RULE_ENTRY and not (entry.projection_rule_ids or entry.metadata.get("projection_candidate_not_certificate")):
+        add("WARNING", "PROJECTION_RULE_WITHOUT_METADATA", "Projection rule has no projection ids or metadata.")
+    if entry.kind == LawbookEntryKind.DIGESTED_PROOF_ENTRY and not entry.digestion_trace_ids:
+        add("WARNING", "DIGESTED_PROOF_WITHOUT_TRACE", "Digested proof has no digestion trace ids.")
+    if entry.kind == LawbookEntryKind.NAMED_OBSTRUCTION_ENTRY and not (entry.failure_boundaries or entry.metadata.get("obstruction")):
+        add("WARNING", "OBSTRUCTION_WITHOUT_FAILURE_BOUNDARY", "Named obstruction lacks failure boundary metadata.")
+    if entry.is_accepted() and entry.advisory:
+        add("WARNING", "ACCEPTED_ENTRY_STILL_ADVISORY", "Accepted entry is still marked advisory.")
+    if entry.kind == LawbookEntryKind.UNKNOWN or entry.status == LawbookEntryStatus.UNKNOWN:
+        add("WARNING", "UNKNOWN_LAWBOOK_ENTRY", "Lawbook entry has unknown kind or status.")
+    if entry.is_accepted() and entry.kind == LawbookEntryKind.VERIFIED_PROOF_ENTRY and entry.has_valid_truth_boundary():
+        add("INFO", "ACCEPTED_PROOF_VALID_BOUNDARY", "Accepted proof entry has valid boundary.")
+    if entry.is_accepted() and entry.kind == LawbookEntryKind.FINITE_COUNTERMODEL_ENTRY and entry.has_valid_truth_boundary():
+        add("INFO", "ACCEPTED_COUNTERMODEL_VALID_BOUNDARY", "Accepted countermodel entry has valid boundary.")
+    if entry.kind == LawbookEntryKind.DIGESTED_PROOF_ENTRY and entry.certificate_id:
+        add("INFO", "DIGESTION_LINKED_TO_CERTIFICATE", "Digestion entry is linked to an existing certificate.")
+    if entry.kind == LawbookEntryKind.PROJECTION_RULE_ENTRY and entry.metadata.get("projection_candidate_not_certificate"):
+        add("INFO", "PROJECTION_MARKED_NOT_CERTIFICATE", "Projection rule is marked not-certificate.")
+    if entry.is_candidate():
+        add("INFO", "CANDIDATE_REMAINS_CANDIDATE", "Candidate remains non-terminal.")
+    return findings
+
+
+def audit_lawbook_store(store: LawbookStore) -> list[dict[str, Any]]:
+    return [finding for entry in store.entries for finding in audit_lawbook_entry(entry)]
+
+
+def lawbook_store_to_projection_candidates(store: LawbookStore) -> list[Any]:
+    from mathgraph.projection import ProjectionCandidate, ProjectionRuleKind
+
+    outputs = []
+    for entry in store.accepted_entries():
+        if entry.kind == LawbookEntryKind.PROJECTION_RULE_ENTRY:
+            outputs.append(
+                ProjectionCandidate(
+                    candidate_id=content_id("lawbook-projection", entry.entry_id),
+                    source_claim_id=entry.claim_id,
+                    target_claim_id=entry.claim_id,
+                    source=entry.source,
+                    target=entry.target,
+                    rule_kind=ProjectionRuleKind.ADVISORY_SIMILARITY,
+                    originating_lawbook_entry_id=entry.entry_id,
+                    confidence=1.0,
+                    advisory=True,
+                    metadata={"accepted_projection_rule": True, "not_truth": True},
+                )
+            )
+        elif entry.is_truth_entry() and entry.has_valid_truth_boundary():
+            outputs.append(
+                ProjectionCandidate(
+                    candidate_id=content_id("lawbook-known-skip", entry.entry_id),
+                    source_claim_id=entry.claim_id,
+                    target_claim_id=entry.claim_id,
+                    source=entry.source,
+                    target=entry.target,
+                    rule_kind=ProjectionRuleKind.EXACT_KNOWN,
+                    originating_lawbook_entry_id=entry.entry_id,
+                    originating_certificate_id=entry.certificate_id,
+                    confidence=1.0,
+                    advisory=True,
+                    metadata={"known_skip_candidate": True, "not_truth": True},
+                )
+            )
+    return outputs
+
+
+def lawbook_store_to_continuation_outputs(store: LawbookStore) -> list[Any]:
+    from mathgraph.continuation_actions import ContinuationActionOutput, ContinuationActionStatus, ContinuationOutputKind
+
+    outputs = []
+    for entry in store.entries:
+        kind = ContinuationOutputKind.TASK
+        payload = {"entry_id": entry.entry_id, "task": "review_lawbook_entry" if not entry.is_accepted() else "project_lawbook_entry"}
+        outputs.append(
+            ContinuationActionOutput(
+                output_id=content_id("lawbook-output", entry.entry_id),
+                action_id="lawbook",
+                kind=kind,
+                status=ContinuationActionStatus.PRODUCED_TASK,
+                task_payload=payload,
+                metadata={"advisory_only": True},
+                advisory=True,
+            )
+        )
+    return outputs
+
+
+def lawbook_store_to_alchemical_trace(store: LawbookStore) -> Any:
+    from mathgraph.alchemy import AlchemicalPhase, AlchemicalStatus, AlchemicalStep, AlchemicalTrace
+
+    trace = AlchemicalTrace(trace_id=content_id("lawbook-alchemy", store.store_id))
+    if store.entries:
+        trace.add_step(AlchemicalStep(phase=AlchemicalPhase.RAW_MATTER, status=AlchemicalStatus.ADVISORY_ONLY))
+    if store.reviews:
+        trace.add_step(AlchemicalStep(phase=AlchemicalPhase.DISTILLATION, status=AlchemicalStatus.ADVISORY_ONLY))
+    if store.accepted_entries():
+        trace.add_step(AlchemicalStep(phase=AlchemicalPhase.COAGULATION, status=AlchemicalStatus.ADVISORY_ONLY))
+    if any(entry.is_projection_entry() for entry in store.accepted_entries()):
+        trace.add_step(AlchemicalStep(phase=AlchemicalPhase.PROJECTION, status=AlchemicalStatus.ADVISORY_ONLY))
+    if any(entry.is_truth_entry() and entry.has_valid_truth_boundary() for entry in store.accepted_entries()):
+        trace.add_step(AlchemicalStep(phase=AlchemicalPhase.FIXATION, status=AlchemicalStatus.PROMOTED_BY_VERIFIER, verifier_boundary="inherited"))
+    return trace
+
+
+def lawbook_store_to_agent_experiences(store: LawbookStore, agent_id: str | None = None) -> list[Any]:
+    from mathgraph.agent_biography import AgentExperience, AgentExperienceOutcome
+
+    experiences = []
+    for entry in store.entries:
+        outcome = AgentExperienceOutcome.ADVISORY_ONLY
+        if entry.is_accepted() and entry.has_valid_truth_boundary():
+            if entry.terminal_form == TerminalForm.VERIFIED_PROOF:
+                outcome = AgentExperienceOutcome.VERIFIED_PROOF
+            elif entry.terminal_form == TerminalForm.FINITE_COUNTERMODEL:
+                outcome = AgentExperienceOutcome.FINITE_COUNTERMODEL
+        elif entry.kind == LawbookEntryKind.NAMED_OBSTRUCTION_ENTRY and entry.is_accepted():
+            outcome = AgentExperienceOutcome.RESIDUAL
+        experiences.append(
+            AgentExperience(
+                experience_id=content_id("lawbook-experience", entry.entry_id),
+                agent_id=agent_id or "lawbook",
+                episode_id=None,
+                claim_id=entry.claim_id,
+                route="lawbook",
+                phase="COAGULATION",
+                outcome=outcome,
+                terminal_form=entry.terminal_form if outcome in {AgentExperienceOutcome.VERIFIED_PROOF, AgentExperienceOutcome.FINITE_COUNTERMODEL} else None,
+                certificate_id=entry.certificate_id if outcome in {AgentExperienceOutcome.VERIFIED_PROOF, AgentExperienceOutcome.FINITE_COUNTERMODEL} else None,
+                verifier_boundary_crossed=entry.has_valid_truth_boundary(),
+                metadata={"lawbook_entry_id": entry.entry_id, "public_memory_boundary": True},
+            )
+        )
+    return experiences
+
+
+def lawbook_store_to_route_telemetry_events(store: LawbookStore) -> list[dict[str, Any]]:
+    return [
+        {
+            "event_id": content_id("lawbook-telemetry", entry.entry_id),
+            "route_kind": "lawbook",
+            "outcome": entry.status.value,
+            "lawbook_entry_id": entry.entry_id,
+            "advisory": not entry.is_accepted(),
+        }
+        for entry in store.entries
+    ]
+
+
+def _write_jsonl(path: str | Path, rows: Sequence[Mapping[str, Any]]) -> None:
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text("".join(json.dumps(dict(row), sort_keys=True) + "\n" for row in rows), encoding="utf-8")
+
+
+def _read_jsonl(path: str | Path) -> list[dict[str, Any]]:
+    source = Path(path)
+    if not source.exists():
+        return []
+    return [json.loads(line) for line in source.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def _optional_str(value: Any) -> str | None:
+    return None if value is None else str(value)

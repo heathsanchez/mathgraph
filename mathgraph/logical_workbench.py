@@ -1,4 +1,4 @@
-"""LogiKEy-style meta-logical workbench metadata."""
+"""Formal-workbench metadata for registered MathGraph worlds."""
 
 from __future__ import annotations
 

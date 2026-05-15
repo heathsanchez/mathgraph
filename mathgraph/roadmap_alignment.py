@@ -25,6 +25,7 @@ from mathgraph.domain_claims import (
     FormalWorldRegistry,
 )
 from mathgraph.lean_adapter import LeanAdapterTrace, LeanArtifactStatus
+from mathgraph.lawbook import LawbookEntry, LawbookReview, LawbookStore as AcceptedLawbookStore
 from mathgraph.proof_verification import (
     ProofArtifactKind,
     ProofVerificationStatus,
@@ -144,6 +145,9 @@ def check_roadmap_alignment(
     continuation_curricula: Sequence[ContinuationCurriculum] = (),
     discovery_value_reports: Sequence[DiscoveryValueReport] = (),
     discovery_value_scores: Sequence[DiscoveryValueScore] = (),
+    lawbook_entries: Sequence[LawbookEntry] = (),
+    lawbook_stores: Sequence[AcceptedLawbookStore] = (),
+    lawbook_reviews: Sequence[LawbookReview] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -169,6 +173,9 @@ def check_roadmap_alignment(
     curricula = list(continuation_curricula)
     value_reports = list(discovery_value_reports)
     value_scores = list(discovery_value_scores)
+    accepted_lawbook_entries = list(lawbook_entries)
+    accepted_lawbook_stores = list(lawbook_stores)
+    accepted_lawbook_reviews = list(lawbook_reviews)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -185,6 +192,7 @@ def check_roadmap_alignment(
     _check_verifier_feedback(feedback_items, repair_traces, findings)
     _check_continuation_curricula(curricula, findings)
     _check_discovery_value(value_reports, value_scores, findings)
+    _check_lawbook_boundary(accepted_lawbook_entries, accepted_lawbook_stores, accepted_lawbook_reviews, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -206,6 +214,9 @@ def check_roadmap_alignment(
         curricula,
         value_reports,
         value_scores,
+        accepted_lawbook_entries,
+        accepted_lawbook_stores,
+        accepted_lawbook_reviews,
         summary_data,
         findings,
     )
@@ -229,6 +240,9 @@ def check_roadmap_alignment(
         curricula,
         value_reports,
         value_scores,
+        accepted_lawbook_entries,
+        accepted_lawbook_stores,
+        accepted_lawbook_reviews,
         summary_data,
         findings,
     )
@@ -254,6 +268,9 @@ def check_roadmap_alignment(
         "continuation_curriculum_count": len(curricula),
         "discovery_value_report_count": len(value_reports),
         "discovery_value_score_count": len(value_scores),
+        "lawbook_entry_count": len(accepted_lawbook_entries) + sum(len(store.entries) for store in accepted_lawbook_stores),
+        "lawbook_store_count": len(accepted_lawbook_stores),
+        "lawbook_review_count": len(accepted_lawbook_reviews) + sum(len(store.reviews) for store in accepted_lawbook_stores),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1317,6 +1334,50 @@ def _check_discovery_value(
             findings.append(RoadmapAlignmentFinding("warning", "DISCOVERY_REPORT_MANY_UNKNOWN_OBJECTS", f"Discovery value report {report.report_id} has many unknown objects.", "Prefer typed source objects for route value."))
 
 
+def _check_lawbook_boundary(
+    entries: Sequence[LawbookEntry],
+    stores: Sequence[AcceptedLawbookStore],
+    reviews: Sequence[LawbookReview],
+    findings: list[RoadmapAlignmentFinding],
+) -> None:
+    all_entries = list(entries) + [entry for store in stores for entry in store.entries]
+    for entry in all_entries:
+        text = json.dumps(entry.to_dict(), sort_keys=True).lower()
+        if entry.is_accepted() and entry.is_truth_entry() and not entry.has_valid_truth_boundary():
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_ACCEPTED_TRUTH_WITHOUT_BOUNDARY", f"Lawbook entry {entry.entry_id} accepts truth without valid verifier boundary.", "Accepted truth entries require existing verifier/importer/finite-validation/chain-audit evidence."))
+        if entry.metadata.get("digestion_creates_proof"):
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_DIGESTION_AS_PROOF", f"Lawbook entry {entry.entry_id} treats digestion as proof.", "Digestion may explain an existing proof; it does not verify one."))
+        if entry.metadata.get("value_score_as_truth"):
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_VALUE_AS_TRUTH", f"Lawbook entry {entry.entry_id} accepts discovery value as truth.", "Value is scheduling pressure only."))
+        if entry.metadata.get("curriculum_as_truth") or entry.metadata.get("action_as_truth") or entry.metadata.get("repair_as_truth"):
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_ADVISORY_OUTPUT_AS_TRUTH", f"Lawbook entry {entry.entry_id} accepts advisory output as truth.", "Curricula, actions, and repairs need a verifier boundary before truth."))
+        if entry.metadata.get("projection_is_certificate"):
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_PROJECTION_AS_CERTIFICATE", f"Lawbook entry {entry.entry_id} marks projection rule as certificate.", "Projection rules organize reuse; they are not certificates."))
+        if entry.metadata.get("assimilation_candidate_as_truth"):
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_ASSIMILATION_AS_ACCEPTED", f"Lawbook entry {entry.entry_id} accepts an assimilation candidate without review.", "Assimilation candidates require explicit review and acceptance."))
+        if entry.metadata.get("natural_language_verifier_boundary") or ("natural_language" in text and "verifier_boundary" in text):
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_NATURAL_LANGUAGE_AS_BOUNDARY", f"Lawbook entry {entry.entry_id} marks natural-language text as verifier boundary.", "Natural-language text is not verification."))
+        if entry.is_accepted() and entry.acceptance_boundary.value in {"NONE", "UNKNOWN"}:
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_ACCEPTED_WITHOUT_BOUNDARY_KIND", f"Lawbook entry {entry.entry_id} is accepted without acceptance boundary.", "Accepted entries need explicit acceptance conditions."))
+        if entry.is_candidate() and not entry.provenance:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_CANDIDATE_WITHOUT_PROVENANCE", f"Lawbook candidate {entry.entry_id} has no provenance.", "Record recommendation provenance."))
+        if entry.is_accepted() and entry.kind.value == "DIGESTED_PROOF_ENTRY" and not entry.digestion_trace_ids:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_DIGESTION_WITHOUT_TRACE", f"Accepted digestion entry {entry.entry_id} has no digestion trace id.", "Link accepted digestion to its trace."))
+        if entry.is_accepted() and entry.kind.value == "PROJECTION_RULE_ENTRY" and not entry.conditions:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_PROJECTION_WITHOUT_CONDITIONS", f"Accepted projection entry {entry.entry_id} has no conditions.", "Record projection applicability conditions."))
+        if entry.kind.value == "NAMED_OBSTRUCTION_ENTRY" and not entry.failure_boundaries:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_OBSTRUCTION_WITHOUT_FAILURE_BOUNDARY", f"Named obstruction entry {entry.entry_id} has no failure boundary.", "Record obstruction evidence."))
+    for store in stores:
+        if store.summary.get("critical_count", 0) > 0:
+            findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_STORE_HAS_CRITICALS", f"Lawbook store {store.store_id} reports critical audit findings.", "Resolve Lawbook audit criticals before treating entries as accepted memory."))
+        if store.candidate_entries() and not store.reviews:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_STORE_CANDIDATES_WITHOUT_REVIEWS", f"Lawbook store {store.store_id} has candidates but no reviews.", "Review candidates before acceptance."))
+        if store.accepted_entries() and "critical_count" not in store.summary:
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_STORE_ACCEPTED_WITHOUT_AUDIT", f"Lawbook store {store.store_id} has accepted entries but no audit summary.", "Audit accepted memory."))
+        if store.entries and not any(entry.is_projection_entry() for entry in store.entries):
+            findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_STORE_NO_PROJECTION_ENTRIES", f"Lawbook store {store.store_id} has no projection-capable entries.", "Projection-capable memory improves reuse."))
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -1372,10 +1433,13 @@ def _check_cross_record_warnings(
     curricula: Sequence[ContinuationCurriculum],
     value_reports: Sequence[DiscoveryValueReport],
     value_scores: Sequence[DiscoveryValueScore],
+    lawbook_entries: Sequence[LawbookEntry],
+    lawbook_stores: Sequence[AcceptedLawbookStore],
+    lawbook_reviews: Sequence[LawbookReview],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores or lawbook_entries or lawbook_stores or lawbook_reviews or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -2024,10 +2088,13 @@ def _add_positive_findings(
     curricula: Sequence[ContinuationCurriculum],
     value_reports: Sequence[DiscoveryValueReport],
     value_scores: Sequence[DiscoveryValueScore],
+    lawbook_entries: Sequence[LawbookEntry],
+    lawbook_stores: Sequence[AcceptedLawbookStore],
+    lawbook_reviews: Sequence[LawbookReview],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores or lawbook_entries or lawbook_stores or lawbook_reviews:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -2064,6 +2131,19 @@ def _add_positive_findings(
             findings.append(RoadmapAlignmentFinding("info", "DISCOVERY_VALUE_NEEDS_REPAIR", f"Discovery value report {report.report_id} routes repairable feedback to NEEDS_REPAIR.", None))
         if any(score.decision in {DiscoveryValueDecision.NEEDS_VERIFIER, DiscoveryValueDecision.NEEDS_DIGESTION} for score in report.scores):
             findings.append(RoadmapAlignmentFinding("info", "DISCOVERY_VALUE_PRESERVES_PROOF_BOUNDARY", f"Discovery value report {report.report_id} routes proof-like objects to verifier/digestion.", None))
+    for entry in list(lawbook_entries) + [entry for store in lawbook_stores for entry in store.entries]:
+        if entry.is_accepted() and entry.kind.value == "VERIFIED_PROOF_ENTRY" and entry.has_valid_truth_boundary():
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_ACCEPTED_PROOF_VALID_BOUNDARY", f"Lawbook entry {entry.entry_id} accepts verified proof with valid boundary.", None))
+        if entry.is_accepted() and entry.kind.value == "FINITE_COUNTERMODEL_ENTRY" and entry.has_valid_truth_boundary():
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_ACCEPTED_COUNTERMODEL_VALID_BOUNDARY", f"Lawbook entry {entry.entry_id} accepts finite countermodel with valid boundary.", None))
+        if entry.kind.value == "DIGESTED_PROOF_ENTRY" and entry.certificate_id:
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_DIGESTION_LINKED", f"Lawbook entry {entry.entry_id} links digestion to existing certificate.", None))
+        if entry.kind.value == "PROJECTION_RULE_ENTRY":
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_PROJECTION_ONLY", f"Lawbook entry {entry.entry_id} records projection only.", None))
+        if entry.is_candidate():
+            findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_CANDIDATE_NON_TERMINAL", f"Lawbook entry {entry.entry_id} remains candidate.", None))
+    for store in lawbook_stores:
+        findings.append(RoadmapAlignmentFinding("info", "LAWBOOK_PUBLIC_MEMORY_BOUNDARY", f"Lawbook store {store.store_id} preserves explicit acceptance boundary.", None))
     if any(trace.has_phase(AlchemicalPhase.PROJECTION) for trace in traces):
         findings.append(RoadmapAlignmentFinding("info", "PROJECTION_RECORDED", "Projection phase recorded."))
     if any(exp.taste_delta for exp in experiences) or summary.get("agent_taste_updated"):

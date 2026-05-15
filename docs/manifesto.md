@@ -36,7 +36,7 @@ exemplification, denotation matters, semantic embeddings carry artifact risk,
 and same extension is not same law. Formal worlds are context boundaries, not
 proof objects.
 
-The LogiKEy-style workbench adds engineering memory around those worlds:
+The formal workbench adds engineering memory around those worlds:
 embedding strategies, faithfulness assessments, backend profiles, benchmarks,
 correspondence claims, and interpretation choices. It makes bridge risk visible
 without pretending that metadata is proof.

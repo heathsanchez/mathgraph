@@ -1,44 +1,34 @@
 # Computational Metaphysics and MathGraph
 
-Daniel Kirchner's Isabelle/HOL embedding of Edward Zalta's Abstract Object
-Theory is a close cousin of MathGraph's long-term architecture. AOT implements
-major parts of a formal metaphysical theory inside a host verifier with custom
-syntax and mechanically checked internal theorems.
-
-AOT is one formal world. MathGraph is a metakernel for many formal worlds.
+Formal worlds can be embedded into host proof systems while preserving an
+explicit trust boundary. MathGraph treats such worlds as registrable domains,
+not as borrowed architecture.
 
 The architectural lesson is direct:
 
 - a target theory can be embedded into a host verifier;
-- the host can be Isabelle/HOL, Lean, Python finite checker, Z3, or another
+- the host can be Isabelle, Lean, a Python finite checker, Z3, or another
   trusted execution environment;
 - the target theory has native objects, relations, definitions, axioms,
   theorem statements, proof artifacts, and trust rules;
 - MathGraph should register such worlds, import verified artifacts, and connect
-  them to claims, certificates, roots, reasons, obstructions, and lawbook
+  them to claims, certificates, roots, reasons, obstructions, and Lawbook
   memory.
 
-Compactly:
+This repo currently stores formal-world metadata only. It does not clone
+external theories, run proof assistants on their behalf, extract theorem
+dependencies, or verify their claims automatically.
 
-> AOT proves that a metaphysical world can be formalized. MathGraph should prove
-> that formalized worlds can compound.
+Typed predication and objectification provide conservative substrate:
+encoding/exemplification, denotation status, bounded fragments, formal worlds,
+and artifact-risk metadata. Same extension is not same law, and a host theorem
+is not a target-theory theorem until transport or native checking is explicit.
 
-This repo currently registers AOT as metadata only. It does not clone AOT, run
-Isabelle, extract theorem dependencies, or verify AOT claims.
+The formal workbench records layered workbench metadata, embedding strategy
+profiles, faithfulness assessments, backend profiles, benchmark suites,
+correspondence claims, and interpretation choice points. Those rows make bridge
+risk visible; they do not turn metadata into target-theory theorems.
 
-v16.10 adds the typed predication and objectification substrate suggested by
-that precedent: encoding/exemplification, denotation status, bounded fragments,
-formal worlds, and artifact-risk metadata. The substrate is deliberately
-conservative: same extension is not same law, and a host theorem is not a
-target-theory theorem until transport or native checking is explicit.
-
-v16.11 adds the LogiKEy lesson: formal worlds need a workbench, not just a
-registry row. MathGraph now records layered L0/L1/L2/L3 workbench metadata,
-embedding strategy profiles, faithfulness assessments, backend profiles,
-benchmark suites, correspondence claims, and interpretation choice points.
-These rows make bridge risk visible. They do not import LogiKEy or make shallow
-embedding results target-theory theorems.
-
-The AOT scanner indexes `.thy` and `.ML` declarations as advisory theory
-registry rows only. It does not run Isabelle and does not make AOT theorems
-verified inside MathGraph.
+Local theory scanners index source declarations as advisory registry rows only.
+They do not run a proof assistant and do not make external theorems verified
+inside MathGraph.
