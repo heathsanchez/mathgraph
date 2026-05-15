@@ -16,6 +16,7 @@ from mathgraph.continuation_actions import (
     ContinuationOutputKind,
 )
 from mathgraph.continuation_curriculum import ContinuationCurriculum, CurriculumStageKind
+from mathgraph.discovery_value import DiscoveryValueDecision, DiscoveryValueReport, DiscoveryValueScore
 from mathgraph.domain_claims import (
     ClaimIRStatus,
     ClaimParseResult,
@@ -141,6 +142,8 @@ def check_roadmap_alignment(
     verifier_feedback_items: Sequence[VerifierFeedback] = (),
     repair_loop_traces: Sequence[RepairLoopTrace] = (),
     continuation_curricula: Sequence[ContinuationCurriculum] = (),
+    discovery_value_reports: Sequence[DiscoveryValueReport] = (),
+    discovery_value_scores: Sequence[DiscoveryValueScore] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -164,6 +167,8 @@ def check_roadmap_alignment(
     feedback_items = list(verifier_feedback_items)
     repair_traces = list(repair_loop_traces)
     curricula = list(continuation_curricula)
+    value_reports = list(discovery_value_reports)
+    value_scores = list(discovery_value_scores)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -179,6 +184,7 @@ def check_roadmap_alignment(
     _check_proof_digestion_traces(digestion_traces, findings)
     _check_verifier_feedback(feedback_items, repair_traces, findings)
     _check_continuation_curricula(curricula, findings)
+    _check_discovery_value(value_reports, value_scores, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -198,6 +204,8 @@ def check_roadmap_alignment(
         feedback_items,
         repair_traces,
         curricula,
+        value_reports,
+        value_scores,
         summary_data,
         findings,
     )
@@ -219,6 +227,8 @@ def check_roadmap_alignment(
         feedback_items,
         repair_traces,
         curricula,
+        value_reports,
+        value_scores,
         summary_data,
         findings,
     )
@@ -242,6 +252,8 @@ def check_roadmap_alignment(
         "verifier_feedback_count": len(feedback_items),
         "repair_loop_trace_count": len(repair_traces),
         "continuation_curriculum_count": len(curricula),
+        "discovery_value_report_count": len(value_reports),
+        "discovery_value_score_count": len(value_scores),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -256,6 +268,7 @@ def check_roadmap_alignment(
         "proof_digestion_ready_count": sum(1 for trace in digestion_traces if trace.summary.get("assimilation_ready") or trace.status.value == "ASSIMILATION_CANDIDATE"),
         "repair_plan_count": sum(len(trace.repair_plans) for trace in repair_traces),
         "continuation_curriculum_stage_count": sum(len(curriculum.stages) for curriculum in curricula),
+        "discovery_value_ranked_count": sum(len(report.scores) for report in value_reports),
     }
     return RoadmapAlignmentReport(
         checked_at=datetime.now(timezone.utc).isoformat(),
@@ -1246,6 +1259,64 @@ def _check_continuation_curricula(
             )
 
 
+def _check_discovery_value(
+    reports: Sequence[DiscoveryValueReport],
+    scores: Sequence[DiscoveryValueScore],
+    findings: list[RoadmapAlignmentFinding],
+) -> None:
+    all_scores = list(scores) + [score for report in reports for score in report.scores]
+    for score in all_scores:
+        text = json.dumps(score.to_dict(), sort_keys=True).lower()
+        if (score.terminal_form or score.certificate_id) and not score.verifier_boundary_crossed:
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "DISCOVERY_VALUE_TERMINAL_WITHOUT_BOUNDARY",
+                    f"Discovery value score {score.score_id} carries terminal data without verifier boundary.",
+                    "Value ranks work; it does not verify claims.",
+                )
+            )
+        if any(term in text for term in ("verified_proof", "finite_countermodel")) and score.metadata.get("value_as_truth"):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "DISCOVERY_VALUE_AS_TRUTH",
+                    f"Discovery value score {score.score_id} treats value as truth.",
+                    "High value is scheduling pressure only.",
+                )
+            )
+        if score.decision == DiscoveryValueDecision.RUN_NOW and score.metadata.get("decision_is_proof"):
+            findings.append(RoadmapAlignmentFinding("critical", "RUN_NOW_AS_PROOF", f"Discovery value score {score.score_id} treats RUN_NOW as proof.", "RUN_NOW schedules work only."))
+        if score.decision == DiscoveryValueDecision.PROJECT and score.metadata.get("decision_is_certificate"):
+            findings.append(RoadmapAlignmentFinding("critical", "PROJECT_AS_CERTIFICATE", f"Discovery value score {score.score_id} treats PROJECT as certificate.", "Projection value is not a certificate."))
+        if "natural_language" in text and score.metadata.get("verifier_boundary"):
+            findings.append(RoadmapAlignmentFinding("critical", "NATURAL_LANGUAGE_VALUE_AS_VERIFIER", f"Discovery value score {score.score_id} marks natural-language rationale as verifier boundary.", "Natural-language value rationale remains advisory."))
+        if score.metadata.get("finite_example_as_true_proof") or score.metadata.get("warmup_as_target_proof"):
+            findings.append(RoadmapAlignmentFinding("critical", "DISCOVERY_VALUE_EXAMPLE_AS_PROOF", f"Discovery value score {score.score_id} treats warm-up/finite example as TRUE proof.", "Examples and warm-ups do not verify claims."))
+        if not score.signals:
+            findings.append(RoadmapAlignmentFinding("warning", "DISCOVERY_VALUE_SCORE_WITHOUT_SIGNALS", f"Discovery value score {score.score_id} has no signals.", "Expose transparent value signals."))
+        if score.risk_estimate >= 2.0 and score.decision == DiscoveryValueDecision.RUN_NOW:
+            findings.append(RoadmapAlignmentFinding("warning", "HIGH_RISK_DISCOVERY_RUN_NOW", f"Discovery value score {score.score_id} is high risk but RUN_NOW.", "Hold risky objects in Chora or route them through repair/verifier work."))
+        if score.cost_estimate >= 10.0 and score.decision == DiscoveryValueDecision.RUN_NOW and score.expected_gain < score.cost_estimate / 10.0:
+            findings.append(RoadmapAlignmentFinding("warning", "HIGH_COST_DISCOVERY_RUN_NOW", f"Discovery value score {score.score_id} is costly without matching gain.", "Queue or hold costly low-gain work."))
+        if score.metadata.get("proof_like") and score.normalized_score >= 0.55 and score.decision not in {DiscoveryValueDecision.NEEDS_VERIFIER, DiscoveryValueDecision.NEEDS_DIGESTION}:
+            findings.append(RoadmapAlignmentFinding("warning", "PROOF_LIKE_VALUE_WITHOUT_VERIFIER_ROUTE", f"Discovery value score {score.score_id} is proof-like but not routed to verifier/digestion.", "Proof-like value still needs verifier/digestion handling."))
+        if score.metadata.get("projection_like") and score.normalized_score >= 0.55 and score.decision != DiscoveryValueDecision.PROJECT:
+            findings.append(RoadmapAlignmentFinding("warning", "PROJECTION_VALUE_WITHOUT_PROJECT", f"Discovery value score {score.score_id} is projection-like but not PROJECT.", "Strong projection candidates should remain explicit projection tasks."))
+        if score.metadata.get("repairable") and score.normalized_score >= 0.55 and score.decision != DiscoveryValueDecision.NEEDS_REPAIR:
+            findings.append(RoadmapAlignmentFinding("warning", "REPAIRABLE_VALUE_WITHOUT_REPAIR", f"Discovery value score {score.score_id} is repairable but not NEEDS_REPAIR.", "Repairable feedback should remain repair work."))
+    for report in reports:
+        text = json.dumps(report.to_dict(), sort_keys=True).lower()
+        if report.summary.get("terminal_count", 0) > 0 and not report.metadata.get("inherited_verifier_boundary"):
+            findings.append(RoadmapAlignmentFinding("critical", "DISCOVERY_REPORT_TERMINAL_WITHOUT_BOUNDARY", f"Discovery value report {report.report_id} contains terminal count without inherited boundary.", "Reports are advisory unless terminal evidence is explicitly inherited."))
+        if "lawbook_write" in text and ("truth" in text or "terminal" in text):
+            findings.append(RoadmapAlignmentFinding("critical", "DISCOVERY_REPORT_WRITES_LAWBOOK_TRUTH", f"Discovery value report {report.report_id} appears to write Lawbook truth.", "Value reports may schedule tasks only."))
+        if not report.advisory or not report.metadata.get("advisory_only", report.advisory):
+            findings.append(RoadmapAlignmentFinding("warning", "DISCOVERY_REPORT_MISSING_ADVISORY_METADATA", f"Discovery value report {report.report_id} lacks advisory metadata.", "Value is scheduling pressure only."))
+        if sum(score.object_kind.value == "UNKNOWN" for score in report.scores) > max(1, len(report.scores) // 2):
+            findings.append(RoadmapAlignmentFinding("warning", "DISCOVERY_REPORT_MANY_UNKNOWN_OBJECTS", f"Discovery value report {report.report_id} has many unknown objects.", "Prefer typed source objects for route value."))
+
+
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()
     if ("no_countermodel_found" in text or "finite_search_miss" in text) and "verified_proof" in text:
@@ -1299,10 +1370,12 @@ def _check_cross_record_warnings(
     feedback_items: Sequence[VerifierFeedback],
     repair_traces: Sequence[RepairLoopTrace],
     curricula: Sequence[ContinuationCurriculum],
+    value_reports: Sequence[DiscoveryValueReport],
+    value_scores: Sequence[DiscoveryValueScore],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or summary:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores or summary:
         if not _has_metric(summary, "residual_compression") and not any(
             trace.total_compression_gain() for trace in traces
         ) and not any(exp.compression_gain for exp in experiences) and not any(
@@ -1949,10 +2022,12 @@ def _add_positive_findings(
     feedback_items: Sequence[VerifierFeedback],
     repair_traces: Sequence[RepairLoopTrace],
     curricula: Sequence[ContinuationCurriculum],
+    value_reports: Sequence[DiscoveryValueReport],
+    value_scores: Sequence[DiscoveryValueScore],
     summary: Mapping[str, Any],
     findings: list[RoadmapAlignmentFinding],
 ) -> None:
-    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula:
+    if traces or experiences or projection_traces or root_constructor_traces or proof_traces or episode_traces or telemetry_ledgers or spectral_estimates or claims or parse_results or registries or lean_traces or continuation_traces or digestion_traces or feedback_items or repair_traces or curricula or value_reports or value_scores:
         if not any(finding.severity == "critical" for finding in findings):
             findings.append(
                 RoadmapAlignmentFinding(
@@ -1979,6 +2054,16 @@ def _add_positive_findings(
             findings.append(RoadmapAlignmentFinding("info", "CURRICULUM_EMITS_BOTH_TASK_SIDES", f"Continuation curriculum {curriculum.curriculum_id} emits proof and countermodel tasks.", None))
         if curriculum.episode_inputs:
             findings.append(RoadmapAlignmentFinding("info", "CURRICULUM_EMITS_EPISODE_INPUTS", f"Continuation curriculum {curriculum.curriculum_id} emits replayable episode inputs.", None))
+    for report in value_reports:
+        findings.append(RoadmapAlignmentFinding("info", "DISCOVERY_VALUE_ADVISORY_BOUNDARY_PRESERVED", f"Discovery value report {report.report_id} preserves advisory ranking.", None))
+        if any(score.decision in {DiscoveryValueDecision.RUN_NOW, DiscoveryValueDecision.QUEUE_SOON} for score in report.scores):
+            findings.append(RoadmapAlignmentFinding("info", "DISCOVERY_VALUE_QUEUES_WORK", f"Discovery value report {report.report_id} queues high-value work rather than marking it true.", None))
+        if any(score.decision == DiscoveryValueDecision.PROJECT for score in report.scores):
+            findings.append(RoadmapAlignmentFinding("info", "DISCOVERY_VALUE_PROJECTS", f"Discovery value report {report.report_id} routes projection candidate to PROJECT.", None))
+        if any(score.decision == DiscoveryValueDecision.NEEDS_REPAIR for score in report.scores):
+            findings.append(RoadmapAlignmentFinding("info", "DISCOVERY_VALUE_NEEDS_REPAIR", f"Discovery value report {report.report_id} routes repairable feedback to NEEDS_REPAIR.", None))
+        if any(score.decision in {DiscoveryValueDecision.NEEDS_VERIFIER, DiscoveryValueDecision.NEEDS_DIGESTION} for score in report.scores):
+            findings.append(RoadmapAlignmentFinding("info", "DISCOVERY_VALUE_PRESERVES_PROOF_BOUNDARY", f"Discovery value report {report.report_id} routes proof-like objects to verifier/digestion.", None))
     if any(trace.has_phase(AlchemicalPhase.PROJECTION) for trace in traces):
         findings.append(RoadmapAlignmentFinding("info", "PROJECTION_RECORDED", "Projection phase recorded."))
     if any(exp.taste_delta for exp in experiences) or summary.get("agent_taste_updated"):

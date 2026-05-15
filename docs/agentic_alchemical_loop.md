@@ -262,6 +262,16 @@ This gives agents and route policies a lawful ladder without corrupting truth.
 Curriculum stages remain advisory until their artifacts cross verifier
 boundaries.
 
+## Discovery Value
+
+Discovery value is the taste layer over the existing loop. It ranks what to try
+next using certificate potential, proof potential, countermodel potential,
+obstruction potential, digestion value, projection value, repair value, route
+survival, residual compression, root-likeness, cost, risk, and overfit
+penalties.
+
+Value is not truth. A high-value continuation still needs a verifier boundary.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

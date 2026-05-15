@@ -188,6 +188,16 @@ tasks, repair tasks, and replayable episode inputs.
 Curricula are route plans, not proof. They do not verify claims, warm-ups do not
 prove targets, and finite examples do not prove TRUE.
 
+## Discovery Value Evaluator
+
+M6.10 scores curricula, proof digestion traces, verifier feedback, repair loops,
+projection candidates, continuation outputs, alchemical traces, agent
+experiences, and route telemetry for expected discovery value.
+
+These scores are advisory route pressure only. High value is not proof,
+projection value is not a certificate, repair value is not verification, and
+only verifier/importer/finite-validation/chain-audit boundaries promote truth.
+
 ## Current Empirical Milestone
 
 External v16.6/v16.7 artifacts remain outside GitHub, but the repo now contains

@@ -582,7 +582,7 @@ def build_continuation_curriculum(
 
 
 def curriculum_to_continuation_outputs(curriculum: ContinuationCurriculum) -> list[ContinuationActionOutput]:
-    outputs = list(curriculum.continuation_outputs)
+    outputs = [_advisory_output(output) for output in curriculum.continuation_outputs]
     existing = {output.output_id for output in outputs}
     for stage in curriculum.stages:
         if stage.action_output is not None or stage.kind in {CurriculumStageKind.TARGET, CurriculumStageKind.WARMUP_CLAIM}:
@@ -898,6 +898,20 @@ def _route_hint(kind: CurriculumStageKind) -> str:
     if kind == CurriculumStageKind.PROOF_TASK:
         return "PROOF_VERIFICATION"
     return "RESIDUAL_ONLY"
+
+
+def _advisory_output(output: ContinuationActionOutput) -> ContinuationActionOutput:
+    data = output.to_dict()
+    data["terminal_form"] = None
+    data["certificate_id"] = None
+    data["verifier_boundary_crossed"] = False
+    data["advisory"] = True
+    data["metadata"] = {
+        **dict(data.get("metadata", {})),
+        "advisory_only": True,
+        "curriculum_output_not_truth": True,
+    }
+    return ContinuationActionOutput.from_dict(data)
 
 
 def _enum_value(value: Any) -> str | None:

@@ -120,6 +120,22 @@ def test_curriculum_to_continuation_outputs_are_advisory():
     assert all(not output.is_terminal() for output in outputs)
 
 
+def test_curriculum_to_continuation_outputs_strip_embedded_terminal_data():
+    unsafe = ContinuationActionOutput(
+        output_id=make_continuation_output_id("unsafe-embedded"),
+        action_id="a",
+        kind=ContinuationOutputKind.TASK,
+        status=ContinuationActionStatus.PRODUCED_TASK,
+        terminal_form=TerminalForm.VERIFIED_PROOF,
+        certificate_id="cert",
+        verifier_boundary_crossed=True,
+    )
+    curriculum = build_curriculum_from_actions([unsafe])
+    outputs = curriculum_to_continuation_outputs(curriculum)
+    assert all(not output.is_terminal() for output in outputs)
+    assert all(output.terminal_form is None for output in outputs)
+
+
 def test_curriculum_to_episode_inputs_emits_dict_payloads():
     rows = curriculum_to_episode_inputs(build_magma_equational_curriculum(source="x*x=x", target="x*y=x", claim_id="c"))
     assert rows
@@ -135,7 +151,7 @@ def test_curriculum_to_alchemical_trace_has_no_fixation():
 def test_curriculum_to_agent_experiences_never_emit_verified_proof():
     experiences = curriculum_to_agent_experiences(build_magma_equational_curriculum(source="x*x=x", target="x*y=x"))
     assert experiences
-    assert all(exp.outcome != AgentExperienceOutcome.VERIFIED_PROOF for exp in experiences)
+    assert all(exp.outcome not in {AgentExperienceOutcome.VERIFIED_PROOF, AgentExperienceOutcome.FINITE_COUNTERMODEL} for exp in experiences)
 
 
 def test_curriculum_to_route_telemetry_events_are_dicts():
@@ -157,6 +173,27 @@ def test_alignment_catches_stage_claiming_terminal_truth():
     curriculum.stages = [CurriculumStage(stage_id="s", kind=CurriculumStageKind.PROOF_TASK, metadata={"terminal_form": "VERIFIED_PROOF"})]
     report = check_roadmap_alignment(continuation_curricula=[curriculum])
     assert any(f.code == "CURRICULUM_STAGE_CLAIMS_TERMINAL_TRUTH" for f in report.findings)
+
+
+def test_alignment_catches_warmup_as_target_proof():
+    curriculum = build_magma_equational_curriculum(source="x*x=x", target="x*y=x")
+    curriculum.metadata["warmup_success_is_target_proof"] = True
+    report = check_roadmap_alignment(continuation_curricula=[curriculum])
+    assert any(f.code == "WARMUP_AS_TARGET_PROOF" for f in report.findings)
+
+
+def test_alignment_catches_finite_example_as_true_proof():
+    curriculum = build_magma_equational_curriculum(source="x*x=x", target="x*y=x")
+    curriculum.metadata["finite_example_proves_true"] = True
+    report = check_roadmap_alignment(continuation_curricula=[curriculum])
+    assert any(f.code == "FINITE_EXAMPLE_AS_TRUE_PROOF" for f in report.findings)
+
+
+def test_alignment_catches_natural_language_curriculum_as_verifier_boundary():
+    curriculum = build_empty_curriculum()
+    curriculum.metadata.update({"natural_language": True, "verifier_boundary": True})
+    report = check_roadmap_alignment(continuation_curricula=[curriculum])
+    assert any(f.code == "NATURAL_LANGUAGE_CURRICULUM_AS_VERIFICATION" for f in report.findings)
 
 
 def test_alignment_warns_on_target_without_stages():
