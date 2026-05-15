@@ -1,8 +1,10 @@
 import json
+import importlib
 import subprocess
 import sys
 
 from mathgraph.alchemy import AlchemicalPhase
+from mathgraph.agent_biography import AgentExperienceOutcome
 from mathgraph.certificates import TerminalForm
 from mathgraph.continuation_actions import ContinuationOutputKind
 from mathgraph.roadmap_alignment import check_roadmap_alignment
@@ -61,12 +63,46 @@ def test_classify_passed_success_as_none():
     assert classify_flaw_from_message("verified successfully") == FlawSeverity.NONE
 
 
+def test_roadmap_alignment_module_compiles_and_imports():
+    result = subprocess.run(
+        [sys.executable, "-m", "py_compile", "mathgraph/roadmap_alignment.py"],
+        check=False,
+        text=True,
+        capture_output=True,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert importlib.import_module("mathgraph.roadmap_alignment") is not None
+
+
+def test_negative_verification_phrases_are_not_none():
+    assert classify_flaw_from_message("not verified") != FlawSeverity.NONE
+    assert classify_flaw_from_message("verification failed") != FlawSeverity.NONE
+
+
+def test_verified_false_theorem_is_not_success():
+    assert classify_flaw_from_message("verified false theorem") == FlawSeverity.CRITICAL_INVALIDATION
+
+
+def test_counterexample_found_but_verified_is_critical():
+    assert classify_flaw_from_message("counterexample found but verified") == FlawSeverity.CRITICAL_INVALIDATION
+
+
 def test_feedback_from_text_creates_advisory_feedback():
     feedback = feedback_from_text(raw_message="type mismatch", claim_id="c1", verifier_kind="LEAN")
 
     assert feedback.advisory is True
     assert feedback.claim_id == "c1"
     assert feedback.flaw_severity == FlawSeverity.STRUCTURAL_GAP
+
+
+def test_raw_text_verified_successfully_does_not_create_terminal_truth():
+    feedback = feedback_from_text(raw_message="verified successfully")
+    trace = run_repair_loop([feedback])
+
+    assert feedback.status.value == "PASSED"
+    assert feedback.metadata["text_feedback_not_verifier_boundary"] is True
+    assert not trace.is_terminal()
 
 
 def test_plan_minor_repairable_to_local_revise():
@@ -126,6 +162,16 @@ def test_bridges_preserve_boundary():
     assert outputs and all(output.kind in {ContinuationOutputKind.TASK, ContinuationOutputKind.OBSTRUCTION_CANDIDATE} for output in outputs)
 
 
+def test_agent_experience_bridge_does_not_emit_verified_proof_for_raw_feedback():
+    trace = run_repair_loop([feedback_from_text(raw_message="verified successfully")])
+
+    experiences = repair_loop_trace_to_agent_experiences(trace)
+
+    assert experiences[0].outcome == AgentExperienceOutcome.ADVISORY_ONLY
+    assert experiences[0].terminal_form is None
+    assert experiences[0].verifier_boundary_crossed is False
+
+
 def test_alignment_catches_repair_trace_certificate_without_boundary():
     trace = run_repair_loop([feedback_from_text(raw_message="unknown identifier foo")])
     unsafe = RepairLoopTrace.from_dict(
@@ -151,6 +197,16 @@ def test_alignment_catches_natural_language_repair_marked_as_truth():
 
     assert report.critical_count() >= 1
     assert any(finding.code == "NATURAL_LANGUAGE_REPAIR_AS_VERIFICATION" for finding in report.findings)
+
+
+def test_alignment_catches_raw_text_feedback_claiming_boundary():
+    feedback = feedback_from_text(raw_message="verified successfully", artifact_id="a1")
+    feedback.metadata["verifier_boundary"] = True
+
+    report = check_roadmap_alignment(verifier_feedback_items=[feedback])
+
+    assert report.critical_count() >= 1
+    assert any(finding.code == "RAW_TEXT_FEEDBACK_AS_VERIFIER_BOUNDARY" for finding in report.findings)
 
 
 def test_cli_runs_with_empty_input(tmp_path):

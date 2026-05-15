@@ -297,16 +297,36 @@ def classify_flaw_from_message(message: str | None) -> FlawSeverity:
     text = (message or "").lower()
     if not text.strip():
         return FlawSeverity.UNKNOWN
-    if any(token in text for token in ("passed", "success", "verified")):
-        return FlawSeverity.NONE
-    if any(token in text for token in ("counterexample", "source violated", "target not violated", "invalid certificate", "false theorem", "contradiction")):
+    if any(token in text for token in (
+        "counterexample found",
+        "counterexample",
+        "source violated",
+        "target not violated",
+        "invalid certificate",
+        "verified false theorem",
+        "false theorem",
+        "contradiction",
+    )):
         return FlawSeverity.CRITICAL_INVALIDATION
-    if any(token in text for token in ("type mismatch", "failed to synthesize", "unsolved goals", "incomplete proof", "sorry")):
+    if any(token in text for token in (
+        "not verified",
+        "failed verification",
+        "verification failed",
+        "not a proof",
+        "proof failed",
+        "type mismatch",
+        "failed to synthesize",
+        "unsolved goals",
+        "incomplete proof",
+        "sorry",
+    )):
         return FlawSeverity.STRUCTURAL_GAP
     if any(token in text for token in ("syntax", "parse", "unknown identifier", "unknown constant", "missing import")):
         return FlawSeverity.MINOR_REPAIRABLE
     if any(token in text for token in ("timeout", "not run", "unavailable", "missing executable")):
         return FlawSeverity.UNKNOWN
+    if any(token in text for token in ("verified successfully", "passed", "success")):
+        return FlawSeverity.NONE
     return FlawSeverity.UNKNOWN
 
 
@@ -411,7 +431,12 @@ def feedback_from_text(
         status=status,
         severity=severity,
         raw_message=raw_message,
-        metadata={"source": "text", "advisory_only": True, "natural_language_feedback_not_verification": True},
+        metadata={
+            "source": "text",
+            "advisory_only": True,
+            "text_feedback_not_verifier_boundary": True,
+            "natural_language_feedback_not_verification": True,
+        },
     )
 
 
@@ -487,6 +512,7 @@ def repair_loop_trace_to_agent_experiences(trace: RepairLoopTrace, agent_id: str
     actor = agent_id or "verifier-feedback"
     experiences: list[AgentExperience] = []
     for feedback in trace.feedback_items:
+        inherited_boundary = _feedback_has_inherited_terminal_boundary(feedback)
         experiences.append(
             AgentExperience(
                 experience_id=content_id("verifier_feedback_exp", feedback.to_dict(), n=24),
@@ -495,9 +521,18 @@ def repair_loop_trace_to_agent_experiences(trace: RepairLoopTrace, agent_id: str
                 claim_id=feedback.claim_id or feedback.artifact_id,
                 route=f"verifier_feedback:{feedback.flaw_severity.value.lower()}",
                 phase=AlchemicalPhase.DISTILLATION.value,
-                outcome=AgentExperienceOutcome.VERIFIED_PROOF if feedback.is_passed() else AgentExperienceOutcome.RESIDUAL,
+                outcome=AgentExperienceOutcome.VERIFIED_PROOF if inherited_boundary else (
+                    AgentExperienceOutcome.ADVISORY_ONLY if feedback.is_passed() else AgentExperienceOutcome.RESIDUAL
+                ),
+                terminal_form=TerminalForm.VERIFIED_PROOF if inherited_boundary else None,
+                certificate_id=_feedback_certificate_id(feedback) if inherited_boundary else None,
+                verifier_boundary_crossed=inherited_boundary,
                 scar_tags=() if feedback.is_passed() else (feedback.flaw_severity.value,),
-                metadata={"verifier_feedback": feedback.to_dict(), "repair_loop_advisory": True},
+                metadata={
+                    "verifier_feedback": feedback.to_dict(),
+                    "repair_loop_advisory": not inherited_boundary,
+                    "feedback_is_not_proof": True,
+                },
             )
         )
     return experiences
@@ -682,3 +717,31 @@ def _optional_terminal(value: Any) -> TerminalForm | None:
     if value in (None, ""):
         return None
     return TerminalForm(str(value))
+
+
+def _feedback_has_inherited_terminal_boundary(feedback: VerifierFeedback) -> bool:
+    if feedback.metadata.get("source") == "text":
+        return False
+    result = feedback.metadata.get("proof_verification_result")
+    if isinstance(result, Mapping):
+        return (
+            result.get("terminal_form") == TerminalForm.VERIFIED_PROOF.value
+            and bool(result.get("certificate_id"))
+            and result.get("verifier_boundary_crossed") is True
+        )
+    episode = feedback.metadata.get("episode")
+    if isinstance(episode, Mapping):
+        return (
+            episode.get("terminal_form") == TerminalForm.VERIFIED_PROOF.value
+            and bool(episode.get("certificate_id"))
+            and episode.get("verifier_boundary_crossed") is True
+        )
+    return False
+
+
+def _feedback_certificate_id(feedback: VerifierFeedback) -> str | None:
+    for key in ("proof_verification_result", "episode"):
+        payload = feedback.metadata.get(key)
+        if isinstance(payload, Mapping):
+            return _optional_str(payload.get("certificate_id"))
+    return None

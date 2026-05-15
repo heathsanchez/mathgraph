@@ -997,7 +997,7 @@ def _check_proof_digestion_traces(
                     f"Proof digestion trace {trace.trace_id} treats failed/unverified proof digestion as terminal truth.",
                     "Keep failed or unverified proof digestion advisory/residual.",
                 )
-                )
+            )
 
 
 def _check_verifier_feedback(
@@ -1016,13 +1016,29 @@ def _check_verifier_feedback(
                     "Feedback may describe verifier output, but it is not the terminal artifact.",
                 )
             )
-        if "natural_language" in text and ("verifier_boundary" in text or "verified_proof" in text):
+        if (
+            "natural_language" in text
+            and (
+                feedback.metadata.get("verifier_boundary") is True
+                or feedback.metadata.get("verifier_boundary_crossed") is True
+                or "verified_proof" in text
+            )
+        ):
             findings.append(
                 RoadmapAlignmentFinding(
                     "critical",
                     "NATURAL_LANGUAGE_REPAIR_AS_VERIFICATION",
                     f"Verifier feedback {feedback.feedback_id} marks natural-language repair/critique as verification.",
                     "Natural-language critique is advisory unless a real verifier/importer boundary exists.",
+                )
+            )
+        if feedback.metadata.get("source") == "text" and feedback.metadata.get("verifier_boundary"):
+            findings.append(
+                RoadmapAlignmentFinding(
+                    "critical",
+                    "RAW_TEXT_FEEDBACK_AS_VERIFIER_BOUNDARY",
+                    f"Raw text feedback {feedback.feedback_id} claims verifier boundary.",
+                    "Text feedback remains advisory and cannot itself cross the verifier boundary.",
                 )
             )
         if "finite_search_miss" in text and "verified_proof" in text:
