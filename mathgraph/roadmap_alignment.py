@@ -54,6 +54,16 @@ from mathgraph.structural_identity import (
     StructuralMergeDecision,
     StructuralSignature,
 )
+from mathgraph.habit_rules import (
+    HabitCandidate,
+    HabitFormationReport,
+    HabitFormationReportStatus,
+    HabitObservation,
+    HabitReview,
+    HabitRule,
+    HabitStatus,
+    HabitStore,
+)
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -172,6 +182,12 @@ def check_roadmap_alignment(
     structural_signatures: Sequence[StructuralSignature] = (),
     structural_merge_candidates: Sequence[StructuralMergeCandidate] = (),
     structural_identity_reports: Sequence[StructuralIdentityReport] = (),
+    habit_observations: Sequence[HabitObservation] = (),
+    habit_candidates: Sequence[HabitCandidate] = (),
+    habit_rules: Sequence[HabitRule] = (),
+    habit_reviews: Sequence[HabitReview] = (),
+    habit_stores: Sequence[HabitStore] = (),
+    habit_reports: Sequence[HabitFormationReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -207,6 +223,7 @@ def check_roadmap_alignment(
     identity_signatures = list(structural_signatures)
     identity_candidates = list(structural_merge_candidates)
     identity_reports = list(structural_identity_reports)
+    habit_observations_data = list(habit_observations); habit_candidates_data = list(habit_candidates); habit_rules_data = list(habit_rules); habit_reviews_data = list(habit_reviews); habit_stores_data = list(habit_stores); habit_reports_data = list(habit_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -226,6 +243,7 @@ def check_roadmap_alignment(
     _check_lawbook_boundary(accepted_lawbook_entries, accepted_lawbook_stores, accepted_lawbook_reviews, findings)
     _check_lawbook_queries(lawbook_queries_data, lawbook_answers, lawbook_reports, findings)
     _check_structural_identity(identity_graphs, identity_signatures, identity_candidates, identity_reports, findings)
+    _check_habits(habit_observations_data, habit_candidates_data, habit_rules_data, habit_reviews_data, habit_stores_data, habit_reports_data, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -316,6 +334,9 @@ def check_roadmap_alignment(
         "structural_graph_count": len(identity_graphs) + sum(len(report.graphs) for report in identity_reports),
         "structural_signature_count": len(identity_signatures) + sum(len(report.signatures) for report in identity_reports),
         "structural_merge_candidate_count": len(identity_candidates) + sum(len(report.merge_candidates) for report in identity_reports),
+        "habit_observation_count": len(habit_observations_data) + sum(len(report.observations) for report in habit_reports_data),
+        "habit_candidate_count": len(habit_candidates_data) + sum(len(report.candidates) for report in habit_reports_data),
+        "habit_rule_count": len(habit_rules_data) + sum(len(report.rules) for report in habit_reports_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1402,6 +1423,8 @@ def _check_lawbook_boundary(
             findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_ASSIMILATION_AS_ACCEPTED", f"Lawbook entry {entry.entry_id} accepts an assimilation candidate without review.", "Assimilation candidates require explicit review and acceptance."))
         if entry.metadata.get("structural_identity_not_equality") and entry.is_accepted():
             findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_LAWBOOK_CANDIDATE_ACCEPTED_DIRECTLY", f"Lawbook entry {entry.entry_id} accepts a structural candidate directly.", "Structural merge candidates remain candidates until explicit review."))
+        if entry.metadata.get("habit_rule_not_truth") and entry.is_accepted():
+            findings.append(RoadmapAlignmentFinding("critical", "HABIT_LAWBOOK_CANDIDATE_ACCEPTED_DIRECTLY", f"Lawbook entry {entry.entry_id} accepts a habit candidate directly.", "Habit-derived Lawbook records remain candidates until explicit Lawbook review."))
         if entry.metadata.get("natural_language_verifier_boundary") or ("natural_language" in text and "verifier_boundary" in text):
             findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_NATURAL_LANGUAGE_AS_BOUNDARY", f"Lawbook entry {entry.entry_id} marks natural-language text as verifier boundary.", "Natural-language text is not verification."))
         if entry.is_accepted() and entry.acceptance_boundary.value in {"NONE", "UNKNOWN"}:
@@ -1498,6 +1521,46 @@ def _check_structural_identity(
             findings.append(RoadmapAlignmentFinding("warning", "STRUCTURAL_REPORT_NO_SIGNATURES", f"Structural identity report {report.report_id} has no signatures.", "Emit signatures before comparing structure."))
         if not report.advisory or not report.metadata.get("advisory_only", report.advisory):
             findings.append(RoadmapAlignmentFinding("warning", "STRUCTURAL_REPORT_MISSING_ADVISORY_METADATA", f"Structural identity report {report.report_id} lacks advisory metadata.", "Structural identity is advisory memory hygiene."))
+
+
+def _check_habits(
+    observations: Sequence[HabitObservation],
+    candidates: Sequence[HabitCandidate],
+    rules: Sequence[HabitRule],
+    reviews: Sequence[HabitReview],
+    stores: Sequence[HabitStore],
+    reports: Sequence[HabitFormationReport],
+    findings: list[RoadmapAlignmentFinding],
+) -> None:
+    all_candidates = list(candidates) + [c for r in reports for c in r.candidates] + [c for s in stores for c in s.candidates]
+    all_rules = list(rules) + [x for r in reports for x in r.rules] + [x for s in stores for x in s.rules]
+    for c in all_candidates:
+        text = json.dumps(c.to_dict(), sort_keys=True).lower()
+        if ("verified_proof" in text or "finite_countermodel" in text) and c.metadata.get("treat_as_truth"):
+            findings.append(RoadmapAlignmentFinding("critical","HABIT_AS_PROOF",f"Habit candidate {c.candidate_id} treats habit as truth.","Habits are route pressure only."))
+        if not c.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","HABIT_NON_ADVISORY",f"Habit candidate {c.candidate_id} is non-advisory.","Habit candidates remain advisory."))
+        if c.support_count < 3:
+            findings.append(RoadmapAlignmentFinding("warning","HABIT_LOW_SUPPORT",f"Habit candidate {c.candidate_id} has low support.","Gather more evidence before promotion."))
+        if not c.explicit_conditions:
+            findings.append(RoadmapAlignmentFinding("warning","HABIT_NO_CONDITIONS",f"Habit candidate {c.candidate_id} has no conditions.","Accepted habits require explicit applicability conditions."))
+    for r in all_rules:
+        if not r.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","HABIT_RULE_NON_ADVISORY",f"Habit rule {r.rule_id} is non-advisory.","Habit rules do not cross truth boundaries."))
+        if r.is_accepted() and not r.conditions:
+            findings.append(RoadmapAlignmentFinding("critical","HABIT_ACCEPTED_WITHOUT_CONDITIONS",f"Accepted habit rule {r.rule_id} lacks conditions.","Accepted habits require explicit conditions."))
+        if r.is_accepted() and r.risk_score > 0.5:
+            findings.append(RoadmapAlignmentFinding("critical","HABIT_ACCEPTED_HIGH_RISK",f"Accepted habit rule {r.rule_id} is high risk.","High-risk habits should be held or rejected."))
+        if r.metadata.get("verifier_boundary"):
+            findings.append(RoadmapAlignmentFinding("critical","HABIT_AS_BOUNDARY",f"Habit rule {r.rule_id} claims verifier boundary.","Habits are scheduling practice, not verification."))
+    for report in reports:
+        if report.critical_count() > 0 and report.status != HabitFormationReportStatus.HAS_CRITICALS:
+            findings.append(RoadmapAlignmentFinding("critical","HABIT_REPORT_HIDES_CRITICALS",f"Habit report {report.report_id} hides criticals.","Reflect criticals in report status."))
+        if report.observations and not report.candidates:
+            findings.append(RoadmapAlignmentFinding("warning","HABIT_REPORT_NO_CANDIDATES",f"Habit report {report.report_id} has observations but no candidates.","Build candidate habits or keep evidence explicit."))
+    for store in stores:
+        if store.rules and not store.reviews:
+            findings.append(RoadmapAlignmentFinding("warning","HABIT_STORE_RULES_NO_REVIEWS",f"Habit store {store.store_id} has rules but no reviews.","Review habits before acceptance."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

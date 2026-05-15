@@ -726,6 +726,20 @@ from mathgraph.structural_identity import (
     structural_identity_report_to_lawbook_candidates,
     structural_identity_report_to_route_telemetry_events,
 )
+from mathgraph.habit_rules import (
+    HabitCandidate, HabitFormationReport, HabitFormationReportStatus, HabitObservation,
+    HabitObservationKind, HabitOutcome, HabitReview, HabitReviewDecision, HabitRule,
+    HabitRuleKind, HabitStatus, HabitStore, apply_habit_rules, audit_habit_candidate,
+    audit_habit_report, audit_habit_rule, build_habit_candidates,
+    build_habit_formation_report, build_habit_store, habit_observations_from_object,
+    habit_report_to_agent_experiences, habit_report_to_alchemical_trace,
+    habit_report_to_continuation_outputs, habit_report_to_curriculum,
+    habit_report_to_discovery_value_scores, habit_report_to_lawbook_candidates,
+    habit_report_to_route_telemetry_events, infer_condition_key, infer_rule_kind,
+    make_habit_candidate_id, make_habit_formation_report_id, make_habit_observation_id,
+    make_habit_review_id, make_habit_rule_id, make_habit_store_id,
+    promote_habit_candidate, rank_routes_with_habits, review_habit_candidate,
+)
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
 from mathgraph.outcome_dataset import (
@@ -1601,6 +1615,16 @@ __all__ = [
     "structural_identity_report_to_curriculum",
     "structural_identity_report_to_lawbook_candidates",
     "structural_identity_report_to_route_telemetry_events",
+    "HabitCandidate","HabitFormationReport","HabitFormationReportStatus","HabitObservation",
+    "HabitObservationKind","HabitOutcome","HabitReview","HabitReviewDecision","HabitRule",
+    "HabitRuleKind","HabitStatus","HabitStore","apply_habit_rules","audit_habit_candidate",
+    "audit_habit_report","audit_habit_rule","build_habit_candidates","build_habit_formation_report",
+    "build_habit_store","habit_observations_from_object","habit_report_to_agent_experiences",
+    "habit_report_to_alchemical_trace","habit_report_to_continuation_outputs","habit_report_to_curriculum",
+    "habit_report_to_discovery_value_scores","habit_report_to_lawbook_candidates","habit_report_to_route_telemetry_events",
+    "infer_condition_key","infer_rule_kind","make_habit_candidate_id","make_habit_formation_report_id",
+    "make_habit_observation_id","make_habit_review_id","make_habit_rule_id","make_habit_store_id",
+    "promote_habit_candidate","rank_routes_with_habits","review_habit_candidate",
     "score_agent_experience",
     "score_alchemical_trace",
     "score_continuation_output",

@@ -34,13 +34,16 @@ Domain Claim
     read-only accepted-memory lookup.
 11. M6.13 Structural Identity and Canonicalization: implemented/in progress as
     advisory memory hygiene.
+12. M6.14 Habit Rules and Route Promotion: implemented/in progress as
+    reviewed advisory route practice.
 
 ## Future Work
 
-- M6.14 Habit Rules and Route Promotion
 - M6.15 Reason Compression
 - M6.16 Process Memory
 - M6.17 Structure Registry and Typed Projection
+- M6.18 Role-Based Object Introduction
+- M6.19 Structural Analogy and Exposition
 - richer formal-world adapters
 - deeper proof-system integration
 - semantic and natural-language claim handling with strict boundaries

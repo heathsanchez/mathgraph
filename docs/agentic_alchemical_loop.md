@@ -302,6 +302,13 @@ obstructions, and projection rules become review tasks, not automatic merges.
 Canonicalization is part of memory hygiene, not verification: digest matches
 may suggest a review, but they do not prove equality or mutate public memory.
 
+## Habit Rules
+
+Habit formation is how repeated successful routes become reusable advisory
+practice. It is the system's memory of what tends to work, not a truth boundary.
+Habit candidates require support, low risk, explicit conditions, and review
+before they become accepted habit rules.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

@@ -142,6 +142,14 @@ recommends possible merges or duplicate reviews. Structural identity is
 advisory: a digest match is not proof, not equality, and not an accepted merge.
 Review is required before public memory is merged.
 
+## Habit Rules and Route Promotion
+
+MathGraph can observe repeated route outcomes and propose reusable advisory
+habits. A habit is a route pattern that has repeatedly produced useful results
+under explicit conditions. Accepted habits can adjust route priority, but they
+do not verify claims, create certificates, accept Lawbook entries, merge
+structural identities, or promote truth.
+
 ## Projection
 
 Projection applies accepted memory back to unresolved work as known skips,
