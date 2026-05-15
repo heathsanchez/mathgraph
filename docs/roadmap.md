@@ -12,6 +12,7 @@ Domain Claim
   -> Verifier Feedback / Repair
   -> Discovery Value
   -> Lawbook Acceptance
+  -> Lawbook Query / Known Skip
   -> Projection
   -> Telemetry
 ```
@@ -29,15 +30,17 @@ Domain Claim
 8. M6.11 Lawbook Hardening and Accepted Assimilation Boundary: implemented as
    the explicit accepted public-memory boundary.
 9. M6.11.1 Public Surface / Terminology Hardening: implemented.
-10. M6.12 Lawbook-Backed Query API and Known-Skip Service: implemented/in
-    progress as read-only accepted-memory lookup.
+10. M6.12 Lawbook-Backed Query API and Known-Skip Service: implemented as
+    read-only accepted-memory lookup.
+11. M6.13 Structural Identity and Canonicalization: implemented/in progress as
+    advisory memory hygiene.
 
 ## Future Work
 
-- M6.13 Structural Identity and Canonicalization
 - M6.14 Habit Rules and Route Promotion
 - M6.15 Reason Compression
 - M6.16 Process Memory
+- M6.17 Structure Registry and Typed Projection
 - richer formal-world adapters
 - deeper proof-system integration
 - semantic and natural-language claim handling with strict boundaries

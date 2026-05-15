@@ -39,6 +39,7 @@ Domain Claim
   -> Verifier Feedback / Repair
   -> Discovery Value
   -> Lawbook Acceptance
+  -> Lawbook Query / Known Skip
   -> Projection
   -> Telemetry
 ```
@@ -131,6 +132,15 @@ boundary evidence:
 Candidate-only, digestion-only, projection-only, and discovery-value-only
 records never permit skip. Querying memory reports what is already accepted; it
 does not accept, verify, or promote anything.
+
+## Structural Identity and Canonicalization
+
+MathGraph can build typed structural views of Lawbook entries, curricula,
+digestion traces, projection candidates, discovery value scores, query answers,
+and other artifacts. It computes deterministic structural signatures and
+recommends possible merges or duplicate reviews. Structural identity is
+advisory: a digest match is not proof, not equality, and not an accepted merge.
+Review is required before public memory is merged.
 
 ## Projection
 

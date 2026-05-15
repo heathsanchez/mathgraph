@@ -295,6 +295,13 @@ already accepted answer, but known skips are not new proofs. Candidate and
 advisory memory can schedule review or projection; they cannot skip
 verification.
 
+## Structural Identity
+
+Structural identity prevents memory bloat. Duplicate-looking roots, schemas,
+obstructions, and projection rules become review tasks, not automatic merges.
+Canonicalization is part of memory hygiene, not verification: digest matches
+may suggest a review, but they do not prove equality or mutate public memory.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

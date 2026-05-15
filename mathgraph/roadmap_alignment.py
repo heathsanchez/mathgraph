@@ -45,6 +45,15 @@ from mathgraph.projection import ProjectionRuleKind, ProjectionStatus, Projectio
 from mathgraph.root_constructors import RootConstructorStatus, RootConstructorTrace
 from mathgraph.route_telemetry import RouteTelemetryLedger
 from mathgraph.spectral_htilt import SpectralHTiltEstimate
+from mathgraph.structural_identity import (
+    StructuralGraph,
+    StructuralIdentityReport,
+    StructuralIdentityReportStatus,
+    StructuralMatchKind,
+    StructuralMergeCandidate,
+    StructuralMergeDecision,
+    StructuralSignature,
+)
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -159,6 +168,10 @@ def check_roadmap_alignment(
     lawbook_queries: Sequence[LawbookQuery] = (),
     lawbook_query_answers: Sequence[LawbookQueryAnswer] = (),
     lawbook_query_reports: Sequence[LawbookQueryReport] = (),
+    structural_graphs: Sequence[StructuralGraph] = (),
+    structural_signatures: Sequence[StructuralSignature] = (),
+    structural_merge_candidates: Sequence[StructuralMergeCandidate] = (),
+    structural_identity_reports: Sequence[StructuralIdentityReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -190,6 +203,10 @@ def check_roadmap_alignment(
     lawbook_queries_data = list(lawbook_queries)
     lawbook_answers = list(lawbook_query_answers)
     lawbook_reports = list(lawbook_query_reports)
+    identity_graphs = list(structural_graphs)
+    identity_signatures = list(structural_signatures)
+    identity_candidates = list(structural_merge_candidates)
+    identity_reports = list(structural_identity_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -208,6 +225,7 @@ def check_roadmap_alignment(
     _check_discovery_value(value_reports, value_scores, findings)
     _check_lawbook_boundary(accepted_lawbook_entries, accepted_lawbook_stores, accepted_lawbook_reviews, findings)
     _check_lawbook_queries(lawbook_queries_data, lawbook_answers, lawbook_reports, findings)
+    _check_structural_identity(identity_graphs, identity_signatures, identity_candidates, identity_reports, findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -295,6 +313,9 @@ def check_roadmap_alignment(
         "lawbook_query_count": len(lawbook_queries_data),
         "lawbook_query_answer_count": len(lawbook_answers) + sum(len(report.answers) for report in lawbook_reports),
         "lawbook_query_report_count": len(lawbook_reports),
+        "structural_graph_count": len(identity_graphs) + sum(len(report.graphs) for report in identity_reports),
+        "structural_signature_count": len(identity_signatures) + sum(len(report.signatures) for report in identity_reports),
+        "structural_merge_candidate_count": len(identity_candidates) + sum(len(report.merge_candidates) for report in identity_reports),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1379,6 +1400,8 @@ def _check_lawbook_boundary(
             findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_PROJECTION_AS_CERTIFICATE", f"Lawbook entry {entry.entry_id} marks projection rule as certificate.", "Projection rules organize reuse; they are not certificates."))
         if entry.metadata.get("assimilation_candidate_as_truth"):
             findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_ASSIMILATION_AS_ACCEPTED", f"Lawbook entry {entry.entry_id} accepts an assimilation candidate without review.", "Assimilation candidates require explicit review and acceptance."))
+        if entry.metadata.get("structural_identity_not_equality") and entry.is_accepted():
+            findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_LAWBOOK_CANDIDATE_ACCEPTED_DIRECTLY", f"Lawbook entry {entry.entry_id} accepts a structural candidate directly.", "Structural merge candidates remain candidates until explicit review."))
         if entry.metadata.get("natural_language_verifier_boundary") or ("natural_language" in text and "verifier_boundary" in text):
             findings.append(RoadmapAlignmentFinding("critical", "LAWBOOK_NATURAL_LANGUAGE_AS_BOUNDARY", f"Lawbook entry {entry.entry_id} marks natural-language text as verifier boundary.", "Natural-language text is not verification."))
         if entry.is_accepted() and entry.acceptance_boundary.value in {"NONE", "UNKNOWN"}:
@@ -1442,6 +1465,39 @@ def _check_lawbook_queries(
             findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_QUERY_MANY_NOT_FOUND", f"Lawbook query report {report.report_id} has many not-found answers.", "Review query coverage or accepted memory."))
         if "trust_summary" not in report.metadata:
             findings.append(RoadmapAlignmentFinding("warning", "LAWBOOK_QUERY_REPORT_NO_TRUST_SUMMARY", f"Lawbook query report {report.report_id} has no trust summary.", "Include store trust summary for auditability."))
+
+
+def _check_structural_identity(
+    graphs: Sequence[StructuralGraph],
+    signatures: Sequence[StructuralSignature],
+    candidates: Sequence[StructuralMergeCandidate],
+    reports: Sequence[StructuralIdentityReport],
+    findings: list[RoadmapAlignmentFinding],
+) -> None:
+    all_candidates = list(candidates) + [candidate for report in reports for candidate in report.merge_candidates]
+    for candidate in all_candidates:
+        text = json.dumps(candidate.to_dict(), sort_keys=True).lower()
+        if any(term in text for term in ("verified_proof", "finite_countermodel")) and candidate.metadata.get("treat_as_truth"):
+            findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_IDENTITY_AS_PROOF", f"Structural merge candidate {candidate.candidate_id} treats structure as terminal truth.", "Structural identity recommends review only."))
+        if not candidate.advisory:
+            findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_MERGE_NON_ADVISORY", f"Structural merge candidate {candidate.candidate_id} is non-advisory.", "Merge candidates require explicit review."))
+        if candidate.match_kind == StructuralMatchKind.CONFLICTING_DUPLICATE and candidate.decision == StructuralMergeDecision.MERGE_RECOMMENDED:
+            findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_CONFLICT_MERGE", f"Structural merge candidate {candidate.candidate_id} recommends merge for a conflict.", "Conflicts require conflict review."))
+        if candidate.metadata.get("structural_digest_as_certificate"):
+            findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_DIGEST_AS_CERTIFICATE", f"Structural merge candidate {candidate.candidate_id} uses digest as certificate.", "Digests are memory hygiene, not verifier evidence."))
+        if candidate.metadata.get("claims_equality_without_review"):
+            findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_EQUALITY_WITHOUT_REVIEW", f"Structural merge candidate {candidate.candidate_id} claims equality without review.", "Review is required before public memory merges."))
+        if candidate.confidence > 0.8 and not candidate.reason:
+            findings.append(RoadmapAlignmentFinding("warning", "STRUCTURAL_HIGH_CONFIDENCE_NO_REASON", f"Structural merge candidate {candidate.candidate_id} has high confidence but no reason.", "Expose why the review was recommended."))
+    for report in reports:
+        if report.critical_count() > 0 and report.status in {StructuralIdentityReportStatus.COMPARED, StructuralIdentityReportStatus.MERGE_CANDIDATES_FOUND}:
+            findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_REPORT_HIDES_CRITICALS", f"Structural identity report {report.report_id} has criticals but noncritical status.", "Reflect conflicts in report status."))
+        if report.metadata.get("verifier_boundary"):
+            findings.append(RoadmapAlignmentFinding("critical", "STRUCTURAL_REPORT_AS_BOUNDARY", f"Structural identity report {report.report_id} claims verifier boundary.", "Structural identity remains advisory."))
+        if not report.signatures:
+            findings.append(RoadmapAlignmentFinding("warning", "STRUCTURAL_REPORT_NO_SIGNATURES", f"Structural identity report {report.report_id} has no signatures.", "Emit signatures before comparing structure."))
+        if not report.advisory or not report.metadata.get("advisory_only", report.advisory):
+            findings.append(RoadmapAlignmentFinding("warning", "STRUCTURAL_REPORT_MISSING_ADVISORY_METADATA", f"Structural identity report {report.report_id} lacks advisory metadata.", "Structural identity is advisory memory hygiene."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
