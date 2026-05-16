@@ -13,6 +13,13 @@ Domain Claim
   -> Discovery Value
   -> Lawbook Acceptance
   -> Lawbook Query / Known Skip
+  -> Structural Identity
+  -> Habit Rules
+  -> Reason Compression
+  -> Process Memory
+  -> Structure Registry / Typed Projection
+  -> Role-Based Object Introduction
+  -> Structural Analogy / Exposition
   -> Projection
   -> Telemetry
 ```
@@ -44,14 +51,16 @@ Domain Claim
     advisory typed compatibility checking.
 16. M6.18 Role-Based Object Introduction: implemented/in progress as advisory
     concept formation.
+17. M6.19 Structural Analogy and Exposition: implemented/in progress as
+    advisory understanding and exposition.
 
 ## Future Work
 
-- M6.19 Structural Analogy and Exposition
 - richer formal-world adapters
 - deeper proof-system integration
 - semantic and natural-language claim handling with strict boundaries
 - API service hardening
 - existential agents
+- spec synchronization / publication document refresh
 
 Only verifier/importer/finite-validation/chain-audit boundaries promote truth.

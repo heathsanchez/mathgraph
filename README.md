@@ -191,6 +191,17 @@ countermodel, formalization, or projection tasks. Accepted role objects are
 advisory reusable concepts only: they do not verify claims, create certificates,
 accept Lawbook entries, merge structural identity candidates, or promote truth.
 
+## Structural Analogy and Exposition
+
+MathGraph can compare role objects, typed structures, reasons, habits, process
+records, lawbook memory, proof digestion, feedback, repair, curricula,
+alchemical traces, agents, and telemetry to produce advisory structural
+analogies and exposition notes. It records feature maps, analogy limits, breaks,
+review needs, and suggested proof, countermodel, projection, adapter,
+formalization, or digestion tasks. Analogy and exposition are understanding
+aids only: they do not verify claims, create certificates, accept Lawbook
+entries, merge structural identity candidates, or promote truth.
+
 ## Projection
 
 Projection applies accepted memory back to unresolved work as known skips,

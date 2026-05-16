@@ -341,6 +341,14 @@ for witnesses, and emits proof, countermodel, or formalization tasks. The role
 remains in Chora until reviewed, and even accepted role objects are advisory
 concepts unless their consequences are separately verified.
 
+## Structural Analogy and Exposition
+
+Structural analogy and exposition are how MathGraph makes its growing memory
+intelligible. The system compares roles and structures, records where the
+analogy works, records where it breaks, and emits human-readable notes plus
+review, projection, or digestion tasks. The analogy may guide discovery, but it
+remains in Chora until separately verified or accepted as advisory exposition.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

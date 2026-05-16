@@ -68,6 +68,7 @@ from mathgraph.reason_compression import ReasonCandidate,ReasonCompressionReport
 from mathgraph.process_memory import ProcessContextItem,ProcessElimination,ProcessTransition,ProcessEpisodeRecord,ProcessMemoryQuery,ProcessMemoryAnswer,ProcessMemoryStore,ProcessMemoryReport,ProcessMemoryReportStatus
 from mathgraph.structure_registry import StructureType,StructureDescriptor,StructureRegistryEntry,StructureMapping,TypedProjectionCandidate,StructureRegistryStore,StructureRegistryReport,StructureRegistryReportStatus,TypedProjectionStatus
 from mathgraph.role_objects import RoleSignature,RoleDefinitionCandidate,RoleWitnessCandidate,RoleConjectureCandidate,RoleReview,RoleObject,RoleObjectReport,RoleObjectReportStatus,RoleWitnessStatus
+from mathgraph.structural_analogy import AnalogySource,AnalogyFeatureMap,AnalogyBreak,StructuralAnalogyCandidate,ExpositionNote as AnalogyExpositionNote,AnalogyReview,StructuralAnalogyReport,StructuralAnalogyReportStatus,AnalogyCandidateStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -219,6 +220,13 @@ def check_roadmap_alignment(
     role_reviews: Sequence[RoleReview] = (),
     role_objects: Sequence[RoleObject] = (),
     role_object_reports: Sequence[RoleObjectReport] = (),
+    analogy_sources: Sequence[AnalogySource] = (),
+    analogy_feature_maps: Sequence[AnalogyFeatureMap] = (),
+    analogy_breaks: Sequence[AnalogyBreak] = (),
+    structural_analogy_candidates: Sequence[StructuralAnalogyCandidate] = (),
+    exposition_notes: Sequence[AnalogyExpositionNote] = (),
+    analogy_reviews: Sequence[AnalogyReview] = (),
+    structural_analogy_reports: Sequence[StructuralAnalogyReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -259,6 +267,7 @@ def check_roadmap_alignment(
     process_context_data=list(process_context_items); process_elimination_data=list(process_eliminations); process_transition_data=list(process_transitions); process_episode_data=list(process_episode_records); process_query_data=list(process_memory_queries); process_answer_data=list(process_memory_answers); process_store_data=list(process_memory_stores); process_report_data=list(process_memory_reports)
     structure_type_data=list(structure_types); structure_descriptor_data=list(structure_descriptors); structure_entry_data=list(structure_registry_entries); structure_mapping_data=list(structure_mappings); typed_projection_data=list(typed_projection_candidates); structure_store_data=list(structure_registry_stores); structure_report_data=list(structure_registry_reports)
     role_signature_data=list(role_signatures); role_definition_data=list(role_definition_candidates); role_witness_data=list(role_witness_candidates); role_conjecture_data=list(role_conjecture_candidates); role_review_data=list(role_reviews); role_object_data=list(role_objects); role_report_data=list(role_object_reports)
+    analogy_source_data=list(analogy_sources); analogy_map_data=list(analogy_feature_maps); analogy_break_data=list(analogy_breaks); analogy_candidate_data=list(structural_analogy_candidates); analogy_note_data=list(exposition_notes); analogy_review_data=list(analogy_reviews); analogy_report_data=list(structural_analogy_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -283,6 +292,7 @@ def check_roadmap_alignment(
     _check_process_memory(process_context_data,process_elimination_data,process_transition_data,process_episode_data,process_query_data,process_answer_data,process_store_data,process_report_data,findings)
     _check_structure_registry(structure_type_data,structure_descriptor_data,structure_entry_data,structure_mapping_data,typed_projection_data,structure_store_data,structure_report_data,findings)
     _check_role_objects(role_signature_data,role_definition_data,role_witness_data,role_conjecture_data,role_review_data,role_object_data,role_report_data,findings)
+    _check_structural_analogies(analogy_source_data,analogy_map_data,analogy_break_data,analogy_candidate_data,analogy_note_data,analogy_review_data,analogy_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -394,6 +404,11 @@ def check_roadmap_alignment(
         "role_witness_candidate_count": len(role_witness_data)+sum(len(r.witness_candidates) for r in role_report_data),
         "role_conjecture_candidate_count": len(role_conjecture_data)+sum(len(r.conjecture_candidates) for r in role_report_data),
         "role_object_count": len(role_object_data)+sum(len(r.role_objects) for r in role_report_data),
+        "analogy_source_count": len(analogy_source_data)+sum(len(r.sources) for r in analogy_report_data),
+        "analogy_feature_map_count": len(analogy_map_data)+sum(len(r.feature_maps) for r in analogy_report_data),
+        "analogy_break_count": len(analogy_break_data)+sum(len(r.breaks) for r in analogy_report_data),
+        "structural_analogy_candidate_count": len(analogy_candidate_data)+sum(len(r.candidates) for r in analogy_report_data),
+        "exposition_note_count": len(analogy_note_data)+sum(len(r.exposition_notes) for r in analogy_report_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1703,6 +1718,38 @@ def _check_role_objects(signatures, definitions, witnesses, conjectures, reviews
     for r in reports:
         if r.critical_count()>0 and r.status!=RoleObjectReportStatus.HAS_CRITICALS: findings.append(RoadmapAlignmentFinding("critical","ROLE_REPORT_HIDES_CRITICALS",f"Role report {r.report_id} hides criticals.","Reflect criticals in report status."))
         if r.signatures and not r.definition_candidates: findings.append(RoadmapAlignmentFinding("warning","ROLE_REPORT_NO_DEFINITIONS",f"Role report {r.report_id} has signatures but no definitions.","Explain or generate definitions."))
+
+
+def _check_structural_analogies(sources, maps, breaks, candidates, notes, reviews, reports, findings):
+    all_sources=list(sources)+[x for r in reports for x in r.sources]
+    all_maps=list(maps)+[x for r in reports for x in r.feature_maps]
+    all_breaks=list(breaks)+[x for r in reports for x in r.breaks]
+    all_candidates=list(candidates)+[x for r in reports for x in r.candidates]
+    all_notes=list(notes)+[x for r in reports for x in r.exposition_notes]
+    for x in all_sources+all_maps+all_breaks+all_candidates+all_notes:
+        if not getattr(x,"advisory",True):
+            findings.append(RoadmapAlignmentFinding("critical","ANALOGY_NON_ADVISORY",f"Analogy object {getattr(x,'source_id',getattr(x,'map_id',getattr(x,'break_id',getattr(x,'candidate_id',getattr(x,'note_id','unknown')))))} is non-advisory.","Analogies remain advisory."))
+    for c in all_candidates:
+        if c.metadata.get("terminal_form") or c.metadata.get("certificate_id"):
+            findings.append(RoadmapAlignmentFinding("critical","ANALOGY_AS_PROOF",f"Analogy candidate {c.candidate_id} carries terminal fields.","Analogies cannot create truth."))
+        if c.is_blocked() and c.is_schedulable():
+            findings.append(RoadmapAlignmentFinding("critical","ANALOGY_BLOCKED_DIRECT",f"Blocked analogy {c.candidate_id} is schedulable.","Blocked analogies must not project directly."))
+        if c.analogy_score<.15:
+            findings.append(RoadmapAlignmentFinding("warning","ANALOGY_LOW_SCORE",f"Analogy candidate {c.candidate_id} has low score.","Gather more support before reuse."))
+    for n in all_notes:
+        text=(n.text+" "+json.dumps(n.metadata,sort_keys=True)).lower()
+        if any(x in text for x in ("verified proof","verified theorem","creates certificate")):
+            findings.append(RoadmapAlignmentFinding("critical","EXPOSITION_AS_VERIFICATION",f"Exposition note {n.note_id} claims verification.","Exposition is advisory only."))
+    for m in all_maps:
+        if not m.shared_features:
+            findings.append(RoadmapAlignmentFinding("warning","ANALOGY_MAP_NO_SHARED_FEATURES",f"Analogy map {m.map_id} has no shared features.","Record limits or avoid analogy."))
+    for r in reports:
+        if r.critical_count()>0 and r.status!=StructuralAnalogyReportStatus.HAS_CRITICALS:
+            findings.append(RoadmapAlignmentFinding("critical","ANALOGY_REPORT_HIDES_CRITICALS",f"Analogy report {r.report_id} hides criticals.","Reflect criticals in report status."))
+        if r.sources and not r.feature_maps:
+            findings.append(RoadmapAlignmentFinding("warning","ANALOGY_REPORT_NO_MAPS",f"Analogy report {r.report_id} has sources but no maps.","Build maps or explain why absent."))
+        if r.candidates and not r.exposition_notes:
+            findings.append(RoadmapAlignmentFinding("warning","ANALOGY_REPORT_NO_EXPOSITION",f"Analogy report {r.report_id} has candidates but no exposition.","Produce limitation notes for review."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
