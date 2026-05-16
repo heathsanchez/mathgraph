@@ -2,10 +2,15 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC_DOCS = [ROOT / "README.md", *sorted((ROOT / "docs").rglob("*.md"))]
+PUBLIC_DOCS = [
+    ROOT / "README.md",
+    *sorted((ROOT / "docs").rglob("*.md")),
+    *sorted((ROOT / "docs").rglob("*.tex")),
+]
 BANNED_TERMS = (
     "logikey",
     "isabelle/aot",
+    "isabelle/aot importer",
     "aot importer",
     "archive of formal proofs as architecture",
     "aot kernel",

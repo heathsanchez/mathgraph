@@ -8,8 +8,16 @@ Chora -> AlchemicalTrace -> AgentExperience -> H-tilt-lite pressure
       -> Verifier boundary -> Terminal Form -> Lawbook -> Projection
 ```
 
-Models propose. MathGraph constrains. Verifiers decide. The Lawbook remembers.
-Reasons compress.
+Models propose. MathGraph constrains. Verifiers decide. Digestion assimilates.
+The Lawbook remembers. Projection scales.
+
+The current loop now includes continuation actions, curricula, verification
+episodes, proof digestion, verifier feedback and repair, discovery value,
+Lawbook acceptance and query, structural identity, habit rules, reason
+compression, process memory, structure registry and typed projection,
+role-based object introduction, and structural analogy/exposition. These layers
+may improve search, replay, understanding, and scheduling, but they remain
+advisory unless an explicit truth boundary is crossed.
 
 The operational loop is:
 
@@ -56,8 +64,9 @@ scheduling, but cannot change terminal truth.
 
 H-tilt-lite is viability-conditioned advisory pressure. It combines base route
 score, agent taste, scar penalty, expected cost, expected projection gain, and
-expected compression gain. It is not full spectral H-tilt; the spectral
-`K = L - V`, `h`, `q`, and `pi*` formulation remains future work.
+expected compression gain. Spectral H-tilt adds telemetry-derived killed
+dynamics through `K = L - V`, `h`, `q`, and `pi*`; both remain scheduling
+pressure rather than truth.
 
 H-tilt-lite does not promote claims. It only helps decide what to try next.
 
@@ -232,10 +241,10 @@ improve future search, projection, and explanation.
 
 Digestion distills dependencies, separates routine and load-bearing steps,
 extracts key idea and reusable schema candidates, creates exposition notes, and
-emits projection hints. The Lawbook should store truth artifacts and digestion
-links separately: a proof certificate records survival through a verifier
-boundary, while digestion records compressed intelligibility around that
-survival.
+emits projection hints. Digestion and exposition are human-understanding
+layers. The Lawbook should store truth artifacts and digestion links separately:
+a proof certificate records survival through a verifier boundary, while
+digestion records compressed intelligibility around that survival.
 
 ## Verifier Feedback and Repair
 
@@ -319,7 +328,7 @@ advisory unless formalized and verified.
 
 ## Process Memory
 
-Process memory is the durable trace of the alchemical loop. It records what was
+Process memory is replayed experience: the durable trace of the alchemical loop. It records what was
 included, what was excluded, what was killed, what was repaired, what became
 digestion, what became habit, what became reason, and what was projected
 forward. It gives agents a replayable history without confusing history with
@@ -348,6 +357,7 @@ intelligible. The system compares roles and structures, records where the
 analogy works, records where it breaks, and emits human-readable notes plus
 review, projection, or digestion tasks. The analogy may guide discovery, but it
 remains in Chora until separately verified or accepted as advisory exposition.
+It cannot verify claims.
 
 ## Lawbook as Forms
 
