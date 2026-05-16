@@ -145,6 +145,17 @@ external boundary is required. Parse, normalize, and validate success remains
 advisory; an adapter does not verify unless an external boundary result is
 returned with explicit evidence.
 
+\section{Deeper Proof-System Integration}
+M8 turns adapter-ready formal work into explicit, replayable proof-system
+contracts. It records proof-system specifications, project manifests, artifact
+manifests, import graphs, safe tokenized check-command contracts, check
+requests, parsed check results, trusted import records, and proof boundary
+evidence. Placeholder tokens such as sorry or admit block proof-check readiness
+rather than masquerading as success. Theorem files, import graphs, check
+requests, and proof-looking text remain advisory until a verifier, trusted
+importer from verified external artifacts, finite validator, or chain audit
+returns explicit boundary evidence.
+
 \section{Derived Closure and Projection}
 Derived closure uses transitivity, source weakening, target strengthening, equivalence collapse, duality where justified, and constructor replay. FALSE-side certificate directionality must be preserved: projection may reuse verified memory, never reverse an invalid implication into truth.
 
@@ -218,8 +229,8 @@ M6.18 & Role-Based Object Introduction\\
 M6.19 & Structural Analogy / Exposition\\
 M6.20 & Documentation / Spec Synchronization and Publication Refresh\\
 M7 & Richer Formal-World Adapters\\
-\midrule
 M8 & Deeper Proof-System Integration\\
+\midrule
 M9 & Semantic and Natural-Language Claim Handling with Strict Boundaries\\
 M10 & API Service Hardening\\
 M11 & Existential Agent Ecology\\

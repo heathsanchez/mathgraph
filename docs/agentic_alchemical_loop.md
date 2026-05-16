@@ -15,7 +15,8 @@ The current loop now includes continuation actions, curricula, verification
 episodes, proof digestion, verifier feedback and repair, discovery value,
 Lawbook acceptance and query, structural identity, habit rules, reason
 compression, process memory, structure registry and typed projection,
-role-based object introduction, and structural analogy/exposition. These layers
+role-based object introduction, structural analogy/exposition, formal-world
+adapters, and proof-system integration. These layers
 may improve search, replay, understanding, and scheduling, but they remain
 advisory unless an explicit truth boundary is crossed.
 
@@ -218,6 +219,15 @@ Lean checks distill proof artifacts. When Lean is available, a file can be
 checked through the proof verification boundary. Passed Lean checks or trusted
 imports may fix `VERIFIED_PROOF` only when a certificate id and verifier
 boundary are recorded.
+
+## Proof-System Integration
+
+Proof-system integration is where adapter-ready tasks become auditable project
+artifacts and check requests. It records theorem files, import graphs, safe
+command contracts, parsed check results, and trusted imports, but it only
+crosses the truth boundary when explicit boundary evidence exists. A file,
+import graph, check request, or proof-looking text may guide repair and
+digestion without becoming verification.
 
 Failed or unavailable Lean checks remain residual/advisory. A theorem name,
 parseable file, or generated skeleton is not truth.

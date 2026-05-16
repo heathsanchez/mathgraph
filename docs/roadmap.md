@@ -6,6 +6,8 @@
 Domain Claim
   -> Formal-World Adapter Registry
   -> Adapter Capability / Parse / Normalize / Validate
+  -> Proof-System Project Registry
+  -> Artifact Manifests / Import Graphs / Check Requests
   -> Continuation Actions
   -> Continuation Curriculum
   -> Verification Episode
@@ -56,10 +58,10 @@ Domain Claim
 26. M6.19 Structural Analogy / Exposition
 27. M6.20 Documentation / Spec Synchronization and Publication Refresh
 28. M7 Richer Formal-World Adapters
+29. M8 Deeper Proof-System Integration
 
 ## Future Work
 
-- M8 Deeper Proof-System Integration
 - M9 Semantic and Natural-Language Claim Handling with Strict Boundaries
 - M10 API Service Hardening
 - M11 Existential Agent Ecology

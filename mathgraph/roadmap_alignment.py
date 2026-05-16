@@ -70,6 +70,7 @@ from mathgraph.structure_registry import StructureType,StructureDescriptor,Struc
 from mathgraph.role_objects import RoleSignature,RoleDefinitionCandidate,RoleWitnessCandidate,RoleConjectureCandidate,RoleReview,RoleObject,RoleObjectReport,RoleObjectReportStatus,RoleWitnessStatus
 from mathgraph.structural_analogy import AnalogySource,AnalogyFeatureMap,AnalogyBreak,StructuralAnalogyCandidate,ExpositionNote as AnalogyExpositionNote,AnalogyReview,StructuralAnalogyReport,StructuralAnalogyReportStatus,AnalogyCandidateStatus
 from mathgraph.formal_world_adapters import FormalWorldAdapterSpec,FormalWorldAdapterCapability,FormalWorldParseResult,FormalWorldNormalizeResult,FormalWorldValidationResult,FormalWorldTask,FormalWorldHandoff,FormalWorldAdapterReport,FormalWorldAdapterReportStatus,HandoffStatus
+from mathgraph.proof_system_integration import ProofSystemSpec,ProofProjectManifest,ProofArtifactManifest,ProofImportGraph,ProofCheckCommandContract,ProofCheckRequest,ProofCheckResult,TrustedProofImportRecord,ProofBoundaryEvidence,ProofSystemTask,ProofSystemIntegrationReport,ProofSystemIntegrationReportStatus,ProofArtifactStatus as ProofSystemArtifactStatus,CheckRequestStatus as ProofCheckRequestStatus,CheckResultStatus as ProofCheckResultStatus,TrustedImportStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -236,6 +237,17 @@ def check_roadmap_alignment(
     formal_world_tasks: Sequence[FormalWorldTask] = (),
     formal_world_handoffs: Sequence[FormalWorldHandoff] = (),
     formal_world_adapter_reports: Sequence[FormalWorldAdapterReport] = (),
+    proof_system_specs: Sequence[ProofSystemSpec] = (),
+    proof_project_manifests: Sequence[ProofProjectManifest] = (),
+    proof_artifact_manifests: Sequence[ProofArtifactManifest] = (),
+    proof_import_graphs: Sequence[ProofImportGraph] = (),
+    proof_check_command_contracts: Sequence[ProofCheckCommandContract] = (),
+    proof_check_requests: Sequence[ProofCheckRequest] = (),
+    proof_check_results: Sequence[ProofCheckResult] = (),
+    trusted_proof_import_records: Sequence[TrustedProofImportRecord] = (),
+    proof_boundary_evidence: Sequence[ProofBoundaryEvidence] = (),
+    proof_system_tasks: Sequence[ProofSystemTask] = (),
+    proof_system_integration_reports: Sequence[ProofSystemIntegrationReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -278,6 +290,7 @@ def check_roadmap_alignment(
     role_signature_data=list(role_signatures); role_definition_data=list(role_definition_candidates); role_witness_data=list(role_witness_candidates); role_conjecture_data=list(role_conjecture_candidates); role_review_data=list(role_reviews); role_object_data=list(role_objects); role_report_data=list(role_object_reports)
     analogy_source_data=list(analogy_sources); analogy_map_data=list(analogy_feature_maps); analogy_break_data=list(analogy_breaks); analogy_candidate_data=list(structural_analogy_candidates); analogy_note_data=list(exposition_notes); analogy_review_data=list(analogy_reviews); analogy_report_data=list(structural_analogy_reports)
     adapter_spec_data=list(formal_world_adapter_specs); adapter_capability_data=list(formal_world_adapter_capabilities); adapter_parse_data=list(formal_world_parse_results); adapter_normalize_data=list(formal_world_normalize_results); adapter_validation_data=list(formal_world_validation_results); adapter_task_data=list(formal_world_tasks); adapter_handoff_data=list(formal_world_handoffs); adapter_report_data=list(formal_world_adapter_reports)
+    proof_system_spec_data=list(proof_system_specs); proof_project_data=list(proof_project_manifests); proof_artifact_data=list(proof_artifact_manifests); proof_graph_data=list(proof_import_graphs); proof_contract_data=list(proof_check_command_contracts); proof_request_data=list(proof_check_requests); proof_result_data=list(proof_check_results); trusted_import_data=list(trusted_proof_import_records); proof_boundary_data=list(proof_boundary_evidence); proof_system_task_data=list(proof_system_tasks); proof_system_report_data=list(proof_system_integration_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -304,6 +317,7 @@ def check_roadmap_alignment(
     _check_role_objects(role_signature_data,role_definition_data,role_witness_data,role_conjecture_data,role_review_data,role_object_data,role_report_data,findings)
     _check_structural_analogies(analogy_source_data,analogy_map_data,analogy_break_data,analogy_candidate_data,analogy_note_data,analogy_review_data,analogy_report_data,findings)
     _check_formal_world_adapters(adapter_spec_data,adapter_capability_data,adapter_parse_data,adapter_normalize_data,adapter_validation_data,adapter_task_data,adapter_handoff_data,adapter_report_data,findings)
+    _check_proof_system_integration(proof_system_spec_data,proof_project_data,proof_artifact_data,proof_graph_data,proof_contract_data,proof_request_data,proof_result_data,trusted_import_data,proof_boundary_data,proof_system_task_data,proof_system_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -424,6 +438,10 @@ def check_roadmap_alignment(
         "formal_world_parse_count": len(adapter_parse_data)+sum(len(r.parses) for r in adapter_report_data),
         "formal_world_task_count": len(adapter_task_data)+sum(len(r.tasks) for r in adapter_report_data),
         "formal_world_handoff_count": len(adapter_handoff_data)+sum(len(r.handoffs) for r in adapter_report_data),
+        "proof_system_spec_count": len(proof_system_spec_data)+sum(len(r.specs) for r in proof_system_report_data),
+        "proof_project_manifest_count": len(proof_project_data)+sum(len(r.projects) for r in proof_system_report_data),
+        "proof_artifact_manifest_count": len(proof_artifact_data)+sum(len(r.artifacts) for r in proof_system_report_data),
+        "proof_boundary_evidence_count": len(proof_boundary_data)+sum(len(r.boundary_evidence) for r in proof_system_report_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1794,6 +1812,36 @@ def _check_formal_world_adapters(specs, capabilities, parses, normalizations, va
             findings.append(RoadmapAlignmentFinding("critical","ADAPTER_REPORT_HIDES_CRITICALS",f"Adapter report {r.report_id} hides criticals.","Reflect criticals in report status."))
         if r.parses and not r.validations:
             findings.append(RoadmapAlignmentFinding("warning","ADAPTER_REPORT_NO_VALIDATIONS",f"Adapter report {r.report_id} has parses but no validations.","Keep shape validation explicit."))
+
+
+def _check_proof_system_integration(specs, projects, artifacts, graphs, contracts, requests, results, imports, evidence, tasks, reports, findings):
+    advisory=list(specs)+list(projects)+list(artifacts)+list(graphs)+list(contracts)+list(requests)+list(results)+list(imports)+list(tasks)+[x for r in reports for xs in (r.specs,r.projects,r.artifacts,r.import_graphs,r.command_contracts,r.check_requests,r.check_results,r.trusted_imports,r.tasks) for x in xs]
+    for x in advisory:
+        if not getattr(x,"advisory",True):
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_SYSTEM_NON_ADVISORY","Advisory proof-system object is non-advisory.","Keep project/artifact/check records advisory."))
+    for a in list(artifacts)+[x for r in reports for x in r.artifacts]:
+        if a.has_placeholder() and a.status==ProofSystemArtifactStatus.CHECK_PASSED:
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_PLACEHOLDER_AS_CHECKED",f"Artifact {a.artifact_id} has placeholders but is treated as passed.","Placeholders block proof readiness."))
+    for c in list(contracts)+[x for r in reports for x in r.command_contracts]:
+        if c.allowed and not c.is_safe():
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_UNSAFE_COMMAND_ALLOWED",f"Contract {c.contract_id} allows unsafe command tokens.","Use explicit safe tokens only."))
+    for q in list(requests)+[x for r in reports for x in r.check_requests]:
+        if q.status==ProofCheckRequestStatus.RUN_ALLOWED and not q.run_allowed:
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_REQUEST_RUN_DRIFT",f"Request {q.request_id} is marked run allowed inconsistently.","Keep request state coherent."))
+    for z in list(results)+[x for r in reports for x in r.check_results]:
+        if z.verifier_boundary_crossed and not z.crosses_boundary():
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_BAD_RESULT_BOUNDARY",f"Result {z.result_id} has incomplete boundary evidence.","Require certificate, terminal form, and boundary flag."))
+        if z.metadata.get("raw_success_text") and not z.crosses_boundary():
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_RAW_SUCCESS_AS_BOUNDARY",f"Result {z.result_id} uses raw success text without boundary.","Raw output is not proof."))
+    for i in list(imports)+[x for r in reports for x in r.trusted_imports]:
+        if i.status==TrustedImportStatus.ACCEPTED_WITH_BOUNDARY and not i.crosses_boundary():
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_BAD_TRUSTED_IMPORT",f"Trusted import {i.import_id} lacks provenance or boundary evidence.","Require provenance and explicit boundary fields."))
+    for e in list(evidence)+[x for r in reports for x in r.boundary_evidence]:
+        if not e.is_valid_boundary():
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_INVALID_BOUNDARY_EVIDENCE",f"Boundary evidence {e.evidence_id} is invalid.","Only valid explicit boundary records may be non-advisory."))
+    for r in reports:
+        if r.critical_count()>0 and r.status!=ProofSystemIntegrationReportStatus.HAS_CRITICALS:
+            findings.append(RoadmapAlignmentFinding("critical","PROOF_SYSTEM_REPORT_HIDES_CRITICALS",f"Proof-system report {r.report_id} hides criticals.","Reflect criticals in report status."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
