@@ -160,6 +160,16 @@ candidates. Accepted reason nodes are advisory explanation and route pressure
 only: they do not verify claims, create certificates, accept Lawbook entries,
 merge structural identity candidates, or promote truth.
 
+## Process Memory
+
+MathGraph can preserve replayable records of how work unfolded: included
+context, excluded context, route attempts, eliminations, transitions, inherited
+verifier boundaries, advisory outcomes, and residuals. Process memory is the
+learning substrate for future scheduling, H-tilt, proof digestion, habit
+formation, reason compression, and agents. It is not a truth boundary: it
+records what happened, but does not verify claims, create certificates, accept
+Lawbook entries, or promote truth.
+
 ## Projection
 
 Projection applies accepted memory back to unresolved work as known skips,

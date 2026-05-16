@@ -38,10 +38,11 @@ Domain Claim
     reviewed advisory route practice.
 13. M6.15 Reason Compression and Minimal Sufficient Reasons:
     implemented/in progress as advisory explanatory compression.
+14. M6.16 Process Memory: implemented/in progress as replayable advisory
+    episode history.
 
 ## Future Work
 
-- M6.16 Process Memory
 - M6.17 Structure Registry and Typed Projection
 - M6.18 Role-Based Object Introduction
 - M6.19 Structural Analogy and Exposition

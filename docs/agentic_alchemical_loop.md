@@ -317,6 +317,14 @@ decorative conditions, and proposes minimal sufficient reason candidates.
 Reason nodes help humans and schedulers understand why families work, but remain
 advisory unless formalized and verified.
 
+## Process Memory
+
+Process memory is the durable trace of the alchemical loop. It records what was
+included, what was excluded, what was killed, what was repaired, what became
+digestion, what became habit, what became reason, and what was projected
+forward. It gives agents a replayable history without confusing history with
+truth.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

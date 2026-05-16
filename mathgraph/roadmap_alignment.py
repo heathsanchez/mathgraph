@@ -65,6 +65,7 @@ from mathgraph.habit_rules import (
     HabitStore,
 )
 from mathgraph.reason_compression import ReasonCandidate,ReasonCompressionReport,ReasonCompressionReportStatus,ReasonNode,ReasonObservation,ReasonReview
+from mathgraph.process_memory import ProcessContextItem,ProcessElimination,ProcessTransition,ProcessEpisodeRecord,ProcessMemoryQuery,ProcessMemoryAnswer,ProcessMemoryStore,ProcessMemoryReport,ProcessMemoryReportStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -194,6 +195,14 @@ def check_roadmap_alignment(
     reason_nodes: Sequence[ReasonNode] = (),
     reason_reviews: Sequence[ReasonReview] = (),
     reason_reports: Sequence[ReasonCompressionReport] = (),
+    process_context_items: Sequence[ProcessContextItem] = (),
+    process_eliminations: Sequence[ProcessElimination] = (),
+    process_transitions: Sequence[ProcessTransition] = (),
+    process_episode_records: Sequence[ProcessEpisodeRecord] = (),
+    process_memory_queries: Sequence[ProcessMemoryQuery] = (),
+    process_memory_answers: Sequence[ProcessMemoryAnswer] = (),
+    process_memory_stores: Sequence[ProcessMemoryStore] = (),
+    process_memory_reports: Sequence[ProcessMemoryReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -231,6 +240,7 @@ def check_roadmap_alignment(
     identity_reports = list(structural_identity_reports)
     habit_observations_data = list(habit_observations); habit_candidates_data = list(habit_candidates); habit_rules_data = list(habit_rules); habit_reviews_data = list(habit_reviews); habit_stores_data = list(habit_stores); habit_reports_data = list(habit_reports)
     reason_observations_data=list(reason_observations); reason_candidates_data=list(reason_candidates); reason_nodes_data=list(reason_nodes); reason_reviews_data=list(reason_reviews); reason_reports_data=list(reason_reports)
+    process_context_data=list(process_context_items); process_elimination_data=list(process_eliminations); process_transition_data=list(process_transitions); process_episode_data=list(process_episode_records); process_query_data=list(process_memory_queries); process_answer_data=list(process_memory_answers); process_store_data=list(process_memory_stores); process_report_data=list(process_memory_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -252,6 +262,7 @@ def check_roadmap_alignment(
     _check_structural_identity(identity_graphs, identity_signatures, identity_candidates, identity_reports, findings)
     _check_habits(habit_observations_data, habit_candidates_data, habit_rules_data, habit_reviews_data, habit_stores_data, habit_reports_data, findings)
     _check_reasons(reason_observations_data,reason_candidates_data,reason_nodes_data,reason_reviews_data,reason_reports_data,findings)
+    _check_process_memory(process_context_data,process_elimination_data,process_transition_data,process_episode_data,process_query_data,process_answer_data,process_store_data,process_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -348,6 +359,12 @@ def check_roadmap_alignment(
         "reason_observation_count": len(reason_observations_data)+sum(len(r.observations) for r in reason_reports_data),
         "reason_candidate_count": len(reason_candidates_data)+sum(len(r.candidates) for r in reason_reports_data),
         "reason_node_count": len(reason_nodes_data)+sum(len(r.reason_nodes) for r in reason_reports_data),
+        "process_context_count": len(process_context_data)+sum(len(e.contexts) for e in process_episode_data)+sum(store.context_count() for store in process_store_data),
+        "process_elimination_count": len(process_elimination_data)+sum(len(e.eliminations) for e in process_episode_data)+sum(store.elimination_count() for store in process_store_data),
+        "process_transition_count": len(process_transition_data)+sum(len(e.transitions) for e in process_episode_data)+sum(store.transition_count() for store in process_store_data),
+        "process_episode_count": len(process_episode_data)+sum(len(store.episodes) for store in process_store_data),
+        "process_query_count": len(process_query_data)+sum(len(r.queries) for r in process_report_data),
+        "process_answer_count": len(process_answer_data)+sum(len(r.answers) for r in process_report_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1593,6 +1610,30 @@ def _check_reasons(observations, candidates, nodes, reviews, reports, findings):
         if r.critical_count()>0 and r.status!=ReasonCompressionReportStatus.HAS_CRITICALS: findings.append(RoadmapAlignmentFinding("critical","REASON_REPORT_HIDES_CRITICALS",f"Reason report {r.report_id} hides criticals.","Reflect criticals in report status."))
         if r.observations and not r.candidates: findings.append(RoadmapAlignmentFinding("warning","REASON_REPORT_NO_CANDIDATES",f"Reason report {r.report_id} has observations but no candidates.","Build or explain candidate absence."))
         if r.candidates and not r.reviews: findings.append(RoadmapAlignmentFinding("warning","REASON_REPORT_NO_REVIEWS",f"Reason report {r.report_id} has candidates but no reviews.","Review reasons before promotion."))
+
+
+def _check_process_memory(contexts, eliminations, transitions, episodes, queries, answers, stores, reports, findings):
+    all_episodes=list(episodes)+[e for s in stores for e in s.episodes]+[e for r in reports if r.store for e in r.store.episodes]
+    all_answers=list(answers)+[a for r in reports for a in r.answers]
+    for e in all_episodes:
+        if not e.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","PROCESS_NON_ADVISORY",f"Process episode {e.episode_id} is non-advisory.","Process memory records history; it does not create truth."))
+        if e.terminal_form in {TerminalForm.VERIFIED_PROOF,TerminalForm.FINITE_COUNTERMODEL} and not e.has_truth_boundary():
+            findings.append(RoadmapAlignmentFinding("critical","PROCESS_AS_PROOF",f"Process episode {e.episode_id} claims terminal truth without inherited boundary.","Require certificate plus verifier boundary."))
+        if not e.contexts:
+            findings.append(RoadmapAlignmentFinding("warning","PROCESS_NO_CONTEXT",f"Process episode {e.episode_id} has no contexts.","Record included/excluded context."))
+        if not e.transitions:
+            findings.append(RoadmapAlignmentFinding("warning","PROCESS_NO_TRANSITIONS",f"Process episode {e.episode_id} has no transitions.","Record episode flow."))
+    for a in all_answers:
+        if a.terminal_form in {TerminalForm.VERIFIED_PROOF,TerminalForm.FINITE_COUNTERMODEL} and not a.has_truth_boundary():
+            findings.append(RoadmapAlignmentFinding("critical","PROCESS_ANSWER_AS_PROOF",f"Process answer {a.answer_id} has terminal form without boundary.","Process answers may only inherit existing evidence."))
+        if not a.explanation:
+            findings.append(RoadmapAlignmentFinding("warning","PROCESS_ANSWER_NO_EXPLANATION",f"Process answer {a.answer_id} lacks explanation.","Explain whether the answer is terminal, advisory, residual, or elimination history."))
+    for r in reports:
+        if r.critical_count()>0 and r.status!=ProcessMemoryReportStatus.HAS_CRITICALS:
+            findings.append(RoadmapAlignmentFinding("critical","PROCESS_REPORT_HIDES_CRITICALS",f"Process report {r.report_id} hides criticals.","Reflect criticals in report status."))
+        if r.queries and not r.answers:
+            findings.append(RoadmapAlignmentFinding("warning","PROCESS_REPORT_NO_ANSWERS",f"Process report {r.report_id} has queries but no answers.","Return explicit not-found answers."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
