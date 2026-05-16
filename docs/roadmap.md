@@ -42,10 +42,11 @@ Domain Claim
     episode history.
 15. M6.17 Structure Registry and Typed Projection: implemented/in progress as
     advisory typed compatibility checking.
+16. M6.18 Role-Based Object Introduction: implemented/in progress as advisory
+    concept formation.
 
 ## Future Work
 
-- M6.18 Role-Based Object Introduction
 - M6.19 Structural Analogy and Exposition
 - richer formal-world adapters
 - deeper proof-system integration

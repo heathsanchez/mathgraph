@@ -67,6 +67,7 @@ from mathgraph.habit_rules import (
 from mathgraph.reason_compression import ReasonCandidate,ReasonCompressionReport,ReasonCompressionReportStatus,ReasonNode,ReasonObservation,ReasonReview
 from mathgraph.process_memory import ProcessContextItem,ProcessElimination,ProcessTransition,ProcessEpisodeRecord,ProcessMemoryQuery,ProcessMemoryAnswer,ProcessMemoryStore,ProcessMemoryReport,ProcessMemoryReportStatus
 from mathgraph.structure_registry import StructureType,StructureDescriptor,StructureRegistryEntry,StructureMapping,TypedProjectionCandidate,StructureRegistryStore,StructureRegistryReport,StructureRegistryReportStatus,TypedProjectionStatus
+from mathgraph.role_objects import RoleSignature,RoleDefinitionCandidate,RoleWitnessCandidate,RoleConjectureCandidate,RoleReview,RoleObject,RoleObjectReport,RoleObjectReportStatus,RoleWitnessStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -211,6 +212,13 @@ def check_roadmap_alignment(
     typed_projection_candidates: Sequence[TypedProjectionCandidate] = (),
     structure_registry_stores: Sequence[StructureRegistryStore] = (),
     structure_registry_reports: Sequence[StructureRegistryReport] = (),
+    role_signatures: Sequence[RoleSignature] = (),
+    role_definition_candidates: Sequence[RoleDefinitionCandidate] = (),
+    role_witness_candidates: Sequence[RoleWitnessCandidate] = (),
+    role_conjecture_candidates: Sequence[RoleConjectureCandidate] = (),
+    role_reviews: Sequence[RoleReview] = (),
+    role_objects: Sequence[RoleObject] = (),
+    role_object_reports: Sequence[RoleObjectReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -250,6 +258,7 @@ def check_roadmap_alignment(
     reason_observations_data=list(reason_observations); reason_candidates_data=list(reason_candidates); reason_nodes_data=list(reason_nodes); reason_reviews_data=list(reason_reviews); reason_reports_data=list(reason_reports)
     process_context_data=list(process_context_items); process_elimination_data=list(process_eliminations); process_transition_data=list(process_transitions); process_episode_data=list(process_episode_records); process_query_data=list(process_memory_queries); process_answer_data=list(process_memory_answers); process_store_data=list(process_memory_stores); process_report_data=list(process_memory_reports)
     structure_type_data=list(structure_types); structure_descriptor_data=list(structure_descriptors); structure_entry_data=list(structure_registry_entries); structure_mapping_data=list(structure_mappings); typed_projection_data=list(typed_projection_candidates); structure_store_data=list(structure_registry_stores); structure_report_data=list(structure_registry_reports)
+    role_signature_data=list(role_signatures); role_definition_data=list(role_definition_candidates); role_witness_data=list(role_witness_candidates); role_conjecture_data=list(role_conjecture_candidates); role_review_data=list(role_reviews); role_object_data=list(role_objects); role_report_data=list(role_object_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -273,6 +282,7 @@ def check_roadmap_alignment(
     _check_reasons(reason_observations_data,reason_candidates_data,reason_nodes_data,reason_reviews_data,reason_reports_data,findings)
     _check_process_memory(process_context_data,process_elimination_data,process_transition_data,process_episode_data,process_query_data,process_answer_data,process_store_data,process_report_data,findings)
     _check_structure_registry(structure_type_data,structure_descriptor_data,structure_entry_data,structure_mapping_data,typed_projection_data,structure_store_data,structure_report_data,findings)
+    _check_role_objects(role_signature_data,role_definition_data,role_witness_data,role_conjecture_data,role_review_data,role_object_data,role_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -379,6 +389,11 @@ def check_roadmap_alignment(
         "structure_descriptor_count": len(structure_descriptor_data)+sum(len(s.entries) for s in structure_store_data)+sum(len(r.descriptors) for r in structure_report_data),
         "structure_mapping_count": len(structure_mapping_data)+sum(len(s.mappings) for s in structure_store_data)+sum(len(r.mappings) for r in structure_report_data),
         "typed_projection_candidate_count": len(typed_projection_data)+sum(len(s.typed_projection_candidates) for s in structure_store_data)+sum(len(r.typed_projection_candidates) for r in structure_report_data),
+        "role_signature_count": len(role_signature_data)+sum(len(r.signatures) for r in role_report_data),
+        "role_definition_candidate_count": len(role_definition_data)+sum(len(r.definition_candidates) for r in role_report_data),
+        "role_witness_candidate_count": len(role_witness_data)+sum(len(r.witness_candidates) for r in role_report_data),
+        "role_conjecture_candidate_count": len(role_conjecture_data)+sum(len(r.conjecture_candidates) for r in role_report_data),
+        "role_object_count": len(role_object_data)+sum(len(r.role_objects) for r in role_report_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1667,6 +1682,27 @@ def _check_structure_registry(types, descriptors, entries, mappings, candidates,
     for r in reports:
         if r.critical_count()>0 and r.status!=StructureRegistryReportStatus.HAS_CRITICALS: findings.append(RoadmapAlignmentFinding("critical","STRUCTURE_REPORT_HIDES_CRITICALS",f"Structure report {r.report_id} hides criticals.","Reflect criticals in report status."))
         if r.descriptors and not r.mappings: findings.append(RoadmapAlignmentFinding("warning","STRUCTURE_REPORT_NO_MAPPINGS",f"Structure report {r.report_id} has descriptors but no mappings.","Build mappings or explain why absent."))
+
+
+def _check_role_objects(signatures, definitions, witnesses, conjectures, reviews, roles, reports, findings):
+    all_defs=list(definitions)+[d for r in reports for d in r.definition_candidates]
+    all_wits=list(witnesses)+[w for r in reports for w in r.witness_candidates]
+    all_conjs=list(conjectures)+[c for r in reports for c in r.conjecture_candidates]
+    all_roles=list(roles)+[x for r in reports for x in r.role_objects]
+    for d in all_defs:
+        if d.support_count<3: findings.append(RoadmapAlignmentFinding("warning","ROLE_LOW_SUPPORT",f"Role candidate {d.candidate_id} has low support.","Gather more examples."))
+        if not d.witness_count: findings.append(RoadmapAlignmentFinding("warning","ROLE_NO_WITNESSES",f"Role candidate {d.candidate_id} has no witnesses.","Find or check witnesses before promotion."))
+    for w in all_wits:
+        if w.witness_status==RoleWitnessStatus.VERIFIED_EXISTING_CERTIFICATE and not w.has_verified_boundary(): findings.append(RoadmapAlignmentFinding("critical","ROLE_WITNESS_FALSE_BOUNDARY",f"Role witness {w.witness_id} claims verified boundary without full evidence.","Require certificate, terminal form, and verifier boundary."))
+    for c in all_conjs:
+        if c.metadata.get("terminal_form") or c.metadata.get("certificate_id"): findings.append(RoadmapAlignmentFinding("critical","ROLE_CONJECTURE_AS_PROOF",f"Role conjecture {c.conjecture_id} carries truth fields.","Conjectures are tasks, not truth."))
+    for x in all_roles:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","ROLE_OBJECT_NON_ADVISORY",f"Role object {x.role_id} is non-advisory.","Role objects are advisory concepts."))
+        if x.is_accepted() and not x.defining_conditions: findings.append(RoadmapAlignmentFinding("critical","ROLE_ACCEPTED_WITHOUT_CONDITIONS",f"Accepted role {x.role_id} lacks defining conditions.","Accepted roles need explicit conditions."))
+        if x.is_accepted() and x.risk_score>.5: findings.append(RoadmapAlignmentFinding("critical","ROLE_ACCEPTED_HIGH_RISK",f"Accepted role {x.role_id} has high risk.","Hold risky roles in review."))
+    for r in reports:
+        if r.critical_count()>0 and r.status!=RoleObjectReportStatus.HAS_CRITICALS: findings.append(RoadmapAlignmentFinding("critical","ROLE_REPORT_HIDES_CRITICALS",f"Role report {r.report_id} hides criticals.","Reflect criticals in report status."))
+        if r.signatures and not r.definition_candidates: findings.append(RoadmapAlignmentFinding("warning","ROLE_REPORT_NO_DEFINITIONS",f"Role report {r.report_id} has signatures but no definitions.","Explain or generate definitions."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

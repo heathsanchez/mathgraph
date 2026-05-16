@@ -181,6 +181,16 @@ cross-family projections through review, and marking adapter or formalization
 needs explicitly. Structure typing is advisory only: it does not verify claims,
 create certificates, accept Lawbook entries, or promote truth.
 
+## Role-Based Object Introduction
+
+MathGraph can detect recurring structural roles across descriptors, typed
+projections, reasons, habits, process records, lawbook memory, proof digestion,
+feedback, repair, curricula, alchemical traces, agents, and telemetry. It can
+propose role-definition candidates, witness candidates, and proof,
+countermodel, formalization, or projection tasks. Accepted role objects are
+advisory reusable concepts only: they do not verify claims, create certificates,
+accept Lawbook entries, merge structural identity candidates, or promote truth.
+
 ## Projection
 
 Projection applies accepted memory back to unresolved work as known skips,

@@ -333,6 +333,14 @@ compatible, blocked, or require adapters. It prevents projection from becoming
 broad analogy by forcing every transfer through typed compatibility before
 scheduling.
 
+## Role-Based Object Introduction
+
+Role-based object introduction is how MathGraph turns repeated structure into
+candidate concepts. It observes recurring roles, proposes definitions, searches
+for witnesses, and emits proof, countermodel, or formalization tasks. The role
+remains in Chora until reviewed, and even accepted role objects are advisory
+concepts unless their consequences are separately verified.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,
