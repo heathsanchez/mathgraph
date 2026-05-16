@@ -325,6 +325,14 @@ digestion, what became habit, what became reason, and what was projected
 forward. It gives agents a replayable history without confusing history with
 truth.
 
+## Structure Registry
+
+Structure registry gives the alchemical loop typed memory. It records what kind
+of structure an artifact appears to express and which projection routes are
+compatible, blocked, or require adapters. It prevents projection from becoming
+broad analogy by forcing every transfer through typed compatibility before
+scheduling.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

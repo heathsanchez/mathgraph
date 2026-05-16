@@ -170,6 +170,17 @@ formation, reason compression, and agents. It is not a truth boundary: it
 records what happened, but does not verify claims, create certificates, accept
 Lawbook entries, or promote truth.
 
+## Structure Registry and Typed Projection
+
+MathGraph can classify artifacts into broad structure families such as
+algebraic, order, topological, combinatorial, logical, computational,
+graph-like, dynamical, probabilistic, categorical, and mixed. It can infer
+typed compatibility between structures and produce typed projection candidates.
+This improves projection safety by blocking type mismatches, routing
+cross-family projections through review, and marking adapter or formalization
+needs explicitly. Structure typing is advisory only: it does not verify claims,
+create certificates, accept Lawbook entries, or promote truth.
+
 ## Projection
 
 Projection applies accepted memory back to unresolved work as known skips,
