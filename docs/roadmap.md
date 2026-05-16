@@ -4,6 +4,8 @@
 
 ```text
 Domain Claim
+  -> Formal-World Adapter Registry
+  -> Adapter Capability / Parse / Normalize / Validate
   -> Continuation Actions
   -> Continuation Curriculum
   -> Verification Episode
@@ -53,14 +55,14 @@ Domain Claim
 25. M6.18 Role-Based Object Introduction
 26. M6.19 Structural Analogy / Exposition
 27. M6.20 Documentation / Spec Synchronization and Publication Refresh
+28. M7 Richer Formal-World Adapters
 
 ## Future Work
 
-- richer formal-world adapters
-- deeper proof-system integration
-- semantic and natural-language claim handling with strict boundaries
-- API service hardening
-- existential agents
+- M8 Deeper Proof-System Integration
+- M9 Semantic and Natural-Language Claim Handling with Strict Boundaries
+- M10 API Service Hardening
+- M11 Existential Agent Ecology
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries
 promote truth. Every other layer is advisory unless it reports already accepted

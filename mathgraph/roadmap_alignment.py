@@ -69,6 +69,7 @@ from mathgraph.process_memory import ProcessContextItem,ProcessElimination,Proce
 from mathgraph.structure_registry import StructureType,StructureDescriptor,StructureRegistryEntry,StructureMapping,TypedProjectionCandidate,StructureRegistryStore,StructureRegistryReport,StructureRegistryReportStatus,TypedProjectionStatus
 from mathgraph.role_objects import RoleSignature,RoleDefinitionCandidate,RoleWitnessCandidate,RoleConjectureCandidate,RoleReview,RoleObject,RoleObjectReport,RoleObjectReportStatus,RoleWitnessStatus
 from mathgraph.structural_analogy import AnalogySource,AnalogyFeatureMap,AnalogyBreak,StructuralAnalogyCandidate,ExpositionNote as AnalogyExpositionNote,AnalogyReview,StructuralAnalogyReport,StructuralAnalogyReportStatus,AnalogyCandidateStatus
+from mathgraph.formal_world_adapters import FormalWorldAdapterSpec,FormalWorldAdapterCapability,FormalWorldParseResult,FormalWorldNormalizeResult,FormalWorldValidationResult,FormalWorldTask,FormalWorldHandoff,FormalWorldAdapterReport,FormalWorldAdapterReportStatus,HandoffStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -227,6 +228,14 @@ def check_roadmap_alignment(
     exposition_notes: Sequence[AnalogyExpositionNote] = (),
     analogy_reviews: Sequence[AnalogyReview] = (),
     structural_analogy_reports: Sequence[StructuralAnalogyReport] = (),
+    formal_world_adapter_specs: Sequence[FormalWorldAdapterSpec] = (),
+    formal_world_adapter_capabilities: Sequence[FormalWorldAdapterCapability] = (),
+    formal_world_parse_results: Sequence[FormalWorldParseResult] = (),
+    formal_world_normalize_results: Sequence[FormalWorldNormalizeResult] = (),
+    formal_world_validation_results: Sequence[FormalWorldValidationResult] = (),
+    formal_world_tasks: Sequence[FormalWorldTask] = (),
+    formal_world_handoffs: Sequence[FormalWorldHandoff] = (),
+    formal_world_adapter_reports: Sequence[FormalWorldAdapterReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -268,6 +277,7 @@ def check_roadmap_alignment(
     structure_type_data=list(structure_types); structure_descriptor_data=list(structure_descriptors); structure_entry_data=list(structure_registry_entries); structure_mapping_data=list(structure_mappings); typed_projection_data=list(typed_projection_candidates); structure_store_data=list(structure_registry_stores); structure_report_data=list(structure_registry_reports)
     role_signature_data=list(role_signatures); role_definition_data=list(role_definition_candidates); role_witness_data=list(role_witness_candidates); role_conjecture_data=list(role_conjecture_candidates); role_review_data=list(role_reviews); role_object_data=list(role_objects); role_report_data=list(role_object_reports)
     analogy_source_data=list(analogy_sources); analogy_map_data=list(analogy_feature_maps); analogy_break_data=list(analogy_breaks); analogy_candidate_data=list(structural_analogy_candidates); analogy_note_data=list(exposition_notes); analogy_review_data=list(analogy_reviews); analogy_report_data=list(structural_analogy_reports)
+    adapter_spec_data=list(formal_world_adapter_specs); adapter_capability_data=list(formal_world_adapter_capabilities); adapter_parse_data=list(formal_world_parse_results); adapter_normalize_data=list(formal_world_normalize_results); adapter_validation_data=list(formal_world_validation_results); adapter_task_data=list(formal_world_tasks); adapter_handoff_data=list(formal_world_handoffs); adapter_report_data=list(formal_world_adapter_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -293,6 +303,7 @@ def check_roadmap_alignment(
     _check_structure_registry(structure_type_data,structure_descriptor_data,structure_entry_data,structure_mapping_data,typed_projection_data,structure_store_data,structure_report_data,findings)
     _check_role_objects(role_signature_data,role_definition_data,role_witness_data,role_conjecture_data,role_review_data,role_object_data,role_report_data,findings)
     _check_structural_analogies(analogy_source_data,analogy_map_data,analogy_break_data,analogy_candidate_data,analogy_note_data,analogy_review_data,analogy_report_data,findings)
+    _check_formal_world_adapters(adapter_spec_data,adapter_capability_data,adapter_parse_data,adapter_normalize_data,adapter_validation_data,adapter_task_data,adapter_handoff_data,adapter_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -409,6 +420,10 @@ def check_roadmap_alignment(
         "analogy_break_count": len(analogy_break_data)+sum(len(r.breaks) for r in analogy_report_data),
         "structural_analogy_candidate_count": len(analogy_candidate_data)+sum(len(r.candidates) for r in analogy_report_data),
         "exposition_note_count": len(analogy_note_data)+sum(len(r.exposition_notes) for r in analogy_report_data),
+        "formal_world_adapter_spec_count": len(adapter_spec_data)+sum(len(r.specs) for r in adapter_report_data),
+        "formal_world_parse_count": len(adapter_parse_data)+sum(len(r.parses) for r in adapter_report_data),
+        "formal_world_task_count": len(adapter_task_data)+sum(len(r.tasks) for r in adapter_report_data),
+        "formal_world_handoff_count": len(adapter_handoff_data)+sum(len(r.handoffs) for r in adapter_report_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1750,6 +1765,35 @@ def _check_structural_analogies(sources, maps, breaks, candidates, notes, review
             findings.append(RoadmapAlignmentFinding("warning","ANALOGY_REPORT_NO_MAPS",f"Analogy report {r.report_id} has sources but no maps.","Build maps or explain why absent."))
         if r.candidates and not r.exposition_notes:
             findings.append(RoadmapAlignmentFinding("warning","ANALOGY_REPORT_NO_EXPOSITION",f"Analogy report {r.report_id} has candidates but no exposition.","Produce limitation notes for review."))
+
+
+def _check_formal_world_adapters(specs, capabilities, parses, normalizations, validations, tasks, handoffs, reports, findings):
+    all_objs=list(specs)+list(capabilities)+list(parses)+list(normalizations)+list(validations)+list(tasks)+list(handoffs)+[x for r in reports for xs in (r.specs,r.capabilities,r.parses,r.normalizations,r.validations,r.tasks,r.handoffs) for x in xs]
+    for x in all_objs:
+        if not getattr(x,"advisory",True):
+            findings.append(RoadmapAlignmentFinding("critical","ADAPTER_NON_ADVISORY","Formal-world adapter object is non-advisory.","Adapters remain advisory unless reporting inherited boundary evidence."))
+    for p in list(parses)+[x for r in reports for x in r.parses]:
+        if p.metadata.get("terminal_form") and p.parse_status.value=="PARSED":
+            findings.append(RoadmapAlignmentFinding("critical","ADAPTER_PARSE_AS_PROOF",f"Parse {p.parse_id} treated as proof.","Parse success is shape handling only."))
+    for n in list(normalizations)+[x for r in reports for x in r.normalizations]:
+        if n.metadata.get("terminal_form") and n.normalize_status.value=="NORMALIZED":
+            findings.append(RoadmapAlignmentFinding("critical","ADAPTER_NORMALIZE_AS_PROOF",f"Normalization {n.normalize_id} treated as proof.","Normalization is not verification."))
+    for v in list(validations)+[x for r in reports for x in r.validations]:
+        if v.inherited_terminal_form and not v.has_inherited_boundary():
+            findings.append(RoadmapAlignmentFinding("critical","ADAPTER_BAD_INHERITED_BOUNDARY",f"Validation {v.validation_id} has incomplete inherited boundary.","Require certificate, terminal form, and boundary flag."))
+    for t in list(tasks)+[x for r in reports for x in r.tasks]:
+        if t.metadata.get("terminal_form") or t.metadata.get("certificate_id"):
+            findings.append(RoadmapAlignmentFinding("critical","ADAPTER_TASK_AS_TRUTH",f"Task {t.task_id} carries truth fields.","Tasks are advisory."))
+    for h in list(handoffs)+[x for r in reports for x in r.handoffs]:
+        if h.status==HandoffStatus.COMPLETED_WITH_BOUNDARY and not h.crosses_boundary():
+            findings.append(RoadmapAlignmentFinding("critical","ADAPTER_BAD_HANDOFF_BOUNDARY",f"Handoff {h.handoff_id} claims incomplete boundary.","Require explicit boundary evidence."))
+        if h.status==HandoffStatus.REQUESTED and not h.artifact_id:
+            findings.append(RoadmapAlignmentFinding("warning","ADAPTER_HANDOFF_MISSING_ARTIFACT",f"Handoff {h.handoff_id} is requested without artifact.","Attach artifact before boundary execution."))
+    for r in reports:
+        if r.critical_count()>0 and r.status!=FormalWorldAdapterReportStatus.HAS_CRITICALS:
+            findings.append(RoadmapAlignmentFinding("critical","ADAPTER_REPORT_HIDES_CRITICALS",f"Adapter report {r.report_id} hides criticals.","Reflect criticals in report status."))
+        if r.parses and not r.validations:
+            findings.append(RoadmapAlignmentFinding("warning","ADAPTER_REPORT_NO_VALIDATIONS",f"Adapter report {r.report_id} has parses but no validations.","Keep shape validation explicit."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

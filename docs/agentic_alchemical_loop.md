@@ -359,6 +359,14 @@ review, projection, or digestion tasks. The analogy may guide discovery, but it
 remains in Chora until separately verified or accepted as advisory exposition.
 It cannot verify claims.
 
+## Formal-World Adapters
+
+Formal-world adapters are the typed gate between advisory discovery and concrete
+formal systems. They parse, normalize, validate shape, and emit handoff tasks.
+They prevent typed projection, role objects, and analogies from jumping directly
+into truth by making required verifier, trusted-importer, finite-validator, or
+chain-audit boundaries explicit.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

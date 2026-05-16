@@ -62,6 +62,8 @@ The universal proof hypergraph contains possible objects, claims, transformation
 \section{Kernel Architecture}
 \begin{lstlisting}
 Domain Claim
+  -> Formal-World Adapter Registry
+  -> Adapter Capability / Parse / Normalize / Validate
   -> Continuation Actions
   -> Continuation Curriculum
   -> Verification Episode
@@ -129,6 +131,19 @@ Recurring role signatures yield definition candidates, witness candidates, conje
 
 \section{Structural Analogy and Exposition}
 Analogy sources are compared through feature maps. Breaks, candidates, exposition notes, and review create projection, digestion, formalization, adapter, and review tasks. Analogy and exposition are understanding aids, not verification.
+
+\section{Richer Formal-World Adapters}
+M7 adds a lightweight typed gate between advisory metabolism and concrete
+formal systems. Formal-world adapters detect broad world kinds, expose adapter
+specifications and capability reports, parse raw inputs, normalize
+representations, validate formal shape, and generate proof, countermodel,
+formalization, finite-validation, adapter, and review tasks. They prepare
+explicit handoffs to a verifier, trusted importer from verified external
+artifacts, finite validator, or chain audit. Adapter-aware typed projection,
+role, and analogy tasks can now state when an adapter, formalization step, or
+external boundary is required. Parse, normalize, and validate success remains
+advisory; an adapter does not verify unless an external boundary result is
+returned with explicit evidence.
 
 \section{Derived Closure and Projection}
 Derived closure uses transitivity, source weakening, target strengthening, equivalence collapse, duality where justified, and constructor replay. FALSE-side certificate directionality must be preserved: projection may reuse verified memory, never reverse an invalid implication into truth.
@@ -202,8 +217,8 @@ M6.17 & Structure Registry / Typed Projection\\
 M6.18 & Role-Based Object Introduction\\
 M6.19 & Structural Analogy / Exposition\\
 M6.20 & Documentation / Spec Synchronization and Publication Refresh\\
-\midrule
 M7 & Richer Formal-World Adapters\\
+\midrule
 M8 & Deeper Proof-System Integration\\
 M9 & Semantic and Natural-Language Claim Handling with Strict Boundaries\\
 M10 & API Service Hardening\\

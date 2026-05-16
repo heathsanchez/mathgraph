@@ -31,6 +31,8 @@ Every accepted claim ends in exactly one terminal form:
 
 ```text
 Domain Claim
+  -> Formal-World Adapter Registry
+  -> Adapter Capability / Parse / Normalize / Validate
   -> Continuation Actions
   -> Continuation Curriculum
   -> Verification Episode
@@ -59,9 +61,19 @@ Domain Claim
 - discovery value, Lawbook acceptance, Lawbook query, and known skip
 - structural identity, habit rules, and reason compression
 - process memory, structure registry, typed projection, role objects, and structural analogy/exposition
+- formal-world adapters for typed parse, normalize, validate, task, and handoff contracts
 
 The first practical proving ground is SAIR Stage 2, equational implication over
 magmas. It is a nursery world, not the whole product.
+
+## Formal-World Adapters
+
+MathGraph now has a lightweight formal-world adapter layer that detects broad
+world kinds, parses shape, normalizes representations, validates formal shape,
+emits proof, countermodel, formalization, finite-validation, and review tasks,
+and prepares explicit handoffs to verifiers, trusted importers, finite
+validators, or chain audits. Adapter parse, normalize, and validate success is
+advisory only and does not verify claims.
 
 ## CLI And Tooling
 
@@ -73,15 +85,15 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_structure_registry.py`
 - `scripts/run_role_objects.py`
 - `scripts/run_structural_analogy.py`
+- `scripts/run_formal_world_adapters.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
 is being reported. They do not bypass the terminal contract.
 
 ## Current Status
 
-Implemented milestones run through M6.19 Structural Analogy and Exposition.
-M6.20 synchronizes the public documentation and publication spec with that
-implemented architecture. See [docs/roadmap.md](docs/roadmap.md) for the live
+Implemented milestones run through M7 Richer Formal-World Adapters. See
+[docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 [docs/glossary.md](docs/glossary.md).
