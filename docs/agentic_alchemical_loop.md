@@ -229,6 +229,14 @@ crosses the truth boundary when explicit boundary evidence exists. A file,
 import graph, check request, or proof-looking text may guide repair and
 digestion without becoming verification.
 
+## Semantic Intake
+
+Semantic intake is the front door from human language into MathGraph. It turns
+informal text into segmented claims, ambiguity records, extraction records,
+formalization requests, routing hints, and tasks. It never crosses the truth
+boundary; it exists to prevent informal language from slipping into the Lawbook
+as proof.
+
 Failed or unavailable Lean checks remain residual/advisory. A theorem name,
 parseable file, or generated skeleton is not truth.
 

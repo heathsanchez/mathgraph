@@ -71,6 +71,7 @@ from mathgraph.role_objects import RoleSignature,RoleDefinitionCandidate,RoleWit
 from mathgraph.structural_analogy import AnalogySource,AnalogyFeatureMap,AnalogyBreak,StructuralAnalogyCandidate,ExpositionNote as AnalogyExpositionNote,AnalogyReview,StructuralAnalogyReport,StructuralAnalogyReportStatus,AnalogyCandidateStatus
 from mathgraph.formal_world_adapters import FormalWorldAdapterSpec,FormalWorldAdapterCapability,FormalWorldParseResult,FormalWorldNormalizeResult,FormalWorldValidationResult,FormalWorldTask,FormalWorldHandoff,FormalWorldAdapterReport,FormalWorldAdapterReportStatus,HandoffStatus
 from mathgraph.proof_system_integration import ProofSystemSpec,ProofProjectManifest,ProofArtifactManifest,ProofImportGraph,ProofCheckCommandContract,ProofCheckRequest,ProofCheckResult,TrustedProofImportRecord,ProofBoundaryEvidence,ProofSystemTask,ProofSystemIntegrationReport,ProofSystemIntegrationReportStatus,ProofArtifactStatus as ProofSystemArtifactStatus,CheckRequestStatus as ProofCheckRequestStatus,CheckResultStatus as ProofCheckResultStatus,TrustedImportStatus
+from mathgraph.semantic_intake import SemanticSource,SemanticClaimSegment,SemanticClaimClassification,SemanticAmbiguity,SemanticExtraction,FormalizationRequest,SemanticRoutingHint,SemanticIntakeTask,SemanticIntakeReport,SemanticIntakeReportStatus,SemanticClaimKind,SemanticDomainKind
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -248,6 +249,15 @@ def check_roadmap_alignment(
     proof_boundary_evidence: Sequence[ProofBoundaryEvidence] = (),
     proof_system_tasks: Sequence[ProofSystemTask] = (),
     proof_system_integration_reports: Sequence[ProofSystemIntegrationReport] = (),
+    semantic_sources: Sequence[SemanticSource] = (),
+    semantic_claim_segments: Sequence[SemanticClaimSegment] = (),
+    semantic_claim_classifications: Sequence[SemanticClaimClassification] = (),
+    semantic_ambiguities: Sequence[SemanticAmbiguity] = (),
+    semantic_extractions: Sequence[SemanticExtraction] = (),
+    formalization_requests: Sequence[FormalizationRequest] = (),
+    semantic_routing_hints: Sequence[SemanticRoutingHint] = (),
+    semantic_intake_tasks: Sequence[SemanticIntakeTask] = (),
+    semantic_intake_reports: Sequence[SemanticIntakeReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -291,6 +301,7 @@ def check_roadmap_alignment(
     analogy_source_data=list(analogy_sources); analogy_map_data=list(analogy_feature_maps); analogy_break_data=list(analogy_breaks); analogy_candidate_data=list(structural_analogy_candidates); analogy_note_data=list(exposition_notes); analogy_review_data=list(analogy_reviews); analogy_report_data=list(structural_analogy_reports)
     adapter_spec_data=list(formal_world_adapter_specs); adapter_capability_data=list(formal_world_adapter_capabilities); adapter_parse_data=list(formal_world_parse_results); adapter_normalize_data=list(formal_world_normalize_results); adapter_validation_data=list(formal_world_validation_results); adapter_task_data=list(formal_world_tasks); adapter_handoff_data=list(formal_world_handoffs); adapter_report_data=list(formal_world_adapter_reports)
     proof_system_spec_data=list(proof_system_specs); proof_project_data=list(proof_project_manifests); proof_artifact_data=list(proof_artifact_manifests); proof_graph_data=list(proof_import_graphs); proof_contract_data=list(proof_check_command_contracts); proof_request_data=list(proof_check_requests); proof_result_data=list(proof_check_results); trusted_import_data=list(trusted_proof_import_records); proof_boundary_data=list(proof_boundary_evidence); proof_system_task_data=list(proof_system_tasks); proof_system_report_data=list(proof_system_integration_reports)
+    semantic_source_data=list(semantic_sources); semantic_segment_data=list(semantic_claim_segments); semantic_classification_data=list(semantic_claim_classifications); semantic_ambiguity_data=list(semantic_ambiguities); semantic_extraction_data=list(semantic_extractions); semantic_request_data=list(formalization_requests); semantic_hint_data=list(semantic_routing_hints); semantic_task_data=list(semantic_intake_tasks); semantic_report_data=list(semantic_intake_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -318,6 +329,7 @@ def check_roadmap_alignment(
     _check_structural_analogies(analogy_source_data,analogy_map_data,analogy_break_data,analogy_candidate_data,analogy_note_data,analogy_review_data,analogy_report_data,findings)
     _check_formal_world_adapters(adapter_spec_data,adapter_capability_data,adapter_parse_data,adapter_normalize_data,adapter_validation_data,adapter_task_data,adapter_handoff_data,adapter_report_data,findings)
     _check_proof_system_integration(proof_system_spec_data,proof_project_data,proof_artifact_data,proof_graph_data,proof_contract_data,proof_request_data,proof_result_data,trusted_import_data,proof_boundary_data,proof_system_task_data,proof_system_report_data,findings)
+    _check_semantic_intake(semantic_source_data,semantic_segment_data,semantic_classification_data,semantic_ambiguity_data,semantic_extraction_data,semantic_request_data,semantic_hint_data,semantic_task_data,semantic_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -442,6 +454,9 @@ def check_roadmap_alignment(
         "proof_project_manifest_count": len(proof_project_data)+sum(len(r.projects) for r in proof_system_report_data),
         "proof_artifact_manifest_count": len(proof_artifact_data)+sum(len(r.artifacts) for r in proof_system_report_data),
         "proof_boundary_evidence_count": len(proof_boundary_data)+sum(len(r.boundary_evidence) for r in proof_system_report_data),
+        "semantic_source_count": len(semantic_source_data)+sum(len(r.sources) for r in semantic_report_data),
+        "semantic_segment_count": len(semantic_segment_data)+sum(len(r.segments) for r in semantic_report_data),
+        "semantic_task_count": len(semantic_task_data)+sum(len(r.tasks) for r in semantic_report_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1842,6 +1857,26 @@ def _check_proof_system_integration(specs, projects, artifacts, graphs, contract
     for r in reports:
         if r.critical_count()>0 and r.status!=ProofSystemIntegrationReportStatus.HAS_CRITICALS:
             findings.append(RoadmapAlignmentFinding("critical","PROOF_SYSTEM_REPORT_HIDES_CRITICALS",f"Proof-system report {r.report_id} hides criticals.","Reflect criticals in report status."))
+
+def _check_semantic_intake(sources, segments, classifications, ambiguities, extractions, requests, hints, tasks, reports, findings):
+    all_objs=list(sources)+list(segments)+list(classifications)+list(ambiguities)+list(extractions)+list(requests)+list(hints)+list(tasks)+[x for r in reports for xs in (r.sources,r.segments,r.classifications,r.ambiguities,r.extractions,r.formalization_requests,r.routing_hints,r.tasks) for x in xs]
+    for x in all_objs:
+        if not getattr(x,"advisory",True):
+            findings.append(RoadmapAlignmentFinding("critical","SEMANTIC_NON_ADVISORY","Semantic intake object is non-advisory.","Natural-language intake remains advisory."))
+    all_cls=list(classifications)+[x for r in reports for x in r.classifications]
+    all_req=list(requests)+[x for r in reports for x in r.formalization_requests]
+    all_hints=list(hints)+[x for r in reports for x in r.routing_hints]
+    for c in all_cls:
+        if c.claim_kind in {SemanticClaimKind.THEOREM,SemanticClaimKind.LEMMA,SemanticClaimKind.PROOF_SKETCH} and not any(q.segment_id==c.segment_id for q in all_req):
+            findings.append(RoadmapAlignmentFinding("warning","SEMANTIC_THEOREM_NO_FORMALIZATION",f"Semantic classification {c.classification_id} lacks formalization request.","Create explicit formalization work."))
+        if c.domain_kind==SemanticDomainKind.UNKNOWN:
+            findings.append(RoadmapAlignmentFinding("warning","SEMANTIC_UNKNOWN_DOMAIN",f"Semantic classification {c.classification_id} has unknown domain.","Hold or clarify before routing."))
+    for h in all_hints:
+        if h.metadata.get("verifier_boundary_crossed"):
+            findings.append(RoadmapAlignmentFinding("critical","SEMANTIC_ROUTE_AS_BOUNDARY",f"Semantic route {h.routing_id} claims boundary crossing.","Routing is advisory."))
+    for r in reports:
+        if r.critical_count()>0 and r.status!=SemanticIntakeReportStatus.HAS_CRITICALS:
+            findings.append(RoadmapAlignmentFinding("critical","SEMANTIC_REPORT_HIDES_CRITICALS",f"Semantic report {r.report_id} hides criticals.","Reflect criticals in report status."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

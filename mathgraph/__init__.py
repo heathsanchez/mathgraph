@@ -917,6 +917,7 @@ from mathgraph.proof_system_integration import (
     proof_system_tasks_from_check_results, proof_system_tasks_from_trusted_imports,
     trusted_import_record_from_mapping,
 )
+from mathgraph.semantic_intake import *
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
 from mathgraph.outcome_dataset import (
@@ -1946,6 +1947,16 @@ __all__ = [
     "proof_system_report_to_verifier_feedback","proof_system_spec_for_kind",
     "proof_system_tasks_from_artifacts","proof_system_tasks_from_check_results",
     "proof_system_tasks_from_trusted_imports","trusted_import_record_from_mapping",
+    "SemanticSourceKind","SemanticClaimKind","SemanticDomainKind","SemanticRiskLevel",
+    "SemanticAmbiguityKind","SemanticExtractionKind","FormalizationRequestKind",
+    "SemanticRouteTarget","SemanticIntakeTaskKind","SemanticIntakeReportStatus",
+    "SemanticSource","SemanticClaimSegment","SemanticClaimClassification",
+    "SemanticAmbiguity","SemanticExtraction","FormalizationRequest",
+    "SemanticRoutingHint","SemanticIntakeTask","SemanticIntakeReport",
+    "semantic_sources_from_object","segment_semantic_source","segment_semantic_sources",
+    "classify_semantic_segment","detect_semantic_ambiguities","extract_semantic_items",
+    "formalization_requests_from_semantic","semantic_routing_hints_from_semantic",
+    "semantic_tasks_from_semantic","build_semantic_intake_report",
     "score_agent_experience",
     "score_alchemical_trace",
     "score_continuation_output",

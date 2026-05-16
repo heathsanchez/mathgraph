@@ -31,6 +31,7 @@ Every accepted claim ends in exactly one terminal form:
 
 ```text
 Domain Claim
+  -> Semantic / Natural-Language Intake
   -> Formal-World Adapter Registry
   -> Adapter Capability / Parse / Normalize / Validate
   -> Proof-System Project Registry
@@ -65,6 +66,7 @@ Domain Claim
 - process memory, structure registry, typed projection, role objects, and structural analogy/exposition
 - formal-world adapters for typed parse, normalize, validate, task, and handoff contracts
 - proof-system integration contracts for projects, artifacts, imports, checks, and boundary evidence
+- semantic intake for deterministic segmentation, ambiguity tracking, formalization requests, and routing
 
 The first practical proving ground is SAIR Stage 2, equational implication over
 magmas. It is a nursery world, not the whole product.
@@ -88,6 +90,16 @@ adapters to actual proof-system workflows while preserving the rule that files,
 imports, check requests, and proof-looking text are advisory until a verifier,
 trusted importer, finite validator, or chain audit returns explicit evidence.
 
+## Semantic And Natural-Language Intake
+
+MathGraph now has deterministic natural-language intake for informal
+mathematical and scientific text. It segments text, classifies claim types,
+detects ambiguity, extracts symbols and relations, creates formalization
+requests, and routes claims to formal-world adapters, proof-system integration,
+digestion, curricula, repair, and review. Natural language remains advisory:
+theorem-like sentences, proof-looking paragraphs, semantic confidence, and
+extracted formal candidates do not verify claims.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -100,13 +112,15 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_structural_analogy.py`
 - `scripts/run_formal_world_adapters.py`
 - `scripts/run_proof_system_integration.py`
+- `scripts/run_semantic_intake.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
 is being reported. They do not bypass the terminal contract.
 
 ## Current Status
 
-Implemented milestones run through M8 Deeper Proof-System Integration. See
+Implemented milestones run through M9 Semantic and Natural-Language Claim
+Handling with Strict Boundaries. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
@@ -114,7 +128,6 @@ for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 
 ## Future Work
 
-- semantic and natural-language claim handling with strict boundaries
 - API service hardening
 - existential agents
 

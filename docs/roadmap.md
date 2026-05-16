@@ -4,6 +4,7 @@
 
 ```text
 Domain Claim
+  -> Semantic / Natural-Language Intake
   -> Formal-World Adapter Registry
   -> Adapter Capability / Parse / Normalize / Validate
   -> Proof-System Project Registry
@@ -59,10 +60,10 @@ Domain Claim
 27. M6.20 Documentation / Spec Synchronization and Publication Refresh
 28. M7 Richer Formal-World Adapters
 29. M8 Deeper Proof-System Integration
+30. M9 Semantic and Natural-Language Claim Handling with Strict Boundaries
 
 ## Future Work
 
-- M9 Semantic and Natural-Language Claim Handling with Strict Boundaries
 - M10 API Service Hardening
 - M11 Existential Agent Ecology
 
