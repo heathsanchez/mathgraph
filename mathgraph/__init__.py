@@ -2027,3 +2027,44 @@ __all__ = [
     "make_server",
     "run_metabolic_cycle",
 ]
+
+# SAIR v17 lawbook/replay integration
+try:
+    from .sair_v17_lawbook import (
+        SairV17Lawbook,
+        SairV17LawbookEntry,
+        SairV17PackageManifest,
+        load_sair_v17_lawbook,
+    )
+except Exception:
+    pass
+
+try:
+    from .sair_v17_terminal_boundary import (
+        TerminalBoundaryDecision,
+        TerminalBoundaryVerdict,
+        enforce_sair_v17_terminal_boundary,
+        is_terminal_safe_status,
+    )
+except Exception:
+    pass
+
+try:
+    from .sair_v17_constructors import (
+        SairV17ConstructorCatalog,
+        SairV17ConstructorRecommendation,
+        load_sair_v17_constructor_catalog,
+        recommend_sair_v17_constructors,
+    )
+except Exception:
+    pass
+
+try:
+    from .sair_v17_replay_router import (
+        SairV17ReplayRoute,
+        SairV17ReplayRouter,
+        build_sair_v17_replay_router,
+    )
+except Exception:
+    pass
+
