@@ -279,6 +279,14 @@ explicitly allowed, emits dependency graphs and Lawbook review/query replay
 artifacts, and preserves the rule that extraction alone is not proof. The pilot
 performs no downloads or package-manager operations by default.
 
+\section{Real Local Mathlib Allowlist}
+The real local allowlist pilot accepts a user-supplied local project path and an
+explicit manifest. It diagnoses Lean, Lake, project markers, and empty
+allowlists without downloads or package-manager execution. Local verification
+remains opt-in, dependency graphs remain advisory, Lawbook replay requires
+review before reuse, and extraction or environment readiness alone never
+promotes truth.
+
 \section{Implementation Roadmap}
 \begin{longtable}{ll}
 \toprule

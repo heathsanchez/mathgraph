@@ -184,6 +184,15 @@ memory.
 The built-in fixture is synthetic and local. External Mathlib mode is
 local-path-only and performs no downloads or package-manager operations.
 
+## Real Local Mathlib Allowlist Pilot
+
+MathGraph can now point at a user-supplied local Lean/Mathlib checkout or local
+Lean project through an explicit allowlist manifest. It diagnoses the
+environment, extracts declarations/imports/references, runs local verifier
+checks only when explicitly allowed, and produces boundary-backed entries only
+for allowlisted expected declarations. It performs no downloads and no
+package-manager operations.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:

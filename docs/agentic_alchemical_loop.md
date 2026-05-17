@@ -484,3 +484,7 @@ Lean project ingestion is the first transition from flat verified files to
 structured verified-memory substrate. The project ordeal checks that local
 imports and declaration references can guide dependency graphs while remaining
 advisory until verifier or trusted-import boundary evidence exists.
+
+The local Mathlib allowlist layer is the first real external proof-library
+membrane. It treats a local proof library as structured advisory memory until
+verifier evidence and Lawbook review make specific declarations reusable.

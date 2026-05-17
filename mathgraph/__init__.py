@@ -95,6 +95,7 @@ from mathgraph.roadmap_alignment import (
     RoadmapAlignmentReport,
     check_roadmap_alignment,
 )
+from mathgraph.mathlib_local_allowlist import *
 from mathgraph.route_telemetry import (
     HTiltTelemetrySummary,
     RouteTelemetryEvent,

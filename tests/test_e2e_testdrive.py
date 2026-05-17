@@ -14,5 +14,10 @@ def test_live_mode_and_audits(tmp_path):
  assert r.summary["known_skip_total"]==r.summary["accepted_in_memory_total"]
  bad=run_e2e_testdrive(workspace_root=tmp_path/"bad"); bad.boundary_evidence=[VerifierBoundaryEvidence("e",result_id="r",certificate_id="c",terminal_form="VERIFIED_PROOF",verifier_boundary_crossed=True,artifact_hash="h")]
  assert audit_e2e_testdrive_report(bad)
+def test_optional_mathlib_local_allowlist(tmp_path):
+ r=run_e2e_testdrive(workspace_root=tmp_path,include_mathlib_local_allowlist=True)
+ assert any(x.step_kind==E2EStepKind.MATHLIB_LOCAL_ALLOWLIST_INGESTION for x in r.steps)
+ assert r.summary["mathlib_local_dependency_edge_total"]>0
+ assert "Mathlib Local Allowlist" in e2e_testdrive_report_to_markdown(r)
 def test_cli(tmp_path):
  out=tmp_path/"e2e.json"; subprocess.run([sys.executable,"scripts/run_e2e_testdrive.py","--out-report-json",str(out)],check=True); assert out.exists()

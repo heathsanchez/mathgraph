@@ -72,10 +72,11 @@ Existential Agent Ecology
 37. Lean Project Micro-Subset Pilot
 38. CLI Import-Path Hardening + Colab Test Drive Script
 39. Mathlib Micro-Subset Pilot
+40. Real Local Mathlib Allowlist Pilot
 
 ## Future Work
 
-- real local Mathlib allowlist pilot
+- real curated Mathlib allowlist examples
 - trusted importer policy for pinned external corpora
 - Lake-aware build plan without network
 - larger fixture-driven release gates

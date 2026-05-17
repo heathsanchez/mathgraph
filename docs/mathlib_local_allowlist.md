@@ -1,0 +1,10 @@
+# Real Local Mathlib Allowlist
+
+```bash
+python scripts/run_mathlib_local_allowlist.py --ensure-examples
+python scripts/run_mathlib_local_allowlist.py --use-synthetic-external
+python scripts/run_mathlib_local_allowlist.py --use-synthetic-external --allow-execution --allow-missing-verifier
+python scripts/run_mathlib_local_allowlist.py --manifest PATH --project-root PATH --allow-execution --allow-missing-verifier
+```
+
+This local-path-only pilot performs no downloads and no package-manager operations. Empty allowlists, environment checks, extracted declarations, imports, and dependency graphs remain advisory until explicit verifier evidence exists.

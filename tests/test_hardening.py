@@ -9,7 +9,7 @@ def test_roundtrips_and_report_ok():
  assert HardeningReport("x","r","n",[finding(HardeningCheckStatus.FAIL,HardeningSeverity.CRITICAL)]).ok() is False
  assert HardeningReport("x","r","n",[f]).ok() is True
 def test_scenarios_and_checks():
- builders=[build_empty_scenario,build_magma_implication_scenario,build_natural_language_theorem_scenario,build_proof_assistant_text_scenario,build_lawbook_known_skip_scenario,build_api_submit_scenario,build_agent_lifecycle_scenario,build_full_advisory_pipeline_scenario,build_rich_lean_fixture_dry_run_scenario,build_verified_corpus_dry_run_scenario,build_lean_project_subset_dry_run_scenario,build_mathlib_micro_subset_dry_run_scenario]
+ builders=[build_empty_scenario,build_magma_implication_scenario,build_natural_language_theorem_scenario,build_proof_assistant_text_scenario,build_lawbook_known_skip_scenario,build_api_submit_scenario,build_agent_lifecycle_scenario,build_full_advisory_pipeline_scenario,build_rich_lean_fixture_dry_run_scenario,build_verified_corpus_dry_run_scenario,build_lean_project_subset_dry_run_scenario,build_mathlib_micro_subset_dry_run_scenario,build_mathlib_local_allowlist_dry_run_scenario]
  xs=[run_hardening_scenario(b()) for b in builders]; assert all(x.status in {HardeningCheckStatus.PASS,HardeningCheckStatus.WARN} for x in xs)
  assert len(run_default_hardening_scenarios())>=7 and all(x.status==HardeningCheckStatus.PASS for x in xs)
  assert all(x.status==HardeningCheckStatus.PASS for x in run_serialization_checks())
