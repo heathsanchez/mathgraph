@@ -3,6 +3,16 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+try:
+    from _bootstrap import ensure_repo_root_on_path
+except ImportError:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+else:
+    ensure_repo_root_on_path(__file__)
+
 import argparse
 import json
 import sys
@@ -10,9 +20,6 @@ import time
 from collections import Counter
 from pathlib import Path
 from typing import Any
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
 
 from mathgraph import (  # noqa: E402
     CountermodelImportConfig,

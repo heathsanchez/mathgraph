@@ -262,6 +262,14 @@ truth. The layer emits dependency graphs, proof-digestion inputs, Lawbook
 review/query replay artifacts, and dry-run versus live-verifier summaries while
 remaining advisory until boundary evidence exists.
 
+\subsection{Reproducible Local Test Drive}
+Public scripts bootstrap a fresh clone without manual import-path setup, and a
+read-only local or Colab test drive can replay the focused verifier, corpus,
+project, end-to-end, hardening, and alignment workflow into report artifacts.
+Fresh-clone usability, read-only replay, and successful test execution do not
+promote truth; live verifier execution remains opt-in, and only explicit
+boundary evidence may cross into terminal proof.
+
 \section{Implementation Roadmap}
 \begin{longtable}{ll}
 \toprule
@@ -301,6 +309,7 @@ Post-M11+ & External Verifier Execution and Full End-to-End Test Drive\\
 Post-M11+ & Rich Verifier Fixtures and Replay\\
 Post-M11+ & Verified Corpus Micro-Ingestion\\
 Post-M11+ & Lean Project Micro-Subset Ingestion\\
+Post-M11+ & CLI Import-Path Hardening and Colab Test Drive Script\\
 \midrule
 Future & Mathlib micro-subset pilot, trusted importer policy for pinned external corpora, larger fixture-driven release gates, persistent Lawbook storage workflow, richer dependency extraction, package/release workflow\\
 \bottomrule

@@ -70,6 +70,7 @@ Existential Agent Ecology
 35. Richer Verifier Adapter + Real Fixture Expansion
 36. Verified Corpus Micro-Ingestion
 37. Lean Project Micro-Subset Pilot
+38. CLI Import-Path Hardening + Colab Test Drive Script
 
 ## Future Work
 

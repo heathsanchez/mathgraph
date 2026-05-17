@@ -3,14 +3,20 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+try:
+    from _bootstrap import ensure_repo_root_on_path
+except ImportError:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+else:
+    ensure_repo_root_on_path(__file__)
+
 import argparse
 import json
 import sys
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
 
 from mathgraph.artifact_importers import load_v167_obstructions, load_v167_reason_nodes, load_v167_root_nodes, write_json_rows  # noqa: E402
 from mathgraph.obstruction_atlas import ObstructionNode  # noqa: E402

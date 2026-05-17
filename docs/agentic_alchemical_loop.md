@@ -35,6 +35,11 @@ under replay. It checks that every advisory layer stays advisory, that docs
 match implementation, that API responses carry boundary fields, that agents
 remain mortal, and that no smoke run becomes a proof.
 
+The recurring ordeal can now run from a fresh clone without manual `PYTHONPATH`
+setup: public scripts bootstrap the repository root, and the read-only
+Colab/local test drive replays the verifier, corpus, project, hardening, and
+alignment path while leaving truth promotion to the same explicit boundaries.
+
 ## API Service
 
 The API service is the outer membrane of MathGraph. It lets clients submit text,

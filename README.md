@@ -196,9 +196,25 @@ Repo scripts expose the implemented layers as small backend-first tools:
 These tools emit advisory artifacts unless an already-existing verifier boundary
 is being reported. They do not bypass the terminal contract.
 
+## Fresh Clone CLI Usage
+
+Public scripts bootstrap the repository root automatically, so an editable
+install is optional for local script use:
+
+```bash
+python scripts/run_e2e_testdrive.py
+python scripts/run_hardening.py
+python scripts/run_colab_testdrive.py --use-current-checkout --quick-smoke
+python scripts/run_colab_testdrive.py --fresh-clone --allow-live-verifier --allow-missing-verifier
+```
+
+Live verifier execution remains opt-in. Missing Lean skips cleanly when allowed.
+CLI success is a usability signal, not proof of arbitrary claims.
+
 ## Current Status
 
-Implemented milestones run through Lean Project Micro-Subset Pilot. See
+Implemented milestones run through CLI Import-Path Hardening and Colab Test
+Drive Script. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
