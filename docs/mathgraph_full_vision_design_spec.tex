@@ -250,6 +250,18 @@ MathGraph includes a safe Lean fixture pack with passing theorems, unsafe-marker
 \section{Verified Corpus Micro-Ingestion}
 Verified corpus micro-ingestion moves from isolated fixtures to a tiny local Lean corpus governed by a manifest. It extracts declarations, imports, and dependency metadata; runs the local verifier boundary only when explicitly allowed; reserves trusted import for later pinned policies; emits dependency-graph output and proof-digestion inputs; supports optional in-memory Lawbook review/query replay; and distinguishes dry-run from live-verifier mode. Extraction alone is not proof.
 
+\section{Lean Project Micro-Subset Ingestion}
+Lean project subset ingestion adds a local project manifest, module-path
+extraction, declaration extraction, import dependency edges, and declaration
+reference dependency edges. Files are checked from the local project root only
+when execution is explicitly allowed, so local imports can resolve without
+network or package-manager download. Valid verifier boundary evidence may map
+back only to expected declarations; dry-runs, unsafe entries, expected-name
+mismatches, failed imports, module graphs, and reference graphs do not promote
+truth. The layer emits dependency graphs, proof-digestion inputs, Lawbook
+review/query replay artifacts, and dry-run versus live-verifier summaries while
+remaining advisory until boundary evidence exists.
+
 \section{Implementation Roadmap}
 \begin{longtable}{ll}
 \toprule
@@ -288,8 +300,9 @@ Post-M11 & Hardening and Evaluation\\
 Post-M11+ & External Verifier Execution and Full End-to-End Test Drive\\
 Post-M11+ & Rich Verifier Fixtures and Replay\\
 Post-M11+ & Verified Corpus Micro-Ingestion\\
+Post-M11+ & Lean Project Micro-Subset Ingestion\\
 \midrule
-Future & Mathlib micro-subset pilot, trusted importer policy for pinned external corpora, larger fixture-driven release gates, persistent Lawbook storage workflow, richer domain adapters, package/release workflow\\
+Future & Mathlib micro-subset pilot, trusted importer policy for pinned external corpora, larger fixture-driven release gates, persistent Lawbook storage workflow, richer dependency extraction, package/release workflow\\
 \bottomrule
 \end{longtable}
 

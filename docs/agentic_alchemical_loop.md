@@ -469,3 +469,8 @@ can risk themselves without corrupting truth.
 Final death matters because agent death turns search into commitment. Without
 irreversible loss, agents have memory but not biography, cost but not sacrifice,
 preference but not value, exploration but not courage.
+
+Lean project ingestion is the first transition from flat verified files to
+structured verified-memory substrate. The project ordeal checks that local
+imports and declaration references can guide dependency graphs while remaining
+advisory until verifier or trusted-import boundary evidence exists.

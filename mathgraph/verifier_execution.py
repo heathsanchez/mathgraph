@@ -1,6 +1,6 @@
 """Strict local verifier execution contracts and evidence records."""
 from __future__ import annotations
-import json,re,shutil,subprocess,tempfile,time
+import json,os,re,shutil,subprocess,tempfile,time
 from collections import Counter
 from dataclasses import MISSING,dataclass,field
 from datetime import datetime,timezone
@@ -170,7 +170,10 @@ def execute_verifier_request(req,*,allow_execution=False,max_timeout_sec=60.0):
   miss=_finding(VerifierSafetyFindingKind.MISSING_EXECUTABLE,"warning","verifier executable missing",c); return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"missing"),req.request_id,c.system_kind,VerifierExecutionStatus.SKIPPED,safety_findings=tuple([*finds,miss]),failure_kind=VerifierFailureKind.MISSING_EXECUTABLE)
  start=time.perf_counter()
  try:
-  p=subprocess.run(list(c.argv),cwd=c.cwd,capture_output=True,text=True,timeout=min(c.timeout_sec,max_timeout_sec))
+  env=None
+  if c.metadata.get("lean_path"):
+   env=dict(os.environ); env["LEAN_PATH"]=str(c.metadata["lean_path"])
+  p=subprocess.run(list(c.argv),cwd=c.cwd,capture_output=True,text=True,timeout=min(c.timeout_sec,max_timeout_sec),env=env)
   raw={"returncode":p.returncode,"executed":True}; b,names,unsafe=parse_verifier_success(req,raw); st=VerifierExecutionStatus.SUCCESS if p.returncode==0 else VerifierExecutionStatus.FAILED
   md={"expected_theorem_missing":bool(c.expected_theorem_names and not set(c.expected_theorem_names).issubset(names))}
   r=VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,p.returncode,p.stdout,p.stderr),req.request_id,c.system_kind,st,p.returncode,p.stdout[:400],p.stderr[:400],time.perf_counter()-start,False,True,tuple(finds),names,unsafe,b,metadata=md)

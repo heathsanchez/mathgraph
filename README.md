@@ -161,6 +161,16 @@ declarations, reject unsafe, expected-missing, and import-failure entries, and
 optionally replay Lawbook review/query in memory. Corpus extraction and
 dependency graphs are advisory metadata, not proof.
 
+## Lean Project Micro-Subset Pilot
+
+MathGraph can now ingest a tiny local Lean project with module imports, extract
+declarations, imports, and reference dependencies, run local verifier checks
+from the project root only when explicitly allowed, produce boundary-backed
+entries only for verified expected declarations, reject unsafe,
+expected-missing, and import-failure entries, emit advisory dependency graphs
+with import and reference edges, and optionally replay Lawbook review/query in
+memory. Module and dependency extraction are advisory metadata, not proof.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -180,6 +190,7 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_verifier_execution.py`
 - `scripts/run_verifier_fixtures.py`
 - `scripts/run_verified_corpus.py`
+- `scripts/run_lean_project_subset.py`
 - `scripts/run_e2e_testdrive.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
@@ -187,7 +198,7 @@ is being reported. They do not bypass the terminal contract.
 
 ## Current Status
 
-Implemented milestones run through Verified Corpus Micro-Ingestion. See
+Implemented milestones run through Lean Project Micro-Subset Pilot. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
@@ -199,7 +210,7 @@ for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 - trusted importer policy for pinned external corpora
 - larger fixture-driven release gates
 - persistent Lawbook storage workflow
-- richer domain adapters
+- richer dependency extraction
 - package/release workflow
 
 MathGraph should not scale by becoming bigger. It should scale by making every

@@ -79,6 +79,7 @@ from mathgraph.verifier_execution import VerifierExecutable,VerifierCommandContr
 from mathgraph.e2e_testdrive import E2ETestDriveStep,E2ETestDriveReport,E2ETestDriveMode
 from mathgraph.verifier_fixtures import VerifierFixture,VerifierFixtureResult,VerifierFixtureSuite,VerifierFixtureSuiteResult
 from mathgraph.verified_corpus import VerifiedCorpusManifest,VerifiedCorpusFile,VerifiedCorpusEntry,VerifiedCorpusDependencyEdge,VerifiedCorpusIngestionReport,VerifiedCorpusEntryStatus
+from mathgraph.lean_project_subset import LeanProjectManifest,LeanProjectFile,LeanProjectEntry,LeanProjectDependencyEdge,LeanProjectIngestionReport,LeanProjectEntryStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -305,6 +306,11 @@ def check_roadmap_alignment(
     verified_corpus_entries: Sequence[VerifiedCorpusEntry] = (),
     verified_corpus_dependency_edges: Sequence[VerifiedCorpusDependencyEdge] = (),
     verified_corpus_reports: Sequence[VerifiedCorpusIngestionReport] = (),
+    lean_project_manifests: Sequence[LeanProjectManifest] = (),
+    lean_project_files: Sequence[LeanProjectFile] = (),
+    lean_project_entries: Sequence[LeanProjectEntry] = (),
+    lean_project_dependency_edges: Sequence[LeanProjectDependencyEdge] = (),
+    lean_project_reports: Sequence[LeanProjectIngestionReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -356,6 +362,7 @@ def check_roadmap_alignment(
     e2e_step_data=list(e2e_testdrive_steps); e2e_report_data=list(e2e_testdrive_reports)
     verifier_fixture_data=list(verifier_fixtures); verifier_fixture_result_data=list(verifier_fixture_results); verifier_fixture_suite_data=list(verifier_fixture_suites); verifier_fixture_suite_result_data=list(verifier_fixture_suite_results)
     verified_corpus_manifest_data=list(verified_corpus_manifests); verified_corpus_file_data=list(verified_corpus_files); verified_corpus_entry_data=list(verified_corpus_entries); verified_corpus_edge_data=list(verified_corpus_dependency_edges); verified_corpus_report_data=list(verified_corpus_reports)
+    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -391,6 +398,7 @@ def check_roadmap_alignment(
     _check_e2e_testdrive(e2e_step_data,e2e_report_data,findings)
     _check_verifier_fixtures(verifier_fixture_data,verifier_fixture_result_data,verifier_fixture_suite_data,verifier_fixture_suite_result_data,findings)
     _check_verified_corpus(verified_corpus_manifest_data,verified_corpus_file_data,verified_corpus_entry_data,verified_corpus_edge_data,verified_corpus_report_data,findings)
+    _check_lean_project_subset(lean_project_manifest_data,lean_project_file_data,lean_project_entry_data,lean_project_edge_data,lean_project_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -2083,6 +2091,28 @@ def _check_verified_corpus(manifests, files, entries, edges, reports, findings):
             findings.append(RoadmapAlignmentFinding("critical","CORPUS_OK_WITH_CRITICAL",f"Corpus report {r.report_id} hides criticals.","Report status must reflect corpus failures."))
         if r.lawbook_replay_summary.get("known_skip_total",0) and not r.lawbook_replay_summary.get("accepted_total",0):
             findings.append(RoadmapAlignmentFinding("critical","CORPUS_SKIP_WITHOUT_ACCEPTANCE",f"Corpus report {r.report_id} has known skip without acceptance.","Known skip requires accepted in-memory review."))
+
+
+def _check_lean_project_subset(manifests, files, entries, edges, reports, findings):
+    for x in list(manifests)+[r.manifest for r in reports if r.manifest]:
+        if not x.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_MANIFEST_NON_ADVISORY",f"Lean project manifest {x.manifest_id} is non-advisory.","Manifest metadata is not proof."))
+    for x in list(files)+[f for r in reports for f in r.files]:
+        if not x.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_FILE_NON_ADVISORY",f"Lean project file {x.file_id} is non-advisory.","Extraction remains advisory."))
+    for x in list(edges)+[e for r in reports for e in r.dependency_edges]:
+        if not x.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_EDGE_NON_ADVISORY",f"Lean project edge {x.edge_id} is non-advisory.","Import and reference edges are advisory metadata."))
+    for x in list(entries)+[e for r in reports for e in r.entries]:
+        if x.status==LeanProjectEntryStatus.VERIFIED_BY_LOCAL_VERIFIER and not x.has_boundary_evidence():
+            findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_VERIFIED_WITHOUT_BOUNDARY",f"Lean project entry {x.entry_id} is verified without boundary evidence.","Require certificate-backed verifier evidence."))
+        if x.has_boundary_evidence() and x.failure_kind.value!="NONE":
+            findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_FAILED_ENTRY_VERIFIED",f"Lean project entry {x.entry_id} carries failure and proof evidence.","Reject unsafe, mismatch, and failed entries."))
+    for r in reports:
+        if r.ok() and r.critical_count():
+            findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_OK_WITH_CRITICAL",f"Lean project report {r.report_id} hides criticals.","Report status must reflect project failures."))
+        if r.lawbook_replay_summary.get("known_skip_total",0) and not r.lawbook_replay_summary.get("accepted_total",0):
+            findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_SKIP_WITHOUT_ACCEPTANCE",f"Lean project report {r.report_id} has known skip without acceptance.","Known skip requires accepted in-memory review."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

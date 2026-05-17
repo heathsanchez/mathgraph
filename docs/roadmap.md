@@ -69,6 +69,7 @@ Existential Agent Ecology
 34. External Verifier Execution Adapter and Full End-to-End Test Drive
 35. Richer Verifier Adapter + Real Fixture Expansion
 36. Verified Corpus Micro-Ingestion
+37. Lean Project Micro-Subset Pilot
 
 ## Future Work
 
@@ -76,7 +77,7 @@ Existential Agent Ecology
 - trusted importer policy for pinned external corpora
 - larger fixture-driven release gates
 - persistent Lawbook storage workflow
-- richer domain adapters
+- richer dependency extraction
 - package/release workflow
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries

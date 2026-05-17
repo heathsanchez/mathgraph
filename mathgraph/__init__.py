@@ -924,6 +924,7 @@ from mathgraph.hardening import *
 from mathgraph.verifier_execution import *
 from mathgraph.verifier_fixtures import *
 from mathgraph.verified_corpus import *
+from mathgraph.lean_project_subset import *
 from mathgraph.e2e_testdrive import *
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
