@@ -152,6 +152,15 @@ optional in-memory Lawbook review/query replay. The fixture suite can run in
 dry-run mode everywhere or live mode when Lean is available and execution is
 explicitly allowed. Unsafe fixtures must never create boundary evidence.
 
+## Verified Corpus Micro-Ingestion
+
+MathGraph can ingest a tiny local Lean corpus through a manifest, extract
+declarations, imports, and dependency metadata, run local verifier checks only
+when explicitly allowed, produce boundary-backed entries only for verified safe
+declarations, reject unsafe, expected-missing, and import-failure entries, and
+optionally replay Lawbook review/query in memory. Corpus extraction and
+dependency graphs are advisory metadata, not proof.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -170,6 +179,7 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_hardening.py`
 - `scripts/run_verifier_execution.py`
 - `scripts/run_verifier_fixtures.py`
+- `scripts/run_verified_corpus.py`
 - `scripts/run_e2e_testdrive.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
@@ -177,7 +187,7 @@ is being reported. They do not bypass the terminal contract.
 
 ## Current Status
 
-Implemented milestones run through Rich Verifier Fixtures and Replay. See
+Implemented milestones run through Verified Corpus Micro-Ingestion. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
@@ -185,12 +195,12 @@ for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 
 ## Future Work
 
-- richer verifier adapters
+- Mathlib micro-subset pilot
+- trusted importer policy for pinned external corpora
+- larger fixture-driven release gates
+- persistent Lawbook storage workflow
 - richer domain adapters
-- larger replay fixtures
-- production packaging
-- publication demos
-- release workflow
+- package/release workflow
 
 MathGraph should not scale by becoming bigger. It should scale by making every
 verified thing reusable and every failure informative.

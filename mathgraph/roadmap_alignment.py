@@ -78,6 +78,7 @@ from mathgraph.hardening import HardeningFinding,HardeningScenario,HardeningCliR
 from mathgraph.verifier_execution import VerifierExecutable,VerifierCommandContract,VerifierSafetyFinding,VerifierExecutionRequest,VerifierExecutionResult,VerifierBoundaryEvidence,VerifierExecutionReport
 from mathgraph.e2e_testdrive import E2ETestDriveStep,E2ETestDriveReport,E2ETestDriveMode
 from mathgraph.verifier_fixtures import VerifierFixture,VerifierFixtureResult,VerifierFixtureSuite,VerifierFixtureSuiteResult
+from mathgraph.verified_corpus import VerifiedCorpusManifest,VerifiedCorpusFile,VerifiedCorpusEntry,VerifiedCorpusDependencyEdge,VerifiedCorpusIngestionReport,VerifiedCorpusEntryStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -299,6 +300,11 @@ def check_roadmap_alignment(
     verifier_fixture_results: Sequence[VerifierFixtureResult] = (),
     verifier_fixture_suites: Sequence[VerifierFixtureSuite] = (),
     verifier_fixture_suite_results: Sequence[VerifierFixtureSuiteResult] = (),
+    verified_corpus_manifests: Sequence[VerifiedCorpusManifest] = (),
+    verified_corpus_files: Sequence[VerifiedCorpusFile] = (),
+    verified_corpus_entries: Sequence[VerifiedCorpusEntry] = (),
+    verified_corpus_dependency_edges: Sequence[VerifiedCorpusDependencyEdge] = (),
+    verified_corpus_reports: Sequence[VerifiedCorpusIngestionReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -349,6 +355,7 @@ def check_roadmap_alignment(
     verifier_executable_data=list(verifier_executables); verifier_contract_data=list(verifier_command_contracts); verifier_safety_data=list(verifier_safety_findings); verifier_request_data=list(verifier_execution_requests); verifier_result_data=list(verifier_execution_results); verifier_evidence_data=list(verifier_boundary_evidence); verifier_report_data=list(verifier_execution_reports)
     e2e_step_data=list(e2e_testdrive_steps); e2e_report_data=list(e2e_testdrive_reports)
     verifier_fixture_data=list(verifier_fixtures); verifier_fixture_result_data=list(verifier_fixture_results); verifier_fixture_suite_data=list(verifier_fixture_suites); verifier_fixture_suite_result_data=list(verifier_fixture_suite_results)
+    verified_corpus_manifest_data=list(verified_corpus_manifests); verified_corpus_file_data=list(verified_corpus_files); verified_corpus_entry_data=list(verified_corpus_entries); verified_corpus_edge_data=list(verified_corpus_dependency_edges); verified_corpus_report_data=list(verified_corpus_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -383,6 +390,7 @@ def check_roadmap_alignment(
     _check_verifier_execution(verifier_contract_data,verifier_result_data,verifier_evidence_data,verifier_report_data,findings)
     _check_e2e_testdrive(e2e_step_data,e2e_report_data,findings)
     _check_verifier_fixtures(verifier_fixture_data,verifier_fixture_result_data,verifier_fixture_suite_data,verifier_fixture_suite_result_data,findings)
+    _check_verified_corpus(verified_corpus_manifest_data,verified_corpus_file_data,verified_corpus_entry_data,verified_corpus_edge_data,verified_corpus_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -2053,6 +2061,28 @@ def _check_verifier_fixtures(fixtures, results, suites, suite_results, findings)
     for s in suite_results:
         if s.ok() and s.critical_count():
             findings.append(RoadmapAlignmentFinding("critical","FIXTURE_SUITE_HIDES_CRITICAL",f"Fixture suite {s.suite_result_id} hides criticals.","Suite status must reflect fixture failures."))
+
+
+def _check_verified_corpus(manifests, files, entries, edges, reports, findings):
+    for x in list(manifests)+[r.manifest for r in reports if r.manifest]:
+        if not x.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","CORPUS_MANIFEST_NON_ADVISORY",f"Corpus manifest {x.manifest_id} is non-advisory.","Manifest metadata is not proof."))
+    for x in list(files)+[f for r in reports for f in r.files]:
+        if not x.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","CORPUS_FILE_NON_ADVISORY",f"Corpus file record {x.file_id} is non-advisory.","Extraction remains advisory."))
+    for x in list(edges)+[e for r in reports for e in r.dependency_edges]:
+        if not x.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","CORPUS_EDGE_NON_ADVISORY",f"Corpus edge {x.edge_id} is non-advisory.","Dependency edges are advisory metadata."))
+    for x in list(entries)+[e for r in reports for e in r.entries]:
+        if x.status==VerifiedCorpusEntryStatus.VERIFIED_BY_LOCAL_VERIFIER and not x.has_boundary_evidence():
+            findings.append(RoadmapAlignmentFinding("critical","CORPUS_VERIFIED_WITHOUT_BOUNDARY",f"Corpus entry {x.entry_id} is verified without boundary evidence.","Require certificate-backed verifier evidence."))
+        if x.has_boundary_evidence() and x.failure_kind.value!="NONE":
+            findings.append(RoadmapAlignmentFinding("critical","CORPUS_FAILED_ENTRY_VERIFIED",f"Corpus entry {x.entry_id} carries failure and proof evidence.","Reject unsafe, mismatch, and failed entries."))
+    for r in reports:
+        if r.ok() and r.critical_count():
+            findings.append(RoadmapAlignmentFinding("critical","CORPUS_OK_WITH_CRITICAL",f"Corpus report {r.report_id} hides criticals.","Report status must reflect corpus failures."))
+        if r.lawbook_replay_summary.get("known_skip_total",0) and not r.lawbook_replay_summary.get("accepted_total",0):
+            findings.append(RoadmapAlignmentFinding("critical","CORPUS_SKIP_WITHOUT_ACCEPTANCE",f"Corpus report {r.report_id} has known skip without acceptance.","Known skip requires accepted in-memory review."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

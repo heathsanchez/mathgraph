@@ -68,13 +68,15 @@ Existential Agent Ecology
 33. Post-M11 Hardening and Evaluation
 34. External Verifier Execution Adapter and Full End-to-End Test Drive
 35. Richer Verifier Adapter + Real Fixture Expansion
+36. Verified Corpus Micro-Ingestion
 
 ## Future Work
 
-- richer verifier adapters beyond Lean
-- larger mathematical fixture packs
-- fixture-driven release gates
-- publication demos
+- Mathlib micro-subset pilot
+- trusted importer policy for pinned external corpora
+- larger fixture-driven release gates
+- persistent Lawbook storage workflow
+- richer domain adapters
 - package/release workflow
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries

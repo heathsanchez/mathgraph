@@ -420,6 +420,11 @@ The fixture suite is the system's recurring ordeal: safe proofs may cross the
 verifier boundary, unsafe proofs must be rejected, missing verifiers must skip
 cleanly, and advisory layers must remain advisory.
 
+Verified corpus ingestion is the first transition from isolated proof fixtures
+to a reusable verified-memory substrate. The corpus ordeal checks that
+declarations and dependency graphs remain advisory until verifier or
+trusted-import boundary evidence exists.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,
@@ -439,10 +444,10 @@ A bad lawbook is storage. A good lawbook is compressed intelligibility.
 A Lawbook entry becomes Form-like when it has generality, invariance,
 compression, generativity, necessity, stability, and clarity.
 
-## M7 Future: Existential Agent Ecology
+## Existential Agent Ecology
 
-Existential Agent Ecology is future roadmap only. It is an optional higher layer
-above the verification kernel, not live implementation in this pass.
+Existential Agent Ecology is an optional higher layer above the verification
+kernel.
 
 Core doctrine:
 
