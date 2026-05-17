@@ -166,6 +166,19 @@ adapter, and proof-system tasks. These records bridge human prose into
 formal-world adapters and proof-system integration, but no natural-language
 sentence, extracted candidate, or semantic score promotes truth.
 
+\section{API Service Hardening}
+M10 adds stable local request and response contracts around the backend. The
+surface includes a local SDK client and optional localhost JSON service with
+health, audit, query, submit, semantic-intake, formal-world-adapter,
+proof-system-integration, schedule, project, explain, process-memory,
+discovery-value, and advisory review routes. Every response exposes truth
+status, safety level, boundary policy, certificate ids, terminal forms, and
+whether an already-existing verifier boundary was crossed. API success is not
+mathematical truth: no route executes external tools by default, no route
+mutates accepted Lawbook memory by default, and only verifier, trusted importer
+from verified external artifacts, finite-validator, or chain-audit evidence may
+report terminal truth.
+
 \section{Derived Closure and Projection}
 Derived closure uses transitivity, source weakening, target strengthening, equivalence collapse, duality where justified, and constructor replay. FALSE-side certificate directionality must be preserved: projection may reuse verified memory, never reverse an invalid implication into truth.
 
@@ -241,8 +254,8 @@ M6.20 & Documentation / Spec Synchronization and Publication Refresh\\
 M7 & Richer Formal-World Adapters\\
 M8 & Deeper Proof-System Integration\\
 M9 & Semantic and Natural-Language Claim Handling with Strict Boundaries\\
-\midrule
 M10 & API Service Hardening\\
+\midrule
 M11 & Existential Agent Ecology\\
 \bottomrule
 \end{longtable}

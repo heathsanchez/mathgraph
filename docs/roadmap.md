@@ -61,10 +61,10 @@ Domain Claim
 28. M7 Richer Formal-World Adapters
 29. M8 Deeper Proof-System Integration
 30. M9 Semantic and Natural-Language Claim Handling with Strict Boundaries
+31. M10 API Service Hardening
 
 ## Future Work
 
-- M10 API Service Hardening
 - M11 Existential Agent Ecology
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries

@@ -16,9 +16,17 @@ episodes, proof digestion, verifier feedback and repair, discovery value,
 Lawbook acceptance and query, structural identity, habit rules, reason
 compression, process memory, structure registry and typed projection,
 role-based object introduction, structural analogy/exposition, formal-world
-adapters, and proof-system integration. These layers
+adapters, proof-system integration, semantic intake, and the API service. These layers
 may improve search, replay, understanding, and scheduling, but they remain
 advisory unless an explicit truth boundary is crossed.
+
+## API Service
+
+The API service is the outer membrane of MathGraph. It lets clients submit text,
+query accepted memory, request advisory routing, and inspect audit state while
+preserving the verifier boundary. Every response says whether it is advisory,
+accepted memory, or backed by already-existing boundary evidence. The service
+may route work, but it may not create truth.
 
 The operational loop is:
 

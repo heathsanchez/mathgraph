@@ -918,6 +918,7 @@ from mathgraph.proof_system_integration import (
     trusted_import_record_from_mapping,
 )
 from mathgraph.semantic_intake import *
+from mathgraph.api_service import *
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
 from mathgraph.outcome_dataset import (
@@ -1957,6 +1958,10 @@ __all__ = [
     "classify_semantic_segment","detect_semantic_ambiguities","extract_semantic_items",
     "formalization_requests_from_semantic","semantic_routing_hints_from_semantic",
     "semantic_tasks_from_semantic","build_semantic_intake_report",
+    "ApiRoute","ApiRequestKind","ApiResponseStatus","ApiTruthStatus",
+    "ApiSafetyLevel","ApiArtifactKind","ApiRequest","ApiHealth",
+    "ApiAuditResult","ApiRouteResult","ApiResponse","ApiServiceState",
+    "MathGraphLocalClient",
     "score_agent_experience",
     "score_alchemical_trace",
     "score_continuation_output",

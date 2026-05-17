@@ -72,6 +72,7 @@ from mathgraph.structural_analogy import AnalogySource,AnalogyFeatureMap,Analogy
 from mathgraph.formal_world_adapters import FormalWorldAdapterSpec,FormalWorldAdapterCapability,FormalWorldParseResult,FormalWorldNormalizeResult,FormalWorldValidationResult,FormalWorldTask,FormalWorldHandoff,FormalWorldAdapterReport,FormalWorldAdapterReportStatus,HandoffStatus
 from mathgraph.proof_system_integration import ProofSystemSpec,ProofProjectManifest,ProofArtifactManifest,ProofImportGraph,ProofCheckCommandContract,ProofCheckRequest,ProofCheckResult,TrustedProofImportRecord,ProofBoundaryEvidence,ProofSystemTask,ProofSystemIntegrationReport,ProofSystemIntegrationReportStatus,ProofArtifactStatus as ProofSystemArtifactStatus,CheckRequestStatus as ProofCheckRequestStatus,CheckResultStatus as ProofCheckResultStatus,TrustedImportStatus
 from mathgraph.semantic_intake import SemanticSource,SemanticClaimSegment,SemanticClaimClassification,SemanticAmbiguity,SemanticExtraction,FormalizationRequest,SemanticRoutingHint,SemanticIntakeTask,SemanticIntakeReport,SemanticIntakeReportStatus,SemanticClaimKind,SemanticDomainKind
+from mathgraph.api_service import ApiRequest,ApiResponse,ApiRouteResult,ApiHealth,ApiAuditResult,ApiServiceState,ApiTruthStatus,ApiRoute,ApiResponseStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -258,6 +259,12 @@ def check_roadmap_alignment(
     semantic_routing_hints: Sequence[SemanticRoutingHint] = (),
     semantic_intake_tasks: Sequence[SemanticIntakeTask] = (),
     semantic_intake_reports: Sequence[SemanticIntakeReport] = (),
+    api_requests: Sequence[ApiRequest] = (),
+    api_responses: Sequence[ApiResponse] = (),
+    api_route_results: Sequence[ApiRouteResult] = (),
+    api_health: Sequence[ApiHealth] = (),
+    api_audit_results: Sequence[ApiAuditResult] = (),
+    api_service_states: Sequence[ApiServiceState] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -302,6 +309,7 @@ def check_roadmap_alignment(
     adapter_spec_data=list(formal_world_adapter_specs); adapter_capability_data=list(formal_world_adapter_capabilities); adapter_parse_data=list(formal_world_parse_results); adapter_normalize_data=list(formal_world_normalize_results); adapter_validation_data=list(formal_world_validation_results); adapter_task_data=list(formal_world_tasks); adapter_handoff_data=list(formal_world_handoffs); adapter_report_data=list(formal_world_adapter_reports)
     proof_system_spec_data=list(proof_system_specs); proof_project_data=list(proof_project_manifests); proof_artifact_data=list(proof_artifact_manifests); proof_graph_data=list(proof_import_graphs); proof_contract_data=list(proof_check_command_contracts); proof_request_data=list(proof_check_requests); proof_result_data=list(proof_check_results); trusted_import_data=list(trusted_proof_import_records); proof_boundary_data=list(proof_boundary_evidence); proof_system_task_data=list(proof_system_tasks); proof_system_report_data=list(proof_system_integration_reports)
     semantic_source_data=list(semantic_sources); semantic_segment_data=list(semantic_claim_segments); semantic_classification_data=list(semantic_claim_classifications); semantic_ambiguity_data=list(semantic_ambiguities); semantic_extraction_data=list(semantic_extractions); semantic_request_data=list(formalization_requests); semantic_hint_data=list(semantic_routing_hints); semantic_task_data=list(semantic_intake_tasks); semantic_report_data=list(semantic_intake_reports)
+    api_request_data=list(api_requests); api_response_data=list(api_responses); api_result_data=list(api_route_results); api_health_data=list(api_health); api_audit_data=list(api_audit_results); api_state_data=list(api_service_states)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -330,6 +338,7 @@ def check_roadmap_alignment(
     _check_formal_world_adapters(adapter_spec_data,adapter_capability_data,adapter_parse_data,adapter_normalize_data,adapter_validation_data,adapter_task_data,adapter_handoff_data,adapter_report_data,findings)
     _check_proof_system_integration(proof_system_spec_data,proof_project_data,proof_artifact_data,proof_graph_data,proof_contract_data,proof_request_data,proof_result_data,trusted_import_data,proof_boundary_data,proof_system_task_data,proof_system_report_data,findings)
     _check_semantic_intake(semantic_source_data,semantic_segment_data,semantic_classification_data,semantic_ambiguity_data,semantic_extraction_data,semantic_request_data,semantic_hint_data,semantic_task_data,semantic_report_data,findings)
+    _check_api_surface(api_request_data,api_response_data,api_result_data,api_health_data,api_audit_data,api_state_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -457,6 +466,9 @@ def check_roadmap_alignment(
         "semantic_source_count": len(semantic_source_data)+sum(len(r.sources) for r in semantic_report_data),
         "semantic_segment_count": len(semantic_segment_data)+sum(len(r.segments) for r in semantic_report_data),
         "semantic_task_count": len(semantic_task_data)+sum(len(r.tasks) for r in semantic_report_data),
+        "api_request_count": len(api_request_data),
+        "api_response_count": len(api_response_data),
+        "api_route_result_count": len(api_result_data)+sum(1 for r in api_response_data if r.result),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1877,6 +1889,33 @@ def _check_semantic_intake(sources, segments, classifications, ambiguities, extr
     for r in reports:
         if r.critical_count()>0 and r.status!=SemanticIntakeReportStatus.HAS_CRITICALS:
             findings.append(RoadmapAlignmentFinding("critical","SEMANTIC_REPORT_HIDES_CRITICALS",f"Semantic report {r.report_id} hides criticals.","Reflect criticals in report status."))
+
+
+def _check_api_surface(requests, responses, results, health_items, audits, states, findings):
+    terminal_truth={ApiTruthStatus.VERIFIED_PROOF,ApiTruthStatus.FINITE_COUNTERMODEL,ApiTruthStatus.NAMED_OBSTRUCTION}
+    all_results=list(results)+[r.result for r in responses if r.result]
+    for response in responses:
+        if not response.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","API_RESPONSE_NON_ADVISORY",f"API response {response.response_id} is non-advisory.","API responses report state; they do not create truth."))
+        if not response.boundary_policy:
+            findings.append(RoadmapAlignmentFinding("critical","API_MISSING_BOUNDARY_POLICY",f"API response {response.response_id} omits the boundary policy.","Keep the truth boundary explicit in every response."))
+        if response.truth_status in terminal_truth and not response.has_boundary_evidence():
+            findings.append(RoadmapAlignmentFinding("critical","API_TERMINAL_WITHOUT_BOUNDARY",f"API response {response.response_id} claims terminal truth without evidence.","Only report terminal truth with existing explicit boundary evidence."))
+        if response.route in {ApiRoute.SUBMIT,ApiRoute.PROJECT,ApiRoute.SCHEDULE,ApiRoute.EXPLAIN} and response.truth_status in terminal_truth:
+            findings.append(RoadmapAlignmentFinding("critical","API_ROUTE_AS_TRUTH",f"API route {response.route.value} reports newly created terminal truth.","These routes remain advisory."))
+        if response.route==ApiRoute.UNKNOWN and response.status==ApiResponseStatus.OK:
+            findings.append(RoadmapAlignmentFinding("critical","API_UNSUPPORTED_ROUTE_OK",f"API response {response.response_id} returns OK for an unsupported route.","Unsupported routes must stay explicit."))
+    for result in all_results:
+        if result.truth_status in terminal_truth and not result.has_boundary_evidence():
+            findings.append(RoadmapAlignmentFinding("critical","API_RESULT_TERMINAL_WITHOUT_BOUNDARY",f"API route result {result.route_result_id} lacks boundary evidence.","Carry certificate ids, terminal forms, and boundary evidence together."))
+        if result.verifier_boundary_crossed and not result.has_boundary_evidence():
+            findings.append(RoadmapAlignmentFinding("critical","API_RESULT_BAD_BOUNDARY",f"API route result {result.route_result_id} has an incomplete boundary.","Require explicit boundary evidence."))
+    for health in health_items:
+        if health.external_execution_enabled:
+            findings.append(RoadmapAlignmentFinding("critical","API_EXTERNAL_EXECUTION_DEFAULT",f"API health {health.service_name} enables external execution.","Default local service mode must not execute external tools."))
+    for state in states:
+        if state.external_execution_enabled:
+            findings.append(RoadmapAlignmentFinding("critical","API_STATE_EXTERNAL_EXECUTION", "API service state enables external execution by default.","Keep external execution disabled."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

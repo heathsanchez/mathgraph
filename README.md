@@ -36,6 +36,7 @@ Domain Claim
   -> Adapter Capability / Parse / Normalize / Validate
   -> Proof-System Project Registry
   -> Artifact Manifests / Import Graphs / Check Requests
+  -> API Service Contracts
   -> Continuation Actions
   -> Continuation Curriculum
   -> Verification Episode
@@ -67,6 +68,7 @@ Domain Claim
 - formal-world adapters for typed parse, normalize, validate, task, and handoff contracts
 - proof-system integration contracts for projects, artifacts, imports, checks, and boundary evidence
 - semantic intake for deterministic segmentation, ambiguity tracking, formalization requests, and routing
+- local API service contracts for stable health, query, submit, routing, and review surfaces
 
 The first practical proving ground is SAIR Stage 2, equational implication over
 magmas. It is a nursery world, not the whole product.
@@ -100,6 +102,15 @@ digestion, curricula, repair, and review. Natural language remains advisory:
 theorem-like sentences, proof-looking paragraphs, semantic confidence, and
 extracted formal candidates do not verify claims.
 
+## API Service Hardening
+
+MathGraph now exposes a local API and SDK boundary with stable request and
+response schemas. The service supports health, audit, query, submit, semantic
+intake, formal-world adapters, proof-system integration, scheduling,
+projection, explanation, process memory, discovery value, and advisory review
+routes. Every response includes truth status, safety level, and verifier
+boundary fields. HTTP or SDK success does not mean mathematical truth.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -113,14 +124,14 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_formal_world_adapters.py`
 - `scripts/run_proof_system_integration.py`
 - `scripts/run_semantic_intake.py`
+- `scripts/run_api_service.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
 is being reported. They do not bypass the terminal contract.
 
 ## Current Status
 
-Implemented milestones run through M9 Semantic and Natural-Language Claim
-Handling with Strict Boundaries. See
+Implemented milestones run through M10 API Service Hardening. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
@@ -128,7 +139,6 @@ for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 
 ## Future Work
 
-- API service hardening
 - existential agents
 
 MathGraph should not scale by becoming bigger. It should scale by making every
