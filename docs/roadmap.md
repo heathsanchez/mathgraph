@@ -3,7 +3,9 @@
 ## Current Architecture
 
 ```text
-Domain Claim
+Existential Agent Ecology
+  -> API / SDK / CLI
+  -> Domain Claim
   -> Semantic / Natural-Language Intake
   -> Formal-World Adapter Registry
   -> Adapter Capability / Parse / Normalize / Validate
@@ -62,10 +64,15 @@ Domain Claim
 29. M8 Deeper Proof-System Integration
 30. M9 Semantic and Natural-Language Claim Handling with Strict Boundaries
 31. M10 API Service Hardening
+32. M11 Existential Agent Ecology
 
 ## Future Work
 
-- M11 Existential Agent Ecology
+- production hardening
+- external verifier execution adapters
+- richer domain adapters
+- larger-scale evaluation
+- documentation and publication polish
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries
 promote truth. Every other layer is advisory unless it reports already accepted

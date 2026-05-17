@@ -73,6 +73,7 @@ from mathgraph.formal_world_adapters import FormalWorldAdapterSpec,FormalWorldAd
 from mathgraph.proof_system_integration import ProofSystemSpec,ProofProjectManifest,ProofArtifactManifest,ProofImportGraph,ProofCheckCommandContract,ProofCheckRequest,ProofCheckResult,TrustedProofImportRecord,ProofBoundaryEvidence,ProofSystemTask,ProofSystemIntegrationReport,ProofSystemIntegrationReportStatus,ProofArtifactStatus as ProofSystemArtifactStatus,CheckRequestStatus as ProofCheckRequestStatus,CheckResultStatus as ProofCheckResultStatus,TrustedImportStatus
 from mathgraph.semantic_intake import SemanticSource,SemanticClaimSegment,SemanticClaimClassification,SemanticAmbiguity,SemanticExtraction,FormalizationRequest,SemanticRoutingHint,SemanticIntakeTask,SemanticIntakeReport,SemanticIntakeReportStatus,SemanticClaimKind,SemanticDomainKind
 from mathgraph.api_service import ApiRequest,ApiResponse,ApiRouteResult,ApiHealth,ApiAuditResult,ApiServiceState,ApiTruthStatus,ApiRoute,ApiResponseStatus
+from mathgraph.existential_agents import ExistentialAgent,AgentMortalityPolicy,AgentResourceAccount,AgentWound,AgentValueProfile,AgentNarrative,HeldInChoraRecord,AgentLineageRecord,AgentDaemon,AgentEcologyEvent,AgentEcologyReport,AgentEcologyReportStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -265,6 +266,17 @@ def check_roadmap_alignment(
     api_health: Sequence[ApiHealth] = (),
     api_audit_results: Sequence[ApiAuditResult] = (),
     api_service_states: Sequence[ApiServiceState] = (),
+    existential_agents: Sequence[ExistentialAgent] = (),
+    agent_mortality_policies: Sequence[AgentMortalityPolicy] = (),
+    agent_resource_accounts: Sequence[AgentResourceAccount] = (),
+    agent_wounds: Sequence[AgentWound] = (),
+    agent_value_profiles: Sequence[AgentValueProfile] = (),
+    agent_narratives: Sequence[AgentNarrative] = (),
+    held_in_chora_records: Sequence[HeldInChoraRecord] = (),
+    agent_lineage_records: Sequence[AgentLineageRecord] = (),
+    agent_daemons: Sequence[AgentDaemon] = (),
+    agent_ecology_events: Sequence[AgentEcologyEvent] = (),
+    agent_ecology_reports: Sequence[AgentEcologyReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -310,6 +322,7 @@ def check_roadmap_alignment(
     proof_system_spec_data=list(proof_system_specs); proof_project_data=list(proof_project_manifests); proof_artifact_data=list(proof_artifact_manifests); proof_graph_data=list(proof_import_graphs); proof_contract_data=list(proof_check_command_contracts); proof_request_data=list(proof_check_requests); proof_result_data=list(proof_check_results); trusted_import_data=list(trusted_proof_import_records); proof_boundary_data=list(proof_boundary_evidence); proof_system_task_data=list(proof_system_tasks); proof_system_report_data=list(proof_system_integration_reports)
     semantic_source_data=list(semantic_sources); semantic_segment_data=list(semantic_claim_segments); semantic_classification_data=list(semantic_claim_classifications); semantic_ambiguity_data=list(semantic_ambiguities); semantic_extraction_data=list(semantic_extractions); semantic_request_data=list(formalization_requests); semantic_hint_data=list(semantic_routing_hints); semantic_task_data=list(semantic_intake_tasks); semantic_report_data=list(semantic_intake_reports)
     api_request_data=list(api_requests); api_response_data=list(api_responses); api_result_data=list(api_route_results); api_health_data=list(api_health); api_audit_data=list(api_audit_results); api_state_data=list(api_service_states)
+    existential_agent_data=list(existential_agents); agent_policy_data=list(agent_mortality_policies); agent_resource_data=list(agent_resource_accounts); agent_wound_data=list(agent_wounds); agent_value_data=list(agent_value_profiles); agent_narrative_data=list(agent_narratives); agent_chora_data=list(held_in_chora_records); agent_lineage_data=list(agent_lineage_records); agent_daemon_data=list(agent_daemons); agent_event_data=list(agent_ecology_events); agent_report_data=list(agent_ecology_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -339,6 +352,7 @@ def check_roadmap_alignment(
     _check_proof_system_integration(proof_system_spec_data,proof_project_data,proof_artifact_data,proof_graph_data,proof_contract_data,proof_request_data,proof_result_data,trusted_import_data,proof_boundary_data,proof_system_task_data,proof_system_report_data,findings)
     _check_semantic_intake(semantic_source_data,semantic_segment_data,semantic_classification_data,semantic_ambiguity_data,semantic_extraction_data,semantic_request_data,semantic_hint_data,semantic_task_data,semantic_report_data,findings)
     _check_api_surface(api_request_data,api_response_data,api_result_data,api_health_data,api_audit_data,api_state_data,findings)
+    _check_existential_agents(existential_agent_data,agent_policy_data,agent_resource_data,agent_wound_data,agent_value_data,agent_narrative_data,agent_chora_data,agent_lineage_data,agent_daemon_data,agent_event_data,agent_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -469,6 +483,9 @@ def check_roadmap_alignment(
         "api_request_count": len(api_request_data),
         "api_response_count": len(api_response_data),
         "api_route_result_count": len(api_result_data)+sum(1 for r in api_response_data if r.result),
+        "existential_agent_count": len(existential_agent_data)+sum(len(r.agents) for r in agent_report_data),
+        "agent_ecology_event_count": len(agent_event_data)+sum(len(r.events) for r in agent_report_data),
+        "agent_wound_count": len(agent_wound_data)+sum(len(r.wounds) for r in agent_report_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1916,6 +1933,32 @@ def _check_api_surface(requests, responses, results, health_items, audits, state
     for state in states:
         if state.external_execution_enabled:
             findings.append(RoadmapAlignmentFinding("critical","API_STATE_EXTERNAL_EXECUTION", "API service state enables external execution by default.","Keep external execution disabled."))
+
+
+def _check_existential_agents(agents, policies, resources, wounds, values, narratives, chora, lineages, daemons, events, reports, findings):
+    for x in list(agents)+list(policies)+list(resources)+list(wounds)+list(values)+list(narratives)+list(chora)+list(lineages)+list(daemons)+list(events)+[y for r in reports for xs in (r.agents,r.mortality_policies,r.resource_accounts,r.wounds,r.value_profiles,r.narratives,r.held_in_chora,r.lineages,r.daemons,r.events) for y in xs]:
+        if not getattr(x,"advisory",True):
+            findings.append(RoadmapAlignmentFinding("critical","AGENT_ECOLOGY_NON_ADVISORY","Agent ecology object is non-advisory.","Agent state may affect scheduling only."))
+    for p in list(policies)+[p for r in reports for p in r.mortality_policies]:
+        if p.resurrection_allowed:
+            findings.append(RoadmapAlignmentFinding("critical","AGENT_RESURRECTION_ALLOWED",f"Mortality policy {p.policy_id} allows resurrection.","Exact resurrection is forbidden."))
+        if not p.clone_forbidden:
+            findings.append(RoadmapAlignmentFinding("critical","AGENT_CLONE_ALLOWED",f"Mortality policy {p.policy_id} allows exact cloning.","Only compressed continuation is allowed."))
+    for a in list(agents)+[a for r in reports for a in r.agents]:
+        if a.is_dead() and (a.active or a.can_act() or a.can_spawn() or a.can_mutate() or a.can_receive_budget()):
+            findings.append(RoadmapAlignmentFinding("critical","AGENT_DEAD_CAN_ACT",f"Dead agent {a.agent_id} can still act.","Dead agents remain irreversible."))
+    for e in list(events)+[e for r in reports for e in r.events]:
+        if (e.terminal_form or e.certificate_id or e.verifier_boundary_crossed) and not e.metadata.get("inherited_boundary_report"):
+            findings.append(RoadmapAlignmentFinding("critical","AGENT_EVENT_AS_TRUTH",f"Agent event {e.event_id} carries truth fields.","Agent ecology never promotes truth."))
+    for l in list(lineages)+[l for r in reports for l in r.lineages]:
+        if l.is_exact_clone():
+            findings.append(RoadmapAlignmentFinding("critical","AGENT_EXACT_CLONE",f"Lineage {l.lineage_id} attempts exact cloning.","Keep lineage summary-only or partial."))
+    for d in list(daemons)+[d for r in reports for d in r.daemons]:
+        if d.metadata.get("verifier"):
+            findings.append(RoadmapAlignmentFinding("critical","AGENT_DAEMON_AS_VERIFIER",f"Daemon {d.daemon_id} is treated as verifier.","Daemons remain advisory skills."))
+    for r in reports:
+        if r.critical_count()>0 and r.status!=AgentEcologyReportStatus.HAS_CRITICALS:
+            findings.append(RoadmapAlignmentFinding("critical","AGENT_REPORT_HIDES_CRITICALS",f"Agent report {r.report_id} hides criticals.","Reflect criticals in report status."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

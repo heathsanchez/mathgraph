@@ -20,6 +20,14 @@ adapters, proof-system integration, semantic intake, and the API service. These 
 may improve search, replay, understanding, and scheduling, but they remain
 advisory unless an explicit truth boundary is crossed.
 
+## Existential Agents
+
+Existential agents are explorers inside MathGraph, not truth authorities. Their
+finite resources, scars, wounds, values, narratives, lineage, and death shape
+route pressure and scheduling only. Public verified artifacts survive agent
+death. Private unresolved biography may be sealed, summarized, or burned. The
+kernel remains audit-stable; agents may be mortal.
+
 ## API Service
 
 The API service is the outer membrane of MathGraph. It lets clients submit text,

@@ -30,7 +30,9 @@ Every accepted claim ends in exactly one terminal form:
 ## Current Architecture
 
 ```text
-Domain Claim
+Existential Agent Ecology
+  -> API / SDK / CLI
+  -> Domain Claim
   -> Semantic / Natural-Language Intake
   -> Formal-World Adapter Registry
   -> Adapter Capability / Parse / Normalize / Validate
@@ -69,6 +71,7 @@ Domain Claim
 - proof-system integration contracts for projects, artifacts, imports, checks, and boundary evidence
 - semantic intake for deterministic segmentation, ambiguity tracking, formalization requests, and routing
 - local API service contracts for stable health, query, submit, routing, and review surfaces
+- existential agent ecology for mortality, resources, wounds, lineage, daemonization, and route pressure
 
 The first practical proving ground is SAIR Stage 2, equational implication over
 magmas. It is a nursery world, not the whole product.
@@ -111,6 +114,16 @@ projection, explanation, process memory, discovery value, and advisory review
 routes. Every response includes truth status, safety level, and verifier
 boundary fields. HTTP or SDK success does not mean mathematical truth.
 
+## Existential Agent Ecology
+
+MathGraph now supports advisory finite-resource discovery agents with mortality
+policies, resource accounts, wounds, value drift, narrative identity,
+Held-in-Chora records, lineage summaries, daemonized skills, and route-priority
+adjustments. Agents may change scheduling pressure and discovery behavior, but
+they cannot verify claims, accept Lawbook entries, or promote truth. Dead agents
+cannot act, receive budget, mutate, spawn, or be resurrected as the same acting
+self.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -125,13 +138,14 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_proof_system_integration.py`
 - `scripts/run_semantic_intake.py`
 - `scripts/run_api_service.py`
+- `scripts/run_existential_agents.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
 is being reported. They do not bypass the terminal contract.
 
 ## Current Status
 
-Implemented milestones run through M10 API Service Hardening. See
+Implemented milestones run through M11 Existential Agent Ecology. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
@@ -139,7 +153,11 @@ for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 
 ## Future Work
 
-- existential agents
+- production hardening
+- external verifier execution adapters
+- richer domain adapters
+- larger-scale evaluation
+- documentation and publication polish
 
 MathGraph should not scale by becoming bigger. It should scale by making every
 verified thing reusable and every failure informative.
