@@ -28,6 +28,13 @@ route pressure and scheduling only. Public verified artifacts survive agent
 death. Private unresolved biography may be sealed, summarized, or burned. The
 kernel remains audit-stable; agents may be mortal.
 
+## Hardening
+
+Hardening is the discipline that tests whether the metabolism remains safe
+under replay. It checks that every advisory layer stays advisory, that docs
+match implementation, that API responses carry boundary fields, that agents
+remain mortal, and that no smoke run becomes a proof.
+
 ## API Service
 
 The API service is the outer membrane of MathGraph. It lets clients submit text,

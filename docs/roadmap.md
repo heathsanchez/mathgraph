@@ -65,14 +65,16 @@ Existential Agent Ecology
 30. M9 Semantic and Natural-Language Claim Handling with Strict Boundaries
 31. M10 API Service Hardening
 32. M11 Existential Agent Ecology
+33. Post-M11 Hardening and Evaluation
 
 ## Future Work
 
-- production hardening
-- external verifier execution adapters
+- external verifier execution adapters behind strict flags
 - richer domain adapters
-- larger-scale evaluation
-- documentation and publication polish
+- larger-scale replay fixtures
+- performance profiling
+- publication demos
+- packaging and release workflow
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries
 promote truth. Every other layer is advisory unless it reports already accepted

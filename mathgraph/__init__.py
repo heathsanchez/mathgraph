@@ -920,6 +920,7 @@ from mathgraph.proof_system_integration import (
 from mathgraph.semantic_intake import *
 from mathgraph.api_service import *
 from mathgraph.existential_agents import *
+from mathgraph.hardening import *
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
 from mathgraph.outcome_dataset import (
@@ -1972,6 +1973,10 @@ __all__ = [
     "AgentLineageRecord","AgentDaemon","ExistentialAgent",
     "AgentEcologyEvent","AgentEcologyReport","create_existential_agent",
     "build_agent_ecology_report",
+    "HardeningCheckKind","HardeningCheckStatus","HardeningSeverity",
+    "HardeningScenarioKind","HardeningArtifactKind","HardeningFinding",
+    "HardeningScenario","HardeningCliResult","HardeningReplayManifest",
+    "HardeningReport","build_hardening_report",
     "score_agent_experience",
     "score_alchemical_trace",
     "score_continuation_output",

@@ -72,6 +72,7 @@ Existential Agent Ecology
 - semantic intake for deterministic segmentation, ambiguity tracking, formalization requests, and routing
 - local API service contracts for stable health, query, submit, routing, and review surfaces
 - existential agent ecology for mortality, resources, wounds, lineage, daemonization, and route pressure
+- post-M11 hardening harness for advisory replay, contract checks, and evaluation
 
 The first practical proving ground is SAIR Stage 2, equational implication over
 magmas. It is a nursery world, not the whole product.
@@ -124,6 +125,14 @@ they cannot verify claims, accept Lawbook entries, or promote truth. Dead agents
 cannot act, receive budget, mutate, spawn, or be resurrected as the same acting
 self.
 
+## Post-M11 Hardening And Evaluation
+
+MathGraph now includes a hardening harness for end-to-end advisory smoke
+scenarios, serialization checks, API contract checks, documentation sync, public
+terminology hygiene, truth-boundary invariants, agent lifecycle invariants,
+lightweight performance checks, and replay manifests. Hardening artifacts are
+advisory and do not promote mathematical truth.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -139,6 +148,7 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_semantic_intake.py`
 - `scripts/run_api_service.py`
 - `scripts/run_existential_agents.py`
+- `scripts/run_hardening.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
 is being reported. They do not bypass the terminal contract.
