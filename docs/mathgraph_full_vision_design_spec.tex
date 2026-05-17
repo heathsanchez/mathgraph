@@ -270,6 +270,15 @@ Fresh-clone usability, read-only replay, and successful test execution do not
 promote truth; live verifier execution remains opt-in, and only explicit
 boundary evidence may cross into terminal proof.
 
+\section{Mathlib Micro-Subset Ingestion}
+Mathlib micro-subset ingestion uses a local allowlisted manifest in either
+synthetic fixture mode or external local-project mode. It diagnoses the local
+environment, extracts module paths, declarations, imports, and reference
+dependency edges, runs the local verifier boundary only when execution is
+explicitly allowed, emits dependency graphs and Lawbook review/query replay
+artifacts, and preserves the rule that extraction alone is not proof. The pilot
+performs no downloads or package-manager operations by default.
+
 \section{Implementation Roadmap}
 \begin{longtable}{ll}
 \toprule
@@ -310,6 +319,7 @@ Post-M11+ & Rich Verifier Fixtures and Replay\\
 Post-M11+ & Verified Corpus Micro-Ingestion\\
 Post-M11+ & Lean Project Micro-Subset Ingestion\\
 Post-M11+ & CLI Import-Path Hardening and Colab Test Drive Script\\
+Post-M11+ & Mathlib Micro-Subset Ingestion\\
 \midrule
 Future & Mathlib micro-subset pilot, trusted importer policy for pinned external corpora, larger fixture-driven release gates, persistent Lawbook storage workflow, richer dependency extraction, package/release workflow\\
 \bottomrule

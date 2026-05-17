@@ -80,6 +80,7 @@ from mathgraph.e2e_testdrive import E2ETestDriveStep,E2ETestDriveReport,E2ETestD
 from mathgraph.verifier_fixtures import VerifierFixture,VerifierFixtureResult,VerifierFixtureSuite,VerifierFixtureSuiteResult
 from mathgraph.verified_corpus import VerifiedCorpusManifest,VerifiedCorpusFile,VerifiedCorpusEntry,VerifiedCorpusDependencyEdge,VerifiedCorpusIngestionReport,VerifiedCorpusEntryStatus
 from mathgraph.lean_project_subset import LeanProjectManifest,LeanProjectFile,LeanProjectEntry,LeanProjectDependencyEdge,LeanProjectIngestionReport,LeanProjectEntryStatus
+from mathgraph.mathlib_micro_subset import MathlibMicroManifest,MathlibEnvironmentReport,MathlibMicroFile,MathlibMicroEntry,MathlibMicroDependencyEdge,MathlibMicroIngestionReport,MathlibMicroEntryStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -311,6 +312,12 @@ def check_roadmap_alignment(
     lean_project_entries: Sequence[LeanProjectEntry] = (),
     lean_project_dependency_edges: Sequence[LeanProjectDependencyEdge] = (),
     lean_project_reports: Sequence[LeanProjectIngestionReport] = (),
+    mathlib_micro_manifests: Sequence[MathlibMicroManifest] = (),
+    mathlib_environment_reports: Sequence[MathlibEnvironmentReport] = (),
+    mathlib_micro_files: Sequence[MathlibMicroFile] = (),
+    mathlib_micro_entries: Sequence[MathlibMicroEntry] = (),
+    mathlib_micro_dependency_edges: Sequence[MathlibMicroDependencyEdge] = (),
+    mathlib_micro_reports: Sequence[MathlibMicroIngestionReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -362,7 +369,7 @@ def check_roadmap_alignment(
     e2e_step_data=list(e2e_testdrive_steps); e2e_report_data=list(e2e_testdrive_reports)
     verifier_fixture_data=list(verifier_fixtures); verifier_fixture_result_data=list(verifier_fixture_results); verifier_fixture_suite_data=list(verifier_fixture_suites); verifier_fixture_suite_result_data=list(verifier_fixture_suite_results)
     verified_corpus_manifest_data=list(verified_corpus_manifests); verified_corpus_file_data=list(verified_corpus_files); verified_corpus_entry_data=list(verified_corpus_entries); verified_corpus_edge_data=list(verified_corpus_dependency_edges); verified_corpus_report_data=list(verified_corpus_reports)
-    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports)
+    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports); mathlib_manifest_data=list(mathlib_micro_manifests); mathlib_env_data=list(mathlib_environment_reports); mathlib_file_data=list(mathlib_micro_files); mathlib_entry_data=list(mathlib_micro_entries); mathlib_edge_data=list(mathlib_micro_dependency_edges); mathlib_report_data=list(mathlib_micro_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -399,6 +406,7 @@ def check_roadmap_alignment(
     _check_verifier_fixtures(verifier_fixture_data,verifier_fixture_result_data,verifier_fixture_suite_data,verifier_fixture_suite_result_data,findings)
     _check_verified_corpus(verified_corpus_manifest_data,verified_corpus_file_data,verified_corpus_entry_data,verified_corpus_edge_data,verified_corpus_report_data,findings)
     _check_lean_project_subset(lean_project_manifest_data,lean_project_file_data,lean_project_entry_data,lean_project_edge_data,lean_project_report_data,findings)
+    _check_mathlib_micro_subset(mathlib_manifest_data,mathlib_env_data,mathlib_file_data,mathlib_entry_data,mathlib_edge_data,mathlib_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -2113,6 +2121,22 @@ def _check_lean_project_subset(manifests, files, entries, edges, reports, findin
             findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_OK_WITH_CRITICAL",f"Lean project report {r.report_id} hides criticals.","Report status must reflect project failures."))
         if r.lawbook_replay_summary.get("known_skip_total",0) and not r.lawbook_replay_summary.get("accepted_total",0):
             findings.append(RoadmapAlignmentFinding("critical","LEAN_PROJECT_SKIP_WITHOUT_ACCEPTANCE",f"Lean project report {r.report_id} has known skip without acceptance.","Known skip requires accepted in-memory review."))
+
+def _check_mathlib_micro_subset(manifests, envs, files, entries, edges, reports, findings):
+    for x in list(manifests)+[r.manifest for r in reports if r.manifest]:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MICRO_MANIFEST_NON_ADVISORY",f"Mathlib manifest {x.manifest_id} is non-advisory.","Manifest metadata is not proof."))
+    for x in list(envs)+[r.environment_report for r in reports if r.environment_report]:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","MATHLIB_ENVIRONMENT_NON_ADVISORY",f"Mathlib environment {x.environment_id} is non-advisory.","Environment readiness is not proof."))
+    for x in list(files)+[f for r in reports for f in r.files]:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MICRO_FILE_NON_ADVISORY",f"Mathlib file {x.file_id} is non-advisory.","Extraction remains advisory."))
+    for x in list(edges)+[e for r in reports for e in r.dependency_edges]:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MICRO_EDGE_NON_ADVISORY",f"Mathlib edge {x.edge_id} is non-advisory.","Graphs are advisory metadata."))
+    for x in list(entries)+[e for r in reports for e in r.entries]:
+        if x.status==MathlibMicroEntryStatus.VERIFIED_BY_LOCAL_VERIFIER and not x.has_boundary_evidence(): findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MICRO_VERIFIED_WITHOUT_BOUNDARY",f"Mathlib entry {x.entry_id} is verified without boundary evidence.","Require verifier evidence."))
+        if x.has_boundary_evidence() and x.failure_kind.value!="NONE": findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MICRO_FAILED_ENTRY_VERIFIED",f"Mathlib entry {x.entry_id} carries failure and proof evidence.","Reject unsafe and failed entries."))
+    for r in reports:
+        if r.ok() and r.critical_count(): findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MICRO_OK_WITH_CRITICAL",f"Mathlib report {r.report_id} hides criticals.","Report status must reflect failures."))
+        if r.lawbook_replay_summary.get("known_skip_total",0) and not r.lawbook_replay_summary.get("accepted_total",0): findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MICRO_SKIP_WITHOUT_ACCEPTANCE",f"Mathlib report {r.report_id} has known skip without acceptance.","Known skip requires accepted review."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

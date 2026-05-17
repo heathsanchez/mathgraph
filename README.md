@@ -171,6 +171,19 @@ expected-missing, and import-failure entries, emit advisory dependency graphs
 with import and reference edges, and optionally replay Lawbook review/query in
 memory. Module and dependency extraction are advisory metadata, not proof.
 
+## Mathlib Micro-Subset Pilot
+
+MathGraph can now ingest a tiny local Mathlib-style subset through an
+allowlisted manifest, extract module paths, declarations, imports, and
+declaration-reference dependencies, run local verifier checks only when
+explicitly allowed, produce boundary-backed entries only for verified expected
+declarations, reject unsafe, expected-missing, and import-failure entries, emit
+advisory dependency graphs, and optionally replay Lawbook review/query in
+memory.
+
+The built-in fixture is synthetic and local. External Mathlib mode is
+local-path-only and performs no downloads or package-manager operations.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -213,8 +226,7 @@ CLI success is a usability signal, not proof of arbitrary claims.
 
 ## Current Status
 
-Implemented milestones run through CLI Import-Path Hardening and Colab Test
-Drive Script. See
+Implemented milestones run through Mathlib Micro-Subset Pilot. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
@@ -222,11 +234,11 @@ for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 
 ## Future Work
 
-- Mathlib micro-subset pilot
+- real local Mathlib allowlist pilot
 - trusted importer policy for pinned external corpora
+- Lake-aware build plan without network
 - larger fixture-driven release gates
 - persistent Lawbook storage workflow
-- richer dependency extraction
 - package/release workflow
 
 MathGraph should not scale by becoming bigger. It should scale by making every

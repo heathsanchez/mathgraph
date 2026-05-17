@@ -71,14 +71,15 @@ Existential Agent Ecology
 36. Verified Corpus Micro-Ingestion
 37. Lean Project Micro-Subset Pilot
 38. CLI Import-Path Hardening + Colab Test Drive Script
+39. Mathlib Micro-Subset Pilot
 
 ## Future Work
 
-- Mathlib micro-subset pilot
+- real local Mathlib allowlist pilot
 - trusted importer policy for pinned external corpora
+- Lake-aware build plan without network
 - larger fixture-driven release gates
 - persistent Lawbook storage workflow
-- richer dependency extraction
 - package/release workflow
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries

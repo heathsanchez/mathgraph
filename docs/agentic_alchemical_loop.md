@@ -40,6 +40,11 @@ setup: public scripts bootstrap the repository root, and the read-only
 Colab/local test drive replays the verifier, corpus, project, hardening, and
 alignment path while leaving truth promotion to the same explicit boundaries.
 
+Mathlib micro-subset ingestion is the first rehearsal for proof-library scale.
+It treats a proof library as structured memory only after the verifier or
+trusted-import boundary, while declarations and dependency graphs remain
+advisory.
+
 ## API Service
 
 The API service is the outer membrane of MathGraph. It lets clients submit text,
