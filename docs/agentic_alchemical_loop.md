@@ -408,6 +408,14 @@ They prevent typed projection, role objects, and analogies from jumping directly
 into truth by making required verifier, trusted-importer, finite-validator, or
 chain-audit boundaries explicit.
 
+## Verifier Execution
+
+Verifier execution is the first point where MathGraph may pass from advisory
+artifact to boundary evidence. It is guarded by explicit execution flags,
+command contracts, unsafe-marker rejection, and alignment checks. The test drive
+exists to prove that advisory layers remain advisory and that only the verifier
+creates boundary-backed truth.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

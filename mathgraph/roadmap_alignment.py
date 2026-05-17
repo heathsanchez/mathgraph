@@ -75,6 +75,8 @@ from mathgraph.semantic_intake import SemanticSource,SemanticClaimSegment,Semant
 from mathgraph.api_service import ApiRequest,ApiResponse,ApiRouteResult,ApiHealth,ApiAuditResult,ApiServiceState,ApiTruthStatus,ApiRoute,ApiResponseStatus
 from mathgraph.existential_agents import ExistentialAgent,AgentMortalityPolicy,AgentResourceAccount,AgentWound,AgentValueProfile,AgentNarrative,HeldInChoraRecord,AgentLineageRecord,AgentDaemon,AgentEcologyEvent,AgentEcologyReport,AgentEcologyReportStatus
 from mathgraph.hardening import HardeningFinding,HardeningScenario,HardeningCliResult,HardeningReplayManifest,HardeningReport,HardeningCheckStatus
+from mathgraph.verifier_execution import VerifierExecutable,VerifierCommandContract,VerifierSafetyFinding,VerifierExecutionRequest,VerifierExecutionResult,VerifierBoundaryEvidence,VerifierExecutionReport
+from mathgraph.e2e_testdrive import E2ETestDriveStep,E2ETestDriveReport,E2ETestDriveMode
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -283,6 +285,15 @@ def check_roadmap_alignment(
     hardening_cli_results: Sequence[HardeningCliResult] = (),
     hardening_replay_manifests: Sequence[HardeningReplayManifest] = (),
     hardening_reports: Sequence[HardeningReport] = (),
+    verifier_executables: Sequence[VerifierExecutable] = (),
+    verifier_command_contracts: Sequence[VerifierCommandContract] = (),
+    verifier_safety_findings: Sequence[VerifierSafetyFinding] = (),
+    verifier_execution_requests: Sequence[VerifierExecutionRequest] = (),
+    verifier_execution_results: Sequence[VerifierExecutionResult] = (),
+    verifier_boundary_evidence: Sequence[VerifierBoundaryEvidence] = (),
+    verifier_execution_reports: Sequence[VerifierExecutionReport] = (),
+    e2e_testdrive_steps: Sequence[E2ETestDriveStep] = (),
+    e2e_testdrive_reports: Sequence[E2ETestDriveReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -330,6 +341,8 @@ def check_roadmap_alignment(
     api_request_data=list(api_requests); api_response_data=list(api_responses); api_result_data=list(api_route_results); api_health_data=list(api_health); api_audit_data=list(api_audit_results); api_state_data=list(api_service_states)
     existential_agent_data=list(existential_agents); agent_policy_data=list(agent_mortality_policies); agent_resource_data=list(agent_resource_accounts); agent_wound_data=list(agent_wounds); agent_value_data=list(agent_value_profiles); agent_narrative_data=list(agent_narratives); agent_chora_data=list(held_in_chora_records); agent_lineage_data=list(agent_lineage_records); agent_daemon_data=list(agent_daemons); agent_event_data=list(agent_ecology_events); agent_report_data=list(agent_ecology_reports)
     hardening_finding_data=list(hardening_findings); hardening_scenario_data=list(hardening_scenarios); hardening_cli_data=list(hardening_cli_results); hardening_manifest_data=list(hardening_replay_manifests); hardening_report_data=list(hardening_reports)
+    verifier_executable_data=list(verifier_executables); verifier_contract_data=list(verifier_command_contracts); verifier_safety_data=list(verifier_safety_findings); verifier_request_data=list(verifier_execution_requests); verifier_result_data=list(verifier_execution_results); verifier_evidence_data=list(verifier_boundary_evidence); verifier_report_data=list(verifier_execution_reports)
+    e2e_step_data=list(e2e_testdrive_steps); e2e_report_data=list(e2e_testdrive_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -361,6 +374,8 @@ def check_roadmap_alignment(
     _check_api_surface(api_request_data,api_response_data,api_result_data,api_health_data,api_audit_data,api_state_data,findings)
     _check_existential_agents(existential_agent_data,agent_policy_data,agent_resource_data,agent_wound_data,agent_value_data,agent_narrative_data,agent_chora_data,agent_lineage_data,agent_daemon_data,agent_event_data,agent_report_data,findings)
     _check_hardening(hardening_finding_data,hardening_scenario_data,hardening_cli_data,hardening_manifest_data,hardening_report_data,findings)
+    _check_verifier_execution(verifier_contract_data,verifier_result_data,verifier_evidence_data,verifier_report_data,findings)
+    _check_e2e_testdrive(e2e_step_data,e2e_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -496,6 +511,9 @@ def check_roadmap_alignment(
         "agent_wound_count": len(agent_wound_data)+sum(len(r.wounds) for r in agent_report_data),
         "hardening_report_count": len(hardening_report_data),
         "hardening_scenario_count": len(hardening_scenario_data)+sum(len(r.scenarios) for r in hardening_report_data),
+        "verifier_execution_report_count": len(verifier_report_data),
+        "verifier_boundary_evidence_count": len(verifier_evidence_data)+sum(len(r.boundary_evidence) for r in verifier_report_data),
+        "e2e_testdrive_report_count": len(e2e_report_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -1989,6 +2007,31 @@ def _check_hardening(hfindings, scenarios, cli_results, manifests, reports, find
     for r in reports:
         if r.ok() and (r.critical_count() or r.fail_count()):
             findings.append(RoadmapAlignmentFinding("critical","HARDENING_OK_WITH_CRITICAL",f"Hardening report {r.report_id} hides failures.","Report status must reflect failures."))
+
+
+def _check_verifier_execution(contracts, results, evidence, reports, findings):
+    for c in list(contracts)+[c for r in reports for c in r.contracts]:
+        if c.allow_shell or c.allow_network:
+            findings.append(RoadmapAlignmentFinding("critical","VERIFIER_UNSAFE_CONTRACT",f"Verifier contract {c.contract_id} permits shell or network.","Keep verifier execution local and tokenized."))
+    for r in list(results)+[x for rep in reports for x in rep.results]:
+        if r.verifier_boundary_crossed and not r.has_boundary_evidence():
+            findings.append(RoadmapAlignmentFinding("critical","VERIFIER_RESULT_BAD_BOUNDARY",f"Verifier result {r.result_id} claims incomplete boundary evidence.","Require executed success plus certificate and evidence."))
+        if r.unsafe_markers and r.has_boundary_evidence():
+            findings.append(RoadmapAlignmentFinding("critical","VERIFIER_UNSAFE_MARKER_AS_PROOF",f"Verifier result {r.result_id} promotes unsafe proof text.","Reject placeholders at the boundary."))
+    for e in list(evidence)+[x for rep in reports for x in rep.boundary_evidence]:
+        if not e.is_valid_boundary_evidence():
+            findings.append(RoadmapAlignmentFinding("critical","VERIFIER_INVALID_EVIDENCE",f"Verifier evidence {e.evidence_id} is invalid.","Only valid evidence may report terminal truth."))
+
+
+def _check_e2e_testdrive(steps, reports, findings):
+    for s in list(steps)+[s for r in reports for s in r.steps]:
+        if not s.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","E2E_STEP_NON_ADVISORY",f"E2E step {s.step_id} is non-advisory.","Keep the test drive advisory except inherited evidence."))
+    for r in reports:
+        if r.mode==E2ETestDriveMode.ADVISORY_ONLY and r.boundary_evidence:
+            findings.append(RoadmapAlignmentFinding("critical","E2E_ADVISORY_BOUNDARY",f"E2E report {r.report_id} creates boundary evidence in advisory mode.","Advisory mode must not execute verifiers."))
+        if r.critical_count():
+            findings.append(RoadmapAlignmentFinding("critical","E2E_CRITICAL",f"E2E report {r.report_id} carries criticals.","Resolve end-to-end failures."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

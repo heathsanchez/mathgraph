@@ -66,15 +66,16 @@ Existential Agent Ecology
 31. M10 API Service Hardening
 32. M11 Existential Agent Ecology
 33. Post-M11 Hardening and Evaluation
+34. External Verifier Execution Adapter and Full End-to-End Test Drive
 
 ## Future Work
 
-- external verifier execution adapters behind strict flags
+- richer verifier adapters
 - richer domain adapters
-- larger-scale replay fixtures
-- performance profiling
+- larger replay fixtures
+- production packaging
 - publication demos
-- packaging and release workflow
+- release workflow
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries
 promote truth. Every other layer is advisory unless it reports already accepted

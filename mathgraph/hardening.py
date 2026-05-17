@@ -23,7 +23,7 @@ def _enum(n,v): return Enum(n,{x:x for x in v.split()},type=str)
 HardeningCheckKind=_enum("HardeningCheckKind","SERIALIZATION CLI_SMOKE API_CONTRACT END_TO_END_SMOKE DOC_SYNC PUBLIC_TERMS ROADMAP_ALIGNMENT TRUTH_BOUNDARY LAWBOOK_QUERY SEMANTIC_INTAKE FORMAL_WORLD_ADAPTER PROOF_SYSTEM_INTEGRATION PROCESS_MEMORY AGENT_ECOLOGY PROJECTION STRUCTURAL_MEMORY PERFORMANCE REPLAY_MANIFEST UNKNOWN")
 HardeningCheckStatus=_enum("HardeningCheckStatus","PASS WARN FAIL SKIP ERROR UNKNOWN")
 HardeningSeverity=_enum("HardeningSeverity","INFO WARNING CRITICAL UNKNOWN")
-HardeningScenarioKind=_enum("HardeningScenarioKind","EMPTY MAGMA_IMPLICATION NATURAL_LANGUAGE_THEOREM PROOF_ASSISTANT_TEXT LAWBOOK_KNOWN_SKIP API_SUBMIT AGENT_LIFECYCLE FULL_ADVISORY_PIPELINE UNKNOWN")
+HardeningScenarioKind=_enum("HardeningScenarioKind","EMPTY MAGMA_IMPLICATION NATURAL_LANGUAGE_THEOREM PROOF_ASSISTANT_TEXT LAWBOOK_KNOWN_SKIP API_SUBMIT AGENT_LIFECYCLE FULL_ADVISORY_PIPELINE LIVE_VERIFIER_DRY_RUN E2E_ADVISORY_TEST_DRIVE UNKNOWN")
 HardeningArtifactKind=_enum("HardeningArtifactKind","REPORT FINDING SCENARIO REPLAY_MANIFEST CLI_RESULT API_RESULT SERIALIZATION_RESULT DOC_SYNC_RESULT PUBLIC_TERM_RESULT PERFORMANCE_RESULT UNKNOWN")
 def _serial(cls,enums=()):
  def td(self):
@@ -121,6 +121,8 @@ def build_lawbook_known_skip_scenario(): return _scenario(HardeningScenarioKind.
 def build_api_submit_scenario(): return _scenario(HardeningScenarioKind.API_SUBMIT,"api submit","Theorem: every magma x*x=x.")
 def build_agent_lifecycle_scenario(): return _scenario(HardeningScenarioKind.AGENT_LIFECYCLE,"agent lifecycle")
 def build_full_advisory_pipeline_scenario(): return _scenario(HardeningScenarioKind.FULL_ADVISORY_PIPELINE,"full advisory pipeline","Theorem: every magma satisfying x*x=x has property P. Proof: clearly.")
+def build_live_verifier_dry_run_scenario(): return _scenario(HardeningScenarioKind.LIVE_VERIFIER_DRY_RUN,"live verifier dry run","theorem mathgraph_smoke_true : True := by\n  trivial")
+def build_e2e_advisory_test_drive_scenario(): return _scenario(HardeningScenarioKind.E2E_ADVISORY_TEST_DRIVE,"e2e advisory test drive")
 def run_hardening_scenario(s):
  objs=[]
  if s.scenario_kind==HardeningScenarioKind.EMPTY: objs=[]
@@ -132,13 +134,20 @@ def run_hardening_scenario(s):
  elif s.scenario_kind==HardeningScenarioKind.API_SUBMIT: objs=[MathGraphLocalClient().submit({"text":s.inputs["text"]})]
  elif s.scenario_kind==HardeningScenarioKind.AGENT_LIFECYCLE:
   a=create_existential_agent("Aurelia"); a.activate(); a,_=kill_agent(a); objs=[build_agent_ecology_report(agents=[a])]
+ elif s.scenario_kind==HardeningScenarioKind.LIVE_VERIFIER_DRY_RUN:
+  from mathgraph.verifier_execution import build_verifier_execution_report
+  objs=[build_verifier_execution_report([s.inputs["text"]],allow_execution=False)]
+ elif s.scenario_kind==HardeningScenarioKind.E2E_ADVISORY_TEST_DRIVE:
+  from mathgraph.e2e_testdrive import run_e2e_testdrive
+  objs=[run_e2e_testdrive(include_hardening=False)]
  s.produced_artifacts=[artifact_to_api_dict(x) for x in objs]
  s.findings=run_truth_boundary_checks(objs)
  s.status=HardeningCheckStatus.FAIL if any(f.severity==HardeningSeverity.CRITICAL for f in s.findings) else HardeningCheckStatus.WARN if s.findings else HardeningCheckStatus.PASS
  return s
-def run_default_hardening_scenarios(include_full_pipeline=True):
+def run_default_hardening_scenarios(include_full_pipeline=True,include_verifier_execution=True):
  xs=[build_empty_scenario(),build_magma_implication_scenario(),build_natural_language_theorem_scenario(),build_proof_assistant_text_scenario(),build_lawbook_known_skip_scenario(),build_api_submit_scenario(),build_agent_lifecycle_scenario()]
  if include_full_pipeline: xs.append(build_full_advisory_pipeline_scenario())
+ if include_verifier_execution: xs += [build_live_verifier_dry_run_scenario(),build_e2e_advisory_test_drive_scenario()]
  return [run_hardening_scenario(x) for x in xs]
 def _pass(kind,code,msg,meta=None): return HardeningFinding(make_hardening_finding_id(kind.value,code,msg),kind,HardeningCheckStatus.PASS,HardeningSeverity.INFO,code,msg,metadata=dict(meta or {}))
 def _crit(kind,code,msg,obj=None): return HardeningFinding(make_hardening_finding_id(kind.value,code,msg,obj),kind,HardeningCheckStatus.FAIL,HardeningSeverity.CRITICAL,code,msg,object_id=_s(obj))
@@ -163,7 +172,7 @@ def run_cli_smoke_checks(repo_root=None,*,include_slow=False,timeout_sec=20.0):
 BANNED_PUBLIC_TERMS=("logikey","isabelle/aot","isabelle/aot importer","aot importer","archive of formal proofs as architecture","aot kernel","aot formal world","aot methodology","aot as architecture")
 def run_doc_sync_checks(repo_root=None):
  root=Path(repo_root or Path(__file__).resolve().parents[1]); files={n:(root/n).read_text().lower() for n in ("README.md","docs/roadmap.md","docs/agentic_alchemical_loop.md","docs/mathgraph_full_vision_design_spec.tex")}; out=[]
- req={"README.md":("m11","existential agent ecology","api service","semantic","verifier"),"docs/roadmap.md":("m11","post-m11 hardening and evaluation","external verifier execution adapters"),"docs/agentic_alchemical_loop.md":("existential agents","api service","advisory"),"docs/mathgraph_full_vision_design_spec.tex":("existential agent ecology","api service hardening","semantic and natural-language","verifier")}
+ req={"README.md":("m11","existential agent ecology","api service","semantic","verifier"),"docs/roadmap.md":("m11","post-m11 hardening and evaluation","external verifier execution adapter"),"docs/agentic_alchemical_loop.md":("existential agents","api service","advisory"),"docs/mathgraph_full_vision_design_spec.tex":("existential agent ecology","api service hardening","semantic and natural-language","verifier")}
  for f,terms in req.items():
   missing=[t for t in terms if t not in files[f]]; out.append(_crit(HardeningCheckKind.DOC_SYNC,"DOC_SYNC_MISSING",f"{f}: {missing}") if missing else _pass(HardeningCheckKind.DOC_SYNC,"DOC_SYNC_OK",f))
  future=files["docs/roadmap.md"].split("## future work",1)[-1]
@@ -195,6 +204,8 @@ def run_truth_boundary_checks(objects):
   if d.get("verifier_boundary_crossed") and not (d.get("certificate_id") and d.get("terminal_form")): out.append(_crit(HardeningCheckKind.TRUTH_BOUNDARY,"BOUNDARY_INCOMPLETE","boundary incomplete",oid))
   if isinstance(o,ExistentialAgent) and o.is_dead() and (o.active or o.can_act()): out.append(_crit(HardeningCheckKind.AGENT_ECOLOGY,"DEAD_AGENT_ACTIVE","dead agent active",oid))
   if isinstance(o,AgentMortalityPolicy) and (o.resurrection_allowed or not o.clone_forbidden): out.append(_crit(HardeningCheckKind.AGENT_ECOLOGY,"ILLEGAL_MORTALITY","resurrection or clone allowed",oid))
+  if o.__class__.__name__=="VerifierExecutionResult" and d.get("verifier_boundary_crossed") and not getattr(o,"has_boundary_evidence",lambda:False)(): out.append(_crit(HardeningCheckKind.TRUTH_BOUNDARY,"VERIFIER_BAD_BOUNDARY","verifier result boundary incomplete",oid))
+  if o.__class__.__name__=="E2ETestDriveReport" and getattr(o,"critical_count",lambda:0)(): out.append(_crit(HardeningCheckKind.END_TO_END_SMOKE,"E2E_CRITICAL","e2e report critical",oid))
  return out
 def run_lightweight_performance_checks():
  start=time.perf_counter()
@@ -202,8 +213,8 @@ def run_lightweight_performance_checks():
  elapsed=time.perf_counter()-start
  return [_warn(HardeningCheckKind.PERFORMANCE,"PERFORMANCE_SLOW","lightweight pipeline slow",meta={"elapsed":elapsed})] if elapsed>5 else [_pass(HardeningCheckKind.PERFORMANCE,"PERFORMANCE_OK","lightweight pipeline ok",{"elapsed":elapsed,"average":elapsed/5})]
 def build_replay_manifest(run_id,scenarios,artifact_paths=(),command_records=(),repo_root=None): return HardeningReplayManifest(make_hardening_replay_manifest_id(run_id,[s.scenario_id for s in scenarios]),run_id,_now(),str(repo_root) if repo_root else None,sys.version.split()[0],tuple(s.scenario_id for s in scenarios),tuple(str(x) for x in artifact_paths),[dict(x) for x in command_records])
-def build_hardening_report(*,repo_root=None,include_cli=False,include_slow_cli=False,include_performance=True,include_full_pipeline=True,extra_objects=(),artifact_dir=None):
- root=Path(repo_root or Path(__file__).resolve().parents[1]); run_id=content_id("hardening-run",_now()); scenarios=run_default_hardening_scenarios(include_full_pipeline); cli=run_cli_smoke_checks(root,include_slow=include_slow_cli) if include_cli or include_slow_cli else []; finds=run_serialization_checks()+run_doc_sync_checks(root)+run_public_term_checks(root)+run_api_contract_checks()+run_truth_boundary_checks(extra_objects)
+def build_hardening_report(*,repo_root=None,include_cli=False,include_slow_cli=False,include_performance=True,include_full_pipeline=True,include_verifier_execution=True,extra_objects=(),artifact_dir=None):
+ root=Path(repo_root or Path(__file__).resolve().parents[1]); run_id=content_id("hardening-run",_now()); scenarios=run_default_hardening_scenarios(include_full_pipeline,include_verifier_execution); cli=run_cli_smoke_checks(root,include_slow=include_slow_cli) if include_cli or include_slow_cli else []; finds=run_serialization_checks()+run_doc_sync_checks(root)+run_public_term_checks(root)+run_api_contract_checks()+run_truth_boundary_checks(extra_objects)
  if include_performance: finds+=run_lightweight_performance_checks()
  paths=[]
  if artifact_dir:

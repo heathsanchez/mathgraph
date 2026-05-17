@@ -133,6 +133,17 @@ terminology hygiene, truth-boundary invariants, agent lifecycle invariants,
 lightweight performance checks, and replay manifests. Hardening artifacts are
 advisory and do not promote mathematical truth.
 
+## External Verifier Execution And End-to-End Test Drive
+
+MathGraph now has a strict local verifier execution adapter. Execution is
+disabled by default. When explicitly allowed, the adapter may run supported
+local proof-system checks under allowlisted commands, timeout, path, shell,
+network, and unsafe-marker constraints. Raw success text and return code are not
+enough. Boundary evidence is created only when a local verifier accepts a safe
+artifact under a valid command contract. The end-to-end test drive runs the
+architecture from semantic intake through API, agents, hardening, and optional
+verifier evidence.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -149,6 +160,8 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_api_service.py`
 - `scripts/run_existential_agents.py`
 - `scripts/run_hardening.py`
+- `scripts/run_verifier_execution.py`
+- `scripts/run_e2e_testdrive.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
 is being reported. They do not bypass the terminal contract.
@@ -163,11 +176,12 @@ for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 
 ## Future Work
 
-- production hardening
-- external verifier execution adapters
+- richer verifier adapters
 - richer domain adapters
-- larger-scale evaluation
-- documentation and publication polish
+- larger replay fixtures
+- production packaging
+- publication demos
+- release workflow
 
 MathGraph should not scale by becoming bigger. It should scale by making every
 verified thing reusable and every failure informative.

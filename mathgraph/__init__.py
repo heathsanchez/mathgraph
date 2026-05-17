@@ -921,6 +921,8 @@ from mathgraph.semantic_intake import *
 from mathgraph.api_service import *
 from mathgraph.existential_agents import *
 from mathgraph.hardening import *
+from mathgraph.verifier_execution import *
+from mathgraph.e2e_testdrive import *
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
 from mathgraph.outcome_dataset import (
@@ -1977,6 +1979,13 @@ __all__ = [
     "HardeningScenarioKind","HardeningArtifactKind","HardeningFinding",
     "HardeningScenario","HardeningCliResult","HardeningReplayManifest",
     "HardeningReport","build_hardening_report",
+    "VerifierSystemKind","VerifierExecutableStatus","VerifierExecutionMode",
+    "VerifierExecutionStatus","VerifierBoundaryStatus","VerifierSafetyFindingKind",
+    "VerifierEvidenceKind","VerifierExecutable","VerifierCommandContract",
+    "VerifierSafetyFinding","VerifierExecutionRequest","VerifierExecutionResult",
+    "VerifierBoundaryEvidence","VerifierExecutionReport","build_verifier_execution_report",
+    "E2ETestDriveMode","E2ETestDriveStatus","E2EStepKind",
+    "E2ETestDriveStep","E2ETestDriveReport","run_e2e_testdrive",
     "score_agent_experience",
     "score_alchemical_trace",
     "score_continuation_output",

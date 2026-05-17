@@ -21,12 +21,12 @@ from mathgraph.structural_analogy import build_structural_analogy_report
 from mathgraph.reason_compression import build_reason_compression_report
 from mathgraph.habit_rules import build_habit_formation_report
 def _enum(n,v): return Enum(n,{x:x for x in v.split()},type=str)
-ApiRoute=_enum("ApiRoute","HEALTH AUDIT QUERY SUBMIT SEMANTIC_INTAKE FORMAL_WORLD_ADAPTERS PROOF_SYSTEM_INTEGRATION SCHEDULE PROJECT EXPLAIN PROCESS_MEMORY DISCOVERY_VALUE LAWBOOK_ACCEPTANCE_REVIEW STRUCTURAL_IDENTITY HABITS REASONS STRUCTURES ROLES ANALOGIES UNKNOWN")
+ApiRoute=_enum("ApiRoute","HEALTH AUDIT QUERY SUBMIT SEMANTIC_INTAKE FORMAL_WORLD_ADAPTERS PROOF_SYSTEM_INTEGRATION VERIFIER_EXECUTION SCHEDULE PROJECT EXPLAIN PROCESS_MEMORY DISCOVERY_VALUE LAWBOOK_ACCEPTANCE_REVIEW STRUCTURAL_IDENTITY HABITS REASONS STRUCTURES ROLES ANALOGIES UNKNOWN")
 ApiRequestKind=_enum("ApiRequestKind","READ_ONLY ADVISORY_BUILD QUERY SUBMIT AUDIT SCHEDULE PROJECT EXPLAIN REVIEW UNKNOWN")
 ApiResponseStatus=_enum("ApiResponseStatus","OK ACCEPTED_ADVISORY FOUND NOT_FOUND AMBIGUOUS BAD_REQUEST UNSUPPORTED_ROUTE VALIDATION_ERROR HAS_WARNINGS HAS_CRITICALS INTERNAL_ERROR UNKNOWN")
 ApiTruthStatus=_enum("ApiTruthStatus","NO_CLAIM ADVISORY_ONLY ACCEPTED_MEMORY VERIFIED_PROOF FINITE_COUNTERMODEL NAMED_OBSTRUCTION BOUNDARY_EVIDENCE_PRESENT BOUNDARY_REQUIRED BOUNDARY_MISSING UNKNOWN")
 ApiSafetyLevel=_enum("ApiSafetyLevel","SAFE_READ_ONLY SAFE_ADVISORY SAFE_REVIEW_REQUIRED BLOCKED_UNSAFE BLOCKED_MUTATION BLOCKED_EXTERNAL_EXECUTION UNKNOWN")
-ApiArtifactKind=_enum("ApiArtifactKind","SEMANTIC_REPORT FORMAL_WORLD_ADAPTER_REPORT PROOF_SYSTEM_REPORT LAWBOOK_QUERY_REPORT CONTINUATION_OUTPUT CURRICULUM DISCOVERY_VALUE_REPORT PROCESS_MEMORY_REPORT PROJECTION_CANDIDATE PROOF_DIGESTION_TRACE VERIFIER_FEEDBACK REPAIR_TRACE STRUCTURE_REPORT ROLE_REPORT ANALOGY_REPORT HABIT_REPORT REASON_REPORT ALIEN UNKNOWN")
+ApiArtifactKind=_enum("ApiArtifactKind","SEMANTIC_REPORT FORMAL_WORLD_ADAPTER_REPORT PROOF_SYSTEM_REPORT VERIFIER_EXECUTION_REPORT LAWBOOK_QUERY_REPORT CONTINUATION_OUTPUT CURRICULUM DISCOVERY_VALUE_REPORT PROCESS_MEMORY_REPORT PROJECTION_CANDIDATE PROOF_DIGESTION_TRACE VERIFIER_FEEDBACK REPAIR_TRACE STRUCTURE_REPORT ROLE_REPORT ANALOGY_REPORT HABIT_REPORT REASON_REPORT ALIEN UNKNOWN")
 def now_iso(): return datetime.now(timezone.utc).isoformat()
 def _serial(cls,enums=()):
  def td(self):
@@ -113,7 +113,7 @@ def artifact_to_api_dict(o,artifact_kind=None):
  return {"artifact_kind":kind,"object_type":o.__class__.__name__,"data":d,"advisory":bool(d.get("advisory",True)),"truth_boundary":{k:(list(v) if isinstance(v,tuple) else v) for k,v in b.items() if k!="boundary_evidence"}}
 def _artifact_kind(o):
  n=o.__class__.__name__
- return {"SemanticIntakeReport":ApiArtifactKind.SEMANTIC_REPORT,"FormalWorldAdapterReport":ApiArtifactKind.FORMAL_WORLD_ADAPTER_REPORT,"ProofSystemIntegrationReport":ApiArtifactKind.PROOF_SYSTEM_REPORT,"ProcessMemoryReport":ApiArtifactKind.PROCESS_MEMORY_REPORT}.get(n,ApiArtifactKind.ALIEN)
+ return {"SemanticIntakeReport":ApiArtifactKind.SEMANTIC_REPORT,"FormalWorldAdapterReport":ApiArtifactKind.FORMAL_WORLD_ADAPTER_REPORT,"ProofSystemIntegrationReport":ApiArtifactKind.PROOF_SYSTEM_REPORT,"VerifierExecutionReport":ApiArtifactKind.VERIFIER_EXECUTION_REPORT,"ProcessMemoryReport":ApiArtifactKind.PROCESS_MEMORY_REPORT}.get(n,ApiArtifactKind.ALIEN)
 def route_result_from_artifacts(route,artifacts,status=ApiResponseStatus.ACCEPTED_ADVISORY,truth_status=ApiTruthStatus.ADVISORY_ONLY,safety=ApiSafetyLevel.SAFE_ADVISORY):
  wrapped=[artifact_to_api_dict(x) for x in artifacts]; b=extract_boundary_evidence_from_objects(artifacts)
  return ApiRouteResult(make_api_route_result_id(route.value,[w["object_type"] for w in wrapped]),route,status,truth_status,safety,wrapped,tuple(w["artifact_kind"] for w in wrapped),{"artifact_total":len(wrapped)},boundary_evidence=b["boundary_evidence"],verifier_boundary_crossed=b["verifier_boundary_crossed"],certificate_ids=b["certificate_ids"],terminal_forms=b["terminal_forms"])
@@ -138,6 +138,9 @@ def handle_formal_world_adapters(state,req):
  r=build_formal_world_adapter_report(api_payload_to_objects(req.payload)); return _resp(req,route_result_from_artifacts(req.route,[r],truth_status=ApiTruthStatus.BOUNDARY_REQUIRED))
 def handle_proof_system_integration(state,req):
  r=build_proof_system_integration_report(api_payload_to_objects(req.payload)); truth=ApiTruthStatus.BOUNDARY_EVIDENCE_PRESENT if r.boundary_evidence else ApiTruthStatus.BOUNDARY_REQUIRED; return _resp(req,route_result_from_artifacts(req.route,[r],truth_status=truth))
+def handle_verifier_execution(state,req):
+ from mathgraph.verifier_execution import build_verifier_execution_report
+ r=build_verifier_execution_report(api_payload_to_objects(req.payload),workspace_root=req.options.get("workspace_root"),allow_execution=bool(req.options.get("allow_execution",False))); truth=ApiTruthStatus.BOUNDARY_EVIDENCE_PRESENT if r.boundary_evidence else ApiTruthStatus.BOUNDARY_REQUIRED; return _resp(req,route_result_from_artifacts(req.route,[r,*r.boundary_evidence],truth_status=truth,safety=ApiSafetyLevel.SAFE_REVIEW_REQUIRED if not r.boundary_evidence else ApiSafetyLevel.SAFE_ADVISORY))
 def handle_submit(state,req):
  sem=build_semantic_intake_report(api_payload_to_objects(req.payload)); fw=build_formal_world_adapter_report(semantic_report_to_formal_world_inputs(sem)); ps=build_proof_system_integration_report(semantic_report_to_proof_system_inputs(sem)); cur=semantic_report_to_curriculum(sem); return _resp(req,route_result_from_artifacts(req.route,[sem,fw,ps,cur],truth_status=ApiTruthStatus.BOUNDARY_REQUIRED,safety=ApiSafetyLevel.SAFE_REVIEW_REQUIRED))
 def _generic(req,artifacts): return _resp(req,route_result_from_artifacts(req.route,artifacts))
@@ -158,7 +161,7 @@ def handle_reasons(state,req): return _generic(req,[build_reason_compression_rep
 def handle_structures(state,req): return _generic(req,[build_structure_registry_report(_objects(req))])
 def handle_roles(state,req): return _generic(req,[build_role_object_report(_objects(req))])
 def handle_analogies(state,req): return _generic(req,[build_structural_analogy_report(_objects(req))])
-_HANDLERS={ApiRoute.HEALTH:handle_health,ApiRoute.AUDIT:handle_audit,ApiRoute.QUERY:handle_query,ApiRoute.SUBMIT:handle_submit,ApiRoute.SEMANTIC_INTAKE:handle_semantic_intake,ApiRoute.FORMAL_WORLD_ADAPTERS:handle_formal_world_adapters,ApiRoute.PROOF_SYSTEM_INTEGRATION:handle_proof_system_integration,ApiRoute.SCHEDULE:handle_schedule,ApiRoute.PROJECT:handle_project,ApiRoute.EXPLAIN:handle_explain,ApiRoute.PROCESS_MEMORY:handle_process_memory,ApiRoute.DISCOVERY_VALUE:handle_discovery_value,ApiRoute.LAWBOOK_ACCEPTANCE_REVIEW:handle_review,ApiRoute.STRUCTURAL_IDENTITY:handle_structural_identity,ApiRoute.HABITS:handle_habits,ApiRoute.REASONS:handle_reasons,ApiRoute.STRUCTURES:handle_structures,ApiRoute.ROLES:handle_roles,ApiRoute.ANALOGIES:handle_analogies}
+_HANDLERS={ApiRoute.HEALTH:handle_health,ApiRoute.AUDIT:handle_audit,ApiRoute.QUERY:handle_query,ApiRoute.SUBMIT:handle_submit,ApiRoute.SEMANTIC_INTAKE:handle_semantic_intake,ApiRoute.FORMAL_WORLD_ADAPTERS:handle_formal_world_adapters,ApiRoute.PROOF_SYSTEM_INTEGRATION:handle_proof_system_integration,ApiRoute.VERIFIER_EXECUTION:handle_verifier_execution,ApiRoute.SCHEDULE:handle_schedule,ApiRoute.PROJECT:handle_project,ApiRoute.EXPLAIN:handle_explain,ApiRoute.PROCESS_MEMORY:handle_process_memory,ApiRoute.DISCOVERY_VALUE:handle_discovery_value,ApiRoute.LAWBOOK_ACCEPTANCE_REVIEW:handle_review,ApiRoute.STRUCTURAL_IDENTITY:handle_structural_identity,ApiRoute.HABITS:handle_habits,ApiRoute.REASONS:handle_reasons,ApiRoute.STRUCTURES:handle_structures,ApiRoute.ROLES:handle_roles,ApiRoute.ANALOGIES:handle_analogies}
 class MathGraphLocalClient:
  def __init__(self,state=None): self.state=state or ApiServiceState()
  def request(self,r):
@@ -168,7 +171,7 @@ class MathGraphLocalClient:
  def health(self): return self._call(ApiRoute.HEALTH)
  def audit(self,payload=None,options=None): return self._call(ApiRoute.AUDIT,payload,options)
 def _method(route): return lambda self,payload,options=None:self._call(route,payload,options)
-for _n,_r in [("query",ApiRoute.QUERY),("submit",ApiRoute.SUBMIT),("semantic_intake",ApiRoute.SEMANTIC_INTAKE),("formal_world_adapters",ApiRoute.FORMAL_WORLD_ADAPTERS),("proof_system_integration",ApiRoute.PROOF_SYSTEM_INTEGRATION),("schedule",ApiRoute.SCHEDULE),("project",ApiRoute.PROJECT),("explain",ApiRoute.EXPLAIN),("process_memory",ApiRoute.PROCESS_MEMORY),("discovery_value",ApiRoute.DISCOVERY_VALUE),("lawbook_acceptance_review",ApiRoute.LAWBOOK_ACCEPTANCE_REVIEW),("structural_identity",ApiRoute.STRUCTURAL_IDENTITY),("habits",ApiRoute.HABITS),("reasons",ApiRoute.REASONS),("structures",ApiRoute.STRUCTURES),("roles",ApiRoute.ROLES),("analogies",ApiRoute.ANALOGIES)]: setattr(MathGraphLocalClient,_n,_method(_r))
+for _n,_r in [("query",ApiRoute.QUERY),("submit",ApiRoute.SUBMIT),("semantic_intake",ApiRoute.SEMANTIC_INTAKE),("formal_world_adapters",ApiRoute.FORMAL_WORLD_ADAPTERS),("proof_system_integration",ApiRoute.PROOF_SYSTEM_INTEGRATION),("verifier_execution",ApiRoute.VERIFIER_EXECUTION),("schedule",ApiRoute.SCHEDULE),("project",ApiRoute.PROJECT),("explain",ApiRoute.EXPLAIN),("process_memory",ApiRoute.PROCESS_MEMORY),("discovery_value",ApiRoute.DISCOVERY_VALUE),("lawbook_acceptance_review",ApiRoute.LAWBOOK_ACCEPTANCE_REVIEW),("structural_identity",ApiRoute.STRUCTURAL_IDENTITY),("habits",ApiRoute.HABITS),("reasons",ApiRoute.REASONS),("structures",ApiRoute.STRUCTURES),("roles",ApiRoute.ROLES),("analogies",ApiRoute.ANALOGIES)]: setattr(MathGraphLocalClient,_n,_method(_r))
 def audit_api_request(x): return [_f("CRITICAL","API_REQUEST_NON_ADVISORY","api request non-advisory",x.request_id)] if not x.advisory else []
 def audit_api_route_result(x):
  out=[]
@@ -200,7 +203,7 @@ class MathGraphRequestHandler(BaseHTTPRequestHandler):
   except Exception as e:
    self._send(ApiResponse(make_api_response_id("error"),None,ApiRoute.UNKNOWN,ApiResponseStatus.BAD_REQUEST,errors=(str(e),)))
  def log_message(self,*a): return
-def _path_route(p): return {"/audit":ApiRoute.AUDIT,"/query":ApiRoute.QUERY,"/submit":ApiRoute.SUBMIT,"/semantic-intake":ApiRoute.SEMANTIC_INTAKE,"/formal-world-adapters":ApiRoute.FORMAL_WORLD_ADAPTERS,"/proof-system-integration":ApiRoute.PROOF_SYSTEM_INTEGRATION,"/schedule":ApiRoute.SCHEDULE,"/project":ApiRoute.PROJECT,"/explain":ApiRoute.EXPLAIN,"/process-memory":ApiRoute.PROCESS_MEMORY,"/discovery-value":ApiRoute.DISCOVERY_VALUE}.get(p,ApiRoute.UNKNOWN)
+def _path_route(p): return {"/audit":ApiRoute.AUDIT,"/query":ApiRoute.QUERY,"/submit":ApiRoute.SUBMIT,"/semantic-intake":ApiRoute.SEMANTIC_INTAKE,"/formal-world-adapters":ApiRoute.FORMAL_WORLD_ADAPTERS,"/proof-system-integration":ApiRoute.PROOF_SYSTEM_INTEGRATION,"/verifier-execution":ApiRoute.VERIFIER_EXECUTION,"/schedule":ApiRoute.SCHEDULE,"/project":ApiRoute.PROJECT,"/explain":ApiRoute.EXPLAIN,"/process-memory":ApiRoute.PROCESS_MEMORY,"/discovery-value":ApiRoute.DISCOVERY_VALUE}.get(p,ApiRoute.UNKNOWN)
 def serve_localhost(host="127.0.0.1",port=8765,state=None):
  if host not in {"127.0.0.1","localhost"}: raise ValueError("localhost binding required")
  MathGraphRequestHandler.client=MathGraphLocalClient(state)
