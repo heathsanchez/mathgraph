@@ -14,7 +14,7 @@ from mathgraph.api_service import ApiRequest,ApiRoute,ApiResponseStatus,ApiSafet
 from mathgraph.certificates import TerminalForm
 from mathgraph.discovery_value import DiscoveryValueObjectKind,DiscoveryValueScore,DiscoveryValueSignal,DiscoveryValueSignalKind
 from mathgraph.hashing import content_id
-from mathgraph.lawbook import LawbookEntry,LawbookEntryKind,LawbookEntryStatus,make_lawbook_entry_id
+from mathgraph.lawbook import LawbookAcceptanceBoundary,LawbookEntry,LawbookEntryKind,LawbookEntryStatus,make_lawbook_entry_id
 from mathgraph.process_memory import ProcessContextItem,ProcessContextKind,ProcessContextRole,ProcessEpisodeRecord,ProcessEpisodeStatus,make_process_episode_id
 from mathgraph.proof_system_integration import ProofArtifactManifest,ProofSystemIntegrationReport
 from mathgraph.verifier_feedback import FlawSeverity,RepairLoopTrace,VerifierFeedback,VerifierFeedbackStatus,make_verifier_feedback_id
@@ -26,6 +26,7 @@ VerifierExecutionStatus=_enum("VerifierExecutionStatus","NOT_RUN SKIPPED SUCCESS
 VerifierBoundaryStatus=_enum("VerifierBoundaryStatus","NO_BOUNDARY BOUNDARY_EVIDENCE_CREATED BOUNDARY_EVIDENCE_REJECTED BOUNDARY_REQUIRED BOUNDARY_BLOCKED UNKNOWN")
 VerifierSafetyFindingKind=_enum("VerifierSafetyFindingKind","SHELL_FORBIDDEN COMMAND_NOT_ALLOWLISTED EXECUTION_NOT_ALLOWED PATH_OUTSIDE_WORKSPACE FILE_TOO_LARGE UNSAFE_PLACEHOLDER UNSAFE_AXIOM UNSAFE_ADMIT UNSAFE_SORRY TIMEOUT_TOO_LARGE NETWORK_FORBIDDEN MISSING_EXECUTABLE RAW_SUCCESS_NOT_ENOUGH RETURN_CODE_NOT_ENOUGH UNKNOWN")
 VerifierEvidenceKind=_enum("VerifierEvidenceKind","LOCAL_VERIFIER_ACCEPTED TRUSTED_IMPORT FINITE_VALIDATION CHAIN_AUDIT NONE UNKNOWN")
+VerifierFailureKind=_enum("VerifierFailureKind","NONE MISSING_EXECUTABLE SAFETY_BLOCKED UNSAFE_MARKER EXPECTED_THEOREM_MISSING TYPE_ERROR IMPORT_ERROR TIMEOUT NONZERO_EXIT EXECUTION_DISABLED UNKNOWN")
 def _serial(cls,enums=()):
  def td(self):
   d=dict(self.__dict__)
@@ -69,11 +70,11 @@ class VerifierExecutionRequest:
  def from_dict(c,d): return c(str(d["request_id"]),VerifierCommandContract.from_dict(d["contract"]),d.get("source_artifact_id"),d.get("proof_system_report_id"),str(d.get("created_at",_now())),dict(d.get("metadata",{})),bool(d.get("advisory",True)))
 @dataclass
 class VerifierExecutionResult:
- result_id:str; request_id:str; system_kind:VerifierSystemKind; status:VerifierExecutionStatus=VerifierExecutionStatus.NOT_RUN; returncode:int|None=None; stdout_excerpt:str=""; stderr_excerpt:str=""; duration_sec:float=0.0; timed_out:bool=False; executed:bool=False; safety_findings:tuple[VerifierSafetyFinding,...]=(); parsed_theorem_names:tuple[str,...]=(); unsafe_markers:tuple[str,...]=(); boundary_status:VerifierBoundaryStatus=VerifierBoundaryStatus.NO_BOUNDARY; boundary_evidence_id:str|None=None; certificate_id:str|None=None; terminal_form:str|None=None; verifier_boundary_crossed:bool=False; metadata:dict[str,Any]=field(default_factory=dict); advisory:bool=True
+ result_id:str; request_id:str; system_kind:VerifierSystemKind; status:VerifierExecutionStatus=VerifierExecutionStatus.NOT_RUN; returncode:int|None=None; stdout_excerpt:str=""; stderr_excerpt:str=""; duration_sec:float=0.0; timed_out:bool=False; executed:bool=False; safety_findings:tuple[VerifierSafetyFinding,...]=(); parsed_theorem_names:tuple[str,...]=(); unsafe_markers:tuple[str,...]=(); boundary_status:VerifierBoundaryStatus=VerifierBoundaryStatus.NO_BOUNDARY; boundary_evidence_id:str|None=None; certificate_id:str|None=None; terminal_form:str|None=None; verifier_boundary_crossed:bool=False; failure_kind:VerifierFailureKind=VerifierFailureKind.NONE; metadata:dict[str,Any]=field(default_factory=dict); advisory:bool=True
  def has_boundary_evidence(self): return bool(self.verifier_boundary_crossed and self.boundary_status==VerifierBoundaryStatus.BOUNDARY_EVIDENCE_CREATED and self.certificate_id and self.terminal_form and self.boundary_evidence_id and self.status==VerifierExecutionStatus.SUCCESS and self.executed and not any(x.is_critical() for x in self.safety_findings) and not self.unsafe_markers)
- def to_dict(self): return {**self.__dict__,"system_kind":self.system_kind.value,"status":self.status.value,"safety_findings":[x.to_dict() for x in self.safety_findings],"parsed_theorem_names":list(self.parsed_theorem_names),"unsafe_markers":list(self.unsafe_markers),"boundary_status":self.boundary_status.value}
+ def to_dict(self): return {**self.__dict__,"system_kind":self.system_kind.value,"status":self.status.value,"safety_findings":[x.to_dict() for x in self.safety_findings],"parsed_theorem_names":list(self.parsed_theorem_names),"unsafe_markers":list(self.unsafe_markers),"boundary_status":self.boundary_status.value,"failure_kind":self.failure_kind.value}
  @classmethod
- def from_dict(c,d): return c(str(d["result_id"]),str(d["request_id"]),VerifierSystemKind(str(d.get("system_kind","UNKNOWN"))),VerifierExecutionStatus(str(d.get("status","NOT_RUN"))),d.get("returncode"),str(d.get("stdout_excerpt","")),str(d.get("stderr_excerpt","")),float(d.get("duration_sec",0)),bool(d.get("timed_out",False)),bool(d.get("executed",False)),tuple(VerifierSafetyFinding.from_dict(x) for x in d.get("safety_findings",())),tuple(d.get("parsed_theorem_names",())),tuple(d.get("unsafe_markers",())),VerifierBoundaryStatus(str(d.get("boundary_status","NO_BOUNDARY"))),d.get("boundary_evidence_id"),d.get("certificate_id"),d.get("terminal_form"),bool(d.get("verifier_boundary_crossed",False)),dict(d.get("metadata",{})),bool(d.get("advisory",True)))
+ def from_dict(c,d): return c(str(d["result_id"]),str(d["request_id"]),VerifierSystemKind(str(d.get("system_kind","UNKNOWN"))),VerifierExecutionStatus(str(d.get("status","NOT_RUN"))),d.get("returncode"),str(d.get("stdout_excerpt","")),str(d.get("stderr_excerpt","")),float(d.get("duration_sec",0)),bool(d.get("timed_out",False)),bool(d.get("executed",False)),tuple(VerifierSafetyFinding.from_dict(x) for x in d.get("safety_findings",())),tuple(d.get("parsed_theorem_names",())),tuple(d.get("unsafe_markers",())),VerifierBoundaryStatus(str(d.get("boundary_status","NO_BOUNDARY"))),d.get("boundary_evidence_id"),d.get("certificate_id"),d.get("terminal_form"),bool(d.get("verifier_boundary_crossed",False)),VerifierFailureKind(str(d.get("failure_kind","NONE"))),dict(d.get("metadata",{})),bool(d.get("advisory",True)))
  def to_json(self): return _j(self.to_dict())
  @classmethod
  def from_json(c,t): return c.from_dict(json.loads(t))
@@ -162,32 +163,52 @@ def validate_verifier_command_contract(c,*,max_timeout_sec=60.0,max_file_bytes=1
  return out
 def execute_verifier_request(req,*,allow_execution=False,max_timeout_sec=60.0):
  c=req.contract; finds=validate_verifier_command_contract(c,max_timeout_sec=max_timeout_sec); crit=any(x.is_critical() for x in finds)
- if not allow_execution or not c.allow_execution: return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"blocked"),req.request_id,c.system_kind,VerifierExecutionStatus.BLOCKED,safety_findings=tuple(finds),boundary_status=VerifierBoundaryStatus.BOUNDARY_BLOCKED)
- if crit:return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"unsafe"),req.request_id,c.system_kind,VerifierExecutionStatus.BLOCKED,safety_findings=tuple(finds),boundary_status=VerifierBoundaryStatus.BOUNDARY_BLOCKED,unsafe_markers=tuple(x.finding_kind.value for x in finds if x.finding_kind.name.startswith("UNSAFE_")))
+ if not allow_execution or not c.allow_execution: return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"blocked"),req.request_id,c.system_kind,VerifierExecutionStatus.BLOCKED,safety_findings=tuple(finds),boundary_status=VerifierBoundaryStatus.BOUNDARY_BLOCKED,failure_kind=VerifierFailureKind.EXECUTION_DISABLED)
+ if crit:return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"unsafe"),req.request_id,c.system_kind,VerifierExecutionStatus.BLOCKED,safety_findings=tuple(finds),boundary_status=VerifierBoundaryStatus.BOUNDARY_BLOCKED,unsafe_markers=tuple(x.finding_kind.value for x in finds if x.finding_kind.name.startswith("UNSAFE_")),failure_kind=VerifierFailureKind.SAFETY_BLOCKED)
  exe=discover_verifier_executable(c.system_kind)
  if exe.status!=VerifierExecutableStatus.AVAILABLE:
-  miss=_finding(VerifierSafetyFindingKind.MISSING_EXECUTABLE,"warning","verifier executable missing",c); return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"missing"),req.request_id,c.system_kind,VerifierExecutionStatus.SKIPPED,safety_findings=tuple([*finds,miss]))
+  miss=_finding(VerifierSafetyFindingKind.MISSING_EXECUTABLE,"warning","verifier executable missing",c); return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"missing"),req.request_id,c.system_kind,VerifierExecutionStatus.SKIPPED,safety_findings=tuple([*finds,miss]),failure_kind=VerifierFailureKind.MISSING_EXECUTABLE)
  start=time.perf_counter()
  try:
   p=subprocess.run(list(c.argv),cwd=c.cwd,capture_output=True,text=True,timeout=min(c.timeout_sec,max_timeout_sec))
   raw={"returncode":p.returncode,"executed":True}; b,names,unsafe=parse_verifier_success(req,raw); st=VerifierExecutionStatus.SUCCESS if p.returncode==0 else VerifierExecutionStatus.FAILED
-  r=VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,p.returncode,p.stdout,p.stderr),req.request_id,c.system_kind,st,p.returncode,p.stdout[:400],p.stderr[:400],time.perf_counter()-start,False,True,tuple(finds),names,unsafe,b)
+  md={"expected_theorem_missing":bool(c.expected_theorem_names and not set(c.expected_theorem_names).issubset(names))}
+  r=VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,p.returncode,p.stdout,p.stderr),req.request_id,c.system_kind,st,p.returncode,p.stdout[:400],p.stderr[:400],time.perf_counter()-start,False,True,tuple(finds),names,unsafe,b,metadata=md)
+  r.failure_kind=classify_verifier_failure(r,p.stderr,p.stdout)
   if b==VerifierBoundaryStatus.BOUNDARY_EVIDENCE_CREATED:
    r.certificate_id=content_id("local-verifier-certificate",(c.input_text_hash,names)); r.terminal_form=TerminalForm.VERIFIED_PROOF.value; r.verifier_boundary_crossed=True; r.boundary_evidence_id=make_verifier_boundary_evidence_id(r.result_id)
   return r
- except subprocess.TimeoutExpired as ex: return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"timeout"),req.request_id,c.system_kind,VerifierExecutionStatus.TIMEOUT,stdout_excerpt=str(ex.stdout or "")[:400],stderr_excerpt=str(ex.stderr or "")[:400],duration_sec=time.perf_counter()-start,timed_out=True,executed=True,safety_findings=tuple(finds))
+ except subprocess.TimeoutExpired as ex: return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"timeout"),req.request_id,c.system_kind,VerifierExecutionStatus.TIMEOUT,stdout_excerpt=str(ex.stdout or "")[:400],stderr_excerpt=str(ex.stderr or "")[:400],duration_sec=time.perf_counter()-start,timed_out=True,executed=True,safety_findings=tuple(finds),failure_kind=VerifierFailureKind.TIMEOUT)
  except Exception as ex: return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"error"),req.request_id,c.system_kind,VerifierExecutionStatus.ERROR,stderr_excerpt=str(ex),duration_sec=time.perf_counter()-start,safety_findings=tuple(finds))
+def extract_theorem_declarations(text):
+ clean=_strip_comments(text); names=tuple(re.findall(r"\b(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_]*)",clean)); return names or (("anonymous_example",) if re.search(r"\bexample\b",clean) else ())
+def extract_unsafe_markers(text):
+ clean=_strip_comments(text); return tuple(x for x in ("sorry","admit","axiom","unsafe") if re.search(rf"\b{x}\b",clean,re.I))
+def validate_expected_theorems(text,expected_theorem_names):
+ names=extract_theorem_declarations(text); missing=tuple(x for x in expected_theorem_names if x not in names); return not missing,missing
 def parse_verifier_success(req,raw_result):
  d=raw_result.to_dict() if hasattr(raw_result,"to_dict") else dict(raw_result); c=req.contract
  if not d.get("executed") or d.get("returncode")!=0 or not c.input_file or not Path(c.input_file).exists(): return VerifierBoundaryStatus.NO_BOUNDARY,(),()
- text=_strip_comments(Path(c.input_file).read_text(encoding="utf-8")); unsafe=tuple(x for x in ("sorry","admit","axiom","unsafe") if re.search(rf"\b{x}\b",text,re.I))
- names=tuple(re.findall(r"\b(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_]*)",text)) or (("anonymous_example",) if re.search(r"\bexample\b",text) else ())
+ text=Path(c.input_file).read_text(encoding="utf-8"); unsafe=extract_unsafe_markers(text); names=extract_theorem_declarations(text)
  if unsafe:return VerifierBoundaryStatus.BOUNDARY_EVIDENCE_REJECTED,names,unsafe
- if c.expected_theorem_names and not set(c.expected_theorem_names).issubset(names): return VerifierBoundaryStatus.BOUNDARY_REQUIRED,names,()
+ ok,_=validate_expected_theorems(text,c.expected_theorem_names)
+ if c.expected_theorem_names and not ok: return VerifierBoundaryStatus.BOUNDARY_REQUIRED,names,()
  return (VerifierBoundaryStatus.BOUNDARY_EVIDENCE_CREATED if names else VerifierBoundaryStatus.BOUNDARY_REQUIRED),names,()
 def create_boundary_evidence_from_result(req,r):
  if not r.has_boundary_evidence(): return None
  return VerifierBoundaryEvidence(r.boundary_evidence_id or make_verifier_boundary_evidence_id(r.result_id),VerifierEvidenceKind.LOCAL_VERIFIER_ACCEPTED,r.system_kind,r.result_id,r.certificate_id,r.terminal_form,r.parsed_theorem_names,True,req.contract.input_text_hash,_hash(req.contract.to_json()))
+def classify_verifier_failure(result,stderr_text="",stdout_text=""):
+ text=f"{stderr_text}\n{stdout_text}".lower()
+ if any(x.finding_kind==VerifierSafetyFindingKind.MISSING_EXECUTABLE for x in result.safety_findings): return VerifierFailureKind.MISSING_EXECUTABLE
+ if any(x.is_critical() for x in result.safety_findings): return VerifierFailureKind.UNSAFE_MARKER if result.unsafe_markers else VerifierFailureKind.SAFETY_BLOCKED
+ if result.unsafe_markers:return VerifierFailureKind.UNSAFE_MARKER
+ if result.timed_out:return VerifierFailureKind.TIMEOUT
+ if any(x in text for x in ("unknown module","object file","does not exist","unknown package")): return VerifierFailureKind.IMPORT_ERROR
+ if any(x in text for x in ("type mismatch","application type mismatch","invalid")): return VerifierFailureKind.TYPE_ERROR
+ if result.metadata.get("expected_theorem_missing"): return VerifierFailureKind.EXPECTED_THEOREM_MISSING
+ if result.status==VerifierExecutionStatus.BLOCKED and not result.executed:return VerifierFailureKind.EXECUTION_DISABLED
+ if result.returncode not in (None,0): return VerifierFailureKind.NONZERO_EXIT
+ return VerifierFailureKind.NONE if result.status==VerifierExecutionStatus.SUCCESS else VerifierFailureKind.UNKNOWN
 def build_verifier_execution_report(objects=(),contracts=(),*,workspace_root=None,allow_execution=False,timeout_sec=20.0,include_version_probe=False):
  root=Path(workspace_root or Path(tempfile.gettempdir())/"mathgraph_verifier_tmp").resolve(); cs=list(contracts)
  for o in objects:
@@ -201,7 +222,7 @@ def build_verifier_execution_report(objects=(),contracts=(),*,workspace_root=Non
  rep=VerifierExecutionReport(make_verifier_execution_report_id([c.contract_id for c in cs],allow_execution),exes,cs,reqs,results,ev,safety); rep.summarize(); return rep
 def verifier_execution_report_to_proof_system_report(r): return {"verifier_execution_report_id":r.report_id,"boundary_evidence":[x.to_dict() for x in r.boundary_evidence],"advisory":not bool(r.boundary_evidence)}
 def verifier_execution_report_to_lawbook_candidates(r):
- return [LawbookEntry(make_lawbook_entry_id("verifier-execution",e.evidence_id),LawbookEntryKind.VERIFIED_PROOF_ENTRY,LawbookEntryStatus.CANDIDATE,terminal_form=TerminalForm.VERIFIED_PROOF,certificate_id=e.certificate_id,verifier_boundary_crossed=True,metadata={"verifier_execution_report_id":r.report_id,"local_verifier_boundary_evidence":True,"raw_success_text_not_enough":True}) for e in r.boundary_evidence]
+ return [LawbookEntry(make_lawbook_entry_id("verifier-execution",e.evidence_id),LawbookEntryKind.VERIFIED_PROOF_ENTRY,LawbookEntryStatus.CANDIDATE,terminal_form=TerminalForm.VERIFIED_PROOF,certificate_id=e.certificate_id,verifier_boundary_crossed=True,acceptance_boundary=LawbookAcceptanceBoundary.VERIFIED_PROOF,metadata={"verifier_execution_report_id":r.report_id,"local_verifier_boundary_evidence":True,"raw_success_text_not_enough":True}) for e in r.boundary_evidence]
 def verifier_execution_report_to_api_response(r):
  from mathgraph.api_service import _resp
  req=ApiRequest(make_api_request_id("verifier-execution",r.report_id),ApiRoute.VERIFIER_EXECUTION); truth=ApiTruthStatus.BOUNDARY_EVIDENCE_PRESENT if r.boundary_evidence else ApiTruthStatus.BOUNDARY_REQUIRED; return _resp(req,route_result_from_artifacts(req.route,[r,*r.boundary_evidence],truth_status=truth,safety=ApiSafetyLevel.SAFE_REVIEW_REQUIRED if not r.boundary_evidence else ApiSafetyLevel.SAFE_ADVISORY))
@@ -222,6 +243,14 @@ def verifier_execution_report_to_alchemical_trace(r):
  return t
 def verifier_execution_report_to_agent_experiences(r): return [AgentExperience(content_id("verifier-exp",x.result_id),"verifier-execution",None,None,"verifier",None,AgentExperienceOutcome.VERIFIED_PROOF if x.has_boundary_evidence() else AgentExperienceOutcome.INVALID_CANDIDATE if x.status in {VerifierExecutionStatus.FAILED,VerifierExecutionStatus.BLOCKED} else AgentExperienceOutcome.ADVISORY_ONLY,terminal_form=TerminalForm.VERIFIED_PROOF if x.has_boundary_evidence() else None,certificate_id=x.certificate_id,verifier_boundary_crossed=x.verifier_boundary_crossed) for x in r.results]
 def verifier_execution_report_to_route_telemetry_events(r): return [{"event_id":content_id("verifier-telemetry",x.result_id),"route_kind":"verifier_execution","outcome":x.status.value,"certificate_id":x.certificate_id,"verifier_boundary_crossed":x.verifier_boundary_crossed} for x in r.results]
+def verifier_execution_report_to_markdown(r):
+ s=r.summarize(); kinds=Counter(x.failure_kind.value for x in r.results)
+ lines=["# Verifier Execution Report","",f"- Results: {s['result_total']}","- Executed: {0}".format(s["executed_total"]),f"- Successes: {s['success_total']}",f"- Failures: {s['failed_total']}",f"- Skipped: {s['skipped_total']}",f"- Boundary evidence: {s['boundary_evidence_total']}","", "Boundary policy: raw success text and return code alone never promote truth.", "", "| argv | status | failure kind | boundary |", "| --- | --- | --- | --- |"]
+ for c,res in zip(r.contracts,r.results): lines.append(f"| `{' '.join(c.argv)}` | {res.status.value} | {res.failure_kind.value} | {'yes' if res.has_boundary_evidence() else 'no'} |")
+ if r.safety_findings:
+  lines+=["","## Safety Findings"]+[f"- {x.severity}: {x.finding_kind.value}" for x in r.safety_findings]
+ if kinds: lines+=["","## Failure Kinds"]+[f"- {k}: {v}" for k,v in sorted(kinds.items())]
+ return "\n".join(lines)+"\n"
 def audit_verifier_executable(x): return []
 def audit_verifier_command_contract(x):
  return [_af("CRITICAL","VERIFIER_SHELL_ALLOWED","shell allowed",x.contract_id)]*bool(x.allow_shell)+[_af("CRITICAL","VERIFIER_NETWORK_ALLOWED","network allowed",x.contract_id)]*bool(x.allow_network)

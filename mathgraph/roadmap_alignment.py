@@ -77,6 +77,7 @@ from mathgraph.existential_agents import ExistentialAgent,AgentMortalityPolicy,A
 from mathgraph.hardening import HardeningFinding,HardeningScenario,HardeningCliResult,HardeningReplayManifest,HardeningReport,HardeningCheckStatus
 from mathgraph.verifier_execution import VerifierExecutable,VerifierCommandContract,VerifierSafetyFinding,VerifierExecutionRequest,VerifierExecutionResult,VerifierBoundaryEvidence,VerifierExecutionReport
 from mathgraph.e2e_testdrive import E2ETestDriveStep,E2ETestDriveReport,E2ETestDriveMode
+from mathgraph.verifier_fixtures import VerifierFixture,VerifierFixtureResult,VerifierFixtureSuite,VerifierFixtureSuiteResult
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -294,6 +295,10 @@ def check_roadmap_alignment(
     verifier_execution_reports: Sequence[VerifierExecutionReport] = (),
     e2e_testdrive_steps: Sequence[E2ETestDriveStep] = (),
     e2e_testdrive_reports: Sequence[E2ETestDriveReport] = (),
+    verifier_fixtures: Sequence[VerifierFixture] = (),
+    verifier_fixture_results: Sequence[VerifierFixtureResult] = (),
+    verifier_fixture_suites: Sequence[VerifierFixtureSuite] = (),
+    verifier_fixture_suite_results: Sequence[VerifierFixtureSuiteResult] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -343,6 +348,7 @@ def check_roadmap_alignment(
     hardening_finding_data=list(hardening_findings); hardening_scenario_data=list(hardening_scenarios); hardening_cli_data=list(hardening_cli_results); hardening_manifest_data=list(hardening_replay_manifests); hardening_report_data=list(hardening_reports)
     verifier_executable_data=list(verifier_executables); verifier_contract_data=list(verifier_command_contracts); verifier_safety_data=list(verifier_safety_findings); verifier_request_data=list(verifier_execution_requests); verifier_result_data=list(verifier_execution_results); verifier_evidence_data=list(verifier_boundary_evidence); verifier_report_data=list(verifier_execution_reports)
     e2e_step_data=list(e2e_testdrive_steps); e2e_report_data=list(e2e_testdrive_reports)
+    verifier_fixture_data=list(verifier_fixtures); verifier_fixture_result_data=list(verifier_fixture_results); verifier_fixture_suite_data=list(verifier_fixture_suites); verifier_fixture_suite_result_data=list(verifier_fixture_suite_results)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -376,6 +382,7 @@ def check_roadmap_alignment(
     _check_hardening(hardening_finding_data,hardening_scenario_data,hardening_cli_data,hardening_manifest_data,hardening_report_data,findings)
     _check_verifier_execution(verifier_contract_data,verifier_result_data,verifier_evidence_data,verifier_report_data,findings)
     _check_e2e_testdrive(e2e_step_data,e2e_report_data,findings)
+    _check_verifier_fixtures(verifier_fixture_data,verifier_fixture_result_data,verifier_fixture_suite_data,verifier_fixture_suite_result_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -514,6 +521,8 @@ def check_roadmap_alignment(
         "verifier_execution_report_count": len(verifier_report_data),
         "verifier_boundary_evidence_count": len(verifier_evidence_data)+sum(len(r.boundary_evidence) for r in verifier_report_data),
         "e2e_testdrive_report_count": len(e2e_report_data),
+        "verifier_fixture_count": len(verifier_fixture_data)+sum(len(s.fixtures) for s in verifier_fixture_suite_data),
+        "verifier_fixture_result_count": len(verifier_fixture_result_data)+sum(len(s.results) for s in verifier_fixture_suite_result_data),
         "promoted_trace_count": sum(1 for trace in traces if trace.is_promoted()),
         "verifier_boundary_experience_count": sum(1 for exp in experiences if exp.verifier_boundary_crossed),
         "projection_terminal_count": sum(trace.terminal_count() for trace in projections),
@@ -2032,6 +2041,18 @@ def _check_e2e_testdrive(steps, reports, findings):
             findings.append(RoadmapAlignmentFinding("critical","E2E_ADVISORY_BOUNDARY",f"E2E report {r.report_id} creates boundary evidence in advisory mode.","Advisory mode must not execute verifiers."))
         if r.critical_count():
             findings.append(RoadmapAlignmentFinding("critical","E2E_CRITICAL",f"E2E report {r.report_id} carries criticals.","Resolve end-to-end failures."))
+
+
+def _check_verifier_fixtures(fixtures, results, suites, suite_results, findings):
+    for f in list(fixtures)+[f for s in suites for f in s.fixtures]:
+        if f.should_create_boundary and not f.expected_theorem_names:
+            findings.append(RoadmapAlignmentFinding("critical","FIXTURE_BOUNDARY_WITHOUT_EXPECTED",f"Fixture {f.fixture_id} expects evidence without theorem names.","Require explicit theorem names for boundary fixtures."))
+    for r in list(results)+[r for s in suite_results for r in s.results]:
+        if r.actual_boundary and (r.metadata.get("risk")!="SAFE" or not r.expected_boundary):
+            findings.append(RoadmapAlignmentFinding("critical","FIXTURE_UNEXPECTED_BOUNDARY",f"Fixture result {r.fixture_result_id} created forbidden evidence.","Unsafe and mismatch fixtures must never cross the boundary."))
+    for s in suite_results:
+        if s.ok() and s.critical_count():
+            findings.append(RoadmapAlignmentFinding("critical","FIXTURE_SUITE_HIDES_CRITICAL",f"Fixture suite {s.suite_result_id} hides criticals.","Suite status must reflect fixture failures."))
 
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:

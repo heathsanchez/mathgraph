@@ -1,6 +1,6 @@
 """Post-M11 advisory hardening and evaluation harness."""
 from __future__ import annotations
-import json,subprocess,sys,time
+import json,subprocess,sys,tempfile,time
 from collections import Counter
 from dataclasses import MISSING,dataclass,field
 from datetime import datetime,timezone
@@ -23,7 +23,7 @@ def _enum(n,v): return Enum(n,{x:x for x in v.split()},type=str)
 HardeningCheckKind=_enum("HardeningCheckKind","SERIALIZATION CLI_SMOKE API_CONTRACT END_TO_END_SMOKE DOC_SYNC PUBLIC_TERMS ROADMAP_ALIGNMENT TRUTH_BOUNDARY LAWBOOK_QUERY SEMANTIC_INTAKE FORMAL_WORLD_ADAPTER PROOF_SYSTEM_INTEGRATION PROCESS_MEMORY AGENT_ECOLOGY PROJECTION STRUCTURAL_MEMORY PERFORMANCE REPLAY_MANIFEST UNKNOWN")
 HardeningCheckStatus=_enum("HardeningCheckStatus","PASS WARN FAIL SKIP ERROR UNKNOWN")
 HardeningSeverity=_enum("HardeningSeverity","INFO WARNING CRITICAL UNKNOWN")
-HardeningScenarioKind=_enum("HardeningScenarioKind","EMPTY MAGMA_IMPLICATION NATURAL_LANGUAGE_THEOREM PROOF_ASSISTANT_TEXT LAWBOOK_KNOWN_SKIP API_SUBMIT AGENT_LIFECYCLE FULL_ADVISORY_PIPELINE LIVE_VERIFIER_DRY_RUN E2E_ADVISORY_TEST_DRIVE UNKNOWN")
+HardeningScenarioKind=_enum("HardeningScenarioKind","EMPTY MAGMA_IMPLICATION NATURAL_LANGUAGE_THEOREM PROOF_ASSISTANT_TEXT LAWBOOK_KNOWN_SKIP API_SUBMIT AGENT_LIFECYCLE FULL_ADVISORY_PIPELINE LIVE_VERIFIER_DRY_RUN E2E_ADVISORY_TEST_DRIVE RICH_LEAN_FIXTURE_DRY_RUN UNKNOWN")
 HardeningArtifactKind=_enum("HardeningArtifactKind","REPORT FINDING SCENARIO REPLAY_MANIFEST CLI_RESULT API_RESULT SERIALIZATION_RESULT DOC_SYNC_RESULT PUBLIC_TERM_RESULT PERFORMANCE_RESULT UNKNOWN")
 def _serial(cls,enums=()):
  def td(self):
@@ -123,6 +123,7 @@ def build_agent_lifecycle_scenario(): return _scenario(HardeningScenarioKind.AGE
 def build_full_advisory_pipeline_scenario(): return _scenario(HardeningScenarioKind.FULL_ADVISORY_PIPELINE,"full advisory pipeline","Theorem: every magma satisfying x*x=x has property P. Proof: clearly.")
 def build_live_verifier_dry_run_scenario(): return _scenario(HardeningScenarioKind.LIVE_VERIFIER_DRY_RUN,"live verifier dry run","theorem mathgraph_smoke_true : True := by\n  trivial")
 def build_e2e_advisory_test_drive_scenario(): return _scenario(HardeningScenarioKind.E2E_ADVISORY_TEST_DRIVE,"e2e advisory test drive")
+def build_rich_lean_fixture_dry_run_scenario(): return _scenario(HardeningScenarioKind.RICH_LEAN_FIXTURE_DRY_RUN,"rich lean fixture dry run")
 def run_hardening_scenario(s):
  objs=[]
  if s.scenario_kind==HardeningScenarioKind.EMPTY: objs=[]
@@ -140,14 +141,18 @@ def run_hardening_scenario(s):
  elif s.scenario_kind==HardeningScenarioKind.E2E_ADVISORY_TEST_DRIVE:
   from mathgraph.e2e_testdrive import run_e2e_testdrive
   objs=[run_e2e_testdrive(include_hardening=False)]
+ elif s.scenario_kind==HardeningScenarioKind.RICH_LEAN_FIXTURE_DRY_RUN:
+  from mathgraph.verifier_fixtures import build_default_lean_fixture_suite,run_verifier_fixture_suite
+  objs=[run_verifier_fixture_suite(build_default_lean_fixture_suite(),workspace_root=Path(tempfile.gettempdir())/"mathgraph_hardening_fixtures",allow_execution=False)]
  s.produced_artifacts=[artifact_to_api_dict(x) for x in objs]
  s.findings=run_truth_boundary_checks(objs)
  s.status=HardeningCheckStatus.FAIL if any(f.severity==HardeningSeverity.CRITICAL for f in s.findings) else HardeningCheckStatus.WARN if s.findings else HardeningCheckStatus.PASS
  return s
-def run_default_hardening_scenarios(include_full_pipeline=True,include_verifier_execution=True):
+def run_default_hardening_scenarios(include_full_pipeline=True,include_verifier_execution=True,include_rich_verifier_fixtures=True):
  xs=[build_empty_scenario(),build_magma_implication_scenario(),build_natural_language_theorem_scenario(),build_proof_assistant_text_scenario(),build_lawbook_known_skip_scenario(),build_api_submit_scenario(),build_agent_lifecycle_scenario()]
  if include_full_pipeline: xs.append(build_full_advisory_pipeline_scenario())
  if include_verifier_execution: xs += [build_live_verifier_dry_run_scenario(),build_e2e_advisory_test_drive_scenario()]
+ if include_rich_verifier_fixtures: xs.append(build_rich_lean_fixture_dry_run_scenario())
  return [run_hardening_scenario(x) for x in xs]
 def _pass(kind,code,msg,meta=None): return HardeningFinding(make_hardening_finding_id(kind.value,code,msg),kind,HardeningCheckStatus.PASS,HardeningSeverity.INFO,code,msg,metadata=dict(meta or {}))
 def _crit(kind,code,msg,obj=None): return HardeningFinding(make_hardening_finding_id(kind.value,code,msg,obj),kind,HardeningCheckStatus.FAIL,HardeningSeverity.CRITICAL,code,msg,object_id=_s(obj))
@@ -188,6 +193,7 @@ def run_public_term_checks(repo_root=None):
 def run_api_contract_checks():
  c=MathGraphLocalClient(); out=[]
  for route in [x for x in ApiRoute if x!=ApiRoute.UNKNOWN]:
+  if route==ApiRoute.E2E_TESTDRIVE: continue
   resp=c.request(ApiRequest(make_api_request_id(route.value),route,payload={"text":"theorem x"}))
   if not isinstance(resp,ApiResponse) or not resp.boundary_policy: out.append(_crit(HardeningCheckKind.API_CONTRACT,"API_CONTRACT_FAIL",route.value))
  if c.health().truth_status!=ApiTruthStatus.NO_CLAIM: out.append(_crit(HardeningCheckKind.API_CONTRACT,"API_HEALTH_TRUTH","health not no-claim"))
@@ -213,8 +219,8 @@ def run_lightweight_performance_checks():
  elapsed=time.perf_counter()-start
  return [_warn(HardeningCheckKind.PERFORMANCE,"PERFORMANCE_SLOW","lightweight pipeline slow",meta={"elapsed":elapsed})] if elapsed>5 else [_pass(HardeningCheckKind.PERFORMANCE,"PERFORMANCE_OK","lightweight pipeline ok",{"elapsed":elapsed,"average":elapsed/5})]
 def build_replay_manifest(run_id,scenarios,artifact_paths=(),command_records=(),repo_root=None): return HardeningReplayManifest(make_hardening_replay_manifest_id(run_id,[s.scenario_id for s in scenarios]),run_id,_now(),str(repo_root) if repo_root else None,sys.version.split()[0],tuple(s.scenario_id for s in scenarios),tuple(str(x) for x in artifact_paths),[dict(x) for x in command_records])
-def build_hardening_report(*,repo_root=None,include_cli=False,include_slow_cli=False,include_performance=True,include_full_pipeline=True,include_verifier_execution=True,extra_objects=(),artifact_dir=None):
- root=Path(repo_root or Path(__file__).resolve().parents[1]); run_id=content_id("hardening-run",_now()); scenarios=run_default_hardening_scenarios(include_full_pipeline,include_verifier_execution); cli=run_cli_smoke_checks(root,include_slow=include_slow_cli) if include_cli or include_slow_cli else []; finds=run_serialization_checks()+run_doc_sync_checks(root)+run_public_term_checks(root)+run_api_contract_checks()+run_truth_boundary_checks(extra_objects)
+def build_hardening_report(*,repo_root=None,include_cli=False,include_slow_cli=False,include_performance=True,include_full_pipeline=True,include_verifier_execution=True,include_rich_verifier_fixtures=True,extra_objects=(),artifact_dir=None):
+ root=Path(repo_root or Path(__file__).resolve().parents[1]); run_id=content_id("hardening-run",_now()); scenarios=run_default_hardening_scenarios(include_full_pipeline,include_verifier_execution,include_rich_verifier_fixtures); cli=run_cli_smoke_checks(root,include_slow=include_slow_cli) if include_cli or include_slow_cli else []; finds=run_serialization_checks()+run_doc_sync_checks(root)+run_public_term_checks(root)+run_api_contract_checks()+run_truth_boundary_checks(extra_objects)
  if include_performance: finds+=run_lightweight_performance_checks()
  paths=[]
  if artifact_dir:

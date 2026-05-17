@@ -416,6 +416,10 @@ command contracts, unsafe-marker rejection, and alignment checks. The test drive
 exists to prove that advisory layers remain advisory and that only the verifier
 creates boundary-backed truth.
 
+The fixture suite is the system's recurring ordeal: safe proofs may cross the
+verifier boundary, unsafe proofs must be rejected, missing verifiers must skip
+cleanly, and advisory layers must remain advisory.
+
 ## Lawbook as Forms
 
 The Lawbook is not Plato's Realm of Forms itself. It is the finite,

@@ -922,6 +922,7 @@ from mathgraph.api_service import *
 from mathgraph.existential_agents import *
 from mathgraph.hardening import *
 from mathgraph.verifier_execution import *
+from mathgraph.verifier_fixtures import *
 from mathgraph.e2e_testdrive import *
 from mathgraph.lawbook_store import LawbookStore, LawbookStoreStats
 from mathgraph.ledger import JsonlLedger
@@ -1984,6 +1985,9 @@ __all__ = [
     "VerifierEvidenceKind","VerifierExecutable","VerifierCommandContract",
     "VerifierSafetyFinding","VerifierExecutionRequest","VerifierExecutionResult",
     "VerifierBoundaryEvidence","VerifierExecutionReport","build_verifier_execution_report",
+    "VerifierFailureKind","VerifierFixtureKind","VerifierFixtureStatus","VerifierFixtureRisk",
+    "VerifierFixture","VerifierFixtureResult","VerifierFixtureSuite","VerifierFixtureSuiteResult",
+    "build_default_lean_fixture_suite","run_verifier_fixture_suite",
     "E2ETestDriveMode","E2ETestDriveStatus","E2EStepKind",
     "E2ETestDriveStep","E2ETestDriveReport","run_e2e_testdrive",
     "score_agent_experience",

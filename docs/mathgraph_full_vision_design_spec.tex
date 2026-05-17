@@ -244,6 +244,9 @@ Documentation must not overclaim code. Every advisory layer must be deletable wi
 \section{External Verifier Execution and Full Test Drive}
 External verifier execution is disabled by default and only runs behind explicit allow flags. Contracts use allowlisted tokenized commands, forbid shell and network execution, constrain workspace paths, cap timeouts, and reject unsafe proof markers before boundary evidence is considered. Raw success text and return code are not enough: the boundary record must include the accepted artifact, theorem names, contract hash, certificate, and verifier-crossed status. The full test drive has advisory-only and optional live-verifier modes, exercises the architecture end to end, and feeds hardening without turning smoke success into proof.
 
+\section{Rich Verifier Fixtures and Replay}
+MathGraph includes a safe Lean fixture pack with passing theorems, unsafe-marker fixtures, expected-theorem validation, type-error and import-error fixtures, optional in-memory Lawbook replay, dry-run and live-verifier modes, and a Markdown human report. Unsafe fixtures, missing verifiers, dry-runs, and expected-name mismatches create no boundary evidence.
+
 \section{Implementation Roadmap}
 \begin{longtable}{ll}
 \toprule
@@ -280,8 +283,9 @@ M10 & API Service Hardening\\
 M11 & Existential Agent Ecology\\
 Post-M11 & Hardening and Evaluation\\
 Post-M11+ & External Verifier Execution and Full End-to-End Test Drive\\
+Post-M11+ & Rich Verifier Fixtures and Replay\\
 \midrule
-Future & Richer verifier adapters, richer domain adapters, larger replay fixtures, production packaging, publication demos, release workflow\\
+Future & Richer verifier adapters beyond Lean, larger mathematical fixture packs, fixture-driven release gates, publication demos, package/release workflow\\
 \bottomrule
 \end{longtable}
 

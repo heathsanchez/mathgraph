@@ -19,6 +19,13 @@ def test_execution_boundary_and_bridges(tmp_path):
  assert verifier_execution_report_to_api_response(dry).truth_status!=ApiTruthStatus.BOUNDARY_EVIDENCE_PRESENT
  assert all(x.status==LawbookEntryStatus.CANDIDATE for x in verifier_execution_report_to_lawbook_candidates(live))
  assert any(x.phase.value=="FIXATION" for x in verifier_execution_report_to_alchemical_trace(live).steps) == bool(live.boundary_evidence)
+ assert extract_theorem_declarations(GOOD)==("mathgraph_smoke_true",)
+ assert extract_unsafe_markers(BAD)==("sorry",)
+ assert validate_expected_theorems(GOOD,["mathgraph_smoke_true"])[0]
+ assert not validate_expected_theorems(GOOD,["missing"])[0]
+ miss=VerifierExecutionResult("m","q",VerifierSystemKind.LEAN,VerifierExecutionStatus.SKIPPED,safety_findings=(VerifierSafetyFinding("f",VerifierSafetyFindingKind.MISSING_EXECUTABLE),))
+ assert classify_verifier_failure(miss)==VerifierFailureKind.MISSING_EXECUTABLE
+ assert "Boundary policy" in verifier_execution_report_to_markdown(dry)
  assert audit_verifier_command_contract(VerifierCommandContract("x",VerifierSystemKind.LEAN,VerifierExecutionMode.CHECK_FILE,("lean","x"),allow_shell=True))
  assert check_roadmap_alignment(verifier_execution_reports=[unsafe]).critical_count()==0
 def test_cli(tmp_path):

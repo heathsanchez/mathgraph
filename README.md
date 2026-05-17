@@ -144,6 +144,14 @@ artifact under a valid command contract. The end-to-end test drive runs the
 architecture from semantic intake through API, agents, hardening, and optional
 verifier evidence.
 
+## Rich Verifier Fixtures And Test Drive
+
+MathGraph now includes a Lean fixture suite for safe passing theorems,
+unsafe-marker rejection, expected-theorem validation, type/import failures, and
+optional in-memory Lawbook review/query replay. The fixture suite can run in
+dry-run mode everywhere or live mode when Lean is available and execution is
+explicitly allowed. Unsafe fixtures must never create boundary evidence.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:
@@ -161,6 +169,7 @@ Repo scripts expose the implemented layers as small backend-first tools:
 - `scripts/run_existential_agents.py`
 - `scripts/run_hardening.py`
 - `scripts/run_verifier_execution.py`
+- `scripts/run_verifier_fixtures.py`
 - `scripts/run_e2e_testdrive.py`
 
 These tools emit advisory artifacts unless an already-existing verifier boundary
@@ -168,7 +177,7 @@ is being reported. They do not bypass the terminal contract.
 
 ## Current Status
 
-Implemented milestones run through M11 Existential Agent Ecology. See
+Implemented milestones run through Rich Verifier Fixtures and Replay. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and

@@ -67,15 +67,15 @@ Existential Agent Ecology
 32. M11 Existential Agent Ecology
 33. Post-M11 Hardening and Evaluation
 34. External Verifier Execution Adapter and Full End-to-End Test Drive
+35. Richer Verifier Adapter + Real Fixture Expansion
 
 ## Future Work
 
-- richer verifier adapters
-- richer domain adapters
-- larger replay fixtures
-- production packaging
+- richer verifier adapters beyond Lean
+- larger mathematical fixture packs
+- fixture-driven release gates
 - publication demos
-- release workflow
+- package/release workflow
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries
 promote truth. Every other layer is advisory unless it reports already accepted

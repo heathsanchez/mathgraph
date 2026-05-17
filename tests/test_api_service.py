@@ -18,6 +18,7 @@ def test_routes_boundaries_and_payloads():
  assert c.formal_world_adapters({"source":"x=x","target":"y=y"}).result
  assert c.proof_system_integration({"text":"theorem foo : True := by trivial"}).result
  v=c.verifier_execution({"text":"theorem foo : True := by trivial"}); assert v.result and v.truth_status==ApiTruthStatus.BOUNDARY_REQUIRED
+ assert c.verifier_fixtures({}).result and c.e2e_testdrive({}).result
  for name in ("schedule","project","explain","process_memory","discovery_value","lawbook_acceptance_review","structural_identity","habits","reasons","structures","roles","analogies"):
   assert getattr(c,name)({"text":"theorem x"}).boundary_policy
  assert c.request(ApiRequest("u",ApiRoute.UNKNOWN)).status==ApiResponseStatus.UNSUPPORTED_ROUTE
