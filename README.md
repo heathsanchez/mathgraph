@@ -12,6 +12,16 @@ python scripts/run_public_demo.py --out-dir demo_out
 
 Then read [docs/quickstart.md](docs/quickstart.md).
 
+## Curated Real Mathlib Demo
+
+```bash
+python scripts/run_real_mathlib_demo.py --ensure-examples
+python scripts/run_real_mathlib_demo.py
+python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/curated_real_mathlib_demo_config.example.json --project-root /path/to/local/mathlib
+```
+
+This local-path-only workflow performs no downloads or package-manager actions, skips cleanly when no path is supplied, and keeps verification limited to explicitly selected declarations.
+
 Models propose. MathGraph constrains. Verifiers decide. Digestion assimilates.
 The Lawbook remembers. Projection scales.
 

@@ -14,6 +14,8 @@ def test_version_and_release_docs():
  assert "public_demo_report.md" in (ROOT/"docs"/"artifact_conventions.md").read_text()
  assert "python -m pytest" in (ROOT/"docs"/"release_process.md").read_text()
  assert "run_release_check.py --quick" in (ROOT/"README.md").read_text()
+ assert (ROOT/"docs"/"curated_real_mathlib_demo.md").exists()
+ assert (ROOT/"examples"/"real_mathlib_demo"/"curated_real_mathlib_demo_config.example.json").exists()
 def test_cli_artifacts_and_stdout(tmp_path):
  pub=tmp_path/"pub"; p=subprocess.run([sys.executable,"scripts/run_public_demo.py","--out-dir",str(pub)],cwd=ROOT,env=_env(),check=True,capture_output=True,text=True)
  assert len(p.stdout)<1000 and "MathGraph Public Demo" in p.stdout and (pub/"public_demo_report.json").exists() and (pub/"public_demo_report.md").exists() and (pub/"api_response.json").exists()

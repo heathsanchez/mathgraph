@@ -12,4 +12,5 @@ Summary:
 - declaration discovery and manifest builder
 - proof-library demo pack
 - public demo and release check
+- curated real local Mathlib demo command and report workflow
 - no proof from advisory artifacts

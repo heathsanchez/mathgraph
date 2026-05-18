@@ -35,6 +35,15 @@ python scripts/run_public_demo.py \
 python scripts/run_colab_testdrive.py --use-current-checkout --quick-smoke
 ```
 
+## Optional: Curated Local Mathlib Demo
+
+```bash
+python scripts/run_real_mathlib_demo.py --ensure-examples
+python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/curated_real_mathlib_demo_config.example.json --project-root /path/to/local/mathlib
+```
+
+The command is local-path-only and skips cleanly when no project path is available.
+
 ## 6. Boundary Reminder
 
 CLI success is not proof. Demo success is not proof. Only verifier, trusted

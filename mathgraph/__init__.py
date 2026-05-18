@@ -2075,4 +2075,5 @@ except Exception:
 from mathgraph.mathlib_declaration_discovery import *
 from mathgraph.proof_library_demo import *
 from mathgraph.demo_release import *
+from mathgraph.real_mathlib_demo import *
 from mathgraph.version import __version__, get_version_info

@@ -359,6 +359,13 @@ curated manifest, and optionally invoke the downstream verifier-bound allowlist
 flow. Missing environments skip cleanly and no package-manager operation is
 performed.
 
+\section{Curated Real Mathlib Manifest Demo}
+The curated real Mathlib demo is local-path-only and explicitly selects a tiny
+module/declaration set before generating an advisory allowlist manifest. Local
+paths, revisions, toolchains, discovery output, dependency graphs, and reports
+do not create proof evidence; only verifier-bound allowlisted declarations can
+cross the truth boundary.
+
 \section{v0.1 Release Candidate Hardening}
 The release-candidate surface adds explicit version metadata, changelog and
 release notes, concise CLI output, canonical artifact layouts, quickstart and

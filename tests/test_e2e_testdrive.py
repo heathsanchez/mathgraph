@@ -35,5 +35,8 @@ def test_optional_public_and_real_revision_demo(tmp_path):
  assert any(x.step_kind==E2EStepKind.PUBLIC_DEMO for x in r.steps)
  assert any(x.step_kind==E2EStepKind.REAL_MATHLIB_REVISION_DEMO for x in r.steps)
  md=e2e_testdrive_report_to_markdown(r); assert "Public Demo" in md and "Real Mathlib Revision Demo" in md
+def test_optional_curated_real_mathlib_demo(tmp_path):
+ r=run_e2e_testdrive(workspace_root=tmp_path,include_real_mathlib_demo=True)
+ assert any(x.step_kind==E2EStepKind.CURATED_REAL_MATHLIB_DEMO for x in r.steps)
 def test_cli(tmp_path):
  out=tmp_path/"e2e.json"; subprocess.run([sys.executable,"scripts/run_e2e_testdrive.py","--out-report-json",str(out)],check=True); assert out.exists()

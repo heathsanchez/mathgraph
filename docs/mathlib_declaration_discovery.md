@@ -1,5 +1,7 @@
 # Mathlib Declaration Discovery
 
+The curated real-Mathlib demo command composes this advisory discovery layer with explicit config and optional downstream verifier-bound ingestion; discovery remains advisory.
+
 ```bash
 python scripts/run_mathlib_declaration_discovery.py --ensure-examples
 python scripts/run_mathlib_declaration_discovery.py --use-synthetic-request --build-manifest

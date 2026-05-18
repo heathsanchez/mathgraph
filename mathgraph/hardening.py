@@ -23,7 +23,7 @@ def _enum(n,v): return Enum(n,{x:x for x in v.split()},type=str)
 HardeningCheckKind=_enum("HardeningCheckKind","SERIALIZATION CLI_SMOKE API_CONTRACT END_TO_END_SMOKE DOC_SYNC PUBLIC_TERMS ROADMAP_ALIGNMENT TRUTH_BOUNDARY LAWBOOK_QUERY SEMANTIC_INTAKE FORMAL_WORLD_ADAPTER PROOF_SYSTEM_INTEGRATION PROCESS_MEMORY AGENT_ECOLOGY PROJECTION STRUCTURAL_MEMORY PERFORMANCE REPLAY_MANIFEST UNKNOWN")
 HardeningCheckStatus=_enum("HardeningCheckStatus","PASS WARN FAIL SKIP ERROR UNKNOWN")
 HardeningSeverity=_enum("HardeningSeverity","INFO WARNING CRITICAL UNKNOWN")
-HardeningScenarioKind=_enum("HardeningScenarioKind","EMPTY MAGMA_IMPLICATION NATURAL_LANGUAGE_THEOREM PROOF_ASSISTANT_TEXT LAWBOOK_KNOWN_SKIP API_SUBMIT AGENT_LIFECYCLE FULL_ADVISORY_PIPELINE LIVE_VERIFIER_DRY_RUN E2E_ADVISORY_TEST_DRIVE RICH_LEAN_FIXTURE_DRY_RUN VERIFIED_CORPUS_DRY_RUN LEAN_PROJECT_SUBSET_DRY_RUN MATHLIB_MICRO_SUBSET_DRY_RUN MATHLIB_LOCAL_ALLOWLIST_DRY_RUN MATHLIB_DECLARATION_DISCOVERY_DRY_RUN PROOF_LIBRARY_DEMO_DRY_RUN PUBLIC_DEMO_DRY_RUN REAL_MATHLIB_REVISION_DEMO_SKIP UNKNOWN")
+HardeningScenarioKind=_enum("HardeningScenarioKind","EMPTY MAGMA_IMPLICATION NATURAL_LANGUAGE_THEOREM PROOF_ASSISTANT_TEXT LAWBOOK_KNOWN_SKIP API_SUBMIT AGENT_LIFECYCLE FULL_ADVISORY_PIPELINE LIVE_VERIFIER_DRY_RUN E2E_ADVISORY_TEST_DRIVE RICH_LEAN_FIXTURE_DRY_RUN VERIFIED_CORPUS_DRY_RUN LEAN_PROJECT_SUBSET_DRY_RUN MATHLIB_MICRO_SUBSET_DRY_RUN MATHLIB_LOCAL_ALLOWLIST_DRY_RUN MATHLIB_DECLARATION_DISCOVERY_DRY_RUN PROOF_LIBRARY_DEMO_DRY_RUN PUBLIC_DEMO_DRY_RUN REAL_MATHLIB_REVISION_DEMO_SKIP CURATED_REAL_MATHLIB_DEMO_SKIP UNKNOWN")
 HardeningArtifactKind=_enum("HardeningArtifactKind","REPORT FINDING SCENARIO REPLAY_MANIFEST CLI_RESULT API_RESULT SERIALIZATION_RESULT DOC_SYNC_RESULT PUBLIC_TERM_RESULT PERFORMANCE_RESULT UNKNOWN")
 def _serial(cls,enums=()):
  def td(self):
@@ -132,6 +132,7 @@ def build_mathlib_declaration_discovery_dry_run_scenario(): return _scenario(Har
 def build_proof_library_demo_dry_run_scenario(): return _scenario(HardeningScenarioKind.PROOF_LIBRARY_DEMO_DRY_RUN,"proof library demo dry run")
 def build_public_demo_dry_run_scenario(): return _scenario(HardeningScenarioKind.PUBLIC_DEMO_DRY_RUN,"public demo dry run")
 def build_real_mathlib_revision_demo_skip_scenario(): return _scenario(HardeningScenarioKind.REAL_MATHLIB_REVISION_DEMO_SKIP,"real mathlib revision demo skip")
+def build_curated_real_mathlib_demo_skip_scenario(): return _scenario(HardeningScenarioKind.CURATED_REAL_MATHLIB_DEMO_SKIP,"curated real mathlib demo skip")
 def run_hardening_scenario(s):
  objs=[]
  if s.scenario_kind==HardeningScenarioKind.EMPTY: objs=[]
@@ -176,11 +177,14 @@ def run_hardening_scenario(s):
  elif s.scenario_kind==HardeningScenarioKind.REAL_MATHLIB_REVISION_DEMO_SKIP:
   from mathgraph.demo_release import RealMathlibRevisionDemoConfig,default_real_mathlib_revision_demo_config_dict,run_real_mathlib_revision_demo
   objs=[run_real_mathlib_revision_demo(RealMathlibRevisionDemoConfig.from_dict(default_real_mathlib_revision_demo_config_dict()))]
+ elif s.scenario_kind==HardeningScenarioKind.CURATED_REAL_MATHLIB_DEMO_SKIP:
+  from mathgraph.real_mathlib_demo import run_real_mathlib_demo
+  objs=[run_real_mathlib_demo()]
  s.produced_artifacts=[artifact_to_api_dict(x) for x in objs]
  s.findings=run_truth_boundary_checks(objs)
  s.status=HardeningCheckStatus.FAIL if any(f.severity==HardeningSeverity.CRITICAL for f in s.findings) else HardeningCheckStatus.WARN if s.findings else HardeningCheckStatus.PASS
  return s
-def run_default_hardening_scenarios(include_full_pipeline=True,include_verifier_execution=True,include_rich_verifier_fixtures=True,include_verified_corpus=True,include_lean_project_subset=True,include_mathlib_micro_subset=True,include_mathlib_local_allowlist=False,include_mathlib_declaration_discovery=False,include_proof_library_demo=False,include_public_demo=False,include_real_mathlib_revision_demo=False):
+def run_default_hardening_scenarios(include_full_pipeline=True,include_verifier_execution=True,include_rich_verifier_fixtures=True,include_verified_corpus=True,include_lean_project_subset=True,include_mathlib_micro_subset=True,include_mathlib_local_allowlist=False,include_mathlib_declaration_discovery=False,include_proof_library_demo=False,include_public_demo=False,include_real_mathlib_revision_demo=False,include_real_mathlib_demo=False):
  xs=[build_empty_scenario(),build_magma_implication_scenario(),build_natural_language_theorem_scenario(),build_proof_assistant_text_scenario(),build_lawbook_known_skip_scenario(),build_api_submit_scenario(),build_agent_lifecycle_scenario()]
  if include_full_pipeline: xs.append(build_full_advisory_pipeline_scenario())
  if include_verifier_execution: xs += [build_live_verifier_dry_run_scenario(),build_e2e_advisory_test_drive_scenario()]
@@ -193,6 +197,7 @@ def run_default_hardening_scenarios(include_full_pipeline=True,include_verifier_
  if include_proof_library_demo: xs.append(build_proof_library_demo_dry_run_scenario())
  if include_public_demo: xs.append(build_public_demo_dry_run_scenario())
  if include_real_mathlib_revision_demo: xs.append(build_real_mathlib_revision_demo_skip_scenario())
+ if include_real_mathlib_demo: xs.append(build_curated_real_mathlib_demo_skip_scenario())
  return [run_hardening_scenario(x) for x in xs]
 def _pass(kind,code,msg,meta=None): return HardeningFinding(make_hardening_finding_id(kind.value,code,msg),kind,HardeningCheckStatus.PASS,HardeningSeverity.INFO,code,msg,metadata=dict(meta or {}))
 def _crit(kind,code,msg,obj=None): return HardeningFinding(make_hardening_finding_id(kind.value,code,msg,obj),kind,HardeningCheckStatus.FAIL,HardeningSeverity.CRITICAL,code,msg,object_id=_s(obj))
@@ -259,8 +264,8 @@ def run_lightweight_performance_checks():
  elapsed=time.perf_counter()-start
  return [_warn(HardeningCheckKind.PERFORMANCE,"PERFORMANCE_SLOW","lightweight pipeline slow",meta={"elapsed":elapsed})] if elapsed>5 else [_pass(HardeningCheckKind.PERFORMANCE,"PERFORMANCE_OK","lightweight pipeline ok",{"elapsed":elapsed,"average":elapsed/5})]
 def build_replay_manifest(run_id,scenarios,artifact_paths=(),command_records=(),repo_root=None): return HardeningReplayManifest(make_hardening_replay_manifest_id(run_id,[s.scenario_id for s in scenarios]),run_id,_now(),str(repo_root) if repo_root else None,sys.version.split()[0],tuple(s.scenario_id for s in scenarios),tuple(str(x) for x in artifact_paths),[dict(x) for x in command_records])
-def build_hardening_report(*,repo_root=None,include_cli=False,include_slow_cli=False,include_performance=True,include_full_pipeline=True,include_verifier_execution=True,include_rich_verifier_fixtures=True,include_verified_corpus=True,include_lean_project_subset=True,include_mathlib_micro_subset=True,include_mathlib_local_allowlist=False,include_mathlib_declaration_discovery=False,include_proof_library_demo=False,include_public_demo=False,include_real_mathlib_revision_demo=False,extra_objects=(),artifact_dir=None):
- root=Path(repo_root or Path(__file__).resolve().parents[1]); run_id=content_id("hardening-run",_now()); scenarios=run_default_hardening_scenarios(include_full_pipeline,include_verifier_execution,include_rich_verifier_fixtures,include_verified_corpus,include_lean_project_subset,include_mathlib_micro_subset,include_mathlib_local_allowlist,include_mathlib_declaration_discovery,include_proof_library_demo,include_public_demo,include_real_mathlib_revision_demo); cli=run_cli_smoke_checks(root,include_slow=include_slow_cli) if include_cli or include_slow_cli else []; finds=run_serialization_checks()+run_doc_sync_checks(root)+run_public_term_checks(root)+run_api_contract_checks()+run_truth_boundary_checks(extra_objects)
+def build_hardening_report(*,repo_root=None,include_cli=False,include_slow_cli=False,include_performance=True,include_full_pipeline=True,include_verifier_execution=True,include_rich_verifier_fixtures=True,include_verified_corpus=True,include_lean_project_subset=True,include_mathlib_micro_subset=True,include_mathlib_local_allowlist=False,include_mathlib_declaration_discovery=False,include_proof_library_demo=False,include_public_demo=False,include_real_mathlib_revision_demo=False,include_real_mathlib_demo=False,extra_objects=(),artifact_dir=None):
+ root=Path(repo_root or Path(__file__).resolve().parents[1]); run_id=content_id("hardening-run",_now()); scenarios=run_default_hardening_scenarios(include_full_pipeline,include_verifier_execution,include_rich_verifier_fixtures,include_verified_corpus,include_lean_project_subset,include_mathlib_micro_subset,include_mathlib_local_allowlist,include_mathlib_declaration_discovery,include_proof_library_demo,include_public_demo,include_real_mathlib_revision_demo,include_real_mathlib_demo); cli=run_cli_smoke_checks(root,include_slow=include_slow_cli) if include_cli or include_slow_cli else []; finds=run_serialization_checks()+run_doc_sync_checks(root)+run_public_term_checks(root)+run_api_contract_checks()+run_truth_boundary_checks(extra_objects)
  if include_performance: finds+=run_lightweight_performance_checks()
  paths=[]
  if artifact_dir:

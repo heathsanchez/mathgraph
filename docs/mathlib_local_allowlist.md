@@ -1,5 +1,7 @@
 # Real Local Mathlib Allowlist
 
+The curated real-Mathlib demo builds on this membrane through `scripts/run_real_mathlib_demo.py`; local paths and generated manifests remain advisory until verifier evidence exists.
+
 ```bash
 python scripts/run_mathlib_local_allowlist.py --ensure-examples
 python scripts/run_mathlib_local_allowlist.py --use-synthetic-external

@@ -7,6 +7,7 @@
 - in-memory Lawbook replay and known-skip
 - local-path-only Mathlib allowlist workflows
 - release check
+- curated real local Mathlib demo templates and local-path-only command
 
 ## What Does Not
 

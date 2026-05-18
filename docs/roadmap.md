@@ -1,5 +1,7 @@
 # Roadmap
 
+- Curated Real Mathlib Manifest v0 Demo: implemented/in progress.
+
 ## Current Architecture
 
 ```text
