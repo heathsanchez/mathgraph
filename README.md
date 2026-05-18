@@ -240,9 +240,18 @@ python scripts/run_colab_testdrive.py --fresh-clone --allow-live-verifier --allo
 Live verifier execution remains opt-in. Missing Lean skips cleanly when allowed.
 CLI success is a usability signal, not proof of arbitrary claims.
 
+## Proof-Library Demo Pack
+
+MathGraph now has a repeatable demo that runs discovery, allowlist manifest
+generation, optional verifier-bound allowlist ingestion, dependency/reference
+graph output, Lawbook replay, known-skip replay, and a polished Markdown report.
+The built-in demo uses the synthetic Mathlib-style subset; a real local Mathlib
+demo can be configured by supplying a local path and explicit
+module/declaration selection.
+
 ## Current Status
 
-Implemented milestones run through Mathlib Micro-Subset Pilot. See
+Implemented milestones run through the Curated Proof-Library Demo Pack. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
@@ -250,7 +259,7 @@ for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
 
 ## Future Work
 
-- real local Mathlib allowlist pilot
+- curated real Mathlib demo manifests
 - trusted importer policy for pinned external corpora
 - Lake-aware build plan without network
 - larger fixture-driven release gates

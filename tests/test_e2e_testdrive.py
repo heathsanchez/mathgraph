@@ -25,5 +25,10 @@ def test_optional_mathlib_declaration_discovery(tmp_path):
  assert any(x.step_kind==E2EStepKind.MATHLIB_DECLARATION_DISCOVERY for x in r.steps)
  assert r.summary["mathlib_discovery_selected_total"]>0
  assert "Mathlib Declaration Discovery" in e2e_testdrive_report_to_markdown(r)
+def test_optional_proof_library_demo(tmp_path):
+ r=run_e2e_testdrive(workspace_root=tmp_path,include_proof_library_demo=True)
+ assert any(x.step_kind==E2EStepKind.PROOF_LIBRARY_DEMO for x in r.steps)
+ assert r.summary["proof_library_demo_selected_total"]>0
+ assert "Proof-Library Demo" in e2e_testdrive_report_to_markdown(r)
 def test_cli(tmp_path):
  out=tmp_path/"e2e.json"; subprocess.run([sys.executable,"scripts/run_e2e_testdrive.py","--out-report-json",str(out)],check=True); assert out.exists()

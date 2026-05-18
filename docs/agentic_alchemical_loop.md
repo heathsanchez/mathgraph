@@ -492,3 +492,8 @@ verifier evidence and Lawbook review make specific declarations reusable.
 Declaration discovery is a Chora-stage operation: it finds possible declarations
 and possible dependencies, then distills them into an allowlist manifest. Truth
 still enters only downstream through verifier evidence.
+
+The proof-library demo is the recurring public ordeal: discovery enters Chora,
+selected declarations become an allowlist, verifier evidence fixes only what
+checks, and Lawbook replay demonstrates reusable memory without corrupting the
+boundary.

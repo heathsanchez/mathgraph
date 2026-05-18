@@ -2073,3 +2073,4 @@ except Exception:
     pass
 
 from mathgraph.mathlib_declaration_discovery import *
+from mathgraph.proof_library_demo import *

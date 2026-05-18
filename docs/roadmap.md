@@ -74,6 +74,7 @@ Existential Agent Ecology
 39. Mathlib Micro-Subset Pilot
 40. Real Local Mathlib Allowlist Pilot
 41. Mathlib Local Declaration Discovery + Allowlist Manifest Builder
+42. Curated Proof-Library Demo Pack + Optional Real Mathlib Allowlist Example
 
 ## Future Work
 

@@ -7,3 +7,10 @@ python scripts/run_mathlib_declaration_discovery.py --use-synthetic-request --bu
 ```
 
 Discovery only inspects explicitly selected local files. It emits advisory declarations, reference hints, and generated allowlist manifests; verifier evidence can appear only after the optional downstream allowlist-ingestion step.
+
+For a polished repeatable walkthrough, use the proof-library demo pack:
+
+```bash
+python scripts/run_proof_library_demo.py --use-synthetic
+python scripts/run_proof_library_demo.py --use-synthetic --run-allowlist-ingestion --allow-execution --allow-missing-verifier --accept-verified-entries-in-memory
+```
