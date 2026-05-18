@@ -43,6 +43,12 @@ def test_empty_allowlist_live_bridges_and_audits(tmp_path):
     assert audit_mathlib_local_dependency_edge(MathlibLocalDependencyEdge("d","s","entry","a","entry","b",MathlibLocalDependencyKind.REFERENCES_DECLARATION,advisory=False))
     assert audit_mathlib_local_environment_report(MathlibLocalEnvironmentReport("env","s",advisory=False))
     assert check_roadmap_alignment(mathlib_local_entries=[bad]).critical_count()
+def test_missing_verifier_skip(monkeypatch,tmp_path):
+    assert hasattr(MathlibLocalFailureKind,"MISSING_VERIFIER")
+    monkeypatch.setattr(shutil,"which",lambda name: None if name=="lean" else "/bin/x")
+    r=ingest_mathlib_local_allowlist(build_synthetic_external_allowlist_manifest(tmp_path/"synthetic"),workspace_root=tmp_path/"w",allow_execution=True,allow_missing_verifier=True)
+    assert any(e.status==MathlibLocalEntryStatus.SKIPPED_MISSING_VERIFIER and e.failure_kind==MathlibLocalFailureKind.MISSING_VERIFIER for e in r.entries)
+    assert not r.boundary_evidence_count()
 
 def test_cli(tmp_path):
     md=tmp_path/"allowlist.md"; graph=tmp_path/"graph.json"

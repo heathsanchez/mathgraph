@@ -1,4 +1,5 @@
 import subprocess,sys
+import shutil
 from pathlib import Path
 from mathgraph.demo_release import *
 from mathgraph.roadmap_alignment import check_roadmap_alignment
@@ -22,6 +23,10 @@ def test_live_bridges_audits_artifacts(tmp_path):
  bad=run_public_demo(); bad.truth_status=DemoReleaseTruthStatus.BOUNDARY_EVIDENCE_PRESENT; assert audit_public_demo_report(bad)
  rr=run_real_mathlib_revision_demo(RealMathlibRevisionDemoConfig("x","x",project_root="/missing")); assert not audit_real_mathlib_revision_report(rr)
  assert check_roadmap_alignment(public_demo_reports=[bad]).critical_count()
+def test_live_public_demo_missing_lean(monkeypatch):
+ monkeypatch.setattr(shutil,"which",lambda name: None if name=="lean" else "/bin/x")
+ r=run_public_demo(allow_execution=True,allow_missing_verifier=True,accept_verified_entries_in_memory=True)
+ assert r.boundary_evidence_count()==0
 def test_cli_notebook(tmp_path):
  subprocess.run([sys.executable,"scripts/run_public_demo.py","--help"],check=True,capture_output=True)
  subprocess.run([sys.executable,"scripts/run_public_demo.py","--ensure-configs"],check=True,capture_output=True)

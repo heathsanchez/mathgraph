@@ -9,6 +9,13 @@ python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/cura
 python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/curated_real_mathlib_demo_config.example.json --project-root /path/to/local/mathlib --run-allowlist-ingestion --allow-execution --allow-missing-verifier
 ```
 
+Synthetic stand-in smoke runs use their own fixture-aware config:
+
+```bash
+python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/synthetic_standin_real_mathlib_demo_config.json --project-root examples/mathlib_micro_subset --out-dir /tmp/mathgraph_real_mathlib_demo_synthetic
+python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/synthetic_standin_real_mathlib_demo_config.json --project-root examples/mathlib_micro_subset --run-allowlist-ingestion --allow-execution --allow-missing-verifier --accept-verified-entries-in-memory --out-dir /tmp/mathgraph_real_mathlib_demo_synthetic_live
+```
+
 It diagnoses project markers, Lean, Lake when present, revision, toolchain, and selected module files; discovers declarations only from explicit module files; generates an advisory manifest; and optionally hands that manifest to the existing verifier-bound ingestion path.
 
 Choose one or two stable modules, keep limits small, and use `selected_declaration_names` for exact curation. A missing project path is a clean skip, not a failure.

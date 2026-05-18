@@ -1,4 +1,4 @@
-import subprocess,sys
+import subprocess,sys,json,shutil
 from pathlib import Path
 from mathgraph.api_service import ApiTruthStatus,MathGraphLocalClient
 from mathgraph.real_mathlib_demo import *
@@ -8,9 +8,10 @@ def _synthetic_config():
  return RealMathlibDemoConfig("synthetic","Synthetic",project_root="examples/mathlib_micro_subset",require_mathlib_marker=True,discovery_modules=[{"path":"Mathlib/MathGraph/Basic.lean","module_name":"Mathlib.MathGraph.Basic","include_kinds":["theorem","lemma"],"max_declarations":10},{"path":"Mathlib/MathGraph/UseBasic.lean","module_name":"Mathlib.MathGraph.UseBasic","include_kinds":["theorem","lemma"],"max_declarations":10}],selection_policy={"max_total_declarations":10,"prefer_kinds":["theorem","lemma"]})
 def test_roundtrips_examples_and_skip(tmp_path):
  c=RealMathlibDemoConfig.from_dict(default_real_mathlib_demo_config_dict()); env=detect_real_mathlib_demo_environment(c); r=run_real_mathlib_demo(c)
- st=RealMathlibDemoStageResult("s","d",RealMathlibDemoStage.CONFIG); p,q=ensure_default_real_mathlib_demo_examples(tmp_path)
+ st=RealMathlibDemoStageResult("s","d",RealMathlibDemoStage.CONFIG); p,q,synth=ensure_default_real_mathlib_demo_examples(tmp_path)
  for x in (c,env,st,r): assert x.from_json(x.to_json()).to_dict()==x.to_dict()
- assert p.exists() and q.exists() and load_real_mathlib_demo_config(p).demo_id
+ assert p.exists() and q.exists() and synth.exists() and load_real_mathlib_demo_config(p).demo_id
+ assert "Mathlib/MathGraph/" in synth.read_text() and "Mathlib/Data/Nat/Basic.lean" not in synth.read_text()
  assert r.status==RealMathlibDemoStatus.SKIPPED_ENVIRONMENT and r.boundary_evidence_count()==0 and "Boundary Discipline" in real_mathlib_demo_report_to_markdown(r)
  assert real_mathlib_demo_report_to_api_response(r).truth_status==ApiTruthStatus.ADVISORY_ONLY
  assert check_roadmap_alignment(real_mathlib_demo_reports=[r]).critical_count()==0
@@ -30,3 +31,10 @@ def test_cli_and_api(tmp_path):
  subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--out-markdown",str(tmp_path/"r.md")],check=True,capture_output=True)
  assert (tmp_path/"r.md").exists()
  assert MathGraphLocalClient().real_mathlib_demo({}).truth_status==ApiTruthStatus.ADVISORY_ONLY
+ p=subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--ensure-examples"],check=True,capture_output=True,text=True); assert len(p.stdout)<1000 and "MathGraph Real Mathlib Demo" in p.stdout
+ j=subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--print-json"],check=True,capture_output=True,text=True); assert json.loads(j.stdout)["advisory"]
+def test_synthetic_standin_example_missing_lean(monkeypatch):
+ monkeypatch.setattr(shutil,"which",lambda name: None if name=="lean" else "/bin/x")
+ c=load_real_mathlib_demo_config("examples/real_mathlib_demo/synthetic_standin_real_mathlib_demo_config.json")
+ r=run_real_mathlib_demo(c,project_root="examples/mathlib_micro_subset",run_allowlist_ingestion=True,allow_execution=True,allow_missing_verifier=True)
+ assert r.module_count()>0 and r.selected_count()>0 and r.boundary_evidence_count()==0
