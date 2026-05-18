@@ -193,6 +193,13 @@ checks only when explicitly allowed, and produces boundary-backed entries only
 for allowlisted expected declarations. It performs no downloads and no
 package-manager operations.
 
+## Mathlib Declaration Discovery
+
+MathGraph can now inspect explicitly selected local Lean/Mathlib module files,
+discover theorem/lemma/definition declarations, generate an allowlist manifest,
+and optionally hand that manifest to the local allowlist verifier. Discovery is
+advisory. Only the downstream verifier boundary can create proof evidence.
+
 ## CLI And Tooling
 
 Repo scripts expose the implemented layers as small backend-first tools:

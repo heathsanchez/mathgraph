@@ -73,10 +73,14 @@ Existential Agent Ecology
 38. CLI Import-Path Hardening + Colab Test Drive Script
 39. Mathlib Micro-Subset Pilot
 40. Real Local Mathlib Allowlist Pilot
+41. Mathlib Local Declaration Discovery + Allowlist Manifest Builder
 
 ## Future Work
 
 - real curated Mathlib allowlist examples
+- curated real Mathlib demo manifests
+- richer Lean parser / AST-backed extraction
+- dependency extraction through Lean tooling
 - trusted importer policy for pinned external corpora
 - Lake-aware build plan without network
 - larger fixture-driven release gates

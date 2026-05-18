@@ -8,3 +8,11 @@ python scripts/run_mathlib_local_allowlist.py --manifest PATH --project-root PAT
 ```
 
 This local-path-only pilot performs no downloads and no package-manager operations. Empty allowlists, environment checks, extracted declarations, imports, and dependency graphs remain advisory until explicit verifier evidence exists.
+
+## Discovery Handoff
+
+```bash
+python scripts/run_mathlib_declaration_discovery.py --ensure-examples
+python scripts/run_mathlib_declaration_discovery.py --use-synthetic-request --build-manifest
+python scripts/run_mathlib_declaration_discovery.py --use-synthetic-request --build-manifest --run-allowlist-ingestion --allow-execution --allow-missing-verifier
+```

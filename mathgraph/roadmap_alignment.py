@@ -82,6 +82,7 @@ from mathgraph.verified_corpus import VerifiedCorpusManifest,VerifiedCorpusFile,
 from mathgraph.lean_project_subset import LeanProjectManifest,LeanProjectFile,LeanProjectEntry,LeanProjectDependencyEdge,LeanProjectIngestionReport,LeanProjectEntryStatus
 from mathgraph.mathlib_micro_subset import MathlibMicroManifest,MathlibEnvironmentReport,MathlibMicroFile,MathlibMicroEntry,MathlibMicroDependencyEdge,MathlibMicroIngestionReport,MathlibMicroEntryStatus
 from mathgraph.mathlib_local_allowlist import MathlibLocalAllowlistManifest,MathlibLocalEnvironmentReport,MathlibLocalFile,MathlibLocalEntry,MathlibLocalDependencyEdge,MathlibLocalIngestionReport,MathlibLocalEntryStatus
+from mathgraph.mathlib_declaration_discovery import MathlibDiscoveryRequest,MathlibDiscoveredModule,MathlibDiscoveredDeclaration,MathlibDeclarationReferenceHint,MathlibDeclarationDiscoveryReport
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -325,6 +326,11 @@ def check_roadmap_alignment(
     mathlib_local_entries: Sequence[MathlibLocalEntry] = (),
     mathlib_local_dependency_edges: Sequence[MathlibLocalDependencyEdge] = (),
     mathlib_local_reports: Sequence[MathlibLocalIngestionReport] = (),
+    mathlib_discovery_requests: Sequence[MathlibDiscoveryRequest] = (),
+    mathlib_discovered_modules: Sequence[MathlibDiscoveredModule] = (),
+    mathlib_discovered_declarations: Sequence[MathlibDiscoveredDeclaration] = (),
+    mathlib_reference_hints: Sequence[MathlibDeclarationReferenceHint] = (),
+    mathlib_discovery_reports: Sequence[MathlibDeclarationDiscoveryReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -376,7 +382,7 @@ def check_roadmap_alignment(
     e2e_step_data=list(e2e_testdrive_steps); e2e_report_data=list(e2e_testdrive_reports)
     verifier_fixture_data=list(verifier_fixtures); verifier_fixture_result_data=list(verifier_fixture_results); verifier_fixture_suite_data=list(verifier_fixture_suites); verifier_fixture_suite_result_data=list(verifier_fixture_suite_results)
     verified_corpus_manifest_data=list(verified_corpus_manifests); verified_corpus_file_data=list(verified_corpus_files); verified_corpus_entry_data=list(verified_corpus_entries); verified_corpus_edge_data=list(verified_corpus_dependency_edges); verified_corpus_report_data=list(verified_corpus_reports)
-    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports); mathlib_manifest_data=list(mathlib_micro_manifests); mathlib_env_data=list(mathlib_environment_reports); mathlib_file_data=list(mathlib_micro_files); mathlib_entry_data=list(mathlib_micro_entries); mathlib_edge_data=list(mathlib_micro_dependency_edges); mathlib_report_data=list(mathlib_micro_reports); mathlib_local_manifest_data=list(mathlib_local_manifests); mathlib_local_env_data=list(mathlib_local_environment_reports); mathlib_local_file_data=list(mathlib_local_files); mathlib_local_entry_data=list(mathlib_local_entries); mathlib_local_edge_data=list(mathlib_local_dependency_edges); mathlib_local_report_data=list(mathlib_local_reports)
+    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports); mathlib_manifest_data=list(mathlib_micro_manifests); mathlib_env_data=list(mathlib_environment_reports); mathlib_file_data=list(mathlib_micro_files); mathlib_entry_data=list(mathlib_micro_entries); mathlib_edge_data=list(mathlib_micro_dependency_edges); mathlib_report_data=list(mathlib_micro_reports); mathlib_local_manifest_data=list(mathlib_local_manifests); mathlib_local_env_data=list(mathlib_local_environment_reports); mathlib_local_file_data=list(mathlib_local_files); mathlib_local_entry_data=list(mathlib_local_entries); mathlib_local_edge_data=list(mathlib_local_dependency_edges); mathlib_local_report_data=list(mathlib_local_reports); mathlib_discovery_request_data=list(mathlib_discovery_requests); mathlib_discovery_module_data=list(mathlib_discovered_modules); mathlib_discovery_declaration_data=list(mathlib_discovered_declarations); mathlib_reference_hint_data=list(mathlib_reference_hints); mathlib_discovery_report_data=list(mathlib_discovery_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -415,6 +421,7 @@ def check_roadmap_alignment(
     _check_lean_project_subset(lean_project_manifest_data,lean_project_file_data,lean_project_entry_data,lean_project_edge_data,lean_project_report_data,findings)
     _check_mathlib_micro_subset(mathlib_manifest_data,mathlib_env_data,mathlib_file_data,mathlib_entry_data,mathlib_edge_data,mathlib_report_data,findings)
     _check_mathlib_local_allowlist(mathlib_local_manifest_data,mathlib_local_env_data,mathlib_local_file_data,mathlib_local_entry_data,mathlib_local_edge_data,mathlib_local_report_data,findings)
+    _check_mathlib_declaration_discovery(mathlib_discovery_request_data,mathlib_discovery_module_data,mathlib_discovery_declaration_data,mathlib_reference_hint_data,mathlib_discovery_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -2162,6 +2169,18 @@ def _check_mathlib_local_allowlist(manifests, envs, files, entries, edges, repor
         if r.ok() and r.critical_count(): findings.append(RoadmapAlignmentFinding("critical","MATHLIB_LOCAL_OK_WITH_CRITICAL",f"Mathlib local report {r.report_id} hides criticals.","Report status must reflect failures."))
         if r.lawbook_replay_summary.get("known_skip_total",0) and not r.lawbook_replay_summary.get("accepted_total",0): findings.append(RoadmapAlignmentFinding("critical","MATHLIB_LOCAL_SKIP_WITHOUT_ACCEPTANCE",f"Mathlib local report {r.report_id} has known skip without acceptance.","Known skip requires accepted review."))
 
+
+def _check_mathlib_declaration_discovery(requests, modules, declarations, hints, reports, findings):
+    for x in list(requests)+[r.request for r in reports if r.request]:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","MATHLIB_DISCOVERY_REQUEST_NON_ADVISORY",f"Discovery request {x.request_id} is non-advisory.","Requests are advisory."))
+    for x in list(modules)+[m for r in reports for m in r.modules]:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","MATHLIB_DISCOVERY_MODULE_NON_ADVISORY",f"Discovery module {x.module_id} is non-advisory.","Extraction is advisory."))
+    for x in list(declarations)+[d for r in reports for d in r.declarations]:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","MATHLIB_DISCOVERY_DECLARATION_NON_ADVISORY",f"Discovery declaration {x.declaration_id} is non-advisory.","Discovery is not proof."))
+    for x in list(hints)+[h for r in reports for h in r.reference_hints]:
+        if not x.advisory: findings.append(RoadmapAlignmentFinding("critical","MATHLIB_DISCOVERY_HINT_NON_ADVISORY",f"Reference hint {x.hint_id} is non-advisory.","Hints are advisory."))
+    for r in reports:
+        if r.ok() and r.critical_count(): findings.append(RoadmapAlignmentFinding("critical","MATHLIB_DISCOVERY_OK_WITH_CRITICAL",f"Discovery report {r.report_id} hides criticals.","Report status must reflect criticals."))
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()

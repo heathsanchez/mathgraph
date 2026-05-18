@@ -16,7 +16,7 @@ def test_bootstrap_does_not_import_mathgraph(monkeypatch):
  monkeypatch.delitem(sys.modules,"mathgraph",raising=False); spec=importlib.util.spec_from_file_location("bootstrap_probe",ROOT/"scripts"/"_bootstrap.py"); mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
  assert "mathgraph" not in sys.modules
 def test_representative_scripts_clean_env_help():
- for script in ("run_verifier_fixtures.py","run_verified_corpus.py","run_lean_project_subset.py","run_mathlib_micro_subset.py","run_mathlib_local_allowlist.py","run_e2e_testdrive.py","run_hardening.py","run_roadmap_alignment.py","run_colab_testdrive.py"):
+ for script in ("run_verifier_fixtures.py","run_verified_corpus.py","run_lean_project_subset.py","run_mathlib_micro_subset.py","run_mathlib_local_allowlist.py","run_mathlib_declaration_discovery.py","run_e2e_testdrive.py","run_hardening.py","run_roadmap_alignment.py","run_colab_testdrive.py"):
   subprocess.run([sys.executable,f"scripts/{script}","--help"],cwd=ROOT,env=_env(),check=True,capture_output=True,text=True)
 def test_representative_scripts_clean_env_dry_run(tmp_path):
  cmds=(

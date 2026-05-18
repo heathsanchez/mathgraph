@@ -287,6 +287,12 @@ remains opt-in, dependency graphs remain advisory, Lawbook replay requires
 review before reuse, and extraction or environment readiness alone never
 promotes truth.
 
+\section{Declaration Discovery and Allowlist Construction}
+Declaration discovery inspects explicitly selected local module files, applies a
+conservative text extractor, records reference hints, and builds an advisory
+allowlist manifest. The manifest may be handed to downstream allowlist
+verification, but discovery alone never promotes truth.
+
 \section{Implementation Roadmap}
 \begin{longtable}{ll}
 \toprule

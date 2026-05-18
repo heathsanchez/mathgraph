@@ -488,3 +488,7 @@ advisory until verifier or trusted-import boundary evidence exists.
 The local Mathlib allowlist layer is the first real external proof-library
 membrane. It treats a local proof library as structured advisory memory until
 verifier evidence and Lawbook review make specific declarations reusable.
+
+Declaration discovery is a Chora-stage operation: it finds possible declarations
+and possible dependencies, then distills them into an allowlist manifest. Truth
+still enters only downstream through verifier evidence.
