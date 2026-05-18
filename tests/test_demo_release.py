@@ -14,6 +14,7 @@ def test_live_bridges_audits_artifacts(tmp_path):
  live=run_public_demo(allow_execution=True,allow_missing_verifier=True); assert live.summary["verified_total"] in {0,10}
  replay=run_public_demo(allow_execution=True,allow_missing_verifier=True,accept_verified_entries_in_memory=True); assert replay.known_skip_count() in {0,10}
  paths=write_public_demo_artifacts(run_public_demo(),tmp_path/"pub"); assert "markdown" in paths
+ assert "MathGraph Public Demo" in concise_public_demo_summary(run_public_demo(),paths)
  assert public_demo_report_to_api_response(run_public_demo()).truth_status==ApiTruthStatus.ADVISORY_ONLY
  assert public_demo_report_to_process_episodes(replay) and public_demo_report_to_discovery_value_scores(replay) and public_demo_report_to_structural_identity_objects(replay)
  assert public_demo_report_to_route_telemetry_events(replay) and public_demo_report_to_agent_experiences(replay)

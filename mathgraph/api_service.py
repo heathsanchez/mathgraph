@@ -20,6 +20,7 @@ from mathgraph.role_objects import build_role_object_report
 from mathgraph.structural_analogy import build_structural_analogy_report
 from mathgraph.reason_compression import build_reason_compression_report
 from mathgraph.habit_rules import build_habit_formation_report
+from mathgraph.version import __version__
 def _enum(n,v): return Enum(n,{x:x for x in v.split()},type=str)
 ApiRoute=_enum("ApiRoute","HEALTH AUDIT QUERY SUBMIT SEMANTIC_INTAKE FORMAL_WORLD_ADAPTERS PROOF_SYSTEM_INTEGRATION VERIFIER_EXECUTION VERIFIER_FIXTURES VERIFIED_CORPUS LEAN_PROJECT_SUBSET MATHLIB_MICRO_SUBSET MATHLIB_LOCAL_ALLOWLIST MATHLIB_DECLARATION_DISCOVERY PROOF_LIBRARY_DEMO PUBLIC_DEMO REAL_MATHLIB_REVISION_DEMO RELEASE_CHECK E2E_TESTDRIVE SCHEDULE PROJECT EXPLAIN PROCESS_MEMORY DISCOVERY_VALUE LAWBOOK_ACCEPTANCE_REVIEW STRUCTURAL_IDENTITY HABITS REASONS STRUCTURES ROLES ANALOGIES UNKNOWN")
 ApiRequestKind=_enum("ApiRequestKind","READ_ONLY ADVISORY_BUILD QUERY SUBMIT AUDIT SCHEDULE PROJECT EXPLAIN REVIEW UNKNOWN")
@@ -120,7 +121,7 @@ def route_result_from_artifacts(route,artifacts,status=ApiResponseStatus.ACCEPTE
 def _resp(req,result=None,*,status=None,truth=None,safety=None,message=None,health=None,audit=None):
  return ApiResponse(make_api_response_id(req.request_id,req.route.value),req.request_id,req.route,status or (result.status if result else ApiResponseStatus.OK),truth or (result.truth_status if result else ApiTruthStatus.NO_CLAIM),safety or (result.safety_level if result else ApiSafetyLevel.SAFE_READ_ONLY),result,health,audit,message)
 def handle_health(state,req):
- h=ApiHealth(implemented_routes=tuple(x.value for x in ApiRoute if x!=ApiRoute.UNKNOWN),read_only=state.read_only,external_execution_enabled=state.external_execution_enabled,verifier_execution_enabled=state.verifier_execution_enabled,module_counts=state.report_counts())
+ h=ApiHealth(version=__version__,implemented_routes=tuple(x.value for x in ApiRoute if x!=ApiRoute.UNKNOWN),read_only=state.read_only,external_execution_enabled=state.external_execution_enabled,verifier_execution_enabled=state.verifier_execution_enabled,module_counts=state.report_counts())
  return _resp(req,health=h)
 def handle_audit(state,req):
  from mathgraph.roadmap_alignment import check_roadmap_alignment

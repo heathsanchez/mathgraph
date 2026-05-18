@@ -1,8 +1,19 @@
 # MathGraph
 
-MathGraph is a lightweight generative verification kernel for AI-assisted
-mathematics. Models propose. MathGraph constrains. Verifiers decide. Digestion
-assimilates. The Lawbook remembers. Projection scales.
+MathGraph is a generative verification kernel for trustworthy mathematical
+discovery.
+
+Start here:
+
+```bash
+python scripts/run_release_check.py --quick
+python scripts/run_public_demo.py --out-dir demo_out
+```
+
+Then read [docs/quickstart.md](docs/quickstart.md).
+
+Models propose. MathGraph constrains. Verifiers decide. Digestion assimilates.
+The Lawbook remembers. Projection scales.
 
 Only verifier, trusted importer, finite validator, and chain audit boundaries
 promote truth. Everything else may guide search, explanation, scheduling, or

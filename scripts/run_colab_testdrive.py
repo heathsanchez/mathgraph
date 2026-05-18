@@ -140,7 +140,7 @@ def main(argv: list[str] | None = None) -> int:
     add("git_status", ["git", "status", "--short"])
     if args.install_editable:
         add("install_editable", [py, "-m", "pip", "install", "-e", ".[dev]"])
-    add("py_compile", [py, "-m", "py_compile", "mathgraph/verifier_execution.py", "mathgraph/verifier_fixtures.py", "mathgraph/verified_corpus.py", "mathgraph/lean_project_subset.py"])
+    add("py_compile", [py, "-m", "py_compile", "mathgraph/version.py", "mathgraph/demo_release.py", "mathgraph/verifier_execution.py", "mathgraph/verifier_fixtures.py", "mathgraph/verified_corpus.py", "mathgraph/lean_project_subset.py"])
     if args.quick_smoke:
         fixture_path = script_outputs / "fixtures_dry.json"
         add("fixtures_dry", [py, "scripts/run_verifier_fixtures.py", "--ensure-fixtures", "--out-result-json", str(fixture_path)])

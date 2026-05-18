@@ -76,6 +76,7 @@ Existential Agent Ecology
 41. Mathlib Local Declaration Discovery + Allowlist Manifest Builder
 42. Curated Proof-Library Demo Pack + Optional Real Mathlib Allowlist Example
 43. Public Demo Notebook + Release Readiness + Optional Real Mathlib Revision Demo
+44. v0.1 Release Candidate Hardening
 
 ## Future Work
 
