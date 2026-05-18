@@ -26,3 +26,7 @@ For declarations that depend on imported Mathlib context, prefer
 `--run-module-verification`. It generates temporary import/`#check` files and can
 create imported-declaration availability evidence only after Lean succeeds; it
 does not reconstruct source proofs.
+
+If discovery names fail to resolve, add `--enable-name-candidate-fallback` and
+inspect `failed_check_diagnostics.json`. A failed `#check` can be a qualification
+problem; it is not a theorem-false result.

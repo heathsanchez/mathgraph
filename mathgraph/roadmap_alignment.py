@@ -2258,9 +2258,15 @@ def _check_mathlib_module_verification(requests,files,results,reports,findings):
         for e in x.boundary_evidence:
             if e.metadata.get("boundary_kind")!="module_aware_import_check" or e.metadata.get("check_mode")!="#check" or e.metadata.get("proof_rechecked_from_source") is not False:
                 findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MODULE_EVIDENCE_METADATA",f"Module result {x.declaration_result_id} lacks imported-check metadata.","Do not overclaim #check as source proof replay."))
+            if e.metadata.get("name_resolution_mode")=="candidate_fallback" and (not e.metadata.get("original_declaration_name") or not e.metadata.get("resolved_declaration_name")):
+                findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MODULE_FALLBACK_METADATA",f"Module result {x.declaration_result_id} lacks fallback names.","Fallback evidence must record original and resolved names."))
     for r in reports:
         if r.truth_status in {MathlibModuleVerificationTruthStatus.ADVISORY_ONLY,MathlibModuleVerificationTruthStatus.SKIPPED_NO_VERIFIER} and r.boundary_evidence_count():
             findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MODULE_ADVISORY_EVIDENCE",f"Module report {r.report_id} has evidence in advisory mode.","Dry-runs and missing verifiers create no evidence."))
+        if r.unresolved_count():
+            findings.append(RoadmapAlignmentFinding("warning","MATHLIB_MODULE_UNRESOLVED",f"Module report {r.report_id} has unresolved declarations.","Inspect advisory failed-check diagnostics."))
+        if r.fallback_verified_count():
+            findings.append(RoadmapAlignmentFinding("info","MATHLIB_MODULE_FALLBACK_RESOLVED",f"Module report {r.report_id} resolved fallback declarations.","Verifier-backed candidate resolution was recorded."))
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()

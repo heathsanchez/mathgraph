@@ -25,6 +25,10 @@ def test_synthetic_standin_and_audits():
  bad=run_real_mathlib_demo(); bad.truth_status=RealMathlibDemoTruthStatus.BOUNDARY_EVIDENCE_PRESENT; assert audit_real_mathlib_demo_report(bad)
  assert audit_real_mathlib_demo_config(RealMathlibDemoConfig("x","x",advisory=False))
  assert check_roadmap_alignment(real_mathlib_demo_reports=[bad]).critical_count()
+def test_module_verification_summary_has_unresolved_counts():
+ c=_synthetic_config(); r=run_real_mathlib_demo(c,run_module_verification=True)
+ assert "module_verification_unresolved_total" in r.summarize() and "module_verification_fallback_verified_total" in r.summary
+ assert "Unresolved declarations" in real_mathlib_demo_report_to_markdown(r)
 def test_cli_and_api(tmp_path):
  subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--help"],check=True,capture_output=True)
  subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--ensure-examples"],check=True,capture_output=True)

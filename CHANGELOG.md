@@ -14,4 +14,5 @@ Summary:
 - public demo and release check
 - curated real local Mathlib demo command and report workflow
 - module-aware imported-declaration verification via explicit module `#check`
+- robust minimal module-check requests plus qualification diagnostics/fallback
 - no proof from advisory artifacts

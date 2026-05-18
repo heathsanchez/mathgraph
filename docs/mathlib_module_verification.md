@@ -24,3 +24,10 @@ Only allowlisted declarations with explicit verifier-bound evidence may cross
 the truth boundary. Discovery, generated manifests, generated check files,
 `#check` source text, graphs, reports, stdout, return code, and dry-runs remain
 advisory.
+
+Real Mathlib discovery can surface names that still need qualification repair in
+the imported environment. Failed checks write `failed_check_diagnostics.json`
+with generated check text, Lean output tails, unresolved names, and candidate
+spellings. `--enable-name-candidate-fallback` performs an optional second
+verifier pass; fallback creates evidence only for a resolved candidate that Lean
+actually accepts.

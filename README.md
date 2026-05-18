@@ -300,6 +300,11 @@ For selected real Mathlib declarations, this is the preferred verifier-bound
 path. Generated import/`#check` files establish imported declaration availability
 only after Lean succeeds; they are not source-proof reconstruction.
 
+Real Mathlib discovery can expose names that need qualification repair. Module
+verification emits failed-check diagnostics and offers an explicit conservative
+`--enable-name-candidate-fallback`; candidates stay advisory until Lean accepts
+the resolved spelling.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

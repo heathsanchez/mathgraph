@@ -9,6 +9,7 @@
 - release check
 - curated real local Mathlib demo templates and local-path-only command
 - module-aware selected-module `#check` verification for imported declaration availability
+- failed-check diagnostics and optional conservative declaration-name fallback
 
 ## What Does Not
 
