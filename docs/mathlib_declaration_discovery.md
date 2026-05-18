@@ -19,3 +19,7 @@ python scripts/run_proof_library_demo.py --use-synthetic --run-allowlist-ingesti
 
 For the public wrapper that packages this flow with release checks and
 reproducible artifacts, use `python scripts/run_public_demo.py`.
+
+Selected real Mathlib declarations can now be handed to module-aware
+verification, which imports the selected module and `#check`s selected names in
+the local project environment.

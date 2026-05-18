@@ -373,6 +373,12 @@ release-process documentation, and a canonical release gate. Release metadata,
 release-check success, generated reports, and artifact generation remain
 advisory and do not promote truth.
 
+\section{Real Mathlib Module-Aware Verification}
+Selected real Mathlib modules can be imported into generated temporary Lean
+files and selected declaration names checked with \texttt{\#check}. A successful
+check can create imported-declaration availability evidence only after the local
+verifier runs; it is not source-proof reconstruction.
+
 \section{Final Compression}
 \MG{} is the world. Agents are the explorers. \HTilt{} is the compass. Alchemy is the method. \LOGOS{} is the law. Verification is the tribunal. Digestion is understanding. Process memory is biography. The \Lawbook{} is memory. Projection is scaling. Analogy is exposition, not truth.
 

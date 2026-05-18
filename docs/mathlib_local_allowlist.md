@@ -29,3 +29,7 @@ python scripts/run_proof_library_demo.py --config examples/proof_library_demo/re
 
 For a revision-oriented local Mathlib workflow, see
 `docs/real_mathlib_revision_demo.md`.
+
+For real modules whose declarations depend on imported Mathlib context, use
+`docs/mathlib_module_verification.md`; it is the preferred selected-declaration
+availability check and does not claim source-proof replay.

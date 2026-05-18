@@ -83,6 +83,7 @@ from mathgraph.lean_project_subset import LeanProjectManifest,LeanProjectFile,Le
 from mathgraph.mathlib_micro_subset import MathlibMicroManifest,MathlibEnvironmentReport,MathlibMicroFile,MathlibMicroEntry,MathlibMicroDependencyEdge,MathlibMicroIngestionReport,MathlibMicroEntryStatus
 from mathgraph.mathlib_local_allowlist import MathlibLocalAllowlistManifest,MathlibLocalEnvironmentReport,MathlibLocalFile,MathlibLocalEntry,MathlibLocalDependencyEdge,MathlibLocalIngestionReport,MathlibLocalEntryStatus
 from mathgraph.mathlib_declaration_discovery import MathlibDiscoveryRequest,MathlibDiscoveredModule,MathlibDiscoveredDeclaration,MathlibDeclarationReferenceHint,MathlibDeclarationDiscoveryReport
+from mathgraph.mathlib_module_verification import MathlibModuleVerificationRequest,MathlibModuleCheckFile,MathlibModuleDeclarationResult,MathlibModuleVerificationReport,MathlibModuleVerificationTruthStatus
 from mathgraph.proof_library_demo import ProofLibraryDemoConfig,ProofLibraryDemoStageResult,ProofLibraryDemoReport,ProofLibraryDemoTruthStatus
 from mathgraph.demo_release import PublicDemoConfig,RealMathlibRevisionDemoConfig,ReleaseCheckResult,PublicDemoReport,RealMathlibRevisionReport,DemoReleaseTruthStatus,DemoReleaseStatus
 from mathgraph.real_mathlib_demo import RealMathlibDemoConfig,RealMathlibEnvironmentReport,RealMathlibDemoStageResult,RealMathlibDemoReport,RealMathlibDemoStatus,RealMathlibDemoTruthStatus
@@ -334,6 +335,10 @@ def check_roadmap_alignment(
     mathlib_discovered_declarations: Sequence[MathlibDiscoveredDeclaration] = (),
     mathlib_reference_hints: Sequence[MathlibDeclarationReferenceHint] = (),
     mathlib_discovery_reports: Sequence[MathlibDeclarationDiscoveryReport] = (),
+    mathlib_module_verification_requests: Sequence[MathlibModuleVerificationRequest] = (),
+    mathlib_module_check_files: Sequence[MathlibModuleCheckFile] = (),
+    mathlib_module_declaration_results: Sequence[MathlibModuleDeclarationResult] = (),
+    mathlib_module_verification_reports: Sequence[MathlibModuleVerificationReport] = (),
     proof_library_demo_configs: Sequence[ProofLibraryDemoConfig] = (),
     proof_library_demo_stage_results: Sequence[ProofLibraryDemoStageResult] = (),
     proof_library_demo_reports: Sequence[ProofLibraryDemoReport] = (),
@@ -397,7 +402,7 @@ def check_roadmap_alignment(
     e2e_step_data=list(e2e_testdrive_steps); e2e_report_data=list(e2e_testdrive_reports)
     verifier_fixture_data=list(verifier_fixtures); verifier_fixture_result_data=list(verifier_fixture_results); verifier_fixture_suite_data=list(verifier_fixture_suites); verifier_fixture_suite_result_data=list(verifier_fixture_suite_results)
     verified_corpus_manifest_data=list(verified_corpus_manifests); verified_corpus_file_data=list(verified_corpus_files); verified_corpus_entry_data=list(verified_corpus_entries); verified_corpus_edge_data=list(verified_corpus_dependency_edges); verified_corpus_report_data=list(verified_corpus_reports)
-    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports); mathlib_manifest_data=list(mathlib_micro_manifests); mathlib_env_data=list(mathlib_environment_reports); mathlib_file_data=list(mathlib_micro_files); mathlib_entry_data=list(mathlib_micro_entries); mathlib_edge_data=list(mathlib_micro_dependency_edges); mathlib_report_data=list(mathlib_micro_reports); mathlib_local_manifest_data=list(mathlib_local_manifests); mathlib_local_env_data=list(mathlib_local_environment_reports); mathlib_local_file_data=list(mathlib_local_files); mathlib_local_entry_data=list(mathlib_local_entries); mathlib_local_edge_data=list(mathlib_local_dependency_edges); mathlib_local_report_data=list(mathlib_local_reports); mathlib_discovery_request_data=list(mathlib_discovery_requests); mathlib_discovery_module_data=list(mathlib_discovered_modules); mathlib_discovery_declaration_data=list(mathlib_discovered_declarations); mathlib_reference_hint_data=list(mathlib_reference_hints); mathlib_discovery_report_data=list(mathlib_discovery_reports); proof_library_demo_config_data=list(proof_library_demo_configs); proof_library_demo_stage_data=list(proof_library_demo_stage_results); proof_library_demo_report_data=list(proof_library_demo_reports); public_demo_config_data=list(public_demo_configs); real_revision_config_data=list(real_mathlib_revision_demo_configs); release_check_data=list(release_check_results); public_demo_report_data=list(public_demo_reports); real_revision_report_data=list(real_mathlib_revision_reports); real_demo_config_data=list(real_mathlib_demo_configs); real_demo_env_data=list(real_mathlib_environment_reports); real_demo_stage_data=list(real_mathlib_stage_results); real_demo_report_data=list(real_mathlib_demo_reports)
+    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports); mathlib_manifest_data=list(mathlib_micro_manifests); mathlib_env_data=list(mathlib_environment_reports); mathlib_file_data=list(mathlib_micro_files); mathlib_entry_data=list(mathlib_micro_entries); mathlib_edge_data=list(mathlib_micro_dependency_edges); mathlib_report_data=list(mathlib_micro_reports); mathlib_local_manifest_data=list(mathlib_local_manifests); mathlib_local_env_data=list(mathlib_local_environment_reports); mathlib_local_file_data=list(mathlib_local_files); mathlib_local_entry_data=list(mathlib_local_entries); mathlib_local_edge_data=list(mathlib_local_dependency_edges); mathlib_local_report_data=list(mathlib_local_reports); mathlib_discovery_request_data=list(mathlib_discovery_requests); mathlib_discovery_module_data=list(mathlib_discovered_modules); mathlib_discovery_declaration_data=list(mathlib_discovered_declarations); mathlib_reference_hint_data=list(mathlib_reference_hints); mathlib_discovery_report_data=list(mathlib_discovery_reports); mathlib_module_request_data=list(mathlib_module_verification_requests); mathlib_module_file_data=list(mathlib_module_check_files); mathlib_module_result_data=list(mathlib_module_declaration_results); mathlib_module_report_data=list(mathlib_module_verification_reports); proof_library_demo_config_data=list(proof_library_demo_configs); proof_library_demo_stage_data=list(proof_library_demo_stage_results); proof_library_demo_report_data=list(proof_library_demo_reports); public_demo_config_data=list(public_demo_configs); real_revision_config_data=list(real_mathlib_revision_demo_configs); release_check_data=list(release_check_results); public_demo_report_data=list(public_demo_reports); real_revision_report_data=list(real_mathlib_revision_reports); real_demo_config_data=list(real_mathlib_demo_configs); real_demo_env_data=list(real_mathlib_environment_reports); real_demo_stage_data=list(real_mathlib_stage_results); real_demo_report_data=list(real_mathlib_demo_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -437,6 +442,7 @@ def check_roadmap_alignment(
     _check_mathlib_micro_subset(mathlib_manifest_data,mathlib_env_data,mathlib_file_data,mathlib_entry_data,mathlib_edge_data,mathlib_report_data,findings)
     _check_mathlib_local_allowlist(mathlib_local_manifest_data,mathlib_local_env_data,mathlib_local_file_data,mathlib_local_entry_data,mathlib_local_edge_data,mathlib_local_report_data,findings)
     _check_mathlib_declaration_discovery(mathlib_discovery_request_data,mathlib_discovery_module_data,mathlib_discovery_declaration_data,mathlib_reference_hint_data,mathlib_discovery_report_data,findings)
+    _check_mathlib_module_verification(mathlib_module_request_data,mathlib_module_file_data,mathlib_module_result_data,mathlib_module_report_data,findings)
     _check_proof_library_demo(proof_library_demo_config_data,proof_library_demo_stage_data,proof_library_demo_report_data,findings)
     _check_demo_release(public_demo_config_data,real_revision_config_data,release_check_data,public_demo_report_data,real_revision_report_data,findings)
     _check_real_mathlib_demo(real_demo_config_data,real_demo_env_data,real_demo_stage_data,real_demo_report_data,findings)
@@ -2242,6 +2248,19 @@ def _check_real_mathlib_demo(configs, envs, stages, reports, findings):
             findings.append(RoadmapAlignmentFinding("critical","REAL_MATHLIB_DEMO_SKIP_AS_PROOF",f"Skipped real Mathlib demo {r.report_id} claims proof.","Missing environments are not proof."))
         if r.truth_status not in {RealMathlibDemoTruthStatus.ADVISORY_ONLY,RealMathlibDemoTruthStatus.SKIPPED_NO_ENVIRONMENT} and not r.boundary_evidence_count():
             findings.append(RoadmapAlignmentFinding("critical","REAL_MATHLIB_DEMO_PROOF_WITHOUT_BOUNDARY",f"Real Mathlib demo {r.report_id} claims proof without boundary.","Require verifier boundary evidence."))
+def _check_mathlib_module_verification(requests,files,results,reports,findings):
+    for x in [*requests,*files,*reports]:
+        if not x.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MODULE_NON_ADVISORY","Module verification object is non-advisory.","Generated checks and reports remain advisory."))
+    for x in results:
+        if x.boundary_evidence and (not x.verified or x.failure_kind.value!="NONE"):
+            findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MODULE_FAILED_EVIDENCE",f"Module result {x.declaration_result_id} has invalid evidence.","Only successful verifier checks may emit evidence."))
+        for e in x.boundary_evidence:
+            if e.metadata.get("boundary_kind")!="module_aware_import_check" or e.metadata.get("check_mode")!="#check" or e.metadata.get("proof_rechecked_from_source") is not False:
+                findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MODULE_EVIDENCE_METADATA",f"Module result {x.declaration_result_id} lacks imported-check metadata.","Do not overclaim #check as source proof replay."))
+    for r in reports:
+        if r.truth_status in {MathlibModuleVerificationTruthStatus.ADVISORY_ONLY,MathlibModuleVerificationTruthStatus.SKIPPED_NO_VERIFIER} and r.boundary_evidence_count():
+            findings.append(RoadmapAlignmentFinding("critical","MATHLIB_MODULE_ADVISORY_EVIDENCE",f"Module report {r.report_id} has evidence in advisory mode.","Dry-runs and missing verifiers create no evidence."))
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()

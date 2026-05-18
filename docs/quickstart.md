@@ -44,6 +44,12 @@ python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/cura
 
 The command is local-path-only and skips cleanly when no project path is available.
 
+Optional selected-module verification:
+
+```bash
+python scripts/run_mathlib_module_verification.py --use-synthetic-request --project-root examples/mathlib_micro_subset
+```
+
 ## 6. Boundary Reminder
 
 CLI success is not proof. Demo success is not proof. Only verifier, trusted

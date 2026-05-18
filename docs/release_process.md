@@ -20,5 +20,6 @@ python scripts/run_colab_testdrive.py --use-current-checkout --quick-smoke
 - docs updated
 - version, changelog, and release notes updated
 - curated real Mathlib demo examples and docs exist; real Mathlib is not required for the release gate
+- module-aware Mathlib verification examples/docs exist; live real Mathlib remains optional
 
 Release-check success is a release signal, not proof.

@@ -82,6 +82,8 @@ Existential Agent Ecology
 
 ## Future Work
 
+Real Mathlib Module-Aware Verification v0: implemented/in progress.
+
 - real curated Mathlib allowlist examples
 - curated real Mathlib demo manifests
 - richer Lean parser / AST-backed extraction

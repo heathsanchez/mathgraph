@@ -21,3 +21,8 @@ It diagnoses project markers, Lean, Lake when present, revision, toolchain, and 
 Choose one or two stable modules, keep limits small, and use `selected_declaration_names` for exact curation. A missing project path is a clean skip, not a failure.
 
 A local Mathlib checkout is candidate structured memory. Discovery, revisions, toolchains, generated manifests, dependency graphs, reports, stdout, and return codes are advisory. Only allowlisted declarations with explicit verifier boundary evidence become proof evidence.
+
+For declarations that depend on imported Mathlib context, prefer
+`--run-module-verification`. It generates temporary import/`#check` files and can
+create imported-declaration availability evidence only after Lean succeeds; it
+does not reconstruct source proofs.

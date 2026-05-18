@@ -8,6 +8,7 @@
 - local-path-only Mathlib allowlist workflows
 - release check
 - curated real local Mathlib demo templates and local-path-only command
+- module-aware selected-module `#check` verification for imported declaration availability
 
 ## What Does Not
 

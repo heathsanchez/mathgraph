@@ -13,4 +13,5 @@ Summary:
 - proof-library demo pack
 - public demo and release check
 - curated real local Mathlib demo command and report workflow
+- module-aware imported-declaration verification via explicit module `#check`
 - no proof from advisory artifacts

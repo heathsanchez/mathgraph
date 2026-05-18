@@ -289,6 +289,17 @@ python scripts/run_proof_library_demo.py --config examples/proof_library_demo/re
 
 See `docs/real_mathlib_revision_demo.md` for the local-path-only revision workflow.
 
+## Mathlib Module-Aware Verification
+
+```bash
+python scripts/run_mathlib_module_verification.py --use-synthetic-request --project-root examples/mathlib_micro_subset
+python scripts/run_real_mathlib_demo.py --project-root /path/to/mathlib4 --run-module-verification --allow-execution --allow-missing-verifier
+```
+
+For selected real Mathlib declarations, this is the preferred verifier-bound
+path. Generated import/`#check` files establish imported declaration availability
+only after Lean succeeds; they are not source-proof reconstruction.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See
