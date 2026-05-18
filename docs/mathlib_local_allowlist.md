@@ -24,3 +24,6 @@ python scripts/run_proof_library_demo.py --ensure-configs
 python scripts/run_proof_library_demo.py --use-synthetic
 python scripts/run_proof_library_demo.py --config examples/proof_library_demo/real_mathlib_demo_config.example.json --project-root /path/to/local/mathlib
 ```
+
+For a revision-oriented local Mathlib workflow, see
+`docs/real_mathlib_revision_demo.md`.

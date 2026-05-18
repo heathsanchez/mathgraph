@@ -84,6 +84,7 @@ from mathgraph.mathlib_micro_subset import MathlibMicroManifest,MathlibEnvironme
 from mathgraph.mathlib_local_allowlist import MathlibLocalAllowlistManifest,MathlibLocalEnvironmentReport,MathlibLocalFile,MathlibLocalEntry,MathlibLocalDependencyEdge,MathlibLocalIngestionReport,MathlibLocalEntryStatus
 from mathgraph.mathlib_declaration_discovery import MathlibDiscoveryRequest,MathlibDiscoveredModule,MathlibDiscoveredDeclaration,MathlibDeclarationReferenceHint,MathlibDeclarationDiscoveryReport
 from mathgraph.proof_library_demo import ProofLibraryDemoConfig,ProofLibraryDemoStageResult,ProofLibraryDemoReport,ProofLibraryDemoTruthStatus
+from mathgraph.demo_release import PublicDemoConfig,RealMathlibRevisionDemoConfig,ReleaseCheckResult,PublicDemoReport,RealMathlibRevisionReport,DemoReleaseTruthStatus,DemoReleaseStatus
 from mathgraph.verification_episode import VerificationEpisodeStatus, VerificationEpisodeTrace
 from mathgraph.verifier_feedback import (
     FlawSeverity,
@@ -335,6 +336,11 @@ def check_roadmap_alignment(
     proof_library_demo_configs: Sequence[ProofLibraryDemoConfig] = (),
     proof_library_demo_stage_results: Sequence[ProofLibraryDemoStageResult] = (),
     proof_library_demo_reports: Sequence[ProofLibraryDemoReport] = (),
+    public_demo_configs: Sequence[PublicDemoConfig] = (),
+    real_mathlib_revision_demo_configs: Sequence[RealMathlibRevisionDemoConfig] = (),
+    release_check_results: Sequence[ReleaseCheckResult] = (),
+    public_demo_reports: Sequence[PublicDemoReport] = (),
+    real_mathlib_revision_reports: Sequence[RealMathlibRevisionReport] = (),
     summary: Mapping[str, Any] | None = None,
 ) -> RoadmapAlignmentReport:
     """Check whether a run preserves MathGraph advisory/truth boundaries."""
@@ -386,7 +392,7 @@ def check_roadmap_alignment(
     e2e_step_data=list(e2e_testdrive_steps); e2e_report_data=list(e2e_testdrive_reports)
     verifier_fixture_data=list(verifier_fixtures); verifier_fixture_result_data=list(verifier_fixture_results); verifier_fixture_suite_data=list(verifier_fixture_suites); verifier_fixture_suite_result_data=list(verifier_fixture_suite_results)
     verified_corpus_manifest_data=list(verified_corpus_manifests); verified_corpus_file_data=list(verified_corpus_files); verified_corpus_entry_data=list(verified_corpus_entries); verified_corpus_edge_data=list(verified_corpus_dependency_edges); verified_corpus_report_data=list(verified_corpus_reports)
-    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports); mathlib_manifest_data=list(mathlib_micro_manifests); mathlib_env_data=list(mathlib_environment_reports); mathlib_file_data=list(mathlib_micro_files); mathlib_entry_data=list(mathlib_micro_entries); mathlib_edge_data=list(mathlib_micro_dependency_edges); mathlib_report_data=list(mathlib_micro_reports); mathlib_local_manifest_data=list(mathlib_local_manifests); mathlib_local_env_data=list(mathlib_local_environment_reports); mathlib_local_file_data=list(mathlib_local_files); mathlib_local_entry_data=list(mathlib_local_entries); mathlib_local_edge_data=list(mathlib_local_dependency_edges); mathlib_local_report_data=list(mathlib_local_reports); mathlib_discovery_request_data=list(mathlib_discovery_requests); mathlib_discovery_module_data=list(mathlib_discovered_modules); mathlib_discovery_declaration_data=list(mathlib_discovered_declarations); mathlib_reference_hint_data=list(mathlib_reference_hints); mathlib_discovery_report_data=list(mathlib_discovery_reports); proof_library_demo_config_data=list(proof_library_demo_configs); proof_library_demo_stage_data=list(proof_library_demo_stage_results); proof_library_demo_report_data=list(proof_library_demo_reports)
+    lean_project_manifest_data=list(lean_project_manifests); lean_project_file_data=list(lean_project_files); lean_project_entry_data=list(lean_project_entries); lean_project_edge_data=list(lean_project_dependency_edges); lean_project_report_data=list(lean_project_reports); mathlib_manifest_data=list(mathlib_micro_manifests); mathlib_env_data=list(mathlib_environment_reports); mathlib_file_data=list(mathlib_micro_files); mathlib_entry_data=list(mathlib_micro_entries); mathlib_edge_data=list(mathlib_micro_dependency_edges); mathlib_report_data=list(mathlib_micro_reports); mathlib_local_manifest_data=list(mathlib_local_manifests); mathlib_local_env_data=list(mathlib_local_environment_reports); mathlib_local_file_data=list(mathlib_local_files); mathlib_local_entry_data=list(mathlib_local_entries); mathlib_local_edge_data=list(mathlib_local_dependency_edges); mathlib_local_report_data=list(mathlib_local_reports); mathlib_discovery_request_data=list(mathlib_discovery_requests); mathlib_discovery_module_data=list(mathlib_discovered_modules); mathlib_discovery_declaration_data=list(mathlib_discovered_declarations); mathlib_reference_hint_data=list(mathlib_reference_hints); mathlib_discovery_report_data=list(mathlib_discovery_reports); proof_library_demo_config_data=list(proof_library_demo_configs); proof_library_demo_stage_data=list(proof_library_demo_stage_results); proof_library_demo_report_data=list(proof_library_demo_reports); public_demo_config_data=list(public_demo_configs); real_revision_config_data=list(real_mathlib_revision_demo_configs); release_check_data=list(release_check_results); public_demo_report_data=list(public_demo_reports); real_revision_report_data=list(real_mathlib_revision_reports)
 
     _check_traces(traces, findings)
     _check_experiences(experiences, findings)
@@ -427,6 +433,7 @@ def check_roadmap_alignment(
     _check_mathlib_local_allowlist(mathlib_local_manifest_data,mathlib_local_env_data,mathlib_local_file_data,mathlib_local_entry_data,mathlib_local_edge_data,mathlib_local_report_data,findings)
     _check_mathlib_declaration_discovery(mathlib_discovery_request_data,mathlib_discovery_module_data,mathlib_discovery_declaration_data,mathlib_reference_hint_data,mathlib_discovery_report_data,findings)
     _check_proof_library_demo(proof_library_demo_config_data,proof_library_demo_stage_data,proof_library_demo_report_data,findings)
+    _check_demo_release(public_demo_config_data,real_revision_config_data,release_check_data,public_demo_report_data,real_revision_report_data,findings)
     _check_summary(summary_data, findings)
     _check_cross_record_warnings(
         traces,
@@ -2199,6 +2206,27 @@ def _check_proof_library_demo(configs, stages, reports, findings):
         s=r.summarize()
         if any(s[k] for k in ("unsafe_verified_total","expected_missing_verified_total","import_failure_verified_total")): findings.append(RoadmapAlignmentFinding("critical","PROOF_LIBRARY_DEMO_FAILED_ENTRY_VERIFIED",f"Demo {r.report_id} verified rejected entries.","Keep rejected entries advisory."))
         if r.ok() and r.critical_count(): findings.append(RoadmapAlignmentFinding("critical","PROOF_LIBRARY_DEMO_OK_WITH_CRITICAL",f"Demo report {r.report_id} hides criticals.","Report status must reflect criticals."))
+
+def _check_demo_release(public_configs, real_configs, checks, public_reports, real_reports, findings):
+    for x in [*public_configs, *real_configs, *checks]:
+        if not x.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","DEMO_RELEASE_NON_ADVISORY",f"Release object {getattr(x,'demo_id',getattr(x,'check_id','unknown'))} is non-advisory.","Release-layer objects are advisory."))
+    for r in public_reports:
+        if not r.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","PUBLIC_DEMO_REPORT_NON_ADVISORY",f"Public demo report {r.report_id} is non-advisory.","Reports are advisory."))
+        if r.truth_status != DemoReleaseTruthStatus.ADVISORY_ONLY and not r.boundary_evidence_count():
+            findings.append(RoadmapAlignmentFinding("critical","PUBLIC_DEMO_PROOF_WITHOUT_BOUNDARY",f"Public demo report {r.report_id} claims proof without boundary evidence.","Only downstream verifier evidence promotes truth."))
+        if r.known_skip_count() and not r.summary.get("accepted_total", 0):
+            findings.append(RoadmapAlignmentFinding("critical","PUBLIC_DEMO_SKIP_WITHOUT_ACCEPTANCE",f"Public demo report {r.report_id} exposes known skip without acceptance.","Known skip requires in-memory acceptance."))
+        if r.ok() and r.critical_count():
+            findings.append(RoadmapAlignmentFinding("critical","PUBLIC_DEMO_OK_WITH_CRITICAL",f"Public demo report {r.report_id} hides criticals.","Report status must reflect criticals."))
+    for r in real_reports:
+        if not r.advisory:
+            findings.append(RoadmapAlignmentFinding("critical","REAL_REVISION_REPORT_NON_ADVISORY",f"Real revision report {r.report_id} is non-advisory.","Reports are advisory."))
+        if r.status == DemoReleaseStatus.SKIPPED_ENVIRONMENT and r.truth_status not in {DemoReleaseTruthStatus.ADVISORY_ONLY, DemoReleaseTruthStatus.SKIPPED_NO_ENVIRONMENT}:
+            findings.append(RoadmapAlignmentFinding("critical","REAL_REVISION_SKIP_AS_PROOF",f"Skipped real revision report {r.report_id} claims proof.","Missing environments are not proof."))
+        if r.ok() and r.critical_count():
+            findings.append(RoadmapAlignmentFinding("critical","REAL_REVISION_OK_WITH_CRITICAL",f"Real revision report {r.report_id} hides criticals.","Report status must reflect criticals."))
 
 def _check_summary(summary: Mapping[str, Any], findings: list[RoadmapAlignmentFinding]) -> None:
     text = json.dumps(summary, sort_keys=True).lower()

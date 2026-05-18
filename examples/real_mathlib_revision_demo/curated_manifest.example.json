@@ -1,0 +1,8 @@
+{
+  "manifest_id": "curated-real-mathlib-template",
+  "advisory": true,
+  "files": [],
+  "metadata": {
+    "note": "Template only; no verified theorem names are claimed."
+  }
+}

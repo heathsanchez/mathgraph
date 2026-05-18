@@ -16,3 +16,6 @@ python scripts/run_proof_library_demo.py --config examples/proof_library_demo/re
 ```
 
 The demo is read-only with respect to persistent Lawbook state. Discovery, generated manifests, dependency graphs, and reports are advisory; only explicit verifier/importer/finite-validator/chain-audit evidence promotes truth.
+
+For the public-facing wrapper around this flow, use `scripts/run_public_demo.py`;
+for release smoke checks, use `scripts/run_release_check.py`.

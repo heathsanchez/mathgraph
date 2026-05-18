@@ -14,3 +14,6 @@ For a polished repeatable walkthrough, use the proof-library demo pack:
 python scripts/run_proof_library_demo.py --use-synthetic
 python scripts/run_proof_library_demo.py --use-synthetic --run-allowlist-ingestion --allow-execution --allow-missing-verifier --accept-verified-entries-in-memory
 ```
+
+For the public wrapper that packages this flow with release checks and
+reproducible artifacts, use `python scripts/run_public_demo.py`.

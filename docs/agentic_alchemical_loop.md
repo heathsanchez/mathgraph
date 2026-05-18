@@ -497,3 +497,11 @@ The proof-library demo is the recurring public ordeal: discovery enters Chora,
 selected declarations become an allowlist, verifier evidence fixes only what
 checks, and Lawbook replay demonstrates reusable memory without corrupting the
 boundary.
+
+The public demo is the recurring ordeal made legible: it gathers the synthetic
+proof-library path, release checks, and reports into one repeatable account
+without pretending that successful presentation is proof.
+
+The real Mathlib revision demo is an external proof-library membrane: it records
+local revision and toolchain context, then keeps every discovered declaration
+advisory until downstream verifier evidence arrives.

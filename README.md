@@ -249,9 +249,28 @@ The built-in demo uses the synthetic Mathlib-style subset; a real local Mathlib
 demo can be configured by supplying a local path and explicit
 module/declaration selection.
 
+## Public Demo and Release Check
+
+```bash
+python scripts/run_public_demo.py --ensure-configs
+python scripts/run_public_demo.py --allow-execution --allow-missing-verifier --accept-verified-entries-in-memory
+python scripts/run_release_check.py --quick
+python scripts/run_release_check.py --include-public-demo --allow-live-verifier --allow-missing-verifier
+```
+
+Demo success and release-check success are usability signals, not proof.
+
+## Optional Real Local Mathlib Revision Demo
+
+```bash
+python scripts/run_proof_library_demo.py --config examples/proof_library_demo/real_mathlib_demo_config.example.json --project-root /path/to/mathlib
+```
+
+See `docs/real_mathlib_revision_demo.md` for the local-path-only revision workflow.
+
 ## Current Status
 
-Implemented milestones run through the Curated Proof-Library Demo Pack. See
+Implemented milestones run through Public Demo and Release Readiness. See
 [docs/roadmap.md](docs/roadmap.md) for the live
 roadmap and [docs/agentic_alchemical_loop.md](docs/agentic_alchemical_loop.md)
 for the process view. See also [docs/manifesto.md](docs/manifesto.md) and
