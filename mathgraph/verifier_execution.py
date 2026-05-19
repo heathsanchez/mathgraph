@@ -147,7 +147,7 @@ def validate_verifier_command_contract(c,*,max_timeout_sec=60.0,max_file_bytes=1
  if c.allow_shell: out.append(_finding(VerifierSafetyFindingKind.SHELL_FORBIDDEN,"critical","shell execution forbidden",c))
  if c.allow_network: out.append(_finding(VerifierSafetyFindingKind.NETWORK_FORBIDDEN,"critical","network execution forbidden",c))
  if not c.allow_execution: out.append(_finding(VerifierSafetyFindingKind.EXECUTION_NOT_ALLOWED,"info","execution disabled",c))
- if not c.argv or c.argv[0]!=allow.get(c.system_kind): out.append(_finding(VerifierSafetyFindingKind.COMMAND_NOT_ALLOWLISTED,"critical","command not allowlisted",c))
+ if not _argv_allowlisted(c,allow): out.append(_finding(VerifierSafetyFindingKind.COMMAND_NOT_ALLOWLISTED,"critical","command not allowlisted",c))
  if any(any(x in tok for x in (";","&&","||","|",">","<","`","$(")) for tok in c.argv): out.append(_finding(VerifierSafetyFindingKind.COMMAND_NOT_ALLOWLISTED,"critical","shell metacharacter in argv",c))
  if c.timeout_sec>max_timeout_sec: out.append(_finding(VerifierSafetyFindingKind.TIMEOUT_TOO_LARGE,"critical","timeout too large",c))
  root=Path(c.workspace_root).resolve() if c.workspace_root else None
@@ -161,6 +161,14 @@ def validate_verifier_command_contract(c,*,max_timeout_sec=60.0,max_file_bytes=1
    if re.search(rf"\b{marker}\b",text,re.I): out.append(_finding(kind,"critical",f"unsafe marker: {marker}",c))
  if not c.expected_theorem_names: out.append(_finding(VerifierSafetyFindingKind.RAW_SUCCESS_NOT_ENOUGH,"warning","expected theorem names absent",c))
  return out
+def _argv_allowlisted(c,allow):
+ if not c.argv: return False
+ head=Path(str(c.argv[0])).name
+ if c.system_kind==VerifierSystemKind.LEAN:
+  if head=="lean": return True
+  if head=="lake" and len(c.argv)==4 and tuple(c.argv[1:3])==("env","lean"): return True
+  return False
+ return head==allow.get(c.system_kind)
 def execute_verifier_request(req,*,allow_execution=False,max_timeout_sec=60.0):
  c=req.contract; finds=validate_verifier_command_contract(c,max_timeout_sec=max_timeout_sec); crit=any(x.is_critical() for x in finds)
  if not allow_execution or not c.allow_execution: return VerifierExecutionResult(make_verifier_execution_result_id(req.request_id,"blocked"),req.request_id,c.system_kind,VerifierExecutionStatus.BLOCKED,safety_findings=tuple(finds),boundary_status=VerifierBoundaryStatus.BOUNDARY_BLOCKED,failure_kind=VerifierFailureKind.EXECUTION_DISABLED)

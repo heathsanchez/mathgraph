@@ -1,6 +1,6 @@
 # Roadmap
 
-- Curated Real Mathlib Manifest v0 Demo: implemented/in progress.
+- Mathlib Module Verification v0.2 project execution hardening: implemented/in progress.
 
 ## Current Architecture
 
@@ -79,17 +79,18 @@ Existential Agent Ecology
 42. Curated Proof-Library Demo Pack + Optional Real Mathlib Allowlist Example
 43. Public Demo Notebook + Release Readiness + Optional Real Mathlib Revision Demo
 44. v0.1 Release Candidate Hardening
+45. Curated Real Mathlib Manifest v0 Demo
+46. Real Mathlib Module-Aware Verification v0
+47. Mathlib Module Verification v0.2 project execution hardening
 
 ## Future Work
-
-Real Mathlib Module-Aware Verification v0: implemented/in progress.
 
 - real curated Mathlib allowlist examples
 - curated real Mathlib demo manifests
 - richer Lean parser / AST-backed extraction
 - dependency extraction through Lean tooling
 - trusted importer policy for pinned external corpora
-- Lake-aware build plan without network
+- richer Lake-aware diagnostics without network or package-manager actions
 - larger fixture-driven release gates
 - persistent Lawbook storage workflow
 - package/release workflow

@@ -18,10 +18,22 @@ def test_minimal_request_loading_is_robust_and_deterministic(tmp_path):
  d={"project_root":str(SYN),"targets":[{"module_name":"Mathlib.MathGraph.Basic","module_path":"Mathlib/MathGraph/Basic.lean","declaration_names":["Mathlib.MathGraph.mgml_true"]}]}
  a=MathlibModuleVerificationRequest.from_dict(d); b=MathlibModuleVerificationRequest.from_json(json.dumps(d))
  assert a.request_id==b.request_id and a.targets[0].target_id==b.targets[0].target_id
- assert a.targets[0].check_mode==MathlibModuleVerificationCheckMode.CHECK_DECLARATION and a.advisory
+ assert a.targets[0].check_mode==MathlibModuleVerificationCheckMode.CHECK_DECLARATION and a.execution_mode==MathlibModuleVerificationExecutionMode.AUTO and a.advisory
+ assert MathlibModuleVerificationRequest.from_dict({**d,"execution_mode":"lake-env-lean"}).execution_mode==MathlibModuleVerificationExecutionMode.LAKE_ENV_LEAN
  p=tmp_path/"minimal.json"; p.write_text(json.dumps(d)); z=subprocess.run([sys.executable,"scripts/run_mathlib_module_verification.py","--request",str(p),"--project-root",str(SYN)],cwd=ROOT,text=True,capture_output=True)
  assert z.returncode==0
  assert "MathGraph Mathlib Module Verification" in z.stdout
+def test_execution_mode_detection_and_safe_commands(monkeypatch,tmp_path):
+ t=MathlibModuleCheckTarget("t","Mathlib.MathGraph.Basic","Mathlib/MathGraph/Basic.lean",("Mathlib.MathGraph.mgml_true",)); q=MathlibModuleVerificationRequest("q",str(SYN),[t]); f=write_module_check_file(q,t,workspace_root=tmp_path/"checks")
+ monkeypatch.setattr("shutil.which",lambda n: f"/bin/{n}" if n in {"lean","lake"} else None)
+ assert detect_module_verification_execution_mode(project_root=SYN,requested_mode=MathlibModuleVerificationExecutionMode.AUTO)==MathlibModuleVerificationExecutionMode.RAW_LEAN
+ lake_root=tmp_path/"lake"; (lake_root/".lake"/"build"/"lib"/"lean").mkdir(parents=True); (lake_root/"lakefile.lean").write_text("-- fake")
+ assert detect_module_verification_execution_mode(project_root=lake_root,requested_mode="auto")==MathlibModuleVerificationExecutionMode.LAKE_ENV_LEAN
+ argv,env,md=build_module_check_command(check_file=f,project_root=lake_root,execution_mode="lake-env-lean")
+ assert argv==["/bin/lake","env","lean",f.check_file_path] and md["shell"] is False and "cache get" not in " ".join(argv)
+ argv2,env2,md2=build_module_check_command(check_file=f,project_root=lake_root,execution_mode="raw-lean",env={"LEAN_PATH":"/tmp/build"})
+ assert argv2==["/bin/lean",f.check_file_path] and str(lake_root/".lake"/"build"/"lib"/"lean") in env2["LEAN_PATH"] and "/tmp/build" in env2["LEAN_PATH"]
+ assert detect_import_lookup_path_wrong("error: object file '/tmp/mathgraph_module_verification_tmp/olean/Mathlib/Data/Nat/Basic.olean' of module Mathlib.Data.Nat.Basic does not exist")
 def test_missing_env_and_live_contract(monkeypatch,tmp_path):
  miss=run_mathlib_module_verification(MathlibModuleVerificationRequest("missing","/nope")); assert miss.status==MathlibModuleVerificationStatus.SKIPPED_ENVIRONMENT and not miss.boundary_evidence_count()
  monkeypatch.setattr("shutil.which",lambda x: None)
@@ -51,3 +63,7 @@ def test_failed_diagnostics_and_fallback(tmp_path):
 def test_cli(tmp_path):
  p=subprocess.run([sys.executable,"scripts/run_mathlib_module_verification.py","--use-synthetic-request","--project-root",str(SYN),"--enable-name-candidate-fallback","--out-dir",str(tmp_path/"o")],cwd=ROOT,text=True,capture_output=True)
  assert p.returncode==0 and "unresolved:" in p.stdout and (tmp_path/"o"/"mathlib_module_verification_report.json").exists() and (tmp_path/"o"/"failed_check_diagnostics.json").exists()
+ p2=subprocess.run([sys.executable,"scripts/run_mathlib_module_verification.py","--use-synthetic-request","--project-root",str(SYN),"--execution-mode","auto","--print-check-command","--out-dir",str(tmp_path/"o2")],cwd=ROOT,text=True,capture_output=True)
+ assert p2.returncode==0 and "execution_mode:" in p2.stdout
+ p3=subprocess.run([sys.executable,"scripts/run_mathlib_module_verification.py","--use-synthetic-request","--project-root",str(SYN),"--execution-mode","lake-env-lean","--out-dir",str(tmp_path/"o3")],cwd=ROOT,text=True,capture_output=True)
+ assert p3.returncode==0

@@ -10,6 +10,8 @@
 - curated real local Mathlib demo templates and local-path-only command
 - module-aware selected-module `#check` verification for imported declaration availability
 - failed-check diagnostics and optional conservative declaration-name fallback
+- real Mathlib/Lake project checks through `lake env lean` from the supplied
+  project root
 
 ## What Does Not
 
@@ -28,4 +30,5 @@ promotes truth.
 python scripts/run_release_check.py --quick
 python scripts/run_public_demo.py --out-dir demo_out
 python scripts/run_public_demo.py --allow-execution --allow-missing-verifier --accept-verified-entries-in-memory --out-dir demo_live_out
+python scripts/run_real_mathlib_demo.py --project-root /path/to/mathlib4 --run-module-verification --execution-mode lake-env-lean --allow-execution --allow-missing-verifier
 ```

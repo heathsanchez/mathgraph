@@ -48,7 +48,11 @@ Optional selected-module verification:
 
 ```bash
 python scripts/run_mathlib_module_verification.py --use-synthetic-request --project-root examples/mathlib_micro_subset
+python scripts/run_real_mathlib_demo.py --project-root /path/to/mathlib4 --run-module-verification --execution-mode lake-env-lean --allow-execution --allow-missing-verifier
 ```
+
+Use `lake env lean` mode for real Mathlib/Lake projects. Raw Lean mode is mainly
+for synthetic or simple projects.
 
 ## 6. Boundary Reminder
 

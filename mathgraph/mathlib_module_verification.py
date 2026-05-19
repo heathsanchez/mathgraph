@@ -1,6 +1,6 @@
 """Module-aware local Mathlib declaration availability checks via import/#check."""
 from __future__ import annotations
-import json,os,tempfile
+import json,os,shutil,tempfile
 from dataclasses import MISSING,dataclass,field
 from datetime import datetime,timezone
 from enum import Enum
@@ -24,6 +24,7 @@ MathlibModuleVerificationTruthStatus=_enum("MathlibModuleVerificationTruthStatus
 MathlibModuleVerificationFailureKind=_enum("MathlibModuleVerificationFailureKind","NONE MISSING_PROJECT_ROOT MISSING_LEAN MISSING_MODULE EMPTY_DECLARATION_SELECTION UNSAFE_MARKER CHECK_FILE_WRITE_FAILED CHECK_FAILED EXPECTED_DECLARATION_MISSING IMPORT_ERROR TYPE_ERROR TIMEOUT NONZERO_EXIT EXECUTION_DISABLED SAFETY_BLOCKED UNKNOWN")
 MathlibModuleVerificationCheckMode=_enum("MathlibModuleVerificationCheckMode","CHECK_DECLARATION CHECK_DECLARATION_TYPE IMPORT_ONLY UNKNOWN")
 MathlibModuleVerificationRisk=_enum("MathlibModuleVerificationRisk","SAFE DISCOVERY_ONLY IMPORT_CHECK_ONLY MISSING_ENVIRONMENT MISSING_VERIFIER GENERATED_CHECK_FILE UNKNOWN")
+MathlibModuleVerificationExecutionMode=_enum("MathlibModuleVerificationExecutionMode","AUTO LAKE_ENV_LEAN RAW_LEAN UNKNOWN")
 def _serial(cls,enums=()):
  def td(self):
   d=dict(self.__dict__)
@@ -51,7 +52,7 @@ class MathlibModuleCheckTarget:
 @_serial
 @dataclass
 class MathlibModuleVerificationRequest:
- request_id:str; project_root:str|None=None; targets:list[MathlibModuleCheckTarget]=field(default_factory=list); expected_revision:str|None=None; expected_lean_toolchain:str|None=None; allow_execution_default:bool=False; accept_verified_entries_in_memory:bool=False; require_mathlib_marker:bool=True; workspace_root:str|None=None; enable_name_candidate_fallback:bool=False; metadata:dict[str,Any]=field(default_factory=dict); advisory:bool=True
+ request_id:str; project_root:str|None=None; targets:list[MathlibModuleCheckTarget]=field(default_factory=list); expected_revision:str|None=None; expected_lean_toolchain:str|None=None; allow_execution_default:bool=False; accept_verified_entries_in_memory:bool=False; require_mathlib_marker:bool=True; workspace_root:str|None=None; enable_name_candidate_fallback:bool=False; execution_mode:MathlibModuleVerificationExecutionMode=MathlibModuleVerificationExecutionMode.AUTO; metadata:dict[str,Any]=field(default_factory=dict); advisory:bool=True
  def write_json(self,p): _w(p,self.to_json())
  @classmethod
  def read_json(c,p): return c.from_json(Path(p).read_text())
@@ -99,7 +100,7 @@ class MathlibModuleVerificationReport:
  def write_jsonl(self,p): _w(p,self.to_json()+"\n")
  @classmethod
  def read_jsonl(c,p): return [c.from_json(x) for x in Path(p).read_text().splitlines() if x.strip()]
-for _c,_e in [(MathlibModuleCheckTarget,("check_mode",)),(MathlibModuleVerificationRequest,()),(MathlibModuleCheckFile,("check_mode",))]: _serial(_c,_e)
+for _c,_e in [(MathlibModuleCheckTarget,("check_mode",)),(MathlibModuleVerificationRequest,("execution_mode",)),(MathlibModuleCheckFile,("check_mode",))]: _serial(_c,_e)
 def make_mathlib_module_check_target_id(*x): return content_id("mathlib-module-check-target",x)
 def make_mathlib_module_verification_request_id(*x): return content_id("mathlib-module-verification-request",x)
 def make_mathlib_module_check_file_id(*x): return content_id("mathlib-module-check-file",x)
@@ -113,8 +114,32 @@ def _target_from_dict(c,d):
  return c(str(tid),module,path,names,mode,d.get("namespace"),dict(d.get("metadata",{})),bool(d.get("advisory",True)))
 def _request_from_dict(c,d):
  ts=[MathlibModuleCheckTarget.from_dict(x) if isinstance(x,dict) else x for x in d.get("targets",()) or ()]; md=dict(d.get("metadata",{})); rid=d.get("request_id") or make_mathlib_module_verification_request_id(d.get("project_root"),[x.to_dict() for x in ts],md)
- return c(str(rid),d.get("project_root"),ts,d.get("expected_revision"),d.get("expected_lean_toolchain"),bool(d.get("allow_execution_default",False)),bool(d.get("accept_verified_entries_in_memory",False)),bool(d.get("require_mathlib_marker",True)),d.get("workspace_root"),bool(d.get("enable_name_candidate_fallback",False)),md,bool(d.get("advisory",True)))
+ return c(str(rid),d.get("project_root"),ts,d.get("expected_revision"),d.get("expected_lean_toolchain"),bool(d.get("allow_execution_default",False)),bool(d.get("accept_verified_entries_in_memory",False)),bool(d.get("require_mathlib_marker",True)),d.get("workspace_root"),bool(d.get("enable_name_candidate_fallback",False)),_parse_execution_mode(d.get("execution_mode",MathlibModuleVerificationExecutionMode.AUTO)),md,bool(d.get("advisory",True)))
 MathlibModuleCheckTarget.from_dict=classmethod(_target_from_dict); MathlibModuleVerificationRequest.from_dict=classmethod(_request_from_dict)
+def _parse_execution_mode(x):
+ if isinstance(x,MathlibModuleVerificationExecutionMode): return x
+ s=str(x or "AUTO").strip().upper().replace("-","_")
+ return MathlibModuleVerificationExecutionMode.__members__.get(s,MathlibModuleVerificationExecutionMode.AUTO)
+def _is_lake_project(root):
+ r=Path(root)
+ return any((r/n).exists() for n in ("lakefile.lean","lakefile.toml","lake-manifest.json","lean-toolchain"))
+def detect_module_verification_execution_mode(*,project_root,requested_mode=MathlibModuleVerificationExecutionMode.AUTO):
+ requested_mode=_parse_execution_mode(requested_mode); root=Path(project_root)
+ lake=shutil.which("lake"); has_lake_markers=_is_lake_project(root); build_lib=(root/".lake"/"build"/"lib"/"lean").exists(); has_mathlib=(root/"Mathlib").exists()
+ if requested_mode==MathlibModuleVerificationExecutionMode.RAW_LEAN: return MathlibModuleVerificationExecutionMode.RAW_LEAN
+ if requested_mode==MathlibModuleVerificationExecutionMode.LAKE_ENV_LEAN:
+  return MathlibModuleVerificationExecutionMode.LAKE_ENV_LEAN if lake and has_lake_markers else MathlibModuleVerificationExecutionMode.RAW_LEAN
+ if lake and has_lake_markers and (build_lib or has_mathlib): return MathlibModuleVerificationExecutionMode.LAKE_ENV_LEAN
+ return MathlibModuleVerificationExecutionMode.RAW_LEAN
+def build_module_check_command(*,check_file,project_root,execution_mode,env=None):
+ root=Path(project_root).resolve(); mode=_parse_execution_mode(execution_mode); base=dict(os.environ if env is None else env); build_lib=str(root/".lake"/"build"/"lib"/"lean"); lean=shutil.which("lean") or "lean"; lake=shutil.which("lake") or "lake"
+ if mode==MathlibModuleVerificationExecutionMode.LAKE_ENV_LEAN:
+  md={"execution_mode":mode.value,"argv_kind":"lake_env_lean","cwd":str(root),"check_file_path":check_file.check_file_path,"build_lib_path":build_lib,"lean_path_env":base.get("LEAN_PATH",""),"shell":False,"network":False,"lake_path":lake,"lean_path":lean}
+  return [lake,"env","lean",str(check_file.check_file_path)],base,md
+ lp=os.pathsep.join([x for x in (base.get("LEAN_PATH",""),build_lib,str(root)) if x])
+ base["LEAN_PATH"]=lp
+ md={"execution_mode":MathlibModuleVerificationExecutionMode.RAW_LEAN.value,"argv_kind":"raw_lean","cwd":str(root),"check_file_path":check_file.check_file_path,"build_lib_path":build_lib,"lean_path_env":lp,"shell":False,"network":False,"lake_path":lake if shutil.which("lake") else None,"lean_path":lean}
+ return [lean,str(check_file.check_file_path)],base,md
 def generate_module_check_file_text(t,*,header=None):
  lines=[header.rstrip()] if header else []; lines+=([f"import {t.module_name}",""] if t.module_name else [])
  if t.check_mode!=MathlibModuleVerificationCheckMode.IMPORT_ONLY: lines += [f"#check {x}" for x in t.declaration_names]
@@ -150,9 +175,10 @@ def ensure_module_verification_examples(root,overwrite=False):
  if overwrite or not a.exists(): real.write_json(a)
  if overwrite or not b.exists(): syn.write_json(b)
  return [a,b]
-def run_mathlib_module_verification(request,*,project_root=None,workspace_root=None,allow_execution=False,allow_missing_verifier=True,accept_verified_entries_in_memory=None,enable_name_candidate_fallback=None,timeout_sec=20.0):
+def run_mathlib_module_verification(request,*,project_root=None,workspace_root=None,allow_execution=False,allow_missing_verifier=True,accept_verified_entries_in_memory=None,enable_name_candidate_fallback=None,execution_mode=None,timeout_sec=20.0):
  q=_req(request); 
  if project_root: q.project_root=str(Path(project_root).resolve())
+ if execution_mode is not None: q.execution_mode=_parse_execution_mode(execution_mode)
  from mathgraph.real_mathlib_demo import RealMathlibDemoConfig,RealMathlibEnvironmentStatus,detect_real_mathlib_demo_environment
  cfg=RealMathlibDemoConfig(q.request_id,"Module-aware verification",project_root=q.project_root,expected_revision=q.expected_revision,expected_lean_toolchain=q.expected_lean_toolchain,require_mathlib_marker=q.require_mathlib_marker,discovery_modules=[{"path":t.module_path or "/".join(t.module_name.split("."))+".lean"} for t in q.targets])
  env=detect_real_mathlib_demo_environment(cfg,project_root=q.project_root); root=Path(q.project_root or "."); warnings=list(env.warnings); criticals=[]; rs=[]
@@ -164,16 +190,24 @@ def run_mathlib_module_verification(request,*,project_root=None,workspace_root=N
   for n in t.declaration_names: rs.append(MathlibModuleDeclarationResult(make_mathlib_module_declaration_result_id(q.request_id,t.target_id,n),q.request_id,t.target_id,t.module_name,n,status=MathlibModuleVerificationStatus.COMPLETED_WITH_WARNINGS if not allow_execution else MathlibModuleVerificationStatus.UNKNOWN,failure_kind=MathlibModuleVerificationFailureKind.EXECUTION_DISABLED if not allow_execution else MathlibModuleVerificationFailureKind.NONE))
  if not q.targets or not rs:
   r=MathlibModuleVerificationReport(make_mathlib_module_verification_report_id(q.request_id,"empty"),q.request_id,q,env,files,rs,status=MathlibModuleVerificationStatus.COMPLETED_WITH_WARNINGS,truth_status=MathlibModuleVerificationTruthStatus.ADVISORY_ONLY,warnings=tuple([*warnings,"no selected declarations"])); r.summarize(); return r
+ selected_mode=detect_module_verification_execution_mode(project_root=root,requested_mode=q.execution_mode)
+ build_root=wr/"olean"; build_lib=root/".lake"/"build"/"lib"/"lean"; is_lake_project=_is_lake_project(root); command_displays=[]; command_meta_by_target={}; mode_meta={"requested_execution_mode":q.execution_mode.value,"selected_execution_mode":selected_mode.value,"lake_path":shutil.which("lake"),"lean_path":shutil.which("lean"),"project_build_lib_exists":build_lib.exists(),"project_root_is_lake_project":is_lake_project,"build_lib_path":str(build_lib)}
+ if q.execution_mode==MathlibModuleVerificationExecutionMode.LAKE_ENV_LEAN and selected_mode!=MathlibModuleVerificationExecutionMode.LAKE_ENV_LEAN: warnings.append("requested lake env lean but Lake project markers or lake executable were unavailable; using raw lean")
+ if is_lake_project and selected_mode==MathlibModuleVerificationExecutionMode.RAW_LEAN: warnings.append("Lake project detected but raw lean execution mode selected")
+ if is_lake_project and not build_lib.exists(): warnings.append("project build lib is missing; run lake exe cache get manually outside MathGraph if needed")
  contracts=[]; vreps=[]
  if allow_execution:
-  build_root=wr/"olean"
-  for t in q.targets:
-   src=root/(t.module_path or "/".join(t.module_name.split("."))+".lean"); out=build_root.joinpath(*t.module_name.split(".")).with_suffix(".olean")
-   if src.exists() and not root.joinpath(*t.module_name.split(".")).with_suffix(".olean").exists():
-    out.parent.mkdir(parents=True,exist_ok=True); safe_root=os.path.commonpath([str(root.resolve()),str(out.resolve())]); contracts.append(VerifierCommandContract(make_verifier_command_contract_id(q.request_id,t.target_id,"prepare"),VerifierSystemKind.LEAN,VerifierExecutionMode.CHECK_FILE,("lean","-o",str(out),str(src.resolve())),str(root.resolve()),str(src.resolve()),_hash(src.read_text()),timeout_sec,True,False,False,safe_root,(),{"lean_path":os.pathsep.join([str(build_root),str(root.resolve())]),"module_aware_prepare":True}))
+  if selected_mode==MathlibModuleVerificationExecutionMode.RAW_LEAN:
+   for t in q.targets:
+    src=root/(t.module_path or "/".join(t.module_name.split("."))+".lean"); out=build_root.joinpath(*t.module_name.split(".")).with_suffix(".olean")
+    if src.exists() and not root.joinpath(*t.module_name.split(".")).with_suffix(".olean").exists():
+     out.parent.mkdir(parents=True,exist_ok=True); safe_root=os.path.commonpath([str(root.resolve()),str(out.resolve())]); contracts.append(VerifierCommandContract(make_verifier_command_contract_id(q.request_id,t.target_id,"prepare"),VerifierSystemKind.LEAN,VerifierExecutionMode.CHECK_FILE,("lean","-o",str(out),str(src.resolve())),str(root.resolve()),str(src.resolve()),_hash(src.read_text()),timeout_sec,True,False,False,safe_root,(),{"lean_path":os.pathsep.join([str(build_root),str(root.resolve())]),"module_aware_prepare":True,"execution_mode":selected_mode.value}))
   for f in files:
+   argv,cmd_env,cmd_meta=build_module_check_command(check_file=f,project_root=root,execution_mode=selected_mode,env={"LEAN_PATH":str(build_root)} if selected_mode==MathlibModuleVerificationExecutionMode.RAW_LEAN else None); command_displays.append(" ".join(argv)); command_meta_by_target[f.target_id]=cmd_meta; f.metadata.update(cmd_meta)
    safe_root=os.path.commonpath([str(root.resolve()),f.check_file_path])
-   contracts.append(VerifierCommandContract(make_verifier_command_contract_id(q.request_id,f.target_id),VerifierSystemKind.LEAN,VerifierExecutionMode.CHECK_FILE,("lean",f.check_file_path),str(root.resolve()),f.check_file_path,_hash(f.check_file_text),timeout_sec,True,False,False,safe_root,f.declaration_names,{"lean_path":os.pathsep.join([str(build_root),str(root.resolve())]),"module_aware_import_check":True}))
+   md={"module_aware_import_check":True,**cmd_meta}
+   if cmd_meta.get("lean_path_env"): md["lean_path"]=cmd_meta["lean_path_env"]
+   contracts.append(VerifierCommandContract(make_verifier_command_contract_id(q.request_id,f.target_id),VerifierSystemKind.LEAN,VerifierExecutionMode.CHECK_FILE,tuple(argv),str(root.resolve()),f.check_file_path,_hash(f.check_file_text),timeout_sec,True,False,False,safe_root,f.declaration_names,md))
   vr=build_verifier_execution_report(contracts=contracts,allow_execution=True,timeout_sec=timeout_sec); vreps.append(vr)
   if env.status==RealMathlibEnvironmentStatus.MISSING_LEAN and allow_missing_verifier:
    for x in rs: x.status=MathlibModuleVerificationStatus.SKIPPED_MISSING_VERIFIER; x.truth_status=MathlibModuleVerificationTruthStatus.SKIPPED_NO_VERIFIER; x.failure_kind=MathlibModuleVerificationFailureKind.MISSING_LEAN
@@ -187,9 +221,9 @@ def run_mathlib_module_verification(request,*,project_root=None,workspace_root=N
     for x in [z for z in rs if z.target_id==t.target_id]:
      x.verifier_execution_result=res
      if good:
-      ev=create_module_check_boundary_evidence(request=q,target=t,declaration_name=x.declaration_name,check_file=f,verifier_execution_result=res,environment_report=env); x.boundary_evidence=[ev]; x.verified=True; x.status=MathlibModuleVerificationStatus.COMPLETED; x.truth_status=MathlibModuleVerificationTruthStatus.BOUNDARY_EVIDENCE_PRESENT; x.metadata=dict(ev.metadata)
+      ev=create_module_check_boundary_evidence(request=q,target=t,declaration_name=x.declaration_name,check_file=f,verifier_execution_result=res,environment_report=env,command_metadata=command_meta_by_target.get(f.target_id,{})); x.boundary_evidence=[ev]; x.verified=True; x.status=MathlibModuleVerificationStatus.COMPLETED; x.truth_status=MathlibModuleVerificationTruthStatus.BOUNDARY_EVIDENCE_PRESENT; x.metadata=dict(ev.metadata)
      else:
-      x.status=MathlibModuleVerificationStatus.FAILED_CHECK; x.failure_kind=fk; x.metadata.update(_failed_diag(t,f,res,x.declaration_name))
+      x.status=MathlibModuleVerificationStatus.FAILED_CHECK; x.failure_kind=fk; x.metadata.update(_failed_diag(t,f,res,x.declaration_name,command_meta_by_target.get(f.target_id,{})))
    fallback=q.enable_name_candidate_fallback if enable_name_candidate_fallback is None else enable_name_candidate_fallback
    if fallback:
     for x in [z for z in rs if not z.verified]:
@@ -197,30 +231,32 @@ def run_mathlib_module_verification(request,*,project_root=None,workspace_root=N
      for cand in candidates:
       if cand==x.declaration_name: continue
       ft=MathlibModuleCheckTarget(make_mathlib_module_check_target_id(t.target_id,"fallback",cand),t.module_name,t.module_path,(cand,),t.check_mode,t.namespace,{"original_declaration_name":x.declaration_name})
-      ff=write_module_check_file(q,ft,workspace_root=wr); files.append(ff); safe_root=os.path.commonpath([str(root.resolve()),ff.check_file_path]); c=VerifierCommandContract(make_verifier_command_contract_id(q.request_id,ft.target_id),VerifierSystemKind.LEAN,VerifierExecutionMode.CHECK_FILE,("lean",ff.check_file_path),str(root.resolve()),ff.check_file_path,_hash(ff.check_file_text),timeout_sec,True,False,False,safe_root,(cand,),{"lean_path":os.pathsep.join([str(build_root),str(root.resolve())]),"module_aware_import_check":True,"name_resolution_mode":"candidate_fallback"})
+      ff=write_module_check_file(q,ft,workspace_root=wr); files.append(ff); argv,cmd_env,cmd_meta=build_module_check_command(check_file=ff,project_root=root,execution_mode=selected_mode,env={"LEAN_PATH":str(build_root)} if selected_mode==MathlibModuleVerificationExecutionMode.RAW_LEAN else None); command_displays.append(" ".join(argv)); ff.metadata.update(cmd_meta); safe_root=os.path.commonpath([str(root.resolve()),ff.check_file_path]); md={"module_aware_import_check":True,"name_resolution_mode":"candidate_fallback",**cmd_meta}
+      if cmd_meta.get("lean_path_env"): md["lean_path"]=cmd_meta["lean_path_env"]
+      c=VerifierCommandContract(make_verifier_command_contract_id(q.request_id,ft.target_id),VerifierSystemKind.LEAN,VerifierExecutionMode.CHECK_FILE,tuple(argv),str(root.resolve()),ff.check_file_path,_hash(ff.check_file_text),timeout_sec,True,False,False,safe_root,(cand,),md)
       fr=build_verifier_execution_report(contracts=[c],allow_execution=True,timeout_sec=timeout_sec); vreps.append(fr); rr=fr.results[0]; ok=rr.status==VerifierExecutionStatus.SUCCESS and rr.returncode==0 and not ff.unsafe_markers and not _has_check_error(rr)
       if ok: successes.append((cand,ff,rr))
      if successes:
-      cand,ff,rr=successes[0]; ev=create_module_check_boundary_evidence(request=q,target=t,declaration_name=cand,original_declaration_name=x.declaration_name,check_file=ff,verifier_execution_result=rr,environment_report=env,name_resolution_mode="candidate_fallback",alternative_candidates=tuple(a[0] for a in successes[1:])); x.boundary_evidence=[ev]; x.verifier_execution_result=rr; x.verified=True; x.failure_kind=MathlibModuleVerificationFailureKind.NONE; x.status=MathlibModuleVerificationStatus.COMPLETED; x.truth_status=MathlibModuleVerificationTruthStatus.BOUNDARY_EVIDENCE_PRESENT; x.metadata={**x.metadata,**ev.metadata}
+      cand,ff,rr=successes[0]; ev=create_module_check_boundary_evidence(request=q,target=t,declaration_name=cand,original_declaration_name=x.declaration_name,check_file=ff,verifier_execution_result=rr,environment_report=env,name_resolution_mode="candidate_fallback",alternative_candidates=tuple(a[0] for a in successes[1:]),command_metadata=ff.metadata); x.boundary_evidence=[ev]; x.verifier_execution_result=rr; x.verified=True; x.failure_kind=MathlibModuleVerificationFailureKind.NONE; x.status=MathlibModuleVerificationStatus.COMPLETED; x.truth_status=MathlibModuleVerificationTruthStatus.BOUNDARY_EVIDENCE_PRESENT; x.metadata={**x.metadata,**ev.metadata}
  accept=q.accept_verified_entries_in_memory if accept_verified_entries_in_memory is None else accept_verified_entries_in_memory
  replay=review_and_optionally_accept_mathlib_module_results(rs,accept_in_memory=accept); accepted={x["certificate_id"] for x in replay.get("accepted",())}
  for x in rs:
   if x.verified and x.boundary_evidence and x.boundary_evidence[0].certificate_id in accepted: x.known_skip=True; x.truth_status=MathlibModuleVerificationTruthStatus.KNOWN_SKIP_AVAILABLE
  truth=MathlibModuleVerificationTruthStatus.KNOWN_SKIP_AVAILABLE if any(x.known_skip for x in rs) else MathlibModuleVerificationTruthStatus.BOUNDARY_EVIDENCE_PRESENT if any(x.verified for x in rs) else MathlibModuleVerificationTruthStatus.SKIPPED_NO_VERIFIER if allow_execution and env.status==RealMathlibEnvironmentStatus.MISSING_LEAN else MathlibModuleVerificationTruthStatus.ADVISORY_ONLY
  status=MathlibModuleVerificationStatus.SKIPPED_MISSING_VERIFIER if truth==MathlibModuleVerificationTruthStatus.SKIPPED_NO_VERIFIER else MathlibModuleVerificationStatus.FAILED_CHECK if criticals or (allow_execution and rs and not any(x.verified for x in rs)) else MathlibModuleVerificationStatus.COMPLETED_WITH_WARNINGS if warnings or not allow_execution else MathlibModuleVerificationStatus.COMPLETED
- r=MathlibModuleVerificationReport(make_mathlib_module_verification_report_id(q.request_id,allow_execution,[f.check_file_id for f in files]),q.request_id,q,env,files,rs,vreps,{k:v for k,v in replay.items() if k!="accepted"},status=status,truth_status=truth,warnings=tuple(warnings),criticals=tuple(criticals)); r.summarize(); return r
-def create_module_check_boundary_evidence(*,request,target,declaration_name,check_file,verifier_execution_result,environment_report,original_declaration_name=None,name_resolution_mode="explicit_original",alternative_candidates=()):
- original=original_declaration_name or declaration_name; cert=content_id("module-aware-import-check-certificate",(request.request_id,target.target_id,original,declaration_name,check_file.check_file_text)); md={"module_name":target.module_name,"declaration_name":declaration_name,"original_declaration_name":original,"resolved_declaration_name":declaration_name,"name_resolution_mode":name_resolution_mode,"alternative_candidates":list(alternative_candidates),"project_root":request.project_root,"detected_revision":getattr(environment_report,"detected_revision",None),"detected_lean_toolchain":getattr(environment_report,"detected_lean_toolchain",None),"boundary_kind":"module_aware_import_check","check_mode":"#check","proof_rechecked_from_source":False}
+ r=MathlibModuleVerificationReport(make_mathlib_module_verification_report_id(q.request_id,allow_execution,[f.check_file_id for f in files]),q.request_id,q,env,files,rs,vreps,{k:v for k,v in replay.items() if k!="accepted"},status=status,truth_status=truth,warnings=tuple(warnings),criticals=tuple(criticals),metadata={**mode_meta,"check_command_displays":command_displays}); r.summarize(); return r
+def create_module_check_boundary_evidence(*,request,target,declaration_name,check_file,verifier_execution_result,environment_report,original_declaration_name=None,name_resolution_mode="explicit_original",alternative_candidates=(),command_metadata=None):
+ original=original_declaration_name or declaration_name; cert=content_id("module-aware-import-check-certificate",(request.request_id,target.target_id,original,declaration_name,check_file.check_file_text)); cmd=dict(command_metadata or check_file.metadata or {}); md={"module_name":target.module_name,"declaration_name":declaration_name,"original_declaration_name":original,"resolved_declaration_name":declaration_name,"name_resolution_mode":name_resolution_mode,"alternative_candidates":list(alternative_candidates),"project_root":request.project_root,"detected_revision":getattr(environment_report,"detected_revision",None),"detected_lean_toolchain":getattr(environment_report,"detected_lean_toolchain",None),"boundary_kind":"module_aware_import_check","check_mode":"#check","proof_rechecked_from_source":False,"execution_mode":cmd.get("execution_mode"),"argv_kind":cmd.get("argv_kind"),"cwd":cmd.get("cwd"),"build_lib_path":cmd.get("build_lib_path"),"lean_path_env":cmd.get("lean_path_env"),"shell":False,"network":False}
  return VerifierBoundaryEvidence(make_verifier_boundary_evidence_id("module-aware",cert),VerifierEvidenceKind.LOCAL_VERIFIER_ACCEPTED,VerifierSystemKind.LEAN,verifier_execution_result.result_id,cert,TerminalForm.VERIFIED_PROOF.value,(declaration_name,),True,_hash(check_file.check_file_text),_hash(check_file.check_file_path),metadata=md)
 def mathlib_module_verification_report_to_lawbook_candidates(r): return [LawbookEntry(make_lawbook_entry_id("mathlib-module-verification",x.declaration_result_id),LawbookEntryKind.VERIFIED_PROOF_ENTRY,LawbookEntryStatus.CANDIDATE,claim_id=x.declaration_name,terminal_form=TerminalForm.VERIFIED_PROOF,certificate_id=x.boundary_evidence[0].certificate_id,verifier_boundary_crossed=True,acceptance_boundary=LawbookAcceptanceBoundary.VERIFIED_PROOF,metadata={"boundary_kind":"module_aware_import_check","proof_rechecked_from_source":False}) for x in r.declaration_results if x.verified and x.boundary_evidence]
 def review_and_optionally_accept_mathlib_module_results(rs,*,accept_in_memory=False):
  fake=type("R",(),{"declaration_results":rs})(); cs=mathlib_module_verification_report_to_lawbook_candidates(fake); reviews=[review_lawbook_candidate(x) for x in cs]; accepted=[accept_lawbook_entry(e,v,accepted_by="mathlib-module-verification-replay") for e,v in zip(cs,reviews) if accept_in_memory and v.decision.value=="ACCEPT"]; store=LawbookStore(make_lawbook_store_id("mathlib-module-verification-replay",[x.entry_id for x in accepted]),entries=accepted,reviews=reviews); answers=[query_lawbook_store_by_certificate(store,x.certificate_id) for x in cs if x.certificate_id]
  return {"candidate_total":len(cs),"review_total":len(reviews),"accepted_total":len(accepted),"query_total":len(answers),"known_skip_total":sum(a.known_skip_decision.value.startswith("SKIP_") for a in answers),"accepted":[{"certificate_id":x.certificate_id} for x in accepted]}
 def mathlib_module_verification_report_to_markdown(r):
- s=r.summarize(); e=r.environment_report; lines=["# Mathlib Module-Aware Verification Report","",f"- Project root: {getattr(e,'project_root','')}",f"- Revision: {getattr(e,'detected_revision','')}",f"- Toolchain: {getattr(e,'detected_lean_toolchain','')}",f"- Check mode: `#check`",f"- Targets: {s['target_total']}",f"- Declarations: {s['declaration_total']}",f"- Verified: {s['verified_total']}",f"- Boundary evidence: {s['boundary_evidence_total']}",f"- Known skips: {s['known_skip_total']}","", "## Targets"]+[f"- `{t.module_name}`: {', '.join(t.declaration_names)}" for t in (r.request.targets if r.request else [])]+["", "## Generated Check Files"]+[f"- `{f.check_file_path}`" for f in r.check_files]+["", "## Declaration Results"]+[f"- `{x.declaration_name}`: {x.status.value}" for x in r.declaration_results]+["", "## What Crossed The Verifier Boundary"]
+ s=r.summarize(); e=r.environment_report; lines=["# Mathlib Module-Aware Verification Report","",f"- Project root: {getattr(e,'project_root','')}",f"- Revision: {getattr(e,'detected_revision','')}",f"- Toolchain: {getattr(e,'detected_lean_toolchain','')}",f"- Check mode: `#check`",f"- Execution mode: {r.metadata.get('selected_execution_mode','')}",f"- Targets: {s['target_total']}",f"- Declarations: {s['declaration_total']}",f"- Verified: {s['verified_total']}",f"- Boundary evidence: {s['boundary_evidence_total']}",f"- Known skips: {s['known_skip_total']}","", "## Execution Context",f"- Selected command kind: {r.metadata.get('selected_execution_mode','')}",f"- Lake path: {r.metadata.get('lake_path')}",f"- Lean path: {r.metadata.get('lean_path')}",f"- Build lib exists: {r.metadata.get('project_build_lib_exists')}",f"- Lake project detected: {r.metadata.get('project_root_is_lake_project')}","", "## Targets"]+[f"- `{t.module_name}`: {', '.join(t.declaration_names)}" for t in (r.request.targets if r.request else [])]+["", "## Generated Check Files"]+[f"- `{f.check_file_path}`" for f in r.check_files]+["", "## Declaration Results"]+[f"- `{x.declaration_name}`: {x.status.value}" for x in r.declaration_results]+["", "## What Crossed The Verifier Boundary"]
  lines += [f"- `{x.declaration_name}` imported from `{x.module_name}`" for x in r.declaration_results if x.verified] or ["- Nothing crossed the verifier boundary."]
  lines += ["", "## Failed Check Diagnostics"]
- for d in failed_check_diagnostics(r): lines += [f"- Module: `{d['module_name']}`",f"  - Failed declarations: {', '.join(d['failed_expected_declarations'])}",f"  - Check file: `{d['check_file_path']}`",f"  - Failure kind: {d['failure_kind']}",f"  - stderr tail: `{d['lean_stderr_tail']}`",f"  - Candidate spellings: {', '.join(d['possible_name_candidates']) or 'none'}"]
+ for d in failed_check_diagnostics(r): lines += [f"- Module: `{d['module_name']}`",f"  - Failed declarations: {', '.join(d['failed_expected_declarations'])}",f"  - Check file: `{d['check_file_path']}`",f"  - Execution mode: {d.get('execution_mode','')}",f"  - Failure kind: {d['failure_kind']}",f"  - Wrong temp olean lookup: {d.get('import_lookup_path_wrong',False)}",f"  - stderr tail: `{d['lean_stderr_tail']}`",f"  - Candidate spellings: {', '.join(d['possible_name_candidates']) or 'none'}"]
  if not failed_check_diagnostics(r): lines += ["- None."]
  lines += ["", "## What Stayed Advisory","- Project paths, generated check files, requests, reports, candidate diagnostics, and dry-runs stay advisory.","", "## Warning","`#check` verifies declaration availability in the imported Lean environment.","It does not mean MathGraph independently reconstructed the source proof."]
  return "\n".join(lines)+"\n"
@@ -249,14 +285,17 @@ def audit_mathlib_module_declaration_result(x):
  out=[]
  if x.failure_kind!=MathlibModuleVerificationFailureKind.NONE and x.boundary_evidence: out.append(_af("CRITICAL","MATHLIB_MODULE_FAILED_RESULT_EVIDENCE","failed result has evidence",x.declaration_result_id))
  for e in x.boundary_evidence:
-  if e.metadata.get("boundary_kind")!="module_aware_import_check" or e.metadata.get("check_mode")!="#check" or e.metadata.get("proof_rechecked_from_source") is not False: out.append(_af("CRITICAL","MATHLIB_MODULE_EVIDENCE_METADATA","module-aware evidence metadata incomplete",x.declaration_result_id))
+  if e.metadata.get("boundary_kind")!="module_aware_import_check" or e.metadata.get("check_mode")!="#check" or e.metadata.get("proof_rechecked_from_source") is not False or not e.metadata.get("execution_mode"): out.append(_af("CRITICAL","MATHLIB_MODULE_EVIDENCE_METADATA","module-aware evidence metadata incomplete",x.declaration_result_id))
   if e.metadata.get("name_resolution_mode")=="candidate_fallback" and (not e.metadata.get("original_declaration_name") or not e.metadata.get("resolved_declaration_name")): out.append(_af("CRITICAL","MATHLIB_MODULE_FALLBACK_METADATA","fallback evidence lacks names",x.declaration_result_id))
+  if e.metadata.get("shell") is True or e.metadata.get("network") is True: out.append(_af("CRITICAL","MATHLIB_MODULE_UNSAFE_COMMAND_METADATA","unsafe command metadata",x.declaration_result_id))
+  if any(s in str(e.metadata).lower() for s in ("lake update","cache get")): out.append(_af("CRITICAL","MATHLIB_MODULE_CACHE_OR_UPDATE_COMMAND","cache/update command in metadata",x.declaration_result_id))
  return out
 def audit_mathlib_module_verification_report(x):
  out=[]
  if not x.advisory: out.append(_af("CRITICAL","MATHLIB_MODULE_REPORT_NON_ADVISORY","report non-advisory",x.report_id))
  if x.truth_status in {MathlibModuleVerificationTruthStatus.ADVISORY_ONLY,MathlibModuleVerificationTruthStatus.SKIPPED_NO_VERIFIER} and x.boundary_evidence_count(): out.append(_af("CRITICAL","MATHLIB_MODULE_ADVISORY_EVIDENCE","advisory report has evidence",x.report_id))
  if x.known_skip_count() and not x.lawbook_replay_summary.get("accepted_total"): out.append(_af("CRITICAL","MATHLIB_MODULE_SKIP_WITHOUT_ACCEPTANCE","known skip without acceptance",x.report_id))
+ if any(d.get("import_lookup_path_wrong") for d in failed_check_diagnostics(x)) and x.boundary_evidence_count(): out.append(_af("CRITICAL","MATHLIB_MODULE_EVIDENCE_AFTER_WRONG_IMPORT_LOOKUP","evidence despite wrong import lookup diagnostic",x.report_id))
  return out+sum((audit_mathlib_module_declaration_result(r) for r in x.declaration_results),[])
 def _req(x):
  if isinstance(x,MathlibModuleVerificationRequest): return x
@@ -265,12 +304,18 @@ def _req(x):
 def _result_failure(r):
  return {VerifierFailureKind.IMPORT_ERROR:MathlibModuleVerificationFailureKind.IMPORT_ERROR,VerifierFailureKind.TYPE_ERROR:MathlibModuleVerificationFailureKind.TYPE_ERROR,VerifierFailureKind.TIMEOUT:MathlibModuleVerificationFailureKind.TIMEOUT,VerifierFailureKind.NONZERO_EXIT:MathlibModuleVerificationFailureKind.NONZERO_EXIT,VerifierFailureKind.SAFETY_BLOCKED:MathlibModuleVerificationFailureKind.SAFETY_BLOCKED,VerifierFailureKind.EXECUTION_DISABLED:MathlibModuleVerificationFailureKind.EXECUTION_DISABLED}.get(r.failure_kind,MathlibModuleVerificationFailureKind.CHECK_FAILED)
 def _has_check_error(r): return any(s in f"{r.stdout_excerpt}\n{r.stderr_excerpt}".lower() for s in ("unknown constant","unknown declaration","unknown identifier","unknown module","does not exist"))
-def _failed_diag(t,f,r,name): return {"check_file_path":f.check_file_path,"check_file_text":f.check_file_text,"lean_stdout_tail":r.stdout_excerpt[-400:],"lean_stderr_tail":r.stderr_excerpt[-400:],"returncode":r.returncode,"failed_expected_declarations":list(f.declaration_names),"unresolved_declarations":[name],"failure_kind":_result_failure(r).value,"module_name":t.module_name,"project_root":f.project_root,"possible_name_candidates":list(generate_declaration_name_candidates(name,module_name=t.module_name))}
+def detect_import_lookup_path_wrong(text):
+ s=str(text)
+ return "mathgraph_module_verification_tmp/olean/Mathlib" in s or ("/olean/Mathlib/" in s and "object file" in s and "does not exist" in s)
+def _failed_diag(t,f,r,name,command_metadata=None):
+ cmd=dict(command_metadata or f.metadata or {}); text=f"{r.stdout_excerpt}\n{r.stderr_excerpt}"; wrong=detect_import_lookup_path_wrong(text); suggestions=[]
+ if wrong: suggestions+=["Use lake env lean from project_root","Ensure project_root/.lake/build/lib/lean exists","Run lake exe cache get manually outside MathGraph if cache missing"]
+ return {"check_file_path":f.check_file_path,"check_file_text":f.check_file_text,"lean_stdout_tail":r.stdout_excerpt[-400:],"lean_stderr_tail":r.stderr_excerpt[-400:],"returncode":r.returncode,"failed_expected_declarations":list(f.declaration_names),"unresolved_declarations":[name],"failure_kind":_result_failure(r).value,"module_name":t.module_name,"project_root":f.project_root,"possible_name_candidates":list(generate_declaration_name_candidates(name,module_name=t.module_name)),"execution_mode":cmd.get("execution_mode"),"argv_kind":cmd.get("argv_kind"),"cwd":cmd.get("cwd"),"build_lib_path":cmd.get("build_lib_path"),"lean_path_env":cmd.get("lean_path_env"),"import_lookup_path_wrong":wrong,"suggestions":suggestions}
 def failed_check_diagnostics(r):
  out=[]
  for x in r.declaration_results:
   if not x.verified and x.metadata.get("check_file_path"):
-   out.append({k:x.metadata.get(k) for k in ("check_file_path","check_file_text","lean_stdout_tail","lean_stderr_tail","returncode","failed_expected_declarations","unresolved_declarations","failure_kind","module_name","project_root","possible_name_candidates")})
+   out.append({k:x.metadata.get(k) for k in ("check_file_path","check_file_text","lean_stdout_tail","lean_stderr_tail","returncode","failed_expected_declarations","unresolved_declarations","failure_kind","module_name","project_root","possible_name_candidates","execution_mode","argv_kind","cwd","build_lib_path","lean_path_env","import_lookup_path_wrong","suggestions")})
  return out
 def _hash(x): return sha256(str(x).encode()).hexdigest()
 def _af(sev,code,msg,obj): return {"severity":sev,"code":code,"message":msg,"object_id":obj}

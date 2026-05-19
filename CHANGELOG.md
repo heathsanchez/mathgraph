@@ -15,4 +15,6 @@ Summary:
 - curated real local Mathlib demo command and report workflow
 - module-aware imported-declaration verification via explicit module `#check`
 - robust minimal module-check requests plus qualification diagnostics/fallback
+- real project execution mode selection, including `lake env lean` from the
+  supplied Mathlib/Lake project root
 - no proof from advisory artifacts

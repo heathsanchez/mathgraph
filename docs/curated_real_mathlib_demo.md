@@ -6,7 +6,7 @@ This workflow is local-path-only for an already-working Mathlib or Lean/Mathlib 
 python scripts/run_real_mathlib_demo.py --ensure-examples
 python scripts/run_real_mathlib_demo.py
 python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/curated_real_mathlib_demo_config.example.json --project-root /path/to/local/mathlib
-python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/curated_real_mathlib_demo_config.example.json --project-root /path/to/local/mathlib --run-allowlist-ingestion --allow-execution --allow-missing-verifier
+python scripts/run_real_mathlib_demo.py --config examples/real_mathlib_demo/curated_real_mathlib_demo_config.example.json --project-root /path/to/local/mathlib --run-module-verification --execution-mode lake-env-lean --allow-execution --allow-missing-verifier
 ```
 
 Synthetic stand-in smoke runs use their own fixture-aware config:
@@ -30,3 +30,15 @@ does not reconstruct source proofs.
 If discovery names fail to resolve, add `--enable-name-candidate-fallback` and
 inspect `failed_check_diagnostics.json`. A failed `#check` can be a qualification
 problem; it is not a theorem-false result.
+
+Real Mathlib module verification should run generated `#check` files in the real
+project context with `lake env lean`:
+
+```bash
+python scripts/run_real_mathlib_demo.py --project-root /path/to/mathlib4 --run-module-verification --execution-mode lake-env-lean --enable-name-candidate-fallback --allow-execution --allow-missing-verifier
+```
+
+Raw Lean mode is kept for synthetic/simple projects. If diagnostics show an
+object-file lookup under `/tmp/.../olean/Mathlib`, the import path is wrong for a
+real Lake project. Use `--execution-mode lake-env-lean`, and ensure the project
+has already been built or cached outside MathGraph.

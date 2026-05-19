@@ -26,9 +26,9 @@ def test_synthetic_standin_and_audits():
  assert audit_real_mathlib_demo_config(RealMathlibDemoConfig("x","x",advisory=False))
  assert check_roadmap_alignment(real_mathlib_demo_reports=[bad]).critical_count()
 def test_module_verification_summary_has_unresolved_counts():
- c=_synthetic_config(); r=run_real_mathlib_demo(c,run_module_verification=True)
- assert "module_verification_unresolved_total" in r.summarize() and "module_verification_fallback_verified_total" in r.summary
- assert "Unresolved declarations" in real_mathlib_demo_report_to_markdown(r)
+ c=_synthetic_config(); r=run_real_mathlib_demo(c,run_module_verification=True,module_verification_execution_mode="raw-lean")
+ assert "module_verification_unresolved_total" in r.summarize() and "module_verification_fallback_verified_total" in r.summary and r.summary["module_verification_execution_mode"]=="RAW_LEAN"
+ assert "Module-Aware Verification Execution" in real_mathlib_demo_report_to_markdown(r)
 def test_cli_and_api(tmp_path):
  subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--help"],check=True,capture_output=True)
  subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--ensure-examples"],check=True,capture_output=True)
@@ -36,6 +36,7 @@ def test_cli_and_api(tmp_path):
  assert (tmp_path/"r.md").exists()
  assert MathGraphLocalClient().real_mathlib_demo({}).truth_status==ApiTruthStatus.ADVISORY_ONLY
  p=subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--ensure-examples"],check=True,capture_output=True,text=True); assert len(p.stdout)<1000 and "MathGraph Real Mathlib Demo" in p.stdout
+ q=subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--config","examples/real_mathlib_demo/synthetic_standin_real_mathlib_demo_config.json","--project-root","examples/mathlib_micro_subset","--run-module-verification","--execution-mode","auto","--print-check-command","--out-dir",str(tmp_path/"rv")],check=True,capture_output=True,text=True); assert "execution_mode:" in q.stdout
  j=subprocess.run([sys.executable,"scripts/run_real_mathlib_demo.py","--print-json"],check=True,capture_output=True,text=True); assert json.loads(j.stdout)["advisory"]
 def test_synthetic_standin_example_missing_lean(monkeypatch):
  monkeypatch.setattr(shutil,"which",lambda name: None if name=="lean" else "/bin/x")

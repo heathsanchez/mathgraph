@@ -293,7 +293,7 @@ See `docs/real_mathlib_revision_demo.md` for the local-path-only revision workfl
 
 ```bash
 python scripts/run_mathlib_module_verification.py --use-synthetic-request --project-root examples/mathlib_micro_subset
-python scripts/run_real_mathlib_demo.py --project-root /path/to/mathlib4 --run-module-verification --allow-execution --allow-missing-verifier
+python scripts/run_real_mathlib_demo.py --project-root /path/to/mathlib4 --run-module-verification --execution-mode lake-env-lean --allow-execution --allow-missing-verifier
 ```
 
 For selected real Mathlib declarations, this is the preferred verifier-bound
@@ -304,6 +304,11 @@ Real Mathlib discovery can expose names that need qualification repair. Module
 verification emits failed-check diagnostics and offers an explicit conservative
 `--enable-name-candidate-fallback`; candidates stay advisory until Lean accepts
 the resolved spelling.
+
+For real Mathlib/Lake projects, module verification should use `lake env lean`
+from the supplied project root. Raw Lean mode remains useful for synthetic or
+simple projects; diagnostics that mention `/tmp/.../olean/Mathlib` indicate the
+wrong import context.
 
 ## Current Status
 

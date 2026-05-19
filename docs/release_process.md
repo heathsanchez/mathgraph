@@ -21,5 +21,6 @@ python scripts/run_colab_testdrive.py --use-current-checkout --quick-smoke
 - version, changelog, and release notes updated
 - curated real Mathlib demo examples and docs exist; real Mathlib is not required for the release gate
 - module-aware Mathlib verification examples/docs exist; live real Mathlib remains optional
+- real Mathlib module verification uses `lake env lean` from the supplied project root when Lake mode is requested
 
 Release-check success is a release signal, not proof.
