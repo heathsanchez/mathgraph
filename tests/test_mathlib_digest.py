@@ -36,6 +36,13 @@ Nat.leRecOn_injective does not depend on any axioms
     assert not statement.endswith(",")
 
 
+def test_formal_statement_strips_captured_declaration_body():
+    parsed = "Nat.pow_left_injective : ∀ {n : ℕ}, n ≠ 0 → Function.Injective fun a => a ^ n := by exact foo"
+    statement = theorem_statement_from_check(parsed)
+    assert statement == "∀ {n : ℕ}, n ≠ 0 → Function.Injective fun a => a ^ n"
+    assert ":=" not in statement
+
+
 def test_constructor_templates_and_obstruction_classifier():
     roots = ["Eq.mpr", "Nat.add_comm", "HAdd.hAdd", "Foo.bar", "_private.x"]
     assert valid_simp_roots(roots) == ["Nat.add_comm", "Foo.bar"]
@@ -52,16 +59,17 @@ def test_constructor_file_generation_exact_existing_and_parenthesized_statement(
     _write_constructor_file(
         exact_file,
         ["Mathlib.Data.Nat.Basic"],
-        "∀ {n : ℕ}, n ≠ 0 → Function.Injective fun a => a ^ n",
+        "∀ {n : ℕ}, n ≠ 0 → Function.Injective fun a => a ^ n := by exact captured_body",
         "by\n  exact Nat.pow_left_injective\n",
         "exact_seed",
         target="Nat.pow_left_injective",
         template_id="exact_existing",
     )
     exact_text = exact_file.read_text()
-    assert "example := Nat.pow_left_injective" in exact_text
-    assert "theorem mathgraph_test_exact_seed := Nat.pow_left_injective" in exact_text
-    assert "example :" not in exact_text
+    assert "example : (∀ {n : ℕ}, n ≠ 0 → Function.Injective fun a => a ^ n) :=" in exact_text
+    assert "theorem mathgraph_test_exact_seed : (∀ {n : ℕ}, n ≠ 0 → Function.Injective fun a => a ^ n) :=" in exact_text
+    assert "exact Nat.pow_left_injective" in exact_text
+    assert ":= by exact captured_body" not in exact_text
 
     simp_file = tmp_path / "simp.lean"
     _write_constructor_file(
