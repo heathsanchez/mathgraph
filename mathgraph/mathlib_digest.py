@@ -24,7 +24,7 @@ from mathgraph.lawbook_accumulator import (
 TOKEN_RE = re.compile(r"\b[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)+\b")
 KNOWN_AXIOMS = ("propext", "Classical.choice", "Quot.sound", "sorryAx")
 RUN_NAME = "mathgraph_mathlib_digest_accumulator"
-RUN_VERSION = "m12_1_constructor_parity_fix"
+RUN_VERSION = "m12_2_constructor_statement_parity_fix"
 
 
 @dataclass
@@ -127,10 +127,11 @@ def parse_check_type(output: str, target: str) -> str:
         Nat.foo : forall ...,
           more binders ...
 
-    The first M12 implementation returned only the first line, producing malformed
-    constructor tests. This parser starts at the target line, strips any Lean
-    diagnostic prefix, and keeps indented continuation lines until the next
-    obvious #print/diagnostic boundary.
+    This parser starts at the target line, strips any Lean diagnostic prefix, and
+    keeps indented continuation lines until the next obvious #print/diagnostic
+    boundary. Later statement extraction strips any accidentally captured `:=`
+    proof body from #print output so constructor files never embed declaration
+    bodies inside type ascriptions.
     """
     escaped = re.escape(target)
     lines = output.splitlines()
@@ -165,15 +166,35 @@ def parse_check_type(output: str, target: str) -> str:
     return ""
 
 
+def _clean_formal_statement(statement: str) -> str:
+    """Return only the theorem type, never a captured Lean declaration body.
+
+    `#print` output can contain `theorem foo : TYPE := PROOF`. If the parser
+    falls back to such a line, anything from `:=` onward is proof text, not a
+    theorem statement. Keeping it produces malformed constructor files like
+    `example : (... := ...) :=`. Strip it before parenthesizing the statement.
+    """
+    s = " ".join((statement or "").strip().split())
+    if not s:
+        return ""
+    if ":=" in s:
+        s = s.split(":=", 1)[0].strip()
+    # A trailing comma means Lean pretty-printing was truncated before the
+    # proposition body. Treat this as unusable rather than generating bad Lean.
+    if s.endswith(","):
+        return ""
+    return s
+
+
 def parse_formal_statement(parsed_type: str) -> str:
     if not parsed_type:
         return ""
     m = re.search(r"\b[A-Za-z_][A-Za-z0-9_'.]*(?:\.\{[^}]+\})?\s*:\s*(?P<statement>.*)$", parsed_type, re.S)
     if m:
-        return " ".join(m.group("statement").strip().split())
+        return _clean_formal_statement(m.group("statement"))
     if ":" not in parsed_type:
         return ""
-    return " ".join(parsed_type.split(":", 1)[1].strip().split())
+    return _clean_formal_statement(parsed_type.split(":", 1)[1])
 
 
 def parse_axioms(output: str) -> list[str]:
@@ -323,7 +344,7 @@ def _run_lake_lean(mathlib_root: Path, lean_file: Path, timeout_sec: float) -> t
 
 
 def _parenthesize_statement(statement: str) -> str:
-    s = " ".join((statement or "").strip().split())
+    s = _clean_formal_statement(statement)
     if not s:
         return s
     if s.startswith("(") and s.endswith(")"):
@@ -343,21 +364,8 @@ def _write_constructor_file(
 ) -> None:
     imports = "\n".join(f"import {m}" for m in modules)
     theorem = re.sub(r"[^A-Za-z0-9_]", "_", f"mathgraph_test_{name_seed}")[:120]
-    if template_id == "exact_existing" and target:
-        body = f"""{imports}
-
-set_option pp.all false
-set_option autoImplicit false
-
--- exact_existing intentionally reuses Lean's imported declaration with inferred type.
--- It verifies declaration availability/reuse without reconstructing a theorem statement.
-example := {target}
-
-theorem {theorem} := {target}
-"""
-    else:
-        checked_statement = _parenthesize_statement(statement)
-        body = f"""{imports}
+    checked_statement = _parenthesize_statement(statement)
+    body = f"""{imports}
 
 set_option pp.all false
 set_option autoImplicit false
@@ -535,7 +543,7 @@ def run_mathlib_digest_accumulator(
                     "proof_rechecked_from_source": False,
                     "template_id": template_id,
                     "declaration_name": target,
-                    "constructor_generation_mode": "inferred_imported_declaration" if template_id == "exact_existing" else "statement_reconstruction",
+                    "constructor_generation_mode": "statement_reconstruction_exact_existing" if template_id == "exact_existing" else "statement_reconstruction",
                 }
                 attempts.append(
                     {
@@ -674,6 +682,6 @@ def render_digest_report(run_id: str, summary: Mapping[str, Any], env: Mapping[s
             "",
             "## Boundary",
             "Lean verifies. MathGraph records, routes, and compounds. #print references are hints, not complete proof dependencies.",
-            "`exact_existing` constructor checks reuse imported declarations with Lean-inferred type; they do not reconstruct source proofs.",
+            "Constructor checks reconstruct theorem statements from #check output and verify generated Lean files; they do not reconstruct source proofs.",
         ]
     ) + "\n"
