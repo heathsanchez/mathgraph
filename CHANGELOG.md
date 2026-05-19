@@ -17,4 +17,6 @@ Summary:
 - robust minimal module-check requests plus qualification diagnostics/fallback
 - real project execution mode selection, including `lake env lean` from the
   supplied Mathlib/Lake project root
+- persistent Mathlib digest Lawbook with focused Nat pack, constructor and
+  reason atlas exports, obstruction traces, and dry-run-safe accumulation
 - no proof from advisory artifacts

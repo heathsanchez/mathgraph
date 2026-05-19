@@ -82,15 +82,22 @@ Existential Agent Ecology
 45. Curated Real Mathlib Manifest v0 Demo
 46. Real Mathlib Module-Aware Verification v0
 47. Mathlib Module Verification v0.2 project execution hardening
+48. M12 Persistent Mathlib Digest Lawbook
 
 ## Future Work
 
 - real curated Mathlib allowlist examples
-- curated real Mathlib demo manifests
 - richer Lean parser / AST-backed extraction
+- full Lean proof-term dependency extraction
+- robust declaration-level dependency graph
+- real induction constructor synthesis
+- real leRecOn/order-recursion constructor synthesis
 - dependency extraction through Lean tooling
 - trusted importer policy for pinned external corpora
 - richer Lake-aware diagnostics without network or package-manager actions
+- API service endpoints over persistent Lawbook
+- model-trained route/constructor ranking
+- persistent Lawbook browser UI
 - larger fixture-driven release gates
 - persistent Lawbook storage workflow
 - package/release workflow

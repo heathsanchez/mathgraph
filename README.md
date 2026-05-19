@@ -310,6 +310,45 @@ from the supplied project root. Raw Lean mode remains useful for synthetic or
 simple projects; diagnostics that mention `/tmp/.../olean/Mathlib` indicate the
 wrong import context.
 
+## Mathlib Digest Lawbook
+
+MathGraph can now accumulate focused Mathlib digest runs into a persistent
+SQLite Lawbook outside git. The small Nat pack records Lean autopsies, advisory
+root hints, reason basins, constructor attempts, verified constructors, and
+obstruction traces.
+
+Dry run, no Lean required:
+
+```bash
+python scripts/run_mathlib_digest_accumulator.py \
+  --lawbook /tmp/mathgraph_lawbook_test.sqlite \
+  --pack-config examples/mathlib_digest_nat_small/config.json \
+  --out-base /tmp/mathgraph_lawbook_runs
+```
+
+Live local Mathlib run:
+
+```bash
+python scripts/run_mathlib_digest_accumulator.py \
+  --mathlib-root /content/mathlib4 \
+  --lawbook /content/drive/MyDrive/MathGraph_Lawbook/lawbook.sqlite \
+  --pack-config examples/mathlib_digest_nat_small/config.json \
+  --out-base /content/drive/MyDrive/MathGraph_Lawbook/runs \
+  --allow-live-lean \
+  --verify-constructors
+```
+
+Exports:
+
+```bash
+python scripts/run_constructor_distiller.py --lawbook /path/to/lawbook.sqlite --out-dir /path/to/exports
+python scripts/run_reason_atlas_export.py --lawbook /path/to/lawbook.sqlite --out-dir /path/to/exports
+python scripts/run_lawbook_summary.py --lawbook /path/to/lawbook.sqlite --out-dir /path/to/exports
+```
+
+The repo stores code, docs, tests, and small fixtures. Growing Lawbook SQLite
+files and run/export artifacts belong in external storage such as Google Drive.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

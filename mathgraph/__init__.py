@@ -2077,4 +2077,10 @@ from mathgraph.mathlib_declaration_discovery import *
 from mathgraph.proof_library_demo import *
 from mathgraph.demo_release import *
 from mathgraph.real_mathlib_demo import *
+from mathgraph.lawbook_accumulator import *
+from mathgraph.mathlib_digest import *
+from mathgraph.reason_atlas import *
+from mathgraph.constructor_atlas import *
+from mathgraph.digest_scheduler import *
+from mathgraph.digest_exports import *
 from mathgraph.version import __version__, get_version_info
