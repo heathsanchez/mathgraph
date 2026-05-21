@@ -138,6 +138,19 @@ persistent Reason Atlas priors, combined priors, and oracle ordering. Its value
 claim is empirical and replayable: certificate yield, residual compression,
 attempt efficiency, oracle-gap capture, and advisory-boundary preservation.
 
+## Spectral H-Tilt Reason Atlas Scheduling
+
+Spectral H-Tilt is now wired into persistent Reason Atlas scheduling. Reason
+Atlas entries and feedback events become advisory route telemetry, the spectral
+estimator computes survivor mass, support, survival, tilted measure, and killing
+pressure, and those values rescore Reason Atlas queue priority.
+
+The SAIR H-Tilt scale evaluator checks the only claim that matters here:
+whether H-Tilt-augmented advisory priors preserve or improve held-out
+finite-countermodel certificate yield or attempt efficiency. H-Tilt remains
+strictly advisory; `PromotionGate`-accepted checker certificates are still the
+only route to terminal candidates.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -148,6 +161,7 @@ Implemented:
 - SAIR Breakthrough Loop
 - SAIR Motif Hygiene + Held-Out Scheduler Evaluation
 - Persistent SAIR Reason Atlas Scale Evaluation
+- Spectral H-Tilt Reason Atlas Scheduling
 
 Still future work:
 
@@ -155,10 +169,15 @@ Still future work:
 - production Lawbook admission workflow
 - real Lean/finite-checker job runner integration
 - H-Tilt scheduling over persistent schema families
+- multi-seed large-scale H-Tilt evaluation
+- H-Tilt over proof traces
+- H-Tilt over finite countermodel root schemas
+- H-Tilt over Lawbook closure graphs
 - root operator induction over finite countermodel traces
 - proof-constructor root induction
 - second-order root operators
 - principled V discovery
 - TRUE-side Lean proof executor
+- stochastic multi-armed constructor scheduling
 - learned schema proposal models
 - multi-verifier external certificate envelope

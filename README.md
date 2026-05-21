@@ -474,6 +474,27 @@ python scripts/run_sair_scale_reason_atlas_eval.py \
   --load-existing-atlas
 ```
 
+## Spectral H-Tilt Reason Atlas Scheduling
+
+Spectral H-Tilt can now read persistent Reason Atlas entries and feedback,
+estimate survivor mass over advisory route telemetry, and write H-Tilt scores
+back into Reason Atlas priority metadata. Those scores affect queue ordering and
+constructor scheduling only; they do not verify claims and cannot create terminal
+truth.
+
+Held-out SAIR evaluation compares baseline constructor ordering, persistent
+Reason Atlas priors, H-Tilt-augmented priors, and oracle ordering using the real
+finite magma checker plus `PromotionGate`.
+
+```bash
+python scripts/run_sair_htilt_reason_atlas_eval.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --admit-motifs \
+  --load-existing-atlas \
+  --apply-htilt
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

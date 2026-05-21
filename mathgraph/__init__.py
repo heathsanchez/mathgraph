@@ -2292,4 +2292,17 @@ from mathgraph.sair_scale_evaluation import (
     compute_residual_compression_gain,
     run_sair_scale_evaluation,
 )
+from mathgraph.reason_atlas_htilt import (
+    ReasonAtlasHTiltConfig,
+    ReasonAtlasHTiltReport,
+    ReasonAtlasHTiltScore,
+    apply_htilt_scores_to_reason_atlas,
+    estimate_htilt_for_reason_atlas,
+    export_htilt_augmented_queue,
+)
+from mathgraph.sair_htilt_scale_evaluation import (
+    SAIRHTiltScaleEvalConfig,
+    SAIRHTiltScaleEvalReport,
+    run_sair_htilt_scale_evaluation,
+)
 from mathgraph.version import __version__, get_version_info
