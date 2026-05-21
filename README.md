@@ -532,6 +532,19 @@ python scripts/run_compounding_lawbook_loop.py \
   --out-dir /tmp/mathgraph_compounding_smoke
 ```
 
+Real-SAIR-capable benchmark:
+
+```bash
+python scripts/run_sair_real_compounding_benchmark.py \
+  --equations-path /content/equations.txt \
+  --matrix-path /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/real_compounding_benchmark_v0 \
+  --train-size 250 \
+  --heldout-size 250 \
+  --seeds 0,1,2 \
+  --fallback-if-missing
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

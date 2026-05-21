@@ -176,6 +176,18 @@ This is the persistent metabolism layer: V/H-Tilt calibration supplies
 scheduling pressure inside the loop, while the Lawbook remembers terminal
 artifacts and the Reason Atlas compresses action-changing patterns.
 
+## Real SAIR Compounding Benchmark
+
+The real-SAIR-capable benchmark compares baseline static scheduling,
+persistent atlas scheduling, best-V H-Tilt scheduling, Lawbook attention,
+Lawbook attention plus H-Tilt, and decode-filtered Lawbook attention plus
+H-Tilt on held-out FALSE finite-countermodel recovery.
+
+It is the first production-facing test of whether MathGraph memory compounds:
+episode memory should improve future verifier-directed search.  The benchmark
+is explicit about fallback mode versus real SAIR mode, and only
+PromotionGate-backed finite-countermodel recoveries count.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -189,6 +201,7 @@ Implemented:
 - Spectral H-Tilt Reason Atlas Scheduling
 - Principled V Discovery + H-Tilt Calibration
 - Compounding Lawbook Engine v0
+- Real SAIR Compounding Benchmark v0
 
 Still future work:
 

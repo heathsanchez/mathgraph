@@ -2352,4 +2352,10 @@ from mathgraph.compounding_lawbook_engine import (
     CompoundingLawbookEngineReport,
     run_compounding_lawbook_engine,
 )
+from mathgraph.sair_real_compounding_benchmark import (
+    BenchmarkMode,
+    BenchmarkResult,
+    SAIRRealCompoundingBenchmarkReport,
+    run_sair_real_compounding_benchmark,
+)
 from mathgraph.version import __version__, get_version_info
