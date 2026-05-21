@@ -2271,4 +2271,25 @@ from mathgraph.sair_scheduler_evaluation import (
     SAIRSchedulerPolicyResult,
     evaluate_scheduler_policies,
 )
+from mathgraph.sair_reason_atlas_admission import (
+    SAIRReasonAtlasAdmissionConfig,
+    SAIRReasonAtlasAdmissionReport,
+    admit_clean_motifs_to_reason_atlas,
+    admit_clean_schemas_to_reason_atlas,
+    clean_motif_to_reason_atlas_entry,
+    clean_root_schema_to_reason_atlas_entry,
+    export_sair_reason_atlas_admission_report,
+    load_sair_reason_atlas_priors,
+)
+from mathgraph.sair_scale_evaluation import (
+    SAIRScaleEvalConfig,
+    SAIRScaleEvalReport,
+    compare_baseline_vs_reason_atlas,
+    compute_attempt_efficiency_gain,
+    compute_basin_coverage_gain,
+    compute_compounding_gain,
+    compute_repeatability_stats,
+    compute_residual_compression_gain,
+    run_sair_scale_evaluation,
+)
 from mathgraph.version import __version__, get_version_info

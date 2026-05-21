@@ -453,6 +453,27 @@ finite-countermodel certificate yield versus baseline constructor ordering.
 Motifs, scheduler scores, and Reason Atlas entries remain advisory; only the
 finite checker plus `PromotionGate` can create terminal candidates.
 
+## Persistent SAIR Reason Atlas Evaluation
+
+Clean motifs from `PromotionGate`-accepted SAIR finite-countermodel traces can
+now be admitted into a persistent SQLite Reason Atlas as advisory constructor
+priors. Later held-out runs can load those priors and compare persistent atlas
+scheduling against baseline constructor ordering, clean in-run motifs, and an
+oracle policy.
+
+The core metric is compounding gain: more finite-countermodel certificates, fewer
+residuals, or lower attempt cost versus baseline. The verifier boundary remains
+unchanged: persisted motifs and atlas priors guide search, but only finite
+checker success gated by `PromotionGate` can produce terminal candidates.
+
+```bash
+python scripts/run_sair_scale_reason_atlas_eval.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --admit-motifs \
+  --load-existing-atlas
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

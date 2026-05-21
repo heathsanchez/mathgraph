@@ -126,6 +126,18 @@ scheduling on held-out pairs with the real finite checker. The result is no
 longer "motifs exist"; it is certificate yield and residual compression versus
 baseline constructor scheduling.
 
+## Persistent SAIR Reason Atlas Scale Evaluation
+
+The next scale step admits clean SAIR motifs and root schemas into persistent
+Reason Atlas memory as advisory entries, then loads those entries in later
+held-out evaluations. This turns a successful run into reusable constructor
+priority without crossing the truth boundary.
+
+The scale runner compares baseline constructor ordering, clean in-run motifs,
+persistent Reason Atlas priors, combined priors, and oracle ordering. Its value
+claim is empirical and replayable: certificate yield, residual compression,
+attempt efficiency, oracle-gap capture, and advisory-boundary preservation.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -135,15 +147,18 @@ Implemented:
 - Breakthrough Loop Demo
 - SAIR Breakthrough Loop
 - SAIR Motif Hygiene + Held-Out Scheduler Evaluation
+- Persistent SAIR Reason Atlas Scale Evaluation
 
 Still future work:
 
+- full all-FALSE-pair recovery run
+- production Lawbook admission workflow
 - real Lean/finite-checker job runner integration
 - H-Tilt scheduling over persistent schema families
-- finite countermodel root induction
+- root operator induction over finite countermodel traces
 - proof-constructor root induction
 - second-order root operators
 - principled V discovery
-- causal IR
-- grounding IR
+- TRUE-side Lean proof executor
+- learned schema proposal models
 - multi-verifier external certificate envelope
