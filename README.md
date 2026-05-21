@@ -361,6 +361,18 @@ heuristics, grounding records, route priors, scheduler scores, and model outputs
 do not promote truth without explicit verifier/importer/finite-validator/chain
 audit evidence.
 
+## Reason Atlas Contact Promotion
+
+MathGraph can now import Lean probe rows into a Reason Atlas contact-promotion
+pipeline. A clean interval becomes a `STRICT_CONTACT_SEED`, parsed `#check`
+text becomes a `SIGNATURE_ATLAS_RECORD`, dirty intervals become
+`REPAIRABLE_OBSTRUCTION`, and repeated clean transfer can create an advisory
+`PROMOTED_ROUTE_LAW`.
+
+Support `1/1` is intentionally not promoted. A route law requires repeated
+clean transfer across compatible declarations or target instantiations; route
+laws guide scheduling and construction, but they are not truth certificates.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

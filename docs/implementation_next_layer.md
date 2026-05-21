@@ -44,3 +44,20 @@ The following are intentionally not implemented here:
 
 Those should remain research hooks until they can be encoded as small,
 auditable, verifier-bound components.
+
+## Contact Promotion Follow-On
+
+The next implementable layer after the advisory/control-plane work is Reason
+Atlas contact promotion. It turns Lean probe rows into:
+
+- `STRICT_CONTACT_SEED`
+- `SIGNATURE_ATLAS_RECORD`
+- `REPAIRABLE_OBSTRUCTION`
+- `TRANSFER_TEST`
+- `PROMOTED_ROUTE_LAW`
+- `NEXT_EXPANSION_QUEUE`
+
+A single clean contact remains a seed. MathGraph promotes a route law only
+after repeated clean transfer across compatible declarations or target
+instantiations. Promoted route laws are advisory scheduling and construction
+guides, not proof certificates.

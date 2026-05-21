@@ -2126,4 +2126,24 @@ from mathgraph.grounding import (
     GroundingStatus,
     SensorSignature,
 )
+from mathgraph.signature_atlas import (
+    SignatureAtlas,
+    SignatureAtlasRecord,
+    SignatureParseResult,
+    SignatureRole,
+    estimate_signature_features,
+    normalize_signature,
+    parse_check_output,
+)
+from mathgraph.contact_promotion import (
+    ContactKind,
+    ContactObstruction,
+    ContactPromotionEngine,
+    ContactSeed,
+    ContactStatus,
+    PromotedRouteLaw,
+    PromotionDecision,
+    PromotionPolicy,
+    TransferTest,
+)
 from mathgraph.version import __version__, get_version_info
