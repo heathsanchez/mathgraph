@@ -495,6 +495,25 @@ python scripts/run_sair_htilt_reason_atlas_eval.py \
   --apply-htilt
 ```
 
+## Principled V Discovery and H-Tilt Calibration
+
+MathGraph can now compare candidate viability/killing operators for H-Tilt
+scheduling. V operators turn training feedback traces into advisory pressure:
+failure density, rejection pressure, residual persistence, constructor dead
+ends, attempt cost, novelty pressure, and composite variants.
+
+Selected V operators must prove value through held-out finite-countermodel
+certificate yield, residual compression, or attempt efficiency. V scores and
+H-Tilt distributions remain advisory only; no V operator crosses the verifier
+boundary.
+
+```bash
+python scripts/run_sair_v_operator_eval.py \
+  --allow-fallback-demo \
+  --quick \
+  --seeds 2
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

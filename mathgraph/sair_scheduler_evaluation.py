@@ -108,14 +108,12 @@ def schedule_constructors_for_pair(task: BreakthroughTask, policy: str, motifs_d
         out = list(names)
         rng.shuffle(out)
         return out
-    if policy in {
+    if policy.startswith("htilt_") or policy in {
         "clean_motif_guided_order",
         "reason_atlas_guided_order",
         "frequency_constructor_order",
         "persistent_reason_atlas_order",
         "persistent_reason_atlas_plus_clean_motif_order",
-        "htilt_reason_atlas_order",
-        "htilt_plus_clean_motif_order",
     }:
         prior = build_constructor_prior_from_motifs(motifs_df if motifs_df is not None else pd.DataFrame())
         preferred = preferred_constructors_for_task(task, bank)

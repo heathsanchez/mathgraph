@@ -2305,4 +2305,28 @@ from mathgraph.sair_htilt_scale_evaluation import (
     SAIRHTiltScaleEvalReport,
     run_sair_htilt_scale_evaluation,
 )
+from mathgraph.viability_operators import (
+    ViabilityOperatorConfig,
+    ViabilityOperatorKind,
+    ViabilityOperatorReport,
+    ViabilityOperatorScore,
+    rank_items_by_v,
+    score_viability_operator,
+)
+from mathgraph.htilt_calibration import (
+    HTiltCalibrationConfig,
+    HTiltCalibrationReport,
+    HTiltCalibrationResult,
+    HTiltOperatorComparison,
+    calibrate_htilt_operator,
+    compare_htilt_operators,
+    select_best_v_operator,
+)
+from mathgraph.sair_v_operator_evaluation import (
+    SAIRVOperatorEvalConfig,
+    SAIRVOperatorEvalReport,
+    SAIRVOperatorPolicyResult,
+    SAIRVOperatorSeedResult,
+    evaluate_v_operators_multi_seed,
+)
 from mathgraph.version import __version__, get_version_info

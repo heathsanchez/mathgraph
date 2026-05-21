@@ -151,6 +151,19 @@ finite-countermodel certificate yield or attempt efficiency. H-Tilt remains
 strictly advisory; `PromotionGate`-accepted checker certificates are still the
 only route to terminal candidates.
 
+## Principled V Discovery And H-Tilt Calibration
+
+The next empirical layer compares candidate killing/viability operators for
+H-Tilt. Training feedback traces induce V scores such as failure density,
+rejection pressure, residual persistence, constructor dead-end pressure, attempt
+cost, novelty, and composite variants. Multi-seed held-out SAIR evaluation then
+selects the operator that improves certificate yield, residual compression, or
+attempt efficiency.
+
+The geometry is not the claim. The held-out finite-checker result is the claim.
+All V operators remain advisory scheduling pressure and never emit terminal
+truth.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -162,6 +175,7 @@ Implemented:
 - SAIR Motif Hygiene + Held-Out Scheduler Evaluation
 - Persistent SAIR Reason Atlas Scale Evaluation
 - Spectral H-Tilt Reason Atlas Scheduling
+- Principled V Discovery + H-Tilt Calibration
 
 Still future work:
 
@@ -180,4 +194,8 @@ Still future work:
 - TRUE-side Lean proof executor
 - stochastic multi-armed constructor scheduling
 - learned schema proposal models
+- learned V operators
+- V over proof traces
+- V over Lawbook closure graphs
+- H-Tilt over Mathlib digest traces
 - multi-verifier external certificate envelope
