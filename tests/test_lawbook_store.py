@@ -3,6 +3,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 from mathgraph import CertificateLawbook, Kernel, LawbookStore
 
 
@@ -122,3 +124,40 @@ def test_build_lawbook_store_cli(tmp_path: Path) -> None:
     assert result.returncode == 0, result.stderr
     assert sqlite_path.exists()
     assert json.loads(summary_path.read_text(encoding="utf-8"))["trace_count"] == 3
+
+
+def test_compounding_schema_insert_query_and_manifest(tmp_path: Path) -> None:
+    store = LawbookStore(tmp_path / "lawbook.sqlite")
+    store.init_compounding_schema()
+    artifact = store.insert_artifact(
+        {
+            "domain": "sair",
+            "claim_id": "c1",
+            "source_id": "s",
+            "target_id": "t",
+            "basin": "projection",
+            "terminal_form": "FINITE_COUNTERMODEL",
+            "trust_level": 100,
+            "boundary_type": "finite_model_checker",
+            "payload": {"constructor": "left_projection_n2"},
+        }
+    )
+    assert store.query_artifacts(domain="sair", basin="projection")[0]["artifact_id"] == artifact["artifact_id"]
+    manifest = store.export_manifest(tmp_path / "manifest.json")
+    assert manifest["artifacts"] == 1
+    assert manifest["advisory_boundary_preserved"] is True
+    store.close()
+
+
+def test_advisory_artifact_cannot_masquerade_as_verified(tmp_path: Path) -> None:
+    store = LawbookStore(tmp_path / "lawbook.sqlite")
+    with pytest.raises(ValueError):
+        store.insert_artifact({"terminal_form": "FINITE_COUNTERMODEL", "trust_level": 10, "boundary_type": "advisory"})
+    store.close()
+
+
+def test_finite_countermodel_valid_boundary_is_accepted(tmp_path: Path) -> None:
+    store = LawbookStore(tmp_path / "lawbook.sqlite")
+    row = store.insert_artifact({"terminal_form": "FINITE_COUNTERMODEL", "trust_level": 100, "boundary_type": "finite_model_checker"})
+    assert row["terminal_form"] == "FINITE_COUNTERMODEL"
+    store.close()

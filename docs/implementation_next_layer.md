@@ -164,6 +164,18 @@ The geometry is not the claim. The held-out finite-checker result is the claim.
 All V operators remain advisory scheduling pressure and never emit terminal
 truth.
 
+## Compounding Lawbook Engine
+
+The canonical v0 compounding layer now stores verifier-directed experience in a
+LawbookStore, retrieves sparse context with Lawbook attention, coagulates
+repeated attempts into candidate reasons, tests those reasons with
+decode-to-verify, and reports whether memory improved the next
+verifier-directed episode.
+
+This is the persistent metabolism layer: V/H-Tilt calibration supplies
+scheduling pressure inside the loop, while the Lawbook remembers terminal
+artifacts and the Reason Atlas compresses action-changing patterns.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -176,6 +188,7 @@ Implemented:
 - Persistent SAIR Reason Atlas Scale Evaluation
 - Spectral H-Tilt Reason Atlas Scheduling
 - Principled V Discovery + H-Tilt Calibration
+- Compounding Lawbook Engine v0
 
 Still future work:
 

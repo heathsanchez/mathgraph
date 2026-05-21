@@ -514,6 +514,24 @@ python scripts/run_sair_v_operator_eval.py \
   --seeds 2
 ```
 
+## Compounding Lawbook Engine v0
+
+MathGraph now has a narrow compounding Lawbook loop: verified/advisory
+experience is stored, sparse Lawbook attention retrieves relevant memory,
+repeated attempts coagulate into candidate reasons, decode-to-verify tests
+whether those reasons change future action, and the report measures whether
+memory improved the next verifier-directed episode.
+
+Only terminal artifacts with valid boundaries count as verified Lawbook memory.
+Advisory motifs, reasons, attention results, and H-Tilt scores can guide search,
+but cannot promote truth.
+
+```bash
+python scripts/run_compounding_lawbook_loop.py \
+  --fallback-smoke \
+  --out-dir /tmp/mathgraph_compounding_smoke
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

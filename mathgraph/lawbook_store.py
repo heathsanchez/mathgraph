@@ -3439,3 +3439,336 @@ def _nested_value(payload: dict[str, Any], key: str) -> Any:
         if isinstance(nested, dict) and nested.get(key) not in (None, ""):
             return nested.get(key)
     return None
+
+
+# -------------------------------------------------------------------------------------------------
+# Compounding Lawbook Engine v0 surface
+# -------------------------------------------------------------------------------------------------
+
+_VERIFIED_TERMINAL_BOUNDARIES = {
+    "VERIFIED_PROOF": {"lean", "proof_checker", "derived_verified"},
+    "FINITE_COUNTERMODEL": {"finite_model_checker", "derived_verified"},
+    "NAMED_OBSTRUCTION": {"obstruction_audit", "derived_obstruction"},
+}
+
+
+def _lb_now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _lb_json(value: Any) -> str:
+    return json.dumps(value if value is not None else {}, sort_keys=True, ensure_ascii=False)
+
+
+def _lb_hash(value: Any) -> str:
+    from mathgraph.hashing import content_id
+
+    return content_id("lawbook-v0", value)
+
+
+def _validate_terminal_boundary(terminal_form: str, boundary_type: str, trust_level: int) -> None:
+    if terminal_form in ("", "ADVISORY", "CANDIDATE", "NONE"):
+        return
+    allowed = _VERIFIED_TERMINAL_BOUNDARIES.get(str(terminal_form), set())
+    if str(boundary_type) not in allowed:
+        raise ValueError(f"{terminal_form} requires boundary_type in {sorted(allowed)}")
+    if int(trust_level) < 100:
+        raise ValueError(f"{terminal_form} requires verified trust_level >= 100")
+
+
+def _init_compounding_schema(self: LawbookStore) -> None:
+    self.conn.executescript(
+        """
+        CREATE TABLE IF NOT EXISTS artifacts (
+            artifact_id TEXT PRIMARY KEY,
+            domain TEXT,
+            claim_id TEXT,
+            source_id TEXT,
+            target_id TEXT,
+            basin TEXT,
+            micro_basin TEXT,
+            terminal_form TEXT,
+            trust_level INTEGER,
+            provenance_type TEXT,
+            boundary_type TEXT,
+            payload_json TEXT,
+            payload_hash TEXT,
+            run_id TEXT,
+            created_at TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_artifacts_domain ON artifacts(domain);
+        CREATE INDEX IF NOT EXISTS idx_artifacts_claim ON artifacts(claim_id);
+        CREATE INDEX IF NOT EXISTS idx_artifacts_pair ON artifacts(source_id, target_id);
+        CREATE INDEX IF NOT EXISTS idx_artifacts_basin ON artifacts(basin);
+        CREATE INDEX IF NOT EXISTS idx_artifacts_terminal ON artifacts(terminal_form);
+
+        CREATE TABLE IF NOT EXISTS attempts (
+            attempt_id TEXT PRIMARY KEY,
+            artifact_id TEXT,
+            domain TEXT,
+            claim_id TEXT,
+            route TEXT,
+            scheduler TEXT,
+            result_type TEXT,
+            success INTEGER,
+            cost REAL,
+            residual_delta REAL,
+            verifier_contact INTEGER,
+            run_id TEXT,
+            created_at TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_attempts_claim ON attempts(claim_id);
+        CREATE INDEX IF NOT EXISTS idx_attempts_route ON attempts(route);
+        CREATE INDEX IF NOT EXISTS idx_attempts_success ON attempts(success);
+
+        CREATE TABLE IF NOT EXISTS compounding_obstructions (
+            obstruction_id TEXT PRIMARY KEY,
+            domain TEXT,
+            claim_id TEXT,
+            source_id TEXT,
+            target_id TEXT,
+            basin TEXT,
+            obstruction_type TEXT,
+            evidence_json TEXT,
+            route_killed TEXT,
+            run_id TEXT,
+            created_at TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_compounding_obstructions_basin ON compounding_obstructions(basin);
+
+        CREATE TABLE IF NOT EXISTS compounding_reasons (
+            reason_id TEXT PRIMARY KEY,
+            domain TEXT,
+            reason_type TEXT,
+            basin TEXT,
+            support_count INTEGER,
+            verified_support_count INTEGER,
+            conditions_json TEXT,
+            payload_json TEXT,
+            promotion_status TEXT,
+            decode_success_count INTEGER,
+            decode_failure_count INTEGER,
+            run_id TEXT,
+            created_at TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_compounding_reasons_basin ON compounding_reasons(basin);
+        CREATE INDEX IF NOT EXISTS idx_compounding_reasons_status ON compounding_reasons(promotion_status);
+
+        CREATE TABLE IF NOT EXISTS events (
+            event_id TEXT PRIMARY KEY,
+            event_type TEXT,
+            payload_json TEXT,
+            run_id TEXT,
+            created_at TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type);
+        """
+    )
+    self.conn.commit()
+
+
+def _insert_artifact(self: LawbookStore, artifact: dict[str, Any]) -> dict[str, Any]:
+    self.init_compounding_schema()
+    payload = dict(artifact.get("payload", artifact.get("payload_json", {})) or {})
+    artifact_id = str(artifact.get("artifact_id") or _lb_hash(["artifact", artifact]))
+    terminal = str(artifact.get("terminal_form", "ADVISORY") or "ADVISORY")
+    boundary = str(artifact.get("boundary_type", "") or "")
+    trust = int(artifact.get("trust_level", 0) or 0)
+    _validate_terminal_boundary(terminal, boundary, trust)
+    row = {
+        "artifact_id": artifact_id,
+        "domain": artifact.get("domain", ""),
+        "claim_id": artifact.get("claim_id", ""),
+        "source_id": artifact.get("source_id", ""),
+        "target_id": artifact.get("target_id", ""),
+        "basin": artifact.get("basin", ""),
+        "micro_basin": artifact.get("micro_basin", ""),
+        "terminal_form": terminal,
+        "trust_level": trust,
+        "provenance_type": artifact.get("provenance_type", ""),
+        "boundary_type": boundary,
+        "payload_json": _lb_json(payload),
+        "payload_hash": artifact.get("payload_hash") or _lb_hash(payload),
+        "run_id": artifact.get("run_id", ""),
+        "created_at": artifact.get("created_at") or _lb_now(),
+    }
+    self.conn.execute(
+        "INSERT OR REPLACE INTO artifacts VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        tuple(row[k] for k in row),
+    )
+    self.conn.commit()
+    return row
+
+
+def _insert_attempt(self: LawbookStore, attempt: dict[str, Any]) -> dict[str, Any]:
+    self.init_compounding_schema()
+    row = {
+        "attempt_id": str(attempt.get("attempt_id") or _lb_hash(["attempt", attempt])),
+        "artifact_id": attempt.get("artifact_id", ""),
+        "domain": attempt.get("domain", ""),
+        "claim_id": attempt.get("claim_id", ""),
+        "route": attempt.get("route", ""),
+        "scheduler": attempt.get("scheduler", ""),
+        "result_type": attempt.get("result_type", ""),
+        "success": 1 if attempt.get("success") else 0,
+        "cost": float(attempt.get("cost", 0.0) or 0.0),
+        "residual_delta": float(attempt.get("residual_delta", 0.0) or 0.0),
+        "verifier_contact": 1 if attempt.get("verifier_contact") else 0,
+        "run_id": attempt.get("run_id", ""),
+        "created_at": attempt.get("created_at") or _lb_now(),
+    }
+    self.conn.execute("INSERT OR REPLACE INTO attempts VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", tuple(row[k] for k in row))
+    self.conn.commit()
+    return row
+
+
+def _insert_obstruction(self: LawbookStore, obstruction: dict[str, Any]) -> dict[str, Any]:
+    self.init_compounding_schema()
+    row = {
+        "obstruction_id": str(obstruction.get("obstruction_id") or _lb_hash(["obstruction", obstruction])),
+        "domain": obstruction.get("domain", ""),
+        "claim_id": obstruction.get("claim_id", ""),
+        "source_id": obstruction.get("source_id", ""),
+        "target_id": obstruction.get("target_id", ""),
+        "basin": obstruction.get("basin", ""),
+        "obstruction_type": obstruction.get("obstruction_type", ""),
+        "evidence_json": _lb_json(obstruction.get("evidence", obstruction.get("evidence_json", {}))),
+        "route_killed": obstruction.get("route_killed", ""),
+        "run_id": obstruction.get("run_id", ""),
+        "created_at": obstruction.get("created_at") or _lb_now(),
+    }
+    self.conn.execute("INSERT OR REPLACE INTO compounding_obstructions VALUES (?,?,?,?,?,?,?,?,?,?,?)", tuple(row[k] for k in row))
+    self.conn.commit()
+    return row
+
+
+def _insert_reason(self: LawbookStore, reason: dict[str, Any]) -> dict[str, Any]:
+    self.init_compounding_schema()
+    status = str(reason.get("promotion_status", "CANDIDATE_REASON") or "CANDIDATE_REASON")
+    if status == "LAWBOOK_REASON" and int(reason.get("decode_success_count", 0) or 0) <= 0:
+        raise ValueError("LAWBOOK_REASON requires decode_success_count > 0")
+    row = {
+        "reason_id": str(reason.get("reason_id") or _lb_hash(["reason", reason])),
+        "domain": reason.get("domain", ""),
+        "reason_type": reason.get("reason_type", ""),
+        "basin": reason.get("basin", ""),
+        "support_count": int(reason.get("support_count", 0) or 0),
+        "verified_support_count": int(reason.get("verified_support_count", 0) or 0),
+        "conditions_json": _lb_json(reason.get("conditions", reason.get("conditions_json", {}))),
+        "payload_json": _lb_json(reason.get("payload", reason.get("payload_json", {}))),
+        "promotion_status": status,
+        "decode_success_count": int(reason.get("decode_success_count", 0) or 0),
+        "decode_failure_count": int(reason.get("decode_failure_count", 0) or 0),
+        "run_id": reason.get("run_id", ""),
+        "created_at": reason.get("created_at") or _lb_now(),
+    }
+    self.conn.execute("INSERT OR REPLACE INTO compounding_reasons VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", tuple(row[k] for k in row))
+    self.conn.commit()
+    return row
+
+
+def _insert_event(self: LawbookStore, event: dict[str, Any]) -> dict[str, Any]:
+    self.init_compounding_schema()
+    row = {
+        "event_id": str(event.get("event_id") or _lb_hash(["event", event, _lb_now()])),
+        "event_type": event.get("event_type", ""),
+        "payload_json": _lb_json(event.get("payload", event.get("payload_json", {}))),
+        "run_id": event.get("run_id", ""),
+        "created_at": event.get("created_at") or _lb_now(),
+    }
+    self.conn.execute("INSERT OR REPLACE INTO events VALUES (?,?,?,?,?)", tuple(row[k] for k in row))
+    self.conn.commit()
+    return row
+
+
+def _query_artifacts(self: LawbookStore, **kwargs: Any) -> list[dict[str, Any]]:
+    self.init_compounding_schema()
+    fields = ("domain", "claim_id", "source_id", "target_id", "basin", "micro_basin", "terminal_form")
+    clauses = []
+    params = []
+    for field in fields:
+        value = kwargs.get(field)
+        if value not in (None, ""):
+            clauses.append(f"{field}=?")
+            params.append(str(value))
+    sql = "SELECT * FROM artifacts"
+    if clauses:
+        sql += " WHERE " + " AND ".join(clauses)
+    sql += " ORDER BY trust_level DESC, created_at DESC LIMIT ?"
+    params.append(int(kwargs.get("limit", 100) or 100))
+    return [_json_columns_record(row) for row in self.conn.execute(sql, params).fetchall()]
+
+
+def _query_compounding_reasons(self: LawbookStore, *, domain: str | None = None, basin: str | None = None, limit: int = 100) -> list[dict[str, Any]]:
+    self.init_compounding_schema()
+    clauses = []
+    params = []
+    if domain:
+        clauses.append("domain=?")
+        params.append(domain)
+    if basin:
+        clauses.append("basin=?")
+        params.append(basin)
+    sql = "SELECT * FROM compounding_reasons"
+    if clauses:
+        sql += " WHERE " + " AND ".join(clauses)
+    sql += " ORDER BY verified_support_count DESC, support_count DESC LIMIT ?"
+    params.append(limit)
+    return [_json_columns_record(row) for row in self.conn.execute(sql, params).fetchall()]
+
+
+def _query_compounding_obstructions(self: LawbookStore, *, domain: str | None = None, basin: str | None = None, limit: int = 100) -> list[dict[str, Any]]:
+    self.init_compounding_schema()
+    clauses = []
+    params = []
+    if domain:
+        clauses.append("domain=?")
+        params.append(domain)
+    if basin:
+        clauses.append("basin=?")
+        params.append(basin)
+    sql = "SELECT * FROM compounding_obstructions"
+    if clauses:
+        sql += " WHERE " + " AND ".join(clauses)
+    sql += " ORDER BY created_at DESC LIMIT ?"
+    params.append(limit)
+    return [_json_columns_record(row) for row in self.conn.execute(sql, params).fetchall()]
+
+
+def _retrieve_candidate_context(self: LawbookStore, task: dict[str, Any], max_artifacts: int = 5, max_obstructions: int = 5, max_reasons: int = 5) -> dict[str, Any]:
+    domain = task.get("domain", "sair")
+    basin = task.get("basin") or task.get("family", "")
+    return {
+        "artifacts": self.query_artifacts(domain=domain, basin=basin, limit=max_artifacts),
+        "obstructions": self.query_compounding_obstructions(domain=domain, basin=basin, limit=max_obstructions),
+        "reasons": self.query_compounding_reasons(domain=domain, basin=basin, limit=max_reasons),
+    }
+
+
+def _export_manifest(self: LawbookStore, path: str | Path) -> dict[str, Any]:
+    self.init_compounding_schema()
+    manifest = {
+        "artifacts": self.conn.execute("SELECT COUNT(*) FROM artifacts").fetchone()[0],
+        "attempts": self.conn.execute("SELECT COUNT(*) FROM attempts").fetchone()[0],
+        "obstructions": self.conn.execute("SELECT COUNT(*) FROM compounding_obstructions").fetchone()[0],
+        "reasons": self.conn.execute("SELECT COUNT(*) FROM compounding_reasons").fetchone()[0],
+        "events": self.conn.execute("SELECT COUNT(*) FROM events").fetchone()[0],
+        "advisory_boundary_preserved": self.conn.execute("SELECT COUNT(*) FROM artifacts WHERE terminal_form IN ('VERIFIED_PROOF','FINITE_COUNTERMODEL','NAMED_OBSTRUCTION') AND trust_level < 100").fetchone()[0] == 0,
+    }
+    output = Path(path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
+    return manifest
+
+
+LawbookStore.init_compounding_schema = _init_compounding_schema  # type: ignore[attr-defined]
+LawbookStore.insert_artifact = _insert_artifact  # type: ignore[attr-defined]
+LawbookStore.insert_attempt = _insert_attempt  # type: ignore[attr-defined]
+LawbookStore.insert_obstruction = _insert_obstruction  # type: ignore[attr-defined]
+LawbookStore.insert_reason = _insert_reason  # type: ignore[attr-defined]
+LawbookStore.insert_event = _insert_event  # type: ignore[attr-defined]
+LawbookStore.query_artifacts = _query_artifacts  # type: ignore[attr-defined]
+LawbookStore.query_compounding_reasons = _query_compounding_reasons  # type: ignore[attr-defined]
+LawbookStore.query_compounding_obstructions = _query_compounding_obstructions  # type: ignore[attr-defined]
+LawbookStore.retrieve_candidate_context = _retrieve_candidate_context  # type: ignore[attr-defined]
+LawbookStore.export_manifest = _export_manifest  # type: ignore[attr-defined]

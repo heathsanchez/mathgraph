@@ -2329,4 +2329,27 @@ from mathgraph.sair_v_operator_evaluation import (
     SAIRVOperatorSeedResult,
     evaluate_v_operators_multi_seed,
 )
+from mathgraph.lawbook_attention import (
+    LawbookAttentionResult,
+    LawbookAttentionTraceItem,
+    retrieve_lawbook_attention,
+)
+from mathgraph.reason_coagulation import (
+    CoagulatedReason,
+    coagulate_reasons,
+)
+from mathgraph.decode_to_verify import (
+    DecodeStatus,
+    DecodeToVerifyResult,
+    decode_reason_to_verify,
+    decode_reasons_to_verify,
+)
+from mathgraph.compounding_metrics import (
+    CompoundingMetrics,
+    compute_compounding_metrics,
+)
+from mathgraph.compounding_lawbook_engine import (
+    CompoundingLawbookEngineReport,
+    run_compounding_lawbook_engine,
+)
 from mathgraph.version import __version__, get_version_info
