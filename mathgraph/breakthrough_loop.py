@@ -326,6 +326,7 @@ class BreakthroughLoop:
         for constructor_name in self.constructor_families:
             entry = self.reason_loop.store.get_entry(self._entry_id(task.family, constructor_name))
             score = _entry_rank_score(entry)
+            score += _task_constructor_bias(task, constructor_name)
             rows.append((score + _initial_constructor_bias(constructor_name), constructor_name))
         rows.sort(key=lambda item: (-item[0], item[1]))
         return [name for _score, name in rows]
@@ -336,7 +337,7 @@ class BreakthroughLoop:
             for constructor_name in self.constructor_families:
                 entry_id = self._entry_id(task.family, constructor_name)
                 entry = self.reason_loop.store.get_entry(entry_id)
-                out[entry_id] = float(_entry_rank_score(entry) + _initial_constructor_bias(constructor_name))
+                out[entry_id] = float(_entry_rank_score(entry) + _initial_constructor_bias(constructor_name) + _task_constructor_bias(task, constructor_name))
         return out
 
     def _constructor_success_rates(self) -> dict[str, float]:
@@ -404,6 +405,13 @@ def _entry_rank_score(entry: Any) -> float:
         - 2.0 * float(getattr(entry, "obstruction_count", 0) or 0)
         + 3.0 * float(getattr(entry, "verifier_successes", 0) or 0)
     )
+
+
+def _task_constructor_bias(task: BreakthroughTask, constructor_name: str) -> float:
+    preferred = list(task.metadata.get("preferred_constructors", []) or [])
+    if constructor_name not in preferred:
+        return 0.0
+    return max(0.0, 6.0 - 0.25 * preferred.index(constructor_name))
 
 
 def _entropy(labels: Sequence[str]) -> float:

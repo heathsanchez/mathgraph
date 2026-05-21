@@ -108,6 +108,15 @@ table and witness environment proving that the source equation holds globally
 and the target equation fails. Failed searches remain residual feedback, not
 truth.
 
+## SAIR Breakthrough Loop
+
+The same metabolism now has a SAIR-compatible runner. When `equations.txt` and
+`etp_matrix_full_best_bool.npy` are available, MathGraph samples matrix-labeled
+FALSE pairs, normalizes SAIR binary-operation syntax, tries finite magma
+constructor banks, and admits only checker-validated finite countermodels
+through `PromotionGate`. If the files are absent, the runner falls back to the
+built-in breakthrough corpus.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -115,6 +124,7 @@ Implemented:
 - Reason Atlas Persistence + Feedback Loop
 - Closed Verification Loop + Promotion Gate
 - Breakthrough Loop Demo
+- SAIR Breakthrough Loop
 
 Still future work:
 

@@ -426,6 +426,21 @@ cannot emit terminal truth.
 python scripts/run_breakthrough_loop_demo.py
 ```
 
+## SAIR Breakthrough Loop
+
+The breakthrough loop can now load real SAIR-style `equations.txt` and
+`etp_matrix_full_best_bool.npy` files when present. It samples matrix-labeled
+FALSE pairs `EQ1 => EQ2`, searches for finite magma countermodels, wraps real
+checker successes as `ExternalCertificate` objects, and uses `PromotionGate` for
+Lawbook candidate admission.
+
+The implication matrix guides sampling only. Search failure is residual
+feedback, not truth.
+
+```bash
+python scripts/run_sair_breakthrough_loop.py --max-tasks 100 --episodes 3 --attempt-budget 8
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

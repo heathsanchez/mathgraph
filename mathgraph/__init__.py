@@ -2226,4 +2226,25 @@ from mathgraph.breakthrough_loop import (
     BreakthroughLoopConfig,
     BreakthroughTask,
 )
+from mathgraph.sair_task_loader import (
+    LoadedSAIRTask,
+    SAIRTaskLoadConfig,
+    load_sair_equations,
+    load_sair_matrix,
+    make_sair_eval_sample,
+    make_sair_false_tasks,
+    normalize_sair_equation,
+)
+from mathgraph.sair_constructor_bank import (
+    SAIRConstructor,
+    attach_preferred_constructors,
+    build_sair_constructor_bank,
+    constructor_table_dict,
+    preferred_constructors_for_task,
+)
+from mathgraph.sair_breakthrough_runner import (
+    SAIRBreakthroughRunConfig,
+    SAIRBreakthroughRunResult,
+    run_sair_breakthrough_loop,
+)
 from mathgraph.version import __version__, get_version_info

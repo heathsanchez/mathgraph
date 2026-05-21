@@ -81,20 +81,25 @@ class TermParser:
         return term
 
     def _term(self) -> Term:
+        term = self._atom()
+        self._ws()
+        while self._peek() == "*":
+            self.i += 1
+            right = self._atom()
+            term = Term(left=term, right=right)
+            self._ws()
+        return term
+
+    def _atom(self) -> Term:
         self._ws()
         if self._peek() == "(":
             self.i += 1
-            left = self._term()
-            self._ws()
-            if self._peek() != "*":
-                raise ValueError(f"expected '*' at {self.i}")
-            self.i += 1
-            right = self._term()
+            term = self._term()
             self._ws()
             if self._peek() != ")":
                 raise ValueError(f"expected ')' at {self.i}")
             self.i += 1
-            return Term(left=left, right=right)
+            return term
         if self._peek().isalpha():
             start = self.i
             while self.i < len(self.text) and (self.text[self.i].isalnum() or self.text[self.i] == "_"):
