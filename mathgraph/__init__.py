@@ -2209,4 +2209,21 @@ from mathgraph.closed_verification_loop import (
     ClosedVerificationLoopEvent as PromotionClosedVerificationLoopEvent,
     ClosedVerificationLoopResult as PromotionClosedVerificationLoopResult,
 )
+from mathgraph.finite_magma_world import (
+    Equation,
+    Term,
+    check_finite_countermodel,
+    eval_term,
+    parse_equation,
+    parse_term,
+    table_satisfies_equation,
+    table_violates_equation,
+)
+from mathgraph.breakthrough_loop import (
+    BreakthroughAttempt,
+    BreakthroughEpisodeResult,
+    BreakthroughLoop,
+    BreakthroughLoopConfig,
+    BreakthroughTask,
+)
 from mathgraph.version import __version__, get_version_info

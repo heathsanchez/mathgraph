@@ -94,12 +94,27 @@ it consumes advisory queue rows, calls a verifier callback, gates the resulting
 certificate, records feedback in the Reason Atlas, rescales priorities, and
 exports the next advisory queue.
 
+## Breakthrough Loop Demo
+
+The first functioning metabolism is now implemented in
+`mathgraph.breakthrough_loop`. It runs unresolved finite magma implication
+tasks through advisory constructor hints, evaluates concrete finite tables with
+a deterministic checker, wraps successful refutations as `ExternalCertificate`
+objects, gates them through `PromotionGate`, records failures as Reason Atlas
+feedback, and uses the rescored queue in later episodes.
+
+The demo is small but semantic: accepted certificates include a finite magma
+table and witness environment proving that the source equation holds globally
+and the target equation fails. Failed searches remain residual feedback, not
+truth.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
 - Root Operator Induction
 - Reason Atlas Persistence + Feedback Loop
 - Closed Verification Loop + Promotion Gate
+- Breakthrough Loop Demo
 
 Still future work:
 

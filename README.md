@@ -408,6 +408,24 @@ Reason Atlas priority scoring.
 The loop preserves the boundary: advisory memory, route laws, root operator
 schemas, feedback events, and raw success text cannot admit terminal truth.
 
+## Breakthrough Loop Demo
+
+MathGraph now has a runnable variation/evaluation/selective-retention loop.
+The first evaluator is a deterministic finite magma checker: unresolved
+equational implications are attacked with advisory constructor hints, successful
+finite countermodels are wrapped as `ExternalCertificate` objects, and
+`PromotionGate` admits only valid finite boundary evidence as Lawbook
+candidates.
+
+The demo compounds across episodes. Failed attempts become Reason Atlas
+feedback, constructor priorities shift, residuals fall, and the final report
+shows before-to-after improvement. Advisory queue rows and failed searches still
+cannot emit terminal truth.
+
+```bash
+python scripts/run_breakthrough_loop_demo.py
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See
