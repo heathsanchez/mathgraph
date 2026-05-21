@@ -385,6 +385,18 @@ scheduling, and oracle-gap closure. They remain advisory: a root operator
 schema cannot cross the verifier boundary or produce a terminal truth form
 without an independent verifier/importer/finite-checker/chain-audit result.
 
+## Reason Atlas Persistence
+
+Promoted contacts, root operator schemas, repairable obstructions, and
+constructor hints can now be persisted in a lightweight SQLite-backed Reason
+Atlas. Feedback events update advisory support, transfer rates, residual
+compression, decay, and priority scores across runs.
+
+Persistent Reason Atlas memory is the bridge to compounding verification:
+entries guide the next verifier attempt, but remain advisory. Only an
+independent verifier/importer/finite-checker/chain-audit path can create
+terminal truth.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

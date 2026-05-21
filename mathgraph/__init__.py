@@ -2171,4 +2171,27 @@ from mathgraph.root_operator_promotion import (
     root_operator_law_score,
     score_schema_on_tasks,
 )
+from mathgraph.reason_atlas_store import (
+    ReasonAtlasEntry,
+    ReasonAtlasEntryKind,
+    ReasonAtlasEntryStatus,
+    ReasonAtlasFeedbackEvent,
+    ReasonAtlasFeedbackOutcome,
+    ReasonAtlasQuery,
+    ReasonAtlasStore,
+    ReasonAtlasStoreConfig,
+    ReasonAtlasTrust,
+)
+from mathgraph.schema_feedback import (
+    apply_feedback_to_entry,
+    compute_priority_score,
+)
+from mathgraph.reason_atlas_adapters import (
+    entry_from_contact_promotion,
+    entry_from_root_operator_schema,
+)
+from mathgraph.reason_atlas_feedback_loop import (
+    ReasonAtlasFeedbackLoop,
+    ReasonAtlasFeedbackLoopConfig,
+)
 from mathgraph.version import __version__, get_version_info

@@ -73,3 +73,28 @@ oracle gap.
 Root operator schemas are still advisory. They guide proof search, program
 synthesis, countermodel search, constructor selection, and route scheduling;
 they do not emit `VERIFIED_PROOF`, `REFUTATION_CERTIFICATE`, `TRUE`, or `FALSE`.
+
+## Reason Atlas Persistence And Feedback
+
+Reason Atlas persistence is now implemented as the compounding memory layer for
+advisory structures. Promoted contacts, root operator schemas, constructor
+hints, and repairable obstructions can be stored in SQLite, receive transfer and
+verifier feedback, rescore priorities, and emit next advisory queue rows.
+
+Implemented:
+
+- Reason Atlas Contact Promotion
+- Root Operator Induction
+- Reason Atlas Persistence + Feedback Loop
+
+Still future work:
+
+- full ClosedVerificationLoop over real verifier jobs
+- H-Tilt scheduling over persistent schema families
+- finite countermodel root induction
+- proof-constructor root induction
+- second-order root operators
+- principled V discovery
+- causal IR
+- grounding IR
+- multi-verifier external certificate envelope
