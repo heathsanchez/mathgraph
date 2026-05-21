@@ -441,6 +441,18 @@ feedback, not truth.
 python scripts/run_sair_breakthrough_loop.py --max-tasks 100 --episodes 3 --attempt-budget 8
 ```
 
+## Real-Corpus SAIR Motif Hygiene and Scheduler Evaluation
+
+MathGraph can now clean real SAIR finite-countermodel traces into mechanism-only
+motifs, rejecting junk atoms, status leakage, internal IDs, raw payloads, and
+answer-derived features. Only `PromotionGate`-accepted finite countermodel
+traces are mined as positive motif evidence.
+
+The held-out scheduler evaluation tests whether clean motifs improve real
+finite-countermodel certificate yield versus baseline constructor ordering.
+Motifs, scheduler scores, and Reason Atlas entries remain advisory; only the
+finite checker plus `PromotionGate` can create terminal candidates.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

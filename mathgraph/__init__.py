@@ -2247,4 +2247,28 @@ from mathgraph.sair_breakthrough_runner import (
     SAIRBreakthroughRunResult,
     run_sair_breakthrough_loop,
 )
+from mathgraph.sair_motif_hygiene import (
+    SAIRMechanismAtom,
+    SAIRCleanTrace,
+    SAIRMotifHygieneConfig,
+    SAIRMotifHygieneReport,
+    clean_breakthrough_trace_rows,
+    extract_clean_mechanism_atoms,
+    filter_to_accepted_finite_countermodel_rows,
+    normalize_constructor_name,
+)
+from mathgraph.sair_clean_motif_mining import (
+    SAIRMotif,
+    SAIRMotifMiningConfig,
+    SAIRMotifMiningReport,
+    deduplicate_subsumed_motifs,
+    mine_clean_constructor_motifs,
+    score_clean_motifs,
+)
+from mathgraph.sair_scheduler_evaluation import (
+    SAIRSchedulerEvalConfig,
+    SAIRSchedulerEvalReport,
+    SAIRSchedulerPolicyResult,
+    evaluate_scheduler_policies,
+)
 from mathgraph.version import __version__, get_version_info

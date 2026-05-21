@@ -117,6 +117,15 @@ constructor banks, and admits only checker-validated finite countermodels
 through `PromotionGate`. If the files are absent, the runner falls back to the
 built-in breakthrough corpus.
 
+## SAIR Motif Hygiene And Held-Out Scheduler Evaluation
+
+The immediate empirical validation layer now cleans real-corpus SAIR
+finite-countermodel traces into mechanism-only atoms, mines advisory constructor
+motifs only from `PromotionGate`-accepted traces, and evaluates motif-guided
+scheduling on held-out pairs with the real finite checker. The result is no
+longer "motifs exist"; it is certificate yield and residual compression versus
+baseline constructor scheduling.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -125,6 +134,7 @@ Implemented:
 - Closed Verification Loop + Promotion Gate
 - Breakthrough Loop Demo
 - SAIR Breakthrough Loop
+- SAIR Motif Hygiene + Held-Out Scheduler Evaluation
 
 Still future work:
 
