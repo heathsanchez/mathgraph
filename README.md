@@ -349,6 +349,18 @@ python scripts/run_lawbook_summary.py --lawbook /path/to/lawbook.sqlite --out-di
 The repo stores code, docs, tests, and small fixtures. Growing Lawbook SQLite
 files and run/export artifacts belong in external storage such as Google Drive.
 
+## Next Implementable Layer
+
+MathGraph now includes a small closed-loop infrastructure layer: terminal-form
+compatibility helpers, advisory external certificate envelopes, a closed
+verification scheduling loop over the existing route learner and H-Tilt
+scheduler, smoothed sparse route priors, and advisory causal/grounding IRs.
+
+These pieces preserve the verifier boundary: advisory certificates, causal
+heuristics, grounding records, route priors, scheduler scores, and model outputs
+do not promote truth without explicit verifier/importer/finite-validator/chain
+audit evidence.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

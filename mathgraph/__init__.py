@@ -2083,4 +2083,47 @@ from mathgraph.reason_atlas import *
 from mathgraph.constructor_atlas import *
 from mathgraph.digest_scheduler import *
 from mathgraph.digest_exports import *
+from mathgraph.terminal_schema import (
+    CanonicalTerminalForm,
+    RefutationKind,
+    VerifierBoundaryKind,
+    can_promote_terminal_form,
+    is_truth_promoting_boundary,
+    refutation_kind_from_legacy,
+    terminal_form_from_legacy,
+)
+from mathgraph.external_certificates import (
+    ExternalCertificate,
+    ExternalCertificateImportDecision,
+    ExternalCertificateStatus,
+    ExternalVerifierKind,
+    plan_external_certificate_import,
+)
+from mathgraph.closed_loop import (
+    ClosedLoopStats,
+    ClosedVerificationLoop,
+    LoopEvent,
+    LoopEventKind,
+    PendingPair,
+)
+from mathgraph.route_priors import (
+    SmoothedRoutePrior,
+    SmoothedRoutePriorConfig,
+    build_smoothed_route_prior,
+    recommend_route_with_prior,
+)
+from mathgraph.causal_ir import (
+    CausalClaim,
+    CausalClaimKind,
+    CausalEdge,
+    CausalResolutionKind,
+    CausalVariable,
+    Intervention,
+)
+from mathgraph.grounding import (
+    GroundingFunctionSpec,
+    GroundingRecord,
+    GroundingStatus,
+    SensorSignature,
+)
 from mathgraph.version import __version__, get_version_info
