@@ -24,7 +24,7 @@ from mathgraph.lawbook_accumulator import (
 TOKEN_RE = re.compile(r"\b[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)+\b")
 KNOWN_AXIOMS = ("propext", "Classical.choice", "Quot.sound", "sorryAx")
 RUN_NAME = "mathgraph_mathlib_digest_accumulator"
-RUN_VERSION = "m12_persistent_mathlib_digest_lawbook"
+RUN_VERSION = "m12_2_constructor_statement_parity_fix"
 
 
 @dataclass
@@ -113,23 +113,88 @@ set_option autoImplicit false
 """
 
 
+def _strip_lean_message_prefix(line: str, target: str) -> str:
+    """Drop optional `/path/file.lean:line:col: info:` prefix before a #check result."""
+    idx = line.find(target)
+    return line[idx:].strip() if idx >= 0 else line.strip()
+
+
 def parse_check_type(output: str, target: str) -> str:
+    """Parse a #check type conservatively, preserving multiline pretty-printed types.
+
+    Lean sometimes emits:
+
+        Nat.foo : forall ...,
+          more binders ...
+
+    This parser starts at the target line, strips any Lean diagnostic prefix, and
+    keeps indented continuation lines until the next obvious #print/diagnostic
+    boundary. Later statement extraction strips any accidentally captured `:=`
+    proof body from #print output so constructor files never embed declaration
+    bodies inside type ascriptions.
+    """
     escaped = re.escape(target)
-    for line in output.splitlines():
-        s = line.strip()
-        if re.search(escaped + r"(?:\.\{[^}]+\})?\s*:\s*", s):
-            return s
-    for line in output.splitlines():
-        s = line.strip()
+    lines = output.splitlines()
+    for i, line in enumerate(lines):
+        stripped = _strip_lean_message_prefix(line, target)
+        if re.search(escaped + r"(?:\.\{[^}]+\})?\s*:\s*", stripped):
+            collected = [stripped]
+            for nxt in lines[i + 1 :]:
+                raw = nxt.rstrip()
+                s = raw.strip()
+                if not s:
+                    break
+                if s.startswith("[") and s.endswith("]"):
+                    break
+                if " does not depend on any axioms" in s:
+                    break
+                if s.startswith(("theorem ", "lemma ", "def ", "abbrev ", "axiom ")):
+                    break
+                if re.match(r"^.+\.lean:\d+:\d+:", s) and target not in s:
+                    break
+                # Continuation lines from pretty printing are normally indented.
+                # Keep them; stop on a new unindented declaration-like line.
+                if not raw[:1].isspace() and collected:
+                    if not s.startswith(("∀", "fun", "Prop", "Sort", "Type")):
+                        break
+                collected.append(s)
+            return " ".join(" ".join(collected).split())
+    for line in lines:
+        s = _strip_lean_message_prefix(line, target)
         if target in s and ":" in s:
-            return s
+            return " ".join(s.split())
     return ""
 
 
+def _clean_formal_statement(statement: str) -> str:
+    """Return only the theorem type, never a captured Lean declaration body.
+
+    `#print` output can contain `theorem foo : TYPE := PROOF`. If the parser
+    falls back to such a line, anything from `:=` onward is proof text, not a
+    theorem statement. Keeping it produces malformed constructor files like
+    `example : (... := ...) :=`. Strip it before parenthesizing the statement.
+    """
+    s = " ".join((statement or "").strip().split())
+    if not s:
+        return ""
+    if ":=" in s:
+        s = s.split(":=", 1)[0].strip()
+    # A trailing comma means Lean pretty-printing was truncated before the
+    # proposition body. Treat this as unusable rather than generating bad Lean.
+    if s.endswith(","):
+        return ""
+    return s
+
+
 def parse_formal_statement(parsed_type: str) -> str:
+    if not parsed_type:
+        return ""
+    m = re.search(r"\b[A-Za-z_][A-Za-z0-9_'.]*(?:\.\{[^}]+\})?\s*:\s*(?P<statement>.*)$", parsed_type, re.S)
+    if m:
+        return _clean_formal_statement(m.group("statement"))
     if ":" not in parsed_type:
         return ""
-    return parsed_type.split(":", 1)[1].strip()
+    return _clean_formal_statement(parsed_type.split(":", 1)[1])
 
 
 def parse_axioms(output: str) -> list[str]:
@@ -240,6 +305,10 @@ def classify_constructor_error(stderr: str, stdout: str = "", returncode: int | 
     text = f"{stderr}\n{stdout}".lower()
     if returncode == 0:
         return "verified"
+    if "unexpected token ':='" in text:
+        return "malformed_constructor_statement"
+    if "typeclass instance problem is stuck" in text:
+        return "typeclass_failure"
     if "unsolved goals" in text:
         return "unsolved_goals"
     if "unknown identifier" in text or "unknown constant" in text:
@@ -274,23 +343,40 @@ def _run_lake_lean(mathlib_root: Path, lean_file: Path, timeout_sec: float) -> t
         return 124, str(exc.stdout or ""), str(exc.stderr or "") + "\nTIMEOUT", time.perf_counter() - start, "TIMEOUT"
 
 
-def _write_constructor_file(path: Path, modules: Sequence[str], statement: str, proof_body: str, name_seed: str) -> None:
+def _parenthesize_statement(statement: str) -> str:
+    s = _clean_formal_statement(statement)
+    if not s:
+        return s
+    if s.startswith("(") and s.endswith(")"):
+        return s
+    return f"({s})"
+
+
+def _write_constructor_file(
+    path: Path,
+    modules: Sequence[str],
+    statement: str,
+    proof_body: str,
+    name_seed: str,
+    *,
+    target: str | None = None,
+    template_id: str | None = None,
+) -> None:
     imports = "\n".join(f"import {m}" for m in modules)
     theorem = re.sub(r"[^A-Za-z0-9_]", "_", f"mathgraph_test_{name_seed}")[:120]
-    write_text(
-        path,
-        f"""{imports}
+    checked_statement = _parenthesize_statement(statement)
+    body = f"""{imports}
 
 set_option pp.all false
 set_option autoImplicit false
 
-example : {statement} :=
+example : {checked_statement} :=
 {proof_body}
 
-theorem {theorem} : {statement} :=
+theorem {theorem} : {checked_statement} :=
 {proof_body}
-""",
-    )
+"""
+    write_text(path, body)
 
 
 def run_mathlib_digest_accumulator(
@@ -432,7 +518,15 @@ def run_mathlib_digest_accumulator(
                 cfile = cdir / f"{template_id}.lean"
                 cout = cdir / f"{template_id}.stdout.txt"
                 cerr = cdir / f"{template_id}.stderr.txt"
-                _write_constructor_file(cfile, config.modules, statement, proof_body, attempt_id)
+                _write_constructor_file(
+                    cfile,
+                    config.modules,
+                    statement,
+                    proof_body,
+                    attempt_id,
+                    target=target,
+                    template_id=template_id,
+                )
                 if not verify_constructors:
                     crc, cstdout, cstderr, celapsed, cstatus = None, "", "Constructor verification disabled.", 0.0, "SKIPPED_CONSTRUCTOR_VERIFICATION_DISABLED"
                 elif not allow_live_lean:
@@ -445,11 +539,18 @@ def run_mathlib_digest_accumulator(
                 write_text(cout, cstdout)
                 write_text(cerr, cstderr)
                 error_class = classify_constructor_error(cstderr, cstdout, crc)
+                attempt_metadata = {
+                    "proof_rechecked_from_source": False,
+                    "template_id": template_id,
+                    "declaration_name": target,
+                    "constructor_generation_mode": "statement_reconstruction_exact_existing" if template_id == "exact_existing" else "statement_reconstruction",
+                }
                 attempts.append(
                     {
                         "attempt_id": attempt_id,
                         "run_id": run_id,
                         "target_id": target_id,
+                        "declaration_name": target,
                         "reason_id": basin_id,
                         "template_id": template_id,
                         "proof_body": proof_body,
@@ -461,7 +562,7 @@ def run_mathlib_digest_accumulator(
                         "stderr_path": str(cerr),
                         "error_excerpt": (cstderr + "\n" + cstdout).strip()[:1000],
                         "trust_level": "VERIFIED_CONSTRUCTOR_TEST" if cstatus == "LEAN_ACCEPTED_CONSTRUCTOR_TEST" else "OBSTRUCTION_TRACE",
-                        "metadata": {"proof_rechecked_from_source": False, "template_id": template_id},
+                        "metadata": attempt_metadata,
                     }
                 )
                 if cstatus == "LEAN_ACCEPTED_CONSTRUCTOR_TEST":
@@ -475,7 +576,11 @@ def run_mathlib_digest_accumulator(
                             "target_examples": [target],
                             "first_seen_run_id": run_id,
                             "last_seen_run_id": run_id,
-                            "metadata": {"boundary_kind": "lean_constructor_test"},
+                            "metadata": {
+                                "boundary_kind": "lean_constructor_test",
+                                "declaration_name": target,
+                                "constructor_generation_mode": attempt_metadata["constructor_generation_mode"],
+                            },
                         }
                     )
                 else:
@@ -490,7 +595,7 @@ def run_mathlib_digest_accumulator(
                             "message": f"Constructor `{template_id}` did not verify.",
                             "error_excerpt": (cstderr + "\n" + cstdout).strip()[:1000],
                             "next_action": next_action_for_obstruction(error_class, basin_id),
-                            "metadata": {"failed_constructor_is_not_disproof": True},
+                            "metadata": {"failed_constructor_is_not_disproof": True, "declaration_name": target},
                         }
                     )
 
@@ -543,6 +648,8 @@ def run_mathlib_digest_accumulator(
 
 
 def next_action_for_obstruction(kind: str, basin_id: str) -> str:
+    if kind == "malformed_constructor_statement":
+        return "Fix constructor theorem statement generation before treating as mathematical obstruction."
     if kind == "unsolved_goals":
         return "Mine goal state and split constructor strategy."
     if kind == "unknown_reference":
@@ -550,7 +657,7 @@ def next_action_for_obstruction(kind: str, basin_id: str) -> str:
     if kind == "type_mismatch":
         return "Try equality transport/orientation constructor."
     if kind == "typeclass_failure":
-        return "Add instance/typeclass roots."
+        return "Add instance/typeclass roots or avoid reconstructing inferred theorem types."
     if basin_id in {"basin_nat_set_induction", "basin_nat_lerec_order_recursion"}:
         return "TODO synthesize real induction/leRecOn constructor."
     return "Inspect stderr and refine basin."
@@ -575,5 +682,6 @@ def render_digest_report(run_id: str, summary: Mapping[str, Any], env: Mapping[s
             "",
             "## Boundary",
             "Lean verifies. MathGraph records, routes, and compounds. #print references are hints, not complete proof dependencies.",
+            "Constructor checks reconstruct theorem statements from #check output and verify generated Lean files; they do not reconstruct source proofs.",
         ]
     ) + "\n"
