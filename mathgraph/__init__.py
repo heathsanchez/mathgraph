@@ -2093,7 +2093,9 @@ from mathgraph.terminal_schema import (
     terminal_form_from_legacy,
 )
 from mathgraph.external_certificates import (
+    ExternalBoundaryEvidence,
     ExternalCertificate,
+    ExternalCertificateKind,
     ExternalCertificateImportDecision,
     ExternalCertificateStatus,
     ExternalVerifierKind,
@@ -2193,5 +2195,18 @@ from mathgraph.reason_atlas_adapters import (
 from mathgraph.reason_atlas_feedback_loop import (
     ReasonAtlasFeedbackLoop,
     ReasonAtlasFeedbackLoopConfig,
+)
+from mathgraph.promotion_gate import (
+    PromotionGate,
+    PromotionGateConfig,
+    PromotionGateDecision,
+    PromotionGateDecisionKind,
+    PromotionRejectionReason,
+)
+from mathgraph.closed_verification_loop import (
+    ClosedVerificationLoop as PromotionClosedVerificationLoop,
+    ClosedVerificationLoopConfig as PromotionClosedVerificationLoopConfig,
+    ClosedVerificationLoopEvent as PromotionClosedVerificationLoopEvent,
+    ClosedVerificationLoopResult as PromotionClosedVerificationLoopResult,
 )
 from mathgraph.version import __version__, get_version_info

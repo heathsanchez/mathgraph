@@ -81,15 +81,29 @@ advisory structures. Promoted contacts, root operator schemas, constructor
 hints, and repairable obstructions can be stored in SQLite, receive transfer and
 verifier feedback, rescore priorities, and emit next advisory queue rows.
 
+## Closed Verification Loop And Promotion Gate
+
+The current implemented bridge connects advisory Reason Atlas queue rows to
+verifier-bound Lawbook candidates through a central `PromotionGate`.
+`ExternalCertificate` objects can carry proposed terminal forms and boundary
+evidence, but they remain advisory until the gate confirms a valid verifier,
+trusted-importer, finite-validator, or chain-audit boundary.
+
+The callback-based closed verification loop can run in smoke tests without Lean:
+it consumes advisory queue rows, calls a verifier callback, gates the resulting
+certificate, records feedback in the Reason Atlas, rescales priorities, and
+exports the next advisory queue.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
 - Root Operator Induction
 - Reason Atlas Persistence + Feedback Loop
+- Closed Verification Loop + Promotion Gate
 
 Still future work:
 
-- full ClosedVerificationLoop over real verifier jobs
+- real Lean/finite-checker job runner integration
 - H-Tilt scheduling over persistent schema families
 - finite countermodel root induction
 - proof-constructor root induction

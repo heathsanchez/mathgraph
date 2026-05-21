@@ -1,10 +1,13 @@
 from mathgraph.external_certificates import (
+    ExternalBoundaryEvidence,
     ExternalCertificate,
+    ExternalCertificateKind,
     ExternalCertificateStatus,
     ExternalVerifierKind,
     plan_external_certificate_import,
 )
-from mathgraph.terminal_schema import CanonicalTerminalForm, RefutationKind
+from mathgraph.hashing import sha256_hex
+from mathgraph.terminal_schema import CanonicalTerminalForm, RefutationKind, VerifierBoundaryKind
 
 
 def test_lean4_accepted_maps_to_advisory_verified_proof_candidate():
@@ -49,3 +52,67 @@ def test_import_decision_requires_replay_boundary():
     decision = plan_external_certificate_import(cert)
     assert decision.accepted_for_replay is True
     assert decision.advisory is True
+
+
+def test_external_certificate_json_roundtrip_and_stable_id():
+    cert = ExternalCertificate.from_dict(
+        {
+            "verifier": "LEAN",
+            "status": "ACCEPTED",
+            "claim": "claim",
+            "claim_hash": "h",
+            "certificate_kind": "VERIFIED_PROOF",
+        }
+    )
+    assert ExternalCertificate.from_json(cert.to_json()).cert_id == cert.cert_id
+
+
+def test_valid_boundary_evidence_allows_boundary_valid_candidate():
+    evidence = ExternalBoundaryEvidence(
+        "ev1",
+        VerifierBoundaryKind.LEAN_TYPECHECKED,
+        "cert1",
+        CanonicalTerminalForm.VERIFIED_PROOF,
+        artifact_hash=sha256_hex("artifact"),
+        verifier_kind=ExternalVerifierKind.LEAN,
+    )
+    cert = ExternalCertificate(
+        "cert1",
+        ExternalVerifierKind.LEAN,
+        ExternalCertificateStatus.ACCEPTED,
+        "claim",
+        "h",
+        certificate_kind=ExternalCertificateKind.VERIFIED_PROOF,
+        proposed_terminal_form=CanonicalTerminalForm.VERIFIED_PROOF,
+        boundary_evidence=evidence,
+        boundary_valid=True,
+    )
+    assert cert.boundary_valid is True
+    assert cert.advisory_only is True
+
+
+def test_raw_success_text_alone_is_not_boundary_evidence():
+    cert = ExternalCertificate(
+        "cert_raw",
+        ExternalVerifierKind.LEAN,
+        ExternalCertificateStatus.ACCEPTED,
+        "claim",
+        "h",
+        certificate_kind=ExternalCertificateKind.VERIFIED_PROOF,
+        metadata={"raw_success_text": True},
+    )
+    assert cert.boundary_valid is False
+    assert cert.advisory_only is True
+
+
+def test_finite_search_miss_cannot_imply_proof():
+    cert = ExternalCertificate(
+        "cert_miss",
+        ExternalVerifierKind.FINITE_COUNTERMODEL_CHECKER,
+        ExternalCertificateStatus.REJECTED,
+        "claim",
+        "h",
+        certificate_kind=ExternalCertificateKind.VERIFIED_PROOF,
+        metadata={"finite_search_miss": True},
+    )
+    assert cert.boundary_valid is False

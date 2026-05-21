@@ -397,6 +397,17 @@ entries guide the next verifier attempt, but remain advisory. Only an
 independent verifier/importer/finite-checker/chain-audit path can create
 terminal truth.
 
+## Closed Verification Loop
+
+MathGraph now includes a central `PromotionGate` and callback-based closed
+verification loop. Reason Atlas queue rows can be turned into verifier task
+attempts, wrapped as `ExternalCertificate` objects, gated for valid boundary
+evidence, emitted as Lawbook candidates only when accepted, and fed back into
+Reason Atlas priority scoring.
+
+The loop preserves the boundary: advisory memory, route laws, root operator
+schemas, feedback events, and raw success text cannot admit terminal truth.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See
