@@ -61,3 +61,15 @@ A single clean contact remains a seed. MathGraph promotes a route law only
 after repeated clean transfer across compatible declarations or target
 instantiations. Promoted route laws are advisory scheduling and construction
 guides, not proof certificates.
+
+## Root Operator Induction
+
+The next implemented layer lifts repeated verified trace survivals into typed,
+parameterized root operator schemas. Literal macros remain useful examples, but
+schemas such as `move(axis, distance=2); recolor(color)` are the reusable
+constructor candidates that can compress residual families and close part of an
+oracle gap.
+
+Root operator schemas are still advisory. They guide proof search, program
+synthesis, countermodel search, constructor selection, and route scheduling;
+they do not emit `VERIFIED_PROOF`, `REFUTATION_CERTIFICATE`, `TRUE`, or `FALSE`.

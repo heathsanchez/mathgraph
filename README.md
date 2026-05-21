@@ -373,6 +373,18 @@ Support `1/1` is intentionally not promoted. A route law requires repeated
 clean transfer across compatible declarations or target instantiations; route
 laws guide scheduling and construction, but they are not truth certificates.
 
+## Root Operator Induction
+
+MathGraph can now lift compatible verified traces into typed, parameterized
+root operator schemas. Literal survivals such as `move_right_2|recolor_1` and
+`move_down_2|recolor_4` can become advisory constructor candidates like
+`move(axis, distance=2); recolor(color)`.
+
+Root operators support residual compression, constructor search, route
+scheduling, and oracle-gap closure. They remain advisory: a root operator
+schema cannot cross the verifier boundary or produce a terminal truth form
+without an independent verifier/importer/finite-checker/chain-audit result.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

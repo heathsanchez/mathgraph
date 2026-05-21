@@ -2146,4 +2146,29 @@ from mathgraph.contact_promotion import (
     PromotionPolicy,
     TransferTest,
 )
+from mathgraph.root_operator_schema import (
+    ParameterSpec,
+    RootOperatorEvaluationSummary,
+    RootOperatorInstance,
+    RootOperatorPromotionResult,
+    RootOperatorSchema,
+    compact_schema_name,
+    make_root_operator_instance,
+    make_root_operator_schema_id,
+)
+from mathgraph.root_operator_induction import (
+    anti_unify_trace_group,
+    induce_compositional_root_schemas,
+    induce_root_operator_schemas,
+    normalize_atom,
+    normalize_trace_atoms,
+)
+from mathgraph.root_operator_promotion import (
+    RootOperatorPromotionConfig,
+    oracle_fraction_captured,
+    promote_root_operator_schemas,
+    residual_compression_metrics,
+    root_operator_law_score,
+    score_schema_on_tasks,
+)
 from mathgraph.version import __version__, get_version_info
