@@ -1,67 +1,75 @@
-# Multi-Episode Compounding Harness
+# Multi-Episode Lawbook Compounding Evaluation v0
 
-Episode Runner v2 closes one bounded loop. The Multi-Episode Compounding
-Harness asks whether repeated loops compound.
+Single-run benchmarks show whether a scheduler works on one slice.  They do not
+prove compounding.  Compounding means that verified contact in one episode makes
+later verifier-directed search cheaper or stronger.
 
-The goal is not only to count more certificates. The diagnostic question is
-whether the unknown becomes smaller, sharper, more clustered, more nameable,
-more constructible, and more compressible.
+This evaluation runs multiple controlled episodes and measures:
 
-```text
-initial frontier
-→ episode runner v2
-→ next frontier
-→ episode runner v2
-→ compounding diagnostics
-```
+- durable Lawbook growth
+- Lawbook attention hit/action-change rate
+- durable artifact reuse
+- residual shrinkage
+- certificate yield per attempt
+- H-Tilt plus Lawbook delta
+- decode-filtered Lawbook delta
 
-## Better-Shaped Unknown Metrics
+## Modes
 
-- `smaller`: positive when the next frontier or residual count decreases.
-- `sharper`: positive when frontier priority or recommendation concentration
-  increases.
-- `clustered`: positive when residual cases compress into fewer organized
-  clusters.
-- `nameable`: positive when obstruction naming pressure appears in organized
-  clusters.
-- `constructible`: positive when finite countermodel task share or verified
-  finite-refutation yield improves.
-- `compressible`: positive when importer-revalidated certificates coincide with
-  a smaller next frontier or stronger compression signals.
+Each episode reports:
 
-`better_shaped_unknown_score` averages the available normalized components.
-Missing metrics produce warnings and conservative defaults.
+- `baseline_static`
+- `persistent_atlas`
+- `htilt_best_v`
+- `lawbook_attention`
+- `lawbook_attention_plus_htilt`
+- `decode_filtered_lawbook_plus_htilt`
+- `durable_only_lawbook_plus_htilt`
 
-## Outputs
+The durable-only mode can only use artifacts admitted as durable/verified memory
+by Production Lawbook Admission. Advisory motifs and fallback smoke artifacts
+are excluded.
 
-The harness writes:
+## Admission
 
-- `multi_episode_report.json`
-- `multi_episode_report.md`
-- `episode_summaries.jsonl`
-- one `episode_i/` directory per Episode Runner v2 run
+Every episode sends benchmark artifacts through the admission workflow. Fallback
+artifacts are blocked from durable memory. Failed finite search is residual
+evidence only and never implies TRUE.
 
-Each episode directory contains its own reproducible input frontier, executable
-task queue, advisory task queue, finite results, importer summary, continuation
-traces, replay, route policy, residual atlas, and next frontier.
+## Real vs Fallback
 
-## CLI
+If `/content/equations.txt` and `/content/etp_matrix_full_best_bool.npy` exist,
+the runner is ready for real SAIR mode. If they are absent and fallback is
+allowed, the runner produces a clearly marked fallback smoke result:
+
+- `real_sair_used: false`
+- `fallback_mode: true`
+- `fallback_smoke_compounding_signal` may be true or false
+
+Fallback is useful for CI and wiring. It is not real compounding evidence.
+
+## Run
 
 ```bash
-python scripts/run_multi_episode_harness.py \
-  --initial-frontier-task-queue /tmp/root_lab/frontier_v2/frontier_v2_task_queue.jsonl \
-  --store /tmp/multi_episode/lawbook.sqlite \
-  --out-dir /tmp/multi_episode \
-  --episodes 3 \
-  --max-tasks-per-episode 50 \
-  --max-countermodel-order 3
+python scripts/run_multi_episode_compounding.py \
+  --equations-path /content/equations.txt \
+  --matrix-path /content/etp_matrix_full_best_bool.npy \
+  --lawbook-path /content/drive/MyDrive/SAIR_MathGraph/lawbook.sqlite \
+  --output-dir /content/drive/MyDrive/SAIR_MathGraph/multi_episode_compounding_run \
+  --num-episodes 3 \
+  --episode-size 250 \
+  --train-fraction 0.5 \
+  --strict-admission
 ```
 
-## Trust Boundary
+Local fallback smoke:
 
-- multi-episode metrics are diagnostics
-- compounding score does not verify or refute claims
-- failed finite search is not proof
-- only importer-revalidated certificates cross the terminal boundary
-- advisory task kinds remain advisory
+```bash
+python scripts/run_multi_episode_compounding.py \
+  --output-dir /tmp/mathgraph_multi_episode_compounding_smoke \
+  --num-episodes 3 \
+  --episode-size 50 \
+  --allow-fallback \
+  --strict-admission
+```
 

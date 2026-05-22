@@ -3711,7 +3711,7 @@ def _insert_event(self: LawbookStore, event: dict[str, Any]) -> dict[str, Any]:
 
 def _query_artifacts(self: LawbookStore, **kwargs: Any) -> list[dict[str, Any]]:
     self.init_compounding_schema()
-    fields = ("domain", "claim_id", "source_id", "target_id", "basin", "micro_basin", "terminal_form")
+    fields = ("domain", "claim_id", "source_id", "target_id", "basin", "micro_basin", "terminal_form", "admission_level", "artifact_kind", "durable")
     clauses = []
     params = []
     for field in fields:
@@ -3725,6 +3725,48 @@ def _query_artifacts(self: LawbookStore, **kwargs: Any) -> list[dict[str, Any]]:
     sql += " ORDER BY trust_level DESC, created_at DESC LIMIT ?"
     params.append(int(kwargs.get("limit", 100) or 100))
     return [_json_columns_record(row) for row in self.conn.execute(sql, params).fetchall()]
+
+
+def _list_durable_artifacts(self: LawbookStore, **kwargs: Any) -> list[dict[str, Any]]:
+    self.init_compounding_schema()
+    return self.query_artifacts(durable=1, **kwargs)
+
+
+def _list_advisory_artifacts(self: LawbookStore, **kwargs: Any) -> list[dict[str, Any]]:
+    self.init_compounding_schema()
+    rows = self.query_artifacts(**kwargs)
+    return [row for row in rows if not int(row.get("durable", 0) or 0)]
+
+
+def _count_by_admission_level(self: LawbookStore) -> dict[str, int]:
+    self.init_compounding_schema()
+    rows = self.conn.execute("SELECT COALESCE(admission_level,''), COUNT(*) FROM artifacts GROUP BY COALESCE(admission_level,'')").fetchall()
+    return {str(level or "unset"): int(count) for level, count in rows}
+
+
+def _record_artifact_reuse(self: LawbookStore, artifact_id: str, task_id: str, mode: str, episode_id: str, metadata: dict[str, Any] | None = None) -> dict[str, Any]:
+    event = {
+        "event_type": "ARTIFACT_REUSE",
+        "payload": {"artifact_id": artifact_id, "task_id": task_id, "mode": mode, "episode_id": episode_id, "metadata": dict(metadata or {})},
+        "run_id": episode_id,
+    }
+    return self.insert_event(event)
+
+
+def _get_artifact_reuse_stats(self: LawbookStore) -> dict[str, Any]:
+    self.init_compounding_schema()
+    rows = [
+        _json_columns_record(row)
+        for row in self.conn.execute("SELECT * FROM events WHERE event_type='ARTIFACT_REUSE' ORDER BY created_at").fetchall()
+    ]
+    artifact_ids = {str(row.get("payload", {}).get("artifact_id", "")) for row in rows}
+    episodes = {str(row.get("payload", {}).get("episode_id", "")) for row in rows}
+    return {
+        "reuse_count": len(rows),
+        "unique_artifact_reuse_count": len([x for x in artifact_ids if x]),
+        "episode_reuse_count": len([x for x in episodes if x]),
+        "events": rows,
+    }
 
 
 def _query_compounding_reasons(self: LawbookStore, *, domain: str | None = None, basin: str | None = None, limit: int = 100) -> list[dict[str, Any]]:
@@ -3796,6 +3838,11 @@ LawbookStore.insert_obstruction = _insert_obstruction  # type: ignore[attr-defin
 LawbookStore.insert_reason = _insert_reason  # type: ignore[attr-defined]
 LawbookStore.insert_event = _insert_event  # type: ignore[attr-defined]
 LawbookStore.query_artifacts = _query_artifacts  # type: ignore[attr-defined]
+LawbookStore.list_durable_artifacts = _list_durable_artifacts  # type: ignore[attr-defined]
+LawbookStore.list_advisory_artifacts = _list_advisory_artifacts  # type: ignore[attr-defined]
+LawbookStore.count_by_admission_level = _count_by_admission_level  # type: ignore[attr-defined]
+LawbookStore.record_artifact_reuse = _record_artifact_reuse  # type: ignore[attr-defined]
+LawbookStore.get_artifact_reuse_stats = _get_artifact_reuse_stats  # type: ignore[attr-defined]
 LawbookStore.query_compounding_reasons = _query_compounding_reasons  # type: ignore[attr-defined]
 LawbookStore.query_compounding_obstructions = _query_compounding_obstructions  # type: ignore[attr-defined]
 LawbookStore.retrieve_candidate_context = _retrieve_candidate_context  # type: ignore[attr-defined]

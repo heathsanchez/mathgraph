@@ -200,6 +200,18 @@ This keeps the Lawbook verifier-grade: fallback smoke, failed-search TRUE
 claims, unverified decode success, and heuristic motifs cannot become durable
 memory.
 
+## Multi-Episode Lawbook Compounding
+
+The multi-episode evaluator is the next validation layer: it runs repeated
+episodes over one Lawbook, admits or blocks artifacts after each episode, makes
+durable memory available to later episodes, and measures residual shrinkage,
+certificate yield per attempt, Lawbook action changes, durable-only retrieval,
+and artifact reuse.
+
+Fallback smoke remains explicitly labeled as fallback. Real compounding evidence
+requires real SAIR files and verifier-backed durable artifact reuse or residual
+improvement.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -215,6 +227,7 @@ Implemented:
 - Compounding Lawbook Engine v0
 - Real SAIR Compounding Benchmark v0
 - Production Lawbook Admission v0
+- Multi-Episode Lawbook Compounding Evaluation v0
 
 Still future work:
 

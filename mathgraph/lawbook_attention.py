@@ -43,9 +43,13 @@ def retrieve_lawbook_attention(
     max_artifacts: int = 5,
     max_obstructions: int = 5,
     max_reasons: int = 5,
+    durable_only: bool = False,
+    min_admission_level: str | None = None,
+    artifact_kinds: list[str] | tuple[str, ...] | None = None,
 ) -> LawbookAttentionResult:
     context = store.retrieve_candidate_context(task, max_artifacts=max_artifacts * 4, max_obstructions=max_obstructions * 4, max_reasons=max_reasons * 4)
-    artifacts = _rank(context["artifacts"], task, "artifact")[:max_artifacts]
+    artifact_rows = _filter_artifacts(context["artifacts"], durable_only=durable_only, min_admission_level=min_admission_level, artifact_kinds=artifact_kinds)
+    artifacts = _rank(artifact_rows, task, "artifact")[:max_artifacts]
     obstructions = _rank(context["obstructions"], task, "obstruction")[:max_obstructions]
     reasons = _rank(context["reasons"], task, "reason")[:max_reasons]
     trace = [_trace(row, task, "artifact") for row in artifacts] + [_trace(row, task, "obstruction") for row in obstructions] + [_trace(row, task, "reason") for row in reasons]
@@ -60,8 +64,47 @@ def retrieve_lawbook_attention(
         attention_trace=[item.to_dict() for item in trace],
         action_suggestions=suggestions,
         advisory_boundary_preserved=True,
-        metadata={"task_id": task.get("task_id") or task.get("claim_id")},
+        metadata={
+            "task_id": task.get("task_id") or task.get("claim_id"),
+            "durable_only": durable_only,
+            "min_admission_level": min_admission_level,
+            "artifact_kinds": list(artifact_kinds or ()),
+        },
     )
+
+
+def _filter_artifacts(
+    rows: list[dict[str, Any]],
+    *,
+    durable_only: bool = False,
+    min_admission_level: str | None = None,
+    artifact_kinds: list[str] | tuple[str, ...] | None = None,
+) -> list[dict[str, Any]]:
+    out = []
+    allowed_kinds = {str(x) for x in (artifact_kinds or ())}
+    for row in rows:
+        if durable_only and not int(row.get("durable", 0) or 0):
+            continue
+        if min_admission_level and _admission_rank(str(row.get("admission_level", ""))) < _admission_rank(min_admission_level):
+            continue
+        if allowed_kinds and str(row.get("artifact_kind", "")) not in allowed_kinds:
+            continue
+        out.append(row)
+    return out
+
+
+def _admission_rank(level: str) -> int:
+    order = {
+        "": 0,
+        "rejected": 0,
+        "advisory_only": 1,
+        "candidate": 2,
+        "bounded_verified": 3,
+        "finite_verified": 4,
+        "lean_verified": 5,
+        "durable_lawbook": 6,
+    }
+    return order.get(str(level), 0)
 
 
 def _rank(rows: list[dict[str, Any]], task: dict[str, Any], kind: str) -> list[dict[str, Any]]:

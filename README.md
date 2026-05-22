@@ -560,6 +560,21 @@ python scripts/run_lawbook_promotion.py \
   --strict
 ```
 
+## Multi-Episode Compounding
+
+The multi-episode evaluator runs repeated benchmark episodes against one
+Lawbook, promotes or blocks artifacts through Production Lawbook Admission, and
+measures whether durable memory changes later verifier-directed search.
+
+```bash
+python scripts/run_multi_episode_compounding.py \
+  --output-dir /tmp/mathgraph_multi_episode_compounding_smoke \
+  --num-episodes 3 \
+  --episode-size 50 \
+  --allow-fallback \
+  --strict-admission
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

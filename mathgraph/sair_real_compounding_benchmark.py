@@ -103,6 +103,11 @@ def run_sair_real_compounding_benchmark(
     max_attempts_per_mode: int = 250,
     use_existing_constructor_engine: bool = True,
     fallback_if_missing: bool = True,
+    lawbook_path: str | Path | None = None,
+    durable_only: bool = False,
+    episode_id: str | None = None,
+    train_task_ids: Sequence[str] | None = None,
+    heldout_task_ids: Sequence[str] | None = None,
 ) -> SAIRRealCompoundingBenchmarkReport:
     """Run the real-SAIR-capable compounding benchmark.
 
@@ -111,7 +116,7 @@ def run_sair_real_compounding_benchmark(
     explicitly marks that no real SAIR claim was made.
     """
 
-    del use_existing_constructor_engine  # v0 always reuses the existing evaluator.
+    del use_existing_constructor_engine, train_task_ids, heldout_task_ids  # v0 reuses existing evaluator sampling.
     eq_path = Path(equations_path)
     matrix_file = Path(matrix_path)
     real_available = eq_path.exists() and matrix_file.exists()
@@ -144,16 +149,18 @@ def run_sair_real_compounding_benchmark(
     equations = load_sair_equations(eq_path) if real_available else []
     matrix = load_sair_matrix(matrix_file) if real_available else None
     modes = _benchmark_modes(eval_report.selected_best_operator)
-    store = LawbookStore(output / "real_compounding_lawbook.sqlite")
+    db_path = Path(lawbook_path) if lawbook_path else output / "real_compounding_lawbook.sqlite"
+    run_id = episode_id or "real_compounding_v0"
+    store = LawbookStore(db_path)
     store.init_compounding_schema()
     mode_summary = _build_mode_summary(eval_report, modes, train_size, heldout_size, max_attempts_per_mode)
     attempts = _build_attempt_rows(eval_report, modes)
-    stored_attempts, stored_artifacts, stored_obstructions = _store_benchmark_rows(store, attempts, "real_compounding_v0", fallback=not real_sair_used)
+    stored_attempts, stored_artifacts, stored_obstructions = _store_benchmark_rows(store, attempts, run_id, fallback=not real_sair_used)
     reasons = [reason.to_dict() for reason in coagulate_reasons(stored_attempts, stored_artifacts, stored_obstructions)]
     for reason in reasons:
-        store.insert_reason({**reason, "run_id": "real_compounding_v0"})
+        store.insert_reason({**reason, "run_id": run_id})
     heldout_tasks = _tasks_from_attempt_rows(attempts)
-    attention_results = [retrieve_lawbook_attention(store, task).to_dict() for task in heldout_tasks]
+    attention_results = [retrieve_lawbook_attention(store, task, durable_only=durable_only).to_dict() for task in heldout_tasks]
     decode_report = decode_reasons_to_verify(store, reasons, heldout_tasks)
     manifest = store.export_manifest(output / "lawbook_manifest.json")
     aggregate = _aggregate_mode_metrics(mode_summary)
@@ -195,7 +202,7 @@ def run_sair_real_compounding_benchmark(
         split_manifest=split_manifest,
         outputs={
             **outputs,
-            "lawbook": str(output / "real_compounding_lawbook.sqlite"),
+            "lawbook": str(db_path),
             "report_json": str(output / "real_compounding_benchmark_report.json"),
             "report_md": str(output / "real_compounding_benchmark_report.md"),
         },
@@ -206,7 +213,7 @@ def run_sair_real_compounding_benchmark(
     md_path = output / "real_compounding_benchmark_report.md"
     report_path.write_text(json.dumps(report.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
     md_path.write_text(_markdown(report), encoding="utf-8")
-    store.insert_event({"event_type": "REAL_COMPOUNDING_BENCHMARK_RUN", "payload": report.to_dict(), "run_id": "real_compounding_v0"})
+    store.insert_event({"event_type": "REAL_COMPOUNDING_BENCHMARK_RUN", "payload": report.to_dict(), "run_id": run_id})
     store.close()
     return report
 

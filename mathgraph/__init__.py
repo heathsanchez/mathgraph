@@ -2370,4 +2370,12 @@ from mathgraph.lawbook_promotion import (
     promote_benchmark_outputs,
     promote_run_artifacts,
 )
+from mathgraph.multi_episode_compounding import (
+    EpisodeConfig,
+    EpisodeResult,
+    MULTI_EPISODE_MODES,
+    MultiEpisodeCompoundingResult,
+    MultiEpisodeCompoundingRunner,
+    MultiEpisodeConfig,
+)
 from mathgraph.version import __version__, get_version_info
