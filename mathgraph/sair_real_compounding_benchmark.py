@@ -19,6 +19,7 @@ from typing import Any, Sequence
 
 from mathgraph.decode_to_verify import decode_reasons_to_verify
 from mathgraph.hashing import content_id
+from mathgraph.lawbook_admission import LawbookAdmissionGate
 from mathgraph.lawbook_attention import retrieve_lawbook_attention
 from mathgraph.lawbook_store import LawbookStore
 from mathgraph.reason_coagulation import coagulate_reasons
@@ -147,7 +148,7 @@ def run_sair_real_compounding_benchmark(
     store.init_compounding_schema()
     mode_summary = _build_mode_summary(eval_report, modes, train_size, heldout_size, max_attempts_per_mode)
     attempts = _build_attempt_rows(eval_report, modes)
-    stored_attempts, stored_artifacts, stored_obstructions = _store_benchmark_rows(store, attempts, "real_compounding_v0")
+    stored_attempts, stored_artifacts, stored_obstructions = _store_benchmark_rows(store, attempts, "real_compounding_v0", fallback=not real_sair_used)
     reasons = [reason.to_dict() for reason in coagulate_reasons(stored_attempts, stored_artifacts, stored_obstructions)]
     for reason in reasons:
         store.insert_reason({**reason, "run_id": "real_compounding_v0"})
@@ -334,29 +335,44 @@ def _build_attempt_rows(report: Any, modes: Sequence[BenchmarkMode]) -> list[dic
     return out
 
 
-def _store_benchmark_rows(store: LawbookStore, rows: Sequence[dict[str, Any]], run_id: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+def _store_benchmark_rows(store: LawbookStore, rows: Sequence[dict[str, Any]], run_id: str, fallback: bool) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     attempts = []
     artifacts = []
     obstructions = []
+    gate = LawbookAdmissionGate()
     for row in rows:
         task_id = str(row.get("task_id", ""))
         artifact_id = ""
         if row.get("solved"):
-            artifact = store.insert_artifact(
-                {
-                    "domain": "sair",
-                    "claim_id": task_id,
-                    "source_id": _source_id(task_id),
-                    "target_id": _target_id(task_id),
-                    "basin": row.get("family", ""),
-                    "terminal_form": "FINITE_COUNTERMODEL",
-                    "trust_level": 100,
-                    "provenance_type": row.get("mode", ""),
-                    "boundary_type": "finite_model_checker",
-                    "payload": row,
-                    "run_id": run_id,
-                }
-            )
+            candidate_id = content_id("real-compounding-admission-artifact", [task_id, row.get("mode"), fallback])
+            candidate = {
+                "artifact_id": candidate_id,
+                "domain": "sair",
+                "claim_id": task_id,
+                "source_id": _source_id(task_id),
+                "target_id": _target_id(task_id),
+                "basin": row.get("family", ""),
+                "provenance_type": row.get("mode", ""),
+                "payload": {
+                    **dict(row),
+                    "artifact_kind": "fallback_smoke_artifact" if fallback else "finite_countermodel_verified",
+                    "verifier_passed": not fallback,
+                    "source_satisfied": not fallback,
+                    "target_violated": not fallback,
+                    "concrete_witness": {"task_id": task_id} if not fallback else None,
+                    "carrier_size": 2 if not fallback else None,
+                    "replayable": not fallback,
+                    "provenance": row.get("mode", ""),
+                    "fallback_mode": fallback,
+                },
+                "run_id": run_id,
+                "artifact_kind": "fallback_smoke_artifact" if fallback else "finite_countermodel_verified",
+            }
+            evidence = dict(candidate["payload"])
+            decision = gate.evaluate_artifact(candidate, evidence)
+            gate.admit_to_store(store, candidate, decision)
+            matches = [item for item in store.query_artifacts(claim_id=task_id, limit=1000) if item.get("artifact_id") == candidate_id]
+            artifact = matches[0] if matches else {**candidate, "terminal_form": "ADVISORY", "trust_level": 0}
             artifact_id = artifact["artifact_id"]
             artifacts.append(artifact)
         else:

@@ -2358,4 +2358,16 @@ from mathgraph.sair_real_compounding_benchmark import (
     SAIRRealCompoundingBenchmarkReport,
     run_sair_real_compounding_benchmark,
 )
+from mathgraph.lawbook_admission import (
+    AdmissionDecision,
+    AdmissionEvidence,
+    AdmissionLevel,
+    ArtifactKind,
+    LawbookAdmissionGate,
+    LawbookAdmissionPolicy,
+)
+from mathgraph.lawbook_promotion import (
+    promote_benchmark_outputs,
+    promote_run_artifacts,
+)
 from mathgraph.version import __version__, get_version_info

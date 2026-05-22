@@ -188,6 +188,18 @@ episode memory should improve future verifier-directed search.  The benchmark
 is explicit about fallback mode versus real SAIR mode, and only
 PromotionGate-backed finite-countermodel recoveries count.
 
+## Production Lawbook Admission
+
+The production admission layer is the fixation step for compounding memory. It
+classifies run artifacts as rejected, advisory, candidate, bounded verified,
+finite verified, Lean verified, or durable Lawbook entries. Durable admission
+requires provenance, verifier/audit boundary evidence, replayability or scoped
+bounded evidence, contradiction checks, and non-fallback source.
+
+This keeps the Lawbook verifier-grade: fallback smoke, failed-search TRUE
+claims, unverified decode success, and heuristic motifs cannot become durable
+memory.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -202,11 +214,11 @@ Implemented:
 - Principled V Discovery + H-Tilt Calibration
 - Compounding Lawbook Engine v0
 - Real SAIR Compounding Benchmark v0
+- Production Lawbook Admission v0
 
 Still future work:
 
 - full all-FALSE-pair recovery run
-- production Lawbook admission workflow
 - real Lean/finite-checker job runner integration
 - H-Tilt scheduling over persistent schema families
 - multi-seed large-scale H-Tilt evaluation

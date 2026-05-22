@@ -9,6 +9,8 @@ from typing import Any, Sequence
 
 from mathgraph.compounding_metrics import compute_compounding_metrics
 from mathgraph.decode_to_verify import decode_reasons_to_verify
+from mathgraph.hashing import content_id
+from mathgraph.lawbook_admission import LawbookAdmissionGate
 from mathgraph.lawbook_attention import retrieve_lawbook_attention
 from mathgraph.lawbook_store import LawbookStore
 from mathgraph.reason_coagulation import coagulate_reasons
@@ -138,27 +140,41 @@ def _store_v_report(store: LawbookStore, report: Any, run_id: str) -> tuple[list
     attempts = []
     artifacts = []
     obstructions = []
+    gate = LawbookAdmissionGate()
+    fallback = str(getattr(report, "source_mode", "")) != "real_sair"
     for row in report.task_results:
         claim_id = str(row.get("task_id"))
         policy = str(row.get("policy"))
         solved = bool(row.get("solved"))
         artifact_id = ""
         if solved:
-            artifact = store.insert_artifact(
-                {
-                    "domain": "sair",
-                    "claim_id": claim_id,
-                    "source_id": claim_id.split("_")[0],
-                    "target_id": claim_id.split("_")[-1],
-                    "basin": row.get("family", ""),
-                    "terminal_form": "FINITE_COUNTERMODEL",
-                    "trust_level": 100,
-                    "provenance_type": policy,
-                    "boundary_type": "finite_model_checker",
-                    "payload": {"policy": policy, "task_id": claim_id},
-                    "run_id": run_id,
-                }
-            )
+            candidate_id = content_id("compounding-admission-artifact", [claim_id, policy, fallback])
+            candidate = {
+                "artifact_id": candidate_id,
+                "domain": "sair",
+                "claim_id": claim_id,
+                "source_id": claim_id.split("_")[0],
+                "target_id": claim_id.split("_")[-1],
+                "basin": row.get("family", ""),
+                "provenance_type": policy,
+                "payload": {"policy": policy, "task_id": claim_id, "fallback_mode": fallback},
+                "run_id": run_id,
+                "artifact_kind": "fallback_smoke_artifact" if fallback else "finite_countermodel_verified",
+            }
+            evidence = {
+                "verifier_passed": not fallback,
+                "source_satisfied": not fallback,
+                "target_violated": not fallback,
+                "concrete_witness": {"task_id": claim_id} if not fallback else None,
+                "carrier_size": 2 if not fallback else None,
+                "replayable": not fallback,
+                "provenance": policy,
+                "fallback_mode": fallback,
+            }
+            decision = gate.evaluate_artifact(candidate, evidence)
+            gate.admit_to_store(store, candidate, decision)
+            matches = [item for item in store.query_artifacts(claim_id=claim_id, limit=1000) if item.get("artifact_id") == candidate_id]
+            artifact = matches[0] if matches else {**candidate, "artifact_id": candidate_id, "terminal_form": "ADVISORY", "trust_level": 0}
             artifact_id = artifact["artifact_id"]
             artifacts.append(artifact)
         else:

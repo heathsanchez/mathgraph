@@ -545,6 +545,21 @@ python scripts/run_sair_real_compounding_benchmark.py \
   --fallback-if-missing
 ```
 
+## Production Lawbook Admission
+
+MathGraph now separates run evidence from durable Lawbook memory.  The
+admission gate classifies artifacts as rejected, advisory, candidate,
+bounded/finite/Lean verified, or durable Lawbook entries.  Fallback smoke
+artifacts, decode-only hits, failed finite searches, and artifacts missing
+provenance are blocked from durable memory.
+
+```bash
+python scripts/run_lawbook_promotion.py \
+  --run-dir /tmp/mathgraph_real_compounding_fallback_smoke \
+  --output-dir /tmp/mathgraph_lawbook_promotion_smoke \
+  --strict
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

@@ -3476,6 +3476,12 @@ def _validate_terminal_boundary(terminal_form: str, boundary_type: str, trust_le
         raise ValueError(f"{terminal_form} requires verified trust_level >= 100")
 
 
+def _ensure_artifacts_column(self: LawbookStore, name: str, decl: str) -> None:
+    cols = {row[1] for row in self.conn.execute("PRAGMA table_info(artifacts)").fetchall()}
+    if name not in cols:
+        self.conn.execute(f"ALTER TABLE artifacts ADD COLUMN {name} {decl}")
+
+
 def _init_compounding_schema(self: LawbookStore) -> None:
     self.conn.executescript(
         """
@@ -3564,6 +3570,13 @@ def _init_compounding_schema(self: LawbookStore) -> None:
         CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type);
         """
     )
+    _ensure_artifacts_column(self, "admission_level", "TEXT")
+    _ensure_artifacts_column(self, "durable", "INTEGER")
+    _ensure_artifacts_column(self, "admitted_at", "TEXT")
+    _ensure_artifacts_column(self, "admission_reason_codes", "TEXT")
+    _ensure_artifacts_column(self, "provenance_hash", "TEXT")
+    _ensure_artifacts_column(self, "replay_status", "TEXT")
+    _ensure_artifacts_column(self, "artifact_kind", "TEXT")
     self.conn.commit()
 
 
@@ -3591,9 +3604,24 @@ def _insert_artifact(self: LawbookStore, artifact: dict[str, Any]) -> dict[str, 
         "payload_hash": artifact.get("payload_hash") or _lb_hash(payload),
         "run_id": artifact.get("run_id", ""),
         "created_at": artifact.get("created_at") or _lb_now(),
+        "admission_level": artifact.get("admission_level", ""),
+        "durable": 1 if artifact.get("durable") else 0,
+        "admitted_at": artifact.get("admitted_at", ""),
+        "admission_reason_codes": _lb_json(artifact.get("admission_reason_codes", [])),
+        "provenance_hash": artifact.get("provenance_hash") or _lb_hash(artifact.get("provenance_type", "")),
+        "replay_status": artifact.get("replay_status", ""),
+        "artifact_kind": artifact.get("artifact_kind", ""),
     }
     self.conn.execute(
-        "INSERT OR REPLACE INTO artifacts VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        """
+        INSERT OR REPLACE INTO artifacts (
+            artifact_id, domain, claim_id, source_id, target_id, basin,
+            micro_basin, terminal_form, trust_level, provenance_type,
+            boundary_type, payload_json, payload_hash, run_id, created_at,
+            admission_level, durable, admitted_at, admission_reason_codes,
+            provenance_hash, replay_status, artifact_kind
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """,
         tuple(row[k] for k in row),
     )
     self.conn.commit()
