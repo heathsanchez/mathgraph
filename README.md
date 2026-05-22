@@ -575,6 +575,26 @@ python scripts/run_multi_episode_compounding.py \
   --strict-admission
 ```
 
+## Real SAIR Artifact Pack
+
+The artifact-pack runner wraps a real/fallback multi-episode run into a
+reproducible evidence bundle with manifest, environment and git metadata,
+admission reports, Lawbook growth, durable reuse, residual shrinkage, JSON
+summary, markdown report, and optional zip archive. Strict real mode fails if
+the SAIR files are absent unless fallback smoke is explicitly allowed.
+
+```bash
+python scripts/run_real_sair_artifact_pack.py \
+  --equations-path /content/equations.txt \
+  --matrix-path /content/etp_matrix_full_best_bool.npy \
+  --output-dir /content/drive/MyDrive/SAIR_MathGraph/real_sair_multi_episode_pack \
+  --num-episodes 3 \
+  --episode-size 250 \
+  --train-fraction 0.5 \
+  --strict-admission \
+  --create-archive
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

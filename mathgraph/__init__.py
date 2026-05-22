@@ -2378,4 +2378,9 @@ from mathgraph.multi_episode_compounding import (
     MultiEpisodeCompoundingRunner,
     MultiEpisodeConfig,
 )
+from mathgraph.real_sair_artifact_pack import (
+    RealSairArtifactPackConfig,
+    RealSairArtifactPackResult,
+    RealSairArtifactPackRunner,
+)
 from mathgraph.version import __version__, get_version_info

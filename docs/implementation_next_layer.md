@@ -212,6 +212,16 @@ Fallback smoke remains explicitly labeled as fallback. Real compounding evidence
 requires real SAIR files and verifier-backed durable artifact reuse or residual
 improvement.
 
+## Real SAIR Artifact Pack
+
+The artifact pack is the current real-run validation layer. It packages the
+multi-episode compounding run with configuration, environment metadata, git
+metadata, admission reports, Lawbook growth, durable reuse, residual shrinkage,
+machine-readable summary, human-readable report, and an optional archive.
+
+Strict mode fails when real SAIR files are absent. Explicit fallback smoke packs
+remain clearly labeled and cannot be interpreted as real compounding evidence.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -228,6 +238,7 @@ Implemented:
 - Real SAIR Compounding Benchmark v0
 - Production Lawbook Admission v0
 - Multi-Episode Lawbook Compounding Evaluation v0
+- Real SAIR Multi-Episode Artifact Pack v0
 
 Still future work:
 

@@ -34,6 +34,18 @@ def promote_run_artifacts(
     return promote_benchmark_outputs(report, attempts, lawbook_path, output_dir or run / "lawbook_promotion", strict)
 
 
+def run_promotion_for_directory(
+    run_dir: str | Path,
+    *,
+    lawbook_path: str | Path | None = None,
+    output_dir: str | Path | None = None,
+    strict: bool = True,
+) -> dict[str, Any]:
+    """Callable helper mirroring the CLI behavior."""
+
+    return promote_run_artifacts(run_dir, lawbook_path=lawbook_path, output_dir=output_dir, strict=strict)
+
+
 def promote_benchmark_outputs(
     benchmark_report_path: str | Path,
     attempts_csv_path: str | Path | None = None,
@@ -218,4 +230,3 @@ def _source_id(task_id: str) -> str:
 def _target_id(task_id: str) -> str:
     parts = str(task_id).split("_")
     return parts[-1] if len(parts) >= 2 else str(task_id)
-
