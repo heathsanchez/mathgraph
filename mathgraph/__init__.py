@@ -2423,4 +2423,20 @@ from mathgraph.semantic_validation import (
     semantic_validation_report,
     validate_claim_translation,
 )
+from mathgraph.reason_atlas import (
+    ReasonAtlasEvidenceRef,
+    ReasonAtlasMetricReport,
+    ReasonAtlasPromotionStatus,
+    ReasonAtlasTrustLevel,
+    ReasonAtlasValidationReport,
+    ReasonAtlasViolation,
+    build_reason_atlas_entry_from_outcomes,
+    check_reason_atlas_advisory_only,
+    check_reason_atlas_evidence_refs,
+    check_reason_atlas_no_truth_promotion,
+    compute_reason_atlas_metrics,
+    reason_atlas_report,
+    summarize_constructor_family_performance,
+    validate_reason_atlas_entry,
+)
 from mathgraph.version import __version__, get_version_info

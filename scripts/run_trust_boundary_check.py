@@ -23,6 +23,10 @@ TESTS = [
     "tests/test_manifest_semantic_validation_fields.py",
     "tests/test_lawbook_semantic_validation_contract.py",
     "tests/test_canonical_demo_semantic_validation.py",
+    "tests/test_reason_atlas_operational.py",
+    "tests/test_reason_atlas_no_truth_promotion.py",
+    "tests/test_reason_atlas_evidence_refs.py",
+    "tests/test_reason_atlas_demo.py",
 ]
 
 
@@ -32,6 +36,7 @@ def main() -> int:
         [sys.executable, "-m", "pytest", *TESTS, "-q"],
         [sys.executable, "scripts/run_canonical_finite_countermodel_demo.py", "--out-dir", "/tmp/mathgraph_trust_boundary_canonical_demo"],
         [sys.executable, "scripts/replay_evidence_manifest.py", "/tmp/mathgraph_trust_boundary_canonical_demo/evidence_manifest.json"],
+        [sys.executable, "scripts/run_reason_atlas_demo.py", "--out-dir", "/tmp/mathgraph_trust_boundary_reason_atlas_demo"],
     ]
     results = []
     ok = True

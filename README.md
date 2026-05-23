@@ -645,6 +645,20 @@ language claims, AI-generated formalizations, and future proof-assistant
 workflows. Semantic validation evidence is still evidence about translation, not
 a proof of mathematical truth.
 
+## Verifier-Backed Reason Atlas
+
+Reason Atlas stores routing memory. It summarizes which routes, constructors,
+and basins have produced verifier-backed outcomes, and it may reference
+EvidenceManifest records or accepted Lawbook entries.
+
+Advisory observations are allowed, but they remain marked advisory. Route
+priority, support count, heldout gain, discovery value, or H-Tilt mass is not
+proof and cannot promote truth.
+
+```bash
+python scripts/run_reason_atlas_demo.py --out-dir /tmp/mathgraph_reason_atlas_demo
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See
