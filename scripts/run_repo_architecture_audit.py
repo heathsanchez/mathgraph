@@ -35,6 +35,8 @@ CANONICAL_MODULES = (
     "mathgraph/reason_atlas.py",
     "mathgraph/semantic_validation.py",
     "mathgraph/finite_magma_world.py",
+    "mathgraph/compounding_engine.py",
+    "mathgraph/recursive_residual_compounding.py",
 )
 CANONICAL_COMMANDS = (
     "python scripts/run_release_check.py --quick",

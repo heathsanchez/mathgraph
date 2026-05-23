@@ -100,6 +100,36 @@ python scripts/run_mathgraph_compounding_loop.py \
   --attempt-budget 12
 ```
 
+## Recursive Residual Compounding Benchmark
+
+The canonical fallback compounding loop is the basic repo smoke path. Recursive
+residual compounding is the stronger ETP/SAIR benchmark: a generic
+finite-countermodel route leaves residuals, residuals mine advisory constructor
+memory, compact constructor atlases are evaluated on held-out transfer splits,
+and TRUE controls check contamination.
+
+Residual-mined constructors and compact atlases are route policies, not truth.
+They remain advisory until a finite checker produces a concrete certificate and
+the boundary admits it.
+
+```bash
+python scripts/run_recursive_residual_compounding.py \
+  --profile smoke \
+  --allow-fallback-demo \
+  --out-dir /tmp/mathgraph_recursive_residual_smoke
+```
+
+Real ETP/SAIR mode:
+
+```bash
+python scripts/run_recursive_residual_compounding.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --profile fast \
+  --generations 5 \
+  --out-dir /tmp/mathgraph_recursive_residual_fast_real
+```
+
 ## Curated Real Mathlib Demo
 
 ```bash

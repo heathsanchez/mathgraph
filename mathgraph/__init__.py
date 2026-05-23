@@ -2497,5 +2497,19 @@ from mathgraph.verification_loop import (
     run_closed_verification_episode,
     run_compounding_episode,
     run_finite_countermodel_episode,
+    run_recursive_residual_episode,
+)
+from mathgraph.recursive_residual_compounding import (
+    CompactAtlasEvalResult,
+    CompactAtlasRoute,
+    ConstructorAttribution,
+    ConstructorCandidate,
+    RecursiveGenerationResult,
+    RecursiveResidualCompoundingEngine,
+    RecursiveResidualConfig,
+    RecursiveResidualGateResult,
+    RecursiveResidualRunReport,
+    ResidualFrontierRow,
+    TransferControlResult,
 )
 from mathgraph.version import __version__, get_version_info

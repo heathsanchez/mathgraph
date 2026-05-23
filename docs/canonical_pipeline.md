@@ -60,3 +60,27 @@ python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir
 The compounding command is the canonical repo-level loop. Fallback mode proves
 the wiring without claiming real SAIR results; real SAIR mode requires explicit
 equation and matrix paths.
+
+## Real-Corpus Compounding Benchmark
+
+Recursive residual compounding is the first stronger real-corpus compounding
+benchmark:
+
+```text
+generic finite-countermodel route
+-> residual frontier
+-> residual-mined advisory constructors
+-> recursive memory generations
+-> compact constructor atlas
+-> held-out transfer evaluation
+-> TRUE contamination controls
+```
+
+Run the fallback-safe path with:
+
+```bash
+python scripts/run_recursive_residual_compounding.py --profile smoke --allow-fallback-demo --out-dir /tmp/mathgraph_recursive_residual_smoke
+```
+
+Compact atlas routes are advisory scheduling objects. They do not verify claims
+or enter terminal Lawbook memory without independent boundary-backed evidence.

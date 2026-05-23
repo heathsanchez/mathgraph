@@ -11,6 +11,12 @@ def run_compounding_episode(**kwargs: Any) -> Any:
     return run_compounding_loop(CompoundingEngineConfig(**kwargs))
 
 
+def run_recursive_residual_episode(**kwargs: Any) -> Any:
+    from mathgraph.recursive_residual_compounding import RecursiveResidualCompoundingEngine, RecursiveResidualConfig
+
+    return RecursiveResidualCompoundingEngine(RecursiveResidualConfig(**kwargs)).run()
+
+
 def run_closed_verification_episode(*args: Any, **kwargs: Any) -> Any:
     from mathgraph.closed_verification_loop import ClosedVerificationLoop, ClosedVerificationLoopConfig
 

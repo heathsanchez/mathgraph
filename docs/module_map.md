@@ -62,6 +62,8 @@ modules.
 ## Compounding And Artifact Packs
 
 - `compounding_lawbook_engine.py`: fallback compounding engine
+- `compounding_engine.py`: canonical baseline versus memory compounding loop
+- `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
 - `multi_episode_compounding.py`: multi-episode compounding evaluation
 - `real_sair_artifact_pack.py`: real/fallback artifact pack runner
 - `lawbook_admission.py`: production admission levels
@@ -75,6 +77,7 @@ modules.
 - `scripts/run_trust_boundary_check.py`
 - `scripts/run_release_check.py`
 - `scripts/run_repo_architecture_audit.py`
+- `scripts/run_recursive_residual_compounding.py`
 
 ## Legacy Surface
 
