@@ -632,6 +632,19 @@ cannot upgrade trust without an explicit verifier/importer/audit boundary. The
 canonical finite-countermodel demo now exercises acceptance, replay, invariant
 checking, and a small Lawbook write.
 
+## Semantic Validation Boundary
+
+Formal verification checks the formal artifact. Semantic validation records
+evidence that the formal artifact matches the intended informal claim. MathGraph
+tracks these separately.
+
+A verified formal artifact may be accepted as formal-only when semantic
+validation is missing. It must not be presented as solving the original informal
+statement unless semantic validation is sufficient. This matters for natural
+language claims, AI-generated formalizations, and future proof-assistant
+workflows. Semantic validation evidence is still evidence about translation, not
+a proof of mathematical truth.
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See

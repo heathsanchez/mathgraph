@@ -1,11 +1,12 @@
 # Canonical Finite Countermodel Demo
 
-This demo is a small executable trust-boundary example.
+This demo is a small executable trust-boundary and semantic-validation example.
 
 ```text
 claim
 -> normalize
 -> advisory route
+-> informal-to-formal semantic validation metadata
 -> finite witness
 -> finite checker boundary
 -> FINITE_COUNTERMODEL
@@ -16,12 +17,28 @@ claim
 -> audit summary
 ```
 
+Informal claim:
+
+```text
+Commutativity does not imply left-zero behavior for all binary operations.
+```
+
+Formal source and target:
+
+```text
+(x * y) = (y * x)  does not imply  (x * y) = x
+```
+
 It proves architecture, not scale.  The accepted terminal form is a finite
 countermodel because a deterministic finite magma checker confirms:
 
 - source equation holds globally
 - target equation fails at a witness
 - the witness and table are included in a replayable evidence manifest
+
+The manifest also records semantic validation metadata for the tiny
+informal-to-formal step. That validation does not prove truth; it only records
+why this formal pair is intended to represent the informal sentence.
 
 Run:
 

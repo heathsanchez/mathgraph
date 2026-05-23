@@ -3,16 +3,22 @@
 This tiny demo exercises the trust-boundary spine without Lean or a large SAIR
 run.
 
-Claim:
+Informal claim:
 
 ```text
-x = x  does not imply  x = y
+Commutativity does not imply left-zero behavior for all binary operations.
 ```
 
-The finite magma checker uses a two-element left-projection table.  The source
+Formal pair:
+
+```text
+(x * y) = (y * x)  does not imply  (x * y) = x
+```
+
+The finite magma checker uses a two-element constant-zero table.  The source
 equation holds globally, and the target equation fails at a concrete witness.
-The demo writes a replayable evidence manifest and inserts a durable
-`FINITE_COUNTERMODEL` artifact into a small SQLite Lawbook.
+The demo writes semantic validation metadata, a replayable evidence manifest,
+and an accepted `FINITE_COUNTERMODEL` entry into a small SQLite Lawbook.
 
 Run:
 

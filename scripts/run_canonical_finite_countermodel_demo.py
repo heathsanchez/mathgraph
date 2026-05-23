@@ -8,26 +8,44 @@ from pathlib import Path
 
 from mathgraph.certificates import TerminalForm
 from mathgraph.evidence_manifest import EvidenceManifest
-from mathgraph.finite_magma_world import check_finite_countermodel, left_projection
+from mathgraph.finite_magma_world import check_finite_countermodel, constant_table
 from mathgraph.hashing import sha256_hex
 from mathgraph.evidence_replay import replay_evidence_manifest
 from mathgraph.invariants import TrustBoundaryEvidence, check_all_core_invariants
 from mathgraph.lawbook_acceptance import accept_lawbook_entry, lawbook_entry_from_evidence_manifest, validate_lawbook_acceptance
 from mathgraph.lawbook_store import LawbookStore
+from mathgraph.semantic_validation import (
+    FormalClaim,
+    InformalClaim,
+    SemanticValidationEvidence,
+    TranslationAssumption,
+    validate_claim_translation,
+)
 
 
 def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/out") -> dict:
     output = Path(out_dir)
     output.mkdir(parents=True, exist_ok=True)
-    claim_id = "canonical_x_eq_x_not_imply_x_eq_y"
-    source = "x = x"
-    target = "x = y"
-    table = left_projection(2)
+    claim_id = "canonical_commutativity_not_left_zero"
+    informal = InformalClaim(
+        claim_id="informal_commutativity_not_left_zero",
+        text="Commutativity does not imply left-zero behavior for all binary operations.",
+        source_ref="canonical_demo",
+    )
+    formal = FormalClaim(
+        claim_id=claim_id,
+        statement="(x * y) = (y * x) does not imply (x * y) = x",
+    )
+    source = "(x * y) = (y * x)"
+    target = "(x * y) = x"
+    table = constant_table(2, 0)
     result = check_finite_countermodel(source, target, table)
     if not result.terminal_candidate_ok:
         raise RuntimeError(result.diagnostic)
     artifact = {
         "claim_id": claim_id,
+        "informal_claim": informal.to_dict(),
+        "formal_claim": formal.to_dict(),
         "source_equation": source,
         "target_equation": target,
         "countermodel": result.to_dict(),
@@ -35,6 +53,25 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
     artifact_hash = sha256_hex(artifact)
     artifact_path = output / "countermodel_artifact.json"
     artifact_path.write_text(json.dumps(artifact, indent=2, sort_keys=True), encoding="utf-8")
+    semantic_report = validate_claim_translation(
+        informal,
+        formal,
+        evidence=(
+            SemanticValidationEvidence(
+                "canonical_statement_match",
+                "theorem_statement_match",
+                "Informal 'commutativity' maps to x*y=y*x and 'left-zero behavior' maps to x*y=x.",
+                reviewer="mathgraph.canonical_demo",
+            ),
+            SemanticValidationEvidence(
+                "canonical_example_alignment",
+                "examples_or_test_cases",
+                "The constant-zero operation is commutative and violates left-zero at x=1,y=0.",
+                reviewer="mathgraph.canonical_demo",
+            ),
+        ),
+        assumptions=(TranslationAssumption("binary_total_operation", "The informal phrase 'binary operations' is interpreted as total finite magma operations."),),
+    )
     manifest = EvidenceManifest(
         claim_id=claim_id,
         terminal_form=TerminalForm.FINITE_COUNTERMODEL,
@@ -45,6 +82,12 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
         claim_data={"source_equation": source, "target_equation": target, "table": [list(row) for row in table]},
         witness=result.witness_env,
         provenance=("canonical_finite_countermodel_demo",),
+        informal_claim_id=informal.claim_id,
+        formal_claim_id=formal.claim_id,
+        semantic_validation_status=semantic_report.status,
+        semantic_validation_evidence_refs=semantic_report.evidence_refs,
+        translation_assumptions=tuple(a.to_dict() for a in semantic_report.assumptions),
+        validation_report_hash=semantic_report.stable_hash(),
         replay_instructions=("python scripts/run_canonical_finite_countermodel_demo.py",),
     )
     evidence = TrustBoundaryEvidence(
@@ -81,7 +124,7 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
         evidence=evidence,
         source=source,
         target=target,
-        metadata={"advisory_route": "canonical_left_projection_n2"},
+        metadata={"advisory_route": "canonical_constant_n2_0", "informal_claim_id": informal.claim_id, "claims_informal_solution": True},
     )
     acceptance_result = validate_lawbook_acceptance(candidate_entry, manifest=manifest, evidence=evidence, manifest_path=str(manifest_path))
     if not acceptance_result.ok:
@@ -95,7 +138,7 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
             "domain": "canonical_demo",
             "claim_id": claim_id,
             "source_id": "x_eq_x",
-            "target_id": "x_eq_y",
+            "target_id": "left_zero",
             "basin": "finite_countermodel_demo",
             "terminal_form": "FINITE_COUNTERMODEL",
             "trust_level": 100,
@@ -126,6 +169,10 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
     summary = {
         "claim_id": claim_id,
         "terminal_form": "FINITE_COUNTERMODEL",
+        "informal_claim": informal.to_dict(),
+        "formal_claim": formal.to_dict(),
+        "semantic_validation_status": semantic_report.status.value,
+        "semantic_validation_report_hash": semantic_report.stable_hash(),
         "source_equation": source,
         "target_equation": target,
         "witness": result.witness_env,

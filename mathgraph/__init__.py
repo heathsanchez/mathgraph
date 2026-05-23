@@ -2408,4 +2408,19 @@ from mathgraph.lawbook_acceptance import (
     reject_lawbook_entry,
     validate_lawbook_acceptance,
 )
+from mathgraph.semantic_validation import (
+    FormalClaim,
+    InformalClaim,
+    SemanticValidationEvidence,
+    SemanticValidationReport,
+    SemanticValidationStatus,
+    SemanticValidationViolation,
+    TranslationAssumption,
+    attach_semantic_validation_to_manifest,
+    check_formal_verification_not_informal_solution,
+    check_model_translation_not_truth,
+    check_semantic_validation_required,
+    semantic_validation_report,
+    validate_claim_translation,
+)
 from mathgraph.version import __version__, get_version_info

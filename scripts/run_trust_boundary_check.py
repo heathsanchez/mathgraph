@@ -19,6 +19,10 @@ TESTS = [
     "tests/test_evidence_manifest_replay.py",
     "tests/test_canonical_demo_lawbook_acceptance.py",
     "tests/test_derived_certificate_guardrails.py",
+    "tests/test_semantic_validation.py",
+    "tests/test_manifest_semantic_validation_fields.py",
+    "tests/test_lawbook_semantic_validation_contract.py",
+    "tests/test_canonical_demo_semantic_validation.py",
 ]
 
 

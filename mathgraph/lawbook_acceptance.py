@@ -22,6 +22,11 @@ from mathgraph.lawbook import (
     LawbookEntryStatus,
     make_lawbook_entry_id,
 )
+from mathgraph.semantic_validation import (
+    SemanticValidationReport,
+    SemanticValidationStatus,
+    check_semantic_validation_required,
+)
 
 
 @dataclass(frozen=True)
@@ -102,6 +107,11 @@ def validate_lawbook_acceptance(
             violations.append(_violation("claim_id_mismatch", "Lawbook entry claim_id must match manifest claim_id."))
         if entry_obj.terminal_form != manifest_obj.terminal_form:
             violations.append(_violation("terminal_form_mismatch", "Lawbook entry terminal_form must match manifest terminal_form."))
+        semantic_report = _semantic_report_from_manifest(manifest_obj, entry_obj)
+        semantic_check = check_semantic_validation_required({**entry_obj.to_dict(), "metadata": entry_obj.metadata}, semantic_report)
+        violations.extend(_semantic_violations(semantic_check))
+    else:
+        semantic_report = SemanticValidationReport(SemanticValidationStatus.MISSING, True)
 
     if entry_obj.advisory:
         violations.append(_violation("advisory_lawbook_truth", "Advisory entries cannot enter the Lawbook as accepted truth."))
@@ -131,6 +141,10 @@ def validate_lawbook_acceptance(
     ok = not violations
     if ok:
         reason_codes.append("accepted_replayable_terminal_evidence")
+        if semantic_report.status == SemanticValidationStatus.VALIDATED:
+            reason_codes.append("semantic_validation_validated")
+        else:
+            reason_codes.append("formal_only_or_semantic_validation_not_claimed")
     return LawbookAcceptanceResult(
         ok=ok,
         entry=entry_obj,
@@ -139,7 +153,7 @@ def validate_lawbook_acceptance(
         accepted=ok,
         replay_ok=replay_ok,
         reason_codes=tuple(reason_codes),
-        metadata={"replay": replay_details},
+        metadata={"replay": replay_details, "semantic_validation": semantic_report.to_dict()},
     )
 
 
@@ -205,6 +219,20 @@ def _derived_guardrail_violations(entry: LawbookEntry, evidence: TrustBoundaryEv
     if current_trust > parent_trust and evidence.verifier_boundary not in {"chain_audit", "trusted_import", "derived_verified"}:
         violations.append(_violation("derived_trust_upgrade_without_boundary", "Derived entries cannot upgrade trust without verifier/audit evidence."))
     return tuple(violations)
+
+
+def _semantic_report_from_manifest(manifest: EvidenceManifest, entry: LawbookEntry) -> SemanticValidationReport:
+    return SemanticValidationReport(
+        status=manifest.semantic_validation_status,
+        ok=manifest.semantic_validation_status == SemanticValidationStatus.VALIDATED,
+        evidence_refs=manifest.semantic_validation_evidence_refs,
+        informal_claim_id=manifest.informal_claim_id or str(entry.metadata.get("informal_claim_id", "")),
+        formal_claim_id=manifest.formal_claim_id or manifest.claim_id,
+    )
+
+
+def _semantic_violations(report: SemanticValidationReport) -> tuple[InvariantViolation, ...]:
+    return tuple(InvariantViolation(v.code, v.message, context=v.context) for v in report.violations)
 
 
 def _kind_for_terminal(terminal: TerminalForm) -> LawbookEntryKind:

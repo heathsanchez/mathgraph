@@ -9,6 +9,7 @@ from typing import Any
 
 from mathgraph.certificates import TerminalForm
 from mathgraph.hashing import sha256_hex
+from mathgraph.semantic_validation import SemanticValidationStatus
 
 
 @dataclass(frozen=True)
@@ -26,6 +27,12 @@ class EvidenceManifest:
     theorem_name: str = ""
     obstruction_id: str = ""
     provenance: tuple[str, ...] = ()
+    informal_claim_id: str = ""
+    formal_claim_id: str = ""
+    semantic_validation_status: SemanticValidationStatus = SemanticValidationStatus.MISSING
+    semantic_validation_evidence_refs: tuple[str, ...] = ()
+    translation_assumptions: tuple[dict[str, Any], ...] = ()
+    validation_report_hash: str = ""
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def __post_init__(self) -> None:
@@ -35,6 +42,9 @@ class EvidenceManifest:
         object.__setattr__(self, "artifact_paths", tuple(str(x) for x in self.artifact_paths))
         object.__setattr__(self, "claim_data", dict(self.claim_data or {}))
         object.__setattr__(self, "provenance", tuple(str(x) for x in self.provenance))
+        object.__setattr__(self, "semantic_validation_status", _semantic_status(self.semantic_validation_status))
+        object.__setattr__(self, "semantic_validation_evidence_refs", tuple(str(x) for x in self.semantic_validation_evidence_refs))
+        object.__setattr__(self, "translation_assumptions", tuple(dict(x) for x in self.translation_assumptions))
         validate_evidence_manifest(self)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,6 +61,12 @@ class EvidenceManifest:
             "theorem_name": self.theorem_name,
             "obstruction_id": self.obstruction_id,
             "provenance": list(self.provenance),
+            "informal_claim_id": self.informal_claim_id,
+            "formal_claim_id": self.formal_claim_id,
+            "semantic_validation_status": self.semantic_validation_status.value,
+            "semantic_validation_evidence_refs": list(self.semantic_validation_evidence_refs),
+            "translation_assumptions": [dict(x) for x in self.translation_assumptions],
+            "validation_report_hash": self.validation_report_hash,
             "replay_instructions": list(self.replay_instructions),
             "created_at": self.created_at,
         }
@@ -78,6 +94,12 @@ class EvidenceManifest:
             theorem_name=str(data.get("theorem_name", "")),
             obstruction_id=str(data.get("obstruction_id", "")),
             provenance=tuple(data.get("provenance", ()) or ()),
+            informal_claim_id=str(data.get("informal_claim_id", "")),
+            formal_claim_id=str(data.get("formal_claim_id", "")),
+            semantic_validation_status=_semantic_status(data.get("semantic_validation_status", SemanticValidationStatus.MISSING.value)),
+            semantic_validation_evidence_refs=tuple(data.get("semantic_validation_evidence_refs", ()) or ()),
+            translation_assumptions=tuple(data.get("translation_assumptions", ()) or ()),
+            validation_report_hash=str(data.get("validation_report_hash", "")),
             replay_instructions=tuple(data.get("replay_instructions", ()) or ()),
             created_at=str(data.get("created_at", datetime.now(timezone.utc).isoformat())),
         )
@@ -113,3 +135,9 @@ def _terminal(value: Any) -> TerminalForm:
     if isinstance(value, TerminalForm):
         return value
     return TerminalForm(str(value))
+
+
+def _semantic_status(value: Any) -> SemanticValidationStatus:
+    if isinstance(value, SemanticValidationStatus):
+        return value
+    return SemanticValidationStatus(str(value))
