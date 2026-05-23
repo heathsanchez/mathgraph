@@ -10,7 +10,9 @@ from mathgraph.certificates import TerminalForm
 from mathgraph.evidence_manifest import EvidenceManifest
 from mathgraph.finite_magma_world import check_finite_countermodel, left_projection
 from mathgraph.hashing import sha256_hex
+from mathgraph.evidence_replay import replay_evidence_manifest
 from mathgraph.invariants import TrustBoundaryEvidence, check_all_core_invariants
+from mathgraph.lawbook_acceptance import accept_lawbook_entry, lawbook_entry_from_evidence_manifest, validate_lawbook_acceptance
 from mathgraph.lawbook_store import LawbookStore
 
 
@@ -31,12 +33,16 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
         "countermodel": result.to_dict(),
     }
     artifact_hash = sha256_hex(artifact)
+    artifact_path = output / "countermodel_artifact.json"
+    artifact_path.write_text(json.dumps(artifact, indent=2, sort_keys=True), encoding="utf-8")
     manifest = EvidenceManifest(
         claim_id=claim_id,
         terminal_form=TerminalForm.FINITE_COUNTERMODEL,
         evidence_type="finite_magma_countermodel",
         verifier_boundary="finite_model_checker",
         artifact_hashes=(artifact_hash,),
+        artifact_paths=("countermodel_artifact.json",),
+        claim_data={"source_equation": source, "target_equation": target, "table": [list(row) for row in table]},
         witness=result.witness_env,
         provenance=("canonical_finite_countermodel_demo",),
         replay_instructions=("python scripts/run_canonical_finite_countermodel_demo.py",),
@@ -54,6 +60,11 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
         provenance=("canonical_finite_countermodel_demo",),
         trust_level=100,
     )
+    manifest_path = output / "evidence_manifest.json"
+    manifest_path.write_text(manifest.to_json(), encoding="utf-8")
+    replay_result = replay_evidence_manifest(manifest_path, expected_terminal_form=TerminalForm.FINITE_COUNTERMODEL)
+    if not replay_result.ok:
+        raise RuntimeError(json.dumps(replay_result.to_dict(), indent=2))
     entry = {
         "claim_id": claim_id,
         "status": "ACCEPTED",
@@ -65,6 +76,17 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
     invariant_report = check_all_core_invariants(entry, evidence, manifest)
     if not invariant_report.ok:
         raise RuntimeError(json.dumps(invariant_report.to_dict(), indent=2))
+    candidate_entry = lawbook_entry_from_evidence_manifest(
+        manifest,
+        evidence=evidence,
+        source=source,
+        target=target,
+        metadata={"advisory_route": "canonical_left_projection_n2"},
+    )
+    acceptance_result = validate_lawbook_acceptance(candidate_entry, manifest=manifest, evidence=evidence, manifest_path=str(manifest_path))
+    if not acceptance_result.ok:
+        raise RuntimeError(json.dumps(acceptance_result.to_dict(), indent=2))
+    accepted_entry = accept_lawbook_entry(candidate_entry, manifest=manifest, evidence=evidence, manifest_path=str(manifest_path))
     store = LawbookStore(output / "canonical_lawbook.sqlite")
     store.init_compounding_schema()
     lawbook_artifact = store.insert_artifact(
@@ -89,14 +111,18 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
     )
     store.close()
     paths = {
-        "artifact": output / "countermodel_artifact.json",
-        "manifest": output / "evidence_manifest.json",
+        "artifact": artifact_path,
+        "manifest": manifest_path,
         "invariants": output / "invariant_report.json",
+        "lawbook_entry": output / "lawbook_entry.json",
+        "acceptance": output / "lawbook_acceptance.json",
+        "replay": output / "replay_summary.json",
         "summary": output / "demo_summary.json",
     }
-    paths["artifact"].write_text(json.dumps(artifact, indent=2, sort_keys=True), encoding="utf-8")
-    paths["manifest"].write_text(manifest.to_json(), encoding="utf-8")
     paths["invariants"].write_text(json.dumps(invariant_report.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
+    paths["lawbook_entry"].write_text(json.dumps(accepted_entry.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
+    paths["acceptance"].write_text(json.dumps(acceptance_result.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
+    paths["replay"].write_text(json.dumps(replay_result.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
     summary = {
         "claim_id": claim_id,
         "terminal_form": "FINITE_COUNTERMODEL",
@@ -106,6 +132,9 @@ def run_demo(out_dir: str | Path = "examples/canonical_finite_countermodel_demo/
         "artifact_hash": artifact_hash,
         "manifest_hash": manifest.stable_hash(),
         "lawbook_artifact_id": lawbook_artifact["artifact_id"],
+        "lawbook_entry_id": accepted_entry.entry_id,
+        "lawbook_acceptance_ok": acceptance_result.ok,
+        "replay_ok": replay_result.ok,
         "advisory_boundary_preserved": True,
         "outputs": {key: str(value) for key, value in paths.items()},
     }

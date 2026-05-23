@@ -2399,4 +2399,13 @@ from mathgraph.invariants import (
     check_unsafe_artifact_rejected,
 )
 from mathgraph.evidence_manifest import EvidenceManifest, validate_evidence_manifest
+from mathgraph.evidence_replay import EvidenceReplayResult, load_evidence_manifest, replay_evidence_manifest
+from mathgraph.lawbook_acceptance import (
+    LawbookAcceptanceResult,
+    accept_lawbook_entry,
+    check_lawbook_entry_replay_contract,
+    lawbook_entry_from_evidence_manifest,
+    reject_lawbook_entry,
+    validate_lawbook_acceptance,
+)
 from mathgraph.version import __version__, get_version_info

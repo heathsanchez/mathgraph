@@ -19,6 +19,8 @@ Run:
 ```bash
 python scripts/run_canonical_finite_countermodel_demo.py \
   --out-dir examples/canonical_finite_countermodel_demo/out
+python scripts/replay_evidence_manifest.py \
+  examples/canonical_finite_countermodel_demo/out/evidence_manifest.json
 ```
 
 Generated files under `out/` are intentionally ignored by Git.

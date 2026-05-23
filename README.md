@@ -617,7 +617,20 @@ The repo includes invariant tests and a canonical finite-countermodel demo:
 python scripts/run_trust_boundary_check.py
 python scripts/run_canonical_finite_countermodel_demo.py \
   --out-dir /tmp/mathgraph_canonical_finite_countermodel_demo
+python scripts/replay_evidence_manifest.py \
+  /tmp/mathgraph_canonical_finite_countermodel_demo/evidence_manifest.json
 ```
+
+## Lawbook Acceptance and Replay
+
+Accepted Lawbook entries require replayable `EvidenceManifest` records. The
+Lawbook is verified/certified memory, not advisory memory. Reason Atlas entries
+remain routing knowledge unless they reference verifier-backed outcomes.
+
+Derived entries must preserve parent provenance and evidence references, and
+cannot upgrade trust without an explicit verifier/importer/audit boundary. The
+canonical finite-countermodel demo now exercises acceptance, replay, invariant
+checking, and a small Lawbook write.
 
 ## Current Status
 

@@ -19,7 +19,9 @@ class EvidenceManifest:
     verifier_boundary: str
     artifact_hashes: tuple[str, ...]
     replay_instructions: tuple[str, ...]
+    artifact_paths: tuple[str, ...] = ()
     command_contract_hash: str = ""
+    claim_data: dict[str, Any] = field(default_factory=dict)
     witness: dict[str, Any] | None = None
     theorem_name: str = ""
     obstruction_id: str = ""
@@ -30,6 +32,8 @@ class EvidenceManifest:
         object.__setattr__(self, "terminal_form", _terminal(self.terminal_form))
         object.__setattr__(self, "artifact_hashes", tuple(str(x) for x in self.artifact_hashes))
         object.__setattr__(self, "replay_instructions", tuple(str(x) for x in self.replay_instructions))
+        object.__setattr__(self, "artifact_paths", tuple(str(x) for x in self.artifact_paths))
+        object.__setattr__(self, "claim_data", dict(self.claim_data or {}))
         object.__setattr__(self, "provenance", tuple(str(x) for x in self.provenance))
         validate_evidence_manifest(self)
 
@@ -40,7 +44,9 @@ class EvidenceManifest:
             "evidence_type": self.evidence_type,
             "verifier_boundary": self.verifier_boundary,
             "artifact_hashes": list(self.artifact_hashes),
+            "artifact_paths": list(self.artifact_paths),
             "command_contract_hash": self.command_contract_hash,
+            "claim_data": dict(self.claim_data),
             "witness": dict(self.witness or {}),
             "theorem_name": self.theorem_name,
             "obstruction_id": self.obstruction_id,
@@ -65,7 +71,9 @@ class EvidenceManifest:
             evidence_type=str(data.get("evidence_type", "")),
             verifier_boundary=str(data.get("verifier_boundary", "")),
             artifact_hashes=tuple(data.get("artifact_hashes", ()) or ()),
+            artifact_paths=tuple(data.get("artifact_paths", ()) or ()),
             command_contract_hash=str(data.get("command_contract_hash", "")),
+            claim_data=dict(data.get("claim_data", {}) or {}),
             witness=dict(data.get("witness", {}) or {}),
             theorem_name=str(data.get("theorem_name", "")),
             obstruction_id=str(data.get("obstruction_id", "")),
@@ -89,6 +97,8 @@ def validate_evidence_manifest(manifest: EvidenceManifest) -> None:
         missing.append("provenance")
     if not manifest.replay_instructions:
         missing.append("replay_instructions")
+    if manifest.artifact_paths and len(manifest.artifact_paths) != len(manifest.artifact_hashes):
+        missing.append("artifact_paths/hash_count_match")
     if manifest.terminal_form == TerminalForm.FINITE_COUNTERMODEL and not manifest.witness:
         missing.append("witness")
     if manifest.terminal_form == TerminalForm.VERIFIED_PROOF and not manifest.theorem_name:

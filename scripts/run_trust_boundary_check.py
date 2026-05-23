@@ -15,6 +15,10 @@ TESTS = [
     "tests/test_no_advisory_truth_promotion.py",
     "tests/test_finite_failure_not_true.py",
     "tests/test_replayable_evidence_manifest.py",
+    "tests/test_lawbook_acceptance_contract.py",
+    "tests/test_evidence_manifest_replay.py",
+    "tests/test_canonical_demo_lawbook_acceptance.py",
+    "tests/test_derived_certificate_guardrails.py",
 ]
 
 
@@ -23,6 +27,7 @@ def main() -> int:
     commands = [
         [sys.executable, "-m", "pytest", *TESTS, "-q"],
         [sys.executable, "scripts/run_canonical_finite_countermodel_demo.py", "--out-dir", "/tmp/mathgraph_trust_boundary_canonical_demo"],
+        [sys.executable, "scripts/replay_evidence_manifest.py", "/tmp/mathgraph_trust_boundary_canonical_demo/evidence_manifest.json"],
     ]
     results = []
     ok = True
