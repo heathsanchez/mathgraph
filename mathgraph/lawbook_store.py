@@ -1,4 +1,12 @@
-"""SQLite-backed persistent memory for verified MathGraph lawbook traces."""
+"""SQLite-backed persistent memory for verified MathGraph lawbook traces.
+
+Public façade / legacy compatibility note:
+    This module remains import-compatible for existing MathGraph callers.  New
+    code should prefer the smaller canonical façade modules
+    ``lawbook_boundary``, ``lawbook_ingest``, ``lawbook_query``,
+    ``lawbook_export``, and ``lawbook_reuse`` before writing terminal entries.
+    The appended compounding APIs below are preserved for compatibility.
+"""
 
 from __future__ import annotations
 

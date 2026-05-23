@@ -667,3 +667,58 @@ def _write_text(path: str | Path, text: str) -> None:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(text, encoding="utf-8")
+
+
+# Canonical façade helpers -------------------------------------------------
+#
+# The legacy dataclasses above remain the public Lawbook query surface.  The
+# small helpers below wrap newer SQLite-backed store methods without replacing
+# those legacy types.
+
+
+def query_by_claim_id(store: Any, claim_id: str, *, limit: int = 100) -> list[dict[str, Any]]:
+    return _query_artifact_rows(store, claim_id=claim_id, limit=limit)
+
+
+def query_by_source_target(store: Any, source_id: str, target_id: str, *, limit: int = 100) -> list[dict[str, Any]]:
+    return _query_artifact_rows(store, source_id=source_id, target_id=target_id, limit=limit)
+
+
+def query_by_terminal_form(store: Any, terminal_form: str, *, limit: int = 100) -> list[dict[str, Any]]:
+    rows = _query_artifact_rows(store, terminal_form=terminal_form, limit=limit)
+    if terminal_form.upper() == "FINITE_COUNTERMODEL":
+        rows += _query_artifact_rows(store, terminal_form="REFUTATION_CERTIFICATE", limit=limit)
+    if terminal_form.upper() == "REFUTATION_CERTIFICATE":
+        rows += _query_artifact_rows(store, terminal_form="FINITE_COUNTERMODEL", limit=limit)
+    return rows[:limit]
+
+
+def query_by_domain(store: Any, domain: str, *, limit: int = 100) -> list[dict[str, Any]]:
+    return _query_artifact_rows(store, domain=domain, limit=limit)
+
+
+def query_reusable_artifacts(store: Any, task: Mapping[str, Any], *, limit: int = 20) -> list[dict[str, Any]]:
+    rows = _query_artifact_rows(
+        store,
+        domain=task.get("domain", ""),
+        source_id=task.get("source_id", ""),
+        target_id=task.get("target_id", ""),
+        limit=limit,
+    )
+    if not rows and task.get("basin"):
+        rows = _query_artifact_rows(store, domain=task.get("domain", ""), basin=task.get("basin", ""), limit=limit)
+    return rows[:limit]
+
+
+def query_attention_candidates(store: Any, task: Mapping[str, Any], *, limit: int = 20) -> list[dict[str, Any]]:
+    if hasattr(store, "retrieve_candidate_context"):
+        context = store.retrieve_candidate_context(dict(task), max_artifacts=limit, max_obstructions=limit, max_reasons=limit)
+        rows = list(context.get("artifacts", [])) + list(context.get("obstructions", [])) + list(context.get("reasons", []))
+        return rows[:limit]
+    return query_reusable_artifacts(store, task, limit=limit)
+
+
+def _query_artifact_rows(store: Any, **kwargs: Any) -> list[dict[str, Any]]:
+    if store is not None and hasattr(store, "query_artifacts"):
+        return list(store.query_artifacts(**kwargs))
+    return []

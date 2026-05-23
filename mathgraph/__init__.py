@@ -2447,4 +2447,55 @@ from mathgraph.compounding_engine import (
     CompoundingRunReport,
     run_compounding_loop,
 )
+from mathgraph.lawbook_schema import (
+    BoundaryEvidenceType,
+    LawbookAdmissionDecision as CanonicalLawbookAdmissionDecision,
+    LawbookArtifact,
+    LawbookQuery as CanonicalLawbookQuery,
+    LawbookQueryResult as CanonicalLawbookQueryResult,
+    ProvenanceType as CanonicalProvenanceType,
+    TrustLevel as CanonicalTrustLevel,
+)
+from mathgraph.lawbook_boundary import (
+    assert_advisory_cannot_promote,
+    evaluate_lawbook_admission,
+    explain_admission_decision,
+    is_boundary_backed_terminal_candidate,
+    normalize_terminal_form_value,
+    reject_failed_search_as_truth,
+)
+from mathgraph.lawbook_ingest import (
+    ingest_derived_closure_artifact,
+    ingest_external_certificate,
+    ingest_named_obstruction,
+    ingest_promotion_gate_candidate,
+    reject_advisory_artifact,
+)
+from mathgraph.lawbook_query import (
+    query_attention_candidates,
+    query_by_claim_id,
+    query_by_domain,
+    query_by_source_target,
+    query_by_terminal_form,
+    query_reusable_artifacts,
+)
+from mathgraph.lawbook_export import (
+    artifact_hash,
+    export_lawbook_jsonl,
+    export_lawbook_manifest,
+    export_lawbook_summary,
+    replay_manifest_row,
+)
+from mathgraph.lawbook_reuse import (
+    classify_reuse_kind,
+    compute_action_change_rate,
+    compute_lawbook_hit_rate,
+    retrieve_reuse_candidates,
+)
+from mathgraph.verification_loop import (
+    run_advisory_scheduled_episode,
+    run_closed_verification_episode,
+    run_compounding_episode,
+    run_finite_countermodel_episode,
+)
 from mathgraph.version import __version__, get_version_info

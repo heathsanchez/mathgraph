@@ -12,10 +12,17 @@ modules.
 - `lawbook.py`: Lawbook entries, review, and audit helpers
 - `lawbook_acceptance.py`: acceptance contract around manifests and invariants
 - `lawbook_store.py`: SQLite-backed stores and benchmark persistence surfaces
+- `lawbook_schema.py`: canonical Lawbook façade dataclasses and enums
+- `lawbook_boundary.py`: terminal admission boundary façade
+- `lawbook_ingest.py`: boundary-gated ingest helpers
+- `lawbook_query.py`: small query façade
+- `lawbook_export.py`: manifest, JSONL, and summary exports
+- `lawbook_reuse.py`: reuse and action-change metrics
 
 ## Verification Boundaries
 
 - `verifier_execution.py`: local verifier execution contract
+- `verification_loop.py`: stable façade over closed, finite, and compounding loops
 - `proof_system_integration.py`: proof-system artifacts and boundary contracts
 - `proof_verification.py`: proof verification records and traces
 - `finite_magma_world.py`: deterministic finite magma checker

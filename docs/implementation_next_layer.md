@@ -230,6 +230,14 @@ attention, Reason Atlas-style routing, and controls; writes metric-labelled
 reports; preserves the verifier boundary; and refuses to silently claim real
 SAIR results when real corpus files are absent.
 
+## Lawbook Boundary And Façade Hygiene
+
+The Lawbook boundary façade adds a small canonical front door for terminal
+admission and low-risk wrappers for ingest, query, export, and reuse signals.
+The large `lawbook_store.py` module remains import-compatible as a public
+façade; new code should prefer `lawbook_boundary.py`, `lawbook_ingest.py`,
+`lawbook_query.py`, `lawbook_export.py`, and `lawbook_reuse.py`.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -248,6 +256,7 @@ Implemented:
 - Multi-Episode Lawbook Compounding Evaluation v0
 - Real SAIR Multi-Episode Artifact Pack v0
 - Canonical Compounding Loop Runner
+- Lawbook Boundary And Façade Hygiene
 
 Still future work:
 

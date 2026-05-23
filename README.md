@@ -43,17 +43,21 @@ claim or task
 
 Canonical modules:
 
-- `mathgraph/certificates.py`
-- `mathgraph/invariants.py`
-- `mathgraph/evidence_manifest.py`
-- `mathgraph/evidence_replay.py`
-- `mathgraph/lawbook.py`
-- `mathgraph/lawbook_acceptance.py`
-- `mathgraph/reason_atlas.py`
-- `mathgraph/semantic_validation.py`
-- `mathgraph/finite_magma_world.py`
-- `mathgraph/verifier_execution.py`
-- `mathgraph/kernel.py`
+| Concern | Canonical modules |
+| --- | --- |
+| certificates / external evidence | `mathgraph/certificates.py`, `mathgraph/external_certificates.py` |
+| terminal promotion | `mathgraph/promotion_gate.py`, `mathgraph/lawbook_boundary.py` |
+| replayable evidence | `mathgraph/evidence_manifest.py`, `mathgraph/evidence_replay.py` |
+| Lawbook façade | `mathgraph/lawbook_store.py`, `mathgraph/lawbook_ingest.py`, `mathgraph/lawbook_query.py`, `mathgraph/lawbook_export.py`, `mathgraph/lawbook_reuse.py` |
+| semantic boundary | `mathgraph/semantic_validation.py`, `mathgraph/invariants.py` |
+| routing memory | `mathgraph/reason_atlas.py`, `mathgraph/reason_atlas_store.py` |
+| H-Tilt / scheduling pressure | `mathgraph/spectral_htilt.py`, `mathgraph/reason_atlas_htilt.py`, `mathgraph/viability_operators.py` |
+| verification loops | `mathgraph/verification_loop.py`, `mathgraph/compounding_engine.py` |
+| finite checker | `mathgraph/finite_magma_world.py` |
+| SAIR / ETP adapters | `mathgraph/sair_task_loader.py`, `mathgraph/sair_constructor_bank.py` |
+
+Legacy scripts and experiment modules still exist, but new users should start
+with release check, architecture audit, and the canonical compounding loop.
 
 Canonical commands:
 

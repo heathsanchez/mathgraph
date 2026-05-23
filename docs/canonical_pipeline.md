@@ -36,10 +36,17 @@ semantic intake, and model output can guide work but cannot verify claims.
 - `mathgraph/evidence_replay.py`: manifest replay checks
 - `mathgraph/lawbook.py`: Lawbook entry dataclasses and review surface
 - `mathgraph/lawbook_acceptance.py`: manifest-backed acceptance contract
+- `mathgraph/lawbook_boundary.py`: canonical terminal-admission façade
+- `mathgraph/lawbook_ingest.py`: boundary-gated Lawbook ingest helpers
+- `mathgraph/lawbook_query.py`: query façade for reusable artifacts
+- `mathgraph/lawbook_export.py`: manifest, JSONL, and summary exports
+- `mathgraph/lawbook_reuse.py`: reuse and action-change signals
 - `mathgraph/reason_atlas.py`: advisory routing memory and verifier-backed metrics
 - `mathgraph/semantic_validation.py`: informal/formal claim boundary
 - `mathgraph/finite_magma_world.py`: small deterministic finite checker world
 - `mathgraph/verifier_execution.py`: local verifier execution boundary
+- `mathgraph/verification_loop.py`: stable loop façade
+- `mathgraph/compounding_engine.py`: canonical memory-becomes-capacity runner
 - `mathgraph/kernel.py`: compact kernel acceptance surface
 
 ## Canonical Commands
