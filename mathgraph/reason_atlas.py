@@ -7,9 +7,131 @@ import json
 import sqlite3
 from collections import Counter, defaultdict
 from pathlib import Path
+from dataclasses import dataclass, field
+from enum import Enum
 from typing import Any, Mapping
 
 from mathgraph.lawbook_accumulator import connect_lawbook, json_loads
+
+
+class ReasonAtlasTrustLevel(str, Enum):
+    ADVISORY = "ADVISORY"
+    VERIFIER_BACKED = "VERIFIER_BACKED"
+    RETIRED = "RETIRED"
+
+
+@dataclass(frozen=True)
+class ReasonBasin:
+    basin_id: str
+    signature: str
+    basin_name: str
+    known_limits: tuple[str, ...] = ()
+
+    def to_dict(self) -> dict[str, Any]:
+        return dict(self.__dict__)
+
+
+@dataclass(frozen=True)
+class ConstructorFamily:
+    family_id: str
+    family_name: str
+    operators: tuple[str, ...] = ()
+    known_limits: tuple[str, ...] = ()
+
+    def to_dict(self) -> dict[str, Any]:
+        return dict(self.__dict__)
+
+
+@dataclass(frozen=True)
+class RoutePolicy:
+    policy_id: str
+    policy_name: str
+    route_priority: float = 0.0
+    advisory_only: bool = True
+
+    def to_dict(self) -> dict[str, Any]:
+        return dict(self.__dict__)
+
+
+@dataclass(frozen=True)
+class ResidualSignature:
+    signature_id: str
+    signature: str
+    residual_count: int = 0
+    known_limits: tuple[str, ...] = ()
+
+    def to_dict(self) -> dict[str, Any]:
+        return dict(self.__dict__)
+
+
+@dataclass(frozen=True)
+class VerificationOutcome:
+    outcome_id: str
+    terminal_form: str
+    verifier_backed: bool
+    evidence_ref: str
+    residual_delta: float = 0.0
+
+    def to_dict(self) -> dict[str, Any]:
+        return dict(self.__dict__)
+
+
+@dataclass(frozen=True)
+class RoutePolicyEvidence:
+    evidence_id: str
+    support_count: int = 0
+    heldout_gain: float = 0.0
+    new_losses: int = 0
+    true_control_countermodels: int = 0
+    evidence_refs: tuple[str, ...] = ()
+    verifier_backed_outcomes: tuple[str, ...] = ()
+
+    def to_dict(self) -> dict[str, Any]:
+        return dict(self.__dict__)
+
+
+@dataclass(frozen=True)
+class ReasonAtlasEntry:
+    basin_id: str
+    signature: str
+    basin_name: str
+    constructor_family: str
+    route_priority: float
+    support_count: int
+    heldout_gain: float
+    new_losses: int
+    true_control_countermodels: int
+    trust_level: ReasonAtlasTrustLevel = ReasonAtlasTrustLevel.ADVISORY
+    evidence_refs: tuple[str, ...] = ()
+    known_limits: tuple[str, ...] = ()
+    promotion_status: str = "ADVISORY_ROUTING_KNOWLEDGE"
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.trust_level, ReasonAtlasTrustLevel):
+            object.__setattr__(self, "trust_level", ReasonAtlasTrustLevel(str(self.trust_level)))
+
+    @property
+    def is_truth_claim(self) -> bool:
+        return False
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "basin_id": self.basin_id,
+            "signature": self.signature,
+            "basin_name": self.basin_name,
+            "constructor_family": self.constructor_family,
+            "route_priority": self.route_priority,
+            "support_count": self.support_count,
+            "heldout_gain": self.heldout_gain,
+            "new_losses": self.new_losses,
+            "true_control_countermodels": self.true_control_countermodels,
+            "trust_level": self.trust_level.value,
+            "evidence_refs": list(self.evidence_refs),
+            "known_limits": list(self.known_limits),
+            "promotion_status": self.promotion_status,
+            "advisory_only": self.trust_level != ReasonAtlasTrustLevel.VERIFIER_BACKED,
+            "truth_status": "not_truth",
+        }
 
 
 def build_reason_atlas(conn: sqlite3.Connection) -> dict[str, Any]:

@@ -2383,4 +2383,20 @@ from mathgraph.real_sair_artifact_pack import (
     RealSairArtifactPackResult,
     RealSairArtifactPackRunner,
 )
+from mathgraph.invariants import (
+    ClaimStatus,
+    InvariantViolation,
+    LawbookEntryInvariantReport,
+    TerminalForm,
+    TrustBoundaryEvidence,
+    check_all_core_invariants,
+    check_boundary_evidence_required,
+    check_finite_failure_not_true,
+    check_lawbook_entry_replayable,
+    check_no_advisory_truth_promotion,
+    check_provenance_preserved,
+    check_terminal_form_contract,
+    check_unsafe_artifact_rejected,
+)
+from mathgraph.evidence_manifest import EvidenceManifest, validate_evidence_manifest
 from mathgraph.version import __version__, get_version_info

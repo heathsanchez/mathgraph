@@ -595,6 +595,30 @@ python scripts/run_real_sair_artifact_pack.py \
   --create-archive
 ```
 
+## Executable Trust Boundary
+
+MathGraph does not treat model output, route scores, H-Tilt values, semantic
+intake, analogies, or explanations as truth. These artifacts may guide search,
+but accepted claims require exactly one terminal form:
+
+- `VERIFIED_PROOF`
+- `FINITE_COUNTERMODEL`
+- `NAMED_OBSTRUCTION`
+
+Reason Atlas routes are advisory until verifier contact. Finite-search failure
+is not truth. Raw verifier returncode or success text is not enough unless it is
+captured as explicit boundary evidence under replayable instructions. Unsafe
+Lean markers such as `sorry`, `admit`, `axiom`, and `unsafe` cannot create
+boundary evidence.
+
+The repo includes invariant tests and a canonical finite-countermodel demo:
+
+```bash
+python scripts/run_trust_boundary_check.py
+python scripts/run_canonical_finite_countermodel_demo.py \
+  --out-dir /tmp/mathgraph_canonical_finite_countermodel_demo
+```
+
 ## Current Status
 
 Implemented milestones run through Public Demo and Release Readiness. See
