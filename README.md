@@ -7,10 +7,64 @@ Start here:
 
 ```bash
 python scripts/run_release_check.py --quick
+python scripts/run_repo_architecture_audit.py
 python scripts/run_public_demo.py --out-dir demo_out
 ```
 
 Then read [docs/quickstart.md](docs/quickstart.md).
+
+## Canonical Path
+
+MathGraph is a verification-native kernel for routing claims toward explicit
+verifier, finite-checker, trusted-importer, or chain-audit boundaries. Models,
+route scores, H-Tilt, Reason Atlas entries, and semantic intake may guide work;
+they do not verify claims.
+
+Every accepted claim ends in exactly one terminal form:
+
+- `VERIFIED_PROOF`
+- `FINITE_COUNTERMODEL`
+- `NAMED_OBSTRUCTION`
+
+Canonical pipeline:
+
+```text
+claim or task
+-> semantic validation boundary when an informal claim is present
+-> formal claim / artifact
+-> advisory route and constructor selection
+-> verifier / finite checker / trusted importer / chain audit
+-> EvidenceManifest
+-> replay
+-> invariant checks
+-> Lawbook acceptance
+-> Reason Atlas routing memory
+```
+
+Canonical modules:
+
+- `mathgraph/certificates.py`
+- `mathgraph/invariants.py`
+- `mathgraph/evidence_manifest.py`
+- `mathgraph/evidence_replay.py`
+- `mathgraph/lawbook.py`
+- `mathgraph/lawbook_acceptance.py`
+- `mathgraph/reason_atlas.py`
+- `mathgraph/semantic_validation.py`
+- `mathgraph/finite_magma_world.py`
+- `mathgraph/verifier_execution.py`
+- `mathgraph/kernel.py`
+
+Canonical commands:
+
+```bash
+python scripts/run_release_check.py --quick
+python scripts/run_repo_architecture_audit.py
+python scripts/run_compounding_lawbook_loop.py --fallback-smoke --out-dir /tmp/mathgraph_compounding_smoke
+```
+
+See [docs/canonical_pipeline.md](docs/canonical_pipeline.md) and
+[docs/module_map.md](docs/module_map.md).
 
 ## Curated Real Mathlib Demo
 
