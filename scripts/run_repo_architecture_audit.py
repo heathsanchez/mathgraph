@@ -39,7 +39,7 @@ CANONICAL_MODULES = (
 CANONICAL_COMMANDS = (
     "python scripts/run_release_check.py --quick",
     "python scripts/run_repo_architecture_audit.py",
-    "python scripts/run_compounding_lawbook_loop.py --fallback-smoke --out-dir /tmp/mathgraph_compounding_smoke",
+    "python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo",
 )
 CONCEPT_KEYWORDS = (
     "certificate",

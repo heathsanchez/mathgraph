@@ -2439,4 +2439,12 @@ from mathgraph.reason_atlas import (
     summarize_constructor_family_performance,
     validate_reason_atlas_entry,
 )
+from mathgraph.compounding_engine import (
+    CompoundingEngine,
+    CompoundingEngineConfig,
+    CompoundingEpisodeResult,
+    CompoundingPolicyResult,
+    CompoundingRunReport,
+    run_compounding_loop,
+)
 from mathgraph.version import __version__, get_version_info

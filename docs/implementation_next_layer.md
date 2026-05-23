@@ -222,6 +222,14 @@ machine-readable summary, human-readable report, and an optional archive.
 Strict mode fails when real SAIR files are absent. Explicit fallback smoke packs
 remain clearly labeled and cannot be interpreted as real compounding evidence.
 
+## Canonical Compounding Loop Runner
+
+The canonical compounding runner is the repo-level command for the narrow
+memory-becomes-capacity loop. It compares baseline search with memory, Lawbook
+attention, Reason Atlas-style routing, and controls; writes metric-labelled
+reports; preserves the verifier boundary; and refuses to silently claim real
+SAIR results when real corpus files are absent.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -239,6 +247,7 @@ Implemented:
 - Production Lawbook Admission v0
 - Multi-Episode Lawbook Compounding Evaluation v0
 - Real SAIR Multi-Episode Artifact Pack v0
+- Canonical Compounding Loop Runner
 
 Still future work:
 

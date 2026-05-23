@@ -60,11 +60,41 @@ Canonical commands:
 ```bash
 python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
-python scripts/run_compounding_lawbook_loop.py --fallback-smoke --out-dir /tmp/mathgraph_compounding_smoke
+python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo
 ```
 
 See [docs/canonical_pipeline.md](docs/canonical_pipeline.md) and
 [docs/module_map.md](docs/module_map.md).
+
+## Canonical Compounding Loop
+
+The canonical compounding runner is the repo-level smoke path for the claim that
+verified or boundary-backed memory should make later verification cheaper,
+higher-yield, or better routed. It compares baseline search with memory-guided
+policies, records Lawbook-style hits, runs decode-to-verify diagnostics, and
+labels every metric as verified, advisory, or diagnostic.
+
+Fallback mode is deterministic and does not claim real SAIR results:
+
+```bash
+python scripts/run_mathgraph_compounding_loop.py \
+  --allow-fallback-demo \
+  --out-dir /tmp/mathgraph_compounding_demo
+```
+
+Real SAIR mode only claims real evaluation when the equation and matrix files
+are supplied and loaded:
+
+```bash
+python scripts/run_mathgraph_compounding_loop.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/MathGraph_Compounding_Run \
+  --episodes 3 \
+  --train-pairs 250 \
+  --eval-pairs 250 \
+  --attempt-budget 12
+```
 
 ## Curated Real Mathlib Demo
 

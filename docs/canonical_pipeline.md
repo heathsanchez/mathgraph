@@ -47,8 +47,9 @@ semantic intake, and model output can guide work but cannot verify claims.
 ```bash
 python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
-python scripts/run_compounding_lawbook_loop.py --fallback-smoke --out-dir /tmp/mathgraph_compounding_smoke
+python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo
 ```
 
-The compounding command is the small fallback path. Real SAIR and larger
-artifact-pack runs are separate benchmark workflows.
+The compounding command is the canonical repo-level loop. Fallback mode proves
+the wiring without claiming real SAIR results; real SAIR mode requires explicit
+equation and matrix paths.
