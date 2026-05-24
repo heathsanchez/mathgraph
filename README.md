@@ -130,6 +130,21 @@ python scripts/run_recursive_residual_compounding.py \
   --out-dir /tmp/mathgraph_recursive_residual_fast_real
 ```
 
+## Polarized Quotient-Continuation IR
+
+PQ-IR extracts advisory quotient/continuation features for ETP implications
+`EQ1 => EQ2`: source quotient pressure, target separation pressure, fresh
+variable escape, projection boundary behavior, and residual obstruction names.
+It is routing knowledge only, not a truth oracle.
+
+```bash
+python scripts/run_polarized_quotient_ir_demo.py \
+  --out-dir /tmp/mathgraph_pqir_demo \
+  --sample-pairs 100
+```
+
+See [docs/polarized_quotient_ir.md](docs/polarized_quotient_ir.md).
+
 ## Curated Real Mathlib Demo
 
 ```bash

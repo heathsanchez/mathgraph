@@ -84,3 +84,10 @@ python scripts/run_recursive_residual_compounding.py --profile smoke --allow-fal
 
 Compact atlas routes are advisory scheduling objects. They do not verify claims
 or enter terminal Lawbook memory without independent boundary-backed evidence.
+
+## Polarized Quotient-Continuation IR
+
+PQ-IR is the symbolic feature layer for ETP implications. It parses binary magma
+equations, builds bounded quotient-state features, classifies residual basins,
+and emits advisory constructor-family recommendations. It feeds compounding and
+residual-routing code, but it is not a truth boundary.

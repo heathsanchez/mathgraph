@@ -37,6 +37,9 @@ CANONICAL_MODULES = (
     "mathgraph/finite_magma_world.py",
     "mathgraph/compounding_engine.py",
     "mathgraph/recursive_residual_compounding.py",
+    "mathgraph/etp_terms.py",
+    "mathgraph/quotient_state.py",
+    "mathgraph/polarized_quotient_ir.py",
 )
 CANONICAL_COMMANDS = (
     "python scripts/run_release_check.py --quick",

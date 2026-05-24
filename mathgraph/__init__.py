@@ -2512,4 +2512,31 @@ from mathgraph.recursive_residual_compounding import (
     ResidualFrontierRow,
     TransferControlResult,
 )
+from mathgraph.etp_terms import (
+    ETPEquation,
+    ETPTerm,
+    equation_features as etp_equation_features,
+    parse_equation as parse_etp_equation,
+    parse_term as parse_etp_term,
+    safe_parse_equation as safe_parse_etp_equation,
+    skeleton_signature,
+    term_position_paths,
+    variable_first_canonicalize_equation,
+)
+from mathgraph.quotient_state import BoundedTermUniverse, CongruenceClosure, UnionFind, closure_from_equation
+from mathgraph.polarized_quotient_ir import (
+    build_equation_features as build_pqir_equation_features,
+    build_pair_features as build_pqir_pair_features,
+    classify_basin as classify_pqir_basin,
+    classify_deep_ir,
+    recommend_constructor_families,
+)
+from mathgraph.constructor_families import (
+    ConstructorFamily,
+    all_constructor_families,
+    default_priority_for_basin,
+    normalize_family_name,
+    parse_constructor_id,
+)
+from mathgraph.obstruction_atlas import ObstructionRecord, residual_queue, summarize_obstructions
 from mathgraph.version import __version__, get_version_info

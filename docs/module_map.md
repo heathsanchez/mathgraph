@@ -53,6 +53,11 @@ modules.
 
 - `sair_task_loader.py`: SAIR equation/matrix loading
 - `sair_constructor_bank.py`: finite magma constructor bank
+- `etp_terms.py`: ETP/SAIR binary magma term parsing and equation features
+- `quotient_state.py`: bounded symbolic quotient/congruence state
+- `polarized_quotient_ir.py`: quotient-continuation pair features
+- `constructor_families.py`: advisory constructor family metadata
+- `obstruction_atlas.py`: advisory obstruction and residual queue records
 - `sair_breakthrough_runner.py`: SAIR breakthrough loop runner
 - `sair_motif_hygiene.py`: clean motif hygiene
 - `sair_clean_motif_mining.py`: clean motif mining
@@ -64,6 +69,7 @@ modules.
 - `compounding_lawbook_engine.py`: fallback compounding engine
 - `compounding_engine.py`: canonical baseline versus memory compounding loop
 - `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
+- `scripts/run_polarized_quotient_ir_demo.py`: lightweight PQ-IR feature demo
 - `multi_episode_compounding.py`: multi-episode compounding evaluation
 - `real_sair_artifact_pack.py`: real/fallback artifact pack runner
 - `lawbook_admission.py`: production admission levels

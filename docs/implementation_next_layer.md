@@ -246,6 +246,14 @@ routes can mine residual constructors, compact those constructors into an
 advisory atlas, and improve held-out transfer while preserving zero TRUE
 contamination.
 
+## Polarized Quotient-Continuation IR
+
+PQ-IR adds the symbolic quotient/continuation feature layer for ETP implication
+pairs. It extracts source quotient pressure, target separation pressure,
+fresh-variable escape, projection boundary behavior, repeat/tail continuation
+pressure, advisory constructor-family recommendations, and residual obstruction
+names. These records are routing signals only.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -266,6 +274,7 @@ Implemented:
 - Canonical Compounding Loop Runner
 - Lawbook Boundary And Façade Hygiene
 - Recursive Residual Compounding Benchmark
+- Polarized Quotient-Continuation IR
 
 Still future work:
 
