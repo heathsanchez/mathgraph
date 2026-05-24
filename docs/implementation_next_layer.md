@@ -262,6 +262,12 @@ evaluates advisory policies, names residual obstructions, selects residual
 repair constructors, writes a lightweight SQLite Lawbook, and measures
 episode-to-episode lift while keeping finite-search failure separate from TRUE.
 
+## TRUE-Side Proof Inventory
+
+The TRUE-side inventory adds bounded proof-producing congruence traces and
+Lean-ready skeleton generation for ETP TRUE candidates. These records are
+candidate proof templates until Lean or another proof verifier accepts them.
+
 Implemented:
 
 - Reason Atlas Contact Promotion
@@ -284,6 +290,7 @@ Implemented:
 - Recursive Residual Compounding Benchmark
 - Polarized Quotient-Continuation IR
 - Multi-Episode ETP Compounding Engine
+- TRUE-Side Proof Inventory
 
 Still future work:
 

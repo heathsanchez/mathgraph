@@ -172,6 +172,35 @@ python scripts/run_mathgraph_compounding_engine.py \
 
 See [docs/compounding_engine.md](docs/compounding_engine.md).
 
+## TRUE-Side Proof Inventory
+
+The TRUE-side inventory builds bounded congruence traces and Lean-ready
+candidate skeletons for ETP pairs labelled TRUE. These artifacts are proof
+templates only: they are not `LEAN_VERIFIED` and cannot promote truth until an
+external proof verifier accepts them. FALSE controls audit that failed finite
+search is never treated as TRUE.
+
+```bash
+python scripts/run_true_side_inventory.py \
+  --out-dir /tmp/mathgraph_true_inventory_demo \
+  --tiny-demo
+```
+
+Real ETP/SAIR example:
+
+```bash
+python scripts/run_true_side_inventory.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/MathGraph_TRUE_Inventory \
+  --sample-true 5000 \
+  --sample-false-control 5000 \
+  --max-depth 3 \
+  --seed 20260524
+```
+
+See [docs/true_side_proof_inventory.md](docs/true_side_proof_inventory.md).
+
 ## Polarized Quotient-Continuation IR
 
 PQ-IR extracts advisory quotient/continuation features for ETP implications

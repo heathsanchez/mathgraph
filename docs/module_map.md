@@ -57,6 +57,9 @@ modules.
 - `magma_constructors.py`: deterministic finite magma constructor families
 - `sat_cache.py`: constructor/equation satisfaction cache and route evaluation
 - `policy_engine.py`: advisory constructor-route policies
+- `proof_congruence.py`: bounded proof-producing congruence traces for TRUE candidates
+- `true_proof_templates.py`: TRUE proof-template family inventory
+- `lean_artifacts.py`: Lean skeleton artifacts and verification status records
 - `etp_terms.py`: ETP/SAIR binary magma term parsing and equation features
 - `quotient_state.py`: bounded symbolic quotient/congruence state
 - `polarized_quotient_ir.py`: quotient-continuation pair features
@@ -73,6 +76,7 @@ modules.
 - `compounding_lawbook_engine.py`: fallback compounding engine
 - `compounding_engine.py`: canonical baseline versus memory compounding loop
 - `scripts/run_mathgraph_compounding_engine.py`: multi-episode ETP constructor/residual/Lawbook runner
+- `scripts/run_true_side_inventory.py`: bounded TRUE-side proof-template inventory runner
 - `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
 - `scripts/run_polarized_quotient_ir_demo.py`: lightweight PQ-IR feature demo
 - `multi_episode_compounding.py`: multi-episode compounding evaluation

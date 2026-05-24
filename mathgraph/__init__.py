@@ -2549,4 +2549,7 @@ from mathgraph.finite_magma import (
 from mathgraph.magma_constructors import build_base_constructor_bank, build_random_constructor_bank, dedupe_constructors
 from mathgraph.sat_cache import SatCache, build_sat_cache, compute_constructor_bandwidth, evaluate_route as evaluate_constructor_route
 from mathgraph.policy_engine import ConstructorPolicy, build_policy_routes, build_residual_repair_policy
+from mathgraph.proof_congruence import ExplainTrace, ProofCongruenceClosure, ProofStep, explain_bounded_congruence
+from mathgraph.true_proof_templates import TrueProofTemplate, build_true_proof_template_inventory, classify_true_pair
+from mathgraph.lean_artifacts import generate_false_countermodel_lean_skeleton, generate_true_congruence_lean_skeleton, write_lean_artifacts
 from mathgraph.version import __version__, get_version_info

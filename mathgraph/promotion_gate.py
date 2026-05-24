@@ -85,6 +85,32 @@ class PromotionGateDecision:
         return json.dumps(self.to_dict(), sort_keys=True)
 
 
+@dataclass(frozen=True)
+class PromotionDecision:
+    """Small record-level promotion decision used by inventory/report scripts."""
+
+    accepted: bool
+    terminal_form: str
+    promotion_status: str
+    trust_level: str
+    reason: str
+    advisory_only: bool = True
+    can_promote_truth: bool = False
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "accepted": self.accepted,
+            "terminal_form": self.terminal_form,
+            "promotion_status": self.promotion_status,
+            "trust_level": self.trust_level,
+            "reason": self.reason,
+            "advisory_only": self.advisory_only,
+            "can_promote_truth": self.can_promote_truth,
+            "metadata": dict(self.metadata),
+        }
+
+
 class PromotionGate:
     def __init__(self, config: PromotionGateConfig | None = None) -> None:
         self.config = config or PromotionGateConfig()
@@ -268,3 +294,91 @@ def _coerce_verifier_kind(value: Any) -> ExternalVerifierKind:
         if text in {item.name, item.value.upper()}:
             return item
     return ExternalVerifierKind.UNKNOWN
+
+
+def decide_promotion(record: Any) -> PromotionDecision:
+    """Decide terminal eligibility for simple record dictionaries.
+
+    This helper does not replace ``PromotionGate.evaluate`` for full external
+    certificates. It gives scripts a single conservative vocabulary for raw
+    checker/template rows.
+    """
+
+    data = record.to_dict() if hasattr(record, "to_dict") else dict(record or {})
+    status = str(data.get("certificate_status") or data.get("proof_status") or data.get("status") or "").lower()
+    if status == "finite_countermodel_found" and bool(data.get("eq1_holds")) and bool(data.get("eq2_violated")):
+        return PromotionDecision(
+            accepted=True,
+            terminal_form="FINITE_COUNTERMODEL",
+            promotion_status="FINITE_VERIFIED",
+            trust_level="FINITE_VERIFIED",
+            reason="finite checker validated source globally and target witness",
+            advisory_only=False,
+            can_promote_truth=True,
+            metadata={"record": data},
+        )
+    if status == "lean_verified" or bool(data.get("lean_verified")):
+        return PromotionDecision(
+            accepted=True,
+            terminal_form="VERIFIED_PROOF",
+            promotion_status="LEAN_VERIFIED",
+            trust_level="LEAN_VERIFIED",
+            reason="Lean verifier accepted proof artifact",
+            advisory_only=False,
+            can_promote_truth=True,
+            metadata={"record": data},
+        )
+    if status == "bounded_congruence_trace":
+        return PromotionDecision(
+            accepted=False,
+            terminal_form="VERIFIED_PROOF",
+            promotion_status="CANDIDATE_PROOF_CERT",
+            trust_level="BOUNDED_CERT",
+            reason="bounded congruence trace is proof-template evidence, not Lean verification",
+            advisory_only=True,
+            can_promote_truth=False,
+            metadata={"record": data},
+        )
+    if status == "proof_template_generated":
+        return PromotionDecision(
+            accepted=False,
+            terminal_form="NONE",
+            promotion_status="CANDIDATE_CERTIFICATE",
+            trust_level="CANDIDATE_PROOF_TEMPLATE",
+            reason="proof template requires verifier boundary",
+            advisory_only=True,
+            can_promote_truth=False,
+            metadata={"record": data},
+        )
+    if status == "named_obstruction_advisory":
+        return PromotionDecision(
+            accepted=False,
+            terminal_form="NAMED_OBSTRUCTION",
+            promotion_status="ADVISORY_ROUTE",
+            trust_level="ADVISORY_ROUTE",
+            reason="named obstruction is advisory until accepted through obstruction boundary",
+            advisory_only=True,
+            can_promote_truth=False,
+            metadata={"record": data},
+        )
+    if status in {"finite_failed_small_n", "failed_search", "not_a_countermodel"} or data.get("finite_search_miss"):
+        return PromotionDecision(
+            accepted=False,
+            terminal_form="NONE",
+            promotion_status="RESIDUAL",
+            trust_level="RESIDUAL_EVIDENCE",
+            reason="finite-search failure is residual evidence, never TRUE",
+            advisory_only=True,
+            can_promote_truth=False,
+            metadata={"record": data},
+        )
+    return PromotionDecision(
+        accepted=False,
+        terminal_form="NONE",
+        promotion_status="REJECTED_OR_UNSUPPORTED",
+        trust_level="ADVISORY_ONLY",
+        reason="unsupported or advisory record cannot promote truth",
+        advisory_only=True,
+        can_promote_truth=False,
+        metadata={"record": data},
+    )

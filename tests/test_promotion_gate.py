@@ -6,7 +6,7 @@ from mathgraph.external_certificates import (
     ExternalVerifierKind,
 )
 from mathgraph.hashing import sha256_hex
-from mathgraph.promotion_gate import PromotionGate, PromotionGateDecisionKind
+from mathgraph.promotion_gate import PromotionGate, PromotionGateDecisionKind, decide_promotion
 from mathgraph.reason_atlas_store import ReasonAtlasEntry, ReasonAtlasEntryKind, ReasonAtlasFeedbackEvent, ReasonAtlasFeedbackOutcome
 from mathgraph.root_operator_schema import RootOperatorSchema
 from mathgraph.terminal_schema import CanonicalTerminalForm, VerifierBoundaryKind
@@ -73,3 +73,30 @@ def test_finite_search_miss_cannot_promote_true_or_verified_proof():
         metadata={"finite_search_miss": True},
     )
     assert PromotionGate().evaluate(cert).decision_kind == PromotionGateDecisionKind.REJECT_FINITE_SEARCH_MISS
+
+
+def test_record_decision_failed_finite_search_cannot_promote_true():
+    decision = decide_promotion({"status": "failed_search", "finite_search_miss": True})
+
+    assert decision.accepted is False
+    assert decision.terminal_form == "NONE"
+    assert decision.promotion_status == "RESIDUAL"
+    assert decision.can_promote_truth is False
+
+
+def test_record_decision_bounded_trace_not_lean_verified():
+    decision = decide_promotion({"proof_status": "bounded_congruence_trace", "forced_equal": True})
+
+    assert decision.accepted is False
+    assert decision.terminal_form == "VERIFIED_PROOF"
+    assert decision.promotion_status == "CANDIDATE_PROOF_CERT"
+    assert decision.trust_level == "BOUNDED_CERT"
+    assert decision.can_promote_truth is False
+
+
+def test_record_decision_finite_countermodel_can_be_finite_verified():
+    decision = decide_promotion({"certificate_status": "finite_countermodel_found", "eq1_holds": True, "eq2_violated": True})
+
+    assert decision.accepted is True
+    assert decision.terminal_form == "FINITE_COUNTERMODEL"
+    assert decision.promotion_status == "FINITE_VERIFIED"

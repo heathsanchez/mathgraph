@@ -48,6 +48,8 @@ semantic intake, and model output can guide work but cannot verify claims.
 - `mathgraph/magma_constructors.py`: deterministic constructor families
 - `mathgraph/sat_cache.py`: constructor satisfaction cache
 - `mathgraph/policy_engine.py`: advisory route policy builder
+- `mathgraph/proof_congruence.py`: bounded TRUE-side congruence traces
+- `mathgraph/true_proof_templates.py`: proof-template family inventory
 - `mathgraph/verifier_execution.py`: local verifier execution boundary
 - `mathgraph/verification_loop.py`: stable loop façade
 - `mathgraph/compounding_engine.py`: canonical memory-becomes-capacity runner
@@ -60,6 +62,7 @@ python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
 python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo
 python scripts/run_mathgraph_compounding_engine.py --out-dir /tmp/mathgraph_compounding_demo --episodes 2 --tiny-demo
+python scripts/run_true_side_inventory.py --out-dir /tmp/mathgraph_true_inventory_demo --tiny-demo
 ```
 
 The compounding command is the canonical repo-level loop. Fallback mode proves
@@ -109,3 +112,10 @@ episode -> constructors -> finite checking -> residuals -> obstruction atlas
 It writes a lightweight SQLite Lawbook plus CSV/JSON reports. Repair
 constructors and obstruction rows are advisory; only concrete finite
 countermodel certificates can support FALSE terminal candidates.
+
+## TRUE-Side Inventory
+
+The TRUE-side inventory generates bounded congruence traces and Lean skeletons.
+These are candidate proof-template artifacts until a proof verifier accepts
+them. Bounded closure can guide future proof routes, but it is not
+`LEAN_VERIFIED`.

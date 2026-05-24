@@ -1280,6 +1280,9 @@ LAWBOOK_SQLITE_TABLES: dict[str, str] = {
     "repair_family_lawbook": "row_id TEXT PRIMARY KEY, run_id TEXT, family TEXT, payload_json TEXT, created_at TEXT",
     "promotion_events": "row_id TEXT PRIMARY KEY, run_id TEXT, event_type TEXT, payload_json TEXT, created_at TEXT",
     "true_proof_templates": "row_id TEXT PRIMARY KEY, run_id TEXT, template_id TEXT, payload_json TEXT, created_at TEXT",
+    "congruence_explain_traces": "row_id TEXT PRIMARY KEY, run_id TEXT, trace_id TEXT, payload_json TEXT, created_at TEXT",
+    "lean_artifacts": "row_id TEXT PRIMARY KEY, run_id TEXT, artifact_id TEXT, payload_json TEXT, created_at TEXT",
+    "promotion_decisions": "row_id TEXT PRIMARY KEY, run_id TEXT, decision_id TEXT, payload_json TEXT, created_at TEXT",
 }
 
 
@@ -1390,6 +1393,9 @@ def _sqlite_write_canonical_rows(conn: Any, table_name: str, rows: list[dict[str
         "repair_family_lawbook": ("family",),
         "promotion_events": ("event_type",),
         "true_proof_templates": ("template_id",),
+        "congruence_explain_traces": ("trace_id",),
+        "lean_artifacts": ("artifact_id",),
+        "promotion_decisions": ("decision_id",),
     }
     for i, row in enumerate(rows):
         row_id = str(row.get("row_id") or content_id(f"lawbook-{table_name}", {"i": i, "row": row}))
@@ -1437,6 +1443,21 @@ def _sqlite_write_canonical_rows(conn: Any, table_name: str, rows: list[dict[str
             elif table_name == "true_proof_templates":
                 conn.execute(
                     "INSERT OR REPLACE INTO true_proof_templates(row_id, run_id, template_id, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+                    (row_id, run_id, values[0], payload, now),
+                )
+            elif table_name == "congruence_explain_traces":
+                conn.execute(
+                    "INSERT OR REPLACE INTO congruence_explain_traces(row_id, run_id, trace_id, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+                    (row_id, run_id, values[0], payload, now),
+                )
+            elif table_name == "lean_artifacts":
+                conn.execute(
+                    "INSERT OR REPLACE INTO lean_artifacts(row_id, run_id, artifact_id, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+                    (row_id, run_id, values[0], payload, now),
+                )
+            elif table_name == "promotion_decisions":
+                conn.execute(
+                    "INSERT OR REPLACE INTO promotion_decisions(row_id, run_id, decision_id, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
                     (row_id, run_id, values[0], payload, now),
                 )
     return len(rows)
