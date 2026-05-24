@@ -2539,4 +2539,14 @@ from mathgraph.constructor_families import (
     parse_constructor_id,
 )
 from mathgraph.obstruction_atlas import ObstructionRecord, residual_queue, summarize_obstructions
+from mathgraph.finite_magma import (
+    FiniteCountermodelCertificate,
+    FiniteMagma,
+    equation_holds as finite_magma_equation_holds,
+    equation_violated_with_witness,
+    implication_false_certificate,
+)
+from mathgraph.magma_constructors import build_base_constructor_bank, build_random_constructor_bank, dedupe_constructors
+from mathgraph.sat_cache import SatCache, build_sat_cache, compute_constructor_bandwidth, evaluate_route as evaluate_constructor_route
+from mathgraph.policy_engine import ConstructorPolicy, build_policy_routes, build_residual_repair_policy
 from mathgraph.version import __version__, get_version_info

@@ -1259,3 +1259,221 @@ def _read_jsonl(path: str | Path) -> list[dict[str, Any]]:
 
 def _optional_str(value: Any) -> str | None:
     return None if value is None else str(value)
+
+
+# ---------------------------------------------------------------------------
+# SQLite Lawbook helpers for repo-native compounding runs.
+#
+# This is intentionally a compatibility layer rather than a replacement for the
+# accepted-entry LawbookStore above. New compounding scripts can write concise
+# episode artifacts here while older public imports keep working.
+
+
+LAWBOOK_SQLITE_TABLES: dict[str, str] = {
+    "runs": "run_id TEXT PRIMARY KEY, payload_json TEXT, created_at TEXT",
+    "episodes": "episode_id TEXT PRIMARY KEY, run_id TEXT, episode INTEGER, payload_json TEXT, created_at TEXT",
+    "constructors": "row_id TEXT PRIMARY KEY, run_id TEXT, constructor_id TEXT, family TEXT, payload_json TEXT, created_at TEXT",
+    "policy_eval": "row_id TEXT PRIMARY KEY, run_id TEXT, episode INTEGER, policy TEXT, payload_json TEXT, created_at TEXT",
+    "finite_countermodels": "row_id TEXT PRIMARY KEY, run_id TEXT, episode INTEGER, claim_id TEXT, payload_json TEXT, created_at TEXT",
+    "obstruction_atlas": "row_id TEXT PRIMARY KEY, run_id TEXT, episode INTEGER, obstruction_name TEXT, payload_json TEXT, created_at TEXT",
+    "residual_queue": "row_id TEXT PRIMARY KEY, run_id TEXT, episode INTEGER, payload_json TEXT, created_at TEXT",
+    "repair_family_lawbook": "row_id TEXT PRIMARY KEY, run_id TEXT, family TEXT, payload_json TEXT, created_at TEXT",
+    "promotion_events": "row_id TEXT PRIMARY KEY, run_id TEXT, event_type TEXT, payload_json TEXT, created_at TEXT",
+    "true_proof_templates": "row_id TEXT PRIMARY KEY, run_id TEXT, template_id TEXT, payload_json TEXT, created_at TEXT",
+}
+
+
+def init_lawbook(path: str | Path) -> Any:
+    """Create/open a lightweight SQLite Lawbook for compounding artifacts."""
+
+    import sqlite3
+
+    db_path = Path(path)
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(db_path)
+    for table, schema in LAWBOOK_SQLITE_TABLES.items():
+        conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({schema})")
+    conn.commit()
+    return conn
+
+
+def write_dataframe(*args: Any, **kwargs: Any) -> int:
+    """Write dataframe-like rows to SQLite without crashing on empties.
+
+    Supported call forms:
+      write_dataframe(conn, table_name, rows)
+      write_dataframe(table_name, rows, conn=conn)
+      write_dataframe(table_name, rows, path="lawbook.sqlite")
+    """
+
+    conn = kwargs.pop("conn", None)
+    path = kwargs.pop("path", None)
+    if len(args) == 3:
+        conn, table_name, rows = args
+    elif len(args) == 2:
+        table_name, rows = args
+    else:
+        raise TypeError("write_dataframe expects (conn, table, rows) or (table, rows, conn=...)")
+    close = False
+    if conn is None:
+        if path is None:
+            raise ValueError("conn or path is required")
+        conn = init_lawbook(path)
+        close = True
+    try:
+        count = _sqlite_write_rows(conn, str(table_name), _rows_from_dataframe(rows))
+        conn.commit()
+        return count
+    finally:
+        if close:
+            conn.close()
+
+
+def upsert_run_summary(conn: Any, run_id: str, summary: Mapping[str, Any]) -> None:
+    conn.execute(
+        "INSERT OR REPLACE INTO runs(run_id, payload_json, created_at) VALUES (?, ?, ?)",
+        (str(run_id), json.dumps(dict(summary), sort_keys=True), _utc_now()),
+    )
+    conn.commit()
+
+
+def upsert_episode_summary(conn: Any, run_id: str, episode: int, summary: Mapping[str, Any]) -> None:
+    episode_id = f"{run_id}:episode:{int(episode)}"
+    conn.execute(
+        "INSERT OR REPLACE INTO episodes(episode_id, run_id, episode, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+        (episode_id, str(run_id), int(episode), json.dumps(dict(summary), sort_keys=True), _utc_now()),
+    )
+    conn.commit()
+
+
+def _sqlite_write_rows(conn: Any, table_name: str, rows: list[dict[str, Any]]) -> int:
+    if not rows:
+        conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (_empty INTEGER)")
+        return 0
+    if table_name in LAWBOOK_SQLITE_TABLES:
+        return _sqlite_write_canonical_rows(conn, table_name, rows)
+    columns = sorted({str(key) for row in rows for key in row.keys()}) or ["payload_json"]
+    column_sql = ", ".join(f"{_sql_ident(col)} TEXT" for col in columns)
+    conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({column_sql})")
+    placeholders = ", ".join("?" for _ in columns)
+    col_sql = ", ".join(_sql_ident(col) for col in columns)
+    values = [[_sqlite_value(row.get(col)) for col in columns] for row in rows]
+    conn.executemany(f"INSERT INTO {table_name} ({col_sql}) VALUES ({placeholders})", values)
+    return len(rows)
+
+
+def _sqlite_write_canonical_rows(conn: Any, table_name: str, rows: list[dict[str, Any]]) -> int:
+    now = _utc_now()
+    if table_name == "runs":
+        for i, row in enumerate(rows):
+            run_id = str(row.get("run_id") or row.get("id") or content_id("lawbook-run-row", {"i": i, "row": row}))
+            conn.execute(
+                "INSERT OR REPLACE INTO runs(run_id, payload_json, created_at) VALUES (?, ?, ?)",
+                (run_id, json.dumps(row, sort_keys=True), now),
+            )
+        return len(rows)
+    if table_name == "episodes":
+        for i, row in enumerate(rows):
+            run_id = str(row.get("run_id", ""))
+            episode = _int_value(row.get("episode", i))
+            episode_id = str(row.get("episode_id") or f"{run_id}:episode:{episode}")
+            conn.execute(
+                "INSERT OR REPLACE INTO episodes(episode_id, run_id, episode, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+                (episode_id, run_id, episode, json.dumps(row, sort_keys=True), now),
+            )
+        return len(rows)
+    mapping = {
+        "constructors": ("constructor_id", "family"),
+        "policy_eval": ("policy",),
+        "finite_countermodels": ("claim_id",),
+        "obstruction_atlas": ("obstruction_name",),
+        "repair_family_lawbook": ("family",),
+        "promotion_events": ("event_type",),
+        "true_proof_templates": ("template_id",),
+    }
+    for i, row in enumerate(rows):
+        row_id = str(row.get("row_id") or content_id(f"lawbook-{table_name}", {"i": i, "row": row}))
+        run_id = str(row.get("run_id", ""))
+        episode = _int_value(row.get("episode", 0))
+        payload = json.dumps(row, sort_keys=True)
+        if table_name == "residual_queue":
+            conn.execute(
+                "INSERT OR REPLACE INTO residual_queue(row_id, run_id, episode, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+                (row_id, run_id, episode, payload, now),
+            )
+        elif table_name in mapping:
+            fields = mapping[table_name]
+            values = [str(row.get(field, "")) for field in fields]
+            if table_name == "constructors":
+                conn.execute(
+                    "INSERT OR REPLACE INTO constructors(row_id, run_id, constructor_id, family, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                    (row_id, run_id, values[0], values[1], payload, now),
+                )
+            elif table_name == "policy_eval":
+                conn.execute(
+                    "INSERT OR REPLACE INTO policy_eval(row_id, run_id, episode, policy, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                    (row_id, run_id, episode, values[0], payload, now),
+                )
+            elif table_name == "finite_countermodels":
+                conn.execute(
+                    "INSERT OR REPLACE INTO finite_countermodels(row_id, run_id, episode, claim_id, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                    (row_id, run_id, episode, values[0], payload, now),
+                )
+            elif table_name == "obstruction_atlas":
+                conn.execute(
+                    "INSERT OR REPLACE INTO obstruction_atlas(row_id, run_id, episode, obstruction_name, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                    (row_id, run_id, episode, values[0], payload, now),
+                )
+            elif table_name == "repair_family_lawbook":
+                conn.execute(
+                    "INSERT OR REPLACE INTO repair_family_lawbook(row_id, run_id, family, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+                    (row_id, run_id, values[0], payload, now),
+                )
+            elif table_name == "promotion_events":
+                conn.execute(
+                    "INSERT OR REPLACE INTO promotion_events(row_id, run_id, event_type, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+                    (row_id, run_id, values[0], payload, now),
+                )
+            elif table_name == "true_proof_templates":
+                conn.execute(
+                    "INSERT OR REPLACE INTO true_proof_templates(row_id, run_id, template_id, payload_json, created_at) VALUES (?, ?, ?, ?, ?)",
+                    (row_id, run_id, values[0], payload, now),
+                )
+    return len(rows)
+
+
+def _int_value(value: Any) -> int:
+    try:
+        return int(value)
+    except Exception:
+        return 0
+
+
+def _rows_from_dataframe(value: Any) -> list[dict[str, Any]]:
+    if value is None:
+        return []
+    if hasattr(value, "to_dict"):
+        try:
+            records = value.to_dict("records")
+            if isinstance(records, list):
+                return [dict(row) for row in records]
+        except TypeError:
+            pass
+    return [dict(row) for row in value]
+
+
+def _sqlite_value(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, (dict, list, tuple, bool)):
+        return json.dumps(value, sort_keys=True)
+    return str(value)
+
+
+def _sql_ident(value: str) -> str:
+    safe = "".join(ch if ch.isalnum() or ch == "_" else "_" for ch in str(value))
+    return f'"{safe or "col"}"'
+
+
+def _utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat()

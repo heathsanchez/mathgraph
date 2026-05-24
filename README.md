@@ -130,6 +130,48 @@ python scripts/run_recursive_residual_compounding.py \
   --out-dir /tmp/mathgraph_recursive_residual_fast_real
 ```
 
+## Multi-Episode ETP Compounding Engine
+
+The repo-native ETP compounding engine turns PQ-IR features into a repeatable
+Lawbook metabolism:
+
+```text
+episode -> constructors -> finite checking -> residuals -> obstruction atlas
+-> repair constructors -> Lawbook update -> next episode
+```
+
+Routes, residual obstructions, repair families, and Lawbook reuse are advisory.
+FALSE recovery is counted only when the finite checker finds a concrete magma
+that satisfies the source equation globally and violates the target equation at
+a witness. Failed finite search is residual evidence, not TRUE.
+
+Tiny deterministic demo:
+
+```bash
+python scripts/run_mathgraph_compounding_engine.py \
+  --out-dir /tmp/mathgraph_compounding_demo \
+  --episodes 2 \
+  --tiny-demo
+```
+
+Full ETP/SAIR example:
+
+```bash
+python scripts/run_mathgraph_compounding_engine.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/MathGraph_Compounding_Run \
+  --episodes 4 \
+  --train-false 18000 \
+  --eval-false 14000 \
+  --eval-true 9000 \
+  --max-n 5 \
+  --repair-steps 30 \
+  --seed 20260524
+```
+
+See [docs/compounding_engine.md](docs/compounding_engine.md).
+
 ## Polarized Quotient-Continuation IR
 
 PQ-IR extracts advisory quotient/continuation features for ETP implications

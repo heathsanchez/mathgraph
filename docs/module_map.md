@@ -26,6 +26,7 @@ modules.
 - `proof_system_integration.py`: proof-system artifacts and boundary contracts
 - `proof_verification.py`: proof verification records and traces
 - `finite_magma_world.py`: deterministic finite magma checker
+- `finite_magma.py`: repo-native finite magma representation and checked FALSE certificates
 - `external_certificates.py`: external verifier certificate envelope
 - `promotion_gate.py`: boundary gate for terminal candidates
 
@@ -53,6 +54,9 @@ modules.
 
 - `sair_task_loader.py`: SAIR equation/matrix loading
 - `sair_constructor_bank.py`: finite magma constructor bank
+- `magma_constructors.py`: deterministic finite magma constructor families
+- `sat_cache.py`: constructor/equation satisfaction cache and route evaluation
+- `policy_engine.py`: advisory constructor-route policies
 - `etp_terms.py`: ETP/SAIR binary magma term parsing and equation features
 - `quotient_state.py`: bounded symbolic quotient/congruence state
 - `polarized_quotient_ir.py`: quotient-continuation pair features
@@ -68,6 +72,7 @@ modules.
 
 - `compounding_lawbook_engine.py`: fallback compounding engine
 - `compounding_engine.py`: canonical baseline versus memory compounding loop
+- `scripts/run_mathgraph_compounding_engine.py`: multi-episode ETP constructor/residual/Lawbook runner
 - `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
 - `scripts/run_polarized_quotient_ir_demo.py`: lightweight PQ-IR feature demo
 - `multi_episode_compounding.py`: multi-episode compounding evaluation
@@ -84,6 +89,7 @@ modules.
 - `scripts/run_release_check.py`
 - `scripts/run_repo_architecture_audit.py`
 - `scripts/run_recursive_residual_compounding.py`
+- `scripts/run_mathgraph_compounding_engine.py`
 
 ## Legacy Surface
 

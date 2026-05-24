@@ -44,6 +44,10 @@ semantic intake, and model output can guide work but cannot verify claims.
 - `mathgraph/reason_atlas.py`: advisory routing memory and verifier-backed metrics
 - `mathgraph/semantic_validation.py`: informal/formal claim boundary
 - `mathgraph/finite_magma_world.py`: small deterministic finite checker world
+- `mathgraph/finite_magma.py`: finite magma representation and checked countermodel certificates
+- `mathgraph/magma_constructors.py`: deterministic constructor families
+- `mathgraph/sat_cache.py`: constructor satisfaction cache
+- `mathgraph/policy_engine.py`: advisory route policy builder
 - `mathgraph/verifier_execution.py`: local verifier execution boundary
 - `mathgraph/verification_loop.py`: stable loop façade
 - `mathgraph/compounding_engine.py`: canonical memory-becomes-capacity runner
@@ -55,6 +59,7 @@ semantic intake, and model output can guide work but cannot verify claims.
 python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
 python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo
+python scripts/run_mathgraph_compounding_engine.py --out-dir /tmp/mathgraph_compounding_demo --episodes 2 --tiny-demo
 ```
 
 The compounding command is the canonical repo-level loop. Fallback mode proves
@@ -91,3 +96,16 @@ PQ-IR is the symbolic feature layer for ETP implications. It parses binary magma
 equations, builds bounded quotient-state features, classifies residual basins,
 and emits advisory constructor-family recommendations. It feeds compounding and
 residual-routing code, but it is not a truth boundary.
+
+## Multi-Episode ETP Compounding
+
+The ETP compounding engine is the repo-native constructor/residual loop:
+
+```text
+episode -> constructors -> finite checking -> residuals -> obstruction atlas
+-> repair constructors -> Lawbook update -> next episode
+```
+
+It writes a lightweight SQLite Lawbook plus CSV/JSON reports. Repair
+constructors and obstruction rows are advisory; only concrete finite
+countermodel certificates can support FALSE terminal candidates.
