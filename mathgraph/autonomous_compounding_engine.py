@@ -13,6 +13,7 @@ Serious path invariant:
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
 from typing import Any
 
@@ -58,6 +59,17 @@ def run_autonomous_compounding(config: AutonomousCompoundingConfig) -> dict[str,
     summary = run_engine(engine_config)
     terminal_rows = _terminal_rows_from_summary(summary)
     terminal_audit = audit_terminal_rows(terminal_rows)
+    output_dir = Path(str(summary.get("output_dir") or config.out_dir))
+    artifacts = _artifact_paths(output_dir)
+    generic_yield = int(summary.get("generic_final_yield", 0) or 0)
+    repair_yield = int(summary.get("repair_final_yield", 0) or 0)
+    generic_residuals = int(summary.get("generic_final_residuals", 0) or 0)
+    repair_residuals = int(summary.get("repair_final_residuals", 0) or 0)
+    failed_true = int(summary.get("failed_search_promoted_true_count", summary.get("failed_search_promoted_true", 0)) or 0)
+    advisory_claims = int(summary.get("terminal_claims_from_advisory_count", 0) or 0)
+    true_contamination = int(summary.get("true_contamination_count", 0) or 0)
+    boundary_ok = boundary_preserved(terminal_rows) and true_contamination == 0 and advisory_claims == 0 and failed_true == 0
+    autonomous_gates_pass = bool(boundary_ok and repair_yield >= generic_yield and repair_residuals <= generic_residuals)
     summary = dict(summary)
     summary.update(
         {
@@ -65,7 +77,18 @@ def run_autonomous_compounding(config: AutonomousCompoundingConfig) -> dict[str,
             "serious_path_uses_finite_recovery_core": True,
             "terminal_contract": [form.value for form in TerminalForm],
             "terminal_audit": terminal_audit,
-            "advisory_boundary_preserved": boundary_preserved(terminal_rows),
+            "advisory_boundary_preserved": boundary_ok,
+            "all_gates_passed": autonomous_gates_pass,
+            "true_contamination_count": true_contamination,
+            "terminal_claims_from_advisory_count": advisory_claims,
+            "failed_search_promoted_true": failed_true,
+            "failed_search_promoted_true_count": failed_true,
+            "generic_final_yield": generic_yield,
+            "repair_final_yield": repair_yield,
+            "generic_final_residuals": generic_residuals,
+            "repair_final_residuals": repair_residuals,
+            "repair_gain_over_generic": repair_yield - generic_yield,
+            "artifacts": artifacts,
         }
     )
     return summary
@@ -80,3 +103,27 @@ def _terminal_rows_from_summary(summary: dict[str, Any]) -> list[dict[str, Any]]
     if int(summary.get("named_obstruction_count", 0) or 0) > 0:
         rows.append({"status": "named_obstruction_advisory", "obstruction_name": "summary_obstruction_atlas", "source": "obstruction_atlas"})
     return rows
+
+
+def _artifact_paths(output_dir: Path) -> dict[str, str]:
+    manifest_path = output_dir / "artifact_manifest.json"
+    artifacts: dict[str, str] = {}
+    if manifest_path.exists():
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            for name in manifest.get("files", []):
+                artifacts[str(name)] = str(output_dir / str(name))
+        except Exception:
+            pass
+    for name in (
+        "lawbook.sqlite",
+        "compounding_summary.json",
+        "gate_results.csv",
+        "cross_episode_policy_eval.csv",
+        "obstruction_atlas.csv",
+        "residual_queue.csv",
+    ):
+        path = output_dir / name
+        if path.exists():
+            artifacts[name] = str(path)
+    return artifacts

@@ -27,6 +27,9 @@ class PromotionStatus(str, Enum):
     REJECTED = "REJECTED"
 
 
+TrustLevel = PromotionStatus
+
+
 @dataclass(frozen=True)
 class TerminalDecision:
     terminal_form: TerminalForm
@@ -64,25 +67,25 @@ def decide_terminal_form(record: Mapping[str, Any] | Any) -> TerminalDecision:
     data = record.to_dict() if hasattr(record, "to_dict") else dict(record or {})
     status = str(data.get("certificate_status") or data.get("proof_status") or data.get("status") or "").lower()
 
-    if status == "finite_countermodel_found" and bool(data.get("eq1_holds", True)) and bool(data.get("eq2_violated", True)):
+    if can_promote_true(data):
+        return TerminalDecision(
+            terminal_form=TerminalForm.VERIFIED_PROOF,
+            status=PromotionStatus.ACCEPTED,
+            accepted=True,
+            reason="verifier-backed TRUE evidence is present",
+            trust_level="VERIFIED_PROOF",
+            advisory_only=False,
+            can_promote_truth=True,
+            metadata=data,
+        )
+
+    if can_promote_false(data):
         return TerminalDecision(
             terminal_form=TerminalForm.FINITE_COUNTERMODEL,
             status=PromotionStatus.ACCEPTED,
             accepted=True,
             reason="finite checker produced a source-satisfying, target-violating witness",
             trust_level="FINITE_VERIFIED",
-            advisory_only=False,
-            can_promote_truth=True,
-            metadata=data,
-        )
-
-    if status == "lean_verified" or bool(data.get("lean_verified")):
-        return TerminalDecision(
-            terminal_form=TerminalForm.VERIFIED_PROOF,
-            status=PromotionStatus.ACCEPTED,
-            accepted=True,
-            reason="external proof verifier accepted the artifact",
-            trust_level="LEAN_VERIFIED",
             advisory_only=False,
             can_promote_truth=True,
             metadata=data,
@@ -116,11 +119,54 @@ def decide_terminal_form(record: Mapping[str, Any] | Any) -> TerminalDecision:
     )
 
 
+def can_promote_true(record: Mapping[str, Any] | Any) -> bool:
+    data = record.to_dict() if hasattr(record, "to_dict") else dict(record or {})
+    status = str(data.get("certificate_status") or data.get("proof_status") or data.get("status") or "").lower()
+    return bool(
+        data.get("lean_verified")
+        or data.get("proof_verified")
+        or data.get("verified_proof")
+        or data.get("congruence_explain_verified")
+        or status in {"lean_verified", "proof_verified", "verified_proof", "congruence_explain_verified"}
+    )
+
+
+def can_promote_false(record: Mapping[str, Any] | Any) -> bool:
+    data = record.to_dict() if hasattr(record, "to_dict") else dict(record or {})
+    status = str(data.get("certificate_status") or data.get("proof_status") or data.get("status") or "").lower()
+    countermodel_status = status in {
+        "finite_countermodel_found",
+        "finite_countermodel_verified",
+        "countermodel_verified",
+    }
+    checker_backed = bool(
+        data.get("finite_checker_valid")
+        or data.get("finite_verified")
+        or (data.get("eq1_holds") is True and data.get("eq2_violated") is True)
+    )
+    return countermodel_status and checker_backed
+
+
+def decision_as_dict(record: Mapping[str, Any] | Any) -> dict[str, Any]:
+    return decide_terminal_form(record).to_dict()
+
+
 def audit_terminal_rows(rows: list[Mapping[str, Any]]) -> list[dict[str, Any]]:
-    return [decide_terminal_form(row).to_dict() for row in rows]
+    return [decision_as_dict(row) for row in rows]
 
 
 def boundary_preserved(rows: list[Mapping[str, Any]]) -> bool:
     """True when no advisory/residual row is allowed to promote truth."""
 
-    return all(not (decision.advisory_only and decision.can_promote_truth) for decision in (decide_terminal_form(row) for row in rows))
+    for row in rows:
+        data = row.to_dict() if hasattr(row, "to_dict") else dict(row or {})
+        if bool(data.get("advisory_only")) and bool(data.get("can_promote_truth")):
+            return False
+        if str(data.get("terminal_form", "")).upper() == TerminalForm.VERIFIED_PROOF.value and not can_promote_true(data):
+            return False
+        if str(data.get("terminal_form", "")).upper() == TerminalForm.FINITE_COUNTERMODEL.value and not can_promote_false(data):
+            return False
+        decision = decide_terminal_form(data)
+        if decision.advisory_only and decision.can_promote_truth:
+            return False
+    return True
