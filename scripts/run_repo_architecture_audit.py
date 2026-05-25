@@ -50,6 +50,7 @@ CANONICAL_COMMANDS = (
 )
 CANONICAL_SCRIPTS = (
     "scripts/run_autonomous_native_v2_benchmark.py",
+    "scripts/run_heldout_lawbook_compounding_benchmark.py",
 )
 CONCEPT_KEYWORDS = (
     "certificate",

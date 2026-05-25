@@ -130,3 +130,45 @@ Primary outputs:
 Safety gates require zero TRUE contamination, zero terminal claims from advisory
 rows, and zero failed-search-to-TRUE promotion. Lawbook reuse is a routing
 signal only unless the selected artifact is independently verifier-backed.
+
+## Held-out Lawbook compounding benchmark
+
+The held-out benchmark asks a stricter transfer question: can advisory
+Lawbook/route structure learned on one FALSE-pair slice improve recovery on a
+disjoint held-out FALSE slice?
+
+Real ETP run:
+
+```bash
+python scripts/run_heldout_lawbook_compounding_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/heldout_lawbook_compounding \
+  --seeds 20260524,20260525,20260526 \
+  --train-pairs 2500 \
+  --heldout-pairs 2500 \
+  --true-pairs 1000 \
+  --episodes 3 \
+  --repair-budget 40 \
+  --max-n 4
+```
+
+Tiny fallback:
+
+```bash
+python scripts/run_heldout_lawbook_compounding_benchmark.py \
+  --allow-fallback-demo \
+  --out-dir /tmp/mathgraph_heldout_lawbook_demo \
+  --seeds 1729,1730 \
+  --train-pairs 30 \
+  --heldout-pairs 30 \
+  --true-pairs 10 \
+  --episodes 2 \
+  --repair-budget 8 \
+  --max-n 3
+```
+
+The Lawbook-guided policy is selected from train-slice constructor evidence and
+then evaluated on held-out pairs. The bounded repair reference is explicitly
+marked as a reference policy because it may inspect held-out recovery structure.
+No benchmark row can promote truth without checker/verifier evidence.

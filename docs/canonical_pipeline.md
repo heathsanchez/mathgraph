@@ -65,6 +65,7 @@ python scripts/run_repo_architecture_audit.py
 python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo
 python scripts/run_mathgraph_compounding_engine.py --out-dir /tmp/mathgraph_compounding_demo --episodes 2 --tiny-demo
 python scripts/run_autonomous_compounding_engine.py --out-dir /tmp/mathgraph_autonomous_v2_tiny --tiny-demo --finite-core-mode native_v2 --episodes 3 --sample-pairs 80 --repair-budget 20 --max-n 3 --seed 20260524 --write-report
+python scripts/run_heldout_lawbook_compounding_benchmark.py --allow-fallback-demo --out-dir /tmp/mathgraph_heldout_lawbook_demo --seeds 1729,1730 --train-pairs 30 --heldout-pairs 30 --true-pairs 10 --episodes 2 --repair-budget 8 --max-n 3
 python scripts/run_true_side_inventory.py --out-dir /tmp/mathgraph_true_inventory_demo --tiny-demo
 ```
 
@@ -76,6 +77,10 @@ The autonomous native v2 command is the finite recovery elevation path: it
 builds a constructor bank, SAT cache, generic route, residual repair route,
 PQ-IR obstruction names, and advisory Lawbook reuse. These objects guide search
 only; they cannot promote TRUE or FALSE without checker/verifier evidence.
+
+The held-out Lawbook benchmark is the transfer check: advisory constructor and
+route structure is learned on a train FALSE slice and evaluated on a disjoint
+held-out FALSE slice against a generic baseline.
 
 ## Real-Corpus Compounding Benchmark
 

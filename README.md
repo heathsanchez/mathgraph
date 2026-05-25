@@ -226,6 +226,21 @@ python scripts/run_autonomous_native_v2_benchmark.py \
   --max-n 3
 ```
 
+Held-out Lawbook compounding benchmark:
+
+```bash
+python scripts/run_heldout_lawbook_compounding_benchmark.py \
+  --allow-fallback-demo \
+  --out-dir /tmp/mathgraph_heldout_lawbook_demo \
+  --seeds 1729,1730 \
+  --train-pairs 30 \
+  --heldout-pairs 30 \
+  --true-pairs 10 \
+  --episodes 2 \
+  --repair-budget 8 \
+  --max-n 3
+```
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready
