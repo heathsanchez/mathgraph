@@ -254,6 +254,35 @@ Held-out benchmark outputs now include exact first-hit constructor attribution
 when available, so distillation can emit `exact_constructor` recipes instead of
 route-prior proxies.
 
+Persistent exact micro-basin replay tests whether those exact recipes compound
+across episodes:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
+  --out-dir /tmp/mathgraph_persistent_exact_demo \
+  --fallback-demo \
+  --seeds 1729,1730,1731
+```
+
+Real Colab command:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/persistent_exact_microbasin_lawbook_v1 \
+  --seeds 20260524,20260525,20260526,20260527,20260528 \
+  --train-pairs 1200 \
+  --heldout-pairs 1200 \
+  --true-pairs 500 \
+  --episodes 2 \
+  --repair-budget 40 \
+  --max-n 4
+```
+
+Persistent Lawbook entries remain advisory route-learning memory:
+`advisory_only=True`, `can_promote_truth=False`.
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready

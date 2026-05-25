@@ -190,3 +190,36 @@ held-out gain -> exact constructor attribution -> micro-basin recipe
 Exact attribution is still route-learning evidence. It is not terminal truth by
 itself; FALSE promotion still requires checker-backed finite countermodel
 evidence, and TRUE promotion still requires proof-verifier evidence.
+
+## Persistent exact micro-basin Lawbook
+
+The persistent exact micro-basin benchmark builds advisory memory from exact
+Lawbook gain hits in earlier held-out episodes, then replays that memory on
+later held-out episodes without using current-episode evidence first.
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
+  --out-dir /tmp/mathgraph_persistent_exact_demo \
+  --fallback-demo \
+  --seeds 1729,1730,1731
+```
+
+Real ETP:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/persistent_exact_microbasin_lawbook_v1 \
+  --seeds 20260524,20260525,20260526,20260527,20260528 \
+  --train-pairs 1200 \
+  --heldout-pairs 1200 \
+  --true-pairs 500 \
+  --episodes 2 \
+  --repair-budget 40 \
+  --max-n 4
+```
+
+The classification is intentionally scoped: strong or weak compounding means
+prior exact route memory improved proxy held-out recovery. It is not TRUE-side
+proof and it does not admit terminal claims.

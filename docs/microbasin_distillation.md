@@ -21,6 +21,23 @@ only route order or family priors are available, it is marked
 The proxy case is intentionally conservative: it is a plausible routing cause,
 not a verified cause.
 
+## Persistent Exact Micro-basin Replay
+
+Persistent Exact Micro-basin Lawbook v1 consumes exact recipes from prior
+episodes and replays them on later held-out slices. This tests whether the
+distilled constructor knowledge behaves like reusable memory.
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
+  --out-dir /tmp/mathgraph_persistent_exact_demo \
+  --fallback-demo \
+  --seeds 1729,1730,1731
+```
+
+The replay columns are proxy metrics when they use observed held-out recovery
+labels. They should be read as route-memory diagnostics, not as terminal
+verification.
+
 ## Exact Constructor Attribution
 
 When `heldout_recovery_eval.csv` includes `lawbook_gain_hit`,

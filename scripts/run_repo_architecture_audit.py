@@ -40,6 +40,7 @@ CANONICAL_MODULES = (
     "mathgraph/autonomous_finite_recovery.py",
     "mathgraph/exact_constructor_attribution.py",
     "mathgraph/microbasin_distillation.py",
+    "mathgraph/persistent_exact_microbasin_lawbook.py",
     "mathgraph/recursive_residual_compounding.py",
     "mathgraph/etp_terms.py",
     "mathgraph/quotient_state.py",
@@ -54,6 +55,7 @@ CANONICAL_SCRIPTS = (
     "scripts/run_autonomous_native_v2_benchmark.py",
     "scripts/run_heldout_lawbook_compounding_benchmark.py",
     "scripts/run_microbasin_distillation.py",
+    "scripts/run_persistent_exact_microbasin_lawbook_benchmark.py",
 )
 CONCEPT_KEYWORDS = (
     "certificate",

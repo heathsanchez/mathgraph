@@ -2582,4 +2582,14 @@ from mathgraph.exact_constructor_attribution import (
     top_lawbook_gain_constructor_families,
     top_lawbook_gain_constructors,
 )
+from mathgraph.persistent_exact_microbasin_lawbook import (
+    PersistentMicrobasinEntry,
+    add_microbasin_keys as add_persistent_microbasin_keys,
+    build_microbasin_key as build_persistent_microbasin_key,
+    build_persistent_lawbook,
+    detect_recovery_columns,
+    evaluate_persistent_replay,
+    normalize_recovery_frame,
+    replay_persistent_lawbook,
+)
 from mathgraph.version import __version__, get_version_info

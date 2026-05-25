@@ -292,6 +292,10 @@ Implemented:
 - Multi-Episode ETP Compounding Engine
 - TRUE-Side Proof Inventory
 - Autonomous Compounding Engine v2
+- Held-Out Lawbook Compounding Benchmark
+- Micro-basin Causal Distillation
+- Exact Constructor Attribution v1
+- Persistent Exact Micro-basin Lawbook v1
 
 Still future work:
 

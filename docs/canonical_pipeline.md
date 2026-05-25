@@ -86,6 +86,12 @@ Exact constructor attribution records the first constructor in each policy route
 that recovers a held-out pair. Micro-basin distillation uses those first-hit
 records to emit exact advisory constructor recipes when available.
 
+Persistent Exact Micro-basin Lawbook v1 is the next memory check: recipes from
+prior held-out episodes are replayed on later held-out episodes without
+current-episode leakage. The result is classified as strong, weak, neutral, or
+negative memory. These replay metrics are advisory and proxy-labeled; they do
+not promote terminal truth.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding
