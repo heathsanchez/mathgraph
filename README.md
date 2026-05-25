@@ -250,6 +250,10 @@ python scripts/run_microbasin_distillation.py \
   --out-dir /content/drive/MyDrive/SAIR_MathGraph/microbasin_distillation_run
 ```
 
+Held-out benchmark outputs now include exact first-hit constructor attribution
+when available, so distillation can emit `exact_constructor` recipes instead of
+route-prior proxies.
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready

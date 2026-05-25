@@ -172,3 +172,21 @@ The Lawbook-guided policy is selected from train-slice constructor evidence and
 then evaluated on held-out pairs. The bounded repair reference is explicitly
 marked as a reference policy because it may inspect held-out recovery structure.
 No benchmark row can promote truth without checker/verifier evidence.
+
+## Exact constructor attribution
+
+Held-out recovery rows include first-hit constructor attribution for each route
+policy. For a FALSE pair, the attributed constructor is the first constructor in
+the policy route that satisfies the source equation and violates the target
+equation according to the finite SAT cache.
+
+This makes Lawbook gains actionable:
+
+```text
+held-out gain -> exact constructor attribution -> micro-basin recipe
+-> persistent Lawbook candidate -> sharper held-out routing
+```
+
+Exact attribution is still route-learning evidence. It is not terminal truth by
+itself; FALSE promotion still requires checker-backed finite countermodel
+evidence, and TRUE promotion still requires proof-verifier evidence.

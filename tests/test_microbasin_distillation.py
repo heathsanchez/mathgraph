@@ -60,8 +60,9 @@ def test_attribution_modes_exact_and_proxy():
     manifest = pd.DataFrame([{"rank": 0, "family": "projection_exception_left", "cid": "c1"}])
     proxy = attribute_lawbook_gains(joined, manifest)
     exact_input = joined.copy()
-    exact_input["constructor_idx"] = 7
-    exact_input["family"] = "exact_family"
+    exact_input["lawbook_gain_hit"] = exact_input["lawbook_new_recovery"]
+    exact_input["lawbook_gain_constructor_id"] = exact_input["lawbook_new_recovery"].map(lambda hit: "c_exact" if hit else "")
+    exact_input["lawbook_gain_constructor_family"] = exact_input["lawbook_new_recovery"].map(lambda hit: "exact_family" if hit else "")
     exact = attribute_lawbook_gains(exact_input, manifest)
 
     assert set(proxy["attribution_mode"]) == {"route_prior_proxy"}

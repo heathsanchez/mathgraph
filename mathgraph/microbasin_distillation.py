@@ -160,6 +160,13 @@ def summarize_microbasins(joined_df: pd.DataFrame, config: MicrobasinKeyConfig |
             "status": "microbasin_route_advisory",
             "terminal_form": "NONE",
         }
+        gain_hits = group[group["lawbook_new_recovery"].astype(bool)]
+        exact_hits = gain_hits[gain_hits.get("lawbook_gain_constructor_id", pd.Series(index=gain_hits.index, dtype=object)).notna()] if not gain_hits.empty else pd.DataFrame()
+        row["exact_gain_hits"] = int(len(exact_hits))
+        row["exact_gain_constructor_family_count"] = int(exact_hits.get("lawbook_gain_constructor_family", pd.Series(dtype=object)).dropna().nunique()) if not exact_hits.empty else 0
+        row["top_exact_gain_constructor_family"] = _top_values(exact_hits.get("lawbook_gain_constructor_family"), 1)[0] if not exact_hits.empty and _top_values(exact_hits.get("lawbook_gain_constructor_family"), 1) else ""
+        row["top_exact_gain_constructor_id"] = _top_values(exact_hits.get("lawbook_gain_constructor_id"), 1)[0] if not exact_hits.empty and _top_values(exact_hits.get("lawbook_gain_constructor_id"), 1) else ""
+        row["attribution_mode"] = "exact_constructor" if row["exact_gain_hits"] else "route_prior_proxy"
         for field in NUMERIC_KEY_FIELDS:
             if f"{field}_bin" in group.columns:
                 row[f"{field}_bin"] = _mode(group[f"{field}_bin"])
@@ -175,8 +182,7 @@ def attribute_lawbook_gains(joined_df: pd.DataFrame, train_lawbook_manifest: pd.
 
     if joined_df.empty:
         return pd.DataFrame()
-    exact_cols = [col for col in ("constructor_idx", "constructor_id", "cid", "family") if col in joined_df.columns]
-    exact = bool({"constructor_idx", "family"} & set(exact_cols))
+    exact = {"lawbook_gain_hit", "lawbook_gain_constructor_id", "lawbook_gain_constructor_family"}.issubset(joined_df.columns)
     manifest = train_lawbook_manifest.copy()
     if manifest.empty:
         manifest = pd.DataFrame([{"family": "", "cid": "", "constructor_idx": ""}])
@@ -187,8 +193,14 @@ def attribute_lawbook_gains(joined_df: pd.DataFrame, train_lawbook_manifest: pd.
     rows: list[dict[str, Any]] = []
     gains = joined_df[joined_df["lawbook_new_recovery"].astype(bool)]
     for _, pair in gains.iterrows():
-        if exact:
-            candidates = [pair.to_dict()]
+        if exact and _as_bool(pair.get("lawbook_gain_hit")) and pd.notna(pair.get("lawbook_gain_constructor_id")):
+            candidates = [
+                {
+                    "family": pair.get("lawbook_gain_constructor_family"),
+                    "cid": pair.get("lawbook_gain_constructor_id"),
+                    "constructor_idx": pair.get("lawbook_gain_constructor_idx"),
+                }
+            ]
             mode = "exact"
             confidence = 1.0
         else:
@@ -234,26 +246,39 @@ def distill_minimal_recipes(microbasin_summary: pd.DataFrame, attribution_df: pd
         constructors = _top_values(attrs.get("constructor_id"), config.top_k_constructors)
         modes = set(attrs.get("attribution_mode", [])) if not attrs.empty else set()
         strength = "exact" if "exact" in modes else "proxy"
-        rows.append(
-            {
-                "microbasin_key": key,
-                "basin": basin.get("basin", ""),
-                "deep_ir_candidate": basin.get("deep_ir_candidate", ""),
-                "support": int(basin.get("support", 0)),
-                "lawbook_gain": int(basin.get("lawbook_gain", 0)),
-                "residual_after_lawbook": int(basin.get("residual_after_lawbook", 0)),
-                "recipe_families": families,
-                "recipe_constructors": constructors,
-                "recipe_size": len(families) + len(constructors),
-                "recipe_strength": strength,
-                "explanation": f"{strength} advisory recipe for marginal recoveries in {key}",
-                "advisory_only": True,
-                "can_promote_truth": False,
-                "status": "minimal_constructor_recipe_advisory",
-                "terminal_form": "NONE",
-            }
-        )
+        if strength == "exact" and not attrs.empty:
+            grouped = attrs.groupby(["family", "constructor_id"], dropna=False).size().reset_index(name="exact_gain_hits")
+            grouped = grouped.sort_values(["exact_gain_hits", "family", "constructor_id"], ascending=[False, True, True]).head(config.top_k_constructors)
+            for _, grow in grouped.iterrows():
+                rows.append(_recipe_row(key, basin, [str(grow["family"])], [str(grow["constructor_id"])], strength, int(grow["exact_gain_hits"])))
+        else:
+            rows.append(_recipe_row(key, basin, families, constructors, strength, int(basin.get("lawbook_gain", 0))))
     return pd.DataFrame(rows)
+
+
+def _recipe_row(key: str, basin: pd.Series, families: list[str], constructors: list[str], strength: str, exact_hits: int) -> dict[str, Any]:
+    return {
+        "microbasin_key": key,
+        "basin": basin.get("basin", ""),
+        "deep_ir_candidate": basin.get("deep_ir_candidate", ""),
+        "constructor_family": families[0] if families else "",
+        "constructor_id": constructors[0] if constructors else "",
+        "exact_gain_hits": exact_hits if strength == "exact" else 0,
+        "support": int(basin.get("support", 0)),
+        "lawbook_gain": int(basin.get("lawbook_gain", 0)),
+        "gain_rate": float(basin.get("lawbook_gain", 0)) / max(1, int(basin.get("support", 0))),
+        "residual_after_lawbook": int(basin.get("residual_after_lawbook", 0)),
+        "recipe_families": families,
+        "recipe_constructors": constructors,
+        "recipe_size": len(families) + len(constructors),
+        "recipe_strength": strength,
+        "attribution_mode": "exact_constructor" if strength == "exact" else "route_prior_proxy",
+        "explanation": f"{strength} advisory recipe for marginal recoveries in {key}",
+        "advisory_only": True,
+        "can_promote_truth": False,
+        "status": "microbasin_constructor_recipe_advisory",
+        "terminal_form": "NONE",
+    }
 
 
 def summarize_residual_obstruction_targets(joined_df: pd.DataFrame, microbasin_summary: pd.DataFrame) -> pd.DataFrame:
@@ -280,6 +305,9 @@ def summarize_residual_obstruction_targets(joined_df: pd.DataFrame, microbasin_s
                 "lawbook_hits": int(group["lawbook_recovered"].sum()),
                 "residual_entropy_contribution": _entropy_part(len(group), total),
                 "suggested_next_constructor_pressure": _constructor_pressure(first),
+                "post_exact_lawbook_residual_count": int(len(group)),
+                "top_failed_microbasin": key,
+                "suggested_next_constructor_family": _constructor_pressure(first),
                 "obstruction_name": f"{basin}__{deep}__post_lawbook_distillation_unresolved",
                 "stage": "post_lawbook_distillation",
                 "status": "named_obstruction_advisory",
@@ -310,6 +338,7 @@ def run_microbasin_distillation(config: DistillationConfig) -> MicrobasinDistill
         "microbasin_summary.csv": out_dir / "microbasin_summary.csv",
         "microbasin_gain_attribution.csv": out_dir / "microbasin_gain_attribution.csv",
         "minimal_constructor_recipes.csv": out_dir / "minimal_constructor_recipes.csv",
+        "microbasin_constructor_recipes.csv": out_dir / "microbasin_constructor_recipes.csv",
         "residual_obstruction_targets.csv": out_dir / "residual_obstruction_targets.csv",
         "microbasin_distillation_summary.json": out_dir / "microbasin_distillation_summary.json",
         "microbasin_distillation_report.md": out_dir / "microbasin_distillation_report.md",
@@ -325,6 +354,8 @@ def run_microbasin_distillation(config: DistillationConfig) -> MicrobasinDistill
     }
     for table, frame in frames.items():
         frame.to_csv(artifacts[f"{table}.csv"], index=False)
+    recipes.to_csv(artifacts["microbasin_constructor_recipes.csv"], index=False)
+    exact_available = {"lawbook_gain_hit", "lawbook_gain_constructor_id", "lawbook_gain_constructor_family"}.issubset(joined.columns)
     summary = {
         "input_dir": str(config.input_dir),
         "out_dir": str(out_dir),
@@ -338,6 +369,10 @@ def run_microbasin_distillation(config: DistillationConfig) -> MicrobasinDistill
         "recipe_count": int(len(recipes)),
         "residual_obstruction_target_count": int(len(residual_targets)),
         "attribution_modes": sorted(str(mode) for mode in attribution.get("attribution_mode", pd.Series(dtype=str)).dropna().unique()) if not attribution.empty else [],
+        "exact_attribution_available": exact_available,
+        "total_exact_lawbook_gain_hits": int(joined.get("lawbook_gain_hit", pd.Series(dtype=bool)).map(_as_bool).sum()) if "lawbook_gain_hit" in joined.columns else 0,
+        "exact_recipe_count": int((recipes.get("attribution_mode", pd.Series(dtype=str)) == "exact_constructor").sum()) if not recipes.empty else 0,
+        "top_exact_gain_constructor_families": _count_column(joined[joined.get("lawbook_gain_hit", pd.Series(dtype=bool)).map(_as_bool)] if "lawbook_gain_hit" in joined.columns else pd.DataFrame(), "lawbook_gain_constructor_family"),
         "safety": safety,
         "advisory_only": True,
         "can_promote_truth": False,
@@ -414,6 +449,14 @@ def _top_values(series: Any, limit: int) -> list[str]:
     values = pd.Series(series).dropna().astype(str)
     values = values[values != ""]
     return values.value_counts().head(max(0, limit)).index.tolist()
+
+
+def _count_column(frame: pd.DataFrame, column: str, limit: int = 10) -> list[dict[str, Any]]:
+    if frame.empty or column not in frame.columns:
+        return []
+    counts = frame[column].dropna().astype(str)
+    counts = counts[counts != ""].value_counts().head(limit)
+    return [{"value": value, "count": int(count)} for value, count in counts.items()]
 
 
 def _entropy_part(count: int, total: int) -> float:

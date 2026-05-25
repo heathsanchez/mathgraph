@@ -82,6 +82,10 @@ The held-out Lawbook benchmark is the transfer check: advisory constructor and
 route structure is learned on a train FALSE slice and evaluated on a disjoint
 held-out FALSE slice against a generic baseline.
 
+Exact constructor attribution records the first constructor in each policy route
+that recovers a held-out pair. Micro-basin distillation uses those first-hit
+records to emit exact advisory constructor recipes when available.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

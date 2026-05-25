@@ -38,6 +38,7 @@ CANONICAL_MODULES = (
     "mathgraph/compounding_engine.py",
     "mathgraph/autonomous_compounding_engine.py",
     "mathgraph/autonomous_finite_recovery.py",
+    "mathgraph/exact_constructor_attribution.py",
     "mathgraph/microbasin_distillation.py",
     "mathgraph/recursive_residual_compounding.py",
     "mathgraph/etp_terms.py",

@@ -31,6 +31,11 @@ from mathgraph.autonomous_finite_recovery import (
     residual_marginal_repair,
 )
 from mathgraph.compounding_metrics import obstruction_entropy
+from mathgraph.exact_constructor_attribution import (
+    build_exact_constructor_attribution_frame,
+    top_lawbook_gain_constructor_families,
+    top_lawbook_gain_constructors,
+)
 from mathgraph.obstruction_atlas import summarize_obstructions
 from mathgraph.polarized_quotient_ir import build_pair_features
 from mathgraph.sair_task_loader import load_sair_equations, load_sair_matrix
@@ -175,6 +180,18 @@ def _run_seed(seed: int, equations: list[str], matrix: Any, source_mode: str, co
         seed=seed,
     )
     reference_eval = _eval_policy("heldout_repair_oracle_like_bounded", seed, reference_indices, heldout_matrix, true_matrix, heldout_pairs)
+    exact_frame = build_exact_constructor_attribution_frame(
+        heldout_pairs,
+        heldout_matrix,
+        recovery.constructor_manifest,
+        {
+            "generic": generic_indices,
+            "heldout_lawbook_guided": lawbook_indices,
+            "compact_atlas_guided": compact_indices,
+            "heldout_repair_oracle_like_bounded": reference_indices,
+        },
+        seed=seed,
+    )
     heldout_features = _pair_features(equations, heldout_pairs, seed, "heldout")
     residual_mask = ~_mask(heldout_matrix, lawbook_indices)
     residual_features = [row for idx, row in enumerate(heldout_features) if idx < len(residual_mask) and bool(residual_mask[idx])]
@@ -211,11 +228,16 @@ def _run_seed(seed: int, equations: list[str], matrix: Any, source_mode: str, co
         "failed_search_promoted_true_count": failed_search_true,
         "train_heldout_overlap_count": overlap,
         "obstruction_entropy": obstruction_entropy(obstruction_rows),
+        "exact_attribution_available": True,
+        "lawbook_gain_hit_count": int(exact_frame["lawbook_gain_hit"].sum()),
+        "exact_lawbook_gain_attributed_count": int(exact_frame["lawbook_gain_constructor_id"].notna().sum()),
+        "top_lawbook_gain_constructor_families": top_lawbook_gain_constructor_families(exact_frame),
+        "top_lawbook_gain_constructors": top_lawbook_gain_constructors(exact_frame),
     }
     gate_rows = _seed_gates(seed, seed_summary, recovery.constructor_count, bool(lawbook_indices), bool(policy_rows))
     seed_summary["all_gates_passed"] = all(row["passed"] for row in gate_rows)
     lawbook_rows = _lawbook_manifest(seed, source_mode, lawbook_indices, repair_route, recovery.constructor_manifest, train_repair_mask, train_matrix)
-    recovery_rows = _recovery_rows(seed, heldout_pairs, generic_indices, lawbook_indices, heldout_matrix)
+    recovery_rows = exact_frame.to_dict("records")
     return {
         "summary": seed_summary,
         "policy_rows": policy_rows,
@@ -329,6 +351,11 @@ def _aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "total_true_contamination_count": sum(int(row["true_contamination_count"]) for row in rows),
         "total_terminal_claims_from_advisory_count": sum(int(row["terminal_claims_from_advisory_count"]) for row in rows),
         "total_failed_search_promoted_true_count": sum(int(row["failed_search_promoted_true_count"]) for row in rows),
+        "exact_attribution_available": all(bool(row.get("exact_attribution_available")) for row in rows),
+        "lawbook_gain_hit_count": sum(int(row.get("lawbook_gain_hit_count", 0)) for row in rows),
+        "exact_lawbook_gain_attributed_count": sum(int(row.get("exact_lawbook_gain_attributed_count", 0)) for row in rows),
+        "top_lawbook_gain_constructor_families": _merge_top_counts(rows, "top_lawbook_gain_constructor_families", "family"),
+        "top_lawbook_gain_constructors": _merge_top_counts(rows, "top_lawbook_gain_constructors", "constructor_id"),
     }
 
 
@@ -356,23 +383,6 @@ def _lawbook_manifest(seed: int, source_mode: str, indices: list[int], repair_ro
             }
         )
     return rows
-
-
-def _recovery_rows(seed: int, pairs: list[tuple[int, int]], generic_indices: list[int], lawbook_indices: list[int], heldout_matrix: np.ndarray) -> list[dict[str, Any]]:
-    generic = _mask(heldout_matrix, generic_indices)
-    lawbook = _mask(heldout_matrix, lawbook_indices)
-    return [
-        {
-            "seed": seed,
-            "pair_idx": idx,
-            "eq1_id": int(pair[0]),
-            "eq2_id": int(pair[1]),
-            "generic_recovered": bool(generic[idx]),
-            "lawbook_recovered": bool(lawbook[idx]),
-            "lawbook_new_recovery": bool(lawbook[idx] and not generic[idx]),
-        }
-        for idx, pair in enumerate(pairs)
-    ]
 
 
 def _pair_features(equations: list[str], pairs: list[tuple[int, int]], seed: int, split: str) -> list[dict[str, Any]]:
@@ -424,6 +434,22 @@ def _tiny_matrix() -> Any:
 def _mean(values: Iterable[Any]) -> float:
     vals = [float(value) for value in values]
     return statistics.fmean(vals) if vals else 0.0
+
+
+def _merge_top_counts(rows: list[dict[str, Any]], key: str, label: str, limit: int = 10) -> list[dict[str, Any]]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        values = row.get(key, [])
+        if isinstance(values, str):
+            try:
+                values = json.loads(values)
+            except json.JSONDecodeError:
+                values = []
+        for item in values or []:
+            name = str(item.get(label, ""))
+            if name:
+                counts[name] = counts.get(name, 0) + int(item.get("count", 0))
+    return [{label: name, "count": count} for name, count in sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:limit]]
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
@@ -537,6 +563,7 @@ def parse_args(argv: Sequence[str] | None = None) -> HeldoutLawbookBenchmarkConf
     parser.add_argument("--repair-budget", type=int, default=40)
     parser.add_argument("--max-n", type=int, default=4)
     parser.add_argument("--allow-fallback-demo", action="store_true")
+    parser.add_argument("--fallback-demo", action="store_true")
     parser.add_argument("--constructor-limit", type=int)
     args = parser.parse_args(argv)
     return HeldoutLawbookBenchmarkConfig(
@@ -550,7 +577,7 @@ def parse_args(argv: Sequence[str] | None = None) -> HeldoutLawbookBenchmarkConf
         episodes=args.episodes,
         repair_budget=args.repair_budget,
         max_n=args.max_n,
-        allow_fallback_demo=args.allow_fallback_demo,
+        allow_fallback_demo=args.allow_fallback_demo or args.fallback_demo,
         constructor_limit=args.constructor_limit,
     )
 

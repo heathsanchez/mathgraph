@@ -21,6 +21,35 @@ only route order or family priors are available, it is marked
 The proxy case is intentionally conservative: it is a plausible routing cause,
 not a verified cause.
 
+## Exact Constructor Attribution
+
+When `heldout_recovery_eval.csv` includes `lawbook_gain_hit`,
+`lawbook_gain_constructor_id`, and `lawbook_gain_constructor_family`, the
+distiller uses exact first-hit attribution. Recipes emitted from these rows are
+marked `attribution_mode=exact_constructor`.
+
+Example:
+
+```bash
+python scripts/run_heldout_lawbook_compounding_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/heldout_exact_attribution \
+  --seeds 20260524 \
+  --train-pairs 300 \
+  --heldout-pairs 300 \
+  --true-pairs 100 \
+  --episodes 2 \
+  --repair-budget 20 \
+  --max-n 4
+
+python scripts/run_microbasin_distillation.py \
+  --input-dir /content/heldout_exact_attribution \
+  --out-dir /content/microbasin_exact_distillation \
+  --min-microbasin-support 2 \
+  --min-microbasin-gain 1
+```
+
 ## Boundary
 
 Micro-basin recipes, gain attribution, residual obstruction targets, and route

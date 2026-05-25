@@ -2575,4 +2575,11 @@ from mathgraph.microbasin_distillation import (
     summarize_microbasins,
     summarize_residual_obstruction_targets,
 )
+from mathgraph.exact_constructor_attribution import (
+    attribute_policy_recoveries,
+    build_exact_constructor_attribution_frame,
+    first_recovering_constructor_for_pair,
+    top_lawbook_gain_constructor_families,
+    top_lawbook_gain_constructors,
+)
 from mathgraph.version import __version__, get_version_info
