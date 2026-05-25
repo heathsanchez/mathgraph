@@ -9,6 +9,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
+import pandas as pd
+
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -71,3 +73,83 @@ class ResidualLawbook:
                     )
             conn.commit()
         return count
+
+
+def write_repair_lawbook(sqlite_path: str | Path, repair_df: Any, obstruction_df: Any, metadata: Mapping[str, Any] | None = None) -> None:
+    """Persist advisory repair/obstruction rows for later autonomous reuse."""
+
+    metadata = dict(metadata or {})
+    book = ResidualLawbook.open(sqlite_path)
+    run_id = str(metadata.get("run_id") or "autonomous_v2")
+    repair_rows = _records(repair_df)
+    obstruction_rows = _records(obstruction_df)
+    book.write_run_summary(run_id, {"metadata": metadata, "repair_rows": len(repair_rows), "obstruction_rows": len(obstruction_rows)})
+    book.write_rows("episode_metrics", run_id, ({**row, **metadata} for row in repair_rows))
+    book.write_rows("residual_obstructions", run_id, ({**row, **metadata} for row in obstruction_rows))
+
+
+def load_repair_lawbook(sqlite_path: str | Path) -> pd.DataFrame:
+    path = Path(sqlite_path)
+    if not path.exists():
+        return pd.DataFrame()
+    rows: list[dict[str, Any]] = []
+    with sqlite3.connect(str(path)) as conn:
+        for table in ("episode_metrics", "residual_obstructions"):
+            try:
+                for payload, in conn.execute(f"SELECT payload_json FROM {table}"):
+                    rows.append(json.loads(payload))
+            except sqlite3.Error:
+                continue
+    return pd.DataFrame(rows)
+
+
+def recommend_from_lawbook(pair_features: Any, lawbook_df: pd.DataFrame, budget: int) -> list[Any]:
+    """Return constructor indices/families suggested by prior advisory repair rows."""
+
+    if lawbook_df is None or lawbook_df.empty:
+        return []
+    features = pair_features if isinstance(pair_features, Mapping) else {}
+    basin = str(features.get("basin", ""))
+    df = lawbook_df.copy()
+    if basin and "basin" in df.columns:
+        scoped = df[df["basin"].astype(str) == basin]
+        if not scoped.empty:
+            df = scoped
+    gain_col = "marginal_gain" if "marginal_gain" in df.columns else None
+    if gain_col:
+        df["_gain"] = pd.to_numeric(df[gain_col], errors="coerce").fillna(0)
+        df = df.sort_values("_gain", ascending=False)
+    out: list[Any] = []
+    for _, row in df.iterrows():
+        value = row.get("constructor_idx", row.get("family", ""))
+        if value not in out and value not in ("", None):
+            out.append(value)
+        if len(out) >= int(budget):
+            break
+    return out
+
+
+def _records(value: Any) -> list[dict[str, Any]]:
+    if value is None:
+        return []
+    if hasattr(value, "to_dict"):
+        try:
+            records = value.to_dict("records")
+            if isinstance(records, list):
+                return [_jsonable(dict(row)) for row in records]
+        except TypeError:
+            pass
+    return [_jsonable(dict(row)) for row in value]
+
+
+def _jsonable(row: dict[str, Any]) -> dict[str, Any]:
+    out = {}
+    for key, value in row.items():
+        if isinstance(value, (dict, list, tuple, str, int, float, bool)) or value is None:
+            out[key] = value
+        else:
+            try:
+                out[key] = value.item()
+            except Exception:
+                out[key] = str(value)
+    return out

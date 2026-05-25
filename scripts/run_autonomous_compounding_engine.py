@@ -27,6 +27,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--max-n", type=int, default=5)
     parser.add_argument("--seed", type=int, default=20260524)
     parser.add_argument("--tiny-demo", action="store_true")
+    parser.add_argument("--finite-core-mode", choices=("facade", "native_v2"), default="facade")
+    parser.add_argument("--constructor-limit", type=int)
+    parser.add_argument("--include-random-constructors", action="store_true")
+    parser.add_argument("--random-constructor-count", type=int, default=0)
+    parser.add_argument("--lawbook-path")
+    parser.add_argument("--reuse-lawbook", action="store_true")
+    parser.add_argument("--write-report", action="store_true")
     args = parser.parse_args(argv)
 
     summary = run_autonomous_compounding(
@@ -40,6 +47,13 @@ def main(argv: Sequence[str] | None = None) -> int:
             max_n=args.max_n,
             seed=args.seed,
             tiny_demo=args.tiny_demo,
+            finite_core_mode=args.finite_core_mode,
+            constructor_limit=args.constructor_limit,
+            include_random_constructors=args.include_random_constructors,
+            random_constructor_count=args.random_constructor_count,
+            lawbook_path=args.lawbook_path,
+            reuse_lawbook=args.reuse_lawbook,
+            write_report=args.write_report,
         )
     )
     print(json.dumps(summary, indent=2, sort_keys=True))
