@@ -82,3 +82,51 @@ python scripts/run_autonomous_compounding_engine.py \
 ```
 
 The runner refuses real mode unless the equation and matrix files are supplied.
+
+## Native v2 cross-seed benchmark
+
+The benchmark harness runs native v2 once per seed, preserves each seed's
+artifacts, stitches the seed-level CSV outputs, and reports cross-seed means for
+generic routing, residual repair, advisory Lawbook reuse, and compact atlas
+routing when those fields are emitted by the engine.
+
+Colab-style real ETP run:
+
+```bash
+python scripts/run_autonomous_native_v2_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/native_v2_benchmark \
+  --seeds 20260524 20260525 20260526 \
+  --episodes 4 \
+  --sample-pairs 4000 \
+  --repair-budget 40 \
+  --max-n 4
+```
+
+Tiny fallback run:
+
+```bash
+python scripts/run_autonomous_native_v2_benchmark.py \
+  --out-dir /tmp/mathgraph_native_v2_benchmark \
+  --tiny-demo \
+  --seeds 1729 1730 \
+  --episodes 3 \
+  --sample-pairs 80 \
+  --repair-budget 10 \
+  --max-n 3
+```
+
+Primary outputs:
+
+- `benchmark_summary.json`
+- `benchmark_report.md`
+- `cross_seed_summary.csv`
+- `cross_seed_episode_metrics.csv`
+- `cross_seed_gate_results.csv`
+- `cross_seed_terminal_audit.csv`
+- `cross_seed_artifact_manifest.csv`
+
+Safety gates require zero TRUE contamination, zero terminal claims from advisory
+rows, and zero failed-search-to-TRUE promotion. Lawbook reuse is a routing
+signal only unless the selected artifact is independently verifier-backed.

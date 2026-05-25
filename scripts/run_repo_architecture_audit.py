@@ -48,6 +48,9 @@ CANONICAL_COMMANDS = (
     "python scripts/run_repo_architecture_audit.py",
     "python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo",
 )
+CANONICAL_SCRIPTS = (
+    "scripts/run_autonomous_native_v2_benchmark.py",
+)
 CONCEPT_KEYWORDS = (
     "certificate",
     "lawbook",
@@ -71,10 +74,11 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
     large_files = _large_python_files(root)
     duplicate_warnings = _duplicate_concept_warnings(modules + scripts + tests)
     canonical_presence = {path: (root / path).exists() for path in CANONICAL_MODULES}
+    script_presence = {path: (root / path).exists() for path in CANONICAL_SCRIPTS}
     readme = (root / "README.md").read_text(encoding="utf-8") if (root / "README.md").exists() else ""
     readme_commands = {command: command in readme for command in CANONICAL_COMMANDS}
     optional_deps = _optional_dependency_status(root)
-    status = "PASS" if all(canonical_presence.values()) and all(readme_commands.values()) else "WARN"
+    status = "PASS" if all(canonical_presence.values()) and all(script_presence.values()) and all(readme_commands.values()) else "WARN"
     return {
         "status": status,
         "module_count": len(modules),
@@ -83,6 +87,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         "large_files_over_1000_lines": large_files,
         "duplicate_concept_warnings": duplicate_warnings,
         "canonical_module_presence": canonical_presence,
+        "canonical_script_presence": script_presence,
         "pyproject_optional_dependency_status": optional_deps,
         "readme_canonical_command_presence": readme_commands,
         "notes": [
@@ -109,6 +114,9 @@ def render_markdown(report: dict[str, Any]) -> str:
     lines.extend(["", "## README Canonical Commands"])
     for command, present in report["readme_canonical_command_presence"].items():
         lines.append(f"- [{'x' if present else ' '}] `{command}`")
+    lines.extend(["", "## Canonical Script Presence"])
+    for path, present in report["canonical_script_presence"].items():
+        lines.append(f"- [{'x' if present else ' '}] `{path}`")
     lines.extend(["", "## Large Python Files Over 1,000 Lines"])
     for item in report["large_files_over_1000_lines"][:40]:
         lines.append(f"- `{item['path']}`: {item['lines']} lines")

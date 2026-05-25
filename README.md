@@ -213,6 +213,19 @@ python scripts/run_autonomous_compounding_engine.py \
   --write-report
 ```
 
+Cross-seed native v2 benchmark:
+
+```bash
+python scripts/run_autonomous_native_v2_benchmark.py \
+  --out-dir /tmp/mathgraph_native_v2_benchmark \
+  --tiny-demo \
+  --seeds 1729 1730 \
+  --episodes 3 \
+  --sample-pairs 80 \
+  --repair-budget 10 \
+  --max-n 3
+```
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready
