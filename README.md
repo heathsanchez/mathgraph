@@ -241,6 +241,15 @@ python scripts/run_heldout_lawbook_compounding_benchmark.py \
   --max-n 3
 ```
 
+Micro-basin causal distillation turns held-out recovery artifacts into advisory
+constructor recipes and residual obstruction targets:
+
+```bash
+python scripts/run_microbasin_distillation.py \
+  --input-dir /content/drive/MyDrive/SAIR_MathGraph/persistent_microbasin_lawbook_v2_run \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/microbasin_distillation_run
+```
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready

@@ -2562,4 +2562,17 @@ from mathgraph.autonomous_finite_recovery import (
     residual_marginal_repair as autonomous_residual_marginal_repair,
     route_metrics as autonomous_route_metrics,
 )
+from mathgraph.microbasin_distillation import (
+    DistillationConfig,
+    MicrobasinDistillationResult,
+    MicrobasinKeyConfig,
+    add_microbasin_keys,
+    attribute_lawbook_gains,
+    distill_minimal_recipes,
+    join_pair_recovery_features,
+    load_distillation_inputs,
+    run_microbasin_distillation,
+    summarize_microbasins,
+    summarize_residual_obstruction_targets,
+)
 from mathgraph.version import __version__, get_version_info
