@@ -65,6 +65,9 @@ def add_microbasin_keys(df: pd.DataFrame) -> pd.DataFrame:
     """Return a copy with ``microbasin_key`` present."""
 
     out = df.copy()
+    if "microbasin_key" in out.columns:
+        out["microbasin_key"] = out["microbasin_key"].fillna("").astype(str)
+        return out
     if out.empty:
         out["microbasin_key"] = []
         return out

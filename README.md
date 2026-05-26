@@ -283,6 +283,32 @@ python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
 Persistent Lawbook entries remain advisory route-learning memory:
 `advisory_only=True`, `can_promote_truth=False`.
 
+Persistent v2 adds causal route selection so the Lawbook can reject unstable
+exact memories:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py \
+  --out-dir /tmp/mathgraph_persistent_exact_v2_demo \
+  --fallback-demo \
+  --seeds 1729,1730,1731,1732
+```
+
+Real Colab v2:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/persistent_exact_microbasin_lawbook_v2 \
+  --seeds 20260524,20260525,20260526,20260527,20260528 \
+  --train-pairs 1200 \
+  --heldout-pairs 1200 \
+  --true-pairs 500 \
+  --episodes 2 \
+  --repair-budget 40 \
+  --max-n 4
+```
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready

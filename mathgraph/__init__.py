@@ -2592,4 +2592,14 @@ from mathgraph.persistent_exact_microbasin_lawbook import (
     normalize_recovery_frame,
     replay_persistent_lawbook,
 )
+from mathgraph.causal_route_selection import (
+    CausalRoutePolicy,
+    CausalRouteScore,
+    RouteEvidence,
+    apply_causal_route_policy,
+    build_route_evidence,
+    evaluate_causal_policy,
+    score_causal_routes,
+    select_causal_routes,
+)
 from mathgraph.version import __version__, get_version_info

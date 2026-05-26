@@ -4,6 +4,13 @@ Persistent Exact Micro-basin Lawbook v1 tests whether exact local constructor
 knowledge from earlier held-out episodes can be reused on later held-out
 episodes.
 
+V1 intentionally stores exact gains directly. A small real smoke showed this can
+be safe but still become `negative_memory`: route memory was built and reused,
+but the selector overfit local exact gains.
+
+V2 adds Causal Route Selection. It scores memories by support, episode/seed
+diversity, non-regression, and out-of-sample transfer before replaying them.
+
 The input evidence comes from held-out Lawbook compounding runs with exact
 constructor attribution. A reusable Lawbook entry is keyed by PQ-IR micro-basin
 features and records which exact constructor family/id produced marginal
@@ -56,6 +63,18 @@ python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
   --repair-budget 40 \
   --max-n 4
 ```
+
+## V2 Causal Route Selection
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py \
+  --out-dir /tmp/mathgraph_persistent_exact_v2_demo \
+  --fallback-demo \
+  --seeds 1729,1730,1731,1732
+```
+
+See [causal_route_selection.md](causal_route_selection.md) for scoring rules and
+classification details.
 
 ## Outputs
 

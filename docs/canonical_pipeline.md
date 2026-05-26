@@ -92,6 +92,11 @@ current-episode leakage. The result is classified as strong, weak, neutral, or
 negative memory. These replay metrics are advisory and proxy-labeled; they do
 not promote terminal truth.
 
+V2 adds causal route selection. It scores exact memories by support,
+episode/seed diversity, non-regression, and out-of-sample transfer before
+replay. This lets MathGraph reject bad memories instead of blindly reusing every
+exact gain.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

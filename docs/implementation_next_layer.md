@@ -296,6 +296,7 @@ Implemented:
 - Micro-basin Causal Distillation
 - Exact Constructor Attribution v1
 - Persistent Exact Micro-basin Lawbook v1
+- Persistent Exact Micro-basin Lawbook v2 / Causal Route Selection
 
 Still future work:
 

@@ -223,3 +223,16 @@ python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
 The classification is intentionally scoped: strong or weak compounding means
 prior exact route memory improved proxy held-out recovery. It is not TRUE-side
 proof and it does not admit terminal claims.
+
+Persistent v2 adds causal route selection:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py \
+  --out-dir /tmp/mathgraph_persistent_exact_v2_demo \
+  --fallback-demo \
+  --seeds 1729,1730,1731,1732
+```
+
+V2 compares generic, one-shot Lawbook, v1 persistent memory, and v2 causal
+persistent memory. It is designed to reject one-shot exact memories that do not
+show stable non-regression.
