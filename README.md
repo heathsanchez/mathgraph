@@ -339,6 +339,26 @@ python scripts/run_active_residual_discovery_benchmark.py \
 Discovery proposals remain advisory until a finite checker or proof verifier
 accepts a terminal artifact.
 
+Proposal-specific synthesis closes the next gap by turning proposal families
+into concrete finite magma tables:
+
+```bash
+python scripts/run_proposal_constructor_synthesis.py \
+  --out-dir /tmp/mathgraph_proposal_synthesis_demo \
+  --fallback-demo \
+  --seed 1729
+```
+
+Active discovery can run synthesis inline:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_discovery_synthesis_demo \
+  --fallback-demo \
+  --synthesize-constructors \
+  --seed 1729
+```
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready

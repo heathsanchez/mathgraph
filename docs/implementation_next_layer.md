@@ -298,6 +298,7 @@ Implemented:
 - Persistent Exact Micro-basin Lawbook v1
 - Persistent Exact Micro-basin Lawbook v2 / Causal Route Selection
 - Active Residual Constructor Discovery v1
+- Proposal-Specific Finite Constructor Synthesis v1
 
 Still future work:
 

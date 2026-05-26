@@ -26,6 +26,11 @@ from mathgraph.active_residual_discovery import (
     summarize_active_discovery,
 )
 from mathgraph.persistent_exact_microbasin_lawbook import write_persistent_lawbook_sqlite
+from mathgraph.proposal_constructor_synthesis import (
+    evaluate_synthesized_constructors,
+    summarize_synthesis,
+    synthesize_constructors_for_proposals,
+)
 
 
 @dataclass(frozen=True)
@@ -37,6 +42,9 @@ class ActiveResidualDiscoveryConfig:
     min_support: int = 3
     max_proposals_per_basin: int = 3
     max_pairs_per_proposal: int = 100
+    synthesize_constructors: bool = False
+    max_tables_per_proposal: int = 32
+    max_pairs_per_constructor: int = 100
     max_n: int = 4
     seed: int = 20260524
     fallback_demo: bool = False
@@ -57,7 +65,7 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
         inputs = load_discovery_inputs(Path(config.input_dir))
         source_mode = "real_etp" if config.equations and config.matrix else "artifact_proxy"
         real_corpus_used = bool(config.equations and config.matrix and Path(config.equations).exists() and Path(config.matrix).exists())
-    equations = _load_equations(config.equations) if config.equations and Path(config.equations).exists() else None
+    equations = _fallback_equations() if config.fallback_demo else (_load_equations(config.equations) if config.equations and Path(config.equations).exists() else None)
     residual_basins = build_residual_basins(inputs["pair_features"], inputs["recovery_eval"], min_support=config.min_support)
     proposals = propose_constructor_recipes(residual_basins, max_proposals_per_basin=config.max_proposals_per_basin)
     evaluations = evaluate_constructor_proposals(
@@ -78,6 +86,44 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
         "input_dir": str(config.input_dir or ""),
         **summarize_active_discovery(residual_basins, proposals, evaluations),
     }
+    synthesis_tables: dict[str, pd.DataFrame] = {}
+    if config.synthesize_constructors:
+        constructors, synthesis_results = synthesize_constructors_for_proposals(
+            proposals,
+            max_n=config.max_n,
+            max_tables_per_proposal=config.max_tables_per_proposal,
+            seed=config.seed,
+        )
+        residual_pairs = _residual_pairs(inputs["pair_features"], inputs["recovery_eval"])
+        recoveries = evaluate_synthesized_constructors(
+            constructors,
+            residual_pairs,
+            equations or [],
+            max_pairs_per_constructor=config.max_pairs_per_constructor,
+        )
+        synthesis_summary = summarize_synthesis(constructors, synthesis_results, recoveries)
+        synthesis_summary["breakthrough_candidate"] = bool(source_mode == "real_etp" and synthesis_summary["synthesized_recovered_pairs"] > 0)
+        summary.update(synthesis_summary)
+        summary["evaluation_mode"] = "finite_checked"
+        synthesis_tables = {
+            "synthesized_constructors.csv": constructors,
+            "synthesis_results.csv": synthesis_results,
+            "synthesized_recoveries.csv": recoveries,
+        }
+    else:
+        summary.update(
+            {
+                "synthesis_enabled": False,
+                "synthesized_constructor_count": 0,
+                "unique_synthesized_table_count": 0,
+                "synthesized_recovered_pairs": 0,
+                "synthesized_recovery_rate": 0.0,
+                "best_synthesized_family": "",
+                "best_synthesized_constructor_id": "",
+                "finite_checked_recoveries": 0,
+                "breakthrough_candidate": False,
+            }
+        )
     summary["benchmark_passed"] = (
         summary["residual_basin_count"] > 0
         and summary["proposal_count"] > 0
@@ -93,15 +139,23 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
         "active_discovery.sqlite": out_dir / "active_discovery.sqlite",
         "artifact_manifest.json": out_dir / "artifact_manifest.json",
     }
+    for name in synthesis_tables:
+        artifacts[name] = out_dir / name
     _write_csv(artifacts["active_residual_basins.csv"], residual_basins)
     _write_csv(artifacts["constructor_proposals.csv"], proposals)
     _write_csv(artifacts["proposal_evaluations.csv"], evaluations)
+    for name, frame in synthesis_tables.items():
+        _write_csv(artifacts[name], frame)
+    if config.synthesize_constructors:
+        artifacts["synthesis_summary.json"] = out_dir / "synthesis_summary.json"
+        artifacts["synthesis_summary.json"].write_text(json.dumps({k: summary[k] for k in summary if k.startswith("synth") or k in {"best_synthesized_family", "best_synthesized_constructor_id", "finite_checked_recoveries", "breakthrough_candidate"}}, indent=2, sort_keys=True), encoding="utf-8")
     write_persistent_lawbook_sqlite(
         artifacts["active_discovery.sqlite"],
         {
             "active_residual_basins": residual_basins,
             "constructor_proposals": proposals,
             "proposal_evaluations": evaluations,
+            **{name.removesuffix(".csv"): frame for name, frame in synthesis_tables.items()},
             "summary": pd.DataFrame([summary]),
         },
     )
@@ -124,6 +178,8 @@ def _fallback_inputs(seed: int) -> dict[str, pd.DataFrame]:
             {
                 "seed": seed,
                 "pair_idx": idx,
+                "eq1_id": 0,
+                "eq2_id": 1 if hit else 2,
                 "basin": basin,
                 "deep_ir_candidate": deep,
                 "quotient_pressure": q,
@@ -150,6 +206,8 @@ def _fallback_inputs(seed: int) -> dict[str, pd.DataFrame]:
         ]
     )
     recovery = features[["seed", "pair_idx", "active_discovery_family_hit"]].copy()
+    recovery["eq1_id"] = features["eq1_id"]
+    recovery["eq2_id"] = features["eq2_id"]
     recovery["generic_recovered"] = False
     recovery["heldout_lawbook_recovered"] = False
     recovery["advisory_only"] = True
@@ -161,6 +219,22 @@ def _fallback_inputs(seed: int) -> dict[str, pd.DataFrame]:
         "train_lawbook_manifest": pd.DataFrame(),
         "terminal_form_audit": pd.DataFrame(),
     }
+
+
+def _fallback_equations() -> list[str]:
+    return [
+        "x = x",
+        "x = y",
+        "(x * y) = x",
+    ]
+
+
+def _residual_pairs(pair_features: pd.DataFrame, recovery_eval: pd.DataFrame) -> pd.DataFrame:
+    from mathgraph.active_residual_discovery import _join_features_recovery  # local helper reuse
+    from mathgraph.persistent_exact_microbasin_lawbook import normalize_recovery_frame
+
+    joined = normalize_recovery_frame(_join_features_recovery(pair_features, recovery_eval))
+    return joined[(~joined["generic_recovered_norm"]) & (~joined["lawbook_recovered_norm"])].copy()
 
 
 def _load_equations(path: str | None) -> list[str] | None:
@@ -206,6 +280,9 @@ def parse_args(argv: Sequence[str] | None = None) -> ActiveResidualDiscoveryConf
     parser.add_argument("--min-support", type=int, default=3)
     parser.add_argument("--max-proposals-per-basin", type=int, default=3)
     parser.add_argument("--max-pairs-per-proposal", type=int, default=100)
+    parser.add_argument("--synthesize-constructors", action="store_true")
+    parser.add_argument("--max-tables-per-proposal", type=int, default=32)
+    parser.add_argument("--max-pairs-per-constructor", type=int, default=100)
     parser.add_argument("--max-n", type=int, default=4)
     parser.add_argument("--seed", type=int, default=20260524)
     parser.add_argument("--fallback-demo", action="store_true")
@@ -218,6 +295,9 @@ def parse_args(argv: Sequence[str] | None = None) -> ActiveResidualDiscoveryConf
         min_support=args.min_support,
         max_proposals_per_basin=args.max_proposals_per_basin,
         max_pairs_per_proposal=args.max_pairs_per_proposal,
+        synthesize_constructors=args.synthesize_constructors,
+        max_tables_per_proposal=args.max_tables_per_proposal,
+        max_pairs_per_constructor=args.max_pairs_per_constructor,
         max_n=args.max_n,
         seed=args.seed,
         fallback_demo=args.fallback_demo,

@@ -102,6 +102,11 @@ generic, Lawbook, and selected persistent routes still miss become constructor
 pressure. The output is advisory proposals plus finite/proxy evaluation rows,
 not terminal truth.
 
+Proposal-specific finite constructor synthesis turns that pressure into concrete
+finite magma tables. A route becomes a discovery only when the generated table
+is finite-checked against an implication pair; failed synthesis remains residual
+evidence, never TRUE.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

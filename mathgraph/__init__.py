@@ -2613,4 +2613,13 @@ from mathgraph.active_residual_discovery import (
     propose_constructor_recipes,
     summarize_active_discovery,
 )
+from mathgraph.proposal_constructor_synthesis import (
+    ConstructorSynthesisResult,
+    SynthesizedConstructor,
+    SynthesizedRecovery,
+    evaluate_synthesized_constructors,
+    summarize_synthesis,
+    synthesize_constructors_for_proposal,
+    synthesize_constructors_for_proposals,
+)
 from mathgraph.version import __version__, get_version_info

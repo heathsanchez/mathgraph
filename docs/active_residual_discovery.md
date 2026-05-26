@@ -9,6 +9,11 @@ Active Residual Discovery reads held-out benchmark artifacts, groups pairs that
 generic and Lawbook routes both missed, names residual micro-basins, proposes
 constructor families from PQ-IR geometry, and evaluates those proposals.
 
+With `--synthesize-constructors`, those proposals are expanded into concrete
+finite magma tables and checked against residual implication pairs. A generated
+constructor counts only when the finite checker confirms that the source holds
+globally and the target is violated.
+
 ## Loop
 
 ```text
@@ -42,6 +47,16 @@ finite-search failure never implies TRUE.
 python scripts/run_active_residual_discovery_benchmark.py \
   --out-dir /tmp/mathgraph_active_residual_discovery_demo \
   --fallback-demo \
+  --seed 1729
+```
+
+With synthesis:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_discovery_synthesis_demo \
+  --fallback-demo \
+  --synthesize-constructors \
   --seed 1729
 ```
 
