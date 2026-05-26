@@ -89,3 +89,48 @@ The classification is conservative. Durable certificates matter only when the
 finite checker verifies that the source equation holds globally and the target
 equation is violated with a witness. Advisory memory can guide routes, but it
 cannot promote truth.
+
+## Official SAIR Stage 2 Breakthrough Search
+
+The breakthrough search adds scorecard diagnostics and conservative policy
+selection on top of the official evidence pack. It is a selection layer, not a
+new truth boundary.
+
+```bash
+python scripts/run_sair_stage2_breakthrough_search.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/breakthrough_search \
+  --seeds 20260524,20260525,20260526,20260527,20260528 \
+  --train-false 5000 \
+  --heldout-false 5000 \
+  --sample-true 1000 \
+  --episodes 4 \
+  --max-n 4 \
+  --repair-budget 40 \
+  --policy-search-rounds 5 \
+  --strict-admission \
+  --fail-if-no-compounding
+```
+
+The search decomposes baseline, Lawbook, micro-basin, and repair contributions;
+rejects components with negative held-out marginal contribution; and writes a
+canonical policy artifact. If the real run still has negative total gain, the
+output remains honest: harmful components are disabled in the policy, but no
+breakthrough label is claimed unless the policy-adjusted held-out scorecard has
+positive gain and all trust-boundary counts are zero.
+
+Fallback mode is a wiring check only:
+
+```bash
+python scripts/run_sair_stage2_breakthrough_search.py \
+  --out-dir /tmp/mathgraph_breakthrough_fallback \
+  --fallback-demo \
+  --seeds 1729,1730 \
+  --train-false 100 \
+  --heldout-false 100 \
+  --sample-true 50 \
+  --episodes 2 \
+  --policy-search-rounds 2 \
+  --strict-admission
+```

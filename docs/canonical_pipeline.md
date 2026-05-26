@@ -143,6 +143,11 @@ product evidence, writes certificate and residual manifests, and emits the
 trust-boundary audit used to distinguish verified, advisory, and residual rows.
 Fallback runs are wiring checks only and classify as `safe_infrastructure_only`.
 
+The Official SAIR Stage 2 Breakthrough Search is the policy-selection pass over
+that pack. It diagnoses marginal contribution by component, disables harmful
+held-out routes, and writes `canonical_policy.json`. This selection policy is
+advisory routing only; it cannot promote truth or turn failed search into proof.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

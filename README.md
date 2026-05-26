@@ -54,6 +54,32 @@ python scripts/run_sair_stage2_end_to_end.py \
 Other runners in this README are internal components or research runners used
 by the official pack.
 
+### Official SAIR Stage 2 Breakthrough Search
+
+When an evidence pack is safe but has negative downstream gain, run the
+breakthrough search. It diagnoses component-level marginal contributions,
+rejects harmful held-out routes, and writes a conservative canonical policy.
+
+```bash
+python scripts/run_sair_stage2_breakthrough_search.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/breakthrough_search \
+  --seeds 20260524,20260525,20260526,20260527,20260528 \
+  --train-false 5000 \
+  --heldout-false 5000 \
+  --sample-true 1000 \
+  --episodes 4 \
+  --max-n 4 \
+  --repair-budget 40 \
+  --policy-search-rounds 5 \
+  --strict-admission \
+  --fail-if-no-compounding
+```
+
+Breakthrough means positive held-out gain with strict admission and zero
+trust-boundary violations. Failed finite search remains residual evidence.
+
 ## Canonical Path
 
 MathGraph is a verification-native kernel for routing claims toward explicit

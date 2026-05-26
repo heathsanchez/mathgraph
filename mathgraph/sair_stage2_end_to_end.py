@@ -21,6 +21,8 @@ from typing import Any
 import pandas as pd
 
 from mathgraph.end_to_end_breakthrough_validation import BreakthroughValidationConfig, run_breakthrough_validation
+from mathgraph.sair_stage2_policy_selector import apply_policy_to_scorecard, learn_canonical_policy, load_policy, write_policy_artifacts
+from mathgraph.sair_stage2_scorecard_diagnostics import diagnose_scorecard, write_scorecard_diagnostics
 
 
 EXPECTED_ARTIFACTS = [
@@ -62,6 +64,14 @@ class SairStage2EndToEndConfig:
     write_report: bool = False
     smoke_real: bool = False
     full_real: bool = False
+    diagnose_scorecard: bool = False
+    learn_canonical_policy: bool = False
+    apply_canonical_policy: bool = False
+    policy_path: str | None = None
+    fail_if_no_compounding: bool = False
+    min_total_gain: float = 0.0
+    min_lawbook_gain: float = 0.0
+    min_certificates: int = 1
 
 
 @dataclass(frozen=True)
@@ -139,8 +149,24 @@ def run_sair_stage2_end_to_end(config: SairStage2EndToEndConfig) -> dict[str, An
     scorecard["final_classification"] = classify_sair_stage2(scorecard)
     scorecard["strict_admission_passed"] = bool(trust_audit["strict_admission_passed"])
     scorecard["safety_passed"] = bool(trust_audit["strict_admission_passed"])
+    policy_artifacts: dict[str, str] = {}
+    diagnostics_summary: dict[str, Any] = {}
+    diagnostics = diagnose_scorecard(out_dir)
+    if config.diagnose_scorecard or config.learn_canonical_policy or config.apply_canonical_policy:
+        diagnostics_summary = diagnostics["summary"]
+        policy_artifacts.update(write_scorecard_diagnostics(out_dir, diagnostics))
+    policy: dict[str, Any] | None = None
+    if config.policy_path:
+        policy = load_policy(config.policy_path)
+    elif config.learn_canonical_policy or config.apply_canonical_policy:
+        policy = learn_canonical_policy(diagnostics["components"])
+        policy_artifacts.update(write_policy_artifacts(policy, out_dir))
+    if config.apply_canonical_policy and policy:
+        scorecard = apply_policy_to_scorecard(scorecard, policy)
 
     if config.strict_admission and not trust_audit["strict_admission_passed"]:
+        scorecard["benchmark_passed"] = False
+    elif config.fail_if_no_compounding and not _compounding_gate(scorecard, config):
         scorecard["benchmark_passed"] = False
     else:
         scorecard["benchmark_passed"] = bool(trust_audit["strict_admission_passed"] and (config.fallback_demo or scorecard["real_sair_used"]))
@@ -164,8 +190,9 @@ def run_sair_stage2_end_to_end(config: SairStage2EndToEndConfig) -> dict[str, An
         "finished": datetime.now(timezone.utc).isoformat(),
         "elapsed_sec": round(time.monotonic() - start, 6),
         **scorecard,
+        "scorecard_diagnostics": diagnostics_summary,
         "trust_boundary_audit": trust_audit,
-        "artifacts": {row["artifact_name"]: row["path"] for row in artifact_manifest},
+        "artifacts": {row["artifact_name"]: row["path"] for row in artifact_manifest} | policy_artifacts,
     }
     (out_dir / "sair_stage2_evidence_summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True, default=str), encoding="utf-8")
     return summary
@@ -585,6 +612,16 @@ def _cost(attempts: int, certificates: int) -> float | None:
     if certificates <= 0:
         return None
     return attempts / certificates
+
+
+def _compounding_gate(scorecard: dict[str, Any], config: SairStage2EndToEndConfig) -> bool:
+    return bool(
+        scorecard.get("real_sair_used", False)
+        and scorecard.get("strict_admission_passed", False)
+        and int(scorecard.get("episode_3_certificates", scorecard.get("accepted_false_count", 0)) or 0) >= config.min_certificates
+        and float(scorecard.get("total_gain_over_baseline", 0) or 0) > config.min_total_gain
+        and float(scorecard.get("lawbook_gain_over_baseline", 0) or 0) >= config.min_lawbook_gain
+    )
 
 
 def _safe_int(value: Any) -> int:

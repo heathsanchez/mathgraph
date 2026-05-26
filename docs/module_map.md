@@ -87,6 +87,9 @@ modules.
 - `repaired_countermodel_certificates.py`: repaired finite countermodel certificate assimilation and Lawbook artifact export
 - `end_to_end_breakthrough_validation.py`: canonical breakthrough evidence pack orchestration and safety classification
 - `sair_stage2_end_to_end.py`: official SAIR Stage 2 evidence pack orchestration, scorecard, reports, and trust-boundary audit
+- `sair_stage2_scorecard_diagnostics.py`: official evidence-pack scorecard decomposition and trust-boundary diagnostics
+- `sair_stage2_policy_selector.py`: conservative held-out policy selection for SAIR Stage 2 components
+- `sair_stage2_breakthrough_search.py`: breakthrough-search orchestration around diagnostics, policy selection, and final evidence pack export
 - `scripts/run_mathgraph_compounding_engine.py`: multi-episode ETP constructor/residual/Lawbook runner
 - `scripts/run_autonomous_compounding_engine.py`: autonomous façade/native v2 CLI
 - `scripts/run_persistent_exact_microbasin_lawbook_benchmark.py`: persistent exact micro-basin Lawbook benchmark
@@ -97,6 +100,7 @@ modules.
 - `scripts/run_repaired_countermodel_certificate_assimilation.py`: standalone repaired countermodel certificate assimilation runner
 - `scripts/run_end_to_end_breakthrough_validation.py`: canonical end-to-end breakthrough validation pack runner
 - `scripts/run_sair_stage2_end_to_end.py`: official SAIR Stage 2 evidence pack runner
+- `scripts/run_sair_stage2_breakthrough_search.py`: official SAIR Stage 2 policy-search runner
 - `scripts/run_true_side_inventory.py`: bounded TRUE-side proof-template inventory runner
 - `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
 - `scripts/run_polarized_quotient_ir_demo.py`: lightweight PQ-IR feature demo

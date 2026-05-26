@@ -2685,4 +2685,21 @@ from mathgraph.sair_stage2_end_to_end import (
     classify_sair_stage2,
     run_sair_stage2_end_to_end,
 )
+from mathgraph.sair_stage2_scorecard_diagnostics import (
+    breakthrough_gate_passed,
+    diagnose_scorecard,
+    load_evidence_pack,
+    trust_boundary_counts,
+    write_scorecard_diagnostics,
+)
+from mathgraph.sair_stage2_policy_selector import (
+    apply_policy_to_scorecard,
+    learn_canonical_policy,
+    load_policy,
+    write_policy_artifacts,
+)
+from mathgraph.sair_stage2_breakthrough_search import (
+    SairStage2BreakthroughSearchConfig,
+    run_sair_stage2_breakthrough_search,
+)
 from mathgraph.version import __version__, get_version_info

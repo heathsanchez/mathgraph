@@ -49,6 +49,9 @@ CANONICAL_MODULES = (
     "mathgraph/repaired_countermodel_certificates.py",
     "mathgraph/end_to_end_breakthrough_validation.py",
     "mathgraph/sair_stage2_end_to_end.py",
+    "mathgraph/sair_stage2_scorecard_diagnostics.py",
+    "mathgraph/sair_stage2_policy_selector.py",
+    "mathgraph/sair_stage2_breakthrough_search.py",
     "mathgraph/recursive_residual_compounding.py",
     "mathgraph/etp_terms.py",
     "mathgraph/quotient_state.py",
@@ -70,6 +73,7 @@ CANONICAL_SCRIPTS = (
     "scripts/run_repaired_countermodel_certificate_assimilation.py",
     "scripts/run_end_to_end_breakthrough_validation.py",
     "scripts/run_sair_stage2_end_to_end.py",
+    "scripts/run_sair_stage2_breakthrough_search.py",
     "scripts/run_persistent_exact_microbasin_lawbook_benchmark.py",
     "scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py",
 )
