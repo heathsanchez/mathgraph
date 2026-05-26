@@ -36,6 +36,7 @@ from mathgraph.residual_conditioned_synthesis import (
     summarize_residual_conditioned_synthesis,
     synthesize_for_residual_pairs,
 )
+from mathgraph.source_law_repair import repair_conditioned_constructors, summarize_source_law_repair
 
 
 @dataclass(frozen=True)
@@ -55,6 +56,10 @@ class ActiveResidualDiscoveryConfig:
     max_conditioned_witnesses_per_pair: int = 8
     max_conditioned_attempts_per_pair: int = 32
     conditioned_max_steps: int = 5000
+    enable_source_law_repair: bool = False
+    repair_strategies: list[str] | None = None
+    repair_max_steps: int = 10000
+    repair_max_violations: int = 128
     max_n: int = 4
     seed: int = 20260524
     fallback_demo: bool = False
@@ -135,6 +140,7 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
             }
         )
     conditioned_tables: dict[str, pd.DataFrame] = {}
+    repair_tables: dict[str, pd.DataFrame] = {}
     if config.residual_conditioned_synthesis:
         residual_pairs = _residual_pairs(inputs["pair_features"], inputs["recovery_eval"])
         specs, attempts, conditioned_constructors = synthesize_for_residual_pairs(
@@ -160,6 +166,37 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
             "residual_conditioned_constructors.csv": conditioned_constructors,
             "residual_conditioned_recoveries.csv": conditioned_recoveries,
         }
+        if config.enable_source_law_repair:
+            repair_results, repair_traces = repair_conditioned_constructors(
+                conditioned_constructors,
+                max_steps=config.repair_max_steps,
+                max_violations=config.repair_max_violations,
+                strategies=config.repair_strategies,
+                seed=config.seed,
+            )
+            repair_summary = summarize_source_law_repair(repair_results, repair_traces)
+            repair_summary["source_law_repair_breakthrough_candidate"] = bool(source_mode == "real_etp" and repair_summary["source_law_repair_recovered_pairs"] > 0)
+            repair_summary["conditioned_plus_repair_recovered_pairs"] = int(conditioned_summary["residual_conditioned_recovered_pairs"]) + int(repair_summary["source_law_repair_recovered_pairs"])
+            repair_summary["total_synthesis_recovered_pairs"] = int(summary.get("synthesized_recovered_pairs", 0)) + int(repair_summary["conditioned_plus_repair_recovered_pairs"])
+            repair_summary["total_breakthrough_candidate"] = bool(summary.get("breakthrough_candidate", False) or conditioned_summary["residual_conditioned_breakthrough_candidate"] or repair_summary["source_law_repair_breakthrough_candidate"])
+            summary.update(repair_summary)
+            summary["evaluation_mode"] = "finite_checked_conditioned_repair"
+            repair_tables = {
+                "source_law_repair_results.csv": repair_results,
+                "source_law_repair_traces.csv": repair_traces,
+            }
+        else:
+            summary.update(
+                {
+                    "source_law_repair_enabled": False,
+                    "source_law_repair_attempt_count": 0,
+                    "source_law_repair_completed_count": 0,
+                    "source_law_repair_recovered_pairs": 0,
+                    "source_law_repair_best_strategy": "",
+                    "source_law_repair_breakthrough_candidate": False,
+                    "conditioned_plus_repair_recovered_pairs": int(conditioned_summary["residual_conditioned_recovered_pairs"]),
+                }
+            )
     else:
         summary.update(
             {
@@ -173,6 +210,13 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
                 "residual_conditioned_breakthrough_candidate": False,
                 "total_synthesis_recovered_pairs": int(summary.get("synthesized_recovered_pairs", 0)),
                 "total_breakthrough_candidate": bool(summary.get("breakthrough_candidate", False)),
+                "source_law_repair_enabled": False,
+                "source_law_repair_attempt_count": 0,
+                "source_law_repair_completed_count": 0,
+                "source_law_repair_recovered_pairs": 0,
+                "source_law_repair_best_strategy": "",
+                "source_law_repair_breakthrough_candidate": False,
+                "conditioned_plus_repair_recovered_pairs": 0,
             }
         )
     summary["benchmark_passed"] = (
@@ -194,6 +238,8 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
         artifacts[name] = out_dir / name
     for name in conditioned_tables:
         artifacts[name] = out_dir / name
+    for name in repair_tables:
+        artifacts[name] = out_dir / name
     _write_csv(artifacts["active_residual_basins.csv"], residual_basins)
     _write_csv(artifacts["constructor_proposals.csv"], proposals)
     _write_csv(artifacts["proposal_evaluations.csv"], evaluations)
@@ -201,12 +247,17 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
         _write_csv(artifacts[name], frame)
     for name, frame in conditioned_tables.items():
         _write_csv(artifacts[name], frame)
+    for name, frame in repair_tables.items():
+        _write_csv(artifacts[name], frame)
     if config.synthesize_constructors:
         artifacts["synthesis_summary.json"] = out_dir / "synthesis_summary.json"
         artifacts["synthesis_summary.json"].write_text(json.dumps({k: summary[k] for k in summary if k.startswith("synth") or k in {"best_synthesized_family", "best_synthesized_constructor_id", "finite_checked_recoveries", "breakthrough_candidate"}}, indent=2, sort_keys=True), encoding="utf-8")
     if config.residual_conditioned_synthesis:
         artifacts["residual_conditioned_summary.json"] = out_dir / "residual_conditioned_summary.json"
         artifacts["residual_conditioned_summary.json"].write_text(json.dumps({k: summary[k] for k in summary if k.startswith("residual_conditioned") or k in {"total_synthesis_recovered_pairs", "total_breakthrough_candidate"}}, indent=2, sort_keys=True), encoding="utf-8")
+    if config.enable_source_law_repair:
+        artifacts["source_law_repair_summary.json"] = out_dir / "source_law_repair_summary.json"
+        artifacts["source_law_repair_summary.json"].write_text(json.dumps({k: summary[k] for k in summary if k.startswith("source_law_repair") or k in {"conditioned_plus_repair_recovered_pairs", "total_synthesis_recovered_pairs", "total_breakthrough_candidate"}}, indent=2, sort_keys=True), encoding="utf-8")
     write_persistent_lawbook_sqlite(
         artifacts["active_discovery.sqlite"],
         {
@@ -215,6 +266,7 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
             "proposal_evaluations": evaluations,
             **{name.removesuffix(".csv"): frame for name, frame in synthesis_tables.items()},
             **{name.removesuffix(".csv"): frame for name, frame in conditioned_tables.items()},
+            **{name.removesuffix(".csv"): frame for name, frame in repair_tables.items()},
             "summary": pd.DataFrame([summary]),
         },
     )
@@ -347,6 +399,10 @@ def parse_args(argv: Sequence[str] | None = None) -> ActiveResidualDiscoveryConf
     parser.add_argument("--max-conditioned-witnesses-per-pair", type=int, default=8)
     parser.add_argument("--max-conditioned-attempts-per-pair", type=int, default=32)
     parser.add_argument("--conditioned-max-steps", type=int, default=5000)
+    parser.add_argument("--enable-source-law-repair", action="store_true")
+    parser.add_argument("--repair-strategies", default="pressure_descent,target_frozen_pressure_descent,diagonal_first_repair,row_col_repair,quotient_merge_repair,two_phase_repair")
+    parser.add_argument("--repair-max-steps", type=int, default=10000)
+    parser.add_argument("--repair-max-violations", type=int, default=128)
     parser.add_argument("--max-n", type=int, default=4)
     parser.add_argument("--seed", type=int, default=20260524)
     parser.add_argument("--fallback-demo", action="store_true")
@@ -367,6 +423,10 @@ def parse_args(argv: Sequence[str] | None = None) -> ActiveResidualDiscoveryConf
         max_conditioned_witnesses_per_pair=args.max_conditioned_witnesses_per_pair,
         max_conditioned_attempts_per_pair=args.max_conditioned_attempts_per_pair,
         conditioned_max_steps=args.conditioned_max_steps,
+        enable_source_law_repair=args.enable_source_law_repair,
+        repair_strategies=[item for item in args.repair_strategies.split(",") if item],
+        repair_max_steps=args.repair_max_steps,
+        repair_max_violations=args.repair_max_violations,
         max_n=args.max_n,
         seed=args.seed,
         fallback_demo=args.fallback_demo,

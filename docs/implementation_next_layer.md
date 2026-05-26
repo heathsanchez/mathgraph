@@ -300,6 +300,7 @@ Implemented:
 - Active Residual Constructor Discovery v1
 - Proposal-Specific Finite Constructor Synthesis v1
 - Residual-Conditioned Constructor Synthesis v1
+- Source-Law Repair Engine v1
 
 Still future work:
 

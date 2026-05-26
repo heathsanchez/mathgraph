@@ -22,6 +22,11 @@ checker confirms:
 
 Failed completion is residual evidence only. It is never TRUE.
 
+Source-Law Repair is the follow-up layer for target-violating candidates that
+fail the source equation. It detects source violations, scores responsible
+cells, repairs boundedly while preserving the target witness, and finite-checks
+the repaired table. See [source_law_repair.md](source_law_repair.md).
+
 ## Compared With Earlier Layers
 
 - Family-level proposal: advisory pressure such as `fresh_absorber`.

@@ -382,6 +382,67 @@ python scripts/run_active_residual_discovery_benchmark.py \
   --seed 1729
 ```
 
+Source-law repair targets the gap where a conditioned constructor violates the
+target but fails the source law:
+
+```bash
+python scripts/run_source_law_repair.py \
+  --out-dir /tmp/mathgraph_source_law_repair_demo \
+  --fallback-demo \
+  --seed 1729
+```
+
+Residual-conditioned synthesis with repair:
+
+```bash
+python scripts/run_residual_conditioned_synthesis.py \
+  --out-dir /tmp/mathgraph_residual_conditioned_repair_demo \
+  --fallback-demo \
+  --enable-source-law-repair \
+  --repair-max-steps 1000 \
+  --seed 1729
+```
+
+Active discovery with repair:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_discovery_source_repair_demo \
+  --fallback-demo \
+  --synthesize-constructors \
+  --residual-conditioned-synthesis \
+  --enable-source-law-repair \
+  --repair-max-steps 1000 \
+  --seed 1729
+```
+
+Real Colab source-repair run:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --input-dir /content/drive/MyDrive/SAIR_MathGraph/<previous_heldout_or_active_run> \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/active_residual_source_repair_v1 \
+  --min-support 3 \
+  --max-proposals-per-basin 3 \
+  --max-pairs-per-proposal 100 \
+  --synthesize-constructors \
+  --max-tables-per-proposal 32 \
+  --max-pairs-per-constructor 100 \
+  --residual-conditioned-synthesis \
+  --max-conditioned-pairs 100 \
+  --max-conditioned-witnesses-per-pair 8 \
+  --max-conditioned-attempts-per-pair 32 \
+  --conditioned-max-steps 5000 \
+  --enable-source-law-repair \
+  --repair-strategies pressure_descent,target_frozen_pressure_descent,diagonal_first_repair,row_col_repair,quotient_merge_repair,two_phase_repair \
+  --repair-max-steps 10000 \
+  --repair-max-violations 128 \
+  --max-n 4 \
+  --seed 20260524
+```
+
 Real Colab:
 
 ```bash

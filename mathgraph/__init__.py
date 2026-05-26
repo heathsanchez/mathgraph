@@ -2637,4 +2637,19 @@ from mathgraph.residual_conditioned_synthesis import (
     summarize_residual_conditioned_synthesis,
     synthesize_for_residual_pairs,
 )
+from mathgraph.source_law_repair import (
+    RepairCellPressure,
+    RepairMove,
+    RepairTrace,
+    SourceLawRepairResult,
+    SourceViolation,
+    compute_repair_cell_pressure,
+    find_source_violations,
+    propose_repair_moves,
+    repair_conditioned_constructors,
+    run_source_law_repair,
+    summarize_source_law_repair,
+    target_violation_preserved,
+    touched_cells_for_assignment,
+)
 from mathgraph.version import __version__, get_version_info

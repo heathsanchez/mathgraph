@@ -45,6 +45,7 @@ CANONICAL_MODULES = (
     "mathgraph/persistent_exact_microbasin_lawbook.py",
     "mathgraph/proposal_constructor_synthesis.py",
     "mathgraph/residual_conditioned_synthesis.py",
+    "mathgraph/source_law_repair.py",
     "mathgraph/recursive_residual_compounding.py",
     "mathgraph/etp_terms.py",
     "mathgraph/quotient_state.py",
@@ -62,6 +63,7 @@ CANONICAL_SCRIPTS = (
     "scripts/run_active_residual_discovery_benchmark.py",
     "scripts/run_proposal_constructor_synthesis.py",
     "scripts/run_residual_conditioned_synthesis.py",
+    "scripts/run_source_law_repair.py",
     "scripts/run_persistent_exact_microbasin_lawbook_benchmark.py",
     "scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py",
 )

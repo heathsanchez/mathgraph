@@ -120,6 +120,12 @@ Witnesses, partial tables, failed completions, and route pressure are advisory;
 only finite-checker-backed source-holds/target-violates evidence can count as a
 FALSE-side recovery.
 
+Source-Law Repair follows when a candidate separates the target but violates
+the source. It identifies source-law violating assignments, scores the touched
+table cells, and tries bounded rewrites that preserve the target witness. Repair
+failure is another residual; only a finite-checked repaired table can become
+FALSE-side evidence.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding
