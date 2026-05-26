@@ -2622,4 +2622,19 @@ from mathgraph.proposal_constructor_synthesis import (
     synthesize_constructors_for_proposal,
     synthesize_constructors_for_proposals,
 )
+from mathgraph.residual_conditioned_synthesis import (
+    CompletionAttempt,
+    PartialTableConstraint,
+    ResidualConditionedConstructor,
+    ResidualConditionedRecovery,
+    ResidualPairSpec,
+    WitnessCandidate,
+    build_residual_pair_specs,
+    complete_partial_table,
+    evaluate_residual_conditioned_constructors,
+    force_target_violation_constraints,
+    generate_witness_candidates,
+    summarize_residual_conditioned_synthesis,
+    synthesize_for_residual_pairs,
+)
 from mathgraph.version import __version__, get_version_info

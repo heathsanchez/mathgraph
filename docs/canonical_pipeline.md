@@ -107,6 +107,19 @@ finite magma tables. A route becomes a discovery only when the generated table
 is finite-checked against an implication pair; failed synthesis remains residual
 evidence, never TRUE.
 
+Residual-conditioned synthesis makes the constructor pair-specific. It chooses
+a target witness, records partial table constraints, completes candidate magma
+tables, and finite-checks them. This closes the next loop:
+
+```text
+residual pair -> target witness -> partial constraints -> table completion
+-> finite checker -> exact attribution
+```
+
+Witnesses, partial tables, failed completions, and route pressure are advisory;
+only finite-checker-backed source-holds/target-violates evidence can count as a
+FALSE-side recovery.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

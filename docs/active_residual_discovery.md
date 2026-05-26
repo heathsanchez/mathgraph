@@ -14,6 +14,12 @@ finite magma tables and checked against residual implication pairs. A generated
 constructor counts only when the finite checker confirms that the source holds
 globally and the target is violated.
 
+With `--residual-conditioned-synthesis`, active discovery takes the next step:
+the remaining residual pair itself proposes a target witness, partial table
+constraints, and deterministic completions before finite checking. This is the
+first constructor layer shaped by the actual obstruction, not only by a family
+label.
+
 ## Loop
 
 ```text
@@ -57,6 +63,17 @@ python scripts/run_active_residual_discovery_benchmark.py \
   --out-dir /tmp/mathgraph_active_discovery_synthesis_demo \
   --fallback-demo \
   --synthesize-constructors \
+  --seed 1729
+```
+
+With residual-conditioned synthesis:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_discovery_conditioned_demo \
+  --fallback-demo \
+  --synthesize-constructors \
+  --residual-conditioned-synthesis \
   --seed 1729
 ```
 

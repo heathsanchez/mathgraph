@@ -31,6 +31,11 @@ from mathgraph.proposal_constructor_synthesis import (
     summarize_synthesis,
     synthesize_constructors_for_proposals,
 )
+from mathgraph.residual_conditioned_synthesis import (
+    evaluate_residual_conditioned_constructors,
+    summarize_residual_conditioned_synthesis,
+    synthesize_for_residual_pairs,
+)
 
 
 @dataclass(frozen=True)
@@ -45,6 +50,11 @@ class ActiveResidualDiscoveryConfig:
     synthesize_constructors: bool = False
     max_tables_per_proposal: int = 32
     max_pairs_per_constructor: int = 100
+    residual_conditioned_synthesis: bool = False
+    max_conditioned_pairs: int = 100
+    max_conditioned_witnesses_per_pair: int = 8
+    max_conditioned_attempts_per_pair: int = 32
+    conditioned_max_steps: int = 5000
     max_n: int = 4
     seed: int = 20260524
     fallback_demo: bool = False
@@ -124,6 +134,47 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
                 "breakthrough_candidate": False,
             }
         )
+    conditioned_tables: dict[str, pd.DataFrame] = {}
+    if config.residual_conditioned_synthesis:
+        residual_pairs = _residual_pairs(inputs["pair_features"], inputs["recovery_eval"])
+        specs, attempts, conditioned_constructors = synthesize_for_residual_pairs(
+            residual_pairs,
+            equations or [],
+            max_n=config.max_n,
+            max_pairs=config.max_conditioned_pairs,
+            max_witnesses_per_pair=config.max_conditioned_witnesses_per_pair,
+            max_attempts_per_pair=config.max_conditioned_attempts_per_pair,
+            max_steps=config.conditioned_max_steps,
+            seed=config.seed,
+        )
+        conditioned_recoveries = evaluate_residual_conditioned_constructors(conditioned_constructors, equations or [])
+        conditioned_summary = summarize_residual_conditioned_synthesis(specs, attempts, conditioned_constructors, conditioned_recoveries)
+        conditioned_summary["residual_conditioned_breakthrough_candidate"] = bool(source_mode == "real_etp" and conditioned_summary["residual_conditioned_recovered_pairs"] > 0)
+        conditioned_summary["total_synthesis_recovered_pairs"] = int(summary.get("synthesized_recovered_pairs", 0)) + int(conditioned_summary["residual_conditioned_recovered_pairs"])
+        conditioned_summary["total_breakthrough_candidate"] = bool(summary.get("breakthrough_candidate", False) or conditioned_summary["residual_conditioned_breakthrough_candidate"])
+        summary.update(conditioned_summary)
+        summary["evaluation_mode"] = "finite_checked_conditioned"
+        conditioned_tables = {
+            "residual_conditioned_pair_specs.csv": specs,
+            "residual_conditioned_attempts.csv": attempts,
+            "residual_conditioned_constructors.csv": conditioned_constructors,
+            "residual_conditioned_recoveries.csv": conditioned_recoveries,
+        }
+    else:
+        summary.update(
+            {
+                "residual_conditioned_enabled": False,
+                "residual_conditioned_pair_count": 0,
+                "residual_conditioned_attempt_count": 0,
+                "residual_conditioned_constructor_count": 0,
+                "residual_conditioned_recovered_pairs": 0,
+                "residual_conditioned_recovery_rate": 0.0,
+                "residual_conditioned_best_family": "",
+                "residual_conditioned_breakthrough_candidate": False,
+                "total_synthesis_recovered_pairs": int(summary.get("synthesized_recovered_pairs", 0)),
+                "total_breakthrough_candidate": bool(summary.get("breakthrough_candidate", False)),
+            }
+        )
     summary["benchmark_passed"] = (
         summary["residual_basin_count"] > 0
         and summary["proposal_count"] > 0
@@ -141,14 +192,21 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
     }
     for name in synthesis_tables:
         artifacts[name] = out_dir / name
+    for name in conditioned_tables:
+        artifacts[name] = out_dir / name
     _write_csv(artifacts["active_residual_basins.csv"], residual_basins)
     _write_csv(artifacts["constructor_proposals.csv"], proposals)
     _write_csv(artifacts["proposal_evaluations.csv"], evaluations)
     for name, frame in synthesis_tables.items():
         _write_csv(artifacts[name], frame)
+    for name, frame in conditioned_tables.items():
+        _write_csv(artifacts[name], frame)
     if config.synthesize_constructors:
         artifacts["synthesis_summary.json"] = out_dir / "synthesis_summary.json"
         artifacts["synthesis_summary.json"].write_text(json.dumps({k: summary[k] for k in summary if k.startswith("synth") or k in {"best_synthesized_family", "best_synthesized_constructor_id", "finite_checked_recoveries", "breakthrough_candidate"}}, indent=2, sort_keys=True), encoding="utf-8")
+    if config.residual_conditioned_synthesis:
+        artifacts["residual_conditioned_summary.json"] = out_dir / "residual_conditioned_summary.json"
+        artifacts["residual_conditioned_summary.json"].write_text(json.dumps({k: summary[k] for k in summary if k.startswith("residual_conditioned") or k in {"total_synthesis_recovered_pairs", "total_breakthrough_candidate"}}, indent=2, sort_keys=True), encoding="utf-8")
     write_persistent_lawbook_sqlite(
         artifacts["active_discovery.sqlite"],
         {
@@ -156,6 +214,7 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
             "constructor_proposals": proposals,
             "proposal_evaluations": evaluations,
             **{name.removesuffix(".csv"): frame for name, frame in synthesis_tables.items()},
+            **{name.removesuffix(".csv"): frame for name, frame in conditioned_tables.items()},
             "summary": pd.DataFrame([summary]),
         },
     )
@@ -283,6 +342,11 @@ def parse_args(argv: Sequence[str] | None = None) -> ActiveResidualDiscoveryConf
     parser.add_argument("--synthesize-constructors", action="store_true")
     parser.add_argument("--max-tables-per-proposal", type=int, default=32)
     parser.add_argument("--max-pairs-per-constructor", type=int, default=100)
+    parser.add_argument("--residual-conditioned-synthesis", action="store_true")
+    parser.add_argument("--max-conditioned-pairs", type=int, default=100)
+    parser.add_argument("--max-conditioned-witnesses-per-pair", type=int, default=8)
+    parser.add_argument("--max-conditioned-attempts-per-pair", type=int, default=32)
+    parser.add_argument("--conditioned-max-steps", type=int, default=5000)
     parser.add_argument("--max-n", type=int, default=4)
     parser.add_argument("--seed", type=int, default=20260524)
     parser.add_argument("--fallback-demo", action="store_true")
@@ -298,6 +362,11 @@ def parse_args(argv: Sequence[str] | None = None) -> ActiveResidualDiscoveryConf
         synthesize_constructors=args.synthesize_constructors,
         max_tables_per_proposal=args.max_tables_per_proposal,
         max_pairs_per_constructor=args.max_pairs_per_constructor,
+        residual_conditioned_synthesis=args.residual_conditioned_synthesis,
+        max_conditioned_pairs=args.max_conditioned_pairs,
+        max_conditioned_witnesses_per_pair=args.max_conditioned_witnesses_per_pair,
+        max_conditioned_attempts_per_pair=args.max_conditioned_attempts_per_pair,
+        conditioned_max_steps=args.conditioned_max_steps,
         max_n=args.max_n,
         seed=args.seed,
         fallback_demo=args.fallback_demo,

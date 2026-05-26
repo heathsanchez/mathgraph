@@ -22,6 +22,11 @@ residual -> obstruction pressure -> proposal -> finite constructor
 -> finite checker -> exact attribution
 ```
 
+Residual-conditioned synthesis is the next layer. It does not start from a
+family label alone; it uses the residual pair to choose a target witness, force
+partial table constraints, complete candidate tables, and then finite-check the
+result. See [residual_conditioned_synthesis.md](residual_conditioned_synthesis.md).
+
 ## Fallback
 
 ```bash

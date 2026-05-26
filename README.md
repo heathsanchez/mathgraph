@@ -359,6 +359,52 @@ python scripts/run_active_residual_discovery_benchmark.py \
   --seed 1729
 ```
 
+Residual-conditioned synthesis shapes the next constructor from the residual
+pair itself: target witness, partial table constraints, deterministic
+completion, then finite checking. Failed completion is still residual evidence,
+never TRUE.
+
+```bash
+python scripts/run_residual_conditioned_synthesis.py \
+  --out-dir /tmp/mathgraph_residual_conditioned_demo \
+  --fallback-demo \
+  --seed 1729
+```
+
+Integrated active discovery:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_discovery_conditioned_demo \
+  --fallback-demo \
+  --synthesize-constructors \
+  --residual-conditioned-synthesis \
+  --seed 1729
+```
+
+Real Colab:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --input-dir /content/drive/MyDrive/SAIR_MathGraph/<previous_heldout_or_active_run> \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/active_residual_conditioned_synthesis_v1 \
+  --min-support 3 \
+  --max-proposals-per-basin 3 \
+  --max-pairs-per-proposal 100 \
+  --synthesize-constructors \
+  --max-tables-per-proposal 32 \
+  --max-pairs-per-constructor 100 \
+  --residual-conditioned-synthesis \
+  --max-conditioned-pairs 100 \
+  --max-conditioned-witnesses-per-pair 8 \
+  --max-conditioned-attempts-per-pair 32 \
+  --conditioned-max-steps 5000 \
+  --max-n 4 \
+  --seed 20260524
+```
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready
