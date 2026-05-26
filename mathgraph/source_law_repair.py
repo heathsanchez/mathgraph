@@ -85,6 +85,8 @@ class SourceLawRepairResult:
     constructor_id: str
     family: str
     n: int
+    source_equation: str
+    target_equation: str
     original_table_hash: str
     repaired_table_hash: str
     repaired_table: list[list[int]]
@@ -295,6 +297,8 @@ def run_source_law_repair(
         constructor_id=constructor_id,
         family=family,
         n=len(current),
+        source_equation=source_equation,
+        target_equation=target_equation,
         original_table_hash=original_hash,
         repaired_table_hash=table_hash(current),
         repaired_table=[list(row) for row in current],

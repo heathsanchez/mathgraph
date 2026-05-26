@@ -301,6 +301,7 @@ Implemented:
 - Proposal-Specific Finite Constructor Synthesis v1
 - Residual-Conditioned Constructor Synthesis v1
 - Source-Law Repair Engine v1
+- Repaired Countermodel Certificate Assimilation v1
 
 Still future work:
 

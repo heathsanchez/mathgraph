@@ -2652,4 +2652,16 @@ from mathgraph.source_law_repair import (
     target_violation_preserved,
     touched_cells_for_assignment,
 )
+from mathgraph.repaired_countermodel_certificates import (
+    RepairedCertificateAdmissionResult,
+    RepairedCertificateFamilySummary,
+    RepairedCertificateManifest,
+    RepairedCountermodelCertificate,
+    build_repaired_countermodel_certificates,
+    deduplicate_repaired_certificates,
+    load_source_law_repair_outputs,
+    summarize_repaired_certificate_families,
+    validate_repaired_certificate_boundary,
+    write_repaired_certificate_lawbook,
+)
 from mathgraph.version import __version__, get_version_info

@@ -19,6 +19,12 @@ if str(ROOT) not in sys.path:
 import pandas as pd
 
 from mathgraph.persistent_exact_microbasin_lawbook import write_persistent_lawbook_sqlite
+from mathgraph.repaired_countermodel_certificates import (
+    build_repaired_countermodel_certificates,
+    deduplicate_repaired_certificates,
+    summarize_repaired_certificate_families,
+    write_repaired_certificate_lawbook,
+)
 from mathgraph.source_law_repair import repair_conditioned_constructors, summarize_source_law_repair
 
 
@@ -31,6 +37,7 @@ class SourceLawRepairCliConfig:
     repair_max_violations: int = 128
     seed: int = 20260524
     fallback_demo: bool = False
+    assimilate_certificates: bool = False
 
 
 def run_source_law_repair_cli(config: SourceLawRepairCliConfig) -> dict[str, object]:
@@ -79,6 +86,32 @@ def run_source_law_repair_cli(config: SourceLawRepairCliConfig) -> dict[str, obj
         json.dumps([{"artifact_name": name, "path": str(path), "exists": path.exists()} for name, path in artifacts.items() if name != "artifact_manifest.json"], indent=2, sort_keys=True),
         encoding="utf-8",
     )
+    if config.assimilate_certificates:
+        cert_dir = out_dir / "repaired_countermodel_certificates"
+        certs, rejected = build_repaired_countermodel_certificates(out_dir, source_mode=summary["source_mode"])
+        unique, duplicates = deduplicate_repaired_certificates(certs)
+        family_summary = summarize_repaired_certificate_families(unique)
+        cert_artifacts = write_repaired_certificate_lawbook(
+            unique,
+            rejected,
+            family_summary,
+            cert_dir,
+            manifest_metadata={"source_mode": summary["source_mode"], "input_dir": str(out_dir)},
+        )
+        summary.update(
+            {
+                "certificate_assimilation_enabled": True,
+                "repaired_certificate_count": int(len(unique)),
+                "repaired_certificate_unique_pair_count": int(unique["pair_id"].nunique()) if not unique.empty and "pair_id" in unique else 0,
+                "repaired_certificate_lawbook": cert_artifacts["repaired_countermodel_lawbook.sqlite"],
+                "repaired_certificate_manifest": cert_artifacts["repaired_countermodel_manifest.json"],
+                "breakthrough_certificate_count": int(len(unique)),
+                "repaired_certificate_duplicate_count": int(len(duplicates)),
+            }
+        )
+        artifacts["source_law_repair_summary.json"].write_text(json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8")
+    else:
+        summary["certificate_assimilation_enabled"] = False
     return summary | {"artifacts": {name: str(path) for name, path in artifacts.items()}}
 
 
@@ -144,6 +177,7 @@ def parse_args(argv: Sequence[str] | None = None) -> SourceLawRepairCliConfig:
     parser.add_argument("--repair-max-violations", type=int, default=128)
     parser.add_argument("--seed", type=int, default=20260524)
     parser.add_argument("--fallback-demo", action="store_true")
+    parser.add_argument("--assimilate-certificates", action="store_true")
     args = parser.parse_args(argv)
     return SourceLawRepairCliConfig(
         input_dir=args.input_dir,
@@ -153,6 +187,7 @@ def parse_args(argv: Sequence[str] | None = None) -> SourceLawRepairCliConfig:
         repair_max_violations=args.repair_max_violations,
         seed=args.seed,
         fallback_demo=args.fallback_demo,
+        assimilate_certificates=args.assimilate_certificates,
     )
 
 

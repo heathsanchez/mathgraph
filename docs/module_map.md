@@ -84,6 +84,7 @@ modules.
 - `proposal_constructor_synthesis.py`: concrete finite magma synthesis and finite-checked proposal recovery
 - `residual_conditioned_synthesis.py`: target-witness forcing, partial table completion, and finite-checked residual-pair constructor recovery
 - `source_law_repair.py`: bounded source-law repair of target-violating finite tables before final finite checking
+- `repaired_countermodel_certificates.py`: repaired finite countermodel certificate assimilation and Lawbook artifact export
 - `scripts/run_mathgraph_compounding_engine.py`: multi-episode ETP constructor/residual/Lawbook runner
 - `scripts/run_autonomous_compounding_engine.py`: autonomous façade/native v2 CLI
 - `scripts/run_persistent_exact_microbasin_lawbook_benchmark.py`: persistent exact micro-basin Lawbook benchmark
@@ -91,6 +92,7 @@ modules.
 - `scripts/run_proposal_constructor_synthesis.py`: standalone proposal-specific finite constructor synthesis runner
 - `scripts/run_residual_conditioned_synthesis.py`: standalone residual-conditioned constructor synthesis runner
 - `scripts/run_source_law_repair.py`: standalone source-law repair runner
+- `scripts/run_repaired_countermodel_certificate_assimilation.py`: standalone repaired countermodel certificate assimilation runner
 - `scripts/run_true_side_inventory.py`: bounded TRUE-side proof-template inventory runner
 - `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
 - `scripts/run_polarized_quotient_ir_demo.py`: lightweight PQ-IR feature demo

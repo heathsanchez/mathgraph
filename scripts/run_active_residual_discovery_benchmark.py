@@ -31,6 +31,12 @@ from mathgraph.proposal_constructor_synthesis import (
     summarize_synthesis,
     synthesize_constructors_for_proposals,
 )
+from mathgraph.repaired_countermodel_certificates import (
+    build_repaired_countermodel_certificates,
+    deduplicate_repaired_certificates,
+    summarize_repaired_certificate_families,
+    write_repaired_certificate_lawbook,
+)
 from mathgraph.residual_conditioned_synthesis import (
     evaluate_residual_conditioned_constructors,
     summarize_residual_conditioned_synthesis,
@@ -60,6 +66,7 @@ class ActiveResidualDiscoveryConfig:
     repair_strategies: list[str] | None = None
     repair_max_steps: int = 10000
     repair_max_violations: int = 128
+    assimilate_repaired_certificates: bool = False
     max_n: int = 4
     seed: int = 20260524
     fallback_demo: bool = False
@@ -258,6 +265,36 @@ def run_active_residual_discovery_benchmark(config: ActiveResidualDiscoveryConfi
     if config.enable_source_law_repair:
         artifacts["source_law_repair_summary.json"] = out_dir / "source_law_repair_summary.json"
         artifacts["source_law_repair_summary.json"].write_text(json.dumps({k: summary[k] for k in summary if k.startswith("source_law_repair") or k in {"conditioned_plus_repair_recovered_pairs", "total_synthesis_recovered_pairs", "total_breakthrough_candidate"}}, indent=2, sort_keys=True), encoding="utf-8")
+    if config.assimilate_repaired_certificates and config.enable_source_law_repair:
+        cert_dir = out_dir / "repaired_countermodel_certificates"
+        certs, rejected = build_repaired_countermodel_certificates(out_dir, equations=equations or [], source_mode=source_mode)
+        unique, duplicates = deduplicate_repaired_certificates(certs)
+        family_summary = summarize_repaired_certificate_families(unique)
+        cert_artifacts = write_repaired_certificate_lawbook(
+            unique,
+            rejected,
+            family_summary,
+            cert_dir,
+            manifest_metadata={"source_mode": source_mode, "input_dir": str(out_dir)},
+        )
+        summary.update(
+            {
+                "certificate_assimilation_enabled": True,
+                "repaired_certificate_count": int(len(unique)),
+                "repaired_certificate_unique_pair_count": int(unique["pair_id"].nunique()) if not unique.empty and "pair_id" in unique else 0,
+                "repaired_certificate_lawbook": cert_artifacts["repaired_countermodel_lawbook.sqlite"],
+                "repaired_certificate_manifest": cert_artifacts["repaired_countermodel_manifest.json"],
+                "breakthrough_certificate_count": int(len(unique)),
+                "repaired_certificate_duplicate_count": int(len(duplicates)),
+            }
+        )
+        artifacts["repaired_countermodel_manifest.json"] = Path(cert_artifacts["repaired_countermodel_manifest.json"])
+        artifacts["repaired_countermodel_lawbook.sqlite"] = Path(cert_artifacts["repaired_countermodel_lawbook.sqlite"])
+    else:
+        summary.setdefault("certificate_assimilation_enabled", False)
+        summary.setdefault("repaired_certificate_count", 0)
+        summary.setdefault("repaired_certificate_unique_pair_count", 0)
+        summary.setdefault("breakthrough_certificate_count", 0)
     write_persistent_lawbook_sqlite(
         artifacts["active_discovery.sqlite"],
         {
@@ -403,6 +440,7 @@ def parse_args(argv: Sequence[str] | None = None) -> ActiveResidualDiscoveryConf
     parser.add_argument("--repair-strategies", default="pressure_descent,target_frozen_pressure_descent,diagonal_first_repair,row_col_repair,quotient_merge_repair,two_phase_repair")
     parser.add_argument("--repair-max-steps", type=int, default=10000)
     parser.add_argument("--repair-max-violations", type=int, default=128)
+    parser.add_argument("--assimilate-repaired-certificates", action="store_true")
     parser.add_argument("--max-n", type=int, default=4)
     parser.add_argument("--seed", type=int, default=20260524)
     parser.add_argument("--fallback-demo", action="store_true")
@@ -427,6 +465,7 @@ def parse_args(argv: Sequence[str] | None = None) -> ActiveResidualDiscoveryConf
         repair_strategies=[item for item in args.repair_strategies.split(",") if item],
         repair_max_steps=args.repair_max_steps,
         repair_max_violations=args.repair_max_violations,
+        assimilate_repaired_certificates=args.assimilate_repaired_certificates,
         max_n=args.max_n,
         seed=args.seed,
         fallback_demo=args.fallback_demo,

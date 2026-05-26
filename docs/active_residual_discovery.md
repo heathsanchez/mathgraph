@@ -25,6 +25,10 @@ that fail the source law receive bounded repair attempts. Repairs are accepted
 only through finite checking; repair traces are advisory pressure for future
 obstruction naming and constructor synthesis.
 
+With `--assimilate-repaired-certificates`, finite-checked repaired recoveries
+are written as repaired countermodel certificate artifacts and Lawbook-ready
+family summaries.
+
 ## Loop
 
 ```text

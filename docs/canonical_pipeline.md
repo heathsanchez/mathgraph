@@ -126,6 +126,12 @@ table cells, and tries bounded rewrites that preserve the target witness. Repair
 failure is another residual; only a finite-checked repaired table can become
 FALSE-side evidence.
 
+Repaired Countermodel Certificate Assimilation records those finite-checked
+tables as durable artifacts: source/target equation, finite magma table, witness,
+repair trace, checker result, table hash, route provenance, and micro-basin
+attribution. This creates compounding memory without weakening the TRUE/FALSE
+boundary.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

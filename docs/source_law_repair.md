@@ -29,6 +29,11 @@ target witness remains violated.
 Failed repair is residual evidence only. It is not TRUE, not a proof, and not an
 accepted terminal claim.
 
+Finite-checked successful repairs can be assimilated into repaired
+countermodel certificate artifacts. The assimilation step records the table,
+witness, repair trace, checker result, provenance, and Lawbook-ready family
+summary. See [repaired_countermodel_certificates.md](repaired_countermodel_certificates.md).
+
 ## Repair Strategies
 
 - `pressure_descent`
