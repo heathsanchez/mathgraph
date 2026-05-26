@@ -8,10 +8,51 @@ Start here:
 ```bash
 python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
-python scripts/run_public_demo.py --out-dir demo_out
+python scripts/run_sair_stage2_end_to_end.py --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo --fallback-demo --strict-admission --write-report
 ```
 
 Then read [docs/quickstart.md](docs/quickstart.md).
+
+## Official SAIR Stage 2 Evidence Pack
+
+The official external evidence command is:
+
+```bash
+python scripts/run_sair_stage2_end_to_end.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/sair_stage2_end_to_end_pack \
+  --episodes 4 \
+  --train-false 5000 \
+  --heldout-false 5000 \
+  --sample-true 1000 \
+  --max-n 4 \
+  --repair-budget 40 \
+  --seeds 20260524,20260525,20260526 \
+  --strict-admission \
+  --write-report
+```
+
+This pack writes one inspectable artifact directory with the executive summary,
+technical report, trust-boundary audit, certificate manifest, residual frontier,
+Lawbook/Reason Atlas SQLite files, and replay instructions. Fallback mode is
+available for tests, but it is explicitly labeled non-evidence:
+
+```bash
+python scripts/run_sair_stage2_end_to_end.py \
+  --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo \
+  --fallback-demo \
+  --episodes 2 \
+  --train-false 100 \
+  --heldout-false 100 \
+  --sample-true 50 \
+  --seeds 1729 \
+  --strict-admission \
+  --write-report
+```
+
+Other runners in this README are internal components or research runners used
+by the official pack.
 
 ## Canonical Path
 
@@ -57,14 +98,14 @@ Canonical modules:
 | SAIR / ETP adapters | `mathgraph/sair_task_loader.py`, `mathgraph/sair_constructor_bank.py` |
 
 Legacy scripts and experiment modules still exist, but new users should start
-with release check, architecture audit, and the canonical compounding loop.
+with release check, architecture audit, and the official SAIR evidence pack.
 
 Canonical commands:
 
 ```bash
 python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
-python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo
+python scripts/run_sair_stage2_end_to_end.py --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo --fallback-demo --strict-admission --write-report
 ```
 
 See [docs/canonical_pipeline.md](docs/canonical_pipeline.md) and

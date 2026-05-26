@@ -2676,4 +2676,13 @@ from mathgraph.end_to_end_breakthrough_validation import (
     validate_breakthrough_safety,
     write_breakthrough_report,
 )
+from mathgraph.sair_stage2_end_to_end import (
+    SairStage2ArtifactManifest,
+    SairStage2EndToEndConfig,
+    SairStage2EpisodeResult,
+    SairStage2EvidenceSummary,
+    SairStage2TrustBoundaryAudit,
+    classify_sair_stage2,
+    run_sair_stage2_end_to_end,
+)
 from mathgraph.version import __version__, get_version_info

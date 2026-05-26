@@ -137,6 +137,12 @@ for this whole FALSE-side chain. It runs or reuses each stage, writes safety
 gates, computes breakthrough classification, and emits a final report suitable
 for technical review or investor diligence.
 
+The Official SAIR Stage 2 Evidence Pack is the product-facing command for real
+SAIR data. It wraps the breakthrough chain, enforces real-input requirements for
+product evidence, writes certificate and residual manifests, and emits the
+trust-boundary audit used to distinguish verified, advisory, and residual rows.
+Fallback runs are wiring checks only and classify as `safe_infrastructure_only`.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

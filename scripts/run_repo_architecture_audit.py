@@ -48,6 +48,7 @@ CANONICAL_MODULES = (
     "mathgraph/source_law_repair.py",
     "mathgraph/repaired_countermodel_certificates.py",
     "mathgraph/end_to_end_breakthrough_validation.py",
+    "mathgraph/sair_stage2_end_to_end.py",
     "mathgraph/recursive_residual_compounding.py",
     "mathgraph/etp_terms.py",
     "mathgraph/quotient_state.py",
@@ -56,7 +57,7 @@ CANONICAL_MODULES = (
 CANONICAL_COMMANDS = (
     "python scripts/run_release_check.py --quick",
     "python scripts/run_repo_architecture_audit.py",
-    "python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo",
+    "python scripts/run_sair_stage2_end_to_end.py --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo --fallback-demo --strict-admission --write-report",
 )
 CANONICAL_SCRIPTS = (
     "scripts/run_autonomous_native_v2_benchmark.py",
@@ -68,6 +69,7 @@ CANONICAL_SCRIPTS = (
     "scripts/run_source_law_repair.py",
     "scripts/run_repaired_countermodel_certificate_assimilation.py",
     "scripts/run_end_to_end_breakthrough_validation.py",
+    "scripts/run_sair_stage2_end_to_end.py",
     "scripts/run_persistent_exact_microbasin_lawbook_benchmark.py",
     "scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py",
 )

@@ -303,9 +303,11 @@ Implemented:
 - Source-Law Repair Engine v1
 - Repaired Countermodel Certificate Assimilation v1
 - End-to-End Breakthrough Validation Pack
+- Official SAIR Stage 2 Evidence Pack
 
 Still future work:
 
+- run and archive the official SAIR Stage 2 evidence pack at full Colab-scale budgets
 - scale native v2 autonomous recovery on full real ETP/SAIR splits
 - persistent Lawbook admission for native v2 finite countermodel certificates
 - compact obstruction-atlas route selection over multiple seeds
