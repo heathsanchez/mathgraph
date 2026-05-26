@@ -2552,4 +2552,54 @@ from mathgraph.policy_engine import ConstructorPolicy, build_policy_routes, buil
 from mathgraph.proof_congruence import ExplainTrace, ProofCongruenceClosure, ProofStep, explain_bounded_congruence
 from mathgraph.true_proof_templates import TrueProofTemplate, build_true_proof_template_inventory, classify_true_pair
 from mathgraph.lean_artifacts import generate_false_countermodel_lean_skeleton, generate_true_congruence_lean_skeleton, write_lean_artifacts
+from mathgraph.autonomous_finite_recovery import (
+    FiniteRecoveryConfig,
+    FiniteRecoveryResult,
+    build_finite_recovery_core,
+    evaluate_false_pairs as evaluate_autonomous_false_pairs,
+    greedy_route as autonomous_greedy_route,
+    pair_recovery_matrix as autonomous_pair_recovery_matrix,
+    residual_marginal_repair as autonomous_residual_marginal_repair,
+    route_metrics as autonomous_route_metrics,
+)
+from mathgraph.microbasin_distillation import (
+    DistillationConfig,
+    MicrobasinDistillationResult,
+    MicrobasinKeyConfig,
+    add_microbasin_keys,
+    attribute_lawbook_gains,
+    distill_minimal_recipes,
+    join_pair_recovery_features,
+    load_distillation_inputs,
+    run_microbasin_distillation,
+    summarize_microbasins,
+    summarize_residual_obstruction_targets,
+)
+from mathgraph.exact_constructor_attribution import (
+    attribute_policy_recoveries,
+    build_exact_constructor_attribution_frame,
+    first_recovering_constructor_for_pair,
+    top_lawbook_gain_constructor_families,
+    top_lawbook_gain_constructors,
+)
+from mathgraph.persistent_exact_microbasin_lawbook import (
+    PersistentMicrobasinEntry,
+    add_microbasin_keys as add_persistent_microbasin_keys,
+    build_microbasin_key as build_persistent_microbasin_key,
+    build_persistent_lawbook,
+    detect_recovery_columns,
+    evaluate_persistent_replay,
+    normalize_recovery_frame,
+    replay_persistent_lawbook,
+)
+from mathgraph.causal_route_selection import (
+    CausalRoutePolicy,
+    CausalRouteScore,
+    RouteEvidence,
+    apply_causal_route_policy,
+    build_route_evidence,
+    evaluate_causal_policy,
+    score_causal_routes,
+    select_causal_routes,
+)
 from mathgraph.version import __version__, get_version_info

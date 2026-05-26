@@ -75,7 +75,14 @@ modules.
 
 - `compounding_lawbook_engine.py`: fallback compounding engine
 - `compounding_engine.py`: canonical baseline versus memory compounding loop
+- `autonomous_compounding_engine.py`: autonomous finite-core façade plus native v2 finite recovery/residual repair loop
+- `autonomous_finite_recovery.py`: constructor bank, SAT-cache recovery, greedy route, and residual repair adapter
+- `exact_constructor_attribution.py`: first-hit constructor attribution for advisory route learning
+- `microbasin_distillation.py`: exact/proxy micro-basin recipe distillation from held-out recovery artifacts
+- `persistent_exact_microbasin_lawbook.py`: prior-only persistent exact micro-basin replay and proxy compounding metrics
 - `scripts/run_mathgraph_compounding_engine.py`: multi-episode ETP constructor/residual/Lawbook runner
+- `scripts/run_autonomous_compounding_engine.py`: autonomous façade/native v2 CLI
+- `scripts/run_persistent_exact_microbasin_lawbook_benchmark.py`: persistent exact micro-basin Lawbook benchmark
 - `scripts/run_true_side_inventory.py`: bounded TRUE-side proof-template inventory runner
 - `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
 - `scripts/run_polarized_quotient_ir_demo.py`: lightweight PQ-IR feature demo
@@ -94,6 +101,8 @@ modules.
 - `scripts/run_repo_architecture_audit.py`
 - `scripts/run_recursive_residual_compounding.py`
 - `scripts/run_mathgraph_compounding_engine.py`
+- `scripts/run_autonomous_compounding_engine.py`
+- `scripts/run_persistent_exact_microbasin_lawbook_benchmark.py`
 
 ## Legacy Surface
 

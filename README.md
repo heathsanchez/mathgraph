@@ -52,7 +52,7 @@ Canonical modules:
 | semantic boundary | `mathgraph/semantic_validation.py`, `mathgraph/invariants.py` |
 | routing memory | `mathgraph/reason_atlas.py`, `mathgraph/reason_atlas_store.py` |
 | H-Tilt / scheduling pressure | `mathgraph/spectral_htilt.py`, `mathgraph/reason_atlas_htilt.py`, `mathgraph/viability_operators.py` |
-| verification loops | `mathgraph/verification_loop.py`, `mathgraph/compounding_engine.py` |
+| verification loops | `mathgraph/verification_loop.py`, `mathgraph/compounding_engine.py`, `mathgraph/autonomous_compounding_engine.py` |
 | finite checker | `mathgraph/finite_magma_world.py` |
 | SAIR / ETP adapters | `mathgraph/sair_task_loader.py`, `mathgraph/sair_constructor_bank.py` |
 
@@ -171,6 +171,143 @@ python scripts/run_mathgraph_compounding_engine.py \
 ```
 
 See [docs/compounding_engine.md](docs/compounding_engine.md).
+
+## Autonomous Compounding Engine
+
+The autonomous engine has a compatibility `facade` mode and an explicit
+`native_v2` mode. Native v2 is the finite recovery path that builds a
+constructor bank, evaluates a SAT cache, repairs residuals, names PQ-IR
+obstructions, records advisory Lawbook reuse, and audits the terminal-form
+boundary. It remains a finite-core recovery loop, not a TRUE oracle: failed
+finite search is residual evidence and every PQ-IR, route, obstruction, and
+Lawbook reuse signal is advisory unless a checker/verifier accepts a terminal
+artifact.
+
+```bash
+python scripts/run_autonomous_compounding_engine.py \
+  --out-dir /tmp/mathgraph_autonomous_v2_tiny \
+  --tiny-demo \
+  --finite-core-mode native_v2 \
+  --episodes 3 \
+  --sample-pairs 80 \
+  --repair-budget 20 \
+  --max-n 3 \
+  --seed 20260524 \
+  --write-report
+```
+
+Real ETP/SAIR example:
+
+```bash
+python scripts/run_autonomous_compounding_engine.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/autonomous_v2_real \
+  --finite-core-mode native_v2 \
+  --episodes 4 \
+  --sample-pairs 4000 \
+  --repair-budget 40 \
+  --max-n 4 \
+  --constructor-limit 500 \
+  --seed 20260524 \
+  --write-report
+```
+
+Cross-seed native v2 benchmark:
+
+```bash
+python scripts/run_autonomous_native_v2_benchmark.py \
+  --out-dir /tmp/mathgraph_native_v2_benchmark \
+  --tiny-demo \
+  --seeds 1729 1730 \
+  --episodes 3 \
+  --sample-pairs 80 \
+  --repair-budget 10 \
+  --max-n 3
+```
+
+Held-out Lawbook compounding benchmark:
+
+```bash
+python scripts/run_heldout_lawbook_compounding_benchmark.py \
+  --allow-fallback-demo \
+  --out-dir /tmp/mathgraph_heldout_lawbook_demo \
+  --seeds 1729,1730 \
+  --train-pairs 30 \
+  --heldout-pairs 30 \
+  --true-pairs 10 \
+  --episodes 2 \
+  --repair-budget 8 \
+  --max-n 3
+```
+
+Micro-basin causal distillation turns held-out recovery artifacts into advisory
+constructor recipes and residual obstruction targets:
+
+```bash
+python scripts/run_microbasin_distillation.py \
+  --input-dir /content/drive/MyDrive/SAIR_MathGraph/persistent_microbasin_lawbook_v2_run \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/microbasin_distillation_run
+```
+
+Held-out benchmark outputs now include exact first-hit constructor attribution
+when available, so distillation can emit `exact_constructor` recipes instead of
+route-prior proxies.
+
+Persistent exact micro-basin replay tests whether those exact recipes compound
+across episodes:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
+  --out-dir /tmp/mathgraph_persistent_exact_demo \
+  --fallback-demo \
+  --seeds 1729,1730,1731
+```
+
+Real Colab command:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/persistent_exact_microbasin_lawbook_v1 \
+  --seeds 20260524,20260525,20260526,20260527,20260528 \
+  --train-pairs 1200 \
+  --heldout-pairs 1200 \
+  --true-pairs 500 \
+  --episodes 2 \
+  --repair-budget 40 \
+  --max-n 4
+```
+
+Persistent Lawbook entries remain advisory route-learning memory:
+`advisory_only=True`, `can_promote_truth=False`.
+
+Persistent v2 adds causal route selection so the Lawbook can reject unstable
+exact memories:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py \
+  --out-dir /tmp/mathgraph_persistent_exact_v2_demo \
+  --fallback-demo \
+  --seeds 1729,1730,1731,1732
+```
+
+Real Colab v2:
+
+```bash
+python scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/persistent_exact_microbasin_lawbook_v2 \
+  --seeds 20260524,20260525,20260526,20260527,20260528 \
+  --train-pairs 1200 \
+  --heldout-pairs 1200 \
+  --true-pairs 500 \
+  --episodes 2 \
+  --repair-budget 40 \
+  --max-n 4
+```
 
 ## TRUE-Side Proof Inventory
 
