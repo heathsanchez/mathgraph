@@ -34,6 +34,10 @@ countermodel certificate artifacts. The assimilation step records the table,
 witness, repair trace, checker result, provenance, and Lawbook-ready family
 summary. See [repaired_countermodel_certificates.md](repaired_countermodel_certificates.md).
 
+The end-to-end validation pack composes source-law repair with upstream residual
+discovery and downstream certificate assimilation. See
+[end_to_end_breakthrough_validation.md](end_to_end_breakthrough_validation.md).
+
 ## Repair Strategies
 
 - `pressure_descent`

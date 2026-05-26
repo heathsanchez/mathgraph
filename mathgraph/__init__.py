@@ -2664,4 +2664,16 @@ from mathgraph.repaired_countermodel_certificates import (
     validate_repaired_certificate_boundary,
     write_repaired_certificate_lawbook,
 )
+from mathgraph.end_to_end_breakthrough_validation import (
+    BreakthroughEvidenceGate,
+    BreakthroughStageResult,
+    BreakthroughValidationConfig,
+    BreakthroughValidationSummary,
+    classify_breakthrough,
+    compute_breakthrough_metrics,
+    load_stage_artifacts,
+    run_breakthrough_validation,
+    validate_breakthrough_safety,
+    write_breakthrough_report,
+)
 from mathgraph.version import __version__, get_version_info

@@ -478,6 +478,34 @@ python scripts/run_active_residual_discovery_benchmark.py \
   --seed 20260524
 ```
 
+## End-to-End Breakthrough Validation Pack
+
+The validation pack is the canonical evidence command for the current
+FALSE-side breakthrough chain. It runs or reuses held-out Lawbook, micro-basin
+distillation, active residual discovery, proposal synthesis, residual-conditioned
+synthesis, source-law repair, repaired countermodel certificate assimilation,
+and persistent replay.
+
+Fallback:
+
+```bash
+python scripts/run_end_to_end_breakthrough_validation.py \
+  --out-dir /tmp/mathgraph_breakthrough_validation_demo \
+  --fallback-demo \
+  --seed 1729
+```
+
+Smoke real:
+
+```bash
+python scripts/run_end_to_end_breakthrough_validation.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/breakthrough_validation_smoke \
+  --smoke-real \
+  --seed 20260524
+```
+
 Real Colab source-repair run:
 
 ```bash

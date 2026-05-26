@@ -39,6 +39,11 @@ residual -> target witness -> conditioned constructor -> source-law repair
 The certificate family summary feeds exact micro-basin attribution, repair route
 priors, constructor family selection, and future obstruction naming.
 
+For the canonical investor/fund evidence pack, run the end-to-end breakthrough
+validation command. It composes the repaired certificate layer with held-out
+Lawbook, micro-basin distillation, active residual discovery, source-law repair,
+and persistent replay.
+
 ## Commands
 
 Fallback:

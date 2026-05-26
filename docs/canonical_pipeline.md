@@ -132,6 +132,11 @@ repair trace, checker result, table hash, route provenance, and micro-basin
 attribution. This creates compounding memory without weakening the TRUE/FALSE
 boundary.
 
+The End-to-End Breakthrough Validation Pack is the canonical evidence command
+for this whole FALSE-side chain. It runs or reuses each stage, writes safety
+gates, computes breakthrough classification, and emits a final report suitable
+for technical review or investor diligence.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding
