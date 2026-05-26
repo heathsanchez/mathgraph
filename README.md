@@ -309,6 +309,36 @@ python scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py \
   --max-n 4
 ```
 
+## Active Residual Discovery
+
+When persistent memory is safe but not useful, MathGraph turns the remaining
+residuals into constructor pressure:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_residual_discovery_demo \
+  --fallback-demo \
+  --seed 1729
+```
+
+Real artifact run:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --input-dir /content/drive/MyDrive/SAIR_MathGraph/<previous_run>/baseline_large \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/active_residual_discovery_v1 \
+  --min-support 3 \
+  --max-proposals-per-basin 3 \
+  --max-pairs-per-proposal 100 \
+  --max-n 4 \
+  --seed 20260524
+```
+
+Discovery proposals remain advisory until a finite checker or proof verifier
+accepts a terminal artifact.
+
 ## TRUE-Side Proof Inventory
 
 The TRUE-side inventory builds bounded congruence traces and Lean-ready

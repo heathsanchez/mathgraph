@@ -2602,4 +2602,15 @@ from mathgraph.causal_route_selection import (
     score_causal_routes,
     select_causal_routes,
 )
+from mathgraph.active_residual_discovery import (
+    ActiveDiscoverySummary,
+    ConstructorProposal,
+    ProposalEvaluation,
+    ResidualBasin,
+    build_residual_basins,
+    evaluate_constructor_proposals,
+    load_discovery_inputs,
+    propose_constructor_recipes,
+    summarize_active_discovery,
+)
 from mathgraph.version import __version__, get_version_info

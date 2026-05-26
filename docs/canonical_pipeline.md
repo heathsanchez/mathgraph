@@ -97,6 +97,11 @@ episode/seed diversity, non-regression, and out-of-sample transfer before
 replay. This lets MathGraph reject bad memories instead of blindly reusing every
 exact gain.
 
+Active Residual Discovery is the next step after rejection: residual basins that
+generic, Lawbook, and selected persistent routes still miss become constructor
+pressure. The output is advisory proposals plus finite/proxy evaluation rows,
+not terminal truth.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

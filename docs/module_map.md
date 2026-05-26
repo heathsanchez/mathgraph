@@ -80,9 +80,11 @@ modules.
 - `exact_constructor_attribution.py`: first-hit constructor attribution for advisory route learning
 - `microbasin_distillation.py`: exact/proxy micro-basin recipe distillation from held-out recovery artifacts
 - `persistent_exact_microbasin_lawbook.py`: prior-only persistent exact micro-basin replay and proxy compounding metrics
+- `active_residual_discovery.py`: residual micro-basin grouping, constructor-family proposal, and advisory proposal evaluation
 - `scripts/run_mathgraph_compounding_engine.py`: multi-episode ETP constructor/residual/Lawbook runner
 - `scripts/run_autonomous_compounding_engine.py`: autonomous façade/native v2 CLI
 - `scripts/run_persistent_exact_microbasin_lawbook_benchmark.py`: persistent exact micro-basin Lawbook benchmark
+- `scripts/run_active_residual_discovery_benchmark.py`: active residual constructor discovery benchmark
 - `scripts/run_true_side_inventory.py`: bounded TRUE-side proof-template inventory runner
 - `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
 - `scripts/run_polarized_quotient_ir_demo.py`: lightweight PQ-IR feature demo

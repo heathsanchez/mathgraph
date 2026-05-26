@@ -38,6 +38,7 @@ CANONICAL_MODULES = (
     "mathgraph/compounding_engine.py",
     "mathgraph/autonomous_compounding_engine.py",
     "mathgraph/autonomous_finite_recovery.py",
+    "mathgraph/active_residual_discovery.py",
     "mathgraph/causal_route_selection.py",
     "mathgraph/exact_constructor_attribution.py",
     "mathgraph/microbasin_distillation.py",
@@ -56,6 +57,7 @@ CANONICAL_SCRIPTS = (
     "scripts/run_autonomous_native_v2_benchmark.py",
     "scripts/run_heldout_lawbook_compounding_benchmark.py",
     "scripts/run_microbasin_distillation.py",
+    "scripts/run_active_residual_discovery_benchmark.py",
     "scripts/run_persistent_exact_microbasin_lawbook_benchmark.py",
     "scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py",
 )
