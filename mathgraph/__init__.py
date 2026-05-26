@@ -2602,4 +2602,39 @@ from mathgraph.causal_route_selection import (
     score_causal_routes,
     select_causal_routes,
 )
+from mathgraph.active_residual_discovery import (
+    ActiveDiscoverySummary,
+    ConstructorProposal,
+    ProposalEvaluation,
+    ResidualBasin,
+    build_residual_basins,
+    evaluate_constructor_proposals,
+    load_discovery_inputs,
+    propose_constructor_recipes,
+    summarize_active_discovery,
+)
+from mathgraph.proposal_constructor_synthesis import (
+    ConstructorSynthesisResult,
+    SynthesizedConstructor,
+    SynthesizedRecovery,
+    evaluate_synthesized_constructors,
+    summarize_synthesis,
+    synthesize_constructors_for_proposal,
+    synthesize_constructors_for_proposals,
+)
+from mathgraph.residual_conditioned_synthesis import (
+    CompletionAttempt,
+    PartialTableConstraint,
+    ResidualConditionedConstructor,
+    ResidualConditionedRecovery,
+    ResidualPairSpec,
+    WitnessCandidate,
+    build_residual_pair_specs,
+    complete_partial_table,
+    evaluate_residual_conditioned_constructors,
+    force_target_violation_constraints,
+    generate_witness_candidates,
+    summarize_residual_conditioned_synthesis,
+    synthesize_for_residual_pairs,
+)
 from mathgraph.version import __version__, get_version_info
