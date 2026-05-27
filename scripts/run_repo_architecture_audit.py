@@ -30,6 +30,7 @@ CANONICAL_MODULES = (
     "mathgraph/invariants.py",
     "mathgraph/evidence_manifest.py",
     "mathgraph/evidence_replay.py",
+    "mathgraph/discovery_scheduler.py",
     "mathgraph/lawbook.py",
     "mathgraph/lawbook_acceptance.py",
     "mathgraph/lean_digest_lawbook_ingestion.py",
@@ -81,6 +82,7 @@ CANONICAL_SCRIPTS = (
     "scripts/run_heldout_lawbook_compounding_benchmark.py",
     "scripts/run_microbasin_distillation.py",
     "scripts/run_active_residual_discovery_benchmark.py",
+    "scripts/run_discovery_scheduler.py",
     "scripts/run_proposal_constructor_synthesis.py",
     "scripts/run_residual_conditioned_synthesis.py",
     "scripts/run_source_law_repair.py",
@@ -104,6 +106,7 @@ CANONICAL_DOCS = (
     "docs/public/collaborator_issue_draft.md",
     "docs/public/investor_one_pager.md",
     "docs/evidence/official_sair_stage2_breakthrough_20260526.md",
+    "docs/discovery_scheduler.md",
     "docs/recursive_residual_transfer.md",
     "docs/lean_digest_lawbook_ingestion.md",
     "docs/lean_lawbook_attention.md",
@@ -154,6 +157,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
     optional_deps = _optional_dependency_status(root)
     evidence_ok = all(item["present"] and item["metrics_present"] and item["manifest_present"] and item["trust_boundary_present"] for item in evidence_pack_presence.values())
     crossworld_wording = _crossworld_trust_boundary_wording(root)
+    discovery_scheduler_wording = _discovery_scheduler_wording(root)
     status = (
         "PASS"
         if all(canonical_presence.values())
@@ -162,6 +166,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         and all(readme_commands.values())
         and evidence_ok
         and crossworld_wording["all_present"]
+        and discovery_scheduler_wording["all_present"]
         else "WARN"
     )
     return {
@@ -176,6 +181,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         "canonical_doc_presence": doc_presence,
         "canonical_evidence_pack_presence": evidence_pack_presence,
         "crossworld_trust_boundary_wording": crossworld_wording,
+        "discovery_scheduler_wording": discovery_scheduler_wording,
         "pyproject_optional_dependency_status": optional_deps,
         "readme_canonical_command_presence": readme_commands,
         "notes": [
@@ -323,6 +329,19 @@ def _crossworld_trust_boundary_wording(root: Path) -> dict[str, Any]:
         "advisory only": "advisory only" in text,
         "failed finite search is not true": "failed finite search is not true" in text,
         "proof-route candidate only unless verified": "proof-route candidate only unless verified" in text,
+    }
+    return {"all_present": all(required.values()), "required": required}
+
+
+def _discovery_scheduler_wording(root: Path) -> dict[str, Any]:
+    path = root / "docs" / "discovery_scheduler.md"
+    text = path.read_text(encoding="utf-8").lower() if path.exists() else ""
+    required = {
+        "advisory only": "advisory only" in text,
+        "cannot promote truth": "cannot promote truth" in text,
+        "descension target": "descension target" in text,
+        "verifier boundary": "verifier boundary" in text,
+        "residual compression": "residual compression" in text,
     }
     return {"all_present": all(required.values()), "required": required}
 
