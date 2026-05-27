@@ -97,7 +97,7 @@ are research/advanced runners used by the replay wrapper and evidence pack.
 - Improve robustness and magnitude of compounding gain.
 - Promote more exact finite-countermodel certificates into durable evidence.
 - Build TRUE-side Lean proof-verification paths.
-- Build Lean Project Digest for existing Lean projects.
+- Build [Lean Project Digest](docs/lean_project_digest.md) for existing Lean projects.
 
 ## Canonical Path
 
