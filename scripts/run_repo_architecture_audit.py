@@ -57,6 +57,7 @@ CANONICAL_MODULES = (
     "mathgraph/compact_route_atlas.py",
     "mathgraph/evidence_packs.py",
     "mathgraph/collatz_evidence.py",
+    "mathgraph/cross_world_evidence.py",
     "mathgraph/residual_obstruction_evidence.py",
     "mathgraph/root_node_evidence.py",
     "mathgraph/etp_terms.py",
@@ -137,6 +138,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
     readme_commands = {command: command in readme for command in CANONICAL_COMMANDS}
     optional_deps = _optional_dependency_status(root)
     evidence_ok = all(item["present"] and item["metrics_present"] and item["manifest_present"] and item["trust_boundary_present"] for item in evidence_pack_presence.values())
+    crossworld_wording = _crossworld_trust_boundary_wording(root)
     status = (
         "PASS"
         if all(canonical_presence.values())
@@ -144,6 +146,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         and all(doc_presence.values())
         and all(readme_commands.values())
         and evidence_ok
+        and crossworld_wording["all_present"]
         else "WARN"
     )
     return {
@@ -157,6 +160,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         "canonical_script_presence": script_presence,
         "canonical_doc_presence": doc_presence,
         "canonical_evidence_pack_presence": evidence_pack_presence,
+        "crossworld_trust_boundary_wording": crossworld_wording,
         "pyproject_optional_dependency_status": optional_deps,
         "readme_canonical_command_presence": readme_commands,
         "notes": [
@@ -290,6 +294,22 @@ def _evidence_pack_presence(root: Path) -> dict[str, dict[str, Any]]:
             "trust_boundary_present": trust_boundary_present,
         }
     return rows
+
+
+def _crossworld_trust_boundary_wording(root: Path) -> dict[str, Any]:
+    paths = [
+        root / "docs" / "evidence" / "cross_world_semantic_residual_invariant.md",
+        root / "examples" / "evidence_packs" / "cross_world_semantic_residual_invariant" / "README.md",
+    ]
+    text = "\n".join(path.read_text(encoding="utf-8").lower() for path in paths if path.exists())
+    required = {
+        "not a formal theorem": "not a formal theorem" in text,
+        "not a truth oracle": "not a truth oracle" in text,
+        "advisory only": "advisory only" in text,
+        "failed finite search is not true": "failed finite search is not true" in text,
+        "proof-route candidate only unless verified": "proof-route candidate only unless verified" in text,
+    }
+    return {"all_present": all(required.values()), "required": required}
 
 
 def _write(path: Path, text: str) -> None:

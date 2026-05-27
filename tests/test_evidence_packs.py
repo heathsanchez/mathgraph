@@ -88,9 +88,13 @@ def test_official_sair_evidence_preserves_finite_checked_false_certificates() ->
 
 def test_cross_world_pack_is_empirical_not_proof() -> None:
     pack = load_evidence_pack("cross_world_semantic_residual_invariant")
-    assert pack.metrics["semantic_root_all_world_auc_false"] == 0.9933
+    assert pack.metrics["semantic_root_all_world_auc_false"] == 0.9933195438173603
     assert pack.metrics["etp_false_underexplained"] == 73
+    assert pack.metrics["claim_status"] == "empirical_cross_world_invariant_candidate"
+    assert pack.metrics["provenance"] == "artifact_backed_uploaded_files1_zip_crossworld_v2"
     assert pack.trust_boundary["not_a_proof"] is True
+    assert pack.trust_boundary["not_formal_theorem"] is True
+    assert pack.trust_boundary["advisory_only"] is True
 
 
 def test_evidence_docs_front_load_claim_boundaries_and_readme_links() -> None:
@@ -105,6 +109,6 @@ def test_evidence_docs_front_load_claim_boundaries_and_readme_links() -> None:
     assert "docs/evidence/evidence_map.md" in readme
 
     evidence_map = (REPO_ROOT / "docs/evidence/evidence_map.md").read_text(encoding="utf-8")
-    assert "Conversation-provenance only" in evidence_map
+    assert "empirical_cross_world_invariant_candidate" in evidence_map
     assert "failed finite search is never TRUE" in evidence_map
     assert "not verified theorem" in evidence_map
