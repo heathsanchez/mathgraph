@@ -90,11 +90,18 @@ python scripts/run_recursive_residual_transfer.py \
   --equations /content/equations.txt \
   --matrix /content/etp_matrix_full_best_bool.npy \
   --out-dir /content/drive/MyDrive/MathGraph_ETP_Recursive_Transfer \
-  --seeds 1729,42,137 \
+  --seeds 1729 42 137 \
   --profile transfer_fast \
+  --real-etp \
   --strict-advisory-boundary \
   --write-report
 ```
+
+`--real-etp` runs the actual recursive residual-mined transfer engine: it
+loads the raw equations and implication matrix, generates the finite magma bank,
+builds the vectorized SAT cache, mines residual constructors across
+generations, evaluates compact atlas routes and controls, and writes the full
+artifact set. The summary includes `real_etp_used: true`.
 
 If real SAIR files are absent, use:
 

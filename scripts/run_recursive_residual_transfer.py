@@ -15,9 +15,11 @@ else:
     ensure_repo_root_on_path(__file__)
 
 from mathgraph.recursive_residual_transfer import (
+    RealEtpTransferConfig,
     SOURCE_BREAKTHROUGH_METRICS,
     build_recursive_transfer_summary,
     fallback_demo_route_evaluations,
+    run_real_etp_recursive_residual_transfer,
     source_breakthrough_route_evaluations,
     write_recursive_transfer_artifacts,
 )
@@ -28,8 +30,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--equations", default="/content/equations.txt")
     parser.add_argument("--matrix", default="/content/etp_matrix_full_best_bool.npy")
     parser.add_argument("--out-dir", required=True)
-    parser.add_argument("--seeds", default="1729,42,137")
+    parser.add_argument("--seeds", nargs="+", default=["1729", "42", "137"])
     parser.add_argument("--profile", default="transfer_fast")
+    parser.add_argument("--real-etp", action="store_true")
     parser.add_argument("--strict-advisory-boundary", action="store_true")
     parser.add_argument("--write-report", action="store_true")
     parser.add_argument("--fallback-demo", action="store_true")
@@ -42,7 +45,31 @@ def main(argv: list[str] | None = None) -> int:
 
     equations_path = Path(args.equations)
     matrix_path = Path(args.matrix)
-    seeds = tuple(int(x) for x in args.seeds.split(",") if x.strip())
+    seeds = _parse_seeds(args.seeds)
+
+    if args.real_etp:
+        result = run_real_etp_recursive_residual_transfer(
+            RealEtpTransferConfig(
+                equations_path=equations_path,
+                matrix_path=matrix_path,
+                out_dir=args.out_dir,
+                seeds=seeds,
+                profile=args.profile,
+                write_report=args.write_report,
+            )
+        )
+        summary = result.summary
+        paths = result.artifact_paths
+        if args.strict_advisory_boundary and not summary.advisory_boundary_ok:
+            raise SystemExit("strict advisory boundary failed")
+        print(f"classification: {summary.classification}")
+        print(f"real_etp_used: {summary.real_etp_used}")
+        print(f"gates: {summary.gates_passed}/{summary.gates_total}")
+        print(f"true_contamination_max: {summary.true_contamination_max}")
+        print(f"advisory_boundary_ok: {summary.advisory_boundary_ok}")
+        for name, path in paths.items():
+            print(f"{name}: {path}")
+        return 0
 
     if args.package_source_run:
         routes = source_breakthrough_route_evaluations()
@@ -103,6 +130,15 @@ def main(argv: list[str] | None = None) -> int:
     for name, path in paths.items():
         print(f"{name}: {path}")
     return 0
+
+
+def _parse_seeds(values: list[str]) -> tuple[int, ...]:
+    seeds: list[int] = []
+    for value in values:
+        for part in str(value).split(","):
+            if part.strip():
+                seeds.append(int(part))
+    return tuple(seeds)
 
 
 if __name__ == "__main__":
