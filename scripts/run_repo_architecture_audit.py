@@ -53,6 +53,12 @@ CANONICAL_MODULES = (
     "mathgraph/sair_stage2_policy_selector.py",
     "mathgraph/sair_stage2_breakthrough_search.py",
     "mathgraph/recursive_residual_compounding.py",
+    "mathgraph/recursive_residual_transfer.py",
+    "mathgraph/compact_route_atlas.py",
+    "mathgraph/evidence_packs.py",
+    "mathgraph/collatz_evidence.py",
+    "mathgraph/residual_obstruction_evidence.py",
+    "mathgraph/root_node_evidence.py",
     "mathgraph/etp_terms.py",
     "mathgraph/quotient_state.py",
     "mathgraph/polarized_quotient_ir.py",
@@ -74,6 +80,7 @@ CANONICAL_SCRIPTS = (
     "scripts/run_end_to_end_breakthrough_validation.py",
     "scripts/run_sair_stage2_end_to_end.py",
     "scripts/run_sair_stage2_breakthrough_search.py",
+    "scripts/run_recursive_residual_transfer.py",
     "scripts/replay_official_sair_stage2_breakthrough.py",
     "scripts/run_persistent_exact_microbasin_lawbook_benchmark.py",
     "scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py",
@@ -84,7 +91,21 @@ CANONICAL_DOCS = (
     "docs/public/collaborator_issue_draft.md",
     "docs/public/investor_one_pager.md",
     "docs/evidence/official_sair_stage2_breakthrough_20260526.md",
+    "docs/recursive_residual_transfer.md",
+    "docs/evidence/residual_obstruction_atlas_v8_4.md",
+    "docs/evidence/collatz_primitive_divisor_v12_2.md",
+    "docs/evidence/root_node_persistent_filtration_v16_3.md",
+    "docs/evidence/cross_world_semantic_residual_invariant.md",
     "examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md",
+    "examples/evidence_packs/recursive_residual_transfer_v1_20260523/README.md",
+)
+CANONICAL_EVIDENCE_PACKS = (
+    "recursive_residual_transfer_v1_20260523",
+    "sair_stage2_breakthrough_20260526",
+    "residual_obstruction_atlas_v8_4",
+    "collatz_primitive_divisor_v12_2",
+    "root_node_persistent_filtration_v16_3",
+    "cross_world_semantic_residual_invariant",
 )
 CONCEPT_KEYWORDS = (
     "certificate",
@@ -111,10 +132,20 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
     canonical_presence = {path: (root / path).exists() for path in CANONICAL_MODULES}
     script_presence = {path: (root / path).exists() for path in CANONICAL_SCRIPTS}
     doc_presence = {path: (root / path).exists() for path in CANONICAL_DOCS}
+    evidence_pack_presence = _evidence_pack_presence(root)
     readme = (root / "README.md").read_text(encoding="utf-8") if (root / "README.md").exists() else ""
     readme_commands = {command: command in readme for command in CANONICAL_COMMANDS}
     optional_deps = _optional_dependency_status(root)
-    status = "PASS" if all(canonical_presence.values()) and all(script_presence.values()) and all(doc_presence.values()) and all(readme_commands.values()) else "WARN"
+    evidence_ok = all(item["present"] and item["metrics_present"] and item["manifest_present"] and item["trust_boundary_present"] for item in evidence_pack_presence.values())
+    status = (
+        "PASS"
+        if all(canonical_presence.values())
+        and all(script_presence.values())
+        and all(doc_presence.values())
+        and all(readme_commands.values())
+        and evidence_ok
+        else "WARN"
+    )
     return {
         "status": status,
         "module_count": len(modules),
@@ -125,6 +156,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         "canonical_module_presence": canonical_presence,
         "canonical_script_presence": script_presence,
         "canonical_doc_presence": doc_presence,
+        "canonical_evidence_pack_presence": evidence_pack_presence,
         "pyproject_optional_dependency_status": optional_deps,
         "readme_canonical_command_presence": readme_commands,
         "notes": [
@@ -157,6 +189,10 @@ def render_markdown(report: dict[str, Any]) -> str:
     lines.extend(["", "## Canonical Evidence Docs"])
     for path, present in report["canonical_doc_presence"].items():
         lines.append(f"- [{'x' if present else ' '}] `{path}`")
+    lines.extend(["", "## Canonical Evidence Packs"])
+    for pack_id, status in report["canonical_evidence_pack_presence"].items():
+        ok = status["present"] and status["metrics_present"] and status["manifest_present"] and status["trust_boundary_present"]
+        lines.append(f"- [{'x' if ok else ' '}] `{pack_id}`")
     lines.extend(["", "## Large Python Files Over 1,000 Lines"])
     for item in report["large_files_over_1000_lines"][:40]:
         lines.append(f"- `{item['path']}`: {item['lines']} lines")
@@ -230,6 +266,30 @@ def _optional_dependency_status(root: Path) -> dict[str, Any]:
         "runtime_dependency_count": len(runtime),
         "runtime_dependencies": runtime,
     }
+
+
+def _evidence_pack_presence(root: Path) -> dict[str, dict[str, Any]]:
+    evidence_root = root / "examples" / "evidence_packs"
+    rows: dict[str, dict[str, Any]] = {}
+    for pack_id in CANONICAL_EVIDENCE_PACKS:
+        directory = evidence_root / pack_id
+        metrics = directory / "metrics.json"
+        manifest = directory / "manifest.json"
+        trust_boundary_present = False
+        if metrics.exists():
+            try:
+                data = json.loads(metrics.read_text(encoding="utf-8"))
+                trust_boundary_present = bool(data.get("trust_boundary"))
+            except json.JSONDecodeError:
+                trust_boundary_present = False
+        rows[pack_id] = {
+            "present": directory.exists(),
+            "readme_present": (directory / "README.md").exists(),
+            "metrics_present": metrics.exists(),
+            "manifest_present": manifest.exists(),
+            "trust_boundary_present": trust_boundary_present,
+        }
+    return rows
 
 
 def _write(path: Path, text: str) -> None:

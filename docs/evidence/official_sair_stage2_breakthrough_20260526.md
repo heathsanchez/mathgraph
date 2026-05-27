@@ -1,5 +1,20 @@
 # Official SAIR Stage 2 Breakthrough Evidence Pack - 2026-05-26
 
+## What This Proves
+
+This pack proves, for its accepted FALSE cases, finite-checker-backed
+countermodel evidence: each accepted FALSE certificate is a finite magma table
+that satisfies the source equation and violates the target equation. It also
+supports the bounded empirical claim that strict-admission memory compounding
+improved held-out SAIR Stage 2 recovery over baseline while preserving zero
+trust-boundary violations.
+
+## What This Does Not Prove
+
+This is not a TRUE-side theorem-proving result and not a general autonomous
+theorem-proving claim. Advisory routes, failed finite searches, repair traces,
+classifier scores, and unverified true candidates cannot promote truth.
+
 ## Executive Summary
 
 This document records the official 2026-05-26 SAIR Stage 2 breakthrough evidence

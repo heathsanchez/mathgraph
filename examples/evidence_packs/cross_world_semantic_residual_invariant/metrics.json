@@ -1,0 +1,27 @@
+{
+  "etp_false_explained": 2427,
+  "etp_false_total": 2500,
+  "etp_false_underexplained": 73,
+  "etp_semantic_root_auc_false": 0.9791,
+  "etp_true_explained": 2500,
+  "etp_true_total": 2500,
+  "evidence_kind": "cross_world_semantic_residual_invariant",
+  "invariant": "FALSE = surviving independent target residue after source closure; TRUE = target demand absorbed by source closure; HARD = residue exists but requires richer representation or constructor",
+  "leave_one_world_out_mean_auc_false": 0.9838,
+  "pack_id": "cross_world_semantic_residual_invariant",
+  "provenance": "conversation_provided_documents_9_10_11_no_matching_artifact_found_in_uploaded_bundle_search",
+  "residual_rank_all_world_auc_false": 0.9969,
+  "semantic_root_all_world_auc_false": 0.9933,
+  "trust_boundary": {
+    "empirical_cross_world_transfer_evidence": true,
+    "failed_finite_search_can_promote_true": false,
+    "not_a_proof": true,
+    "residual_score_can_promote_truth": false
+  },
+  "worlds": [
+    "ETP magma implication",
+    "Boolean CNF implication",
+    "finite graph property implication",
+    "rewrite/string-rule implication"
+  ]
+}

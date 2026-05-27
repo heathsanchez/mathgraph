@@ -57,10 +57,47 @@ Evidence notes:
 
 - [Public evidence summary](SAIR_STAGE2_EVIDENCE.md)
 - [Official SAIR Stage 2 Breakthrough Evidence Pack - 2026-05-26](docs/evidence/official_sair_stage2_breakthrough_20260526.md)
+- [Recursive residual-mined transfer test](docs/recursive_residual_transfer.md)
 - [Replay guide](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
+
+## Evidence
+
+Canonical frozen evidence packs:
+
+- [Evidence map](docs/evidence/evidence_map.md)
+- [Recursive residual transfer v1](examples/evidence_packs/recursive_residual_transfer_v1_20260523/README.md)
+- [Official SAIR Stage 2 breakthrough](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
+- [Residual obstruction atlas v8.4](docs/evidence/residual_obstruction_atlas_v8_4.md)
+- [Collatz primitive divisor v12.2](docs/evidence/collatz_primitive_divisor_v12_2.md)
+- [Root node persistent filtration v16.3](docs/evidence/root_node_persistent_filtration_v16_3.md)
+- [Cross-world semantic residual invariant](docs/evidence/cross_world_semantic_residual_invariant.md)
 
 Lower-level commands such as `scripts/run_sair_stage2_breakthrough_search.py`
 are research/advanced runners used by the replay wrapper and evidence pack.
+
+## What MathGraph Does Today
+
+- Runs a public demo without external SAIR files.
+- Replays the official SAIR Stage 2 FALSE-side evidence pack.
+- Produces finite-countermodel certificates under strict admission.
+- Separates verified evidence from advisory routing.
+- Stores reusable Lawbook / Reason Atlas memory.
+- Reports what remains unresolved or advisory.
+
+## Current Limits
+
+- TRUE-side Lean proof synthesis is not yet the main demonstrated result.
+- General autonomous theorem proving is not claimed.
+- Fallback demos are infrastructure checks, not evidence.
+- Advisory routes guide search but do not promote truth.
+- The current official evidence is a bounded FALSE-side SAIR Stage 2 result.
+
+## Next Technical Frontiers
+
+- Improve robustness and magnitude of compounding gain.
+- Promote more exact finite-countermodel certificates into durable evidence.
+- Build TRUE-side Lean proof-verification paths.
+- Build Lean Project Digest for existing Lean projects.
 
 ## Canonical Path
 
