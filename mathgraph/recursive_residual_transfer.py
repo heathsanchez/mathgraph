@@ -31,6 +31,7 @@ from mathgraph.compact_route_atlas import (
     compare_shuffled_controls,
     select_compact_atlas,
 )
+from mathgraph.evidence_packs import load_evidence_pack
 from mathgraph.finite_magma_world import Equation, Term, normalize_table, parse_equation
 
 try:
@@ -726,15 +727,21 @@ def run_real_etp_recursive_residual_transfer(config: RealEtpTransferConfig) -> R
 def load_frozen_recursive_transfer_evidence(name_or_path: str | Path) -> dict[str, Any]:
     """Load a frozen recursive-transfer evidence metrics JSON."""
 
-    raw = Path(name_or_path)
-    if raw.exists():
-        path = raw if raw.is_file() else raw / "metrics.json"
-    else:
-        root = Path(__file__).resolve().parents[1]
-        path = root / "examples" / "evidence_packs" / str(name_or_path) / "metrics.json"
-    if not path.exists():
-        raise FileNotFoundError(f"frozen recursive transfer evidence metrics not found: {path}")
-    return json.loads(path.read_text(encoding="utf-8"))
+    pack = load_evidence_pack(
+        name_or_path,
+        required_fields=(
+            "original_run_id",
+            "equations",
+            "matrix_shape",
+            "true_count",
+            "false_count",
+            "gates_passed",
+            "gates_total",
+            "true_contamination_max",
+            "advisory_boundary_ok",
+        ),
+    )
+    return dict(pack.metrics)
 
 
 def compare_to_frozen_recursive_transfer_evidence(

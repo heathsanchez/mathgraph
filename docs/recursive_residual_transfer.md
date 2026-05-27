@@ -11,6 +11,12 @@ transfers to fresh unseen ETP FALSE pairs across seeds, without TRUE
 contamination, while beating generic, random same-size, and shuffled same-size
 controls.
 
+This result proves transferable residual-mined constructor memory in the
+bounded ETP benchmark sense: compact advisory memory learned on one FALSE slice
+transfers to unseen FALSE pairs, beats generic/random/shuffled controls,
+preserves most recursive-memory gain after pruning, and keeps TRUE
+contamination at zero.
+
 Source run metrics:
 
 - equations: `4694`

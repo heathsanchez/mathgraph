@@ -1,0 +1,20 @@
+{
+  "artifact_policy": "Manifest Small",
+  "artifacts": [],
+  "missing_expected_artifacts": [
+    "codex_manifest.json",
+    "discovery_summary.json",
+    "loose README.md",
+    "compact_atlas_eval.csv",
+    "repo_vs_original_comparison.json",
+    "repo_vs_original_comparison.md",
+    "frozen_evidence_comparison.json"
+  ],
+  "pack_id": "cross_world_semantic_residual_invariant",
+  "trust_boundary": {
+    "empirical_cross_world_transfer_evidence": true,
+    "failed_finite_search_can_promote_true": false,
+    "not_a_proof": true,
+    "residual_score_can_promote_truth": false
+  }
+}

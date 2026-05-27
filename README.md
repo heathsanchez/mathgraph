@@ -60,6 +60,17 @@ Evidence notes:
 - [Recursive residual-mined transfer test](docs/recursive_residual_transfer.md)
 - [Replay guide](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
 
+## Evidence
+
+Canonical frozen evidence packs:
+
+- [Recursive residual transfer v1](examples/evidence_packs/recursive_residual_transfer_v1_20260523/README.md)
+- [Official SAIR Stage 2 breakthrough](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
+- [Residual obstruction atlas v8.4](docs/evidence/residual_obstruction_atlas_v8_4.md)
+- [Collatz primitive divisor v12.2](docs/evidence/collatz_primitive_divisor_v12_2.md)
+- [Root node persistent filtration v16.3](docs/evidence/root_node_persistent_filtration_v16_3.md)
+- [Cross-world semantic residual invariant](docs/evidence/cross_world_semantic_residual_invariant.md)
+
 Lower-level commands such as `scripts/run_sair_stage2_breakthrough_search.py`
 are research/advanced runners used by the replay wrapper and evidence pack.
 
