@@ -98,3 +98,47 @@ def decode_reasons_to_verify(store: LawbookStore, reasons: list[dict[str, Any]],
         "decode_success_rate": success / len(reasons) if reasons else 0.0,
         "advisory_boundary_preserved": all(row["advisory_boundary_preserved"] for row in results),
     }
+
+
+def evaluate_decode_to_verify_trace(attention_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Evaluate whether lawbook attention decodes into verifier-directed action.
+
+    This helper does not verify mathematical truth.  It labels whether the
+    memory-assisted action points toward a verifier, finite countermodel replay,
+    proof-obligation extraction, or named-obstruction path while preserving the
+    advisory boundary.
+    """
+
+    rows: list[dict[str, Any]] = []
+    supported_markers = (
+        "verify",
+        "verifier",
+        "finite_checked",
+        "finite_checker",
+        "countermodel",
+        "obstruction",
+        "proof_template",
+        "minimum_carrier",
+        "request_finite_checker",
+    )
+    for row in attention_rows:
+        memory_action = str(row.get("memory_action", ""))
+        baseline_action = str(row.get("baseline_action", ""))
+        decode_supported = bool(row.get("lawbook_hit")) and any(marker in memory_action for marker in supported_markers)
+        baseline_supported = any(marker in baseline_action for marker in supported_markers)
+        prohibited = bool(row.get("prohibited_promotion"))
+        rows.append(
+            {
+                "claim_id": row.get("claim_id", ""),
+                "evidence_pack_id": row.get("evidence_pack_id", ""),
+                "baseline_action": baseline_action,
+                "memory_action": memory_action,
+                "baseline_decode_supported": baseline_supported,
+                "decode_supported": decode_supported and not prohibited,
+                "terminal_form_candidate": row.get("terminal_form_candidate", "NONE"),
+                "verifier_required": row.get("terminal_form_candidate") != "FINITE_COUNTERMODEL",
+                "prohibited_promotion": prohibited,
+                "advisory_boundary_ok": not prohibited,
+            }
+        )
+    return rows

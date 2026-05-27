@@ -52,6 +52,39 @@ def compute_compounding_metrics(**kwargs: Any) -> dict[str, Any]:
     return CompoundingMetrics(**kwargs).to_dict()
 
 
+def compute_lawbook_loop_metrics(
+    *,
+    attention_rows: Any,
+    decode_rows: Any,
+    evidence_pack_count: int,
+) -> dict[str, Any]:
+    """Compute metrics for the lightweight evidence-pack compounding loop."""
+
+    attention = _records(attention_rows)
+    decode = _records(decode_rows)
+    queries = len(attention)
+    lawbook_hits = sum(1 for row in attention if bool(row.get("lawbook_hit")))
+    action_changes = sum(1 for row in attention if bool(row.get("action_changed")))
+    prohibited = sum(1 for row in attention if bool(row.get("prohibited_promotion")))
+    decode_supported = sum(1 for row in decode if bool(row.get("decode_supported")))
+    baseline_supported = sum(1 for row in decode if bool(row.get("baseline_decode_supported")))
+    memory_supported = sum(1 for row in decode if bool(row.get("decode_supported")))
+    return {
+        "lawbook_hit_rate": lawbook_hits / queries if queries else 0.0,
+        "lawbook_action_change_rate": action_changes / queries if queries else 0.0,
+        "decode_supported_rate": decode_supported / len(decode) if decode else 0.0,
+        "prohibited_promotion_count": prohibited,
+        "advisory_boundary_ok": prohibited == 0 and all(bool(row.get("advisory_boundary_ok", True)) for row in attention),
+        "evidence_pack_count": int(evidence_pack_count),
+        "lawbook_hits": lawbook_hits,
+        "lawbook_queries": queries,
+        "action_changes": action_changes,
+        "decode_supported_count": decode_supported,
+        "baseline_supported_count": baseline_supported,
+        "memory_supported_count": memory_supported,
+    }
+
+
 def yield_rate(recovered: int, total: int) -> float:
     return float(recovered) / float(total) if total else 0.0
 

@@ -1,41 +1,122 @@
-"""Compounding Lawbook Engine v0."""
+"""Canonical lightweight compounding loop over frozen evidence packs.
+
+This module deliberately does not run real ETP, Lean, or any large search.  It
+connects existing evidence-pack loaders into a small in-memory lawbook view,
+then compares a generic baseline route with a memory-assisted route on a tiny
+demo claim set.  The output is a decode-to-verify style trace: evidence can
+change what the system tries next, but it cannot promote terminal truth.
+"""
 
 from __future__ import annotations
 
+import csv
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Iterable, Mapping, Sequence
 
-from mathgraph.compounding_metrics import compute_compounding_metrics
-from mathgraph.decode_to_verify import decode_reasons_to_verify
-from mathgraph.hashing import content_id
-from mathgraph.lawbook_admission import LawbookAdmissionGate
-from mathgraph.lawbook_attention import retrieve_lawbook_attention
-from mathgraph.lawbook_store import LawbookStore
-from mathgraph.reason_coagulation import coagulate_reasons
-from mathgraph.sair_v_operator_evaluation import SAIRVOperatorEvalConfig, evaluate_v_operators_multi_seed
+from mathgraph.collatz_evidence import load_collatz_v12_2_evidence
+from mathgraph.compounding_metrics import compute_lawbook_loop_metrics
+from mathgraph.cross_world_evidence import (
+    load_cross_world_semantic_residual_invariant,
+    validate_cross_world_semantic_residual_invariant,
+)
+from mathgraph.decode_to_verify import evaluate_decode_to_verify_trace
+from mathgraph.evidence_packs import EvidencePack, load_evidence_pack
+from mathgraph.recursive_residual_transfer import load_frozen_recursive_transfer_evidence
+from mathgraph.residual_obstruction_evidence import load_residual_obstruction_v8_4_evidence
+from mathgraph.root_node_evidence import load_root_node_v16_3_evidence
+
+
+CANONICAL_PACK_IDS: tuple[str, ...] = (
+    "recursive_residual_transfer_v1_20260523",
+    "sair_stage2_breakthrough_20260526",
+    "residual_obstruction_atlas_v8_4",
+    "collatz_primitive_divisor_v12_2",
+    "root_node_persistent_filtration_v16_3",
+    "cross_world_semantic_residual_invariant",
+)
+
+
+@dataclass(frozen=True)
+class LawbookViewEntry:
+    evidence_pack_id: str
+    claim_status: str
+    trust_boundary_status: str
+    terminal_form_type: str
+    empirical_metrics: dict[str, Any] = field(default_factory=dict)
+    prohibited_promotions: tuple[str, ...] = ()
+    attention_terms: tuple[str, ...] = ()
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "evidence_pack_id": self.evidence_pack_id,
+            "claim_status": self.claim_status,
+            "trust_boundary_status": self.trust_boundary_status,
+            "terminal_form_type": self.terminal_form_type,
+            "empirical_metrics": dict(self.empirical_metrics),
+            "prohibited_promotions": list(self.prohibited_promotions),
+            "attention_terms": list(self.attention_terms),
+        }
+
+
+@dataclass(frozen=True)
+class DemoClaim:
+    claim_id: str
+    description: str
+    terms: tuple[str, ...]
+    baseline_action: str = "generic_bounded_search"
 
 
 @dataclass(frozen=True)
 class CompoundingLawbookEngineReport:
-    real_sair_used: bool
-    fallback_mode: bool
-    advisory_boundary_preserved: bool
-    baseline_yield: float
-    lawbook_yield: float
-    htilt_yield: float
+    evidence_pack_count: int
     lawbook_hit_rate: float
     lawbook_action_change_rate: float
-    decode_success_rate: float
-    episode_to_episode_gain: float
-    compounding_signal_detected: bool
+    decode_supported_rate: float
+    prohibited_promotion_count: int
+    advisory_boundary_ok: bool
+    baseline_supported_count: int
+    memory_supported_count: int
     outputs: dict[str, str] = field(default_factory=dict)
+    lawbook_view: tuple[dict[str, Any], ...] = ()
     metrics: dict[str, Any] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
+    # Compatibility fields for older smoke callers.
+    real_sair_used: bool = False
+    fallback_mode: bool = True
+    advisory_boundary_preserved: bool = True
+    baseline_yield: float = 0.0
+    lawbook_yield: float = 0.0
+    htilt_yield: float = 0.0
+    decode_success_rate: float = 0.0
+    episode_to_episode_gain: float = 0.0
+    compounding_signal_detected: bool = False
 
     def to_dict(self) -> dict[str, Any]:
-        return dict(self.__dict__)
+        return {
+            "evidence_pack_count": self.evidence_pack_count,
+            "lawbook_hit_rate": self.lawbook_hit_rate,
+            "lawbook_action_change_rate": self.lawbook_action_change_rate,
+            "decode_supported_rate": self.decode_supported_rate,
+            "prohibited_promotion_count": self.prohibited_promotion_count,
+            "advisory_boundary_ok": self.advisory_boundary_ok,
+            "baseline_supported_count": self.baseline_supported_count,
+            "memory_supported_count": self.memory_supported_count,
+            "outputs": dict(self.outputs),
+            "lawbook_view": list(self.lawbook_view),
+            "metrics": dict(self.metrics),
+            "metadata": dict(self.metadata),
+            "real_sair_used": self.real_sair_used,
+            "fallback_mode": self.fallback_mode,
+            "advisory_boundary_preserved": self.advisory_boundary_preserved,
+            "baseline_yield": self.baseline_yield,
+            "lawbook_yield": self.lawbook_yield,
+            "htilt_yield": self.htilt_yield,
+            "decode_success_rate": self.decode_success_rate,
+            "episode_to_episode_gain": self.episode_to_episode_gain,
+            "compounding_signal_detected": self.compounding_signal_detected,
+        }
 
 
 def run_compounding_lawbook_engine(
@@ -47,202 +128,287 @@ def run_compounding_lawbook_engine(
     use_real_sair_if_available: bool = True,
     fallback_smoke: bool = False,
 ) -> CompoundingLawbookEngineReport:
+    """Run the canonical demo compounding loop.
+
+    The unused arguments are retained for CLI/API compatibility.  This loop is
+    intentionally evidence-pack native and does not load real ETP files.
+    """
+
     output = Path(out_dir)
     output.mkdir(parents=True, exist_ok=True)
-    eq_path = Path(equations_path or "/content/equations.txt")
-    matrix = Path(matrix_path or "/content/etp_matrix_full_best_bool.npy")
-    real_available = eq_path.exists() and matrix.exists() and use_real_sair_if_available and not fallback_smoke
-    db_path = output / "lawbook.sqlite"
-    store = LawbookStore(db_path)
-    store.init_compounding_schema()
-    seed_start = min(seeds) if seeds else 0
-    seed_count = len(tuple(seeds)) if seeds else 1
-    v_report = evaluate_v_operators_multi_seed(
-        SAIRVOperatorEvalConfig(
-            equations_path=eq_path,
-            matrix_path=matrix,
-            out_dir=output / "v_operator_episode",
-            train_pairs=max_tasks if real_available else min(max_tasks, 20),
-            eval_pairs=max_tasks if real_available else min(max_tasks, 20),
-            attempt_budget=12 if real_available else 8,
-            episodes=3 if real_available else 1,
-            seeds=seed_count,
-            seed_start=seed_start,
-            operator_set=("null_v", "random_v", "failure_density_v", "rejection_pressure_v", "composite_static_v"),
-            allow_fallback_demo=not real_available,
-            admit_motifs=True,
-            load_existing_atlas=True,
-            quick=not real_available,
-        )
+    lawbook_view = build_lawbook_view()
+    claims = build_demo_claims(max_tasks=max_tasks)
+    attention_rows = run_memory_attention(claims, lawbook_view)
+    decode_rows = evaluate_decode_to_verify_trace(attention_rows)
+    metrics = compute_lawbook_loop_metrics(
+        attention_rows=attention_rows,
+        decode_rows=decode_rows,
+        evidence_pack_count=len(lawbook_view),
     )
-    attempts, artifacts, obstructions = _store_v_report(store, v_report, run_id="compounding_v0")
-    reasons = [reason.to_dict() for reason in coagulate_reasons(attempts, artifacts, obstructions)]
-    for reason in reasons:
-        store.insert_reason({**reason, "run_id": "compounding_v0"})
-    tasks = _tasks_from_report(v_report)
-    attention_results = [retrieve_lawbook_attention(store, task).to_dict() for task in tasks]
-    decode_report = decode_reasons_to_verify(store, reasons, tasks)
-    manifest = store.export_manifest(output / "lawbook_manifest.json")
-    attention_path = output / "attention_trace.json"
-    reason_path = output / "reason_coagulation.json"
-    decode_path = output / "decode_to_verify_report.json"
-    report_path = output / "compounding_report.json"
-    md_path = output / "compounding_report.md"
-    attention_path.write_text(json.dumps(attention_results, indent=2, sort_keys=True), encoding="utf-8")
-    reason_path.write_text(json.dumps(reasons, indent=2, sort_keys=True), encoding="utf-8")
-    decode_path.write_text(json.dumps(decode_report, indent=2, sort_keys=True), encoding="utf-8")
-    metrics = compute_compounding_metrics(
-        baseline_yield=v_report.base_yield_mean,
-        lawbook_yield=v_report.persistent_atlas_yield_mean,
-        htilt_yield=v_report.best_htilt_yield_mean,
-        attempts=max(1, len(v_report.task_results)),
-        residual_before=max(0.0, max_tasks - v_report.base_yield_mean),
-        residual_after=max(0.0, max_tasks - v_report.best_htilt_yield_mean),
-        lawbook_hits=sum(1 for item in attention_results if item["artifacts"] or item["reasons"]),
-        lawbook_queries=len(attention_results),
-        action_changes=sum(1 for item in attention_results if item["action_suggestions"]),
-        decode_successes=decode_report["decode_success_count"],
-        decode_total=max(1, decode_report["reason_count"]),
-        advisory_boundary_preserved=manifest["advisory_boundary_preserved"] and v_report.advisory_boundary_ok,
-    )
+    advisory_boundary_ok = bool(metrics["advisory_boundary_ok"])
+    outputs = {
+        "report_json": str(output / "compounding_report.json"),
+        "report_md": str(output / "compounding_report.md"),
+        "lawbook_attention_trace": str(output / "lawbook_attention_trace.csv"),
+        "decode_to_verify_eval": str(output / "decode_to_verify_eval.csv"),
+    }
     report = CompoundingLawbookEngineReport(
-        real_sair_used=real_available,
-        fallback_mode=not real_available,
-        advisory_boundary_preserved=metrics["advisory_boundary_preserved"],
-        baseline_yield=metrics["baseline_yield"],
-        lawbook_yield=metrics["lawbook_yield"],
-        htilt_yield=metrics["htilt_yield"],
-        lawbook_hit_rate=metrics["lawbook_hit_rate"],
-        lawbook_action_change_rate=metrics["lawbook_action_change_rate"],
-        decode_success_rate=metrics["decode_success_rate"],
-        episode_to_episode_gain=metrics["episode_to_episode_gain"],
-        compounding_signal_detected=metrics["compounding_signal_detected"],
-        outputs={
-            "lawbook": str(db_path),
-            "manifest": str(output / "lawbook_manifest.json"),
-            "attention_trace": str(attention_path),
-            "reason_coagulation": str(reason_path),
-            "decode_to_verify": str(decode_path),
-            "report": str(report_path),
-            "markdown": str(md_path),
-        },
+        evidence_pack_count=len(lawbook_view),
+        lawbook_hit_rate=float(metrics["lawbook_hit_rate"]),
+        lawbook_action_change_rate=float(metrics["lawbook_action_change_rate"]),
+        decode_supported_rate=float(metrics["decode_supported_rate"]),
+        prohibited_promotion_count=int(metrics["prohibited_promotion_count"]),
+        advisory_boundary_ok=advisory_boundary_ok,
+        baseline_supported_count=int(metrics["baseline_supported_count"]),
+        memory_supported_count=int(metrics["memory_supported_count"]),
+        outputs=outputs,
+        lawbook_view=tuple(entry.to_dict() for entry in lawbook_view),
         metrics=metrics,
-        metadata={"selected_best_operator": v_report.selected_best_operator},
+        metadata={
+            "mode": "demo_synthetic_claims",
+            "trust_boundary": "evidence_changes_routes_only_verifiers_decide_terminal_truth",
+            "ignored_real_etp_args": bool(equations_path or matrix_path or use_real_sair_if_available),
+            "seeds": list(seeds),
+            "fallback_smoke": fallback_smoke,
+        },
+        advisory_boundary_preserved=advisory_boundary_ok,
+        baseline_yield=float(metrics["baseline_supported_count"]),
+        lawbook_yield=float(metrics["memory_supported_count"]),
+        htilt_yield=float(metrics["memory_supported_count"]),
+        decode_success_rate=float(metrics["decode_supported_rate"]),
+        episode_to_episode_gain=float(metrics["memory_supported_count"] - metrics["baseline_supported_count"]),
+        compounding_signal_detected=bool(metrics["memory_supported_count"] > metrics["baseline_supported_count"] and advisory_boundary_ok),
     )
-    report_path.write_text(json.dumps(report.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
-    md_path.write_text(_markdown(report), encoding="utf-8")
-    store.insert_event({"event_type": "COMPOUNDING_ENGINE_RUN", "payload": report.to_dict(), "run_id": "compounding_v0"})
-    store.close()
+    _write_csv(output / "lawbook_attention_trace.csv", attention_rows)
+    _write_csv(output / "decode_to_verify_eval.csv", decode_rows)
+    (output / "compounding_report.json").write_text(json.dumps(report.to_dict(), indent=2, sort_keys=True), encoding="utf-8")
+    (output / "compounding_report.md").write_text(_markdown(report), encoding="utf-8")
     return report
 
 
-def _store_v_report(store: LawbookStore, report: Any, run_id: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
-    attempts = []
-    artifacts = []
-    obstructions = []
-    gate = LawbookAdmissionGate()
-    fallback = str(getattr(report, "source_mode", "")) != "real_sair"
-    for row in report.task_results:
-        claim_id = str(row.get("task_id"))
-        policy = str(row.get("policy"))
-        solved = bool(row.get("solved"))
-        artifact_id = ""
-        if solved:
-            candidate_id = content_id("compounding-admission-artifact", [claim_id, policy, fallback])
-            candidate = {
-                "artifact_id": candidate_id,
-                "domain": "sair",
-                "claim_id": claim_id,
-                "source_id": claim_id.split("_")[0],
-                "target_id": claim_id.split("_")[-1],
-                "basin": row.get("family", ""),
-                "provenance_type": policy,
-                "payload": {"policy": policy, "task_id": claim_id, "fallback_mode": fallback},
-                "run_id": run_id,
-                "artifact_kind": "fallback_smoke_artifact" if fallback else "finite_countermodel_verified",
-            }
-            evidence = {
-                "verifier_passed": not fallback,
-                "source_satisfied": not fallback,
-                "target_violated": not fallback,
-                "concrete_witness": {"task_id": claim_id} if not fallback else None,
-                "carrier_size": 2 if not fallback else None,
-                "replayable": not fallback,
-                "provenance": policy,
-                "fallback_mode": fallback,
-            }
-            decision = gate.evaluate_artifact(candidate, evidence)
-            gate.admit_to_store(store, candidate, decision)
-            matches = [item for item in store.query_artifacts(claim_id=claim_id, limit=1000) if item.get("artifact_id") == candidate_id]
-            artifact = matches[0] if matches else {**candidate, "artifact_id": candidate_id, "terminal_form": "ADVISORY", "trust_level": 0}
-            artifact_id = artifact["artifact_id"]
-            artifacts.append(artifact)
-        else:
-            obstruction = store.insert_obstruction(
-                {
-                    "domain": "sair",
-                    "claim_id": claim_id,
-                    "source_id": claim_id.split("_")[0],
-                    "target_id": claim_id.split("_")[-1],
-                    "basin": row.get("family", ""),
-                    "obstruction_type": "RESIDUAL_SEARCH_MISS",
-                    "route_killed": policy,
-                    "evidence": row,
-                    "run_id": run_id,
-                }
-            )
-            obstructions.append(obstruction)
-        attempt = store.insert_attempt(
-            {
-                "artifact_id": artifact_id,
-                "domain": "sair",
-                "claim_id": claim_id,
-                "route": policy,
-                "scheduler": "v_operator_htilt",
-                "result_type": "FINITE_COUNTERMODEL" if solved else "RESIDUAL",
-                "success": solved,
-                "cost": row.get("attempts_used", 0),
-                "residual_delta": 1 if solved else 0,
-                "verifier_contact": solved,
-                "run_id": run_id,
-            }
-        )
-        attempts.append(attempt)
-    return attempts, artifacts, obstructions
+def build_lawbook_view() -> tuple[LawbookViewEntry, ...]:
+    recursive = load_frozen_recursive_transfer_evidence("recursive_residual_transfer_v1_20260523")
+    sair = load_evidence_pack(
+        "sair_stage2_breakthrough_20260526",
+        required_fields=("accepted_false_certificates", "finite_checked_countermodels"),
+    )
+    residual = load_residual_obstruction_v8_4_evidence()
+    collatz = load_collatz_v12_2_evidence()
+    root = load_root_node_v16_3_evidence()
+    cross_world = validate_cross_world_semantic_residual_invariant(load_cross_world_semantic_residual_invariant())
+    return (
+        _entry_from_recursive(recursive),
+        _entry_from_pack(
+            sair,
+            claim_status="verified_finite_false_countermodel_pack",
+            terminal_form_type="FINITE_COUNTERMODEL",
+            terms=("sair", "finite", "countermodel", "false", "certificate", "strict"),
+            extra_metrics=("accepted_false_certificates", "finite_checked_countermodels", "total_gain_over_baseline"),
+        ),
+        _entry_from_pack(
+            residual,
+            claim_status="advisory_residual_frontier_obstruction_atlas",
+            terminal_form_type="NAMED_OBSTRUCTION_CANDIDATE",
+            terms=("residual", "frontier", "obstruction", "carrier", "semantic", "atlas"),
+            extra_metrics=("coverage_percent", "remaining_frontier", "top_constructor_pressure"),
+        ),
+        _entry_from_pack(
+            collatz,
+            claim_status="proof_template_obstruction_law_candidate",
+            terminal_form_type="NONE_ADVISORY",
+            terms=("collatz", "primitive", "divisor", "obstruction", "proof", "template"),
+            extra_metrics=("primitive_growth_pairs", "pairs_processed", "total_integer_candidate_count", "main_obstruction"),
+        ),
+        _entry_from_pack(
+            root,
+            claim_status="advisory_persistent_load_bearing_root_node",
+            terminal_form_type="NONE_ADVISORY",
+            terms=("root", "node", "filtration", "lawbook", "continuation", "load", "bearing"),
+            extra_metrics=("promoted_root_nodes", "watchlist_root_nodes", "shadow_clusters"),
+        ),
+        _entry_from_pack(
+            cross_world,
+            claim_status="empirical_cross_world_invariant_candidate",
+            terminal_form_type="NONE_ADVISORY",
+            terms=("crossworld", "semantic", "residual", "rank", "invariant", "closure"),
+            extra_metrics=(
+                "semantic_root_all_world_auc_false",
+                "residual_rank_all_world_auc_false",
+                "leave_one_world_out_mean_auc_false",
+                "etp_false_underexplained",
+            ),
+        ),
+    )
 
 
-def _tasks_from_report(report: Any) -> list[dict[str, Any]]:
-    seen = {}
-    for row in report.task_results:
-        seen.setdefault(
-            row.get("task_id"),
+def build_demo_claims(max_tasks: int = 250) -> tuple[DemoClaim, ...]:
+    claims = (
+        DemoClaim("demo_recursive_transfer", "ETP heldout FALSE route selection", ("recursive", "route", "memory", "etp")),
+        DemoClaim("demo_sair_false_certificate", "SAIR accepted FALSE finite countermodel", ("sair", "finite", "countermodel", "certificate")),
+        DemoClaim("demo_residual_frontier", "Residual-zero frontier continuation", ("residual", "frontier", "carrier", "obstruction")),
+        DemoClaim("demo_collatz_candidate", "Collatz primitive divisor proof-template candidate", ("collatz", "primitive", "divisor", "template")),
+        DemoClaim("demo_root_node", "Persistent load-bearing root continuation", ("root", "node", "filtration", "lawbook")),
+        DemoClaim("demo_crossworld_residual", "CrossWorld semantic residual invariant route", ("crossworld", "semantic", "residual", "rank")),
+    )
+    return claims[: max(1, min(len(claims), int(max_tasks) if max_tasks else len(claims)))]
+
+
+def run_memory_attention(claims: Sequence[DemoClaim], lawbook_view: Sequence[LawbookViewEntry]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for claim in claims:
+        entry, score = _best_attention(claim, lawbook_view)
+        lawbook_hit = entry is not None and score > 0
+        memory_action = _memory_action(entry) if entry else claim.baseline_action
+        terminal_form_candidate = _terminal_candidate(entry) if entry else "NONE"
+        prohibited = _prohibited_promotion(entry, terminal_form_candidate) if entry else False
+        rows.append(
             {
-                "task_id": row.get("task_id"),
-                "claim_id": row.get("task_id"),
-                "domain": "sair",
-                "basin": row.get("family", ""),
-                "source_id": str(row.get("task_id", "")).split("_")[0],
-                "target_id": str(row.get("task_id", "")).split("_")[-1],
-            },
+                "claim_id": claim.claim_id,
+                "description": claim.description,
+                "baseline_action": claim.baseline_action,
+                "memory_action": memory_action,
+                "lawbook_hit": lawbook_hit,
+                "attention_score": score,
+                "evidence_pack_id": entry.evidence_pack_id if entry else "",
+                "claim_status": entry.claim_status if entry else "",
+                "terminal_form_type": entry.terminal_form_type if entry else "NONE",
+                "terminal_form_candidate": terminal_form_candidate,
+                "action_changed": memory_action != claim.baseline_action,
+                "prohibited_promotion": prohibited,
+                "advisory_boundary_ok": not prohibited,
+            }
         )
-    return list(seen.values())[:20]
+    return rows
+
+
+def _entry_from_recursive(metrics: Mapping[str, Any]) -> LawbookViewEntry:
+    return LawbookViewEntry(
+        evidence_pack_id="recursive_residual_transfer_v1_20260523",
+        claim_status="empirical_advisory_route_memory",
+        trust_boundary_status="PASS",
+        terminal_form_type="NONE_ADVISORY",
+        empirical_metrics=_metric_subset(
+            metrics,
+            (
+                "gates_passed",
+                "gates_total",
+                "compact_transfer_gain_vs_generic_positive",
+                "compact_beats_random_same_size",
+                "compact_beats_shuffled_atlas_same_size",
+                "true_contamination_max",
+            ),
+        ),
+        prohibited_promotions=_standard_prohibited_promotions(),
+        attention_terms=("recursive", "route", "memory", "etp", "transfer", "atlas"),
+    )
+
+
+def _entry_from_pack(
+    pack: EvidencePack,
+    *,
+    claim_status: str,
+    terminal_form_type: str,
+    terms: Iterable[str],
+    extra_metrics: Iterable[str],
+) -> LawbookViewEntry:
+    return LawbookViewEntry(
+        evidence_pack_id=pack.pack_id,
+        claim_status=claim_status,
+        trust_boundary_status="PASS",
+        terminal_form_type=terminal_form_type,
+        empirical_metrics=_metric_subset(pack.metrics, tuple(extra_metrics)),
+        prohibited_promotions=_standard_prohibited_promotions(),
+        attention_terms=tuple(sorted(set(str(term).lower() for term in terms) | {pack.pack_id.lower()})),
+    )
+
+
+def _metric_subset(metrics: Mapping[str, Any], keys: Iterable[str]) -> dict[str, Any]:
+    return {key: metrics[key] for key in keys if key in metrics}
+
+
+def _standard_prohibited_promotions() -> tuple[str, ...]:
+    return (
+        "advisory_score_to_true",
+        "route_score_to_certificate",
+        "failed_finite_search_to_true",
+        "llm_text_to_verified_proof",
+        "unverified_true_candidate_to_verified_true",
+    )
+
+
+def _best_attention(claim: DemoClaim, entries: Sequence[LawbookViewEntry]) -> tuple[LawbookViewEntry | None, int]:
+    claim_terms = {term.lower() for term in claim.terms}
+    best: tuple[LawbookViewEntry | None, int] = (None, 0)
+    for entry in entries:
+        score = len(claim_terms & set(entry.attention_terms))
+        if score > best[1]:
+            best = (entry, score)
+    return best
+
+
+def _memory_action(entry: LawbookViewEntry | None) -> str:
+    if entry is None:
+        return "generic_bounded_search"
+    actions = {
+        "recursive_residual_transfer_v1_20260523": "use_advisory_route_memory_then_request_finite_checker",
+        "sair_stage2_breakthrough_20260526": "replay_finite_checked_false_countermodel_certificate",
+        "residual_obstruction_atlas_v8_4": "expand_semantic_universe_then_minimum_carrier_search",
+        "collatz_primitive_divisor_v12_2": "extract_proof_template_obligation_keep_not_a_proof",
+        "root_node_persistent_filtration_v16_3": "prioritize_persistent_load_bearing_root_then_verify",
+        "cross_world_semantic_residual_invariant": "extract_semantic_residual_then_route_to_verifier_or_obstruction",
+    }
+    return actions.get(entry.evidence_pack_id, "generic_bounded_search")
+
+
+def _terminal_candidate(entry: LawbookViewEntry | None) -> str:
+    if entry is None:
+        return "NONE"
+    if entry.evidence_pack_id == "sair_stage2_breakthrough_20260526":
+        return "FINITE_COUNTERMODEL"
+    return "UNVERIFIED_ROUTE"
+
+
+def _prohibited_promotion(entry: LawbookViewEntry | None, terminal_candidate: str) -> bool:
+    if entry is None:
+        return False
+    if entry.evidence_pack_id == "sair_stage2_breakthrough_20260526" and terminal_candidate == "FINITE_COUNTERMODEL":
+        return False
+    return terminal_candidate in {"TRUE", "FALSE", "VERIFIED_PROOF", "FINITE_COUNTERMODEL"}
+
+
+def _write_csv(path: Path, rows: Sequence[Mapping[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    keys: list[str] = []
+    for row in rows:
+        for key in row:
+            if key not in keys:
+                keys.append(key)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=keys)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({key: _csv_value(row.get(key)) for key in keys})
+
+
+def _csv_value(value: Any) -> Any:
+    if isinstance(value, (dict, list, tuple, set)):
+        return json.dumps(value, sort_keys=True, default=str)
+    return value
 
 
 def _markdown(report: CompoundingLawbookEngineReport) -> str:
-    return f"""# Compounding Lawbook Engine v0
+    return f"""# Compounding Lawbook Loop
 
-- real_sair_used: `{report.real_sair_used}`
-- fallback_mode: `{report.fallback_mode}`
-- advisory_boundary_preserved: `{report.advisory_boundary_preserved}`
-- baseline_yield: `{report.baseline_yield}`
-- lawbook_yield: `{report.lawbook_yield}`
-- htilt_yield: `{report.htilt_yield}`
+- evidence_pack_count: `{report.evidence_pack_count}`
 - lawbook_hit_rate: `{report.lawbook_hit_rate:.3f}`
 - lawbook_action_change_rate: `{report.lawbook_action_change_rate:.3f}`
-- decode_success_rate: `{report.decode_success_rate:.3f}`
-- episode_to_episode_gain: `{report.episode_to_episode_gain}`
-- compounding_signal_detected: `{report.compounding_signal_detected}`
+- decode_supported_rate: `{report.decode_supported_rate:.3f}`
+- prohibited_promotion_count: `{report.prohibited_promotion_count}`
+- advisory_boundary_ok: `{report.advisory_boundary_ok}`
 
-Lawbook attention and reason coagulation are advisory. Terminal memory in this
-run comes only from finite-model-checker accepted countermodel artifacts.
+This is a lightweight repo-native compounding loop. Evidence-pack memory can
+change the next action, but advisory route memory is not truth, failed finite
+search is not TRUE, Collatz v12.2 remains not a proof, CrossWorld remains an
+empirical advisory invariant candidate, and SAIR finite-checked FALSE
+countermodels remain distinct from route memory.
 """

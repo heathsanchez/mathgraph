@@ -36,7 +36,7 @@ def main(argv: list[str] | None = None) -> int:
         fallback_smoke=args.fallback_smoke,
     )
     print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
-    return 0 if report.advisory_boundary_preserved else 1
+    return 0 if report.advisory_boundary_ok else 1
 
 
 if __name__ == "__main__":
