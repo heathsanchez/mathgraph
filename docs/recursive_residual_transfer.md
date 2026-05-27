@@ -4,18 +4,27 @@ This page documents the repo-grade port of:
 
 `MATHGRAPH / ETP -- RECURSIVE RESIDUAL-MINED MEMORY TRANSFER TEST v1`
 
+## What This Proves
+
+This result proves transferable, compressible residual-mined constructor memory
+in the bounded ETP benchmark sense: compact advisory memory learned on one
+FALSE slice transfers to unseen FALSE pairs, beats generic/random/shuffled
+controls, preserves most recursive-memory gain after pruning, and keeps TRUE
+contamination at zero.
+
+## What This Does Not Prove
+
+It does not certify mathematical truth. Residual-mined constructors, compact
+atlas entries, and route scores are advisory route memory only. A FALSE
+certificate still requires a finite magma satisfying the source and violating
+the target, and failed finite search is never TRUE.
+
 ## What The Breakthrough Tested
 
 The Colab run asked whether a compact residual-mined atlas trained on one slice
 transfers to fresh unseen ETP FALSE pairs across seeds, without TRUE
 contamination, while beating generic, random same-size, and shuffled same-size
 controls.
-
-This result proves transferable residual-mined constructor memory in the
-bounded ETP benchmark sense: compact advisory memory learned on one FALSE slice
-transfers to unseen FALSE pairs, beats generic/random/shuffled controls,
-preserves most recursive-memory gain after pruning, and keeps TRUE
-contamination at zero.
 
 Source run metrics:
 

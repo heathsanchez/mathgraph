@@ -7,6 +7,20 @@ The uploaded bundle search did not include a matching raw artifact file for
 this result. The pack preserves the metrics supplied in Documents 9-11 with
 provenance marked as conversation-provided context.
 
+## What This Proves
+
+This pack preserves a conversation-provenance empirical claim: the semantic
+residual representation reportedly transferred across ETP magma implication,
+Boolean CNF implication, finite graph property implication, and rewrite/string
+rule implication with high false-AUC metrics.
+
+## What This Does Not Prove
+
+This is not a verified artifact-backed proof. Until raw cross-world run
+artifacts are added, the evidence status is conversation-provenance only.
+Residual scores, classifier confidence, and failed finite searches cannot
+promote terminal truth.
+
 ## Metrics
 
 - `semantic_root_all_world_auc_false`: `0.9933`

@@ -3,6 +3,18 @@
 Canonical evidence pack:
 `examples/evidence_packs/root_node_persistent_filtration_v16_3/`
 
+## What This Proves
+
+This pack supports the operational root-node meaning used by MathGraph: a root
+node is a persistent, load-bearing continuation point that survives filtration,
+null-lift pressure, shadow-duplicate discounting, and downstream yield scoring.
+
+## What This Does Not Prove
+
+Root nodes are not proofs, countermodels, or terminal truth labels. A high root
+score is continuation pressure only; it does not turn a failed search into TRUE
+or certify a FALSE claim.
+
 ## Metrics
 
 - lawbook rows: `288`

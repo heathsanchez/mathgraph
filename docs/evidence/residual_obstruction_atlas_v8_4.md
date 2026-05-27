@@ -3,6 +3,19 @@
 Canonical evidence pack:
 `examples/evidence_packs/residual_obstruction_atlas_v8_4/`
 
+## What This Proves
+
+This pack supports the empirical frontier claim that the remaining ETP FALSE
+pairs after broad finite coverage are structured, not random. The dominant
+surface is a residual-zero obstruction basin whose next pressure is semantic
+universe expansion or higher-carrier search.
+
+## What This Does Not Prove
+
+The obstruction atlas does not certify TRUE or FALSE claims by itself. It does
+not falsify semantic residual rank. It says the current witness universe is
+incomplete and identifies where certificate search should continue.
+
 ## Metrics
 
 - Official FALSE pairs: `13,855,357`

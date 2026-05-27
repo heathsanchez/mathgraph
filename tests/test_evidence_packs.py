@@ -1,8 +1,11 @@
+from pathlib import Path
+
 import pytest
 
 from mathgraph.evidence_packs import EvidencePackError, assert_trust_boundary, list_evidence_packs, load_evidence_pack
 from mathgraph.recursive_residual_transfer import GATE_NAMES, compare_to_frozen_recursive_transfer_evidence, load_frozen_recursive_transfer_evidence, source_breakthrough_route_evaluations, build_recursive_transfer_summary
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 CANONICAL_PACKS = (
     "recursive_residual_transfer_v1_20260523",
@@ -11,6 +14,15 @@ CANONICAL_PACKS = (
     "collatz_primitive_divisor_v12_2",
     "root_node_persistent_filtration_v16_3",
     "cross_world_semantic_residual_invariant",
+)
+
+EVIDENCE_DOCS = (
+    "docs/recursive_residual_transfer.md",
+    "docs/evidence/official_sair_stage2_breakthrough_20260526.md",
+    "docs/evidence/residual_obstruction_atlas_v8_4.md",
+    "docs/evidence/collatz_primitive_divisor_v12_2.md",
+    "docs/evidence/root_node_persistent_filtration_v16_3.md",
+    "docs/evidence/cross_world_semantic_residual_invariant.md",
 )
 
 
@@ -79,3 +91,20 @@ def test_cross_world_pack_is_empirical_not_proof() -> None:
     assert pack.metrics["semantic_root_all_world_auc_false"] == 0.9933
     assert pack.metrics["etp_false_underexplained"] == 73
     assert pack.trust_boundary["not_a_proof"] is True
+
+
+def test_evidence_docs_front_load_claim_boundaries_and_readme_links() -> None:
+    for rel_path in EVIDENCE_DOCS:
+        text = (REPO_ROOT / rel_path).read_text(encoding="utf-8")
+        assert "## What This Proves" in text
+        assert "## What This Does Not Prove" in text
+
+    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    for pack_id in CANONICAL_PACKS:
+        assert pack_id in readme
+    assert "docs/evidence/evidence_map.md" in readme
+
+    evidence_map = (REPO_ROOT / "docs/evidence/evidence_map.md").read_text(encoding="utf-8")
+    assert "Conversation-provenance only" in evidence_map
+    assert "failed finite search is never TRUE" in evidence_map
+    assert "not verified theorem" in evidence_map

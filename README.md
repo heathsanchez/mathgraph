@@ -64,6 +64,7 @@ Evidence notes:
 
 Canonical frozen evidence packs:
 
+- [Evidence map](docs/evidence/evidence_map.md)
 - [Recursive residual transfer v1](examples/evidence_packs/recursive_residual_transfer_v1_20260523/README.md)
 - [Official SAIR Stage 2 breakthrough](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
 - [Residual obstruction atlas v8.4](docs/evidence/residual_obstruction_atlas_v8_4.md)

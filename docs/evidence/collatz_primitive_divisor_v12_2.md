@@ -3,10 +3,19 @@
 Canonical evidence pack:
 `examples/evidence_packs/collatz_primitive_divisor_v12_2/`
 
-## Status
+## What This Proves
+
+This pack provides empirical evidence that MathGraph compressed thousands of
+inverse-family residual checks into a theorem-shaped obstruction:
+`UNCANCELLED_PRIMITIVE_DIVISOR_GROWTH`. It supports treating that obstruction as
+a proof-template candidate / obstruction law candidate for later exact proof
+work.
+
+## What This Does Not Prove
 
 This is not a Collatz proof. It is a fixation-stage candidate-law result and a
-proof-template extraction target.
+proof-template extraction target. Zero integer candidates in this finite run do
+not prove that no integer candidates exist.
 
 ## Metrics
 
