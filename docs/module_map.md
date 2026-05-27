@@ -125,8 +125,13 @@ modules.
 
 ## Canonical Evidence Docs
 
+- `SAIR_STAGE2_EVIDENCE.md`
+- `WEBSITE_COPY.md`
 - `docs/evidence/official_sair_stage2_breakthrough_20260526.md`
 - `examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md`
+- `docs/public/collaborator_issue_draft.md`
+- `docs/public/investor_one_pager.md`
+- `scripts/replay_official_sair_stage2_breakthrough.py`
 
 ## Legacy Surface
 

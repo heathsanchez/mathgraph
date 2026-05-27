@@ -154,6 +154,15 @@ FALSE-side result: finite checker evidence can admit countermodels, while
 Lawbook, micro-basin, H-Tilt, PQ-IR, and policy-selection artifacts remain
 advisory route memory.
 
+## Official Evidence Milestone
+
+The 2026-05-26 SAIR Stage 2 evidence pack is the current canonical proof-of-work
+for the FALSE-side finite-countermodel / verified-memory-compounding path. It
+demonstrates positive held-out gain with strict admission and zero
+trust-boundary violations.
+
+It does not replace TRUE-side proof verification work.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding
