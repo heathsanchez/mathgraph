@@ -57,6 +57,7 @@ Evidence notes:
 
 - [Public evidence summary](SAIR_STAGE2_EVIDENCE.md)
 - [Official SAIR Stage 2 Breakthrough Evidence Pack - 2026-05-26](docs/evidence/official_sair_stage2_breakthrough_20260526.md)
+- [Recursive residual-mined transfer test](docs/recursive_residual_transfer.md)
 - [Replay guide](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
 
 Lower-level commands such as `scripts/run_sair_stage2_breakthrough_search.py`

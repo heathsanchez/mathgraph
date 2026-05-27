@@ -53,6 +53,8 @@ CANONICAL_MODULES = (
     "mathgraph/sair_stage2_policy_selector.py",
     "mathgraph/sair_stage2_breakthrough_search.py",
     "mathgraph/recursive_residual_compounding.py",
+    "mathgraph/recursive_residual_transfer.py",
+    "mathgraph/compact_route_atlas.py",
     "mathgraph/etp_terms.py",
     "mathgraph/quotient_state.py",
     "mathgraph/polarized_quotient_ir.py",
@@ -74,6 +76,7 @@ CANONICAL_SCRIPTS = (
     "scripts/run_end_to_end_breakthrough_validation.py",
     "scripts/run_sair_stage2_end_to_end.py",
     "scripts/run_sair_stage2_breakthrough_search.py",
+    "scripts/run_recursive_residual_transfer.py",
     "scripts/replay_official_sair_stage2_breakthrough.py",
     "scripts/run_persistent_exact_microbasin_lawbook_benchmark.py",
     "scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py",
@@ -84,6 +87,7 @@ CANONICAL_DOCS = (
     "docs/public/collaborator_issue_draft.md",
     "docs/public/investor_one_pager.md",
     "docs/evidence/official_sair_stage2_breakthrough_20260526.md",
+    "docs/recursive_residual_transfer.md",
     "examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md",
 )
 CONCEPT_KEYWORDS = (
