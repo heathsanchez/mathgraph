@@ -30,6 +30,11 @@ grounding records, route priors, and closed-loop scheduling pressure remain
 advisory unless a verifier, trusted importer, finite validator, or chain audit
 creates explicit boundary evidence.
 
+Do not add new advisory layers until the official SAIR Stage 2 evidence pack
+has been made reproducible and legible. Next high-value work is improving the
+magnitude and robustness of compounding gain, plus TRUE-side proof verification,
+not adding more runners.
+
 ## Deferred Research Hooks
 
 The following are intentionally not implemented here:
@@ -300,9 +305,15 @@ Implemented:
 - Active Residual Constructor Discovery v1
 - Proposal-Specific Finite Constructor Synthesis v1
 - Residual-Conditioned Constructor Synthesis v1
+- Source-Law Repair Engine v1
+- Repaired Countermodel Certificate Assimilation v1
+- End-to-End Breakthrough Validation Pack
+- Official SAIR Stage 2 Evidence Pack
+- Official SAIR Stage 2 Breakthrough Search / Policy Selection
 
 Still future work:
 
+- run and archive the official SAIR Stage 2 breakthrough search at full Colab-scale budgets
 - scale native v2 autonomous recovery on full real ETP/SAIR splits
 - persistent Lawbook admission for native v2 finite countermodel certificates
 - compact obstruction-atlas route selection over multiple seeds

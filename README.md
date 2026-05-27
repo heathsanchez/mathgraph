@@ -8,10 +8,99 @@ Start here:
 ```bash
 python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
-python scripts/run_public_demo.py --out-dir demo_out
+python scripts/run_sair_stage2_end_to_end.py --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo --fallback-demo --strict-admission --write-report
 ```
 
 Then read [docs/quickstart.md](docs/quickstart.md).
+
+## Official SAIR Stage 2 Evidence Pack
+
+The current canonical evidence path is the 2026-05-26 real SAIR Stage 2
+breakthrough pack. It demonstrates FALSE-side finite-countermodel certificate
+production and positive held-out memory compounding on real SAIR Stage 2 data,
+with zero trust-boundary violations.
+
+Replay:
+
+```bash
+python scripts/replay_official_sair_stage2_breakthrough.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/official_sair_stage2_breakthrough_replay \
+  --full
+```
+
+Evidence notes:
+
+- [Official SAIR Stage 2 Breakthrough Evidence Pack - 2026-05-26](docs/evidence/official_sair_stage2_breakthrough_20260526.md)
+- [Replay guide](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
+
+## Official SAIR Stage 2 Evidence Pack
+
+The official external evidence command is:
+
+```bash
+python scripts/run_sair_stage2_end_to_end.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/sair_stage2_end_to_end_pack \
+  --episodes 4 \
+  --train-false 5000 \
+  --heldout-false 5000 \
+  --sample-true 1000 \
+  --max-n 4 \
+  --repair-budget 40 \
+  --seeds 20260524,20260525,20260526 \
+  --strict-admission \
+  --write-report
+```
+
+This pack writes one inspectable artifact directory with the executive summary,
+technical report, trust-boundary audit, certificate manifest, residual frontier,
+Lawbook/Reason Atlas SQLite files, and replay instructions. Fallback mode is
+available for tests, but it is explicitly labeled non-evidence:
+
+```bash
+python scripts/run_sair_stage2_end_to_end.py \
+  --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo \
+  --fallback-demo \
+  --episodes 2 \
+  --train-false 100 \
+  --heldout-false 100 \
+  --sample-true 50 \
+  --seeds 1729 \
+  --strict-admission \
+  --write-report
+```
+
+Other runners in this README are internal components or research runners used
+by the official pack.
+
+### Official SAIR Stage 2 Breakthrough Search
+
+When an evidence pack is safe but has negative downstream gain, run the
+breakthrough search. It diagnoses component-level marginal contributions,
+rejects harmful held-out routes, and writes a conservative canonical policy.
+
+```bash
+python scripts/run_sair_stage2_breakthrough_search.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/breakthrough_search \
+  --seeds 20260524,20260525,20260526,20260527,20260528 \
+  --train-false 5000 \
+  --heldout-false 5000 \
+  --sample-true 1000 \
+  --episodes 4 \
+  --max-n 4 \
+  --repair-budget 40 \
+  --policy-search-rounds 5 \
+  --strict-admission \
+  --fail-if-no-compounding
+```
+
+Breakthrough means positive held-out gain with strict admission and zero
+trust-boundary violations. Failed finite search remains residual evidence.
 
 ## Canonical Path
 
@@ -57,14 +146,14 @@ Canonical modules:
 | SAIR / ETP adapters | `mathgraph/sair_task_loader.py`, `mathgraph/sair_constructor_bank.py` |
 
 Legacy scripts and experiment modules still exist, but new users should start
-with release check, architecture audit, and the canonical compounding loop.
+with release check, architecture audit, and the official SAIR evidence pack.
 
 Canonical commands:
 
 ```bash
 python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
-python scripts/run_mathgraph_compounding_loop.py --allow-fallback-demo --out-dir /tmp/mathgraph_compounding_demo
+python scripts/run_sair_stage2_end_to_end.py --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo --fallback-demo --strict-admission --write-report
 ```
 
 See [docs/canonical_pipeline.md](docs/canonical_pipeline.md) and
@@ -380,6 +469,157 @@ python scripts/run_active_residual_discovery_benchmark.py \
   --synthesize-constructors \
   --residual-conditioned-synthesis \
   --seed 1729
+```
+
+Source-law repair targets the gap where a conditioned constructor violates the
+target but fails the source law:
+
+```bash
+python scripts/run_source_law_repair.py \
+  --out-dir /tmp/mathgraph_source_law_repair_demo \
+  --fallback-demo \
+  --seed 1729
+```
+
+Residual-conditioned synthesis with repair:
+
+```bash
+python scripts/run_residual_conditioned_synthesis.py \
+  --out-dir /tmp/mathgraph_residual_conditioned_repair_demo \
+  --fallback-demo \
+  --enable-source-law-repair \
+  --repair-max-steps 1000 \
+  --seed 1729
+```
+
+Active discovery with repair:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_discovery_source_repair_demo \
+  --fallback-demo \
+  --synthesize-constructors \
+  --residual-conditioned-synthesis \
+  --enable-source-law-repair \
+  --repair-max-steps 1000 \
+  --seed 1729
+```
+
+Repaired countermodel certificate assimilation turns finite-checked repaired
+recoveries into durable FALSE-side certificate artifacts:
+
+```bash
+python scripts/run_repaired_countermodel_certificate_assimilation.py \
+  --out-dir /tmp/mathgraph_repaired_certificate_demo \
+  --fallback-demo \
+  --seed 1729
+```
+
+Source repair with certificate assimilation:
+
+```bash
+python scripts/run_source_law_repair.py \
+  --out-dir /tmp/mathgraph_source_repair_with_certificates_demo \
+  --fallback-demo \
+  --assimilate-certificates \
+  --seed 1729
+```
+
+Active discovery with repair and certificates:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_discovery_certificates_demo \
+  --fallback-demo \
+  --synthesize-constructors \
+  --residual-conditioned-synthesis \
+  --enable-source-law-repair \
+  --assimilate-repaired-certificates \
+  --repair-max-steps 1000 \
+  --seed 1729
+```
+
+Real Colab repaired certificate path:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --input-dir /content/drive/MyDrive/SAIR_MathGraph/<previous_heldout_or_active_run> \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/active_residual_certificates_v1 \
+  --min-support 3 \
+  --max-proposals-per-basin 3 \
+  --max-pairs-per-proposal 100 \
+  --synthesize-constructors \
+  --max-tables-per-proposal 32 \
+  --max-pairs-per-constructor 100 \
+  --residual-conditioned-synthesis \
+  --max-conditioned-pairs 100 \
+  --max-conditioned-witnesses-per-pair 8 \
+  --max-conditioned-attempts-per-pair 32 \
+  --conditioned-max-steps 5000 \
+  --enable-source-law-repair \
+  --repair-strategies pressure_descent,target_frozen_pressure_descent,diagonal_first_repair,row_col_repair,quotient_merge_repair,two_phase_repair \
+  --repair-max-steps 10000 \
+  --repair-max-violations 128 \
+  --assimilate-repaired-certificates \
+  --max-n 4 \
+  --seed 20260524
+```
+
+## End-to-End Breakthrough Validation Pack
+
+The validation pack is the canonical evidence command for the current
+FALSE-side breakthrough chain. It runs or reuses held-out Lawbook, micro-basin
+distillation, active residual discovery, proposal synthesis, residual-conditioned
+synthesis, source-law repair, repaired countermodel certificate assimilation,
+and persistent replay.
+
+Fallback:
+
+```bash
+python scripts/run_end_to_end_breakthrough_validation.py \
+  --out-dir /tmp/mathgraph_breakthrough_validation_demo \
+  --fallback-demo \
+  --seed 1729
+```
+
+Smoke real:
+
+```bash
+python scripts/run_end_to_end_breakthrough_validation.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/breakthrough_validation_smoke \
+  --smoke-real \
+  --seed 20260524
+```
+
+Real Colab source-repair run:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --input-dir /content/drive/MyDrive/SAIR_MathGraph/<previous_heldout_or_active_run> \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/active_residual_source_repair_v1 \
+  --min-support 3 \
+  --max-proposals-per-basin 3 \
+  --max-pairs-per-proposal 100 \
+  --synthesize-constructors \
+  --max-tables-per-proposal 32 \
+  --max-pairs-per-constructor 100 \
+  --residual-conditioned-synthesis \
+  --max-conditioned-pairs 100 \
+  --max-conditioned-witnesses-per-pair 8 \
+  --max-conditioned-attempts-per-pair 32 \
+  --conditioned-max-steps 5000 \
+  --enable-source-law-repair \
+  --repair-strategies pressure_descent,target_frozen_pressure_descent,diagonal_first_repair,row_col_repair,quotient_merge_repair,two_phase_repair \
+  --repair-max-steps 10000 \
+  --repair-max-violations 128 \
+  --max-n 4 \
+  --seed 20260524
 ```
 
 Real Colab:

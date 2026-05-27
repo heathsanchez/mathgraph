@@ -20,6 +20,15 @@ constraints, and deterministic completions before finite checking. This is the
 first constructor layer shaped by the actual obstruction, not only by a family
 label.
 
+With `--enable-source-law-repair`, target-violating conditioned constructors
+that fail the source law receive bounded repair attempts. Repairs are accepted
+only through finite checking; repair traces are advisory pressure for future
+obstruction naming and constructor synthesis.
+
+With `--assimilate-repaired-certificates`, finite-checked repaired recoveries
+are written as repaired countermodel certificate artifacts and Lawbook-ready
+family summaries.
+
 ## Loop
 
 ```text
@@ -74,6 +83,19 @@ python scripts/run_active_residual_discovery_benchmark.py \
   --fallback-demo \
   --synthesize-constructors \
   --residual-conditioned-synthesis \
+  --seed 1729
+```
+
+With source-law repair:
+
+```bash
+python scripts/run_active_residual_discovery_benchmark.py \
+  --out-dir /tmp/mathgraph_active_discovery_source_repair_demo \
+  --fallback-demo \
+  --synthesize-constructors \
+  --residual-conditioned-synthesis \
+  --enable-source-law-repair \
+  --repair-max-steps 1000 \
   --seed 1729
 ```
 

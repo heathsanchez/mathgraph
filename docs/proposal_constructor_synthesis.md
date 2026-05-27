@@ -27,6 +27,9 @@ family label alone; it uses the residual pair to choose a target witness, force
 partial table constraints, complete candidate tables, and then finite-check the
 result. See [residual_conditioned_synthesis.md](residual_conditioned_synthesis.md).
 
+Source-law repair then tries to preserve the source equation for target-
+violating candidates. Failed repair remains residual evidence, never TRUE.
+
 ## Fallback
 
 ```bash

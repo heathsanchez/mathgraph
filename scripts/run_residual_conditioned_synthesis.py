@@ -24,6 +24,7 @@ from mathgraph.residual_conditioned_synthesis import (
     summarize_residual_conditioned_synthesis,
     synthesize_for_residual_pairs,
 )
+from mathgraph.source_law_repair import repair_conditioned_constructors, summarize_source_law_repair
 
 
 @dataclass(frozen=True)
@@ -38,6 +39,10 @@ class ResidualConditionedCliConfig:
     max_steps: int = 5000
     seed: int = 20260524
     fallback_demo: bool = False
+    enable_source_law_repair: bool = False
+    repair_strategies: list[str] | None = None
+    repair_max_steps: int = 10000
+    repair_max_violations: int = 128
 
 
 def run_residual_conditioned_synthesis(config: ResidualConditionedCliConfig) -> dict[str, object]:
@@ -64,6 +69,34 @@ def run_residual_conditioned_synthesis(config: ResidualConditionedCliConfig) -> 
         "source_mode": "fallback_demo" if config.fallback_demo else "artifact_conditioned",
         **summarize_residual_conditioned_synthesis(specs, attempts, constructors, recoveries),
     }
+    repair_results = pd.DataFrame()
+    repair_traces = pd.DataFrame()
+    if config.enable_source_law_repair:
+        repair_results, repair_traces = repair_conditioned_constructors(
+            constructors,
+            max_steps=config.repair_max_steps,
+            max_violations=config.repair_max_violations,
+            strategies=config.repair_strategies,
+            seed=config.seed,
+        )
+        repair_summary = summarize_source_law_repair(repair_results, repair_traces)
+        summary.update(repair_summary)
+        summary["source_law_repair_breakthrough_candidate"] = bool(summary["source_law_repair_recovered_pairs"] > 0 and summary["source_mode"] != "fallback_demo")
+        summary["conditioned_plus_repair_recovered_pairs"] = int(summary["residual_conditioned_recovered_pairs"]) + int(summary["source_law_repair_recovered_pairs"])
+        summary["total_breakthrough_candidate"] = bool(summary["source_law_repair_breakthrough_candidate"])
+    else:
+        summary.update(
+            {
+                "source_law_repair_enabled": False,
+                "source_law_repair_attempt_count": 0,
+                "source_law_repair_completed_count": 0,
+                "source_law_repair_recovered_pairs": 0,
+                "source_law_repair_best_strategy": "",
+                "source_law_repair_breakthrough_candidate": False,
+                "conditioned_plus_repair_recovered_pairs": int(summary["residual_conditioned_recovered_pairs"]),
+                "total_breakthrough_candidate": False,
+            }
+        )
     summary["benchmark_passed"] = (
         summary["residual_conditioned_pair_count"] > 0
         and summary["residual_conditioned_attempt_count"] > 0
@@ -81,10 +114,18 @@ def run_residual_conditioned_synthesis(config: ResidualConditionedCliConfig) -> 
         "residual_conditioned.sqlite": out_dir / "residual_conditioned.sqlite",
         "artifact_manifest.json": out_dir / "artifact_manifest.json",
     }
+    if config.enable_source_law_repair:
+        artifacts["source_law_repair_results.csv"] = out_dir / "source_law_repair_results.csv"
+        artifacts["source_law_repair_traces.csv"] = out_dir / "source_law_repair_traces.csv"
+        artifacts["source_law_repair_summary.json"] = out_dir / "source_law_repair_summary.json"
     _write_csv(artifacts["residual_conditioned_pair_specs.csv"], specs)
     _write_csv(artifacts["residual_conditioned_attempts.csv"], attempts)
     _write_csv(artifacts["residual_conditioned_constructors.csv"], constructors)
     _write_csv(artifacts["residual_conditioned_recoveries.csv"], recoveries)
+    if config.enable_source_law_repair:
+        _write_csv(artifacts["source_law_repair_results.csv"], repair_results)
+        _write_csv(artifacts["source_law_repair_traces.csv"], repair_traces)
+        artifacts["source_law_repair_summary.json"].write_text(json.dumps({k: summary[k] for k in summary if k.startswith("source_law_repair") or k in {"conditioned_plus_repair_recovered_pairs", "total_breakthrough_candidate"}}, indent=2, sort_keys=True), encoding="utf-8")
     write_persistent_lawbook_sqlite(
         artifacts["residual_conditioned.sqlite"],
         {
@@ -92,6 +133,8 @@ def run_residual_conditioned_synthesis(config: ResidualConditionedCliConfig) -> 
             "attempts": attempts,
             "constructors": constructors,
             "recoveries": recoveries,
+            "source_law_repair_results": repair_results,
+            "source_law_repair_traces": repair_traces,
             "summary": pd.DataFrame([summary]),
         },
     )
@@ -182,6 +225,10 @@ def parse_args(argv: Sequence[str] | None = None) -> ResidualConditionedCliConfi
     parser.add_argument("--max-steps", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=20260524)
     parser.add_argument("--fallback-demo", action="store_true")
+    parser.add_argument("--enable-source-law-repair", action="store_true")
+    parser.add_argument("--repair-strategies", default="pressure_descent,target_frozen_pressure_descent,diagonal_first_repair,row_col_repair,quotient_merge_repair,two_phase_repair")
+    parser.add_argument("--repair-max-steps", type=int, default=10000)
+    parser.add_argument("--repair-max-violations", type=int, default=128)
     args = parser.parse_args(argv)
     return ResidualConditionedCliConfig(
         equations=args.equations,
@@ -194,6 +241,10 @@ def parse_args(argv: Sequence[str] | None = None) -> ResidualConditionedCliConfi
         max_steps=args.max_steps,
         seed=args.seed,
         fallback_demo=args.fallback_demo,
+        enable_source_law_repair=args.enable_source_law_repair,
+        repair_strategies=[item for item in args.repair_strategies.split(",") if item],
+        repair_max_steps=args.repair_max_steps,
+        repair_max_violations=args.repair_max_violations,
     )
 
 

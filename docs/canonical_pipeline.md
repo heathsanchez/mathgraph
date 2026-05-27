@@ -120,6 +120,40 @@ Witnesses, partial tables, failed completions, and route pressure are advisory;
 only finite-checker-backed source-holds/target-violates evidence can count as a
 FALSE-side recovery.
 
+Source-Law Repair follows when a candidate separates the target but violates
+the source. It identifies source-law violating assignments, scores the touched
+table cells, and tries bounded rewrites that preserve the target witness. Repair
+failure is another residual; only a finite-checked repaired table can become
+FALSE-side evidence.
+
+Repaired Countermodel Certificate Assimilation records those finite-checked
+tables as durable artifacts: source/target equation, finite magma table, witness,
+repair trace, checker result, table hash, route provenance, and micro-basin
+attribution. This creates compounding memory without weakening the TRUE/FALSE
+boundary.
+
+The End-to-End Breakthrough Validation Pack is the canonical evidence command
+for this whole FALSE-side chain. It runs or reuses each stage, writes safety
+gates, computes breakthrough classification, and emits a final report suitable
+for technical review or investor diligence.
+
+The Official SAIR Stage 2 Evidence Pack is the product-facing command for real
+SAIR data. It wraps the breakthrough chain, enforces real-input requirements for
+product evidence, writes certificate and residual manifests, and emits the
+trust-boundary audit used to distinguish verified, advisory, and residual rows.
+Fallback runs are wiring checks only and classify as `safe_infrastructure_only`.
+
+The Official SAIR Stage 2 Breakthrough Search is the policy-selection pass over
+that pack. It diagnoses marginal contribution by component, disables harmful
+held-out routes, and writes `canonical_policy.json`. This selection policy is
+advisory routing only; it cannot promote truth or turn failed search into proof.
+
+The 2026-05-26 official SAIR Stage 2 evidence pack is now the canonical product
+proof for the finite-countermodel / memory-compounding path. It is a bounded
+FALSE-side result: finite checker evidence can admit countermodels, while
+Lawbook, micro-basin, H-Tilt, PQ-IR, and policy-selection artifacts remain
+advisory route memory.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding

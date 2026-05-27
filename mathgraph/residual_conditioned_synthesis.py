@@ -87,6 +87,15 @@ class ResidualConditionedConstructor:
     target_equation: str
     advisory_only: bool = True
     can_promote_truth: bool = False
+    source_repair_attempted: bool = False
+    source_repair_strategy: str = ""
+    source_repair_completed: bool = False
+    source_repair_recovered: bool = False
+    source_violations_before: int = 0
+    source_violations_after: int = 0
+    target_violation_preserved_after_repair: bool = False
+    repaired_constructor_id: str = ""
+    repaired_table_hash: str = ""
 
 
 @dataclass(frozen=True)
@@ -105,6 +114,15 @@ class ResidualConditionedRecovery:
     terminal_form: str
     advisory_only: bool
     can_promote_truth: bool
+    source_repair_attempted: bool = False
+    source_repair_strategy: str = ""
+    source_repair_completed: bool = False
+    source_repair_recovered: bool = False
+    source_violations_before: int = 0
+    source_violations_after: int = 0
+    target_violation_preserved_after_repair: bool = False
+    repaired_constructor_id: str = ""
+    repaired_table_hash: str = ""
 
 
 COMPLETION_STRATEGIES = (
@@ -270,6 +288,10 @@ def synthesize_for_residual_pairs(
     max_attempts_per_pair: int = 32,
     max_steps: int = 5000,
     seed: int = 1729,
+    enable_source_law_repair: bool = False,
+    repair_strategies: list[str] | None = None,
+    repair_max_steps: int = 10000,
+    repair_max_violations: int = 128,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     specs = build_residual_pair_specs(residual_pairs.head(max_pairs), equations)
     attempts: list[dict[str, Any]] = []
@@ -291,7 +313,53 @@ def synthesize_for_residual_pairs(
                     break
             if made >= max_attempts_per_pair:
                 break
-    return pd.DataFrame(pair_rows), pd.DataFrame(attempts), pd.DataFrame(constructors)
+    constructor_frame = pd.DataFrame(constructors)
+    if enable_source_law_repair and not constructor_frame.empty:
+        from mathgraph.source_law_repair import repair_conditioned_constructors
+
+        repair_results, repair_traces = repair_conditioned_constructors(
+            constructor_frame,
+            max_steps=repair_max_steps,
+            max_violations=repair_max_violations,
+            strategies=repair_strategies,
+            seed=seed,
+        )
+        by_constructor = {str(row.get("constructor_id", "")): row for _, row in constructor_frame.iterrows()}
+        repaired_rows: list[dict[str, Any]] = []
+        for _, result in repair_results.iterrows():
+            trace = result.get("trace", {})
+            if isinstance(trace, str):
+                trace = json.loads(trace)
+            original = by_constructor.get(str(result.get("constructor_id", "")), {})
+            repaired_rows.append(
+                {
+                    "constructor_id": f"repaired:{result.get('constructor_id', '')}:{str(result.get('repaired_table_hash', ''))[:12]}",
+                    "pair_id": result.get("pair_id", ""),
+                    "witness_id": "",
+                    "family": result.get("family", ""),
+                    "n": int(result.get("n", 0)),
+                    "table": result.get("repaired_table", []),
+                    "table_hash": result.get("repaired_table_hash", ""),
+                    "completion_strategy": "source_law_repair",
+                    "partial_constraint_count": 0,
+                    "source_equation": original.get("source_equation", ""),
+                    "target_equation": original.get("target_equation", ""),
+                    "advisory_only": not _as_bool(result.get("recovered", False)),
+                    "can_promote_truth": _as_bool(result.get("recovered", False)),
+                    "source_repair_attempted": True,
+                    "source_repair_strategy": str(trace.get("repair_id", "")).split(":")[-1],
+                    "source_repair_completed": _as_bool(trace.get("completed", False)),
+                    "source_repair_recovered": _as_bool(result.get("recovered", False)),
+                    "source_violations_before": int(trace.get("started_source_violations", 0)),
+                    "source_violations_after": int(trace.get("final_source_violations", 0)),
+                    "target_violation_preserved_after_repair": _as_bool(trace.get("target_violation_preserved", False)),
+                    "repaired_constructor_id": result.get("constructor_id", ""),
+                    "repaired_table_hash": result.get("repaired_table_hash", ""),
+                }
+            )
+        if repaired_rows:
+            constructor_frame = pd.concat([constructor_frame, pd.DataFrame(repaired_rows)], ignore_index=True)
+    return pd.DataFrame(pair_rows), pd.DataFrame(attempts), constructor_frame
 
 
 def evaluate_residual_conditioned_constructors(constructors: pd.DataFrame, equations: list[str]) -> pd.DataFrame:
@@ -318,6 +386,15 @@ def evaluate_residual_conditioned_constructors(constructors: pd.DataFrame, equat
                 terminal_form="FINITE_COUNTERMODEL" if recovered else "NONE",
                 advisory_only=not recovered,
                 can_promote_truth=recovered,
+                source_repair_attempted=_as_bool(row.get("source_repair_attempted", False)),
+                source_repair_strategy=str(row.get("source_repair_strategy", "")),
+                source_repair_completed=_as_bool(row.get("source_repair_completed", False)),
+                source_repair_recovered=_as_bool(row.get("source_repair_recovered", False)),
+                source_violations_before=int(row.get("source_violations_before", 0) or 0),
+                source_violations_after=int(row.get("source_violations_after", 0) or 0),
+                target_violation_preserved_after_repair=_as_bool(row.get("target_violation_preserved_after_repair", False)),
+                repaired_constructor_id=str(row.get("repaired_constructor_id", "")),
+                repaired_table_hash=str(row.get("repaired_table_hash", "")),
             ).__dict__
             | {"certificate_status": cert.certificate_status}
         )

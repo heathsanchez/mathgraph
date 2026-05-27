@@ -2637,4 +2637,69 @@ from mathgraph.residual_conditioned_synthesis import (
     summarize_residual_conditioned_synthesis,
     synthesize_for_residual_pairs,
 )
+from mathgraph.source_law_repair import (
+    RepairCellPressure,
+    RepairMove,
+    RepairTrace,
+    SourceLawRepairResult,
+    SourceViolation,
+    compute_repair_cell_pressure,
+    find_source_violations,
+    propose_repair_moves,
+    repair_conditioned_constructors,
+    run_source_law_repair,
+    summarize_source_law_repair,
+    target_violation_preserved,
+    touched_cells_for_assignment,
+)
+from mathgraph.repaired_countermodel_certificates import (
+    RepairedCertificateAdmissionResult,
+    RepairedCertificateFamilySummary,
+    RepairedCertificateManifest,
+    RepairedCountermodelCertificate,
+    build_repaired_countermodel_certificates,
+    deduplicate_repaired_certificates,
+    load_source_law_repair_outputs,
+    summarize_repaired_certificate_families,
+    validate_repaired_certificate_boundary,
+    write_repaired_certificate_lawbook,
+)
+from mathgraph.end_to_end_breakthrough_validation import (
+    BreakthroughEvidenceGate,
+    BreakthroughStageResult,
+    BreakthroughValidationConfig,
+    BreakthroughValidationSummary,
+    classify_breakthrough,
+    compute_breakthrough_metrics,
+    load_stage_artifacts,
+    run_breakthrough_validation,
+    validate_breakthrough_safety,
+    write_breakthrough_report,
+)
+from mathgraph.sair_stage2_end_to_end import (
+    SairStage2ArtifactManifest,
+    SairStage2EndToEndConfig,
+    SairStage2EpisodeResult,
+    SairStage2EvidenceSummary,
+    SairStage2TrustBoundaryAudit,
+    classify_sair_stage2,
+    run_sair_stage2_end_to_end,
+)
+from mathgraph.sair_stage2_scorecard_diagnostics import (
+    breakthrough_gate_passed,
+    diagnose_scorecard,
+    load_evidence_pack,
+    trust_boundary_counts,
+    write_scorecard_diagnostics,
+)
+from mathgraph.sair_stage2_policy_selector import (
+    apply_policy_to_scorecard,
+    learn_canonical_policy,
+    load_policy,
+    write_policy_artifacts,
+)
+from mathgraph.sair_stage2_breakthrough_search import (
+    SairStage2BreakthroughSearchConfig,
+    run_sair_stage2_breakthrough_search,
+)
 from mathgraph.version import __version__, get_version_info
