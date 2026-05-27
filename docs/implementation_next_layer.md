@@ -42,6 +42,11 @@ and build the TRUE-side Lean proof-verification path.
 
 Avoid adding more advisory layers before the public proof path is clean.
 
+Suggested milestone: `v0.1.0-proof-of-compounding`.
+
+Meaning: first bounded public proof-of-work that verified memory can compound
+without crossing the verifier boundary.
+
 ## Deferred Research Hooks
 
 The following are intentionally not implemented here:

@@ -14,14 +14,12 @@ proofs, finite countermodels, named obstructions, and reusable reasoning traces.
 
 ### First Official Evidence Pack
 
-MathGraph has produced its first official SAIR Stage 2 evidence pack: a
-real-data run showing finite-checked countermodel certificate production, strict
-verifier-boundary preservation, harmful-route rejection, and positive held-out
-memory compounding over baseline.
+MathGraph has demonstrated bounded FALSE-side certificate production and
+positive held-out verification-memory compounding on real SAIR Stage 2 data.
 
 Metrics:
 
-- 36 finite-checked countermodels
+- 36 finite-checker-backed countermodels
 - +8.0 held-out gain over baseline
 - 0 failed-search-to-TRUE promotions
 - 0 advisory-to-truth promotions

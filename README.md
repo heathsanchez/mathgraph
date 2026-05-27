@@ -62,6 +62,30 @@ Evidence notes:
 Lower-level commands such as `scripts/run_sair_stage2_breakthrough_search.py`
 are research/advanced runners used by the replay wrapper and evidence pack.
 
+## What MathGraph Does Today
+
+- Runs a public demo without external SAIR files.
+- Replays the official SAIR Stage 2 FALSE-side evidence pack.
+- Produces finite-countermodel certificates under strict admission.
+- Separates verified evidence from advisory routing.
+- Stores reusable Lawbook / Reason Atlas memory.
+- Reports what remains unresolved or advisory.
+
+## Current Limits
+
+- TRUE-side Lean proof synthesis is not yet the main demonstrated result.
+- General autonomous theorem proving is not claimed.
+- Fallback demos are infrastructure checks, not evidence.
+- Advisory routes guide search but do not promote truth.
+- The current official evidence is a bounded FALSE-side SAIR Stage 2 result.
+
+## Next Technical Frontiers
+
+- Improve robustness and magnitude of compounding gain.
+- Promote more exact finite-countermodel certificates into durable evidence.
+- Build TRUE-side Lean proof-verification paths.
+- Build Lean Project Digest for existing Lean projects.
+
 ## Canonical Path
 
 MathGraph is a verification-native kernel for routing claims toward explicit
