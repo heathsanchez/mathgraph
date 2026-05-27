@@ -35,6 +35,13 @@ has been made reproducible and legible. Next high-value work is improving the
 magnitude and robustness of compounding gain, plus TRUE-side proof verification,
 not adding more runners.
 
+Immediate priority: make the official evidence pack legible and replayable.
+
+Next technical priority: improve robustness and magnitude of compounding gain
+and build the TRUE-side Lean proof-verification path.
+
+Avoid adding more advisory layers before the public proof path is clean.
+
 ## Deferred Research Hooks
 
 The following are intentionally not implemented here:

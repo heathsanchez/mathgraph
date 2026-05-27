@@ -79,6 +79,10 @@ CANONICAL_SCRIPTS = (
     "scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py",
 )
 CANONICAL_DOCS = (
+    "SAIR_STAGE2_EVIDENCE.md",
+    "WEBSITE_COPY.md",
+    "docs/public/collaborator_issue_draft.md",
+    "docs/public/investor_one_pager.md",
     "docs/evidence/official_sair_stage2_breakthrough_20260526.md",
     "examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md",
 )

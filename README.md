@@ -1,14 +1,26 @@
 # MathGraph
 
 MathGraph is a generative verification kernel for trustworthy mathematical
-discovery.
+discovery and verified AI reasoning.
 
-Start here:
+It routes claims toward explicit verifier, finite-checker, trusted-importer, or
+chain-audit boundaries. Advisory memory can guide search, but cannot promote
+truth.
+
+## Start Here
+
+Three public paths:
+
+1. Quick public demo
+2. Official SAIR Stage 2 Evidence Pack
+3. Developer / architecture docs
+
+Start with:
 
 ```bash
 python scripts/run_release_check.py --quick
 python scripts/run_repo_architecture_audit.py
-python scripts/run_sair_stage2_end_to_end.py --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo --fallback-demo --strict-admission --write-report
+python scripts/replay_official_sair_stage2_breakthrough.py --help
 ```
 
 Then read [docs/quickstart.md](docs/quickstart.md).
@@ -19,6 +31,17 @@ The current canonical evidence path is the 2026-05-26 real SAIR Stage 2
 breakthrough pack. It demonstrates FALSE-side finite-countermodel certificate
 production and positive held-out memory compounding on real SAIR Stage 2 data,
 with zero trust-boundary violations.
+
+Key metrics:
+
+- `final_classification`: `verified_memory_compounding_breakthrough`
+- finite-checked countermodels: `36`
+- accepted FALSE certificates: `36`
+- total gain over baseline: `8.0`
+- Lawbook gain over baseline: `1.4`
+- failed-search-to-TRUE promotions: `0`
+- advisory-to-truth promotions: `0`
+- TRUE contamination: `0`
 
 Replay:
 
@@ -32,75 +55,12 @@ python scripts/replay_official_sair_stage2_breakthrough.py \
 
 Evidence notes:
 
+- [Public evidence summary](SAIR_STAGE2_EVIDENCE.md)
 - [Official SAIR Stage 2 Breakthrough Evidence Pack - 2026-05-26](docs/evidence/official_sair_stage2_breakthrough_20260526.md)
 - [Replay guide](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
 
-## Official SAIR Stage 2 Evidence Pack
-
-The official external evidence command is:
-
-```bash
-python scripts/run_sair_stage2_end_to_end.py \
-  --equations /content/equations.txt \
-  --matrix /content/etp_matrix_full_best_bool.npy \
-  --out-dir /content/drive/MyDrive/SAIR_MathGraph/sair_stage2_end_to_end_pack \
-  --episodes 4 \
-  --train-false 5000 \
-  --heldout-false 5000 \
-  --sample-true 1000 \
-  --max-n 4 \
-  --repair-budget 40 \
-  --seeds 20260524,20260525,20260526 \
-  --strict-admission \
-  --write-report
-```
-
-This pack writes one inspectable artifact directory with the executive summary,
-technical report, trust-boundary audit, certificate manifest, residual frontier,
-Lawbook/Reason Atlas SQLite files, and replay instructions. Fallback mode is
-available for tests, but it is explicitly labeled non-evidence:
-
-```bash
-python scripts/run_sair_stage2_end_to_end.py \
-  --out-dir /tmp/mathgraph_sair_stage2_end_to_end_demo \
-  --fallback-demo \
-  --episodes 2 \
-  --train-false 100 \
-  --heldout-false 100 \
-  --sample-true 50 \
-  --seeds 1729 \
-  --strict-admission \
-  --write-report
-```
-
-Other runners in this README are internal components or research runners used
-by the official pack.
-
-### Official SAIR Stage 2 Breakthrough Search
-
-When an evidence pack is safe but has negative downstream gain, run the
-breakthrough search. It diagnoses component-level marginal contributions,
-rejects harmful held-out routes, and writes a conservative canonical policy.
-
-```bash
-python scripts/run_sair_stage2_breakthrough_search.py \
-  --equations /content/equations.txt \
-  --matrix /content/etp_matrix_full_best_bool.npy \
-  --out-dir /content/drive/MyDrive/SAIR_MathGraph/breakthrough_search \
-  --seeds 20260524,20260525,20260526,20260527,20260528 \
-  --train-false 5000 \
-  --heldout-false 5000 \
-  --sample-true 1000 \
-  --episodes 4 \
-  --max-n 4 \
-  --repair-budget 40 \
-  --policy-search-rounds 5 \
-  --strict-admission \
-  --fail-if-no-compounding
-```
-
-Breakthrough means positive held-out gain with strict admission and zero
-trust-boundary violations. Failed finite search remains residual evidence.
+Lower-level commands such as `scripts/run_sair_stage2_breakthrough_search.py`
+are research/advanced runners used by the replay wrapper and evidence pack.
 
 ## Canonical Path
 
