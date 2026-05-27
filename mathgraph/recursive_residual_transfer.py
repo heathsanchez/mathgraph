@@ -64,7 +64,11 @@ SOURCE_BREAKTHROUGH_METRICS: dict[str, Any] = {
     "generic_mean_recoveries": 11405.5,
     "recursive_full_memory_mean_recoveries": 11642.333333,
     "compact_atlas_mean_recoveries": 11639.666667,
+    "compact_top_24_mean_recoveries": 11639.333333,
+    "compact_top_32_mean_recoveries": 11639.666667,
+    "compact_load_bearing_only_mean_recoveries": 11639.666667,
     "oracle_mean_recoveries": 11731.0,
+    "oracle_reference_mean_recoveries": 11731.0,
     "compact_gain_vs_generic": 234.166667,
     "compact_beats_random_same_size": 205.0,
     "compact_beats_shuffled_atlas_same_size": 86.958333,
@@ -717,6 +721,99 @@ def run_real_etp_recursive_residual_transfer(config: RealEtpTransferConfig) -> R
         gate_results=tuple(gates),
         artifact_paths=paths,
     )
+
+
+def load_frozen_recursive_transfer_evidence(name_or_path: str | Path) -> dict[str, Any]:
+    """Load a frozen recursive-transfer evidence metrics JSON."""
+
+    raw = Path(name_or_path)
+    if raw.exists():
+        path = raw if raw.is_file() else raw / "metrics.json"
+    else:
+        root = Path(__file__).resolve().parents[1]
+        path = root / "examples" / "evidence_packs" / str(name_or_path) / "metrics.json"
+    if not path.exists():
+        raise FileNotFoundError(f"frozen recursive transfer evidence metrics not found: {path}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def compare_to_frozen_recursive_transfer_evidence(
+    summary: RecursiveTransferSummary,
+    route_summary_rows: Sequence[Mapping[str, Any]],
+    frozen_metrics: Mapping[str, Any],
+    *,
+    relative_tolerance: float = 0.03,
+    absolute_tolerances: Mapping[str, float] | None = None,
+) -> dict[str, Any]:
+    """Compare a repo run against frozen source-run shape and magnitude."""
+
+    current = _comparison_metrics(summary, route_summary_rows)
+    shape_checks = {
+        "all_gates_pass": bool(summary.all_gates_pass),
+        "zero_true_contamination": int(summary.true_contamination_max) == 0,
+        "advisory_boundary_ok": bool(summary.advisory_boundary_ok),
+        "compact_beats_generic": float(summary.compact_gain_vs_generic) > 0,
+        "compact_beats_random_same_size": float(summary.compact_beats_random_same_size) > 0,
+        "compact_beats_shuffled_atlas_same_size": float(summary.compact_beats_shuffled_atlas_same_size) > 0,
+    }
+    trust_boundary = {
+        "true_contamination_max": summary.true_contamination_max,
+        "advisory_boundary_ok": summary.advisory_boundary_ok,
+        "route_memory_advisory_only": True,
+        "can_promote_truth": False,
+    }
+    tolerances = {
+        "compact_retains_recursive_gain": 0.05,
+        "compact_prunes_recursive_memory": 0.10,
+        "oracle_gap_captured": 0.10,
+        **dict(absolute_tolerances or {}),
+    }
+    metric_rows: list[dict[str, Any]] = []
+    for key, original in sorted(frozen_metrics.items()):
+        if not isinstance(original, (int, float)) or isinstance(original, bool):
+            continue
+        if key in {"equations", "true_count", "false_count", "gates_passed", "gates_total", "true_contamination_max"}:
+            tolerance = 0.0
+        else:
+            tolerance = float(tolerances.get(key, max(abs(float(original)) * relative_tolerance, 1e-9)))
+        if key not in current:
+            metric_rows.append({"metric": key, "original": original, "current": None, "delta": None, "tolerance": tolerance, "within_tolerance": False})
+            continue
+        cur = current[key]
+        delta = float(cur) - float(original)
+        metric_rows.append(
+            {
+                "metric": key,
+                "original": original,
+                "current": cur,
+                "delta": delta,
+                "abs_delta": abs(delta),
+                "tolerance": tolerance,
+                "within_tolerance": abs(delta) <= tolerance,
+            }
+        )
+    comparable = [row for row in metric_rows if row["current"] is not None]
+    return {
+        "frozen_original_run_id": frozen_metrics.get("original_run_id", ""),
+        "reproduced_breakthrough_shape": all(shape_checks.values()),
+        "reproduced_original_magnitude": bool(comparable) and all(bool(row["within_tolerance"]) for row in metric_rows),
+        "shape_checks": shape_checks,
+        "trust_boundary": trust_boundary,
+        "metric_comparisons": metric_rows,
+        "missing_metrics": [row["metric"] for row in metric_rows if row["current"] is None],
+        "relative_tolerance": relative_tolerance,
+        "notes": [
+            "Original magnitude comparison uses tolerance bands because constructor mining is stochastic.",
+            "Breakthrough shape requires gates, zero TRUE contamination, advisory boundary, and compact transfer wins.",
+            "Route memory remains advisory and cannot promote truth.",
+        ],
+    }
+
+
+def write_frozen_evidence_comparison(out_dir: str | Path, comparison: Mapping[str, Any]) -> str:
+    path = Path(out_dir) / "frozen_evidence_comparison.json"
+    _write_json(path, dict(comparison))
+    return str(path)
 
 
 def load_etp_equations(path: str | Path) -> list[Equation]:
@@ -1516,6 +1613,31 @@ def _route_summary_rows(routes: Sequence[Mapping[str, Any]]) -> list[dict[str, A
         )
     rows.sort(key=lambda r: (-float(r["recoveries_mean"]), float(r["route_size_mean"]), str(r["route"])))
     return rows
+
+
+def _comparison_metrics(summary: RecursiveTransferSummary, route_summary_rows: Sequence[Mapping[str, Any]]) -> dict[str, float | int]:
+    metrics: dict[str, float | int] = {
+        "equations": summary.equations,
+        "true_count": summary.true_count,
+        "false_count": summary.false_count,
+        "gates_passed": summary.gates_passed,
+        "gates_total": summary.gates_total,
+        "true_contamination_max": summary.true_contamination_max,
+        "compact_transfer_gain_vs_generic_positive": summary.compact_gain_vs_generic,
+        "compact_beats_random_same_size": summary.compact_beats_random_same_size,
+        "compact_beats_shuffled_atlas_same_size": summary.compact_beats_shuffled_atlas_same_size,
+        "compact_retains_recursive_gain": summary.compact_retains_recursive_gain,
+        "compact_prunes_recursive_memory": summary.compact_prunes_recursive_memory,
+        "oracle_gap_captured": summary.oracle_gap_captured,
+        "generic_mean_recoveries": summary.generic_mean_recoveries,
+        "recursive_full_memory_mean_recoveries": summary.recursive_full_memory_mean_recoveries,
+        "oracle_reference_mean_recoveries": summary.oracle_mean_recoveries,
+    }
+    route_means = {str(row.get("route")): float(row.get("recoveries_mean", 0.0) or 0.0) for row in route_summary_rows}
+    for route in ("compact_top_24", "compact_top_32", "compact_load_bearing_only", "oracle_reference"):
+        if route in route_means:
+            metrics[f"{route}_mean_recoveries"] = route_means[route]
+    return metrics
 
 
 def _stable_hash(obj: Any, n: int = 12) -> str:

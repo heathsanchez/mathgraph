@@ -8,10 +8,13 @@ import numpy as np
 from mathgraph.recursive_residual_transfer import (
     RealEtpTransferConfig,
     build_vectorized_sat_cache,
+    compare_to_frozen_recursive_transfer_evidence,
     generate_base_magmas,
+    load_frozen_recursive_transfer_evidence,
     load_etp_equations,
     load_etp_matrix,
     run_real_etp_recursive_residual_transfer,
+    write_frozen_evidence_comparison,
 )
 
 
@@ -138,3 +141,66 @@ def test_cli_real_etp_smoke_with_tiny_inputs(tmp_path) -> None:
 
     assert "real_etp_used: True" in completed.stdout
     assert json.loads((out / "recursive_transfer_summary.json").read_text(encoding="utf-8"))["real_etp_used"] is True
+
+
+def test_frozen_evidence_loads_and_comparison_preserves_trust_boundary(tmp_path) -> None:
+    frozen = load_frozen_recursive_transfer_evidence("recursive_residual_transfer_v1_20260523")
+    assert frozen["original_run_id"] == "mathgraph_recursive_residual_transfer_v1_transfer_fast_20260523_055739"
+    assert frozen["advisory_boundary_ok"] is True
+    equations, matrix_path = _tiny_inputs(tmp_path)
+    result = run_real_etp_recursive_residual_transfer(
+        RealEtpTransferConfig(
+            equations_path=equations,
+            matrix_path=matrix_path,
+            out_dir=tmp_path / "out",
+            profile="tiny",
+            seeds=(1729,),
+            write_report=True,
+        )
+    )
+
+    comparison = compare_to_frozen_recursive_transfer_evidence(result.summary, result.route_summary_rows, frozen)
+    path = write_frozen_evidence_comparison(tmp_path / "out", comparison)
+
+    assert (tmp_path / "out" / "frozen_evidence_comparison.json").exists()
+    assert path.endswith("frozen_evidence_comparison.json")
+    assert "reproduced_breakthrough_shape" in comparison
+    assert "reproduced_original_magnitude" in comparison
+    assert comparison["trust_boundary"]["advisory_boundary_ok"] is True
+    assert comparison["trust_boundary"]["route_memory_advisory_only"] is True
+    assert comparison["trust_boundary"]["can_promote_truth"] is False
+
+
+def test_cli_real_etp_writes_frozen_evidence_comparison(tmp_path) -> None:
+    equations, matrix_path = _tiny_inputs(tmp_path)
+    out = tmp_path / "compare_out"
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "scripts/run_recursive_residual_transfer.py",
+            "--equations",
+            str(equations),
+            "--matrix",
+            str(matrix_path),
+            "--out-dir",
+            str(out),
+            "--profile",
+            "tiny",
+            "--seeds",
+            "1729",
+            "--real-etp",
+            "--compare-frozen-evidence",
+            "recursive_residual_transfer_v1_20260523",
+            "--strict-advisory-boundary",
+            "--write-report",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    payload = json.loads((out / "frozen_evidence_comparison.json").read_text(encoding="utf-8"))
+    assert "frozen_evidence_comparison_json" in completed.stdout
+    assert payload["frozen_original_run_id"] == "mathgraph_recursive_residual_transfer_v1_transfer_fast_20260523_055739"
+    assert payload["trust_boundary"]["advisory_boundary_ok"] is True

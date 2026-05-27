@@ -89,6 +89,7 @@ CANONICAL_DOCS = (
     "docs/evidence/official_sair_stage2_breakthrough_20260526.md",
     "docs/recursive_residual_transfer.md",
     "examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md",
+    "examples/evidence_packs/recursive_residual_transfer_v1_20260523/README.md",
 )
 CONCEPT_KEYWORDS = (
     "certificate",

@@ -103,6 +103,31 @@ builds the vectorized SAT cache, mines residual constructors across
 generations, evaluates compact atlas routes and controls, and writes the full
 artifact set. The summary includes `real_etp_used: true`.
 
+The original 2026-05-23 source-run metrics are frozen under
+`examples/evidence_packs/recursive_residual_transfer_v1_20260523/`. A real run
+can compare against them:
+
+```bash
+python scripts/run_recursive_residual_transfer.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/MathGraph_ETP_Recursive_Transfer_RepoRun \
+  --profile transfer_fast \
+  --seeds 1729 42 137 \
+  --real-etp \
+  --compare-frozen-evidence recursive_residual_transfer_v1_20260523 \
+  --strict-advisory-boundary \
+  --write-report
+```
+
+The comparison separates `reproduced_breakthrough_shape` from
+`reproduced_original_magnitude`. The repo real-ETP runner should reproduce the
+breakthrough shape from raw ETP assets: gates pass, TRUE contamination remains
+zero, the advisory boundary is preserved, and compact memory beats
+generic/random/shuffled controls. Later repo runs may differ in numeric
+magnitude because constructor generation is stochastic, so magnitude comparison
+uses tolerance bands and reports deltas.
+
 If real SAIR files are absent, use:
 
 ```bash

@@ -18,9 +18,12 @@ from mathgraph.recursive_residual_transfer import (
     RealEtpTransferConfig,
     SOURCE_BREAKTHROUGH_METRICS,
     build_recursive_transfer_summary,
+    compare_to_frozen_recursive_transfer_evidence,
     fallback_demo_route_evaluations,
+    load_frozen_recursive_transfer_evidence,
     run_real_etp_recursive_residual_transfer,
     source_breakthrough_route_evaluations,
+    write_frozen_evidence_comparison,
     write_recursive_transfer_artifacts,
 )
 
@@ -33,6 +36,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--seeds", nargs="+", default=["1729", "42", "137"])
     parser.add_argument("--profile", default="transfer_fast")
     parser.add_argument("--real-etp", action="store_true")
+    parser.add_argument("--compare-frozen-evidence")
     parser.add_argument("--strict-advisory-boundary", action="store_true")
     parser.add_argument("--write-report", action="store_true")
     parser.add_argument("--fallback-demo", action="store_true")
@@ -62,6 +66,13 @@ def main(argv: list[str] | None = None) -> int:
         paths = result.artifact_paths
         if args.strict_advisory_boundary and not summary.advisory_boundary_ok:
             raise SystemExit("strict advisory boundary failed")
+        if args.compare_frozen_evidence:
+            frozen = load_frozen_recursive_transfer_evidence(args.compare_frozen_evidence)
+            comparison = compare_to_frozen_recursive_transfer_evidence(summary, result.route_summary_rows, frozen)
+            comparison_path = write_frozen_evidence_comparison(args.out_dir, comparison)
+            print(f"frozen_evidence_comparison_json: {comparison_path}")
+            print(f"reproduced_breakthrough_shape: {comparison['reproduced_breakthrough_shape']}")
+            print(f"reproduced_original_magnitude: {comparison['reproduced_original_magnitude']}")
         print(f"classification: {summary.classification}")
         print(f"real_etp_used: {summary.real_etp_used}")
         print(f"gates: {summary.gates_passed}/{summary.gates_total}")
