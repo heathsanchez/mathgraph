@@ -30,6 +30,11 @@ grounding records, route priors, and closed-loop scheduling pressure remain
 advisory unless a verifier, trusted importer, finite validator, or chain audit
 creates explicit boundary evidence.
 
+Do not add new advisory layers until the official SAIR Stage 2 evidence pack
+has been made reproducible and legible. Next high-value work is improving the
+magnitude and robustness of compounding gain, plus TRUE-side proof verification,
+not adding more runners.
+
 ## Deferred Research Hooks
 
 The following are intentionally not implemented here:

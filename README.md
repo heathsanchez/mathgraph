@@ -15,6 +15,28 @@ Then read [docs/quickstart.md](docs/quickstart.md).
 
 ## Official SAIR Stage 2 Evidence Pack
 
+The current canonical evidence path is the 2026-05-26 real SAIR Stage 2
+breakthrough pack. It demonstrates FALSE-side finite-countermodel certificate
+production and positive held-out memory compounding on real SAIR Stage 2 data,
+with zero trust-boundary violations.
+
+Replay:
+
+```bash
+python scripts/replay_official_sair_stage2_breakthrough.py \
+  --equations /content/equations.txt \
+  --matrix /content/etp_matrix_full_best_bool.npy \
+  --out-dir /content/drive/MyDrive/SAIR_MathGraph/official_sair_stage2_breakthrough_replay \
+  --full
+```
+
+Evidence notes:
+
+- [Official SAIR Stage 2 Breakthrough Evidence Pack - 2026-05-26](docs/evidence/official_sair_stage2_breakthrough_20260526.md)
+- [Replay guide](examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md)
+
+## Official SAIR Stage 2 Evidence Pack
+
 The official external evidence command is:
 
 ```bash

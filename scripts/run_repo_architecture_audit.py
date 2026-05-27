@@ -74,8 +74,13 @@ CANONICAL_SCRIPTS = (
     "scripts/run_end_to_end_breakthrough_validation.py",
     "scripts/run_sair_stage2_end_to_end.py",
     "scripts/run_sair_stage2_breakthrough_search.py",
+    "scripts/replay_official_sair_stage2_breakthrough.py",
     "scripts/run_persistent_exact_microbasin_lawbook_benchmark.py",
     "scripts/run_persistent_exact_microbasin_lawbook_v2_benchmark.py",
+)
+CANONICAL_DOCS = (
+    "docs/evidence/official_sair_stage2_breakthrough_20260526.md",
+    "examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md",
 )
 CONCEPT_KEYWORDS = (
     "certificate",
@@ -101,10 +106,11 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
     duplicate_warnings = _duplicate_concept_warnings(modules + scripts + tests)
     canonical_presence = {path: (root / path).exists() for path in CANONICAL_MODULES}
     script_presence = {path: (root / path).exists() for path in CANONICAL_SCRIPTS}
+    doc_presence = {path: (root / path).exists() for path in CANONICAL_DOCS}
     readme = (root / "README.md").read_text(encoding="utf-8") if (root / "README.md").exists() else ""
     readme_commands = {command: command in readme for command in CANONICAL_COMMANDS}
     optional_deps = _optional_dependency_status(root)
-    status = "PASS" if all(canonical_presence.values()) and all(script_presence.values()) and all(readme_commands.values()) else "WARN"
+    status = "PASS" if all(canonical_presence.values()) and all(script_presence.values()) and all(doc_presence.values()) and all(readme_commands.values()) else "WARN"
     return {
         "status": status,
         "module_count": len(modules),
@@ -114,6 +120,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         "duplicate_concept_warnings": duplicate_warnings,
         "canonical_module_presence": canonical_presence,
         "canonical_script_presence": script_presence,
+        "canonical_doc_presence": doc_presence,
         "pyproject_optional_dependency_status": optional_deps,
         "readme_canonical_command_presence": readme_commands,
         "notes": [
@@ -142,6 +149,9 @@ def render_markdown(report: dict[str, Any]) -> str:
         lines.append(f"- [{'x' if present else ' '}] `{command}`")
     lines.extend(["", "## Canonical Script Presence"])
     for path, present in report["canonical_script_presence"].items():
+        lines.append(f"- [{'x' if present else ' '}] `{path}`")
+    lines.extend(["", "## Canonical Evidence Docs"])
+    for path, present in report["canonical_doc_presence"].items():
         lines.append(f"- [{'x' if present else ' '}] `{path}`")
     lines.extend(["", "## Large Python Files Over 1,000 Lines"])
     for item in report["large_files_over_1000_lines"][:40]:

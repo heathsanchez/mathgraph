@@ -101,6 +101,7 @@ modules.
 - `scripts/run_end_to_end_breakthrough_validation.py`: canonical end-to-end breakthrough validation pack runner
 - `scripts/run_sair_stage2_end_to_end.py`: official SAIR Stage 2 evidence pack runner
 - `scripts/run_sair_stage2_breakthrough_search.py`: official SAIR Stage 2 policy-search runner
+- `scripts/replay_official_sair_stage2_breakthrough.py`: thin replay wrapper for the 2026-05-26 official breakthrough evidence path
 - `scripts/run_true_side_inventory.py`: bounded TRUE-side proof-template inventory runner
 - `recursive_residual_compounding.py`: residual-mined constructor memory and compact atlas benchmark
 - `scripts/run_polarized_quotient_ir_demo.py`: lightweight PQ-IR feature demo
@@ -121,6 +122,11 @@ modules.
 - `scripts/run_mathgraph_compounding_engine.py`
 - `scripts/run_autonomous_compounding_engine.py`
 - `scripts/run_persistent_exact_microbasin_lawbook_benchmark.py`
+
+## Canonical Evidence Docs
+
+- `docs/evidence/official_sair_stage2_breakthrough_20260526.md`
+- `examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md`
 
 ## Legacy Surface
 

@@ -148,6 +148,12 @@ that pack. It diagnoses marginal contribution by component, disables harmful
 held-out routes, and writes `canonical_policy.json`. This selection policy is
 advisory routing only; it cannot promote truth or turn failed search into proof.
 
+The 2026-05-26 official SAIR Stage 2 evidence pack is now the canonical product
+proof for the finite-countermodel / memory-compounding path. It is a bounded
+FALSE-side result: finite checker evidence can admit countermodels, while
+Lawbook, micro-basin, H-Tilt, PQ-IR, and policy-selection artifacts remain
+advisory route memory.
+
 ## Real-Corpus Compounding Benchmark
 
 Recursive residual compounding is the first stronger real-corpus compounding
