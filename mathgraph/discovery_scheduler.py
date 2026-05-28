@@ -18,13 +18,18 @@ from typing import Any, Mapping, Sequence
 ALLOWED_DESCENSION_TARGETS = {
     "finite_countermodel_attempt",
     "lean_verifier_contact_candidate",
+    "lean_digest_repair",
     "obstruction_naming_attempt",
+    "obstruction_naming",
     "constructor_synthesis_attempt",
+    "constructor_synthesis",
     "projection_test",
     "representation_repair",
     "evidence_replay",
+    "replay_validation",
     "lawbook_ingestion",
     "reason_atlas_route_test",
+    "trust_audit",
 }
 
 
@@ -33,8 +38,11 @@ class DiscoveryCandidate:
     candidate_id: str
     candidate_type: str
     source: str
+    source_kind: str = ""
+    source_ref: str = ""
     title: str = ""
     description: str = ""
+    mode_hint: str = ""
     residual_cluster: str = ""
     basin: str = ""
     micro_basin: str = ""
@@ -45,11 +53,14 @@ class DiscoveryCandidate:
     expected_residual_compression: float = 0.0
     expected_projection_gain: float = 0.0
     expected_reuse: float = 0.0
+    expected_constructor_reuse: float = 0.0
+    expected_bridge_value: float = 0.0
     novelty_score: float = 0.0
     verification_cost: float = 0.0
     duplicate_risk: float = 0.0
     overfit_risk: float = 0.0
     foreign_moisture_risk: float = 0.0
+    trust_status: str = ""
     taste_score: float = 0.0
     attention_probability: float = 0.0
     chosen: bool = False
@@ -186,8 +197,11 @@ def candidate_from_dict(data: Mapping[str, Any]) -> DiscoveryCandidate:
         candidate_id=str(data.get("candidate_id", "")),
         candidate_type=str(data.get("candidate_type", "")),
         source=str(data.get("source", "")),
+        source_kind=str(data.get("source_kind", "")),
+        source_ref=str(data.get("source_ref", "")),
         title=str(data.get("title", "")),
         description=str(data.get("description", "")),
+        mode_hint=str(data.get("mode_hint", "")),
         residual_cluster=str(data.get("residual_cluster", "")),
         basin=str(data.get("basin", "")),
         micro_basin=str(data.get("micro_basin", "")),
@@ -198,11 +212,14 @@ def candidate_from_dict(data: Mapping[str, Any]) -> DiscoveryCandidate:
         expected_residual_compression=_float(data.get("expected_residual_compression")),
         expected_projection_gain=_float(data.get("expected_projection_gain")),
         expected_reuse=_float(data.get("expected_reuse")),
+        expected_constructor_reuse=_float(data.get("expected_constructor_reuse")),
+        expected_bridge_value=_float(data.get("expected_bridge_value")),
         novelty_score=_float(data.get("novelty_score")),
         verification_cost=_float(data.get("verification_cost")),
         duplicate_risk=_float(data.get("duplicate_risk")),
         overfit_risk=_float(data.get("overfit_risk")),
         foreign_moisture_risk=_float(data.get("foreign_moisture_risk")),
+        trust_status=str(data.get("trust_status", "")),
         advisory_only=_truthy(data.get("advisory_only", True)),
         can_promote_truth=_truthy(data.get("can_promote_truth", False)),
         notes=str(data.get("notes", "")),
@@ -315,12 +332,14 @@ def validate_candidate(candidate: DiscoveryCandidate) -> tuple[bool, list[str]]:
 
 def score_candidate(candidate: DiscoveryCandidate, policy: TastePolicy) -> float:
     w = policy.weights
+    projection_value = candidate.expected_projection_gain + candidate.expected_bridge_value
+    reuse_value = candidate.expected_reuse + candidate.expected_constructor_reuse
     return (
         w["certificate"] * candidate.expected_certificate_value
         + w["obstruction"] * candidate.expected_obstruction_value
         + w["compression"] * candidate.expected_residual_compression
-        + w["projection"] * candidate.expected_projection_gain
-        + w["reuse"] * candidate.expected_reuse
+        + w["projection"] * projection_value
+        + w["reuse"] * reuse_value
         + w["novelty"] * candidate.novelty_score
         - w["cost"] * candidate.verification_cost
         - w["duplicate"] * candidate.duplicate_risk

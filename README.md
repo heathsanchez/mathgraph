@@ -99,6 +99,7 @@ are research/advanced runners used by the replay wrapper and evidence pack.
 - Build TRUE-side Lean proof-verification paths.
 - Build [Lean Project Digest](docs/lean_project_digest.md) for existing Lean projects.
 - Use [DiscoveryScheduler](docs/discovery_scheduler.md) to rank testable continuations without promoting truth.
+- Derive scheduler candidates from [repo-native evidence sources](docs/discovery_candidate_sources.md).
 
 ## Canonical Path
 
