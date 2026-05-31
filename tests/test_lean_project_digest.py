@@ -2,6 +2,7 @@ import csv
 import json
 
 from mathgraph.lean_project_digest import digest_lean_files, run_lean_project_digest
+from scripts.run_repo_architecture_audit import ROOT, run_audit
 
 
 def test_fallback_demo_emits_expected_files_and_trust_audit(tmp_path) -> None:
@@ -93,3 +94,62 @@ def test_project_root_mode_scans_lean_files_without_requiring_lean(tmp_path) -> 
     assert routes
     assert {row["advisory_only"] for row in routes} == {"True"}
     assert {row["can_promote_truth"] for row in routes} == {"False"}
+
+
+def test_committed_lean_digest_demo_preserves_public_boundary() -> None:
+    demo = ROOT / "examples" / "lean_project_digest_demo"
+    expected = {
+        "README.md",
+        "project_manifest.json",
+        "declaration_inventory.csv",
+        "import_graph.csv",
+        "trust_boundary_audit.json",
+        "lawbook_entries.jsonl",
+        "reason_atlas_routes.csv",
+        "lean_project_digest_report.md",
+    }
+    assert expected <= {path.name for path in demo.iterdir()}
+
+    audit = json.loads((demo / "trust_boundary_audit.json").read_text(encoding="utf-8"))
+    assert audit["advisory_boundary_ok"] is True
+    assert audit["can_promote_truth_count"] == 0
+    assert audit["textual_parsing_is_advisory"] is True
+    assert audit["lean_execution_confirmed"] is False
+
+    inventory = list(csv.DictReader((demo / "declaration_inventory.csv").open(encoding="utf-8")))
+    statuses = {row["trust_status"] for row in inventory}
+    assert "imported_verified_candidate" in statuses
+    assert "incomplete_proof" in statuses
+    assert "trusted_assumption_or_external_axiom" in statuses
+    assert "unsafe_requires_warning" in statuses
+    assert {row["can_promote_truth"] for row in inventory} == {"False"}
+
+    lawbook_entries = [json.loads(line) for line in (demo / "lawbook_entries.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert lawbook_entries
+    assert {entry["can_promote_truth"] for entry in lawbook_entries} == {False}
+    assert {entry["advisory_only"] for entry in lawbook_entries} == {True}
+
+
+def test_lean_digest_announcement_and_readme_links_are_public_ready() -> None:
+    announcement = ROOT / "docs" / "public" / "lean_project_digest_announcement.md"
+    text = announcement.read_text(encoding="utf-8")
+    lower = text.lower()
+    assert "does not replace lean" in lower
+    assert "cannot become\nverified_proof" in lower or "cannot become verified_proof" in lower
+    assert "feedback" in lower
+    assert "python scripts/run_lean_project_digest.py --fallback-demo" in text
+    assert "python scripts/run_lean_project_digest.py --project-root" in text
+
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "docs/lean_project_digest.md" in readme
+    assert "examples/lean_project_digest_demo/" in readme
+    assert "docs/public/lean_project_digest_announcement.md" in readme
+
+
+def test_architecture_audit_recognizes_lean_digest_public_demo() -> None:
+    report = run_audit(ROOT)
+    assert report["canonical_doc_presence"]["docs/public/lean_project_digest_announcement.md"] is True
+    assert report["canonical_doc_presence"]["examples/lean_project_digest_demo/README.md"] is True
+    assert report["canonical_doc_presence"]["examples/lean_project_digest_demo/trust_boundary_audit.json"] is True
+    assert report["lean_digest_demo_audit"]["all_present"] is True
+    assert report["status"] == "PASS"

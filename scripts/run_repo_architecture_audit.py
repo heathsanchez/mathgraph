@@ -114,12 +114,15 @@ CANONICAL_DOCS = (
     "docs/lean_digest_lawbook_ingestion.md",
     "docs/lean_lawbook_attention.md",
     "docs/lean_project_digest.md",
+    "docs/public/lean_project_digest_announcement.md",
     "docs/evidence/residual_obstruction_atlas_v8_4.md",
     "docs/evidence/collatz_primitive_divisor_v12_2.md",
     "docs/evidence/root_node_persistent_filtration_v16_3.md",
     "docs/evidence/cross_world_semantic_residual_invariant.md",
     "examples/evidence_packs/sair_stage2_breakthrough_20260526/README.md",
     "examples/evidence_packs/recursive_residual_transfer_v1_20260523/README.md",
+    "examples/lean_project_digest_demo/README.md",
+    "examples/lean_project_digest_demo/trust_boundary_audit.json",
 )
 CANONICAL_EVIDENCE_PACKS = (
     "recursive_residual_transfer_v1_20260523",
@@ -161,6 +164,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
     evidence_ok = all(item["present"] and item["metrics_present"] and item["manifest_present"] and item["trust_boundary_present"] for item in evidence_pack_presence.values())
     crossworld_wording = _crossworld_trust_boundary_wording(root)
     discovery_scheduler_wording = _discovery_scheduler_wording(root)
+    lean_digest_demo_audit = _lean_digest_demo_audit(root)
     status = (
         "PASS"
         if all(canonical_presence.values())
@@ -170,6 +174,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         and evidence_ok
         and crossworld_wording["all_present"]
         and discovery_scheduler_wording["all_present"]
+        and lean_digest_demo_audit["all_present"]
         else "WARN"
     )
     return {
@@ -185,6 +190,7 @@ def run_audit(root: Path = ROOT) -> dict[str, Any]:
         "canonical_evidence_pack_presence": evidence_pack_presence,
         "crossworld_trust_boundary_wording": crossworld_wording,
         "discovery_scheduler_wording": discovery_scheduler_wording,
+        "lean_digest_demo_audit": lean_digest_demo_audit,
         "pyproject_optional_dependency_status": optional_deps,
         "readme_canonical_command_presence": readme_commands,
         "notes": [
@@ -345,6 +351,35 @@ def _discovery_scheduler_wording(root: Path) -> dict[str, Any]:
         "descension target": "descension target" in text,
         "verifier boundary": "verifier boundary" in text,
         "residual compression": "residual compression" in text,
+    }
+    return {"all_present": all(required.values()), "required": required}
+
+
+def _lean_digest_demo_audit(root: Path) -> dict[str, Any]:
+    path = root / "examples" / "lean_project_digest_demo" / "trust_boundary_audit.json"
+    if not path.exists():
+        required = {
+            "advisory_boundary_ok": False,
+            "can_promote_truth_count": False,
+            "textual_parsing_is_advisory": False,
+            "lean_execution_confirmed_false": False,
+        }
+        return {"all_present": False, "required": required, "reason": "missing trust_boundary_audit.json"}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        required = {
+            "advisory_boundary_ok": False,
+            "can_promote_truth_count": False,
+            "textual_parsing_is_advisory": False,
+            "lean_execution_confirmed_false": False,
+        }
+        return {"all_present": False, "required": required, "reason": str(exc)}
+    required = {
+        "advisory_boundary_ok": data.get("advisory_boundary_ok") is True,
+        "can_promote_truth_count": int(data.get("can_promote_truth_count", -1)) == 0,
+        "textual_parsing_is_advisory": data.get("textual_parsing_is_advisory") is True,
+        "lean_execution_confirmed_false": data.get("lean_execution_confirmed") is False,
     }
     return {"all_present": all(required.values()), "required": required}
 

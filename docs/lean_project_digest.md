@@ -13,17 +13,25 @@ trust-boundary markers, then emits Lawbook and Reason Atlas-ready metadata.
   Lawbook JSONL entries, Reason Atlas route suggestions, and a short report.
 - Runs in fallback-demo mode without Lean or Mathlib.
 
-## Trust Boundary
+## Trust Boundary for Lean Project Digest
 
 This is not a theorem prover and not proof synthesis. Textual parsing is
 advisory unless confirmed by a real Lean/verifier execution boundary.
 
-- Complete-looking theorem/lemma/example declarations are
-  `imported_verified_candidate`, not MathGraph-proven results.
+- Textual parsing is advisory.
+- A declaration with no detected `sorry`/`admit`/`axiom`/`unsafe` may be
+  marked `imported_verified_candidate` or `textual_verified_candidate`, but
+  not `VERIFIED_PROOF`.
+- `imported_verified_candidate` is a textual project-context status, not a
+  MathGraph proof.
+- A declaration only becomes `VERIFIED_PROOF` through Lean execution, trusted
+  import, or another explicit verifier boundary.
 - `sorry` and `admit` declarations are `incomplete_proof`, not verified.
-- `axiom` declarations are `trusted_assumption_or_external_axiom`, not proofs.
+- `axiom` declarations are `trusted_assumption_or_external_axiom`, not proved.
 - `unsafe` declarations require an explicit warning.
-- No textual-only digest entry can become `VERIFIED_PROOF`.
+- Lawbook entries from textual digest must have `can_promote_truth=false`.
+- Reason Atlas route suggestions are `advisory_only=true` and
+  `can_promote_truth=false`.
 
 ## Outputs
 
