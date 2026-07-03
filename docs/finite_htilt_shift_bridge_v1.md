@@ -50,3 +50,10 @@ Source:
 This is a finite algebraic bridge. It does not prove Perron–Frobenius
 existence for killed generators, irreducibility transfer, or stochastic
 convergence.
+
+## Follow-up artifact
+
+`finite_htilt_shift_stationarity_transfer_v1` verifies that generator-style
+stationarity transfers to the shifted discrete Doob kernel through the bridge
+identity. It remains independent of shift construction, irreducibility
+transfer, and Perron–Frobenius invocation.
