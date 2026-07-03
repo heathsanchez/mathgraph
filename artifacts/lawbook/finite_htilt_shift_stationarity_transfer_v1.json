@@ -16,7 +16,7 @@
     "lean_version": "4.28.0",
     "mathlib": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
     "source": "examples/verifier_fixtures/lean/htilt_shift_bridge.lean",
-    "sha256": "fcd2bb83e5d15cb8c953758197ec27a616efac7ce6fff8dafbf658d23cb75c78"
+    "sha256": "e28713cc06e9544ec5067b8203554ec8d341c15d5a1f8e92dc56278ffaa70578"
   },
   "verified_declarations": [
     "HTiltShiftBridge.shifted_stationarity_transfer"

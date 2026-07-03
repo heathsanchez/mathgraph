@@ -1,6 +1,8 @@
 import Mathlib.Algebra.BigOperators.Field
+import Mathlib.Algebra.Order.BigOperators.Ring.Finset
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Ring
 
 /-!
@@ -190,5 +192,64 @@ theorem shifted_normalized_stationarity_transfer
     _ = (q j * h j) / (∑ k, q k * h k) := by
           rw [shifted_stationarity_transfer
             K c lam q h rho_ne h_nonzero gen_stationary j]
+
+noncomputable def diagonalAbsShift (K : I → I → ℝ) : ℝ :=
+  ∑ i, |K i i|
+
+omit [DecidableEq I] in
+theorem diagonalAbsShift_nonneg
+    (K : I → I → ℝ) :
+    0 ≤ diagonalAbsShift K := by
+  classical
+  unfold diagonalAbsShift
+  exact Finset.sum_nonneg (fun i _ ↦ abs_nonneg (K i i))
+
+omit [DecidableEq I] in
+theorem abs_diagonal_le_diagonalAbsShift
+    (K : I → I → ℝ) (i : I) :
+    |K i i| ≤ diagonalAbsShift K := by
+  classical
+  unfold diagonalAbsShift
+  exact Finset.single_le_sum
+    (fun j _ ↦ abs_nonneg (K j j))
+    (Finset.mem_univ i)
+
+omit [DecidableEq I] in
+theorem diagonal_le_diagonalAbsShift
+    (K : I → I → ℝ) (i : I) :
+    K i i ≤ diagonalAbsShift K := by
+  exact le_trans (le_abs_self (K i i))
+    (abs_diagonal_le_diagonalAbsShift K i)
+
+omit [DecidableEq I] in
+theorem diagonal_shift_nonneg_of_diagonalAbsShift
+    (K : I → I → ℝ) :
+    ∀ i, 0 ≤ K i i + diagonalAbsShift K := by
+  intro i
+  have h_abs : -K i i ≤ |K i i| := neg_le_abs (K i i)
+  have h_sum : |K i i| ≤ diagonalAbsShift K :=
+    abs_diagonal_le_diagonalAbsShift K i
+  linarith
+
+omit [DecidableEq I] in
+theorem exists_shift_makes_diagonal_nonneg
+    (K : I → I → ℝ) :
+    ∃ c : ℝ, ∀ i, 0 ≤ K i i + c := by
+  exact ⟨diagonalAbsShift K,
+    diagonal_shift_nonneg_of_diagonalAbsShift K⟩
+
+theorem shiftedOperator_nonneg_of_offdiag_with_diagonalAbsShift
+    (K : I → I → ℝ)
+    (offdiag_nonneg : ∀ i j, i ≠ j → 0 ≤ K i j) :
+    ∀ i j, 0 ≤ shiftedOperator K (diagonalAbsShift K) i j := by
+  exact shiftedOperator_nonneg K (diagonalAbsShift K) offdiag_nonneg
+    (diagonal_shift_nonneg_of_diagonalAbsShift K)
+
+theorem exists_shift_makes_shiftedOperator_nonneg
+    (K : I → I → ℝ)
+    (offdiag_nonneg : ∀ i j, i ≠ j → 0 ≤ K i j) :
+    ∃ c : ℝ, ∀ i j, 0 ≤ shiftedOperator K c i j := by
+  exact ⟨diagonalAbsShift K,
+    shiftedOperator_nonneg_of_offdiag_with_diagonalAbsShift K offdiag_nonneg⟩
 
 end HTiltShiftBridge

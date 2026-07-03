@@ -43,7 +43,6 @@ shifted discrete object.
 
 ## What remains open
 
-- constructing a suitable $c$;
 - irreducibility transfer;
 - PF invocation on $A=cI+K$;
 - Markov convergence, ergodicity, mixing, and spectral gap;
@@ -56,3 +55,10 @@ shifted discrete object.
 
 Source:
 `examples/verifier_fixtures/lean/htilt_shift_bridge.lean`
+
+## Follow-up artifact
+
+`finite_htilt_construct_shift_c_v1` constructs
+$c=\sum_i |K_{ii}|$ and verifies entrywise nonnegativity of $A=cI+K$ under
+off-diagonal nonnegativity. Perron–Frobenius and irreducibility claims remain
+outside both artifacts.
