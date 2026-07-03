@@ -27,7 +27,6 @@ explicit off-diagonal nonnegativity and diagonal-shift hypotheses.
 
 ## What remains open
 
-- construction of a suitable shift `c`;
 - irreducibility transfer;
 - PF invocation on $A=cI+K$;
 - Markov convergence, ergodicity, mixing, and spectral gap;
@@ -57,3 +56,8 @@ convergence.
 stationarity transfers to the shifted discrete Doob kernel through the bridge
 identity. It remains independent of shift construction, irreducibility
 transfer, and Perron–Frobenius invocation.
+
+`finite_htilt_construct_shift_c_v1` supplies the explicit finite witness
+$c=\sum_i |K_{ii}|$, which makes $A=cI+K$ entrywise nonnegative under
+off-diagonal nonnegativity. It does not prove irreducibility transfer or
+invoke Perron–Frobenius.
