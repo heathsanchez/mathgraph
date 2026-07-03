@@ -128,4 +128,67 @@ theorem shiftedOperator_nonneg
   · have hK : 0 ≤ K i j := offdiag_nonneg i j hij
     simpa [shiftedOperator, delta, hij] using hK
 
+theorem sum_survivorWeight_delta
+    (q h : I → ℝ) (j : I) :
+    (∑ i, (q i * h i) * delta i j) = q j * h j := by
+  exact sum_mul_delta (fun i ↦ q i * h i) j
+
+theorem shifted_stationarity_transfer
+    (K : I → I → ℝ) (c lam : ℝ) (q h : I → ℝ)
+    (rho_ne : c + lam ≠ 0)
+    (h_nonzero : ∀ i, h i ≠ 0)
+    (gen_stationary :
+      ∀ j, (∑ i, (q i * h i) * generatorDoobEntry K lam h i j) = 0)
+    (j : I) :
+    (∑ i, (q i * h i) *
+      discreteDoobEntry (shiftedOperator K c) (c + lam) h i j) =
+    q j * h j := by
+  classical
+  calc
+    (∑ i, (q i * h i) *
+      discreteDoobEntry (shiftedOperator K c) (c + lam) h i j) =
+        ∑ i, ((q i * h i) * delta i j +
+          ((q i * h i) * generatorDoobEntry K lam h i j) / (c + lam)) := by
+            apply Finset.sum_congr rfl
+            intro i _
+            rw [shifted_doob_bridge K c lam h rho_ne h_nonzero i j]
+            ring
+    _ = (∑ i, (q i * h i) * delta i j) +
+        (∑ i, ((q i * h i) * generatorDoobEntry K lam h i j) /
+          (c + lam)) := by
+            rw [Finset.sum_add_distrib]
+    _ = q j * h j +
+        (∑ i, (q i * h i) * generatorDoobEntry K lam h i j) /
+          (c + lam) := by
+            rw [sum_survivorWeight_delta, Finset.sum_div]
+    _ = q j * h j := by
+            rw [gen_stationary]
+            simp
+
+theorem shifted_normalized_stationarity_transfer
+    (K : I → I → ℝ) (c lam : ℝ) (q h : I → ℝ)
+    (rho_ne : c + lam ≠ 0)
+    (h_nonzero : ∀ i, h i ≠ 0)
+    (Z_ne : (∑ k, q k * h k) ≠ 0)
+    (gen_stationary :
+      ∀ j, (∑ i, (q i * h i) * generatorDoobEntry K lam h i j) = 0)
+    (j : I) :
+    (∑ i, ((q i * h i) / (∑ k, q k * h k)) *
+      discreteDoobEntry (shiftedOperator K c) (c + lam) h i j) =
+    (q j * h j) / (∑ k, q k * h k) := by
+  classical
+  calc
+    (∑ i, ((q i * h i) / (∑ k, q k * h k)) *
+      discreteDoobEntry (shiftedOperator K c) (c + lam) h i j) =
+        (∑ i, (q i * h i) *
+          discreteDoobEntry (shiftedOperator K c) (c + lam) h i j) /
+            (∑ k, q k * h k) := by
+              rw [Finset.sum_div]
+              apply Finset.sum_congr rfl
+              intro i _
+              field_simp [Z_ne]
+    _ = (q j * h j) / (∑ k, q k * h k) := by
+          rw [shifted_stationarity_transfer
+            K c lam q h rho_ne h_nonzero gen_stationary j]
+
 end HTiltShiftBridge

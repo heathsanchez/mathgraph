@@ -16,7 +16,7 @@
     "lean_version": "4.28.0",
     "mathlib": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
     "source": "examples/verifier_fixtures/lean/htilt_shift_bridge.lean",
-    "sha256": "c1c330ccb3910419c8ad201ba95615ad1d80061e32890e8739a5b34ea705634a"
+    "sha256": "fcd2bb83e5d15cb8c953758197ec27a616efac7ce6fff8dafbf658d23cb75c78"
   },
   "verified_declarations": [
     "HTiltShiftBridge.sum_delta_mul",
