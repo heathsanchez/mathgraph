@@ -1,0 +1,41 @@
+{
+  "artifact": "official_formalbook_ch28_edgecard_patch008_v4_6_12",
+  "repo": "https://github.com/mo271/FormalBook",
+  "commit": "865934361ca7005e0a874efb39f5809117052e85",
+  "file": "FormalBook/Chapter_28.lean",
+  "module": "FormalBook.Chapter_28",
+  "sorrydb_id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3",
+  "accepted": false,
+  "accepted_variant": null,
+  "status": "PATCH008_REJECTED_OR_DIAGNOSTIC",
+  "results": [
+    {
+      "variant": "v01_simp_he_manual_pair",
+      "returncode": 1,
+      "seconds": 42.91,
+      "has_error": true,
+      "has_sorry": false
+    },
+    {
+      "variant": "v02_simp_he_manual_pair_ne_symm",
+      "returncode": 1,
+      "seconds": 53.33,
+      "has_error": true,
+      "has_sorry": false
+    },
+    {
+      "variant": "v03_simp_he_insert_card",
+      "returncode": 1,
+      "seconds": 51.24,
+      "has_error": true,
+      "has_sorry": false
+    },
+    {
+      "variant": "v04_trace_after_simp_he",
+      "returncode": 0,
+      "seconds": 54.98,
+      "has_error": false,
+      "has_sorry": true
+    }
+  ]
+}
