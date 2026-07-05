@@ -1,0 +1,218 @@
+====================================================================================================
+{
+  "variant": "v01_simpa_using_he",
+  "file_build_returncode": 1,
+  "file_build_seconds": 35.2,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:9: error: unexpected token 'using'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `simpa`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v02_simpa",
+  "file_build_returncode": 1,
+  "file_build_seconds": 30.8,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:9: error: unexpected token '_'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `simpa`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v03_exact_e_card",
+  "file_build_returncode": 1,
+  "file_build_seconds": 35.51,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:23: error: unexpected token '_'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `exact`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v04_simpa_using_e_card",
+  "file_build_returncode": 1,
+  "file_build_seconds": 32.75,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:9: error: unexpected token 'using'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `simpa`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v05_exact_sym2_card",
+  "file_build_returncode": 1,
+  "file_build_seconds": 32.99,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:28: error: unexpected token '_'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `exact`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v06_simpa_using_sym2_card",
+  "file_build_returncode": 1,
+  "file_build_seconds": 40.82,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:9: error: unexpected token 'using'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `simpa`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v07_have_then_simpa",
+  "file_build_returncode": 1,
+  "file_build_seconds": 32.33,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:65:9: error: unexpected token 'using'; expected ':='
+FormalBook/Chapter_28.lean:64:14: error(lean.unknownIdentifier): Unknown identifier `e.card_eq_two`
+FormalBook/Chapter_28.lean:65:4: error(lean.unknownIdentifier): Unknown identifier `simpa`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v08_aesop",
+  "file_build_returncode": 1,
+  "file_build_seconds": 31.5,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:9: error: unexpected token '_'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `aesop`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v09_tauto",
+  "file_build_returncode": 1,
+  "file_build_seconds": 32.47,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:9: error: unexpected token '_'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `tauto`
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v10_trace",
+  "file_build_returncode": 1,
+  "file_build_seconds": 34.9,
+  "file_has_error": true,
+  "target_has_sorry_warning": false
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:64:15: error: unexpected token 'sorry'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `trace_state`
+--- stderr tail ---
+
+
+SUMMARY
+{
+  "artifact": "official_formalbook_ch28_edgecard_patch001_v4_6_5",
+  "source": "official SorryDB 1000 evaluation split",
+  "sorrydb_id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3",
+  "repo": "https://github.com/mo271/FormalBook",
+  "commit": "865934361ca7005e0a874efb39f5809117052e85",
+  "file": "FormalBook/Chapter_28.lean",
+  "line": 64,
+  "goal": "e ∈ G.edgeFinset ⊢ {v | v ∈ e}.card = 2",
+  "accepted": false,
+  "accepted_variant": null,
+  "status": "PATCH001_REJECTED_OR_DIAGNOSTIC",
+  "results": [
+    {
+      "variant": "v01_simpa_using_he",
+      "file_build_returncode": 1,
+      "file_build_seconds": 35.2,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v02_simpa",
+      "file_build_returncode": 1,
+      "file_build_seconds": 30.8,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v03_exact_e_card",
+      "file_build_returncode": 1,
+      "file_build_seconds": 35.51,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v04_simpa_using_e_card",
+      "file_build_returncode": 1,
+      "file_build_seconds": 32.75,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v05_exact_sym2_card",
+      "file_build_returncode": 1,
+      "file_build_seconds": 32.99,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v06_simpa_using_sym2_card",
+      "file_build_returncode": 1,
+      "file_build_seconds": 40.82,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v07_have_then_simpa",
+      "file_build_returncode": 1,
+      "file_build_seconds": 32.33,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v08_aesop",
+      "file_build_returncode": 1,
+      "file_build_seconds": 31.5,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v09_tauto",
+      "file_build_returncode": 1,
+      "file_build_seconds": 32.47,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v10_trace",
+      "file_build_returncode": 1,
+      "file_build_seconds": 34.9,
+      "file_has_error": true,
+      "target_has_sorry_warning": false
+    }
+  ]
+}

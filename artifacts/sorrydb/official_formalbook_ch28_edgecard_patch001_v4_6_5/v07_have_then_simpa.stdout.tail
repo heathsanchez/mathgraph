@@ -1,0 +1,3 @@
+FormalBook/Chapter_28.lean:65:9: error: unexpected token 'using'; expected ':='
+FormalBook/Chapter_28.lean:64:14: error(lean.unknownIdentifier): Unknown identifier `e.card_eq_two`
+FormalBook/Chapter_28.lean:65:4: error(lean.unknownIdentifier): Unknown identifier `simpa`

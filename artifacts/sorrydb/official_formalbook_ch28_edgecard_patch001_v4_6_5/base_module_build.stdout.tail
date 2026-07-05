@@ -1,0 +1,4 @@
+✔ [3074/3075] Built FormalBook.Mathlib.EdgeFinset (6.9s)
+⚠ [3075/3075] Built FormalBook.Chapter_28 (33s)
+warning: FormalBook/Chapter_28.lean:58:6: declaration uses 'sorry'
+Build completed successfully (3075 jobs).

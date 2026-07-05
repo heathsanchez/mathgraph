@@ -1,0 +1,2 @@
+FormalBook/Chapter_28.lean:64:9: error: unexpected token '_'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `simpa`

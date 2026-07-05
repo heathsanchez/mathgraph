@@ -1,0 +1,2 @@
+FormalBook/Chapter_28.lean:64:15: error: unexpected token 'sorry'; expected ':='
+FormalBook/Chapter_28.lean:64:4: error(lean.unknownIdentifier): Unknown identifier `trace_state`
