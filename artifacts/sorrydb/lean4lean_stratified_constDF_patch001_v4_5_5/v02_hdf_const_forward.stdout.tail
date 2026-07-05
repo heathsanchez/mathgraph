@@ -1,0 +1,14 @@
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (757ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:120: Application type mismatch: The argument
+  HasTypeU1.const h1 h3 (Eq.trans (Eq.symm (List.Forall₂.length_eq h5)) h4)
+has type
+  env.HasTypeU1 U ?m.201 ?m.205 (const c✝ ls₂) (VExpr.instL ls₂ ci✝.type)
+but is expected to have type
+  env.HasTypeU1 U defEq Γ✝ (const c✝ ls₂) (const c✝ ls₁)
+in the application
+  HasTypeU1.defeq (hdf (HasTypeU1.const h1 h2 h4) ?m.190 ?m.198)
+    (HasTypeU1.const h1 h3 (Eq.trans (Eq.symm (List.Forall₂.length_eq h5)) h4))
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped

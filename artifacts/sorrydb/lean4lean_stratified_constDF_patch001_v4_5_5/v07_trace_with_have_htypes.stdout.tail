@@ -1,0 +1,41 @@
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (763ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:17: Invalid dotted identifier notation: The expected type of `.const` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Function.const`
+  [apply] `Lean.Expr.const`
+  [apply] `Lean.HeadIndex.const`
+  [apply] `Lean.ParserDescr.const`
+  [apply] `const`
+  [apply] `VObject.const`
+  [apply] `Lean.Doc.DocHighlight.const`
+  [apply] `Lean.Lsp.CompletionIdentifier.const`
+  [apply] `Lean.Lsp.RefIdent.const`
+  [apply] `Lean.Omega.LinearCombo.const`
+  [apply] `Lean.Parser.AliasValue.const`
+  [apply] `EqUpToLevels.const`
+  [apply] `HasObjects.const`
+  [apply] `HasType.const`
+  [apply] `HasTypeStratified.const`
+  [apply] `HasTypeStrong.const`
+  [apply] `HasTypeU1.const`
+  [apply] `Ordered.const`
+  [apply] `Std.Do.ExceptConds.const`
+  [apply] `Std.Do.PredTrans.const`
+  [apply] `Lean.Compiler.LCNF.LetValue.const`
+  [apply] `Lean.Elab.Term.LValResolution.const`
+  [apply] `Lean.Meta.DiscrTree.Key.const`
+  [apply] `Lean.Meta.Grind.Filter.const`
+  [apply] `Lean.Meta.LazyDiscrTree.ImportFailure.const`
+  [apply] `Lean.Meta.LazyDiscrTree.Key.const`
+  [apply] `EqUpToLevels.below.const`
+  [apply] `HasTypeStratified.below.const`
+  [apply] `HasTypeStrong.below.const`
+  [apply] `HasTypeU1.below.const`
+  [apply] `Ordered.below.const`
+  [apply] `Std.Tactic.BVDecide.BVExpr.const`
+  [apply] `Std.Tactic.BVDecide.BoolExpr.const`
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped

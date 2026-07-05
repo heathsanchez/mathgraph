@@ -1,0 +1,56 @@
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (743ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:36: Invalid dotted identifier notation: The expected type of `.symm` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `And.symm`
+  [apply] `BEq.symm`
+  [apply] `Eq.symm`
+  [apply] `Equivalence.symm`
+  [apply] `HEq.symm`
+  [apply] `Iff.symm`
+  [apply] `Ne.symm`
+  [apply] `Or.symm`
+  [apply] `PartialEquivBEq.symm`
+  [apply] `Setoid.symm`
+  [apply] `Array.Perm.symm`
+  [apply] `List.Perm.symm`
+  [apply] `Nat.Coprime.symm`
+  [apply] `Std.Symm.symm`
+  [apply] `Vector.Perm.symm`
+  [apply] `Lean.Parser.Tactic.symm`
+  [apply] `symm`
+  [apply] `IsDefEqCtx.symm`
+  [apply] `IsDefEqStrong.symm`
+  [apply] `IsDefEqU.symm`
+  [apply] `IsDefEqU1.symm`
+  [apply] `Std.BundledIterM.Equiv.symm`
+  [apply] `Std.DHashMap.Equiv.symm`
+  [apply] `Std.DTreeMap.Equiv.symm`
+  [apply] `Std.HashMap.Equiv.symm`
+  [apply] `Std.HashSet.Equiv.symm`
+  [apply] `Std.Iter.Equiv.symm`
+  [apply] `Std.IterM.Equiv.symm`
+  [apply] `Std.TreeMap.Equiv.symm`
+  [apply] `Std.TreeSet.Equiv.symm`
+  [apply] `Lean.Meta.Rewrites.RewriteResult.symm`
+  [apply] `Lean.Meta.SolveByElim.ApplyRulesConfig.symm`
+  [apply] `below.symm`
+  [apply] `IsDefEqStrong.below.symm`
+  [apply] `IsDefEqU1.below.symm`
+  [apply] `Std.DHashMap.Raw.Equiv.symm`
+  [apply] `Std.DTreeMap.Raw.Equiv.symm`
+  [apply] `Std.Do.SPred.bientails.symm`
+  [apply] `Std.HashMap.Raw.Equiv.symm`
+  [apply] `Std.HashSet.Raw.Equiv.symm`
+  [apply] `Std.TreeMap.Raw.Equiv.symm`
+  [apply] `Std.TreeSet.Raw.Equiv.symm`
+  [apply] `Std.DTreeMap.Internal.Impl.BalancedAtRoot.symm`
+  [apply] `Std.DTreeMap.Internal.Impl.Equiv.symm`
+  [apply] `Std.DTreeMap.Internal.Impl.SameKeys.symm`
+  [apply] `Lean.Meta.Grind.Arith.Linear.RingEqCnstrProof.symm`
+  [apply] `Std.Tactic.BVDecide.LRAT.Internal.Incompatible.symm`
+  [apply] `Std.Tactic.BVDecide.LRAT.Internal.Liff.symm`
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped

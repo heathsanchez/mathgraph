@@ -1,0 +1,1521 @@
+{
+  "\\btheorem\\s+IsDefEq\\.inductionU1\\b": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 55,
+      "text": "theorem IsDefEq.inductionU1"
+    }
+  ],
+  "\\btheorem\\s+HasTypeU1\\.induction\\b": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 102,
+      "text": "theorem HasTypeU1.induction (H : env.HasTypeU1 U defEq \u0393 e A) : env.HasType U \u0393 e A := by"
+    }
+  ],
+  "\\btheorem\\s+IsDefEqU1\\.induction\\b": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 120,
+      "text": "theorem IsDefEqU1.induction"
+    }
+  ],
+  "\\bunique_typing": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 178,
+      "text": "theorem IsDefEqU1.unique_typing1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 196,
+      "text": "theorem HasType1.unique_typing'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 245,
+      "text": "theorem IsDefEq.unique_typing'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 193,
+      "text": "theorem IsDefEq1.unique_typing1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 211,
+      "text": "theorem HasType1.unique_typing'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 260,
+      "text": "theorem IsDefEq.unique_typing'"
+    }
+  ],
+  "\\bconstDF\\b": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 37,
+      "text": "  | constDF : List.Forall\u2082 (\u00b7 \u2248 \u00b7) ls ls' \u2192 \u0393 \u22a2 .const c ls \u2261 .const c ls'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 71,
+      "text": "  | @constDF _ _ ls\u2081 ls\u2082 _ _ h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 72,
+      "text": "    exact \u27e8.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 50,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 89,
+      "text": "  | @constDF _ _ ls\u2081 ls\u2082 u _ h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 92,
+      "text": "      .constDF h1 h2 h3 h4 h5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 141,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 64,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 200,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF (constants_out h1) h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 248,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 _ _ _ _ ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 250,
+      "text": "    exact .constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 (ih3 W) (ih4 W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 289,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 _ _ _ _ ih1 ih2 ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 290,
+      "text": "    exact .constDF (henv.1 h1) h2 h3 h4 h5 h6 h7 ih1 ih2 ih3 ih4"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 321,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 _ _ _ _ _ ih1 ih2 ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 323,
+      "text": "    exact .constDF h1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 409,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 _ _ _ _ ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 411,
+      "text": "    exact .constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 (ih3 W h\u0393) (ih4 W h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 532,
+      "text": "  | constDF _ _ _ _ _ _ _ _ _ h => exact h"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 552,
+      "text": "  | constDF _ _ _ _ _ _ _ _ _ _ _ _ _ ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 596,
+      "text": "  | @constDF c ci ls _ _ _ h1 _ _ _ h2 hu _ d1 d2 d3 d4 ih1 ih2 ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 599,
+      "text": "    | @constDF c' _ ls' _ _ _ h1' _ _ _ h2' hu' =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 34,
+      "text": "  constDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 167,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 206,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact TY.constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 228,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 229,
+      "text": "    exact .constDF h1 h3 h2 (h5.length_eq.symm.trans h4) (h5.flip.imp (fun _ _ h => h.symm))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 243,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 266,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 320,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 356,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 359,
+      "text": "    exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 452,
+      "text": "  | .constDF l1 l2 _ l4 l5, .constDF _ _ r3 r4 r5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 453,
+      "text": "    .constDF l1 l2 r3 l4 (l5.trans (fun _ _ _ h1 => h1.trans) r5)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 695,
+      "text": "  | constDF l1 l2 l3 l4 l5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 697,
+      "text": "    | const => exact \u27e8_, .tail .rfl .const, .constDF l1 l2 l3 l4 l5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 846,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact \u27e8TY.constDF h1 h2 h3 h4 h5, TY.const h1 h2 h4\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 869,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .normalEq (.constDF h1 h2 h3 h4 h5)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1497,
+      "text": "    refine \u27e8_, .const h1 a1 (by simp [h3]), _, .constDF h1 (.of_mapM_ofLevel a1) ?_ ?_ a2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 384,
+      "text": "  have := VEnv.IsDefEq.constDF c1\u2081"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 526,
+      "text": "      have := VEnv.IsDefEq.constDF c1"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 227,
+      "text": "  .constDF h1 h2 h2 h3 (.rfl fun _ _ => rfl)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 325,
+      "text": "  | constDF h1 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 389,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF (henv.1 h1) h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 468,
+      "text": "  | constDF _ h2 h3 => exact \u27e8h2, h3, .instL h2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 508,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 510,
+      "text": "    exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 603,
+      "text": "  | @constDF _ _ ls\u2081 ls\u2082 _ h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 605,
+      "text": "    exact .constDF h1 (by simp [VLevel.WF.inst hls]) (by simp [VLevel.WF.inst hls])"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 651,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 653,
+      "text": "    exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 849,
+      "text": "  | constDF h1 h2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 23,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 149,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 _ _ ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 151,
+      "text": "    exact .constDF h1 h2 h3 h4 h5 h6 h7 (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 189,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 207,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 208,
+      "text": "    exact .constDF (henv.1 h1) h2 h3 h4 h5 h6 ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 246,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 303,
+      "text": "  | constDF h1 h2 h3 h4 h5 _ _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 305,
+      "text": "    exact .constDF h1"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 372,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 _ _ ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 374,
+      "text": "    exact .constDF h1 h2 h3 h4 h5 h6 h7 (ih2 W h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 486,
+      "text": "  | constDF h1 h2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 535,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 543,
+      "text": "      .constDF h1 a2 b2 (a3.length_eq.symm.trans h4) c2 (.inst a2) this (this.weak0 henv)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 620,
+      "text": "  | @constDF _ _ ls\u2081 ls\u2082 _ h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 623,
+      "text": "    exact .constDF h1 h2 h3 h4 h5 (.inst h2) this (this.weak0 henv)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 714,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 h8 ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 752,
+      "text": "    exact .constDF h1 h2 h2 h3 (.rfl fun _ _ => rfl) h4 ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Basic.lean",
+      "line": 24,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 82,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 121,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact \u27e8_, .constDF h1 h2 h3 h4 h5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 146,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 147,
+      "text": "    exact .constDF h1 h3 h2 (h5.length_eq.symm.trans h4) (h5.flip.imp (fun _ _ h => h.symm))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 167,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 192,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 251,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 289,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 292,
+      "text": "    exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 398,
+      "text": "  | .constDF l1 l2 _ l4 l5, .constDF _ _ r3 r4 r5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 399,
+      "text": "    .constDF l1 l2 r3 l4 (l5.trans (fun _ _ _ h1 => h1.trans) r5)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1184,
+      "text": "  | constDF l1 l2 l3 l4 l5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1186,
+      "text": "    | const => exact \u27e8_, .tail .rfl .const, .constDF l1 l2 l3 l4 l5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1352,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .normalEq h\u0393 (.constDF h1 h2 h3 h4 h5)"
+    }
+  ],
+  "\\bdefeq\\b": [
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 536,
+      "text": "  | .defeq a b rest => (a.applyS m1 m2, b.applyS m1 m2) :: rest.defeqsS m1 m2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 679,
+      "text": "theorem IsDefEqStrong.defeq : IsDefEqStrong \u0393 e1 e2 A \u2192 \u0393 \u22a2 e1 \u2261 e2 : A := sorry"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 725,
+      "text": "  | defeq : \u0393 \u22a2 A \u2261 B : .sort u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 835,
+      "text": "  defeq' {{\u0394 \u03c1 e1' e2' A'}} : Ctx.Lift' \u03c1 \u0394 \u0393 \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 847,
+      "text": "  defeq' _ _ _ _ _ W' h1 h2 h3 := imp (H.defeq' W' h1 h2 h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 855,
+      "text": "  defeq' _ _ _ _ _ W := by rintro rfl he rfl; cases SExpr.lift'_inj.1 he; exact refl W rfl rfl"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 864,
+      "text": "  defeq' \u0394' \u03c1' e1' e2' A' W' h1 h2 hA := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 869,
+      "text": "    exact weak I.diff (H.defeq' I.symm.diff rfl rfl rfl)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 889,
+      "text": "  defeq' \u0394' \u03c1' _ _ _ W' := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 892,
+      "text": "    exact H.defeq' (W'.comp W) rfl rfl rfl"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 908,
+      "text": "  defeq' _ _ _ _ _ W' h1 h2 h3 := symm (H.defeq' W' h2 h1 h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 921,
+      "text": "  defeq' _ _ _ _ _ W' := by rintro rfl he hA; exact SExpr.lift'_inj.1 he \u25b8 H.left' W' rfl hA"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 925,
+      "text": "theorem WithLift.defeq (H : WithLift DefEq \u0393 e1 e2 A) : DefEq \u0393 e1 e2 A :="
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 926,
+      "text": "  H.defeq' .refl SExpr.lift'_refl.symm SExpr.lift'_refl.symm SExpr.lift'_refl.symm"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 928,
+      "text": "nonrec theorem IsDefEqLift.defeq (H : \u0393 \u22a2 e1 \u2261 e2 :\u2191 A) : \u0393 \u22a2 e1 \u2261 e2 : A := H.defeq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1007,
+      "text": "theorem WHRedS.defeq (H : \u0393 \u22a2 e1 \u2933* e2) (he : \u0393 \u22a2 e1 : A) : \u0393 \u22a2 e1 \u2261 e2 : A := sorry"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1233,
+      "text": "theorem NormalEq.defeq (H : \u0393 \u22a2 e1 \u2261\u209a e2 : A) : \u0393 \u22a2 e1 \u2261 e2 : A := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1283,
+      "text": "  \u27e8H.defeq, _, _, .rfl, .rfl, H\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1288,
+      "text": "theorem CRDefEq.defeq : \u0393 \u22a2 e\u2081 \u226b\u226a e\u2082 : A \u2192 \u0393 \u22a2 e\u2081 \u2261 e\u2082 : A := (\u00b7.1)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1304,
+      "text": "  \u27e8H2.defeq H1, _, _, H2.parRedS, .rfl, .refl (H2.defeq H1).hasType.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1308,
+      "text": "theorem CRDefEqLift.defeq (H : \u0393 \u22a2 e1 \u226b\u226a e2 :\u2191 A) : \u0393 \u22a2 e1 \u2261 e2 :\u2191 A := H.imp (\u00b7.1)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1310,
+      "text": "theorem CRDefEqLift.left (H : \u0393 \u22a2 e1 \u226b\u226a e2 :\u2191 A) : \u0393 \u22a2 e1 :\u2191 A := H.defeq.left"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 28,
+      "text": "  | defeq : \u0393 \u22a2 A \u2261 B \u2192 \u0393 \u22a2 e : A \u2192 \u0393 \u22a2 e : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 72,
+      "text": "    exact \u27e8.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 75,
+      "text": "    exact .defeq (hdf (.sort (l := l'.succ) h2) (.sort (l := l.succ) h1)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 79,
+      "text": "    exact \u27e8.app hf ha, .defeq (hdf ihBa.2.1 ihBa.1 (.symm ihBa.2.2)) (.app hf' ha'), .appDF ff aa\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 81,
+      "text": "    refine \u27e8.lam ihA.1 ihb.1, .defeq ?_ <| .lam ihA.2.1 ihb'.2.1, .lamDF ihA.2.2 ihb.2.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 87,
+      "text": "    have h := hdf ih1.1 ih1.2.1 ih1.2.2; exact \u27e8.defeq h ih2.1, .defeq h ih2.2.1, ih2.2.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 110,
+      "text": "  | defeq h1 _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 112,
+      "text": "    exact (IH h h1).defeq (ih h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 202,
+      "text": "  | defeq h1 _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 221,
+      "text": "  case defeq.defeq _ _ _ =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 41,
+      "text": "  | defeq : \u0393 \u22a2 A \u2261 B : .sort u \u2192 \u0393 \u22a2 e : A \u2192 \u0393 \u22a2 e : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 91,
+      "text": "      .defeq (u := u.inst ls\u2081) sorry <| .const h1 h3 (h5.length_eq.symm.trans h4),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 95,
+      "text": "    exact .defeq (hdf <| .symm <| .sortDF (l' := l'.succ) h1 h2 (VLevel.succ_congr h3)) (.sort h2)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 98,
+      "text": "    exact \u27e8.app hf ha, .defeq (hdf ihBa.2.2.symm) (.app hf' ha'), .appDF ff aa\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 101,
+      "text": "    exact .defeq (hdf <| .symm <| .forallEDF ihA.2.2 ihB.2.2) <| .lam ihA.2.1 ihb'.2.1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 105,
+      "text": "    exact \u27e8.defeq (hdf ih1.2.2) ih2.1, .defeq (hdf ih1.2.2) ih2.2.1, .defeqDF (hdf ih1.2.2) ih2.2.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 128,
+      "text": "  | defeq h1 _ ih => exact (IH h1).defeq ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 217,
+      "text": "  | defeq h1 _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 236,
+      "text": "  case defeq.defeq _ _ _ =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 227,
+      "text": "  | defeq : Ordered env \u2192 df.WF env \u2192 Ordered (env.addDefEq df)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 233,
+      "text": "  | defeq h1 h2 ih => exact addDefEq_out \u25b8 .defeq ih h2.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 121,
+      "text": "  | symm H ih => exact .fits fun W => (ih ((LE_Interp.sound H.defeq W).1.2 hM) hA hmem).symm"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 123,
+      "text": "    exact .fits fun W => (ih1 hM hA hmem).trans (ih2 ((LE_Interp.sound H1.defeq W).1.1 hM) hA hmem)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 129,
+      "text": "    refine have ihs1 := LE_Interp.sound H1.defeq W; have hM\u2082 := ihs1.1.1 hM; ?_"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 130,
+      "text": "    have ihs2 := LE_Interp.sound H2.defeq W (m := m.T)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 168,
+      "text": "      refine \u27e8fun \u03c3 \u03c3' W => \u27e8?_, ?_\u27e9, fun \u03c3 W => this W Hf.defeq Ha.defeq HBa.defeq hif hia hA ihf iha ihBa\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 169,
+      "text": "      \u00b7 refine this W Hf.defeq.hasType.1 Ha.defeq.hasType.1 HBa.defeq.hasType.1 hif hia hA ?_ ?_ ?_"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 174,
+      "text": "          Hf.defeq.hasType.2 Ha.defeq.hasType.2 HBa.defeq.hasType.2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 175,
+      "text": "          ((LE_Interp.sound Hf.defeq W.fits).1.1 hif) ((LE_Interp.sound Ha.defeq W.fits).1.1 hia)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 176,
+      "text": "          ((LE_Interp.sound HBa.defeq W.fits).1.1 hA)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 178,
+      "text": "        \u00b7 have \u27e8_, _, _, le, le', iB, iv, hmb\u27e9 := (LE_Interp.sound HBa.defeq W.fits).2 hA |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 180,
+      "text": "        \u00b7 exact (ihf ((LE_Interp.sound Hf.defeq W.left.fits).1.2 hf) hPi hmf).symm.left"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 181,
+      "text": "        \u00b7 exact (iha ((LE_Interp.sound Ha.defeq W.left.fits).1.2 ha) hA hma).symm.left"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 182,
+      "text": "        \u00b7 exact (ihBa ((LE_Interp.sound HBa.defeq W.left.fits).1.2 hB) hv hmb).symm.left"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 254,
+      "text": "        \u00b7 exact (LE_Interp.sound (.lamDF HA.defeq HBody.defeq) W.fits).1.1 hM"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 255,
+      "text": "        \u00b7 exact (ihBody ((LE_Interp.sound HBody.defeq W).1.2 hMb') hBb hmb).symm.left"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 273,
+      "text": "      HA.defeq.hasType.1.subst W.left.toSubstEq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 275,
+      "text": "      HB.defeq.subst (W.left.toSubstEq.lift hTypA)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 278,
+      "text": "      (LE_Interp.sound HA.defeq W.left.fits).2 hA1 |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 279,
+      "text": "    have cons := Adequate.cons ihA HA.defeq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 293,
+      "text": "        (LE_Interp.sound HB.defeq W'.fits).2 (hA.forallE_inv'.2 p) |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 306,
+      "text": "        have ha' : \u0393\u2080 \u22a2 x \u2261 x' : A.subst \u03c3' := (HA.defeq.hasType.1.subst W.toSubstEq).defeqDF ha"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 308,
+      "text": "        have \u27e8n', _, _, le, le', iB, iv, hmb\u27e9 := (LE_Interp.sound HB.defeq W'.fits).2 hBb_sd |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 331,
+      "text": "    have cons := Adequate.cons ihA HA.defeq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 334,
+      "text": "        (LE_Interp.sound HA.defeq W.left.fits).2 hA1 |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 335,
+      "text": "      have HAA\u03c3 := HA.defeq.subst W.left.toSubstEq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 337,
+      "text": "    \u00b7 have HA\u03c3 := HA.defeq.hasType.1.subst W.toSubstEq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 338,
+      "text": "      have HA'\u03c3 := HA.defeq.hasType.2.subst W.toSubstEq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 341,
+      "text": "          .rfl, .rfl, HA\u03c3, HBody.defeq.hasType.1.subst S', ?_, ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 351,
+      "text": "            (LE_Interp.sound HBody.defeq W'.fits).2 hB |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 354,
+      "text": "          .rfl, .rfl, HA'\u03c3, HAA\u03c3.defeqDF_l (HBody.defeq.hasType.2.subst S'), ?_, ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 366,
+      "text": "        \u00b7 have \u27e8_, _, _, le, le', iB, iv, hmb\u27e9 := (LE_Interp.sound HBody.defeq W'.fits).2 hB |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 369,
+      "text": "        .rfl, .rfl, HAA\u03c3, HBody.defeq.subst S', ?_, ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 375,
+      "text": "        have \u27e8_, _, _, le, le', iB, iv, hmb\u27e9 := (LE_Interp.sound HBody.defeq W'.fits).2 hB |>.out)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 381,
+      "text": "      have hA' := (LE_Interp.sound Hty.defeq W.fits).1.2 hA"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 383,
+      "text": "        (LE_Interp.sound Hty.defeq W.fits).2 hA' |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 386,
+      "text": "      have hA' := (LE_Interp.sound Hty.defeq W.left.fits).1.2 hA"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 393,
+      "text": "    \u00b7 exact ((ihinst ((LE_Interp.sound (.beta He.defeq Ha.defeq) W.fits).1.1 hM) hA hmem).1 W).2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 398,
+      "text": "    \u00b7 exact ((ihe ((LE_Interp.sound (.eta He.defeq) W.fits).1.1 hM) hA hmem).1 W).2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 399,
+      "text": "    have hM' := (LE_Interp.sound (.eta He.defeq) W.fits).1.1 hM"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 419,
+      "text": "    have \u27e8_, _, s, le_n, le_a, _, hSort, hmem'\u27e9 := (LE_Interp.sound Hp.defeq W).2 hA |>.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 3,
+      "text": "/-! # Unique typing over the SExpr weak defeq."
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 8,
+      "text": "prove type uniqueness up to defeq, without needing stratified judgments."
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 46,
+      "text": "  | defeq :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 66,
+      "text": "  | defeq d _ ihe => exact d.defeqDF ihe"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 69,
+      "text": "together with a transport: any defeq involving the structural type can be"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 77,
+      "text": "  | defeq d _ ihe =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 90,
+      "text": "/-- Type uniqueness up to defeq: any two derivations of `e` give defeq-equivalent"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 132,
+      "text": "  | defeq d _ ihe =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 154,
+      "text": "    exact \u27e8.base (.app ih_f.1 ih_a.1), .defeq h_Ba.symm.defeq (.base (.app ih_f.2 ih_a.2))\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 157,
+      "text": "    exact .defeq (.symm <| .forallEDF h_A.defeq ih_B.1.hasType) (.base (.lam ih_A.2 ih_body'.2))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 161,
+      "text": "    exact \u27e8.defeq d.defeq ih2.1, .defeq d.defeq ih2.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 172,
+      "text": "/-- Sort uniqueness: if a middle term has two `sort`-types via defeq witnesses,"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 181,
+      "text": "/-! ## `IsDefEq'`: defeq without heterogeneous `trans'`"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 201,
+      "text": "theorem NormalEq.defeq (H : NormalEq TY \u0393 e1 e2) : TY.IsDefEqU \u0393 e1 e2 := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 233,
+      "text": "    exact .forallEDF h1 (TY.trans ih1.defeq h2) ih1 (TY.defeq_l h5.defeq h4) ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 304,
+      "text": "    exact .appDF hf (TY.defeq_l ih1.defeq hf) ha (TY.defeq_l ih2.defeq ha) ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 308,
+      "text": "    exact .lamDF hA (TY.refl hA) (ih1 W h1).symm.defeq (ih2 W.succ h2)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 461,
+      "text": "    have r5' := r5.defeq_l (TY.trans (TY.symm (TY.trans l3.defeq r2)) l2)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 486,
+      "text": "  | .proofIrrel l1 l2 l3, H2 => .proofIrrel l1 l2 (TY.defeq_l H2.defeq l3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 488,
+      "text": "    refine .etaL (TY.defeq_l H2.defeq l1) (NormalEq.trans ih ?_)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 490,
+      "text": "      ((TY.defeq_l H2.defeq l1).weakN .one) (TY.bvar .zero) (TY.bvar .zero)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 494,
+      "text": "    refine .etaR (TY.defeq_l H1.symm.defeq r1) (NormalEq.trans ?_ ih)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 495,
+      "text": "    refine .appDF ((TY.defeq_l H1.symm.defeq r1).weakN .one)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 498,
+      "text": "  | H1, .proofIrrel h1 h2 h3 => .proofIrrel h1 (TY.defeq_l H1.symm.defeq h2) h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 510,
+      "text": "    exact .appDF h1 (TY.defeq_l (ih1 h1).defeq h1)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 511,
+      "text": "      h2 (TY.defeq_l (ih2 h2).defeq h2) (ih1 h1) (ih2 h2)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 97,
+      "text": "theorem ParRed.defeq (H : ParRed TY \u0393 e e') (he : TY.HasType \u0393 e A) : TY.IsDefEqU \u0393 e e' := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 121,
+      "text": "  TY.defeq_l (H.defeq he) he"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 305,
+      "text": "      exact \u27e8_, .app p1 p2, .appDF o1 (TY.defeq_l n1.defeq o1) o2 (TY.defeq_l n2.defeq o2) n1 n2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 313,
+      "text": "      have := TY.symm <| TY.trans (r1.defeq l1) (p1.defeq (r1.hasType l1))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 314,
+      "text": "      exact \u27e8_, .lam p1 (p2.defeqDFC (.succ .zero (r1.defeq l1)) (r2.hasType l2)),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 315,
+      "text": "        .lamDF l1 this (TY.trans (TY.symm n1.defeq) this) n2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 322,
+      "text": "      exact \u27e8_, .forallE p1 (p2.defeqDFC (.succ .zero (r1.defeq l1)) (r2.hasType l2)),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 323,
+      "text": "        .forallEDF l1 (TY.symm <| TY.trans (r1.defeq l1) (p1.defeq (r1.hasType l1)))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 339,
+      "text": "        refine \u27e8_, .beta (p2.defeqDFC (.succ .zero (rA.defeq lA)) (re.hasType le)) p3, ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 402,
+      "text": "      refine TY.trans (TY.symm (.apply_pat (fun _ _ => (h2 _).defeq) h1))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 403,
+      "text": "        (TY.trans h (.apply_pat (fun _ _ => (h2 _).defeq) (TY.defeq_l h h1)))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 446,
+      "text": "theorem ParRedS.defeq (H : ParRedS TY \u0393 e e') (h : TY.HasType \u0393 e A) : TY.IsDefEqU \u0393 e e' := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 449,
+      "text": "  | tail h1 h2 ih => refine TY.trans ih (h2.defeq (hasType h1 h))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 619,
+      "text": "      refine \u27e8_, .app a1 .rfl, .appDF this (TY.defeq_l a2.defeq this) H2 H2 a2 (.refl H2)\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 638,
+      "text": "    \u00b7 have \u27e8_, _, c1, c2\u27e9 := TY.lam_inv (TY.defeq_l a5.defeq a1)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 639,
+      "text": "      have \u27e8u1, u2\u27e9 := TY.forallE_defInv (TY.uniq (TY.defeq_l a5.defeq a1) (TY.lam c1 c2))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 648,
+      "text": "      exact \u27e8_, .app b1 .rfl, .appDF this (TY.defeq_l b2.defeq this) a3 a4 b2 a6\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 652,
+      "text": "    have \u27e8_, c1\u27e9 := TY.has_type b2.symm.defeq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 715,
+      "text": "        (TY.app (TY.defeq_l a2.symm.defeq (TY.lam d1 d2)) l3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 722,
+      "text": "      have \u27e8_, h1\u27e9 := TY.has_type l4.defeq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 723,
+      "text": "      have h2 := TY.defeq_l l4.defeq h1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 727,
+      "text": "        .lamDF l1 l2 (TY.trans (TY.symm (r1.defeq (TY.defeq_l (TY.symm l3) l1))) l3) b2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 733,
+      "text": "      have h2 := TY.defeq_l l5.defeq l4"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 734,
+      "text": "      have W := TY.trans l3.symm.defeq l2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 737,
+      "text": "      have := r1.defeq (TY.defeq_l (TY.symm W) l1)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 739,
+      "text": "        .forallEDF l1 (TY.trans a2.defeq <| TY.trans (TY.symm this) W) a2 (b1.hasType l4) b2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 754,
+      "text": "        \u00b7 exact \u27e8_, h1, .lamDF c1 h2 (TY.symm (r1.defeq c1)) a2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 756,
+      "text": "          have \u27e8_, a3\u27e9 := TY.has_type a2.symm.defeq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 757,
+      "text": "          exact \u27e8_, h, this.trans (.lamDF c1 (TY.refl c1) (TY.symm (r1.defeq c1)) (.refl a3))\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 820,
+      "text": "  \u27e8TY.has_type H.defeq, TY.has_type H.symm.defeq, _, _, .rfl, .rfl, H\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 825,
+      "text": "theorem Typing.CRDefEq.defeq : TY.CRDefEq \u0393 e\u2081 e\u2082 \u2192 TY.IsDefEqU \u0393 e\u2081 e\u2082"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 827,
+      "text": "    TY.trans (h3.defeq h1) <| TY.trans h5.defeq (TY.symm (h4.defeq h2))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 882,
+      "text": "    have := TY.symm (a1.defeq c1.2)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 884,
+      "text": "      .lamDF c1.2 this (TY.trans (TY.symm a3.defeq) this) b3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 891,
+      "text": "      .forallEDF c1.2 (TY.symm (a1.defeq c1.2)) a3 (b1.hasType c2.2) b3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/LogRel.lean",
+      "line": 109,
+      "text": "theorem LREqTy.defeq {J : \u0393 \u22a9[u] A} (H : J \u22a9\u2261 B) : \u0393 \u22a2 A \u2261 B :\u2191 .sort u := H.1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/LogRel.lean",
+      "line": 110,
+      "text": "theorem LRDefEq.defeq {J : \u0393 \u22a9[u] A} (H : J \u22a9 a \u2261 b) : \u0393 \u22a2 a \u2261 b :\u2191 A := H.1.defeq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 4625,
+      "text": "  defeq : \u0393 \u22a2 M \u2261 N : A"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 4636,
+      "text": "theorem StrongSound.defeq : StrongSound \u0393 M A \u2192 \u0393 \u22a2 M : A"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 4641,
+      "text": "  \u27e8H.defeq, .rfl, H, H\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5077,
+      "text": "    refine .mk' (.appDF ih1.defeq ih2.defeq)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5087,
+      "text": "    refine .mk' (.lamDF ih1.defeq ih2.defeq)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5102,
+      "text": "    refine .mk' (.forallEDF ih1.defeq ih2.defeq)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5117,
+      "text": "    have hd := h1.defeq.defeqDF h2.defeq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5122,
+      "text": "    refine \u27e8.beta ih1.defeq ih2.defeq, fun _ _ W m => ?_, ih3.left, ih4.left\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5151,
+      "text": "    refine \u27e8.eta ih1.defeq, fun _ \u03c1 W m => ?_, ih2.left, ih1.left\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5212,
+      "text": "    refine \u27e8.proofIrrel ih1.defeq ih2.defeq ih3.defeq, fun _ \u03c1 W m => ?_, ih2.left, ih3.left\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 128,
+      "text": "    exact \u27e8_, b1, b2.defeq henv h\u0394 a3\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 129,
+      "text": "  | defeq h1 h2 =>"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 133,
+      "text": "    exact \u27e8_, .rfl, h2'.defeq henv h\u0394 (hr.uniq henv (.refl henv h\u0394) h1' he)\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 221,
+      "text": "    \u00b7 simp [UnionFind.equiv_find]; exact wf.defeq"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 234,
+      "text": "    \u00b7 exact wf.defeq h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 235,
+      "text": "    \u00b7 refine (wf.defeq h1 hi h3).trans he |>.trans (wf.defeq hj h2 h4)"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 236,
+      "text": "    \u00b7 exact (wf.defeq h1 hj h3).trans he.symm |>.trans (wf.defeq hi h2 h4)"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 241,
+      "text": "  refine \u27e8{ wf {i} := ?_, defeq h1 h2 h3 := ?_ }, \u27e8by simp, ?_\u27e9, by simp\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 257,
+      "text": "    \u00b7 exact wf.defeq h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 280,
+      "text": "  \u00b7 rename_i h; simp at h; cases h; refine .pure fun _ => wf.defeq a1 b1 (a2.trans b2.symm)"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 290,
+      "text": "    exact (wf.defeq a1 hr\u2081 a2).symm.trans <| .trans (H \u2039_\u203a) (wf.defeq b1 hr\u2082 b2)"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 325,
+      "text": "  exact .defeq (he\u2081.weakFV' c.Ewf a2 a1) (he\u2082.weakFV' c.Ewf a2 a1)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 835,
+      "text": "theorem TrExpr.defeq (henv : VEnv.WF env) (h\u0394 : OnCtx \u0394.toCtx (env.IsType Us.length))"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1526,
+      "text": "  (s1.instL henv h\u0394 Hls eq).defeq henv (h\u0394.instL Hls') (VLCtx.instL_toCtx _ \u25b8 h1.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 2013,
+      "text": "    exact ((ih \u27e8_, tf, _, hf'\u27e9).app henv h\u0393 hf' ha' (ta.trExpr henv h\u0393)).defeq henv h\u0393 \u27e8_, df\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 2022,
+      "text": "    have beta := hb.beta (Ae.defeq ha)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 2024,
+      "text": "    have hi := be'.instDF henv h\u0393 (.defeq Ae ha)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 2082,
+      "text": "  | nil => exact h2.defeq henv h\u0394 (he.uniq henv (.refl henv h\u0394) h1)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 31,
+      "text": "  | defeq : Aligned C venv \u2192 Aligned C (venv.addDefEq df)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 38,
+      "text": "  | defeq _ ih => exact ih"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 51,
+      "text": "  | defeq _ ih => exact ih"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 63,
+      "text": "  rintro _ _ h \u27e8rfl, rfl\u27e9; exact h.defeq"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 74,
+      "text": "  | defn h1 h2 _ h _ ih => exact (ih.const h2 h1.1.1 h rfl).defeq"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 100,
+      "text": "  | defeq h1 ih => let \u27e8_, h1, h2\u27e9 := ih h; exact \u27e8_, h1, h2.mono VEnv.addDefEq_le\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 118,
+      "text": "  | defeq h1 ih => let \u27e8h1, h2\u27e9 := ih h hs; exact \u27e8h1, h2.mono VEnv.addDefEq_le\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 325,
+      "text": "def _root_.Lean4Lean.TypeChecker.ReductionStatus.WF.defeq"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 330,
+      "text": "    \u27e8a1, a2.defeq c.Ewf c.\u0394wf h1, a3.defeq c.Ewf c.\u0394wf h2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 332,
+      "text": "    \u27e8a2.defeq c.Ewf c.\u0394wf h1, a3.defeq c.Ewf c.\u0394wf h2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 349,
+      "text": "    exact (whnfCore.WF c1).mono fun x _ _ h => h.2.defeq c.Ewf c.\u0394wf c2"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 455,
+      "text": "    exact (ih a1 b1).mono fun _ _ _ h => h.defeq a2 b2"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 21,
+      "text": "  refine \u27e8h2.trans h4, h5.defeq c.Ewf c.\u0394wf ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 46,
+      "text": "    refine \u27e8h1, h3.defeq c.Ewf c.\u0394wf ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 98,
+      "text": "        b2.defeq c.Ewf c.\u0394wf a2"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 103,
+      "text": "      exact \u27e8h1.trans h3, h4.defeq c.Ewf c.\u0394wf eq\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 112,
+      "text": "          refine \u27e8hb, he\u2081.defeq c.Ewf c.\u0394wf ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 122,
+      "text": "      refine hsave (h3.trans h5) (h6.defeq c.Ewf c.\u0394wf eq)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 130,
+      "text": "      exact hsave (h1.trans h3) (h4.defeq c.Ewf c.\u0394wf eq)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 148,
+      "text": "    refine \u27e8h1, h3.defeq c.Ewf c.\u0394wf ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 159,
+      "text": "    \u00b7 exact .pure \u27e8.trans h1 (h3 _ rfl).1, (h3 _ rfl).2.defeq c.Ewf c.\u0394wf eq\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 165,
+      "text": "    exact \u27e8h1.trans <| a1.trans b1, b2.defeq c.Ewf c.\u0394wf <| eq'.trans c.Ewf c.\u0394wf eq\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 51,
+      "text": "  | defeq : TrExprS env Us \u0394 e\u2081 e' \u2192 TrExpr env Us \u0394 e\u2082 e' \u2192 IsDefEqE e\u2081 e\u2082"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 64,
+      "text": "  | defeq h1 h2 => let \u27e8_, h2, h3\u27e9 := h2; exact .defeq h2 \u27e8_, h1, h3.symm\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 77,
+      "text": "  | defeq h1 h2 => exact .defeq (h1.weakFV' henv W h\u0394) (h2.weakFV' henv W h\u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 88,
+      "text": "  defeq {e\u2081 e\u2082 : Expr} {i\u2081 i\u2082} :"
+    }
+  ],
+  "\\binductive\\s+HasTypeU1\\b": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 17,
+      "text": "inductive HasTypeU1 : List VExpr \u2192 VExpr \u2192 VExpr \u2192 Prop where"
+    }
+  ],
+  "\\binductive\\s+IsDefEqU1\\b": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 33,
+      "text": "inductive IsDefEqU1 : List VExpr \u2192 VExpr \u2192 VExpr \u2192 Prop where"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 170,
+      "text": "inductive IsDefEqU1 : List VExpr \u2192 VExpr \u2192 VExpr \u2192 VLevel \u2192 Prop"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 185,
+      "text": "inductive IsDefEqU1 : List VExpr \u2192 VExpr \u2192 VExpr \u2192 VLevel \u2192 Prop"
+    }
+  ],
+  "\\binductive\\s+HasType\\b": [],
+  "\\binductive\\s+IsDefEq\\b": [
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 589,
+      "text": "inductive IsDefEq : List SExpr \u2192 SExpr \u2192 SExpr \u2192 SExpr \u2192 Prop where"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 195,
+      "text": "inductive IsDefEq' : List SExpr \u2192 SExpr \u2192 SExpr \u2192 SExpr \u2192 Prop where"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Basic.lean",
+      "line": 17,
+      "text": "inductive IsDefEq : List VExpr \u2192 VExpr \u2192 VExpr \u2192 VExpr \u2192 Prop where"
+    }
+  ]
+}

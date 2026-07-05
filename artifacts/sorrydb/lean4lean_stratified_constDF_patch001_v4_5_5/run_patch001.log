@@ -1,0 +1,367 @@
+====================================================================================================
+{
+  "variant": "v01_trace_missing_defeq_goal",
+  "module_returncode": 0,
+  "module_seconds": 1.07,
+  "module_has_error": false,
+  "module_has_sorry_warning": true,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- stdout tail ---
+⚠ [46/46] Built Lean4Lean.Experimental.StratifiedUntyped (860ms)
+info: Lean4Lean/Experimental/StratifiedUntyped.lean:72:39: env : VEnv
+Γ : List VExpr
+U : Nat
+henv : env.Ordered
+e1 e2 A : VExpr
+defEq hasType : List VExpr → VExpr → VExpr → Prop
+hty : ∀ {Γ : List VExpr} {e A : VExpr}, env.HasTypeU1 U defEq Γ e A → hasType Γ e A
+hdf :
+  ∀ {Γ : List VExpr} {e1 e2 A1 A2 : VExpr},
+    env.HasTypeU1 U defEq Γ e1 A1 → env.HasTypeU1 U defEq Γ e2 A2 → env.IsDefEqU1 U hasType Γ e1 e2 → defEq Γ e1 e2
+c✝ : Name
+ci✝ : VConstant
+ls₁ ls₂ : List VLevel
+u✝ : VLevel
+Γ✝ : List VExpr
+h1 : env.constants c✝ = some ci✝
+h2 : ∀ (l : VLevel), l ∈ ls₁ → VLevel.WF U l
+h3 : ∀ (l : VLevel), l ∈ ls₂ → VLevel.WF U l
+h4 : ls₁.length = ci✝.uvars
+h5 : List.Forall₂ (fun x1 x2 => x1 ≈ x2) ls₁ ls₂
+a✝² : VLevel.WF U u✝
+a✝¹ : env.IsDefEqStrong U [] (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u✝)
+a✝ : env.IsDefEqStrong U Γ✝ (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u✝)
+a_ih✝¹ :
+  env.HasTypeU1 U defEq [] (VExpr.instL ls₁ ci✝.type) (sort u✝) ∧
+    env.HasTypeU1 U defEq [] (VExpr.instL ls₂ ci✝.type) (sort u✝) ∧
+      env.IsDefEqU1 U hasType [] (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type)
+a_ih✝ :
+  env.HasTypeU1 U defEq Γ✝ (VExpr.instL ls₁ ci✝.type) (sort u✝) ∧
+    env.HasTypeU1 U defEq Γ✝ (VExpr.instL ls₂ ci✝.type) (sort u✝) ∧
+      env.IsDefEqU1 U hasType Γ✝ (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type)
+⊢ defEq Γ✝ (VExpr.instL ls₂ ci✝.type) (VExpr.instL ls₁ ci✝.type)
+warning: Lean4Lean/Experimental/StratifiedUntyped.lean:55:8: declaration uses `sorry`
+Build completed successfully (46 jobs).
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v02_hdf_const_forward",
+  "module_returncode": 1,
+  "module_seconds": 0.92,
+  "module_has_error": true,
+  "module_has_sorry_warning": false,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- stdout tail ---
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (757ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:120: Application type mismatch: The argument
+  HasTypeU1.const h1 h3 (Eq.trans (Eq.symm (List.Forall₂.length_eq h5)) h4)
+has type
+  env.HasTypeU1 U ?m.201 ?m.205 (const c✝ ls₂) (VExpr.instL ls₂ ci✝.type)
+but is expected to have type
+  env.HasTypeU1 U defEq Γ✝ (const c✝ ls₂) (const c✝ ls₁)
+in the application
+  HasTypeU1.defeq (hdf (HasTypeU1.const h1 h2 h4) ?m.190 ?m.198)
+    (HasTypeU1.const h1 h3 (Eq.trans (Eq.symm (List.Forall₂.length_eq h5)) h4))
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v03_hdf_const_reverse_symm",
+  "module_returncode": 1,
+  "module_seconds": 0.92,
+  "module_has_error": true,
+  "module_has_sorry_warning": false,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- stdout tail ---
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (760ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:129: Application type mismatch: The argument
+  HasTypeU1.const h1 h3 (Eq.trans (Eq.symm (List.Forall₂.length_eq h5)) h4)
+has type
+  env.HasTypeU1 U ?m.207 ?m.211 (const c✝ ls₂) (VExpr.instL ls₂ ci✝.type)
+but is expected to have type
+  env.HasTypeU1 U defEq Γ✝ (const c✝ ls₂) (const c✝ ls₂)
+in the application
+  HasTypeU1.defeq
+    (hdf (HasTypeU1.const h1 h3 (Eq.trans (Eq.symm (List.Forall₂.length_eq h5)) h4)) ?m.190 (IsDefEqU1.symm ?m.204))
+    (HasTypeU1.const h1 h3 (Eq.trans (Eq.symm (List.Forall₂.length_eq h5)) h4))
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v04_hdf_const_forward_symm_result",
+  "module_returncode": 1,
+  "module_seconds": 0.91,
+  "module_has_error": true,
+  "module_has_sorry_warning": false,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- stdout tail ---
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (743ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:36: Invalid dotted identifier notation: The expected type of `.symm` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `And.symm`
+  [apply] `BEq.symm`
+  [apply] `Eq.symm`
+  [apply] `Equivalence.symm`
+  [apply] `HEq.symm`
+  [apply] `Iff.symm`
+  [apply] `Ne.symm`
+  [apply] `Or.symm`
+  [apply] `PartialEquivBEq.symm`
+  [apply] `Setoid.symm`
+  [apply] `Array.Perm.symm`
+  [apply] `List.Perm.symm`
+  [apply] `Nat.Coprime.symm`
+  [apply] `Std.Symm.symm`
+  [apply] `Vector.Perm.symm`
+  [apply] `Lean.Parser.Tactic.symm`
+  [apply] `symm`
+  [apply] `IsDefEqCtx.symm`
+  [apply] `IsDefEqStrong.symm`
+  [apply] `IsDefEqU.symm`
+  [apply] `IsDefEqU1.symm`
+  [apply] `Std.BundledIterM.Equiv.symm`
+  [apply] `Std.DHashMap.Equiv.symm`
+  [apply] `Std.DTreeMap.Equiv.symm`
+  [apply] `Std.HashMap.Equiv.symm`
+  [apply] `Std.HashSet.Equiv.symm`
+  [apply] `Std.Iter.Equiv.symm`
+  [apply] `Std.IterM.Equiv.symm`
+  [apply] `Std.TreeMap.Equiv.symm`
+  [apply] `Std.TreeSet.Equiv.symm`
+  [apply] `Lean.Meta.Rewrites.RewriteResult.symm`
+  [apply] `Lean.Meta.SolveByElim.ApplyRulesConfig.symm`
+  [apply] `below.symm`
+  [apply] `IsDefEqStrong.below.symm`
+  [apply] `IsDefEqU1.below.symm`
+  [apply] `Std.DHashMap.Raw.Equiv.symm`
+  [apply] `Std.DTreeMap.Raw.Equiv.symm`
+  [apply] `Std.Do.SPred.bientails.symm`
+  [apply] `Std.HashMap.Raw.Equiv.symm`
+  [apply] `Std.HashSet.Raw.Equiv.symm`
+  [apply] `Std.TreeMap.Raw.Equiv.symm`
+  [apply] `Std.TreeSet.Raw.Equiv.symm`
+  [apply] `Std.DTreeMap.Internal.Impl.BalancedAtRoot.symm`
+  [apply] `Std.DTreeMap.Internal.Impl.Equiv.symm`
+  [apply] `Std.DTreeMap.Internal.Impl.SameKeys.symm`
+  [apply] `Lean.Meta.Grind.Arith.Linear.RingEqCnstrProof.symm`
+  [apply] `Std.Tactic.BVDecide.LRAT.Internal.Incompatible.symm`
+  [apply] `Std.Tactic.BVDecide.LRAT.Internal.Liff.symm`
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v05_have_defs_then_exact_forward",
+  "module_returncode": 1,
+  "module_seconds": 0.81,
+  "module_has_error": true,
+  "module_has_sorry_warning": false,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- stdout tail ---
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (722ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:47: Unknown identifier `c`
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:75: Application type mismatch: The argument
+  h1
+has type
+  env.constants c✝ = some ci✝
+of sort `Prop` but is expected to have type
+  VLevel
+of sort `Type` in the application
+  sort h1
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:61: Invalid argument name `l` for function `sort`
+
+Hint: Perhaps you meant one of the following parameter names:
+  • `u`: l̵u̲
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v06_have_defs_then_exact_reverse",
+  "module_returncode": 1,
+  "module_seconds": 0.8,
+  "module_has_error": true,
+  "module_has_sorry_warning": false,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- stdout tail ---
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (717ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:47: Unknown identifier `c`
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:75: Application type mismatch: The argument
+  h1
+has type
+  env.constants c✝ = some ci✝
+of sort `Prop` but is expected to have type
+  VLevel
+of sort `Type` in the application
+  sort h1
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:61: Invalid argument name `l` for function `sort`
+
+Hint: Perhaps you meant one of the following parameter names:
+  • `u`: l̵u̲
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v07_trace_with_have_htypes",
+  "module_returncode": 1,
+  "module_seconds": 0.91,
+  "module_has_error": true,
+  "module_has_sorry_warning": false,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- stdout tail ---
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (763ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_5/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:72:17: Invalid dotted identifier notation: The expected type of `.const` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Function.const`
+  [apply] `Lean.Expr.const`
+  [apply] `Lean.HeadIndex.const`
+  [apply] `Lean.ParserDescr.const`
+  [apply] `const`
+  [apply] `VObject.const`
+  [apply] `Lean.Doc.DocHighlight.const`
+  [apply] `Lean.Lsp.CompletionIdentifier.const`
+  [apply] `Lean.Lsp.RefIdent.const`
+  [apply] `Lean.Omega.LinearCombo.const`
+  [apply] `Lean.Parser.AliasValue.const`
+  [apply] `EqUpToLevels.const`
+  [apply] `HasObjects.const`
+  [apply] `HasType.const`
+  [apply] `HasTypeStratified.const`
+  [apply] `HasTypeStrong.const`
+  [apply] `HasTypeU1.const`
+  [apply] `Ordered.const`
+  [apply] `Std.Do.ExceptConds.const`
+  [apply] `Std.Do.PredTrans.const`
+  [apply] `Lean.Compiler.LCNF.LetValue.const`
+  [apply] `Lean.Elab.Term.LValResolution.const`
+  [apply] `Lean.Meta.DiscrTree.Key.const`
+  [apply] `Lean.Meta.Grind.Filter.const`
+  [apply] `Lean.Meta.LazyDiscrTree.ImportFailure.const`
+  [apply] `Lean.Meta.LazyDiscrTree.Key.const`
+  [apply] `EqUpToLevels.below.const`
+  [apply] `HasTypeStratified.below.const`
+  [apply] `HasTypeStrong.below.const`
+  [apply] `HasTypeU1.below.const`
+  [apply] `Ordered.below.const`
+  [apply] `Std.Tactic.BVDecide.BVExpr.const`
+  [apply] `Std.Tactic.BVDecide.BoolExpr.const`
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped
+--- stderr tail ---
+error: build failed
+
+SUMMARY
+{
+  "artifact": "lean4lean_stratified_constDF_patch001_v4_5_5",
+  "repo": "digama0/lean4lean",
+  "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+  "theorem": "IsDefEq.inductionU1",
+  "target_line": 72,
+  "base_module_build_returncode": 0,
+  "accepted_variant": null,
+  "accepted": false,
+  "status": "PATCH001_REJECTED_OR_DIAGNOSTIC",
+  "results": [
+    {
+      "variant": "v01_trace_missing_defeq_goal",
+      "module_returncode": 0,
+      "module_seconds": 1.07,
+      "module_has_error": false,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v02_hdf_const_forward",
+      "module_returncode": 1,
+      "module_seconds": 0.92,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v03_hdf_const_reverse_symm",
+      "module_returncode": 1,
+      "module_seconds": 0.92,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v04_hdf_const_forward_symm_result",
+      "module_returncode": 1,
+      "module_seconds": 0.91,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v05_have_defs_then_exact_forward",
+      "module_returncode": 1,
+      "module_seconds": 0.81,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v06_have_defs_then_exact_reverse",
+      "module_returncode": 1,
+      "module_seconds": 0.8,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v07_trace_with_have_htypes",
+      "module_returncode": 1,
+      "module_seconds": 0.91,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "artifact": "lean4lean_stratified_constDF_patch001_v4_5_5",
+  "repo": "digama0/lean4lean",
+  "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+  "theorem": "IsDefEq.inductionU1",
+  "target_line": 72,
+  "base_module_build_returncode": 0,
+  "accepted_variant": null,
+  "accepted": false,
+  "status": "PATCH001_REJECTED_OR_DIAGNOSTIC",
+  "results": [
+    {
+      "variant": "v01_trace_missing_defeq_goal",
+      "module_returncode": 0,
+      "module_seconds": 1.07,
+      "module_has_error": false,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v02_hdf_const_forward",
+      "module_returncode": 1,
+      "module_seconds": 0.92,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v03_hdf_const_reverse_symm",
+      "module_returncode": 1,
+      "module_seconds": 0.92,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v04_hdf_const_forward_symm_result",
+      "module_returncode": 1,
+      "module_seconds": 0.91,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v05_have_defs_then_exact_forward",
+      "module_returncode": 1,
+      "module_seconds": 0.81,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v06_have_defs_then_exact_reverse",
+      "module_returncode": 1,
+      "module_seconds": 0.8,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v07_trace_with_have_htypes",
+      "module_returncode": 1,
+      "module_seconds": 0.91,
+      "module_has_error": true,
+      "module_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    }
+  ]
+}

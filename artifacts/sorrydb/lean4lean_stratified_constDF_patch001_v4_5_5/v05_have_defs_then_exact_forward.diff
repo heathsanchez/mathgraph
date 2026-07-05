@@ -1,0 +1,16 @@
+diff --git a/Lean4Lean/Experimental/StratifiedUntyped.lean b/Lean4Lean/Experimental/StratifiedUntyped.lean
+index d1ba4df..1f8bc4a 100644
+--- a/Lean4Lean/Experimental/StratifiedUntyped.lean
++++ b/Lean4Lean/Experimental/StratifiedUntyped.lean
+@@ -69,7 +69,10 @@ theorem IsDefEq.inductionU1
+   | symm _ ih => exact ⟨ih.2.1, ih.1, .symm ih.2.2⟩
+   | trans _ _ ih1 ih2 => exact ⟨ih1.1, ih2.2.1, .trans ih1.2.2 ih2.2.2⟩
+   | @constDF _ _ ls₁ ls₂ _ _ h1 h2 h3 h4 h5 =>
+-    exact ⟨.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5⟩
++    have ht1 : HasTypeU1 env U defEq Γ (.const c ls₁) (.sort (l := l.succ) h1) := .const h1 h2 h4
++    have ht2 : HasTypeU1 env U defEq Γ (.const c ls₂) (.sort (l := l.succ) h1) := .const h1 h3 (h5.length_eq.symm.trans h4)
++    have hd : defEq Γ (.const c ls₁) (.const c ls₂) := hdf ht1 ht2 (.constDF h5)
++    exact ⟨ht1, .defeq hd ht2, .constDF h5⟩
+   | @sortDF l l' _ h1 h2 h3 =>
+     refine ⟨.sort h1, ?_, .sortDF h3⟩
+     exact .defeq (hdf (.sort (l := l'.succ) h2) (.sort (l := l.succ) h1)
