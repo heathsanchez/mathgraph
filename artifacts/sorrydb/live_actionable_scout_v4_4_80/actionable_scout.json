@@ -1,0 +1,27 @@
+{
+  "artifact": "live_actionable_scout_v4_4_80",
+  "status": "NO_ACTIONABLE_LIVE_TARGET",
+  "repo": "teorth/equational_theories",
+  "live_commit_seen": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "observation": "The live upstream scout saw the same commit as the pinned campaign. Its active candidates are already classified by this campaign.",
+  "active_candidates_seen": [
+    {
+      "file": "equational_theories/Definability/Law43.lean",
+      "classification": "SOLVED_LOCALLY_PR_OPEN",
+      "action": "Do not patch again. Wait for upstream PR review/merge.",
+      "pr": "https://github.com/teorth/equational_theories/pull/1461"
+    },
+    {
+      "file": "equational_theories/Definability/Law46.lean",
+      "classification": "PARKED_NAMED_OBSTRUCTION",
+      "action": "Do not blind patch. Return only with reusable satisfiesPhi/toFin portal lemma.",
+      "artifact": "law46_named_obstruction_v4_4_75"
+    }
+  ],
+  "comment_only_false_positive": {
+    "file": "equational_theories/FactsSyntax.lean",
+    "classification": "COMMENT_ONLY_SORRY"
+  },
+  "actionable_candidate_count": 0,
+  "next_recommended_action": "Stop scouting this repo at the same commit. Either wait for Law43 PR review/merge, scout another SorryDB source/repo, or build the Law46 portal lemma intentionally."
+}
