@@ -1,0 +1,12 @@
+[
+  {
+    "variant": "v01_cases_L_simp",
+    "returncode": 0,
+    "seconds": 58.43,
+    "build_completed": true,
+    "has_error": false,
+    "has_warning": true,
+    "remaining_sorry_warning": true,
+    "error_lines": []
+  }
+]

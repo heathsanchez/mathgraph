@@ -1,0 +1,23 @@
+{
+  "artifact": "law46_patch006_law_eq_leaf_leaf_v4_4_66",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law46.lean",
+  "patch002_carried_forward": true,
+  "patch005_carried_forward": true,
+  "target_sorry": "rw [show L = Lf x \u2243 Lf y from sorry]",
+  "accepted_variant": "v01_cases_L_simp",
+  "accepted": true,
+  "results": [
+    {
+      "variant": "v01_cases_L_simp",
+      "returncode": 0,
+      "seconds": 58.43,
+      "build_completed": true,
+      "has_error": false,
+      "has_warning": true,
+      "remaining_sorry_warning": true,
+      "error_lines": []
+    }
+  ]
+}
