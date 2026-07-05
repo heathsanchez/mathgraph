@@ -1,0 +1,63 @@
+✖ [989/989] Building equational_theories.Definability.Law46 (1.4s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch004_v4_4_64/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:29:16: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a L.lhs }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:30:12: Tactic `rewrite` failed: motive is not type correct:
+  fun _a ↦ x ∈ _a.elems
+Error: Application type mismatch: The argument
+  ?refine_1
+has type
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a L.lhs }
+but is expected to have type
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a _a }
+in the application
+  @Membership.mem ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a _a } ?refine_1
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+L : NatMagmaLaw
+hShape : (L.lhs ⬝ fun x ↦ Lf 0) = L.rhs ⬝ fun x ↦ Lf 0
+hDisjoint : (↑L.lhs.elems).Disjoint ↑L.rhs.elems
+x : ℕ
+hlhs : L.lhs = Lf x
+y : ℕ
+hy : L.rhs = Lf y
+hxy : x = y
+⊢ x ∈ L.lhs.elems
+error: equational_theories/Definability/Law46.lean:32:17: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a L.rhs }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:33:12: Tactic `rewrite` failed: motive is not type correct:
+  fun _a ↦ x ∈ _a.elems
+Error: Application type mismatch: The argument
+  ?refine_1.refine_1
+has type
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a L.rhs }
+but is expected to have type
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a _a }
+in the application
+  @Membership.mem ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a _a } ?refine_1.refine_1
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+L : NatMagmaLaw
+hShape : (L.lhs ⬝ fun x ↦ Lf 0) = L.rhs ⬝ fun x ↦ Lf 0
+hDisjoint : (↑L.lhs.elems).Disjoint ↑L.rhs.elems
+x : ℕ
+hlhs : L.lhs = Lf x
+y : ℕ
+hy : L.rhs = Lf y
+hxy : x = y
+⊢ x ∈ L.rhs.elems
+error: equational_theories/Definability/Law46.lean:35:22: Unknown identifier `hx`
+error: equational_theories/Definability/Law46.lean:35:25: Unknown identifier `hyx`
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46

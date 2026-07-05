@@ -1,0 +1,633 @@
+====================================================================================================
+{
+  "variant": "v01_rewrite_then_exact_hDisjoint_memberships",
+  "returncode": 1,
+  "seconds": 41.92,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf x) }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+    "error: equational_theories/Definability/Law46.lean:32:17: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf y) }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:33:8: Tactic `assumption` failed",
+    "",
+    "L : NatMagmaLaw",
+    "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+    "x : \u2115",
+    "hlhs : L.lhs = Lf x",
+    "y : \u2115",
+    "error: equational_theories/Definability/Law46.lean:34:22: Unknown identifier `hx`",
+    "error: equational_theories/Definability/Law46.lean:34:25: Unknown identifier `hyx`",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✔ [986/989] Built equational_theories.Equations.Eqns2000_2999 (17s)
+✔ [987/989] Built equational_theories.Equations.Eqns1000_1999 (17s)
+✔ [988/989] Built equational_theories.Equations.All (4.3s)
+✖ [989/989] Building equational_theories.Definability.Law46 (2.3s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch004_v4_4_64/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a (Lf x) }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress
+error: equational_theories/Definability/Law46.lean:32:17: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a (Lf y) }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:33:8: Tactic `assumption` failed
+
+L : NatMagmaLaw
+hShape : (L.lhs ⬝ fun x ↦ Lf 0) = L.rhs ⬝ fun x ↦ Lf 0
+x : ℕ
+hlhs : L.lhs = Lf x
+y : ℕ
+hDisjoint : (↑(Lf x).elems).Disjoint ↑(Lf y).elems
+hy : L.rhs = Lf y
+hxy : x = y
+⊢ y ∈ (Lf y).elems
+error: equational_theories/Definability/Law46.lean:34:22: Unknown identifier `hx`
+error: equational_theories/Definability/Law46.lean:34:25: Unknown identifier `hyx`
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v02_subst_then_exact_hDisjoint_memberships",
+  "returncode": 1,
+  "seconds": 3.81,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:31:16: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf x) }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:32:8: `simp` made no progress",
+    "error: equational_theories/Definability/Law46.lean:33:22: Unknown identifier `hx`",
+    "error: equational_theories/Definability/Law46.lean:33:25: Unknown identifier `hx`",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.8s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch004_v4_4_64/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:31:16: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a (Lf x) }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:32:8: `simp` made no progress
+error: equational_theories/Definability/Law46.lean:33:22: Unknown identifier `hx`
+error: equational_theories/Definability/Law46.lean:33:25: Unknown identifier `hx`
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v03_apply_hDisjoint_then_memberships",
+  "returncode": 1,
+  "seconds": 3.62,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+    "error: equational_theories/Definability/Law46.lean:32:8: Tactic `assumption` failed",
+    "",
+    "case a",
+    "L : NatMagmaLaw",
+    "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+    "x : \u2115",
+    "hlhs : L.lhs = Lf x",
+    "error: equational_theories/Definability/Law46.lean:27:24: unsolved goals",
+    "case a",
+    "L : NatMagmaLaw",
+    "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+    "x : \u2115",
+    "hlhs : L.lhs = Lf x",
+    "y : \u2115",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (2.0s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch004_v4_4_64/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress
+error: equational_theories/Definability/Law46.lean:32:8: Tactic `assumption` failed
+
+case a
+L : NatMagmaLaw
+hShape : (L.lhs ⬝ fun x ↦ Lf 0) = L.rhs ⬝ fun x ↦ Lf 0
+x : ℕ
+hlhs : L.lhs = Lf x
+y : ℕ
+hDisjoint : (↑(Lf x).elems).Disjoint ↑(Lf y).elems
+hy : L.rhs = Lf y
+hxy : x = y
+⊢ ?a ∈ ↑(Lf y).elems
+error: equational_theories/Definability/Law46.lean:27:24: unsolved goals
+case a
+L : NatMagmaLaw
+hShape : (L.lhs ⬝ fun x ↦ Lf 0) = L.rhs ⬝ fun x ↦ Lf 0
+x : ℕ
+hlhs : L.lhs = Lf x
+y : ℕ
+hDisjoint : (↑(Lf x).elems).Disjoint ↑(Lf y).elems
+hy : L.rhs = Lf y
+hxy : x = y
+⊢ ℕ
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v04_have_notmem_then_apply",
+  "returncode": 1,
+  "seconds": 2.78,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf x) }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+    "error: equational_theories/Definability/Law46.lean:32:18: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf y) }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:32:49: Unknown identifier `hx`",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.4s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch004_v4_4_64/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a (Lf x) }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress
+error: equational_theories/Definability/Law46.lean:32:18: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a (Lf y) }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:32:49: Unknown identifier `hx`
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v05_simpa_using_hDisjoint",
+  "returncode": 1,
+  "seconds": 3.35,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf x) }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+    "error: equational_theories/Definability/Law46.lean:32:18: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf y) }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:32:49: Unknown identifier `hx`",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.9s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch004_v4_4_64/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a (Lf x) }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress
+error: equational_theories/Definability/Law46.lean:32:18: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a (Lf y) }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:32:49: Unknown identifier `hx`
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v06_no_rewrite_left_right_memberships_via_elems_spec",
+  "returncode": 1,
+  "seconds": 2.88,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:29:16: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a L.lhs }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:30:12: Tactic `rewrite` failed: motive is not type correct:",
+    "  fun _a \u21a6 x \u2208 _a.elems",
+    "Error: Application type mismatch: The argument",
+    "  ?refine_1",
+    "has type",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a L.lhs }",
+    "but is expected to have type",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a _a }",
+    "in the application",
+    "error: equational_theories/Definability/Law46.lean:32:17: failed to synthesize instance of type class",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a L.rhs }",
+    "",
+    "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+    "error: equational_theories/Definability/Law46.lean:33:12: Tactic `rewrite` failed: motive is not type correct:",
+    "  fun _a \u21a6 x \u2208 _a.elems",
+    "Error: Application type mismatch: The argument",
+    "  ?refine_1.refine_1",
+    "has type",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a L.rhs }",
+    "but is expected to have type",
+    "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a _a }",
+    "in the application",
+    "error: equational_theories/Definability/Law46.lean:35:22: Unknown identifier `hx`",
+    "error: equational_theories/Definability/Law46.lean:35:25: Unknown identifier `hyx`",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:33:12: Tactic `rewrite` failed: motive is not type correct:
+  fun _a ↦ x ∈ _a.elems
+Error: Application type mismatch: The argument
+  ?refine_1.refine_1
+has type
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a L.rhs }
+but is expected to have type
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a _a }
+in the application
+  @Membership.mem ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a _a } ?refine_1.refine_1
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+L : NatMagmaLaw
+hShape : (L.lhs ⬝ fun x ↦ Lf 0) = L.rhs ⬝ fun x ↦ Lf 0
+hDisjoint : (↑L.lhs.elems).Disjoint ↑L.rhs.elems
+x : ℕ
+hlhs : L.lhs = Lf x
+y : ℕ
+hy : L.rhs = Lf y
+hxy : x = y
+⊢ x ∈ L.rhs.elems
+error: equational_theories/Definability/Law46.lean:35:22: Unknown identifier `hx`
+error: equational_theories/Definability/Law46.lean:35:25: Unknown identifier `hyx`
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v07_no_rewrite_apply_hDisjoint",
+  "returncode": 1,
+  "seconds": 2.8,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+    "error: equational_theories/Definability/Law46.lean:33:8: Tactic `assumption` failed",
+    "",
+    "case a",
+    "L : NatMagmaLaw",
+    "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+    "hDisjoint : (\u2191L.lhs.elems).Disjoint \u2191L.rhs.elems",
+    "x : \u2115",
+    "error: equational_theories/Definability/Law46.lean:27:24: unsolved goals",
+    "case a",
+    "L : NatMagmaLaw",
+    "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+    "hDisjoint : (\u2191L.lhs.elems).Disjoint \u2191L.rhs.elems",
+    "x : \u2115",
+    "hlhs : L.lhs = Lf x",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.4s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch004_v4_4_64/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch004_v4_4_64/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress
+error: equational_theories/Definability/Law46.lean:33:8: Tactic `assumption` failed
+
+case a
+L : NatMagmaLaw
+hShape : (L.lhs ⬝ fun x ↦ Lf 0) = L.rhs ⬝ fun x ↦ Lf 0
+hDisjoint : (↑L.lhs.elems).Disjoint ↑L.rhs.elems
+x : ℕ
+hlhs : L.lhs = Lf x
+y : ℕ
+hy : L.rhs = Lf y
+hxy : x = y
+⊢ ?a ∈ ↑(Lf y).elems
+error: equational_theories/Definability/Law46.lean:27:24: unsolved goals
+case a
+L : NatMagmaLaw
+hShape : (L.lhs ⬝ fun x ↦ Lf 0) = L.rhs ⬝ fun x ↦ Lf 0
+hDisjoint : (↑L.lhs.elems).Disjoint ↑L.rhs.elems
+x : ℕ
+hlhs : L.lhs = Lf x
+y : ℕ
+hy : L.rhs = Lf y
+hxy : x = y
+⊢ ℕ
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+
+SUMMARY
+{
+  "artifact": "law46_patch004_hxy_implicit_disjoint_v4_4_64",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law46.lean",
+  "patch002_carried_forward": true,
+  "target_sorry": "have hxy : x \u2260 y := sorry",
+  "patch003_obstruction": "hDisjoint has implicit variable argument; variants wrongly used hDisjoint x",
+  "accepted_variant": null,
+  "accepted": false,
+  "results": [
+    {
+      "variant": "v01_rewrite_then_exact_hDisjoint_memberships",
+      "returncode": 1,
+      "seconds": 41.92,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf x) }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+        "error: equational_theories/Definability/Law46.lean:32:17: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf y) }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:33:8: Tactic `assumption` failed",
+        "",
+        "L : NatMagmaLaw",
+        "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+        "x : \u2115",
+        "hlhs : L.lhs = Lf x",
+        "y : \u2115",
+        "error: equational_theories/Definability/Law46.lean:34:22: Unknown identifier `hx`",
+        "error: equational_theories/Definability/Law46.lean:34:25: Unknown identifier `hyx`",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v02_subst_then_exact_hDisjoint_memberships",
+      "returncode": 1,
+      "seconds": 3.81,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:31:16: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf x) }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:32:8: `simp` made no progress",
+        "error: equational_theories/Definability/Law46.lean:33:22: Unknown identifier `hx`",
+        "error: equational_theories/Definability/Law46.lean:33:25: Unknown identifier `hx`",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v03_apply_hDisjoint_then_memberships",
+      "returncode": 1,
+      "seconds": 3.62,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+        "error: equational_theories/Definability/Law46.lean:32:8: Tactic `assumption` failed",
+        "",
+        "case a",
+        "L : NatMagmaLaw",
+        "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+        "x : \u2115",
+        "hlhs : L.lhs = Lf x",
+        "error: equational_theories/Definability/Law46.lean:27:24: unsolved goals",
+        "case a",
+        "L : NatMagmaLaw",
+        "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+        "x : \u2115",
+        "hlhs : L.lhs = Lf x",
+        "y : \u2115",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v04_have_notmem_then_apply",
+      "returncode": 1,
+      "seconds": 2.78,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf x) }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+        "error: equational_theories/Definability/Law46.lean:32:18: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf y) }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:32:49: Unknown identifier `hx`",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v05_simpa_using_hDisjoint",
+      "returncode": 1,
+      "seconds": 3.35,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:30:16: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf x) }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+        "error: equational_theories/Definability/Law46.lean:32:18: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a (Lf y) }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:32:49: Unknown identifier `hx`",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v06_no_rewrite_left_right_memberships_via_elems_spec",
+      "returncode": 1,
+      "seconds": 2.88,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:29:16: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a L.lhs }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:30:12: Tactic `rewrite` failed: motive is not type correct:",
+        "  fun _a \u21a6 x \u2208 _a.elems",
+        "Error: Application type mismatch: The argument",
+        "  ?refine_1",
+        "has type",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a L.lhs }",
+        "but is expected to have type",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a _a }",
+        "in the application",
+        "error: equational_theories/Definability/Law46.lean:32:17: failed to synthesize instance of type class",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a L.rhs }",
+        "",
+        "Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+        "error: equational_theories/Definability/Law46.lean:33:12: Tactic `rewrite` failed: motive is not type correct:",
+        "  fun _a \u21a6 x \u2208 _a.elems",
+        "Error: Application type mismatch: The argument",
+        "  ?refine_1.refine_1",
+        "has type",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a L.rhs }",
+        "but is expected to have type",
+        "  Membership \u2115 { l // l.Nodup \u2227 \u2200 (a : \u2115), a \u2208 l \u2194 FreeMagma.Mem a _a }",
+        "in the application",
+        "error: equational_theories/Definability/Law46.lean:35:22: Unknown identifier `hx`",
+        "error: equational_theories/Definability/Law46.lean:35:25: Unknown identifier `hyx`",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v07_no_rewrite_apply_hDisjoint",
+      "returncode": 1,
+      "seconds": 2.8,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+        "error: equational_theories/Definability/Law46.lean:33:8: Tactic `assumption` failed",
+        "",
+        "case a",
+        "L : NatMagmaLaw",
+        "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+        "hDisjoint : (\u2191L.lhs.elems).Disjoint \u2191L.rhs.elems",
+        "x : \u2115",
+        "error: equational_theories/Definability/Law46.lean:27:24: unsolved goals",
+        "case a",
+        "L : NatMagmaLaw",
+        "hShape : (L.lhs \u2b1d fun x \u21a6 Lf 0) = L.rhs \u2b1d fun x \u21a6 Lf 0",
+        "hDisjoint : (\u2191L.lhs.elems).Disjoint \u2191L.rhs.elems",
+        "x : \u2115",
+        "hlhs : L.lhs = Lf x",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    }
+  ]
+}
