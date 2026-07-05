@@ -1,0 +1,11 @@
+⚠ [3075/3075] Built FormalBook.Chapter_28 (32s)
+info: FormalBook/Chapter_28.lean:66:6: α : Type u_1
+inst✝² : Fintype α
+inst✝¹ : DecidableEq α
+G : SimpleGraph α
+inst✝ : DecidableRel G.Adj
+e : Sym2 α
+he : e ∈ (SimpleGraph.edgeSetEmbedding α) G
+⊢ #{v | v ∈ e} = 2
+warning: FormalBook/Chapter_28.lean:58:6: declaration uses 'sorry'
+Build completed successfully (3075 jobs).

@@ -1,0 +1,899 @@
+====================================================================================================
+PATTERN: card.*Sym2
+FormalBook/Mathlib/EdgeFinset.lean:59: lemma one_le_card_toFinset {z : Sym2 α} : 1 ≤ z.toFinset.card := by
+FormalBook/Mathlib/EdgeFinset.lean:62: lemma card_toFinset_le_two {z : Sym2 α} : z.toFinset.card ≤ 2 := by
+FormalBook/Mathlib/EdgeFinset.lean:77: -- lemma card_toFinset_of_mem_edgeSet (e : Sym2 α) (he : e ∈ G.edgeSet) :
+FormalBook/Mathlib/EdgeFinset.lean:85: -- lemma card_filter_mem_of_mem_edgeSet [Fintype α] (e : Sym2 α) (he : e ∈ G.edgeSet) :
+FormalBook/Mathlib/EdgeFinset.lean:102: -- lemma card_toFinset_of_mem_edgeFinset (e : Sym2 α) (he : e ∈ G.edgeFinset) :
+FormalBook/Mathlib/EdgeFinset.lean:106: -- lemma card_filter_mem_of_mem_edgeFinset (e : Sym2 α) (he : e ∈ G.edgeFinset) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:128:   simp_rw [Set.toFinset_card, edgeSet_top, ← Sym2.card_diagSet_compl]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Hamiltonian.lean:192:     (h_order : 3 ≤ Fintype.card V) (e : Sym2 V) (he : G.IsBridge e) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DegreeSum.lean:81: theorem dart_edge_fiber_card [DecidableEq V] (e : Sym2 V) (h : e ∈ G.edgeSet) :
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:126: theorem card_image_diag (s : Finset α) : #(s.diag.image Sym2.mk) = #s := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:134: lemma two_mul_card_image_offDiag (s : Finset α) : 2 * #(s.offDiag.image Sym2.mk) = #s.offDiag := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:135:   rw [card_eq_sum_card_image (Sym2.mk : α × α → _), sum_const_nat (Sym2.ind _), mul_comm]
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:156: theorem card_image_offDiag (s : Finset α) : #(s.offDiag.image Sym2.mk) = (#s).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:160: theorem card_subtype_diag [Fintype α] : card { a : Sym2 α // a.IsDiag } = card α := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:169:     card { a : Sym2 α // ¬a.IsDiag } = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:178:     Fintype.card ((@Sym2.diagSet α)ᶜ : Set _) = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:179:   simp only [← card_subtype_not_diag, Sym2.diagSet_compl_eq_setOf_not_isDiag, Set.coe_setOf]
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:182: protected theorem card {α} [Fintype α] : card (Sym2 α) = Nat.choose (card α + 1) 2 :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:24: multiset of cardinality two (see `Sym2.equivMultiset`), there is a
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:666: lemma card_toMultiset {α : Type*} (z : Sym2 α) : z.toMultiset.card = 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:695: theorem card_toFinset_of_isDiag (z : Sym2 α) (h : z.IsDiag) : #(z : Sym2 α).toFinset = 1 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:701: theorem card_toFinset_of_not_isDiag (z : Sym2 α) (h : ¬z.IsDiag) : #(z : Sym2 α).toFinset = 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:708: theorem card_toFinset (z : Sym2 α) : #(z : Sym2 α).toFinset = if z.IsDiag then 1 else 2 := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:128:   simp_rw [Set.toFinset_card, edgeSet_top, ← Sym2.card_diagSet_compl]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Hamiltonian.lean:192:     (h_order : 3 ≤ Fintype.card V) (e : Sym2 V) (he : G.IsBridge e) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DegreeSum.lean:81: theorem dart_edge_fiber_card [DecidableEq V] (e : Sym2 V) (h : e ∈ G.edgeSet) :
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:126: theorem card_image_diag (s : Finset α) : #(s.diag.image Sym2.mk) = #s := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:134: lemma two_mul_card_image_offDiag (s : Finset α) : 2 * #(s.offDiag.image Sym2.mk) = #s.offDiag := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:135:   rw [card_eq_sum_card_image (Sym2.mk : α × α → _), sum_const_nat (Sym2.ind _), mul_comm]
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:156: theorem card_image_offDiag (s : Finset α) : #(s.offDiag.image Sym2.mk) = (#s).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:160: theorem card_subtype_diag [Fintype α] : card { a : Sym2 α // a.IsDiag } = card α := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:169:     card { a : Sym2 α // ¬a.IsDiag } = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:178:     Fintype.card ((@Sym2.diagSet α)ᶜ : Set _) = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:179:   simp only [← card_subtype_not_diag, Sym2.diagSet_compl_eq_setOf_not_isDiag, Set.coe_setOf]
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:182: protected theorem card {α} [Fintype α] : card (Sym2 α) = Nat.choose (card α + 1) 2 :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:24: multiset of cardinality two (see `Sym2.equivMultiset`), there is a
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:666: lemma card_toMultiset {α : Type*} (z : Sym2 α) : z.toMultiset.card = 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:695: theorem card_toFinset_of_isDiag (z : Sym2 α) (h : z.IsDiag) : #(z : Sym2 α).toFinset = 1 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:701: theorem card_toFinset_of_not_isDiag (z : Sym2 α) (h : ¬z.IsDiag) : #(z : Sym2 α).toFinset = 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:708: theorem card_toFinset (z : Sym2 α) : #(z : Sym2 α).toFinset = if z.IsDiag then 1 else 2 := by
+====================================================================================================
+PATTERN: Sym2.*card
+FormalBook/Chapter_28.lean:65:       #check Sym2.card_support
+FormalBook/Mathlib/EdgeFinset.lean:59: lemma one_le_card_toFinset {z : Sym2 α} : 1 ≤ z.toFinset.card := by
+FormalBook/Mathlib/EdgeFinset.lean:62: lemma card_toFinset_le_two {z : Sym2 α} : z.toFinset.card ≤ 2 := by
+FormalBook/Mathlib/EdgeFinset.lean:79: --   refine Sym2.card_toFinset_of_not_isDiag ?_
+FormalBook/Mathlib/EdgeFinset.lean:104: --   Sym2.card_toFinset_of_not_isDiag (not_isDiag_of_mem_edgeSet _ (mem_edgeFinset.mp he))
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:74:     (e : Sym2 V).toFinset.card = 2 :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:75:   Sym2.card_toFinset_of_not_isDiag e.val (G.not_isDiag_of_mem_edgeFinset e.prop)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:128:   simp_rw [Set.toFinset_card, edgeSet_top, ← Sym2.card_diagSet_compl]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:842:   ∀ ⦃s : Set (Sym2 V)⦄, s.encard < k → (G.deleteEdges s).Reachable u v
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Triangle/Basic.lean:166:   · simpa [Sym2.forall, Nat.one_le_iff_ne_zero, -Finset.card_eq_zero, Finset.card_ne_zero,
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:125: /-- The `diag` of `s : Finset α` is sent on a finset of `Sym2 α` of card `#s`. -/
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:153: /-- The `offDiag` of `s : Finset α` is sent on a finset of `Sym2 α` of card `#s.offDiag / 2`.
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:160: theorem card_subtype_diag [Fintype α] : card { a : Sym2 α // a.IsDiag } = card α := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:169:     card { a : Sym2 α // ¬a.IsDiag } = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:178:     Fintype.card ((@Sym2.diagSet α)ᶜ : Set _) = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:182: protected theorem card {α} [Fintype α] : card (Sym2 α) = Nat.choose (card α + 1) 2 :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:666: lemma card_toMultiset {α : Type*} (z : Sym2 α) : z.toMultiset.card = 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:788: def equivMultiset (α : Type*) : Sym2 α ≃ { s : Multiset α // Multiset.card s = 2 } :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:74:     (e : Sym2 V).toFinset.card = 2 :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:75:   Sym2.card_toFinset_of_not_isDiag e.val (G.not_isDiag_of_mem_edgeFinset e.prop)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:128:   simp_rw [Set.toFinset_card, edgeSet_top, ← Sym2.card_diagSet_compl]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:842:   ∀ ⦃s : Set (Sym2 V)⦄, s.encard < k → (G.deleteEdges s).Reachable u v
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Triangle/Basic.lean:166:   · simpa [Sym2.forall, Nat.one_le_iff_ne_zero, -Finset.card_eq_zero, Finset.card_ne_zero,
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:125: /-- The `diag` of `s : Finset α` is sent on a finset of `Sym2 α` of card `#s`. -/
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:153: /-- The `offDiag` of `s : Finset α` is sent on a finset of `Sym2 α` of card `#s.offDiag / 2`.
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:160: theorem card_subtype_diag [Fintype α] : card { a : Sym2 α // a.IsDiag } = card α := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:169:     card { a : Sym2 α // ¬a.IsDiag } = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:178:     Fintype.card ((@Sym2.diagSet α)ᶜ : Set _) = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:182: protected theorem card {α} [Fintype α] : card (Sym2 α) = Nat.choose (card α + 1) 2 :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:666: lemma card_toMultiset {α : Type*} (z : Sym2 α) : z.toMultiset.card = 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:788: def equivMultiset (α : Type*) : Sym2 α ≃ { s : Multiset α // Multiset.card s = 2 } :=
+====================================================================================================
+PATTERN: edgeFinset
+FormalBook/Chapter_20.lean:132: local notation "E" => G.edgeFinset
+FormalBook/Chapter_28.lean:54: local notation "E" => G.edgeFinset
+FormalBook/Chapter_28.lean:63:     -- FIXME: was (G.card_filter_mem_of_mem_edgeFinset e he)) but is commented out currently in Mathlib.EdgeFinset
+FormalBook/Mathlib/EdgeFinset.lean:102: -- lemma card_toFinset_of_mem_edgeFinset (e : Sym2 α) (he : e ∈ G.edgeFinset) :
+FormalBook/Mathlib/EdgeFinset.lean:104: --   Sym2.card_toFinset_of_not_isDiag (not_isDiag_of_mem_edgeSet _ (mem_edgeFinset.mp he))
+FormalBook/Mathlib/EdgeFinset.lean:106: -- lemma card_filter_mem_of_mem_edgeFinset (e : Sym2 α) (he : e ∈ G.edgeFinset) :
+FormalBook/Mathlib/EdgeFinset.lean:108: --   rw [← SimpleGraph.card_toFinset_of_mem_edgeFinset _ he]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:177: theorem IsTrail.length_le_card_edgeFinset [Fintype G.edgeSet] {u v : V}
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:178:     {w : G.Walk u v} (h : w.IsTrail) : w.length ≤ G.edgeFinset.card := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:183:   have : edges ⊆ G.edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:185:     refine mem_edgeFinset.mpr ?_
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:339:   have : s.Finite := Set.Finite.subset (Set.finite_le_nat G.edgeFinset.card)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:340:     fun n ⟨_, _, _, hp, hn⟩ ↦ hn ▸ hp.length_le_card_edgeFinset
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:354:   have : s.Finite := Set.Finite.subset (Set.finite_le_nat G.edgeFinset.card)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:355:     fun n ⟨_, _, _, hp, hn⟩ ↦ hn ▸ hp.isTrail.length_le_card_edgeFinset
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:25: * `SimpleGraph.edgeFinset` is the `Finset` of edges in a graph, if `edgeSet` is finite
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:57: abbrev edgeFinset : Finset (Sym2 V) :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:61: theorem coe_edgeFinset : (G.edgeFinset : Set (Sym2 V)) = G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:66: theorem mem_edgeFinset : e ∈ G.edgeFinset ↔ e ∈ G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:69: theorem not_isDiag_of_mem_edgeFinset : e ∈ G.edgeFinset → ¬e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:70:   not_isDiag_of_mem_edgeSet _ ∘ mem_edgeFinset.1
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:73: theorem card_toFinset_mem_edgeFinset [DecidableEq V] (e : G.edgeFinset) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:75:   Sym2.card_toFinset_of_not_isDiag e.val (G.not_isDiag_of_mem_edgeFinset e.prop)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:77: theorem edgeFinset_inj : G₁.edgeFinset = G₂.edgeFinset ↔ G₁ = G₂ := by simp
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:79: theorem edgeFinset_subset_edgeFinset : G₁.edgeFinset ⊆ G₂.edgeFinset ↔ G₁ ≤ G₂ := by simp
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:81: theorem edgeFinset_ssubset_edgeFinset : G₁.edgeFinset ⊂ G₂.edgeFinset ↔ G₁ < G₂ := by simp
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:83: @[mono, gcongr] alias ⟨_, edgeFinset_mono⟩ := edgeFinset_subset_edgeFinset
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:86: alias ⟨_, edgeFinset_strict_mono⟩ := edgeFinset_ssubset_edgeFinset
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:89: theorem edgeFinset_bot : (⊥ : SimpleGraph V).edgeFinset = ∅ := by simp [edgeFinset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:92: theorem edgeFinset_sup [Fintype (edgeSet (G₁ ⊔ G₂))] [DecidableEq V] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:93:     (G₁ ⊔ G₂).edgeFinset = G₁.edgeFinset ∪ G₂.edgeFinset := by simp [edgeFinset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:96: theorem edgeFinset_inf [DecidableEq V] : (G₁ ⊓ G₂).edgeFinset = G₁.edgeFinset ∩ G₂.edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:97:   simp [edgeFinset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:100: theorem edgeFinset_sdiff [DecidableEq V] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:101:     (G₁ \ G₂).edgeFinset = G₁.edgeFinset \ G₂.edgeFinset := by simp [edgeFinset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:103: lemma disjoint_edgeFinset : Disjoint G₁.edgeFinset G₂.edgeFinset ↔ Disjoint G₁ G₂ := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:104:   simp_rw [← Finset.disjoint_coe, coe_edgeFinset, disjoint_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:106: lemma edgeFinset_eq_empty : G.edgeFinset = ∅ ↔ G = ⊥ := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:107:   rw [← edgeFinset_bot, edgeFinset_inj]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:109: lemma edgeFinset_nonempty : G.edgeFinset.Nonempty ↔ G ≠ ⊥ := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:110:   rw [Finset.nonempty_iff_ne_empty, edgeFinset_eq_empty.ne]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:112: theorem edgeFinset_card : #G.edgeFinset = Fintype.card G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:116: theorem edgeSet_univ_card : #(univ : Finset G.edgeSet) = #G.edgeFinset :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:117:   Fintype.card_of_subtype G.edgeFinset fun _ => mem_edgeFinset
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:122: theorem edgeFinset_top [DecidableEq V] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:123:     (⊤ : SimpleGraph V).edgeFinset = Sym2.diagSetᶜ.toFinset := by simp [← coe_inj]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:126: theorem card_edgeFinset_top_eq_card_choose_two [DecidableEq V] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:127:     #(⊤ : SimpleGraph V).edgeFinset = (Fintype.card V).choose 2 := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:131: theorem card_edgeFinset_le_card_choose_two : #G.edgeFinset ≤ (Fintype.card V).choose 2 := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:133:   rw [← card_edgeFinset_top_eq_card_choose_two]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:134:   exact card_le_card (edgeFinset_mono le_top)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:244:     G.incidenceFinset v = {e ∈ G.edgeFinset | v ∈ e} := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:250:     G.incidenceFinset v ⊆ G.edgeFinset :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:254: theorem degree_le_card_edgeFinset [Fintype G.edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:255:     G.degree v ≤ #G.edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:492: theorem card_edgeFinset_eq (f : G ≃g G') [Fintype G.edgeSet] [Fintype G'.edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:493:     #G.edgeFinset = #G'.edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:532: lemma edgeFinset_subset_sym2_of_support_subset (h : G.support ⊆ s) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:533:     G.edgeFinset ⊆ s.toFinset.sym2 := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:535:     mem_edgeFinset, mem_edgeSet, mk_mem_sym2_iff, Set.mem_toFinset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:542: theorem map_edgeFinset_induce [DecidableEq V] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:543:     (G.induce s).edgeFinset.map (Embedding.subtype s).sym2Map
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:544:       = G.edgeFinset ∩ s.toFinset.sym2 := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:558: theorem map_edgeFinset_induce_of_support_subset (h : G.support ⊆ s) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:559:     (G.induce s).edgeFinset.map (Embedding.subtype s).sym2Map = G.edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:561:   simpa [map_edgeFinset_induce] using edgeFinset_subset_sym2_of_support_subset h
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:565: theorem card_edgeFinset_induce_of_support_subset (h : G.support ⊆ s) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:566:     #(G.induce s).edgeFinset = #G.edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:567:   rw [← map_edgeFinset_induce_of_support_subset h, card_map]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:569: theorem card_edgeFinset_induce_support :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:570:     #(G.induce G.support).edgeFinset = #G.edgeFinset :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:571:   card_edgeFinset_induce_of_support_subset subset_rfl
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:608: theorem edgeFinset_map (f : V ↪ W) (G : SimpleGraph V) [DecidableRel G.Adj] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:609:     (G.map f).edgeFinset = G.edgeFinset.map f.sym2Map := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:613: theorem card_edgeFinset_map (f : V ↪ W) (G : SimpleGraph V) [DecidableRel G.Adj] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:614:     #(G.map f).edgeFinset = #G.edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:615:   rw [edgeFinset_map]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:616:   exact G.edgeFinset.card_map f.sym2Map
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/CompleteMultipartite.lean:293: theorem card_edgeFinset_completeEquipartiteGraph :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/CompleteMultipartite.lean:294:     #(completeEquipartiteGraph r t).edgeFinset = r.choose 2 * t ^ 2 := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:294: lemma IsTree.card_edgeFinset [Fintype V] [Fintype G.edgeSet] (hG : G.IsTree) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:295:     Finset.card G.edgeFinset + 1 = Fintype.card V := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:324:     simp only [mem_edgeFinset, Finset.mem_compl, Finset.mem_singleton, Sym2.forall, mem_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:371:   rw [Nat.card_eq_fintype_card, ← hT.card_edgeFinset, add_le_add_iff_right,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:372:     Nat.card_eq_fintype_card, ← edgeFinset_card]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:379:   refine ⟨fun h ↦ ⟨h.isConnected, by simpa using h.card_edgeFinset⟩, fun ⟨h₁, h₂⟩ ↦ ⟨h₁, ?_⟩⟩
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:383:   rw [Nat.card_eq_fintype_card, ← edgeFinset_card, ← h₂, Nat.card_eq_fintype_card,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:384:     ← edgeFinset_card, add_lt_add_iff_right]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:391:   · have := h.card_edgeFinset
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Matching.lean:224:   use M.coe.edgeFinset.card
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:90: @[simp] theorem edgeFinset_deleteEdges [DecidableEq V] [Fintype G.edgeSet] (s : Finset (Sym2 V))
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:92:     (G.deleteEdges s).edgeFinset = G.edgeFinset \ s := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:154: theorem card_edgeFinset_induce_compl_singleton (G : SimpleGraph V) [DecidableRel G.Adj] (x : V) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:155:     #(G.induce {x}ᶜ).edgeFinset = #(G.deleteIncidenceSet x).edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:159:   apply card_edgeFinset_induce_of_support_subset
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:167: theorem edgeFinset_deleteIncidenceSet_eq_sdiff (G : SimpleGraph V) [DecidableRel G.Adj] (x : V) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:168:     (G.deleteIncidenceSet x).edgeFinset = G.edgeFinset \ G.incidenceFinset x := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:174: theorem card_edgeFinset_deleteIncidenceSet (G : SimpleGraph V) [DecidableRel G.Adj] (x : V) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:175:     #(G.deleteIncidenceSet x).edgeFinset = #G.edgeFinset - G.degree x := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:177:     edgeFinset_deleteIncidenceSet_eq_sdiff]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:181: theorem edgeFinset_deleteIncidenceSet_eq_filter (G : SimpleGraph V) [DecidableRel G.Adj] (x : V) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:182:     (G.deleteIncidenceSet x).edgeFinset = G.edgeFinset.filter (x ∉ ·) := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:183:   rw [edgeFinset_deleteIncidenceSet_eq_sdiff, sdiff_eq_filter]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:189:   rwa [mem_edgeFinset] at h
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:213:   ∀ ⦃s⦄, s ⊆ G.edgeFinset → p (G.deleteEdges s) → r ≤ #s
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:219:       H ≤ G → p H → r ≤ #G.edgeFinset - #H.edgeFinset := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:222:   · have := h (sdiff_subset (t := H.edgeFinset))
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:223:     simp only [deleteEdges_sdiff_eq_of_le hHG, edgeFinset_mono hHG, card_sdiff_of_subset,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:224:       card_le_card, coe_sdiff, coe_edgeFinset, Nat.cast_sub] at this
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:227:     simpa [card_sdiff_of_subset hs, edgeFinset_deleteEdges, -Set.toFinset_card, Nat.cast_sub,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:235: lemma DeleteFar.le_card_edgeFinset (h : G.DeleteFar p r) (hp : p ⊥) : r ≤ #G.edgeFinset :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:87: theorem edgeFinset_replaceVertex_of_not_adj (hn : ¬G.Adj s t) : (G.replaceVertex s t).edgeFinset =
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:88:     G.edgeFinset \ G.incidenceFinset t ∪ (G.neighborFinset s).image (s(·, t)) := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:93: theorem edgeFinset_replaceVertex_of_adj (ha : G.Adj s t) : (G.replaceVertex s t).edgeFinset =
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:94:     (G.edgeFinset \ G.incidenceFinset t ∪ (G.neighborFinset s).image (s(·, t))) \ {s(t, t)} := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:100:     Disjoint (G.edgeFinset \ G.incidenceFinset t) ((G.neighborFinset s).image (s(·, t))) := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:110: theorem card_edgeFinset_replaceVertex_of_not_adj (hn : ¬G.Adj s t) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:111:     #(G.replaceVertex s t).edgeFinset = #G.edgeFinset + G.degree s - G.degree t := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:112:   have inc : G.incidenceFinset t ⊆ G.edgeFinset := by simp [incidenceFinset, incidenceSet_subset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:113:   rw [G.edgeFinset_replaceVertex_of_not_adj hn,
+====================================================================================================
+PATTERN: edgeSet
+FormalBook/Chapter_45.lean:258:   ∀ c : (completeGraph (Fin N)).edgeSet → Fin 2,
+FormalBook/Chapter_45.lean:259:   ( ∃ g : completeGraph (Fin m) →g completeGraph (Fin N), ∀ e : (completeGraph (Fin m)).edgeSet,
+FormalBook/Chapter_45.lean:261:   ( ∃ h : completeGraph (Fin n) →g completeGraph (Fin N), ∀ e : (completeGraph (Fin n)).edgeSet,
+FormalBook/Chapter_45.lean:313:   Inf {N : ℕ | ∃ (c : V → ℝ × ℝ) (f : G.edgeSet → (Set.Icc (0:ℝ) 1) → ℝ × ℝ),
+FormalBook/Chapter_45.lean:315:                   ∀ (e : G.edgeSet) (v : V) (h : v ∈ (e : Sym2 V)),
+FormalBook/Chapter_45.lean:321: theorem theorem_4 {V : Type _} [Fintype V] (G : SimpleGraph V) [Fintype G.edgeSet] (m n : ℕ)
+FormalBook/Chapter_45.lean:322:   (H : m ≥ 4 * n) (h_n : n = Fintype.card V) (h_m : m = Fintype.card G.edgeSet) :
+FormalBook/Mathlib/EdgeFinset.lean:77: -- lemma card_toFinset_of_mem_edgeSet (e : Sym2 α) (he : e ∈ G.edgeSet) :
+FormalBook/Mathlib/EdgeFinset.lean:81: --   have := (not_isDiag_of_mem_edgeSet _ he)
+FormalBook/Mathlib/EdgeFinset.lean:85: -- lemma card_filter_mem_of_mem_edgeSet [Fintype α] (e : Sym2 α) (he : e ∈ G.edgeSet) :
+FormalBook/Mathlib/EdgeFinset.lean:87: --   rw [← SimpleGraph.card_toFinset_of_mem_edgeSet _ he]
+FormalBook/Mathlib/EdgeFinset.lean:104: --   Sym2.card_toFinset_of_not_isDiag (not_isDiag_of_mem_edgeSet _ (mem_edgeFinset.mp he))
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:62: refer to the `vertexSet` and `edgeSet` of `G : Graph α β`.
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:73: as described by vertex and edge sets `vertexSet : Set α` and `edgeSet : Set β`,
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:76: The `edgeSet` structure field can be inferred from `IsLink`
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:78: for `edgeSet` and `edge_mem_iff_exists_isLink` that use `IsLink`).
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:81: and furthermore having `edgeSet` separate can be convenient for
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:91:   edgeSet : Set β := {e | ∃ x y, IsLink e x y}
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:93:   isLink_symm : ∀ ⦃e⦄, e ∈ edgeSet → (Symmetric <| IsLink e)
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:97:   edge_mem_iff_exists_isLink : ∀ e, e ∈ edgeSet ↔ ∃ x y, IsLink e x y := by exact fun _ ↦ Iff.rfl
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:108: /-- `E(G)` denotes the `edgeSet` of a graph `G`. -/
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:109: scoped notation "E(" G ")" => Graph.edgeSet G
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:128: lemma exists_isLink_of_mem_edgeSet (h : e ∈ E(G)) : ∃ x y, G.IsLink e x y :=
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:131: lemma edgeSet_eq_setOf_exists_isLink : E(G) = {e | ∃ x y, G.IsLink e x y} :=
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:308: /-- `edgeSet` can be determined using `IsLink`, so the graph constructed from `G.vertexSet` and
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:309: `G.IsLink` using any value for `edgeSet` is equal to `G` itself. -/
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:330:   simp [edgeSet_eq_setOf_exists_isLink, h]
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:346: theorem incidenceSet_subset_edgeSet (x : α) : G.incidenceSet x ⊆ E(G) :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:177: theorem IsTrail.length_le_card_edgeFinset [Fintype G.edgeSet] {u v : V}
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:186:     apply w.edges_subset_edgeSet
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:334:     [Finite G.edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:337:   have := Fintype.ofFinite G.edgeSet
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:349:     [Finite G.edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:352:   have := Fintype.ofFinite G.edgeSet
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:15: This file defines finite versions of `edgeSet`, `neighborSet` and `incidenceSet` and proves some
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:25: * `SimpleGraph.edgeFinset` is the `Finset` of edges in a graph, if `edgeSet` is finite
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:54: variable {G₁ G₂ : SimpleGraph V} [Fintype G.edgeSet] [Fintype G₁.edgeSet] [Fintype G₂.edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:56: /-- The `edgeSet` of the graph as a `Finset`. -/
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:58:   Set.toFinset G.edgeSet
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:61: theorem coe_edgeFinset : (G.edgeFinset : Set (Sym2 V)) = G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:66: theorem mem_edgeFinset : e ∈ G.edgeFinset ↔ e ∈ G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:70:   not_isDiag_of_mem_edgeSet _ ∘ mem_edgeFinset.1
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:92: theorem edgeFinset_sup [Fintype (edgeSet (G₁ ⊔ G₂))] [DecidableEq V] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:104:   simp_rw [← Finset.disjoint_coe, coe_edgeFinset, disjoint_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:112: theorem edgeFinset_card : #G.edgeFinset = Fintype.card G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:116: theorem edgeSet_univ_card : #(univ : Finset G.edgeSet) = #G.edgeFinset :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:128:   simp_rw [Set.toFinset_card, edgeSet_top, ← Sym2.card_diagSet_compl]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:243: theorem incidenceFinset_eq_filter [DecidableEq V] [Fintype G.edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:249: theorem incidenceFinset_subset [DecidableEq V] [Fintype G.edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:254: theorem degree_le_card_edgeFinset [Fintype G.edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:492: theorem card_edgeFinset_eq (f : G ≃g G') [Fintype G.edgeSet] [Fintype G'.edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:535:     mem_edgeFinset, mem_edgeSet, mk_mem_sym2_iff, Set.mem_toFinset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:546:     Set.mem_toFinset, mem_edgeSet, comap_adj, Embedding.sym2Map_apply, Embedding.coe_subtype,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:611:   exact G.edgeSet_map f
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/CompleteMultipartite.lean:259:   rw [← edgeSet_nonempty, ← Nat.succ_le_iff, ← Fin.nontrivial_iff_two_le, ← Nat.pos_iff_ne_zero,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/CompleteMultipartite.lean:263:     rw [mem_edgeSet, completeEquipartiteGraph_adj] at he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/CompleteMultipartite.lean:266:     rw [mem_edgeSet, completeEquipartiteGraph_adj]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Dart.lean:69: theorem Dart.edge_mem (d : G.Dart) : d.edge ∈ G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:105:     ∃ H ∈ Hs, ∀ e ∈ p.edges, e ∈ H.edgeSet := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:112:     simpa using ⟨H, hH, (le_iff_adj.mp h₂) _ _ h_adj, fun a ha => edgeSet_mono h₁ (ih a ha)⟩
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:174:     G.IsAcyclic ↔ ∀ ⦃e⦄, e ∈ (G.edgeSet) → G.IsBridge e := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:294: lemma IsTree.card_edgeFinset [Fintype V] [Fintype G.edgeSet] (hG : G.IsTree) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:324:     simp only [mem_edgeFinset, Finset.mem_compl, Finset.mem_singleton, Sym2.forall, mem_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:348:     (by simpa [deleteEdges, ← edgeSet_ssubset_edgeSet])
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:365: lemma Connected.card_vert_le_card_edgeSet_add_one (h : G.Connected) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:366:     Nat.card V ≤ Nat.card G.edgeSet + 1 := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:376:     G.IsTree ↔ G.Connected ∧ Nat.card G.edgeSet + 1 = Nat.card V := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:382:     (h₁.connected_delete_edge_of_not_isBridge hbr).card_vert_le_card_edgeSet_add_one.not_gt ?_
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/LineGraph.lean:33: def lineGraph {V : Type*} (G : SimpleGraph V) : SimpleGraph G.edgeSet where
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/LineGraph.lean:37: lemma lineGraph_adj_iff_exists {e₁ e₂ : G.edgeSet} :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:72: theorem edgeSet_map (f : V ↪ W) (G : SimpleGraph V) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:73:     (G.map f).edgeSet = f.sym2Map '' G.edgeSet := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:76:   rw [mem_edgeSet, map_adj, Set.mem_image]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:285: theorem map_mem_edgeSet {e : Sym2 V} (h : e ∈ G.edgeSet) : e.map f ∈ G'.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:294: def mapEdgeSet (e : G.edgeSet) : G'.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:295:   ⟨Sym2.map f e, f.map_mem_edgeSet e.property⟩
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:365: theorem map_mem_edgeSet_iff {e : Sym2 V} : e.map f ∈ G'.edgeSet ↔ e ∈ G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:373: def mapEdgeSet : G.edgeSet ↪ G'.edgeSet where
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:513: theorem map_mem_edgeSet_iff {e : Sym2 V} : e.map f ∈ G'.edgeSet ↔ e ∈ G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:533: def mapEdgeSet : G.edgeSet ≃ G'.edgeSet where
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Matching.lean:70: noncomputable def IsMatching.toEdge (h : M.IsMatching) (v : M.verts) : M.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:57: @[simp] lemma deleteEdges_edgeSet (G G' : SimpleGraph V) : G.deleteEdges G'.edgeSet = G \ G' := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:74: @[simp] lemma deleteEdges_eq_self : G.deleteEdges s = G ↔ Disjoint G.edgeSet s := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:77: theorem deleteEdges_eq_inter_edgeSet (s : Set (Sym2 V)) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:78:     G.deleteEdges s = G.deleteEdges (s ∩ G.edgeSet) := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:83:     G.deleteEdges (G.edgeSet \ H.edgeSet) = H := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:84:   rw [← edgeSet_sdiff, deleteEdges_edgeSet, sdiff_sdiff_eq_self h]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:87: theorem edgeSet_deleteEdges (s : Set (Sym2 V)) : (G.deleteEdges s).edgeSet = G.edgeSet \ s := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:90: @[simp] theorem edgeFinset_deleteEdges [DecidableEq V] [Fintype G.edgeSet] (s : Finset (Sym2 V))
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:91:     [Fintype (G.deleteEdges s).edgeSet] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:94:   simp [edgeSet_deleteEdges]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:118: lemma edgeSet_fromEdgeSet_incidenceSet (G : SimpleGraph V) (x : V) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:119:     (fromEdgeSet (G.incidenceSet x)).edgeSet = G.incidenceSet x := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:120:   rw [edgeSet_fromEdgeSet, sdiff_eq_left, ← Set.subset_compl_iff_disjoint_right]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:121:   exact (incidenceSet_subset G x).trans G.edgeSet_subset_setOf_not_isDiag
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:125: theorem edgeSet_deleteIncidenceSet (G : SimpleGraph V) (x : V) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:126:     (G.deleteIncidenceSet x).edgeSet = G.edgeSet \ G.incidenceSet x := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:127:   simp_rw [deleteIncidenceSet, deleteEdges, edgeSet_sdiff, edgeSet_fromEdgeSet_incidenceSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:170:   exact G.edgeSet_deleteIncidenceSet x
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:208:   [Fintype G.edgeSet] {p : SimpleGraph V → Prop} {r r₁ r₂ : 𝕜}
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Tutte.lean:53:     rw [← Walk.mem_edges_toSubgraph, Subgraph.mem_edgeSet] at hadj
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:89: see `SimpleGraph.edgeSet` for the corresponding edge set.
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:413: `SimpleGraph.edgeSet`.
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:415: The way `edgeSet` is defined is such that `mem_edgeSet` is proved by `Iff.rfl`.
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:416: (That is, `s(v, w) ∈ G.edgeSet` is definitionally equal to `G.Adj v w`.)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:419: def edgeSetEmbedding (V : Type*) : SimpleGraph V ↪o Set (Sym2 V) :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:423: /-- `G.edgeSet` is the edge set for `G`.
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:424: This is an abbreviation for `edgeSetEmbedding G` that permits dot notation. -/
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:425: abbrev edgeSet (G : SimpleGraph V) : Set (Sym2 V) := edgeSetEmbedding V G
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:428: theorem mem_edgeSet : s(v, w) ∈ G.edgeSet ↔ G.Adj v w :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:431: theorem not_isDiag_of_mem_edgeSet : e ∈ edgeSet G → ¬e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:434: @[simp] lemma not_mem_edgeSet_of_isDiag : e.IsDiag → e ∉ edgeSet G :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:435:   imp_not_comm.1 G.not_isDiag_of_mem_edgeSet
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:437: alias _root_.Sym2.IsDiag.not_mem_edgeSet := not_mem_edgeSet_of_isDiag
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:439: theorem edgeSet_inj : G₁.edgeSet = G₂.edgeSet ↔ G₁ = G₂ := (edgeSetEmbedding V).eq_iff_eq
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:442: theorem edgeSet_subset_edgeSet : edgeSet G₁ ⊆ edgeSet G₂ ↔ G₁ ≤ G₂ :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:443:   (edgeSetEmbedding V).le_iff_le
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:446: theorem edgeSet_ssubset_edgeSet : edgeSet G₁ ⊂ edgeSet G₂ ↔ G₁ < G₂ :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:447:   (edgeSetEmbedding V).lt_iff_lt
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:449: theorem edgeSet_injective : Injective (edgeSet : SimpleGraph V → Set (Sym2 V)) :=
+====================================================================================================
+PATTERN: mem_edge
+FormalBook/Chapter_28.lean:63:     -- FIXME: was (G.card_filter_mem_of_mem_edgeFinset e he)) but is commented out currently in Mathlib.EdgeFinset
+FormalBook/Mathlib/EdgeFinset.lean:77: -- lemma card_toFinset_of_mem_edgeSet (e : Sym2 α) (he : e ∈ G.edgeSet) :
+FormalBook/Mathlib/EdgeFinset.lean:81: --   have := (not_isDiag_of_mem_edgeSet _ he)
+FormalBook/Mathlib/EdgeFinset.lean:85: -- lemma card_filter_mem_of_mem_edgeSet [Fintype α] (e : Sym2 α) (he : e ∈ G.edgeSet) :
+FormalBook/Mathlib/EdgeFinset.lean:87: --   rw [← SimpleGraph.card_toFinset_of_mem_edgeSet _ he]
+FormalBook/Mathlib/EdgeFinset.lean:102: -- lemma card_toFinset_of_mem_edgeFinset (e : Sym2 α) (he : e ∈ G.edgeFinset) :
+FormalBook/Mathlib/EdgeFinset.lean:104: --   Sym2.card_toFinset_of_not_isDiag (not_isDiag_of_mem_edgeSet _ (mem_edgeFinset.mp he))
+FormalBook/Mathlib/EdgeFinset.lean:106: -- lemma card_filter_mem_of_mem_edgeFinset (e : Sym2 α) (he : e ∈ G.edgeFinset) :
+FormalBook/Mathlib/EdgeFinset.lean:108: --   rw [← SimpleGraph.card_toFinset_of_mem_edgeFinset _ he]
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:128: lemma exists_isLink_of_mem_edgeSet (h : e ∈ E(G)) : ∃ x y, G.IsLink e x y :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:185:     refine mem_edgeFinset.mpr ?_
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:432: theorem IsPath.eq_snd_of_mem_edges {p : G.Walk u v} (hp : p.IsPath) (hmem : s(u, w) ∈ p.edges) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:437:   grind [fst_mem_support_of_mem_edges]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:439: theorem IsPath.eq_penultimate_of_mem_edges {p : G.Walk u v} (hp : p.IsPath)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:441:   simpa [hmem] using isPath_reverse_iff p |>.mpr hp |>.eq_snd_of_mem_edges (w := w)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:609: theorem mk'_mem_edges_singleton {u v : V} (h : G.Adj u v) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean:637: @[deprecated (since := "2025-05-23")] alias not_mem_edges_of_loop := notMem_edges_of_loop
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:66: theorem mem_edgeFinset : e ∈ G.edgeFinset ↔ e ∈ G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:69: theorem not_isDiag_of_mem_edgeFinset : e ∈ G.edgeFinset → ¬e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:70:   not_isDiag_of_mem_edgeSet _ ∘ mem_edgeFinset.1
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:73: theorem card_toFinset_mem_edgeFinset [DecidableEq V] (e : G.edgeFinset) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:75:   Sym2.card_toFinset_of_not_isDiag e.val (G.not_isDiag_of_mem_edgeFinset e.prop)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:117:   Fintype.card_of_subtype G.edgeFinset fun _ => mem_edgeFinset
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:535:     mem_edgeFinset, mem_edgeSet, mk_mem_sym2_iff, Set.mem_toFinset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:546:     Set.mem_toFinset, mem_edgeSet, comap_adj, Embedding.sym2Map_apply, Embedding.coe_subtype,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/CompleteMultipartite.lean:263:     rw [mem_edgeSet, completeEquipartiteGraph_adj] at he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/CompleteMultipartite.lean:266:     rw [mem_edgeSet, completeEquipartiteGraph_adj]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:189:     rw [isBridge_iff_adj_and_forall_walk_mem_edges] at h
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:202:         · exact absurd (Walk.fst_mem_support_of_mem_edges _ h) hq.2
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:204:       exact absurd (Walk.fst_mem_support_of_mem_edges _ h) hp.2
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:287:       have := IsPath.mk' this |>.eq_snd_of_mem_edges (Sym2.eq_swap ▸ hhh)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:324:     simp only [mem_edgeFinset, Finset.mem_compl, Finset.mem_singleton, Sym2.forall, mem_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Acyclic.lean:357:   simp [this, p.adj_of_mem_edges]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:76:   rw [mem_edgeSet, map_adj, Set.mem_image]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:285: theorem map_mem_edgeSet {e : Sym2 V} (h : e ∈ G.edgeSet) : e.map f ∈ G'.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:295:   ⟨Sym2.map f e, f.map_mem_edgeSet e.property⟩
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:365: theorem map_mem_edgeSet_iff {e : Sym2 V} : e.map f ∈ G'.edgeSet ↔ e ∈ G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Maps.lean:513: theorem map_mem_edgeSet_iff {e : Sym2 V} : e.map f ∈ G'.edgeSet ↔ e ∈ G.edgeSet :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Matching.lean:511:   have hvp : v ∈ p.support := SimpleGraph.Walk.fst_mem_support_of_mem_edges _ hp.2
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DeleteEdges.lean:189:   rwa [mem_edgeFinset] at h
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Tutte.lean:53:     rw [← Walk.mem_edges_toSubgraph, Subgraph.mem_edgeSet] at hadj
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:415: The way `edgeSet` is defined is such that `mem_edgeSet` is proved by `Iff.rfl`.
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:428: theorem mem_edgeSet : s(v, w) ∈ G.edgeSet ↔ G.Adj v w :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:431: theorem not_isDiag_of_mem_edgeSet : e ∈ edgeSet G → ¬e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:434: @[simp] lemma not_mem_edgeSet_of_isDiag : e.IsDiag → e ∉ edgeSet G :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:435:   imp_not_comm.1 G.not_isDiag_of_mem_edgeSet
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:437: alias _root_.Sym2.IsDiag.not_mem_edgeSet := not_mem_edgeSet_of_isDiag
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:503:   grind [Sym2.mem_diagSet_iff_isDiag, not_isDiag_of_mem_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:515:   rwa [mem_edgeSet] at he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:518:   simp only [mem_edgeSet, exists_prop, SetCoe.exists, exists_eq_right]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:803:   rwa [← Sym2.other_spec' hv, mem_edgeSet] at he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/IncMatrix.lean:120: theorem sum_incMatrix_apply_of_mem_edgeSet [Fintype α] :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/IncMatrix.lean:124:   rw [mem_edgeSet] at h
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/IncMatrix.lean:136: alias sum_incMatrix_apply_of_not_mem_edgeSet := sum_incMatrix_apply_of_notMem_edgeSet
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/IncMatrix.lean:147:     simp only [mk'_mem_incidenceSet_iff, G.mem_edgeSet.mp h, true_and]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/IncMatrix.lean:154:     simp [mk'_mem_incidenceSet_iff, G.mem_edgeSet.not.mp h]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:74:   simp only [replaceVertex, mem_edgeSet, Set.mem_union, Set.mem_diff, mk'_mem_incidenceSet_iff]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:80:   simp only [replaceVertex, mem_edgeSet, Set.mem_union, Set.mem_diff, mk'_mem_incidenceSet_iff]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Operations.lean:177:     mem_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Trails.lean:89: theorem IsEulerian.mem_edges_iff {u v : V} {p : G.Walk u v} (h : p.IsEulerian) {e : Sym2 V} :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Trails.lean:98:     simp only [Finset.mem_mk, Multiset.mem_coe, h.mem_edges_iff]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Trails.lean:108:     exact ⟨h.isTrail, fun _ => h.mem_edges_iff.mpr⟩
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Trails.lean:124:   simp [h.mem_edges_iff]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/EdgeLabeling.lean:144:   simp only [mem_edgeSet, fromEdgeSet_adj, Set.mem_setOf_eq, Ne.eq_def]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Hamiltonian.lean:198:     ((SimpleGraph.isBridge_iff_adj_and_forall_walk_mem_edges.mp hbr).1).ne
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Hamiltonian.lean:208:     (SimpleGraph.isBridge_iff_adj_and_forall_walk_mem_edges.mp hbr).2
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Copy.lean:326:   absurd f.map_mem_edgeSet h.choose_spec
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Copy.lean:494:   exact fun ⟨f⟩ ↦ Set.Nonempty.image _ ⟨_, f.map_mem_edgeSet_iff.2 he⟩
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Copy.lean:549:   have he' : e' ∈ G'.coe.edgeSet := (Iso.map_mem_edgeSet_iff _).2 he₀
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DegreeSum.lean:94:       by rw [mem_coe, mem_edgeFinset]; apply Dart.edge_mem]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/DegreeSum.lean:98:   rwa [← mem_edgeFinset]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Subgraph.lean:91:     rw [← G.mem_edgeSet, ← h]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Subgraph.lean:247: protected lemma mem_edgeSet {G' : Subgraph G} {v w : V} : s(v, w) ∈ G'.edgeSet ↔ G'.Adj v w := .rfl
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Subgraph.lean:256:   rw [Subgraph.mem_edgeSet] at he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Subgraph.lean:259: theorem mem_verts_of_mem_edge {G' : Subgraph G} {e : Sym2 V} {v : V} (he : e ∈ G'.edgeSet)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Subgraph.lean:926:   simp only [eq_comm, Set.mem_singleton_iff, Subgraph.mem_edgeSet, subgraphOfAdj_adj,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Clique.lean:496:   · simp_rw [← edgeSet_eq_empty, Set.eq_empty_iff_forall_notMem, Sym2.forall, mem_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Clique.lean:807: lemma IsIndepSet.nonempty_mem_compl_mem_edge
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Clique.lean:813:   rw [mem_edgeSet] at he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:739: theorem isBridge_iff_adj_and_forall_walk_mem_edges {v w : V} :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:747:     (hw : w ∈ (c.takeUntil v (c.fst_mem_support_of_mem_edges he)).support) : False := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:748:   have hv := c.fst_mem_support_of_mem_edges he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:784:     refine ⟨c.adj_of_mem_edges he, ?_⟩
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:789:     have hvc : v ∈ c.support := Walk.fst_mem_support_of_mem_edges c he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:817:   have hyP := P.snd_mem_support_of_mem_edges heP
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:820:   have heP₁ : s(x, y) ∉ P₁.edges := fun h ↦ hxP₁ <| P₁.fst_mem_support_of_mem_edges h
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:824: theorem IsBridge.anti_of_mem_edgeSet {G' : SimpleGraph V} {e : Sym2 V} (hle : G ≤ G')
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:853: lemma exists_mem_edges_of_not_reachable_deleteEdges (w : G.Walk u v) {s : Set (Sym2 V)}
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:858: lemma mem_edges_of_not_reachable_deleteEdges (w : G.Walk u v) {e : Sym2 V}
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:860:   simpa using w.exists_mem_edges_of_not_reachable_deleteEdges huv
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:864: lemma IsTrail.not_mem_edges_of_not_reachable (hw : w.IsTrail)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:868:   exact fun hxy ↦ hw.disjoint_edges_takeUntil_dropUntil (w.snd_mem_support_of_mem_edges hxy)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:869:     ((w.takeUntil y _).mem_edges_of_not_reachable_deleteEdges huy)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:870:     (by simpa using (w.dropUntil y _).reverse.mem_edges_of_not_reachable_deleteEdges hvy)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:877:   exact fun hy ↦ hw.not_mem_edges_of_not_reachable huy hvy <| w.edges_takeUntil_subset hy <|
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.lean:878:     mem_edges_of_not_reachable_deleteEdges (w.takeUntil y hy) huy
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:204: theorem mem_edges_toSubgraph (p : G.Walk u v) {e : Sym2 V} :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:209:   Set.ext fun _ => p.mem_edges_toSubgraph
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:303:     rw [← Subgraph.mem_edgeSet, ← hi.1, Subgraph.mem_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:309: lemma adj_toSubgraph_iff_mem_edges {u v u' v' : V} {p : G.Walk u v} :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:311:   rw [← p.mem_edges_toSubgraph, Subgraph.mem_edgeSet]
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:317:   · simpa [adj_toSubgraph_iff_mem_edges] using fun _ _ h ↦ p.edges_toPath_subset h
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Triangle/Basic.lean:159:       using hG.mem_sym2_subsingleton (G.not_isDiag_of_mem_edgeSet <| mem_edgeFinset.1 he)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Triangle/Basic.lean:176:     mem_edgeFinset, mem_singleton, and_imp, mem_edgeSet, Sym2.mem_iff, forall_eq_or_imp,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Triangle/Basic.lean:222:     simp only [not_and, mem_sdiff, not_not, mem_edgeFinset, mem_edgeSet] at h
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Traversal.lean:272: theorem mk_start_snd_mem_edges {p : G.Walk v w} (hnil : ¬p.Nil) : s(v, p.snd) ∈ p.edges :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Traversal.lean:286: theorem mk_penultimate_end_mem_edges {p : G.Walk v w} (hnil : ¬p.Nil) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Basic.lean:219: theorem adj_of_mem_edges {u v x y : V} (p : G.Walk u v) (h : s(x, y) ∈ p.edges) : G.Adj x y :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Basic.lean:268: theorem mem_support_iff_exists_mem_edges {u v w : V} {p : G.Walk u v} :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Basic.lean:302: lemma mem_edgeSet {u v : V} {p : G.Walk u v} {e : Sym2 V} : e ∈ p.edgeSet ↔ e ∈ p.edges := Iff.rfl
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Basic.lean:380: theorem mem_support_iff_exists_mem_edges_of_not_nil {u v w : V} {p : G.Walk u v} (hnil : ¬p.Nil) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Operations.lean:442: theorem fst_mem_support_of_mem_edges {t u v w : V} (p : G.Walk v w) (he : s(t, u) ∈ p.edges) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Operations.lean:450: theorem snd_mem_support_of_mem_edges {t u v w : V} (p : G.Walk v w) (he : s(t, u) ∈ p.edges) :
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Operations.lean:452:   p.fst_mem_support_of_mem_edges (Sym2.eq_swap ▸ he)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Operations.lean:454: theorem mem_support_of_mem_edges {u v w : V} {e : Sym2 V} {p : G.Walk u v} (he : e ∈ p.edges)
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Operations.lean:456:   hv.elim fun _ heq ↦ p.fst_mem_support_of_mem_edges <| heq ▸ he
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Walks/Operations.lean:464:     exact ⟨(h.1 <| fst_mem_support_of_mem_edges p' ·), ih h.2⟩
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Extremal/TuranDensity.lean:62:       ← compl_eq_univ_sdiff, card_compl, Fintype.card_fin, card_toFinset_mem_edgeFinset ⟨e, he⟩,
+.lake/packages/mathlib/Counterexamples/HeawoodUnitDistance.lean:186:     simp_rw [← mem_edgeSet, ← mem_edgeFinset, heawoodGraph_edgeFinset, mem_union, mem_image,
+.lake/packages/mathlib/Mathlib/Combinatorics/Graph/Basic.lean:128: lemma exists_isLink_of_mem_edgeSet (h : e ∈ E(G)) : ∃ x y, G.IsLink e x y :=
+====================================================================================================
+PATTERN: IsDiag
+FormalBook/Mathlib/EdgeFinset.lean:21: theorem isDiag_iff_exists {z : Sym2 α} : z.IsDiag ↔ ∃ x, z = s(x, x) := by
+FormalBook/Mathlib/EdgeFinset.lean:24: theorem not_isDiag_iff_exists {z : Sym2 α} : ¬ z.IsDiag ↔ ∃ x y, x ≠ y ∧ z = s(x, y) := by
+FormalBook/Mathlib/EdgeFinset.lean:63:   by_cases z.IsDiag <;> simp [*, card_toFinset_of_isDiag, card_toFinset_of_not_isDiag]
+.lake/packages/mathlib/Mathlib.lean:4644: public import Mathlib.LinearAlgebra.Matrix.IsDiag
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:69: theorem not_isDiag_of_mem_edgeFinset : e ∈ G.edgeFinset → ¬e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:431: theorem not_isDiag_of_mem_edgeSet : e ∈ edgeSet G → ¬e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:434: @[simp] lemma not_mem_edgeSet_of_isDiag : e.IsDiag → e ∉ edgeSet G :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:437: alias _root_.Sym2.IsDiag.not_mem_edgeSet := not_mem_edgeSet_of_isDiag
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Triangle/Basic.lean:92:       ∀ ⦃e : Sym2 α⦄, ¬ e.IsDiag → {s ∈ G.cliqueSet 3 | e ∈ (s : Finset α).sym2}.Subsingleton := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/QuadraticForm/Basic.lean:354:       + ∑ ij ∈ s.sym2 with ¬ ij.IsDiag, polarSym2 Q (ij.map f) := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/QuadraticForm/Basis.lean:58:       ∑ p ∈ f.support.sym2 with ¬ p.IsDiag, polarSym2 Q (p.map fun i ↦ g i (f i)) := Q.map_sum _ _
+.lake/packages/mathlib/Mathlib/LinearAlgebra/QuadraticForm/Basis.lean:63:       ∑ p ∈ l.support.sym2 with ¬ p.IsDiag, (p.map l).mul • polarSym2 Q (p.map g) := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/QuadraticForm/Basis.lean:71:       ∑ p ∈ (bm.repr x).support.sym2 with ¬ p.IsDiag,
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:19: - `Matrix.IsDiag`: a proposition that states a given square matrix `A` is diagonal.
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:37: /-- `A.IsDiag` means square matrix `A` is a diagonal matrix. -/
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:38: def IsDiag [Zero α] (A : Matrix n n α) : Prop :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:42: theorem isDiag_diagonal [Zero α] [DecidableEq n] (d : n → α) : (diagonal d).IsDiag := fun _ _ =>
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:46: theorem IsDiag.diagonal_diag [Zero α] [DecidableEq n] {A : Matrix n n α} (h : A.IsDiag) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:53: /-- `Matrix.IsDiag.diagonal_diag` as an iff. -/
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:55:     A.IsDiag ↔ diagonal (diag A) = A :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:56:   ⟨IsDiag.diagonal_diag, fun hd => hd ▸ isDiag_diagonal (diag A)⟩
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:59: theorem isDiag_of_subsingleton [Zero α] [Subsingleton n] (A : Matrix n n α) : A.IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:64: theorem isDiag_zero [Zero α] : (0 : Matrix n n α).IsDiag := fun _ _ _ => rfl
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:68: theorem isDiag_one [DecidableEq n] [Zero α] [One α] : (1 : Matrix n n α).IsDiag := fun _ _ =>
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:71: theorem IsDiag.map [Zero α] [Zero β] {A : Matrix n n α} (ha : A.IsDiag) {f : α → β} (hf : f 0 = 0) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:72:     (A.map f).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:76: theorem IsDiag.neg [SubtractionMonoid α] {A : Matrix n n α} (ha : A.IsDiag) : (-A).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:81: theorem isDiag_neg_iff [SubtractionMonoid α] {A : Matrix n n α} : (-A).IsDiag ↔ A.IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:82:   ⟨fun ha _ _ h => neg_eq_zero.1 (ha h), IsDiag.neg⟩
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:84: theorem IsDiag.add [AddZeroClass α] {A B : Matrix n n α} (ha : A.IsDiag) (hb : B.IsDiag) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:85:     (A + B).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:89: theorem IsDiag.sub [SubtractionMonoid α] {A B : Matrix n n α} (ha : A.IsDiag) (hb : B.IsDiag) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:90:     (A - B).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:94: theorem IsDiag.smul [Zero α] [SMulZeroClass R α] (k : R) {A : Matrix n n α}
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:95:     (ha : A.IsDiag) : (k • A).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:101:     (k • (1 : Matrix n n α)).IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:104: theorem IsDiag.transpose [Zero α] {A : Matrix n n α} (ha : A.IsDiag) : Aᵀ.IsDiag := fun _ _ h =>
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:108: theorem isDiag_transpose_iff [Zero α] {A : Matrix n n α} : Aᵀ.IsDiag ↔ A.IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:109:   ⟨IsDiag.transpose, IsDiag.transpose⟩
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:111: theorem IsDiag.conjTranspose [NonUnitalNonAssocSemiring α] [StarRing α] {A : Matrix n n α}
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:112:     (ha : A.IsDiag) : Aᴴ.IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:117:     Aᴴ.IsDiag ↔ A.IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:120:     simp, IsDiag.conjTranspose⟩
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:122: theorem IsDiag.submatrix [Zero α] {A : Matrix n n α} (ha : A.IsDiag) {f : m → n}
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:123:     (hf : Injective f) : (A.submatrix f f).IsDiag := fun _ _ h => ha (hf.ne h)
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:125: /-- `(A ⊗ B).IsDiag` if both `A` and `B` are diagonal. -/
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:126: theorem IsDiag.kronecker [MulZeroClass α] {A : Matrix m m α} {B : Matrix n n α} (hA : A.IsDiag)
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:127:     (hB : B.IsDiag) : (A ⊗ₖ B).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:134: theorem IsDiag.isSymm [Zero α] {A : Matrix n n α} (h : A.IsDiag) : A.IsSymm := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:140: theorem IsDiag.fromBlocks [Zero α] {A : Matrix m m α} {D : Matrix n n α} (ha : A.IsDiag)
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:141:     (hd : D.IsDiag) : (A.fromBlocks 0 0 D).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:148: /-- This is the `iff` version of `Matrix.IsDiag.fromBlocks`. -/
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:150:     {D : Matrix n n α} : (A.fromBlocks B C D).IsDiag ↔ A.IsDiag ∧ B = 0 ∧ C = 0 ∧ D.IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:159:     convert IsDiag.fromBlocks ha hd
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:163: theorem IsDiag.fromBlocks_of_isSymm [Zero α] {A : Matrix m m α} {C : Matrix n m α}
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:164:     {D : Matrix n n α} (h : (A.fromBlocks 0 C D).IsSymm) (ha : A.IsDiag) (hd : D.IsDiag) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:165:     (A.fromBlocks 0 C D).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:170:     {A : Matrix m n α} : (A * Aᵀ).IsDiag ↔ A.HasOrthogonalRows :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:174:     {A : Matrix m n α} : (Aᵀ * A).IsDiag ↔ A.HasOrthogonalCols :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:160: theorem card_subtype_diag [Fintype α] : card { a : Sym2 α // a.IsDiag } = card α := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:169:     card { a : Sym2 α // ¬a.IsDiag } = (card α).choose 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:498: def IsDiag : Sym2 α → Prop :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:501: theorem mk_isDiag_iff {x y : α} : IsDiag s(x, y) ↔ x = y :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:505: theorem isDiag_iff_proj_eq (z : α × α) : IsDiag (Sym2.mk z) ↔ z.1 = z.2 :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:508: protected lemma IsDiag.map : e.IsDiag → (e.map f).IsDiag := Sym2.ind (fun _ _ ↦ congr_arg f) e
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:510: lemma isDiag_map (hf : Injective f) : (e.map f).IsDiag ↔ e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:514: theorem diag_isDiag (a : α) : IsDiag (diag a) :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:517: theorem isDiag_of_subsingleton [Subsingleton α] (z : Sym2 α) : z.IsDiag :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:525: theorem mem_diagSet_iff_isDiag (z : Sym2 α) : z ∈ diagSet ↔ z.IsDiag :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:528: @[deprecated (since := "2025-11-05")] alias ⟨_, IsDiag.mem_range_diag⟩ := mem_diagSet_iff_isDiag
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:531: theorem isDiag_iff_mem_range_diag (z : Sym2 α) : IsDiag z ↔ z ∈ Set.range (@diag α) :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:537: theorem diagSet_eq_setOf_isDiag : diagSet = {z : Sym2 α | z.IsDiag} :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:540: theorem diagSet_compl_eq_setOf_not_isDiag : diagSetᶜ = {z : Sym2 α | ¬z.IsDiag} :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:546: instance IsDiag.decidablePred (α : Type u) [DecidableEq α] : DecidablePred (@IsDiag α) :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:550:   diagSet_eq_setOf_isDiag ▸ IsDiag.decidablePred _
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:552: theorem other_ne {a : α} {z : Sym2 α} (hd : ¬IsDiag z) (h : a ∈ z) : Mem.other h ≠ a := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:599: theorem fromRel_ne : fromRel (fun (_ _ : α) z => z.symm : Symmetric Ne) = {z | ¬IsDiag z} := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:619:     Irreflexive r ↔ ∀ {z}, z ∈ fromRel sym → ¬IsDiag z :=
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:695: theorem card_toFinset_of_isDiag (z : Sym2 α) (h : z.IsDiag) : #(z : Sym2 α).toFinset = 1 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:701: theorem card_toFinset_of_not_isDiag (z : Sym2 α) (h : ¬z.IsDiag) : #(z : Sym2 α).toFinset = 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:708: theorem card_toFinset (z : Sym2 α) : #(z : Sym2 α).toFinset = if z.IsDiag then 1 else 2 := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:709:   by_cases h : z.IsDiag
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:869:     {a ∈ (s ×ˢ s).image Sym2.mk | a.IsDiag} = s.diag.image Sym2.mk := by
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:881:     {a ∈ (s ×ˢ s).image Sym2.mk | ¬a.IsDiag} = s.offDiag.image Sym2.mk := by
+.lake/packages/mathlib/Mathlib/Data/Finset/Sym.lean:143: theorem isDiag_mk_of_mem_diag {a : α × α} (h : a ∈ s.diag) : (Sym2.mk a).IsDiag :=
+.lake/packages/mathlib/Mathlib/Data/Finset/Sym.lean:147:     ¬ (Sym2.mk a).IsDiag := by
+.lake/packages/mathlib/Mathlib/Algebra/BigOperators/Sym.lean:24:     ∑ i ∈ s.sym2 with ¬ i.IsDiag, p i = ∑ i ∈ s.offDiag with i.1 < i.2, p s(i.1, i.2) := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Finite.lean:69: theorem not_isDiag_of_mem_edgeFinset : e ∈ G.edgeFinset → ¬e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:431: theorem not_isDiag_of_mem_edgeSet : e ∈ edgeSet G → ¬e.IsDiag :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:434: @[simp] lemma not_mem_edgeSet_of_isDiag : e.IsDiag → e ∉ edgeSet G :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:437: alias _root_.Sym2.IsDiag.not_mem_edgeSet := not_mem_edgeSet_of_isDiag
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Triangle/Basic.lean:92:       ∀ ⦃e : Sym2 α⦄, ¬ e.IsDiag → {s ∈ G.cliqueSet 3 | e ∈ (s : Finset α).sym2}.Subsingleton := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/QuadraticForm/Basic.lean:354:       + ∑ ij ∈ s.sym2 with ¬ ij.IsDiag, polarSym2 Q (ij.map f) := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/QuadraticForm/Basis.lean:58:       ∑ p ∈ f.support.sym2 with ¬ p.IsDiag, polarSym2 Q (p.map fun i ↦ g i (f i)) := Q.map_sum _ _
+.lake/packages/mathlib/Mathlib/LinearAlgebra/QuadraticForm/Basis.lean:63:       ∑ p ∈ l.support.sym2 with ¬ p.IsDiag, (p.map l).mul • polarSym2 Q (p.map g) := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/QuadraticForm/Basis.lean:71:       ∑ p ∈ (bm.repr x).support.sym2 with ¬ p.IsDiag,
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:19: - `Matrix.IsDiag`: a proposition that states a given square matrix `A` is diagonal.
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:37: /-- `A.IsDiag` means square matrix `A` is a diagonal matrix. -/
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:38: def IsDiag [Zero α] (A : Matrix n n α) : Prop :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:42: theorem isDiag_diagonal [Zero α] [DecidableEq n] (d : n → α) : (diagonal d).IsDiag := fun _ _ =>
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:46: theorem IsDiag.diagonal_diag [Zero α] [DecidableEq n] {A : Matrix n n α} (h : A.IsDiag) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:53: /-- `Matrix.IsDiag.diagonal_diag` as an iff. -/
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:55:     A.IsDiag ↔ diagonal (diag A) = A :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:56:   ⟨IsDiag.diagonal_diag, fun hd => hd ▸ isDiag_diagonal (diag A)⟩
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:59: theorem isDiag_of_subsingleton [Zero α] [Subsingleton n] (A : Matrix n n α) : A.IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:64: theorem isDiag_zero [Zero α] : (0 : Matrix n n α).IsDiag := fun _ _ _ => rfl
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:68: theorem isDiag_one [DecidableEq n] [Zero α] [One α] : (1 : Matrix n n α).IsDiag := fun _ _ =>
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:71: theorem IsDiag.map [Zero α] [Zero β] {A : Matrix n n α} (ha : A.IsDiag) {f : α → β} (hf : f 0 = 0) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:72:     (A.map f).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:76: theorem IsDiag.neg [SubtractionMonoid α] {A : Matrix n n α} (ha : A.IsDiag) : (-A).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:81: theorem isDiag_neg_iff [SubtractionMonoid α] {A : Matrix n n α} : (-A).IsDiag ↔ A.IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:82:   ⟨fun ha _ _ h => neg_eq_zero.1 (ha h), IsDiag.neg⟩
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:84: theorem IsDiag.add [AddZeroClass α] {A B : Matrix n n α} (ha : A.IsDiag) (hb : B.IsDiag) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:85:     (A + B).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:89: theorem IsDiag.sub [SubtractionMonoid α] {A B : Matrix n n α} (ha : A.IsDiag) (hb : B.IsDiag) :
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:90:     (A - B).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:94: theorem IsDiag.smul [Zero α] [SMulZeroClass R α] (k : R) {A : Matrix n n α}
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:95:     (ha : A.IsDiag) : (k • A).IsDiag := by
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:101:     (k • (1 : Matrix n n α)).IsDiag :=
+.lake/packages/mathlib/Mathlib/LinearAlgebra/Matrix/IsDiag.lean:104: theorem IsDiag.transpose [Zero α] {A : Matrix n n α} (ha : A.IsDiag) : Aᵀ.IsDiag := fun _ _ h =>
+====================================================================================================
+PATTERN: not.*diag
+.lake/packages/mathlib/Mathlib/Order/Hom/Basic.lean:44: * `OrderHom.onDiag`: restrict a monotone map `α →o α →o β` to the diagonal;
+.lake/packages/mathlib/Mathlib/Topology/Separation/Hausdorff.lean:194:   not_not.1 fun hne => this (isClosed_diagonal.isOpen_compl.mem_nhds hne)
+.lake/packages/mathlib/Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:131: Notice that `p` does not sum up to `f` on the diagonal (`FormalMultilinearSeries.sum`), even if
+.lake/packages/mathlib/Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:685: Notice that `p` does not sum up to `f` on the diagonal (`FormalMultilinearSeries.sum`), even if
+.lake/packages/mathlib/Mathlib/Analysis/Normed/Ring/InfiniteSum.lean:114: *not* absolutely summable, and `tsum_mul_tsum_eq_tsum_sum_antidiagonal_of_summable_norm'`
+.lake/packages/mathlib/Mathlib/NumberTheory/Bernoulli.lean:248:     simp [bernoulli_eq_bernoulli'_of_ne_one ((not_congr (antidiagonal_congr h' h₁)).mp h'')]
+.lake/packages/mathlib/Mathlib/CategoryTheory/Category/Cat/Limit.lean:16: which are carried to one another by the functors in the diagram.
+.lake/packages/mathlib/Mathlib/CategoryTheory/Category/Cat/Limit.lean:18: which are carried to one another by the action on morphisms of the functors in the diagram.
+.lake/packages/mathlib/Mathlib/CategoryTheory/MorphismProperty/Representable.lean:131: denotes the morphism in `C` giving rise to the following diagram
+.lake/packages/mathlib/Mathlib/CategoryTheory/MorphismProperty/Representable.lean:144: `hf.fst g` denotes the first projection in the following diagram, given by the defining property
+.lake/packages/mathlib/Mathlib/CategoryTheory/Triangulated/Rotate.lean:68: (note that this diagram doesn't technically fit the definition of triangle, as `Z⟦-1⟧⟦1⟧` is
+.lake/packages/mathlib/Mathlib/AlgebraicTopology/SimplicialSet/StrictSegal.lean:427: arrows not contained in the original path can be recovered as the diagonal edge
+.lake/packages/mathlib/Mathlib/AlgebraicTopology/Quasicategory/StrictSegal.lean:62:     · /- The only inner horn of `Δ[2]` does not contain the diagonal edge. -/
+.lake/packages/mathlib/Mathlib/RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean:242:   simp [k, ← sum_filter_add_sum_filter_not (antidiagonal k) (fun a ↦ a.fst < k),
+.lake/packages/mathlib/Mathlib/RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean:252:   rw [← (sum_filter_add_sum_filter_not {a ∈ antidiagonal k | a.fst < k}
+.lake/packages/mathlib/Mathlib/RingTheory/HahnSeries/Multiplication.lean:232:   simp only [not_and, mem_sdiff, mem_vaddAntidiagonal, HahnSeries.mem_support, not_imp_not] at hb
+.lake/packages/mathlib/Mathlib/RingTheory/HahnSeries/Multiplication.lean:245:   simp only [not_and', mem_sdiff, mem_vaddAntidiagonal, HahnSeries.mem_support, not_ne_iff] at hb
+.lake/packages/mathlib/Mathlib/MeasureTheory/Measure/Prod.lean:556: Lebesgue measure. And yet they do not coincide, as the first one gives zero mass to the diagonal,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:469: theorem edgeSet_subset_setOf_not_isDiag : G.edgeSet ⊆ Sym2.diagSetᶜ :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:600: @[simp] lemma fromEdgeSet_not_isDiag : @fromEdgeSet V Sym2.diagSetᶜ = ⊤ := by ext; simp
+.lake/packages/mathlib/Mathlib/Combinatorics/Young/YoungDiagram.lean:40: In "English notation", a Young diagram is drawn so that (i1, j1) ≤ (i2, j2)
+.lake/packages/mathlib/Mathlib/Combinatorics/Young/YoungDiagram.lean:90: /-- In "English notation", a Young diagram is drawn so that (i1, j1) ≤ (i2, j2)
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:154: This is because every element `s(x, y)` of `Sym2 α` not on the diagonal comes from exactly two
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:168: theorem card_subtype_not_diag [Fintype α] :
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:179:   simp only [← card_subtype_not_diag, Sym2.diagSet_compl_eq_setOf_not_isDiag, Set.coe_setOf]
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:540: theorem diagSet_compl_eq_setOf_not_isDiag : diagSetᶜ = {z : Sym2 α | ¬z.IsDiag} :=
+.lake/packages/mathlib/Mathlib/Data/Finset/Prod.lean:296: theorem diag_mono : Monotone (diag : Finset α → Finset (α × α)) := fun _ _ h _ hx =>
+.lake/packages/mathlib/Mathlib/Data/Set/MulAntidiagonal.lean:65: -- does not match the declaration `mulAntidiagonal` that has the `to_additive` attribute.
+.lake/packages/mathlib/Mathlib/Algebra/Quandle.lean:291: regular isotopy version of the Reidemeister I move for knot diagrams.)
+.lake/packages/mathlib/Mathlib/Algebra/Order/Antidiag/Prod.lean:33: This definition does not exactly match with that of `Multiset.antidiagonal`
+.lake/packages/mathlib/Mathlib/Algebra/Order/Antidiag/Pi.lean:58: computationally efficient, although probably not as efficient as `Finset.Nat.antidiagonalTuple`.
+.lake/packages/mathlib/Mathlib/Algebra/Category/Ring/Colimits.lean:60: because one element is mapped to another by a morphism in the diagram.
+.lake/packages/mathlib/Mathlib/Algebra/Category/Ring/Colimits.lean:353: because one element is mapped to another by a morphism in the diagram.
+.lake/packages/mathlib/Mathlib/Algebra/Category/MonCat/Colimits.lean:90: because one element is mapped to another by a morphism in the diagram.
+.lake/packages/mathlib/Mathlib/Algebra/Homology/LocalCohomology.lean:93: In this definition we do not assume any special property of the diagram `I`, but the relevant case
+.lake/packages/mathlib/Counterexamples/SorgenfreyLine.lean:240:   (isClosed_antidiagonal 0).not_normal_of_continuum_le_mk (cardinal_antidiagonal _).ge
+.lake/packages/mathlib/Counterexamples/SorgenfreyLine.lean:247: theorem not_separableSpace_antidiagonal (c : ℝₗ) :
+.lake/packages/mathlib/Counterexamples/SorgenfreyLine.lean:259: theorem not_separatedNhds_rat_irrational_antidiag :
+.lake/packages/mathlib/Counterexamples/CliffordAlgebraNotInjective.lean:294: /-- The general bonus statement: not every quadratic form is the diagonal of a bilinear form. -/
+.lake/packages/mathlib/MathlibTest/toAdditive.lean:11: -- [note] use the below options for diagnostics:
+.lake/packages/proofwidgets/ProofWidgets/Component/PenroseDiagram.lean:67: `none` is returned iff nothing was added to the diagram. -/
+.lake/packages/proofwidgets/ProofWidgets/Demos/Euclidean.lean:325: and not in the diagram.
+.lake/packages/mathlib/Mathlib/Order/Hom/Basic.lean:44: * `OrderHom.onDiag`: restrict a monotone map `α →o α →o β` to the diagonal;
+.lake/packages/mathlib/Mathlib/Topology/Separation/Hausdorff.lean:194:   not_not.1 fun hne => this (isClosed_diagonal.isOpen_compl.mem_nhds hne)
+.lake/packages/mathlib/Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:131: Notice that `p` does not sum up to `f` on the diagonal (`FormalMultilinearSeries.sum`), even if
+.lake/packages/mathlib/Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:685: Notice that `p` does not sum up to `f` on the diagonal (`FormalMultilinearSeries.sum`), even if
+.lake/packages/mathlib/Mathlib/Analysis/Normed/Ring/InfiniteSum.lean:114: *not* absolutely summable, and `tsum_mul_tsum_eq_tsum_sum_antidiagonal_of_summable_norm'`
+.lake/packages/mathlib/Mathlib/NumberTheory/Bernoulli.lean:248:     simp [bernoulli_eq_bernoulli'_of_ne_one ((not_congr (antidiagonal_congr h' h₁)).mp h'')]
+.lake/packages/mathlib/Mathlib/CategoryTheory/Category/Cat/Limit.lean:16: which are carried to one another by the functors in the diagram.
+.lake/packages/mathlib/Mathlib/CategoryTheory/Category/Cat/Limit.lean:18: which are carried to one another by the action on morphisms of the functors in the diagram.
+.lake/packages/mathlib/Mathlib/CategoryTheory/MorphismProperty/Representable.lean:131: denotes the morphism in `C` giving rise to the following diagram
+.lake/packages/mathlib/Mathlib/CategoryTheory/MorphismProperty/Representable.lean:144: `hf.fst g` denotes the first projection in the following diagram, given by the defining property
+.lake/packages/mathlib/Mathlib/CategoryTheory/Triangulated/Rotate.lean:68: (note that this diagram doesn't technically fit the definition of triangle, as `Z⟦-1⟧⟦1⟧` is
+.lake/packages/mathlib/Mathlib/AlgebraicTopology/SimplicialSet/StrictSegal.lean:427: arrows not contained in the original path can be recovered as the diagonal edge
+.lake/packages/mathlib/Mathlib/AlgebraicTopology/Quasicategory/StrictSegal.lean:62:     · /- The only inner horn of `Δ[2]` does not contain the diagonal edge. -/
+.lake/packages/mathlib/Mathlib/RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean:242:   simp [k, ← sum_filter_add_sum_filter_not (antidiagonal k) (fun a ↦ a.fst < k),
+.lake/packages/mathlib/Mathlib/RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean:252:   rw [← (sum_filter_add_sum_filter_not {a ∈ antidiagonal k | a.fst < k}
+.lake/packages/mathlib/Mathlib/RingTheory/HahnSeries/Multiplication.lean:232:   simp only [not_and, mem_sdiff, mem_vaddAntidiagonal, HahnSeries.mem_support, not_imp_not] at hb
+.lake/packages/mathlib/Mathlib/RingTheory/HahnSeries/Multiplication.lean:245:   simp only [not_and', mem_sdiff, mem_vaddAntidiagonal, HahnSeries.mem_support, not_ne_iff] at hb
+.lake/packages/mathlib/Mathlib/MeasureTheory/Measure/Prod.lean:556: Lebesgue measure. And yet they do not coincide, as the first one gives zero mass to the diagonal,
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:469: theorem edgeSet_subset_setOf_not_isDiag : G.edgeSet ⊆ Sym2.diagSetᶜ :=
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Basic.lean:600: @[simp] lemma fromEdgeSet_not_isDiag : @fromEdgeSet V Sym2.diagSetᶜ = ⊤ := by ext; simp
+.lake/packages/mathlib/Mathlib/Combinatorics/Young/YoungDiagram.lean:40: In "English notation", a Young diagram is drawn so that (i1, j1) ≤ (i2, j2)
+.lake/packages/mathlib/Mathlib/Combinatorics/Young/YoungDiagram.lean:90: /-- In "English notation", a Young diagram is drawn so that (i1, j1) ≤ (i2, j2)
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:154: This is because every element `s(x, y)` of `Sym2 α` not on the diagonal comes from exactly two
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:168: theorem card_subtype_not_diag [Fintype α] :
+.lake/packages/mathlib/Mathlib/Data/Sym/Card.lean:179:   simp only [← card_subtype_not_diag, Sym2.diagSet_compl_eq_setOf_not_isDiag, Set.coe_setOf]
+.lake/packages/mathlib/Mathlib/Data/Sym/Sym2.lean:540: theorem diagSet_compl_eq_setOf_not_isDiag : diagSetᶜ = {z : Sym2 α | ¬z.IsDiag} :=
+.lake/packages/mathlib/Mathlib/Data/Finset/Prod.lean:296: theorem diag_mono : Monotone (diag : Finset α → Finset (α × α)) := fun _ _ h _ hx =>
+.lake/packages/mathlib/Mathlib/Data/Set/MulAntidiagonal.lean:65: -- does not match the declaration `mulAntidiagonal` that has the `to_additive` attribute.
+.lake/packages/mathlib/Mathlib/Algebra/Quandle.lean:291: regular isotopy version of the Reidemeister I move for knot diagrams.)
+.lake/packages/mathlib/Mathlib/Algebra/Order/Antidiag/Prod.lean:33: This definition does not exactly match with that of `Multiset.antidiagonal`
+.lake/packages/mathlib/Mathlib/Algebra/Order/Antidiag/Pi.lean:58: computationally efficient, although probably not as efficient as `Finset.Nat.antidiagonalTuple`.
+.lake/packages/mathlib/Mathlib/Algebra/Category/Ring/Colimits.lean:60: because one element is mapped to another by a morphism in the diagram.
+.lake/packages/mathlib/Mathlib/Algebra/Category/Ring/Colimits.lean:353: because one element is mapped to another by a morphism in the diagram.
+.lake/packages/mathlib/Mathlib/Algebra/Category/MonCat/Colimits.lean:90: because one element is mapped to another by a morphism in the diagram.
+.lake/packages/mathlib/Mathlib/Algebra/Homology/LocalCohomology.lean:93: In this definition we do not assume any special property of the diagram `I`, but the relevant case
+====================================================================================================
+PATTERN: toFinset
+FormalBook/Chapter_01.lean:353:   ∃ c : ℕ, ∀ k : ℕ, ∃ h : Set.Finite {n : ℕ | S n = k }, (Set.Finite.toFinset h).card ≤ c
+FormalBook/Chapter_06.lean:213:   let S := S'.toFinset
+FormalBook/Mathlib/EdgeFinset.lean:40: instance : Coe (Sym2 α) (Finset α) := ⟨Sym2.toFinset⟩
+FormalBook/Mathlib/EdgeFinset.lean:42: @[simp] lemma toFinset_mk {x y : α} : (s(x, y) : Finset α) = {x, y} := by
+FormalBook/Mathlib/EdgeFinset.lean:43:   ext; rw [Sym2.toFinset, Sym2.toMultiset]; simp
+FormalBook/Mathlib/EdgeFinset.lean:45: @[simp] lemma toFinset_toMultiset {s : Sym2 α} : (s : Multiset α).toFinset = (s : Finset α) := rfl
+FormalBook/Mathlib/EdgeFinset.lean:47: @[simp] lemma coe_toFinset {z : Sym2 α} : ((z : Finset α) : Set α) = z := by
+FormalBook/Mathlib/EdgeFinset.lean:50: lemma toFinset_eq [Fintype α] {e : Sym2 α} : (e : Finset α) = {v | v ∈ e}.toFinset := by
+FormalBook/Mathlib/EdgeFinset.lean:54: lemma card_toFinset_mk_of_ne {x y : α} (h : x ≠ y) : s(x, y).toFinset.card = 2 := by
+FormalBook/Mathlib/EdgeFinset.lean:59: lemma one_le_card_toFinset {z : Sym2 α} : 1 ≤ z.toFinset.card := by
+FormalBook/Mathlib/EdgeFinset.lean:62: lemma card_toFinset_le_two {z : Sym2 α} : z.toFinset.card ≤ 2 := by
+FormalBook/Mathlib/EdgeFinset.lean:63:   by_cases z.IsDiag <;> simp [*, card_toFinset_of_isDiag, card_toFinset_of_not_isDiag]
+FormalBook/Mathlib/EdgeFinset.lean:77: -- lemma card_toFinset_of_mem_edgeSet (e : Sym2 α) (he : e ∈ G.edgeSet) :
+FormalBook/Mathlib/EdgeFinset.lean:79: --   refine Sym2.card_toFinset_of_not_isDiag ?_
+FormalBook/Mathlib/EdgeFinset.lean:87: --   rw [← SimpleGraph.card_toFinset_of_mem_edgeSet _ he]
+FormalBook/Mathlib/EdgeFinset.lean:102: -- lemma card_toFinset_of_mem_edgeFinset (e : Sym2 α) (he : e ∈ G.edgeFinset) :
+FormalBook/Mathlib/EdgeFinset.lean:104: --   Sym2.card_toFinset_of_not_isDiag (not_isDiag_of_mem_edgeSet _ (mem_edgeFinset.mp he))
+FormalBook/Mathlib/EdgeFinset.lean:108: --   rw [← SimpleGraph.card_toFinset_of_mem_edgeFinset _ he]
+.lake/packages/mathlib/Mathlib/Order/Birkhoff.lean:159:     supIrredLowerSet.symm s = (s.1 : Set α).toFinset.sup id := by
+.lake/packages/mathlib/Mathlib/Order/Birkhoff.lean:173:     infIrredUpperSet.symm s = (s.1 : Set α).toFinset.inf id := by
+.lake/packages/mathlib/Mathlib/Order/Birkhoff.lean:193:       invFun := fun s ↦ (s : Set {a : α // SupIrred a}).toFinset.sup (↑)
+.lake/packages/mathlib/Mathlib/Order/Birkhoff.lean:195:         refine le_antisymm (Finset.sup_le fun b ↦ Set.mem_toFinset.1) ?_
+.lake/packages/mathlib/Mathlib/Order/Birkhoff.lean:198:           le_sup_of_le (b := ⟨i, hs hi⟩) (Set.mem_toFinset.2 <| le_sup (f := id) hi) le_rfl
+.lake/packages/mathlib/Mathlib/Order/Birkhoff.lean:204:           exact s.lower ha (Set.mem_toFinset.1 hi)
+.lake/packages/mathlib/Mathlib/Order/Birkhoff.lean:206:           exact le_sup (Set.mem_toFinset.2 ha) }
+.lake/packages/mathlib/Mathlib/Order/Birkhoff.lean:207:     (fun _ _ hbc _ ↦ le_trans' hbc) fun _ _ hst ↦ Finset.sup_mono <| Set.toFinset_mono hst
+.lake/packages/mathlib/Mathlib/Order/JordanHolder.lean:177:     (List.perm_of_nodup_nodup_toFinset_eq s₁.toList_nodup s₂.toList_nodup _).eq_of_pairwise'
+.lake/packages/mathlib/Mathlib/Order/JordanHolder.lean:179:   simpa only [Finset.ext_iff, List.mem_toFinset, RelSeries.mem_toList]
+.lake/packages/mathlib/Mathlib/Order/OrderIsoNat.lean:171:         by_cases he : hbad.toFinset.Nonempty
+.lake/packages/mathlib/Mathlib/Order/OrderIsoNat.lean:173:             ⟨(hbad.toFinset.max' he).succ, fun n hn nbad =>
+.lake/packages/mathlib/Mathlib/Order/OrderIsoNat.lean:175:                 (hn.trans (hbad.toFinset.le_max' n (hbad.mem_toFinset.2 nbad)))⟩
+.lake/packages/mathlib/Mathlib/Order/OrderIsoNat.lean:176:         · exact ⟨0, fun n _ nbad => he ⟨n, hbad.mem_toFinset.2 nbad⟩⟩
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Nat.lean:210: lemma toFinset_range'_1 (a b : ℕ) : (List.range' a b).toFinset = Ico a (a + b) := by
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Nat.lean:212:   rw [List.mem_toFinset, List.mem_range'_1, Finset.mem_Ico]
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Nat.lean:214: lemma toFinset_range'_1_1 (a : ℕ) : (List.range' 1 a).toFinset = Icc 1 a := by
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Nat.lean:216:   rw [List.mem_toFinset, List.mem_range'_1, add_comm, Nat.lt_succ_iff, Finset.mem_Icc]
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Nat.lean:218: lemma toFinset_range (a : ℕ) : (List.range a).toFinset = Finset.range a := by
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Nat.lean:220:   rw [List.mem_toFinset, List.mem_range, Finset.mem_range]
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:629:   @LocallyFiniteOrder.ofIcc' α _ (Classical.decRel _) (fun a b => (h a b).toFinset) fun a b x => by
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:630:     rw [Set.Finite.mem_toFinset, Set.mem_Icc]
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:639:   finsetIcc a b := (Set.Icc a b).toFinset
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:640:   finsetIco a b := (Set.Ico a b).toFinset
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:641:   finsetIoc a b := (Set.Ioc a b).toFinset
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:642:   finsetIoo a b := (Set.Ioo a b).toFinset
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:643:   finset_mem_Icc a b x := by simp only [Set.mem_toFinset, Set.mem_Icc]
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:644:   finset_mem_Ico a b x := by simp only [Set.mem_toFinset, Set.mem_Ico]
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:645:   finset_mem_Ioc a b x := by simp only [Set.mem_toFinset, Set.mem_Ioc]
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:646:   finset_mem_Ioo a b x := by simp only [Set.mem_toFinset, Set.mem_Ioo]
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1207:   ⟨fun h ↦ ⟨h.toFinset.sup id, fun _ hx ↦ Finset.le_sup (f := id) ((Finite.mem_toFinset h).mpr hx)⟩,
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1218:   exact ⟨fun h ↦ ⟨⟨h.toFinset.inf' ((Finite.toFinset_nonempty h).mpr hs) id,
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1219:     fun x hx ↦ Finset.inf'_le id ((Finite.mem_toFinset h).mpr hx)⟩,
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1220:     ⟨h.toFinset.sup' ((Finite.toFinset_nonempty h).mpr hs) id, fun x hx ↦ Finset.le_sup' id
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1221:     ((Finite.mem_toFinset h).mpr hx)⟩⟩,
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1293: @[simp] lemma toFinset_Icc (a b : α) [Fintype (Icc a b)] : (Icc a b).toFinset = Finset.Icc a b := by
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1296: @[simp] lemma toFinset_Ico (a b : α) [Fintype (Ico a b)] : (Ico a b).toFinset = Finset.Ico a b := by
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1299: @[simp] lemma toFinset_Ioc (a b : α) [Fintype (Ioc a b)] : (Ioc a b).toFinset = Finset.Ioc a b := by
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1302: @[simp] lemma toFinset_Ioo (a b : α) [Fintype (Ioo a b)] : (Ioo a b).toFinset = Finset.Ioo a b := by
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1311: lemma toFinset_Ici (a : α) [Fintype (Ici a)] : (Ici a).toFinset = Finset.Ici a := by ext; simp
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1314: lemma toFinset_Ioi (a : α) [Fintype (Ioi a)] : (Ioi a).toFinset = Finset.Ioi a := by ext; simp
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1322: lemma toFinset_Iic (a : α) [Fintype (Iic a)] : (Iic a).toFinset = Finset.Iic a := by ext; simp
+.lake/packages/mathlib/Mathlib/Order/Interval/Finset/Defs.lean:1325: lemma toFinset_Iio (a : α) [Fintype (Iio a)] : (Iio a).toFinset = Finset.Iio a := by ext; simp
+.lake/packages/mathlib/Mathlib/Order/ConditionallyCompleteLattice/Finset.lean:152:   simpa using l.toFinset.ciSup_mem_image f (by simpa using h)
+.lake/packages/mathlib/Mathlib/Order/ConditionallyCompleteLattice/Finset.lean:158:   simpa using l.toFinset.ciInf_mem_image f (by simpa using h)
+.lake/packages/mathlib/Mathlib/Order/ConditionallyCompleteLattice/Finset.lean:164:   simpa using s.toFinset.ciSup_mem_image f (by simpa using h)
+.lake/packages/mathlib/Mathlib/Order/ConditionallyCompleteLattice/Finset.lean:170:   simpa using s.toFinset.ciInf_mem_image f (by simpa using h)
+.lake/packages/mathlib/Mathlib/Order/Filter/Ultrafilter/Basic.lean:71:       ht.coe_toFinset ▸ cond ht.toFinset (ht.coe_toFinset.symm ▸ hts)
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:139: theorem iSup_option_toFinset (o : Option α) (f : α → β) : ⨆ x ∈ o.toFinset, f x = ⨆ x ∈ o, f x := by
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:142: theorem iInf_option_toFinset (o : Option α) (f : α → β) : ⨅ x ∈ o.toFinset, f x = ⨅ x ∈ o, f x :=
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:143:   @iSup_option_toFinset _ βᵒᵈ _ _ _
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:204: theorem set_biUnion_option_toFinset (o : Option α) (f : α → Set β) :
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:205:     ⋃ x ∈ o.toFinset, f x = ⋃ x ∈ o, f x :=
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:206:   iSup_option_toFinset o f
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:208: theorem set_biInter_option_toFinset (o : Option α) (f : α → Set β) :
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:209:     ⋂ x ∈ o.toFinset, f x = ⋂ x ∈ o, f x :=
+.lake/packages/mathlib/Mathlib/Order/CompleteLattice/Finset.lean:210:   iInf_option_toFinset o f
+.lake/packages/mathlib/Mathlib/Order/CompactlyGenerated/Basic.lean:464:     obtain ⟨i, hi⟩ := hs.finset_le fi.toFinset
+.lake/packages/mathlib/Mathlib/Order/CompactlyGenerated/Basic.lean:466:         (Set.Subset.trans hI <| Set.iUnion₂_subset fun j hj => hi j (fi.mem_toFinset.2 hj))
+.lake/packages/mathlib/Mathlib/ModelTheory/FinitelyGenerated.lean:72:   ⟨hs.toFinset, by rw [hs.coe_toFinset]⟩
+.lake/packages/mathlib/Mathlib/ModelTheory/FinitelyGenerated.lean:101:   ⟨Set.Finite.toFinset h, by simp only [Finite.coe_toFinset, closure_eq]⟩
+.lake/packages/mathlib/Mathlib/ModelTheory/Order.lean:476:   obtain ⟨g, hg⟩ := Order.exists_orderEmbedding_insert hS.toFinset
+.lake/packages/mathlib/Mathlib/ModelTheory/Order.lean:477:     ((OrderIso.setCongr hS.toFinset (S : Set M) hS.coe_toFinset).toOrderEmbedding.trans
+.lake/packages/mathlib/Mathlib/ModelTheory/Order.lean:484:         ((insert m hS.toFinset : Finset M) : Set M))
+.lake/packages/mathlib/Mathlib/ModelTheory/Order.lean:485:       simp only [Finset.coe_insert, Set.Finite.coe_toFinset, Substructure.closure_insert,
+.lake/packages/mathlib/Mathlib/ModelTheory/Order.lean:489:   refine congr_fun hg.symm ⟨x, (?_ : x ∈ hS.toFinset)⟩
+.lake/packages/mathlib/Mathlib/ModelTheory/Order.lean:490:   simp only [Set.Finite.mem_toFinset, SetLike.mem_coe, xS]
+.lake/packages/mathlib/Mathlib/ModelTheory/Arithmetic/Presburger/Basic.lean:124:   conv => rhs; rw [← s.toList_toFinset, List.sum_toFinset _ s.nodup_toList]
+.lake/packages/mathlib/Mathlib/ModelTheory/Arithmetic/Presburger/Semilinear/Defs.lean:263:     ⟨fun ⟨t, ht, hs⟩ => ⟨ht.toFinset, by simpa⟩, fun ⟨t, hs⟩ => ⟨t, t.finite_toSet, hs⟩⟩
+.lake/packages/mathlib/Mathlib/Topology/Bases.lean:575:     refine ⟨_, ⟨U, hF.toFinset, ?_, rfl⟩, ?_, ?_⟩ <;> simp only [Finite.mem_toFinset, mem_iInter]
+.lake/packages/mathlib/Mathlib/Topology/DiscreteQuotient.lean:360:   (Set.range (fun (x : d) ↦ ⟨_, d.isClopen_preimage {x}⟩) : Set (Clopens X)).toFinset
+.lake/packages/mathlib/Mathlib/Topology/DiscreteQuotient.lean:368:     finsetClopens, Set.coe_toFinset, Set.mem_image, Set.mem_range,
+.lake/packages/mathlib/Mathlib/Topology/NoetherianSpace.lean:208:     obtain ⟨Z', hZ'⟩ := isIrreducible_iff_sUnion_isClosed.mp H.1 hι.toFinset
+.lake/packages/mathlib/Mathlib/Topology/NoetherianSpace.lean:209:       (fun z hz ↦ isClosed_of_mem_irreducibleComponents _ (hι.mem_toFinset.mp hz).1)
+.lake/packages/mathlib/Mathlib/Topology/NoetherianSpace.lean:210:       (by rwa [hι.coe_toFinset, Set.sUnion_eq_iUnion])
+.lake/packages/mathlib/Mathlib/Topology/NoetherianSpace.lean:211:     rw [Set.Finite.mem_toFinset] at hZ'
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:183: def finsupport : Finset ι := (ρ.locallyFinite.point_finite x₀).toFinset
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:188:   simp only [finsupport, mem_support, Finite.mem_toFinset, mem_setOf_eq]
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:237:   (ρ.finite_tsupport x₀).toFinset
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:240:   Finite.mem_toFinset _
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:523:   set s := (f.point_finite x).toFinset
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:524:   have hs : (s : Set ι) = { i | f i x ≠ 0 } := Finite.coe_toFinset _
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:537:   rwa [Finite.mem_toFinset]
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:543:   use hf.toFinset
+.lake/packages/mathlib/Mathlib/Topology/PartitionOfUnity.lean:548:   exact hf.mem_toFinset.2 ⟨y, ⟨hj, hyU⟩⟩
+.lake/packages/mathlib/Mathlib/Topology/CWComplex/Classical/Finite.lean:97:     use fun m ↦ finite_univ.toFinset (s := (univ : Set (cell m)))
+.lake/packages/mathlib/Mathlib/Topology/CWComplex/Classical/Finite.lean:98:     simp only [Finite.mem_toFinset, mem_univ, iUnion_true]
+.lake/packages/mathlib/Mathlib/Topology/CWComplex/Classical/Finite.lean:152:     use fun m ↦ finite_univ.toFinset (s := (univ : Set (cell m)))
+.lake/packages/mathlib/Mathlib/Topology/CWComplex/Classical/Finite.lean:153:     simp only [Finite.mem_toFinset, mem_univ, iUnion_true]
+.lake/packages/mathlib/Mathlib/Topology/CWComplex/Classical/Finite.lean:207:     use fun m ↦ finite_univ.toFinset (s := (univ : Set (cell m)))
+.lake/packages/mathlib/Mathlib/Topology/CWComplex/Classical/Finite.lean:208:     simp only [Finite.mem_toFinset, mem_univ, iUnion_true]
+.lake/packages/mathlib/Mathlib/Topology/Category/Profinite/Nobeling/ZeroLimit.lean:203:   use Finset.sup l.val.toFinset (fun a ↦ Order.succ (ord I a))
+.lake/packages/mathlib/Mathlib/Topology/Category/Profinite/Nobeling/ZeroLimit.lean:204:   have hslt : Finset.sup l.val.toFinset (fun a ↦ Order.succ (ord I a)) < o := by
+.lake/packages/mathlib/Mathlib/Topology/Category/Profinite/Nobeling/ZeroLimit.lean:205:     simp only [Finset.sup_lt_iff ho.bot_lt, List.mem_toFinset]
+.lake/packages/mathlib/Mathlib/Topology/Category/Profinite/Nobeling/ZeroLimit.lean:208:   have hlt : ∀ i ∈ l.val, ord I i < Finset.sup l.val.toFinset (fun a ↦ Order.succ (ord I a)) := by
+.lake/packages/mathlib/Mathlib/Topology/Category/Profinite/Nobeling/ZeroLimit.lean:210:     simp only [Finset.lt_sup_iff, List.mem_toFinset, Order.lt_succ_iff]
+.lake/packages/mathlib/Mathlib/Topology/Spectral/Prespectral.lean:131:     exact I.lower (a := hs.toFinset.sup fun i ↦ i) (by simpa [← SetLike.coe_subset_coe]) (by simpa)
+.lake/packages/mathlib/Mathlib/Topology/MetricSpace/Infsep.lean:146:     s.einfsep = s.offDiag.toFinset.inf (uncurry edist) := by
+.lake/packages/mathlib/Mathlib/Topology/MetricSpace/Infsep.lean:148:   simp_rw [le_einfsep_iff, imp_forall_iff, Finset.le_inf_iff, mem_toFinset, mem_offDiag,
+.lake/packages/mathlib/Mathlib/Topology/MetricSpace/Infsep.lean:151: theorem Finite.einfsep (hs : s.Finite) : s.einfsep = hs.offDiag.toFinset.inf (uncurry edist) := by
+.lake/packages/mathlib/Mathlib/Topology/MetricSpace/Infsep.lean:153:   simp_rw [le_einfsep_iff, imp_forall_iff, Finset.le_inf_iff, Finite.mem_toFinset, mem_offDiag,
+.lake/packages/mathlib/Mathlib/Topology/MetricSpace/Infsep.lean:158:   simp_rw [einfsep_of_fintype, ← Finset.coe_offDiag, Finset.toFinset_coe]
+====================================================================================================
+PATTERN: support
+FormalBook/Chapter_28.lean:65:       #check Sym2.card_support
+.lake/packages/mathlib/lakefile.lean:106:   supportInterpreter := true
+.lake/packages/mathlib/lakefile.lean:111:   supportInterpreter := true
+.lake/packages/mathlib/lakefile.lean:118:   supportInterpreter := true
+.lake/packages/mathlib/lakefile.lean:134:   supportInterpreter := true
+.lake/packages/mathlib/lakefile.lean:150:   supportInterpreter := true
+.lake/packages/mathlib/Mathlib/Tactic/TacticAnalysis.lean:148:     | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/TacticAnalysis.lean:309:     -- TODO: support more than 1 goal. Probably by requiring all tests to succeed in a row
+.lake/packages/mathlib/Mathlib/Tactic/WithoutCDot.lean:25: /-- A set of parentheses, supporting type ascriptions, which does not process `·`.
+.lake/packages/mathlib/Mathlib/Tactic/WithoutCDot.lean:56:   | _, _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/ExtractGoal.lean:211:         | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Core.lean:30: Currently, recursive or partial definitions are not supported, and no attributes are provided.
+.lake/packages/mathlib/Mathlib/Tactic/Core.lean:115:   | _                      => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Core.lean:120:   | _                       => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Core.lean:125:   | _                        => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Core.lean:130:   | _                     => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Conv.lean:41: The syntax also supports the `occs` clause. Example:
+.lake/packages/mathlib/Mathlib/Tactic/Conv.lean:71:   | _ => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/SplitIfs.lean:67: `SplitIf.discharge?`, and additionally supports discharging `True`, to
+.lake/packages/mathlib/Mathlib/Tactic/IntervalCases.lean:103: `interval_cases`. To add support for a new type, you have to implement this interface and add
+.lake/packages/mathlib/Mathlib/Tactic/IntervalCases.lean:285:     throwError "interval_cases failed: unsupported type {α}"
+.lake/packages/mathlib/Mathlib/Tactic/IntervalCases.lean:403:     | _, _, _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/FBinop.lean:29: The main goal is to support generic set product notation and have it elaborate in a convenient way.
+.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:30: We implement `tfae_have` in terms of a syntactic `have`. To support as much of the same syntax as
+.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:106: All features of `have` are supported by `tfae_have`, including naming, matching,
+.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:238:     | _ => Macro.throwUnsupported
+.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:240:   | _ => Macro.throwUnsupported
+.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:268:       | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:271:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:300:     | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/TFAE.lean:368:     | _ => Macro.throwUnsupported
+.lake/packages/mathlib/Mathlib/Tactic/FastInstance.lean:133:   | _, _ => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Eval.lean:47: | _ => fun _ => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/HigherOrder.lean:107:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/IrreducibleDef.lean:80:     | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/IrreducibleDef.lean:90:     | throwError "unsupported modifiers {format mods}"
+.lake/packages/mathlib/Mathlib/Tactic/Order.lean:20: `PartialOrder`, `LinearOrder`, and `Lattice`. It also supports `⊤` and `⊥`.
+.lake/packages/mathlib/Mathlib/Tactic/PPWithUniv.lean:53:   | _ => throwUnsupportedSyntax }
+.lake/packages/mathlib/Mathlib/Tactic/Eqns.lean:51:     | _, _ => Lean.Elab.throwUnsupportedSyntax }
+.lake/packages/mathlib/Mathlib/Tactic/Basic.lean:44:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Basic.lean:99:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Clean.lean:68:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/DeriveTraversable.lean:47:     throwError "recursive types not supported"
+.lake/packages/mathlib/Mathlib/Tactic/DeriveTraversable.lean:264:   let #[n] := a | return false -- mutually inductive types are not supported yet
+.lake/packages/mathlib/Mathlib/Tactic/DeriveTraversable.lean:336:     throwError "recursive types not supported"
+.lake/packages/mathlib/Mathlib/Tactic/Polyrith.lean:16: Hence this is no longer supported in Mathlib,
+.lake/packages/mathlib/Mathlib/Tactic/Polyrith.lean:30: The `polyrith` tactic is no longer supported in Mathlib,
+.lake/packages/mathlib/Mathlib/Tactic/ITauto.lean:22: All built in propositional connectives are supported: `True`, `False`, `And`, `Or`, `→`,
+.lake/packages/mathlib/Mathlib/Tactic/ITauto.lean:24: and predicate logical connectives (`∀` and `∃`), are not supported, and will have to be
+.lake/packages/mathlib/Mathlib/Tactic/ProxyType.lean:157:       "proxy equivalence: recursive inductive types are not supported (and are usually infinite)"
+.lake/packages/mathlib/Mathlib/Tactic/ProxyType.lean:159:     throwError "proxy equivalence: inductive indices are not supported"
+.lake/packages/mathlib/Mathlib/Tactic/ProxyType.lean:300:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/DepRewrite.lean:120:   -- TODO: use `@[computed_field]`s below when `structure` supports that
+.lake/packages/mathlib/Mathlib/Tactic/DepRewrite.lean:396: /-- Analogue of `kabstract` with support for inserting casts. -/
+.lake/packages/mathlib/Mathlib/Tactic/DepRewrite.lean:409: /-- Analogue of `Lean.MVarId.rewrite` with support for inserting casts. -/
+.lake/packages/mathlib/Mathlib/Tactic/Spread.lean:20: This adds support for structure instance spread syntax.
+.lake/packages/mathlib/Mathlib/Tactic/Spread.lean:59:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Spread.lean:74:           throwUnsupported
+.lake/packages/mathlib/Mathlib/Tactic/Spread.lean:76:     if spreads.isEmpty then throwUnsupported
+.lake/packages/mathlib/Mathlib/Tactic/Peel.lean:73: In addition, `peel` supports goals of the form `(∀ x, p x) ↔ ∀ x, q x`, or likewise for any
+.lake/packages/mathlib/Mathlib/Tactic/LinearCombination'.lean:189: * does not support multiplication of two hypotheses (`h1 * h2`), division by a hypothesis (`3 / h`),
+.lake/packages/mathlib/Mathlib/Tactic/LinearCombination'.lean:211:   This feature is not supported for `linear_combination2`.
+.lake/packages/mathlib/Mathlib/Tactic/SudoSetOption.lean:30:         | none => throwError "unsupported option value {val}"
+.lake/packages/mathlib/Mathlib/Tactic/SuppressCompilation.lean:55: | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/SuppressCompilation.lean:69: | _ => Macro.throwUnsupported
+.lake/packages/mathlib/Mathlib/Tactic/AdaptationNote.lean:63:   | _ => fun _ => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Abel.lean:526:   | _ => Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/ToFun.lean:57:   | _ => throwUnsupportedSyntax }
+.lake/packages/mathlib/Mathlib/Tactic/DeriveFintype.lean:186:     return false -- mutually inductive types are not supported
+.lake/packages/mathlib/Mathlib/Tactic/Bound.lean:18: assuming that intermediate terms are nonnegative or positive as needed.  It also has some support
+.lake/packages/mathlib/Mathlib/Tactic/Bound.lean:241: inequalities for more types of relations, supports all `positivity` functionality, and is likely
+.lake/packages/mathlib/Mathlib/Tactic/ProdAssoc.lean:138:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/ModCases.lean:190:     if n == 0 then Elab.throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Hint.lean:104: -- TODO With widget support, could we run the tactics in parallel
+.lake/packages/mathlib/Mathlib/Tactic/DeriveEncodable.lean:359:       return false -- not supported yet
+.lake/packages/mathlib/Mathlib/Tactic/Subsingleton.lean:64: Has support for showing `BEq` instances are equal if they have `LawfulBEq` instances.
+.lake/packages/mathlib/Mathlib/Tactic/DeriveCountable.lean:267:       return false -- not supported yet
+.lake/packages/mathlib/Mathlib/Tactic/ReduceModChar.lean:195:     /- If we want to support semirings, here we could implement the `natLike` fallback. -/
+.lake/packages/mathlib/Mathlib/Tactic/CC.lean:221:       Note that `cc` supports some goals that `grind` doesn't,\n\
+.lake/packages/mathlib/Mathlib/Tactic/Push.lean:166: /-- `resolvePushId?` is a version of `resolveId?` that also supports notations like `_ ∈ _`,
+.lake/packages/mathlib/Mathlib/Tactic/TermCongr.lean:107: We need to decouple these to support letting the proof's elaboration be deferred until
+.lake/packages/mathlib/Mathlib/Tactic/TermCongr.lean:183:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/TermCongr.lean:260: This complexity is to support two features:
+.lake/packages/mathlib/Mathlib/Tactic/TermCongr.lean:509:       -- We do not yet support congruences in the binding domain for lambdas.
+.lake/packages/mathlib/Mathlib/Tactic/TermCongr.lean:534:         -- We do not yet support congruences in the binding domain for dependent pi types.
+.lake/packages/mathlib/Mathlib/Tactic/TermCongr.lean:738:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/ComputeDegree.lean:41:   Still, it may not be worth to provide special support for `natDegree f = 0`.
+.lake/packages/mathlib/Mathlib/Tactic/ComputeDegree.lean:45: * Add support for proving goals of the from `natDegree f ≠ 0` and `degree f ≠ 0`.
+.lake/packages/mathlib/Mathlib/Tactic/ComputeDegree.lean:46: * Make sure that `degree`, `natDegree` and `coeff` are equally supported.
+.lake/packages/mathlib/Mathlib/Tactic/StacksAttribute.lean:157:       | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/MinImports.lean:27: Parsing of `attribute`s is hard and the command makes minimal effort to support them.
+.lake/packages/mathlib/Mathlib/Tactic/LinearCombination.lean:23: inequalities is also supported.
+.lake/packages/mathlib/Mathlib/Tactic/LinearCombination.lean:135:       throwErrorAt tk "'linear_combination' supports only linear operations"
+.lake/packages/mathlib/Mathlib/Tactic/LinearCombination.lean:142:       throwErrorAt tk "'linear_combination' supports only linear operations"
+.lake/packages/mathlib/Mathlib/Tactic/LinearCombination.lean:147:     | _, .proof _ _ => throwErrorAt tk "'linear_combination' supports only linear operations"
+.lake/packages/mathlib/Mathlib/Tactic/Use.lean:159:       | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Variable.lean:54: Unlike `variable`, the `variable?` command does not support changing variable binder types.
+.lake/packages/mathlib/Mathlib/Tactic/Variable.lean:82: in binders do not round trip, this algorithm can fail. That said, it has some support
+.lake/packages/mathlib/Mathlib/Tactic/Variable.lean:252:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/MoveAdd.lean:87: Currently, `move_oper` supports `HAdd.hAdd`, `HMul.hMul`, `And`, `Or`, `Max.max`, `Min.min`.
+.lake/packages/mathlib/Mathlib/Tactic/MoveAdd.lean:341: To support a new binary operation, extend the list in this definition, so that it contains
+.lake/packages/mathlib/Mathlib/Tactic/Choose.lean:145:       -- TODO: support Σ, ×, or even any inductive type with 1 constructor ?
+.lake/packages/mathlib/Mathlib/Tactic/Widget/InteractiveUnfold.lean:200:         return .text "expressions with bound variables are not supported"
+.lake/packages/mathlib/Mathlib/Tactic/Widget/LibraryRewrite.lean:502:         return .text "rw??: expressions with bound variables are not yet supported"
+.lake/packages/mathlib/Mathlib/Tactic/Translate/ToAdditive.lean:262:           | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Translate/Core.lean:150:     | _, _ => throwUnsupportedSyntax }
+.lake/packages/mathlib/Mathlib/Tactic/Translate/Core.lean:625:       {pre}, but does not have the `@[{t.attrName}]` attribute. This is not supported.\n\
+.lake/packages/mathlib/Mathlib/Tactic/Translate/Core.lean:936:     | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Translate/Core.lean:983:       | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Translate/Core.lean:1010:         -- TODO: rely on `addDocString`s call to `validateDocComment` after removing `str` support
+.lake/packages/mathlib/Mathlib/Tactic/Translate/Core.lean:1022:       | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Translate/Core.lean:1028:   | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Translate/ToDual.lean:17: - Reordering arguments of arguments is not yet supported.
+.lake/packages/mathlib/Mathlib/Tactic/Translate/ToDual.lean:100:           | _ => throwUnsupportedSyntax
+.lake/packages/mathlib/Mathlib/Tactic/Simps/Basic.lean:92: /-- Make `MkSimpContextResult` giving data instead of Syntax. Doesn't support arguments.
+.lake/packages/mathlib/Mathlib/Tactic/Simps/Basic.lean:94: Todo: support arguments. -/
+.lake/packages/mathlib/Mathlib/Tactic/Simps/Basic.lean:102:       throwError "'simp_all' tactic does not support 'discharger' option"
+.lake/packages/mathlib/Mathlib/Tactic/Simps/Basic.lean:104:       throwError "'dsimp' tactic does not support 'discharger' option"
+.lake/packages/mathlib/Mathlib/Tactic/Simps/Basic.lean:125: /-- Make `Simp.Context` giving data instead of Syntax. Doesn't support arguments.
+.lake/packages/mathlib/Mathlib/Tactic/Simps/Basic.lean:127: Todo: support arguments. -/
+====================================================================================================
+PATTERN: \{v \| v ∈
+FormalBook/Chapter_28.lean:62:     _ = ∑ e ∈ E, #{v | v ∈ e}  := Finset.sum_card_bipartiteAbove_eq_sum_card_bipartiteBelow _
+FormalBook/Mathlib/EdgeFinset.lean:16: @[simp] theorem setOf_mem_eq {z : Sym2 α} : {v | v ∈ z} = z := rfl
+FormalBook/Mathlib/EdgeFinset.lean:50: lemma toFinset_eq [Fintype α] {e : Sym2 α} : (e : Finset α) = {v | v ∈ e}.toFinset := by
+FormalBook/Mathlib/EdgeFinset.lean:86: --     Finset.card {v | v ∈ e} = 2 := by
+FormalBook/Mathlib/EdgeFinset.lean:107: --     Finset.card {v | v ∈ e} = 2 := by
+.lake/packages/mathlib/Mathlib/Combinatorics/Quiver/Path/Vertices.lean:53: lemma verticesSet_nil {a : V} : {v | v ∈ (nil : Path a a).vertices} = {a} := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:251:     p.toSubgraph ≤ (⊤ : G.Subgraph).induce {v | v ∈ p.support} := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:604:     (G.induce {v | v ∈ p.support}).Connected := by
+.lake/packages/mathlib/Mathlib/Combinatorics/Quiver/Path/Vertices.lean:53: lemma verticesSet_nil {a : V} : {v | v ∈ (nil : Path a a).vertices} = {a} := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:251:     p.toSubgraph ≤ (⊤ : G.Subgraph).induce {v | v ∈ p.support} := by
+.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Connectivity/Subgraph.lean:604:     (G.induce {v | v ∈ p.support}).Connected := by

@@ -1,0 +1,140 @@
+[
+  {
+    "name": "SimpleGraph.mem_edgeFinset",
+    "returncode": 0,
+    "seconds": 54.74,
+    "looks_available": true
+  },
+  {
+    "name": "SimpleGraph.mem_edgeSet",
+    "returncode": 0,
+    "seconds": 38.9,
+    "looks_available": true
+  },
+  {
+    "name": "SimpleGraph.edgeSet",
+    "returncode": 0,
+    "seconds": 34.64,
+    "looks_available": true
+  },
+  {
+    "name": "SimpleGraph.edgeFinset",
+    "returncode": 0,
+    "seconds": 46.41,
+    "looks_available": true
+  },
+  {
+    "name": "SimpleGraph.IsRel",
+    "returncode": 1,
+    "seconds": 39.08,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.card_eq_two",
+    "returncode": 1,
+    "seconds": 37.61,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.card_eq_two_iff",
+    "returncode": 1,
+    "seconds": 38.57,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.card_eq_one",
+    "returncode": 1,
+    "seconds": 38.8,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.card_eq_one_iff",
+    "returncode": 1,
+    "seconds": 43.57,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.not_isDiag_iff",
+    "returncode": 1,
+    "seconds": 50.33,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.isDiag_iff",
+    "returncode": 1,
+    "seconds": 45.79,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.IsDiag",
+    "returncode": 0,
+    "seconds": 50.52,
+    "looks_available": true
+  },
+  {
+    "name": "Sym2.mem_iff",
+    "returncode": 0,
+    "seconds": 37.93,
+    "looks_available": true
+  },
+  {
+    "name": "Sym2.mk_eq_mk_iff",
+    "returncode": 0,
+    "seconds": 38.56,
+    "looks_available": true
+  },
+  {
+    "name": "Sym2.ind",
+    "returncode": 0,
+    "seconds": 38.12,
+    "looks_available": true
+  },
+  {
+    "name": "Sym2.induction_on",
+    "returncode": 1,
+    "seconds": 35.25,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.exists",
+    "returncode": 0,
+    "seconds": 46.87,
+    "looks_available": true
+  },
+  {
+    "name": "Sym2.toFinset",
+    "returncode": 0,
+    "seconds": 46.13,
+    "looks_available": true
+  },
+  {
+    "name": "Sym2.mem_toFinset",
+    "returncode": 0,
+    "seconds": 44.94,
+    "looks_available": true
+  },
+  {
+    "name": "Sym2.card_toFinset",
+    "returncode": 0,
+    "seconds": 43.29,
+    "looks_available": true
+  },
+  {
+    "name": "Sym2.support",
+    "returncode": 1,
+    "seconds": 41.33,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.mem_support",
+    "returncode": 1,
+    "seconds": 37.74,
+    "looks_available": false
+  },
+  {
+    "name": "Sym2.card_support",
+    "returncode": 1,
+    "seconds": 37.41,
+    "looks_available": false
+  }
+]

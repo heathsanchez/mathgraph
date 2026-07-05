@@ -1,0 +1,15 @@
+⚠ [3075/3075] Built FormalBook.Chapter_28 (45s)
+info: FormalBook/Chapter_28.lean:65:6: Sym2.IsDiag.{u_1} {α : Type u_1} : Sym2 α → Prop
+info: FormalBook/Chapter_28.lean:66:6: α : Type u_1
+inst✝² : Fintype α
+inst✝¹ : DecidableEq α
+G : SimpleGraph α
+inst✝ : DecidableRel G.Adj
+e : Sym2 α
+he : e ∈ G.edgeFinset
+⊢ #{v | v ∈ e} = 2
+warning: FormalBook/Chapter_28.lean:58:6: declaration uses 'sorry'
+warning: FormalBook/Chapter_28.lean:65:6: '#check Sym2.IsDiag' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+Build completed successfully (3075 jobs).
