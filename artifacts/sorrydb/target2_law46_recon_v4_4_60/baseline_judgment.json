@@ -1,0 +1,9 @@
+{
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "target": "equational_theories/Definability/Law46.lean",
+  "module": "equational_theories.Definability.Law46",
+  "cache_get_returncode": 0,
+  "baseline_build_returncode": 0,
+  "seconds": 126.91
+}

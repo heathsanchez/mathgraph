@@ -1,0 +1,5 @@
+repo=teorth/equational_theories
+commit=b1cc1756202d7f44e07bd4069b5df16901a36938
+branch=
+toolchain=leanprover/lean4:v4.29.1
+target=equational_theories/Definability/Law46.lean

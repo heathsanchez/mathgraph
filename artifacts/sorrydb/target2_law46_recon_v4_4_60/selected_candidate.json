@@ -1,0 +1,45 @@
+{
+  "repo": "teorth/equational_theories",
+  "path": "equational_theories/Definability/Law46.lean",
+  "url": "https://github.com/teorth/equational_theories/blob/b1cc1756202d7f44e07bd4069b5df16901a36938/equational_theories/Definability/Law46.lean",
+  "search_score": 32,
+  "clone_ok": true,
+  "clone_err": "",
+  "file_exists": true,
+  "has_lakefile": true,
+  "has_toolchain": true,
+  "toolchain": "leanprover/lean4:v4.29.1",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "active_sorry_count_est": 7,
+  "windows": [
+    {
+      "line": 19,
+      "window": "11: theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}\n12:   (hShape : L.lhs \u2b1d (fun _ \u21a6 Lf 0) = L.rhs \u2b1d (fun _ \u21a6 Lf 0) := by rfl)\n13:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n14:   : Law46.TermDefinableFrom L := by\n15:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n16:   cases hlhs : L.lhs\n17:   next x =>\n18:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n19:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n20:     have hxy : x \u2260 y := sorry\n21:     rw [show L = Lf x \u2243 Lf y from sorry]\n22:     clear hlhs hy hShape hDisjoint\n23:     apply termDefinable_of_termStructural\n24:     apply termStructural_of_implies\n25:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n26:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n27:       --   sorry\n28:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n29:       --   rw [h\u2081]"
+    },
+    {
+      "line": 20,
+      "window": "12:   (hShape : L.lhs \u2b1d (fun _ \u21a6 Lf 0) = L.rhs \u2b1d (fun _ \u21a6 Lf 0) := by rfl)\n13:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n14:   : Law46.TermDefinableFrom L := by\n15:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n16:   cases hlhs : L.lhs\n17:   next x =>\n18:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n19:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n20:     have hxy : x \u2260 y := sorry\n21:     rw [show L = Lf x \u2243 Lf y from sorry]\n22:     clear hlhs hy hShape hDisjoint\n23:     apply termDefinable_of_termStructural\n24:     apply termStructural_of_implies\n25:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n26:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n27:       --   sorry\n28:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n29:       --   rw [h\u2081]\n30:       --   simp"
+    },
+    {
+      "line": 21,
+      "window": "13:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n14:   : Law46.TermDefinableFrom L := by\n15:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n16:   cases hlhs : L.lhs\n17:   next x =>\n18:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n19:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n20:     have hxy : x \u2260 y := sorry\n21:     rw [show L = Lf x \u2243 Lf y from sorry]\n22:     clear hlhs hy hShape hDisjoint\n23:     apply termDefinable_of_termStructural\n24:     apply termStructural_of_implies\n25:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n26:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n27:       --   sorry\n28:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n29:       --   rw [h\u2081]\n30:       --   simp\n31:       -- simp [toFin, h\u2081]"
+    },
+    {
+      "line": 33,
+      "window": "25:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n26:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n27:       --   sorry\n28:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n29:       --   rw [h\u2081]\n30:       --   simp\n31:       -- simp [toFin, h\u2081]\n32:       -- simp_rw [h\u2081]\n33:       sorry\n34:     unfold implies\n35:     simp_rw [\u2190 satisfies_toFin (E := Lf x \u2243 Lf y)\n36:             , \u2190 satisfies_toNat (E := (Lf x \u2243 Lf y).toFin),\n37:             this]\n38:     exact Equation2_implies Law46\n39:   --Otherwise we call back to the more interesting case of a function application\n40:   intro G M hGL\n41:   use \u27e8fun x _ \u21a6 @Term.realize _ _ M.FOStructure _ (fun _ \u21a6 x) L.lhs.toTerm\u27e9\n42:   constructor\n43:   \u00b7 rw [@Law46.models_iff]"
+    },
+    {
+      "line": 49,
+      "window": "41:   use \u27e8fun x _ \u21a6 @Term.realize _ _ M.FOStructure _ (fun _ \u21a6 x) L.lhs.toTerm\u27e9\n42:   constructor\n43:   \u00b7 rw [@Law46.models_iff]\n44:     by_cases hG : Nonempty G\n45:     \u00b7 suffices \u2203 c, \u2200 (x y : G), x \u25c7 y = c by\n46:         obtain \u27e8c,h\u27e9 := this\n47:         intros x y z w\n48:         simp\n49:         sorry\n50:       sorry\n51:     \u00b7 exact (not_nonempty_iff.mp hG).elim\n52:   \u00b7 use (MagmaLanguage.lhomWithConstants _).onTerm (L.lhs.toTerm.subst fun a \u21a6 var 0)\n53:     funext v\n54:     sorry\n55: \n56: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from Equation 40 `x \u25c7 x = y \u25c7 y`. -/\n57: theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=\n58:   Equation46_termDefinableFrom_equalShape\n59: "
+    }
+  ],
+  "line_count": 74,
+  "small_file": true,
+  "imports": [
+    "import Batteries.Data.List.Basic",
+    "import equational_theories.Definability.Basic",
+    "import equational_theories.Equations.All"
+  ],
+  "selection_reason": "Next viable teorth/equational_theories definability sorry after excluding already-solved Law43.",
+  "status": "SELECTED_FOR_RECON"
+}
