@@ -1,0 +1,2354 @@
+[
+  {
+    "query": "sorry repo:teorth/equational_theories extension:lean",
+    "repo": "teorth/equational_theories",
+    "path": "equational_theories/Definability/Law43.lean",
+    "url": "https://github.com/teorth/equational_theories/blob/b1cc1756202d7f44e07bd4069b5df16901a36938/equational_theories/Definability/Law43.lean",
+    "score": 32
+  },
+  {
+    "query": "sorry repo:teorth/equational_theories extension:lean",
+    "repo": "teorth/equational_theories",
+    "path": "equational_theories/Definability/Law46.lean",
+    "url": "https://github.com/teorth/equational_theories/blob/b1cc1756202d7f44e07bd4069b5df16901a36938/equational_theories/Definability/Law46.lean",
+    "score": 32
+  },
+  {
+    "query": "sorry repo:teorth/equational_theories extension:lean",
+    "repo": "teorth/equational_theories",
+    "path": "equational_theories/FactsSyntax.lean",
+    "url": "https://github.com/teorth/equational_theories/blob/b1cc1756202d7f44e07bd4069b5df16901a36938/equational_theories/FactsSyntax.lean",
+    "score": 32
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "ImperialCollegeLondon/P11-Galois-Theory",
+    "path": "src/ftg.lean",
+    "url": "https://github.com/ImperialCollegeLondon/P11-Galois-Theory/blob/ced2caa52300feb633316b3120c40ca957c8e8ff/src/ftg.lean",
+    "score": 22
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "ImperialCollegeLondon/real-number-game",
+    "path": "ideas/M1Fsheet7solns.lean",
+    "url": "https://github.com/ImperialCollegeLondon/real-number-game/blob/f9dcb7d9255a79b57e62038228a23346c2dc301b/ideas/M1Fsheet7solns.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/NNG4",
+    "path": "Game/Levels/LessOrEqual/Level_3.lean",
+    "url": "https://github.com/leanprover-community/NNG4/blob/727e4d219838eeb7f3945d2e9a0539f244d50540/Game/Levels/LessOrEqual/Level_3.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/NNG4",
+    "path": "Game/MyNat/PeanoAxioms.lean",
+    "url": "https://github.com/leanprover-community/NNG4/blob/727e4d219838eeb7f3945d2e9a0539f244d50540/Game/MyNat/PeanoAxioms.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/ProofWidgets4",
+    "path": "ProofWidgets/Demos/Euclidean.lean",
+    "url": "https://github.com/leanprover-community/ProofWidgets4/blob/e4952ae2afde0dd2868b313356d1ce00da677bd9/ProofWidgets/Demos/Euclidean.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/aesop",
+    "path": "Aesop/RuleTac/Tactic.lean",
+    "url": "https://github.com/leanprover-community/aesop/blob/b5b9e2bb45ce91e4bc44eaa738c3a8910404ab82/Aesop/RuleTac/Tactic.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/CodeAction/Attr.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/CodeAction/Attr.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/CodeAction/Basic.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/CodeAction/Basic.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/CodeAction/Misc.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/CodeAction/Misc.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/Linter/UnreachableTactic.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/Linter/UnreachableTactic.lean",
+    "score": 22
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/Tactic/Case.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/Tactic/Case.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/Tactic/GeneralizeProofs.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/Tactic/GeneralizeProofs.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/Tactic/Lint/Misc.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/Tactic/Lint/Misc.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/Tactic/Lint/Simp.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/Tactic/Lint/Simp.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/doc-gen",
+    "path": "src/export_json.lean",
+    "url": "https://github.com/leanprover-community/doc-gen/blob/5e310293a0187d8676a9a8aebf07c1ba674ba877/src/export_json.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/duper",
+    "path": "Duper/Interface.lean",
+    "url": "https://github.com/leanprover-community/duper/blob/5e036ed3a2556f6490825305c9537d9930df7e66/Duper/Interface.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/duper",
+    "path": "Duper/RuleM.lean",
+    "url": "https://github.com/leanprover-community/duper/blob/5e036ed3a2556f6490825305c9537d9930df7e66/Duper/RuleM.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/import-graph",
+    "path": "ImportGraph/Util/FindSorry.lean",
+    "url": "https://github.com/leanprover-community/import-graph/blob/41f407a8e85b0fdc00910633a8f14754139b63f4/ImportGraph/Util/FindSorry.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "leanprover-community/import-graph",
+    "path": "MainGraph.lean",
+    "url": "https://github.com/leanprover-community/import-graph/blob/41f407a8e85b0fdc00910633a8f14754139b63f4/MainGraph.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/iris-lean",
+    "path": "Iris/Iris/Std/PartialMap.lean",
+    "url": "https://github.com/leanprover-community/iris-lean/blob/5c1eed3ea33261f4449771b062392c24329588f3/Iris/Iris/Std/PartialMap.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/lean",
+    "path": "library/init/meta/tactic.lean",
+    "url": "https://github.com/leanprover-community/lean/blob/f91b574c40ad862c5134d48995ad083fe48e4cd4/library/init/meta/tactic.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/lean-auto",
+    "path": "Auto/EvaluateAuto/TestTactics.lean",
+    "url": "https://github.com/leanprover-community/lean-auto/blob/dcc3ecf8fff5baac87b6e42a4d841ba80e903b0f/Auto/EvaluateAuto/TestTactics.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/lean-liquid",
+    "path": "backup/sheafification_mono.lean",
+    "url": "https://github.com/leanprover-community/lean-liquid/blob/087fffad55dc1dd8d54ab35c9816926a45b8c0fd/backup/sheafification_mono.lean",
+    "score": 22
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "leanprover-community/lean-liquid",
+    "path": "src/condensed/basic.lean",
+    "url": "https://github.com/leanprover-community/lean-liquid/blob/087fffad55dc1dd8d54ab35c9816926a45b8c0fd/src/condensed/basic.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/lean-perfectoid-spaces",
+    "path": "src/for_mathlib/topological_groups.lean",
+    "url": "https://github.com/leanprover-community/lean-perfectoid-spaces/blob/95a6520ce578b30a80b4c36e36ab2d559a842690/src/for_mathlib/topological_groups.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/lean4-metaprogramming-book",
+    "path": "lean/solutions/07_elaboration.lean",
+    "url": "https://github.com/leanprover-community/lean4-metaprogramming-book/blob/731400dccbecc24d434838aa5ace19886f7fd22b/lean/solutions/07_elaboration.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/lean4game",
+    "path": "server/GameServer/Tactic/Template.lean",
+    "url": "https://github.com/leanprover-community/lean4game/blob/5de9e84fd16e623b5c566770498aeed3f691392c/server/GameServer/Tactic/Template.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/lftcm2020",
+    "path": "src/solutions/tuesday/sets.lean",
+    "url": "https://github.com/leanprover-community/lftcm2020/blob/64d1861d32d4bb38a65994f7c47d96892333130f/src/solutions/tuesday/sets.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C04_Sets_and_Functions/S02_Functions.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C04_Sets_and_Functions/S02_Functions.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C05_Elementary_Number_Theory/S01_Irrational_Roots.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C05_Elementary_Number_Theory/S01_Irrational_Roots.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C06_Discrete_Mathematics/S03_Inductive_Structures.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C06_Discrete_Mathematics/S03_Inductive_Structures.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C07_Structures/S03_Building_the_Gaussian_Integers.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C07_Structures/S03_Building_the_Gaussian_Integers.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C08_Hierarchies/S02_Morphisms.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C08_Hierarchies/S02_Morphisms.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C08_Hierarchies/S03_Subobjects.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C08_Hierarchies/S03_Subobjects.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C10_Linear_Algebra/S02_Subspaces.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C10_Linear_Algebra/S02_Subspaces.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C11_Topology/S01_Filters.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C11_Topology/S01_Filters.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/02_Basics/02_Proving_Identities_in_Algebraic_Structures.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/02_Basics/02_Proving_Identities_in_Algebraic_Structures.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/03_Logic/02_The_Existential_Quantifier.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/03_Logic/02_The_Existential_Quantifier.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/03_Logic/03_Negation.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/03_Logic/03_Negation.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/04_Sets_and_Functions/01_Sets.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/04_Sets_and_Functions/01_Sets.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/04_Sets_and_Functions/03_The_Schroeder_Bernstein_Theorem.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/04_Sets_and_Functions/03_The_Schroeder_Bernstein_Theorem.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/06_Abstract_Algebra/03_Building_the_Gaussian_Integers.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/06_Abstract_Algebra/03_Building_the_Gaussian_Integers.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/07_Topology/solutions/solutions_02_Metric_Spaces.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/07_Topology/solutions/solutions_02_Metric_Spaces.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/07_Topology/solutions/solutions_03_Topological_Spaces.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/07_Topology/solutions/solutions_03_Topological_Spaces.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Algebra/Tropical/Basic.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Algebra/Tropical/Basic.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/CategoryTheory/Category/Basic.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/CategoryTheory/Category/Basic.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Data/FunLike/Embedding.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Data/FunLike/Embedding.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Data/FunLike/Equiv.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Data/FunLike/Equiv.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Data/Nat/Init.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Data/Nat/Init.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Lean/Elab/Term.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Lean/Elab/Term.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Lean/Expr/Basic.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Lean/Expr/Basic.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/NumberTheory/ModularForms/Derivative.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/NumberTheory/ModularForms/Derivative.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/Choose.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/Choose.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/DeriveFintype.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/DeriveFintype.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/Eval.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/Eval.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/GCongr/Core.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/GCongr/Core.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/ITauto.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/ITauto.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/LinearCombinationPrime.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/LinearCombinationPrime.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/Linter/EmptyLine.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/Linter/EmptyLine.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/Linter/UnusedInstancesInType.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/Linter/UnusedInstancesInType.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/Qify.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/Qify.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Tactic/Widget/Calc.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Tactic/Widget/Calc.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Util/AssertNoSorry.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Util/AssertNoSorry.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathport",
+    "path": "Mathport/Binary/ParseTLean.lean",
+    "url": "https://github.com/leanprover-community/mathport/blob/375a0a491c3179de17e4524875c69a7d92459588/Mathport/Binary/ParseTLean.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/mathport",
+    "path": "Mathport/Syntax/Parse.lean",
+    "url": "https://github.com/leanprover-community/mathport/blob/375a0a491c3179de17e4524875c69a7d92459588/Mathport/Syntax/Parse.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/physlib",
+    "path": "Physlib/Meta/Sorry.lean",
+    "url": "https://github.com/leanprover-community/physlib/blob/2e21835a8fd5304fbf62f4d68ae4385272292e00/Physlib/Meta/Sorry.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/physlib",
+    "path": "scripts/MetaPrograms/sorry_lint.lean",
+    "url": "https://github.com/leanprover-community/physlib/blob/2e21835a8fd5304fbf62f4d68ae4385272292e00/scripts/MetaPrograms/sorry_lint.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "leanprover-community/quote4",
+    "path": "Qq/Simp.lean",
+    "url": "https://github.com/leanprover-community/quote4/blob/7a62bd13860cd39ac98da16ffc8c24d601353f69/Qq/Simp.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/repl",
+    "path": "REPL/JSON.lean",
+    "url": "https://github.com/leanprover-community/repl/blob/0157a5d0620cb0670636867743ad5abf551f5352/REPL/JSON.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/repl",
+    "path": "REPL/Main.lean",
+    "url": "https://github.com/leanprover-community/repl/blob/0157a5d0620cb0670636867743ad5abf551f5352/REPL/Main.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/sphere-eversion",
+    "path": "SphereEversion/ToMathlib/Unused/GeometryManifoldMisc.lean",
+    "url": "https://github.com/leanprover-community/sphere-eversion/blob/ded8fda5e76bd11cfde49ce5018dee73538dd776/SphereEversion/ToMathlib/Unused/GeometryManifoldMisc.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/tutorials4",
+    "path": "Tutorials/Solutions/03ForallOr.lean",
+    "url": "https://github.com/leanprover-community/tutorials4/blob/1e7a75a921554daadde78dcff08f6c75e6660666/Tutorials/Solutions/03ForallOr.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "leanprover/KLR",
+    "path": "KLR/Eval.lean",
+    "url": "https://github.com/leanprover/KLR/blob/7ccd18c174b2f4bd896bb6025eae7ded1386fa7d/KLR/Eval.lean",
+    "score": 22
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "leanprover/KLR",
+    "path": "KLR/NKI/Typed/Elab.lean",
+    "url": "https://github.com/leanprover/KLR/blob/7ccd18c174b2f4bd896bb6025eae7ded1386fa7d/KLR/NKI/Typed/Elab.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "leanprover/LNSym",
+    "path": "Arm/Util.lean",
+    "url": "https://github.com/leanprover/LNSym/blob/5c05220ff970e3bdd7813ad0c9ef3741522c8b92/Arm/Util.lean",
+    "score": 22
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "leanprover/subverso",
+    "path": "demo/Demo.lean",
+    "url": "https://github.com/leanprover/subverso/blob/d698f263d110220853fc26e6817e77b9bd7cb325/demo/Demo.lean",
+    "score": 22
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "leanprover/verso-slides",
+    "path": "TestElab/FindBodyLineRange.lean",
+    "url": "https://github.com/leanprover/verso-slides/blob/723f6e75bd54b7bb0572faa181823df85b59da29/TestElab/FindBodyLineRange.lean",
+    "score": 22
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/duper",
+    "path": "DuperOnMathlib/DuperOnMathlib/MIL/C02_Basics/S05_Proving_Facts_about_Algebraic_Structures.lean",
+    "url": "https://github.com/leanprover-community/duper/blob/5e036ed3a2556f6490825305c9537d9930df7e66/DuperOnMathlib/DuperOnMathlib/MIL/C02_Basics/S05_Proving_Facts_about_Algebraic_Structures.lean",
+    "score": 20
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "leanprover/lean4-ci-test",
+    "path": "src/Lean/Meta/Tactic/Util.lean",
+    "url": "https://github.com/leanprover/lean4-ci-test/blob/1e34fa391e987d0a975eccb253ab57b50992cfe8/src/Lean/Meta/Tactic/Util.lean",
+    "score": 20
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "leanprover/theorem_proving_in_lean4",
+    "path": "book/TPiL/Examples.lean",
+    "url": "https://github.com/leanprover/theorem_proving_in_lean4/blob/63fad08fcd5f4f3b8b0464561e2fa252671296b9/book/TPiL/Examples.lean",
+    "score": 20
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "ATOMSLab/LFSE2024",
+    "path": "Lean Code/Lecture2.lean",
+    "url": "https://github.com/ATOMSLab/LFSE2024/blob/d7aa531d0fd9b8e5089dc2ae2375e069d4dab1bc/Lean Code/Lecture2.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "ATOMSLab/LFSE2024",
+    "path": "Lean Code/Lecture6.lean",
+    "url": "https://github.com/ATOMSLab/LFSE2024/blob/d7aa531d0fd9b8e5089dc2ae2375e069d4dab1bc/Lean Code/Lecture6.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "path": "lakefile.lean",
+    "url": "https://github.com/Beneficial-AI-Foundation/FloatSpec/blob/bb9d513511a5ae4e945eebe0b48ba58afbc831f5/lakefile.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LF0282_specs.lean",
+    "url": "https://github.com/Beneficial-AI-Foundation/vericoding-benchmark/blob/387cd69996792d452ead7b0460f36ee4c5cdd148/specs/LF0282_specs.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LF2562_specs.lean",
+    "url": "https://github.com/Beneficial-AI-Foundation/vericoding-benchmark/blob/387cd69996792d452ead7b0460f36ee4c5cdd148/specs/LF2562_specs.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LF2636_specs.lean",
+    "url": "https://github.com/Beneficial-AI-Foundation/vericoding-benchmark/blob/387cd69996792d452ead7b0460f36ee4c5cdd148/specs/LF2636_specs.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LF2669_specs.lean",
+    "url": "https://github.com/Beneficial-AI-Foundation/vericoding-benchmark/blob/387cd69996792d452ead7b0460f36ee4c5cdd148/specs/LF2669_specs.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LF4655_specs.lean",
+    "url": "https://github.com/Beneficial-AI-Foundation/vericoding-benchmark/blob/387cd69996792d452ead7b0460f36ee4c5cdd148/specs/LF4655_specs.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LT0344_specs.lean",
+    "url": "https://github.com/Beneficial-AI-Foundation/vericoding-benchmark/blob/387cd69996792d452ead7b0460f36ee4c5cdd148/specs/LT0344_specs.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "Brkhu/lean",
+    "path": "P3.lean",
+    "url": "https://github.com/Brkhu/lean/blob/4209264e71a6300fe1317047ca5ac1dc8d6ec5a0/P3.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "ByteDance-Seed/Seed-Prover",
+    "path": "SeedProver/imo_all.lean",
+    "url": "https://github.com/ByteDance-Seed/Seed-Prover/blob/38c59cebaf969ac259196eb091757518d5b54c67/SeedProver/imo_all.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "GaloisInc/lean-protocol-support",
+    "path": "galois/arith.lean",
+    "url": "https://github.com/GaloisInc/lean-protocol-support/blob/cabfa3abedbdd6fdca6e2da6fbbf91a13ed48dda/galois/arith.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "HannahSantos/FMCn_Lean",
+    "path": "FMCnLean/provas/FUN2.lean",
+    "url": "https://github.com/HannahSantos/FMCn_Lean/blob/7a8ee0d4ed770230ded8d85583f8bad310ba791f/FMCnLean/provas/FUN2.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "JamesGallicchio/LeanColls",
+    "path": "LeanColls/Data/BitVec.lean",
+    "url": "https://github.com/JamesGallicchio/LeanColls/blob/e34cd4196149ea2b60a5b2a88fe30513c5cf8153/LeanColls/Data/BitVec.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "JamesGallicchio/LeanColls",
+    "path": "LeanColls/Data/RBFT.lean",
+    "url": "https://github.com/JamesGallicchio/LeanColls/blob/e34cd4196149ea2b60a5b2a88fe30513c5cf8153/LeanColls/Data/RBFT.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "JoeyLupo/cryptolib",
+    "path": "src/negligible.lean",
+    "url": "https://github.com/JoeyLupo/cryptolib/blob/70cb8e5d9dfeb77acc5c0697ad696cae31500c95/src/negligible.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "KellyJDavis/goedels-poetry",
+    "path": "theorems/MOBench/Imo1987P1.lean",
+    "url": "https://github.com/KellyJDavis/goedels-poetry/blob/811cb623f9080e95c53efe246ce0bc4cae40e25b/theorems/MOBench/Imo1987P1.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "KisaraBlue/ec-tate-lean",
+    "path": "ECTate/Bin.lean",
+    "url": "https://github.com/KisaraBlue/ec-tate-lean/blob/865843899c56a28044b8bbe42f88e75a4431a629/ECTate/Bin.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "KisaraBlue/ec-tate-lean",
+    "path": "ECTate/Tactic/FactorAs.lean",
+    "url": "https://github.com/KisaraBlue/ec-tate-lean/blob/865843899c56a28044b8bbe42f88e75a4431a629/ECTate/Tactic/FactorAs.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "LodeVermeulen/Lean4_Bogdanovs_lemma",
+    "path": "MyProject/old_code.lean",
+    "url": "https://github.com/LodeVermeulen/Lean4_Bogdanovs_lemma/blob/ea65b8afe99177970b10260085d144caeb98495d/MyProject/old_code.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "MoonshotAI/CombiBench",
+    "path": "lean/CombiBench/hackmath_5.lean",
+    "url": "https://github.com/MoonshotAI/CombiBench/blob/c67e4213597b1477351d9ef5ca37fb622084cc78/lean/CombiBench/hackmath_5.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "NUS-Math-Formalization/coxeter",
+    "path": "Coxeter/Morphism.lean",
+    "url": "https://github.com/NUS-Math-Formalization/coxeter/blob/96af8aee7943ca8685ed1b00cc83a559ea389a97/Coxeter/Morphism.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "NUS-Math-Formalization/coxeter",
+    "path": "Coxeter/StrongExchange.lean",
+    "url": "https://github.com/NUS-Math-Formalization/coxeter/blob/96af8aee7943ca8685ed1b00cc83a559ea389a97/Coxeter/StrongExchange.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "Naomij1/lean-homotopie",
+    "path": "src/misc.lean",
+    "url": "https://github.com/Naomij1/lean-homotopie/blob/21bd6be53449c61088234ceab7ec63c18628521a/src/misc.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "Project-Navi/ordvec-formalization",
+    "path": "OrdvecFormalization/FNCH.lean",
+    "url": "https://github.com/Project-Navi/ordvec-formalization/blob/21bc93de82c328571e489533567f3f11f76c3d1c/OrdvecFormalization/FNCH.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "Project-Navi/ordvec-formalization",
+    "path": "OrdvecFormalization/MLR.lean",
+    "url": "https://github.com/Project-Navi/ordvec-formalization/blob/21bc93de82c328571e489533567f3f11f76c3d1c/OrdvecFormalization/MLR.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "T-Brick/c0deine",
+    "path": "C0deine/Context/Label.lean",
+    "url": "https://github.com/T-Brick/c0deine/blob/91f6e21e8715e59f512982ace05f785f78203b5b/C0deine/Context/Label.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "T-Brick/lean-wasm",
+    "path": "Wasm/Vec.lean",
+    "url": "https://github.com/T-Brick/lean-wasm/blob/43b051f30b920e4d1253d83ae08b3dc83b4d6d88/Wasm/Vec.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "TOTOGT/AXLE",
+    "path": "discreteDm3.lean",
+    "url": "https://github.com/TOTOGT/AXLE/blob/e9c9f37413ed17521b1c4db489a239f44943e2e9/discreteDm3.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "TOTOGT/AXLE",
+    "path": "discretedm3.lean",
+    "url": "https://github.com/TOTOGT/AXLE/blob/e9c9f37413ed17521b1c4db489a239f44943e2e9/discretedm3.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "Verilean/hesper",
+    "path": "Hesper/CircuitV2/IR.lean",
+    "url": "https://github.com/Verilean/hesper/blob/acf642f459abc7385076e9b272c444d469eab1a6/Hesper/CircuitV2/IR.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "Verilean/sparkle",
+    "path": "Tools/SVParser/Macro.lean",
+    "url": "https://github.com/Verilean/sparkle/blob/67854ae262d95e3a93fe91cea49be03e2e7751c8/Tools/SVParser/Macro.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "Zhitao-He/MATPBench",
+    "path": "lean4/Q101.lean",
+    "url": "https://github.com/Zhitao-He/MATPBench/blob/9bc114246fca7e01c64093bbcc6b62ac6e478354/lean4/Q101.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "Zhitao-He/MATPBench",
+    "path": "lean4/Q416.lean",
+    "url": "https://github.com/Zhitao-He/MATPBench/blob/9bc114246fca7e01c64093bbcc6b62ac6e478354/lean4/Q416.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "alexjbest/leaff",
+    "path": "Leaff/Git.lean",
+    "url": "https://github.com/alexjbest/leaff/blob/0e447361d91a116a4ef4dd63328142fbde97e039/Leaff/Git.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "alexpatel/lean-modal",
+    "path": "modal.lean",
+    "url": "https://github.com/alexpatel/lean-modal/blob/6d92403347b345641aca7b72355f81e8ac46587d/modal.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "androolloyd/octravpn",
+    "path": "proofs/lean/WireProtocol.lean",
+    "url": "https://github.com/androolloyd/octravpn/blob/22112121945f14665df62cc8fa08b5136af9add0/proofs/lean/WireProtocol.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "apnelson1/Matroid",
+    "path": "Matroid/Spikes.lean",
+    "url": "https://github.com/apnelson1/Matroid/blob/2e6e0f4098f6ec3cacfc7b653195b0c513103231/Matroid/Spikes.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "apnelson1/Matroid",
+    "path": "WIP/Fan.lean",
+    "url": "https://github.com/apnelson1/Matroid/blob/2e6e0f4098f6ec3cacfc7b653195b0c513103231/WIP/Fan.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "boogie-org/lean-itrees",
+    "path": "ITree/Effect.lean",
+    "url": "https://github.com/boogie-org/lean-itrees/blob/f409016314182f4ac90eefdec8a41a6ae189799b/ITree/Effect.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "boogie-org/lean-itrees",
+    "path": "ITree/Iter.lean",
+    "url": "https://github.com/boogie-org/lean-itrees/blob/f409016314182f4ac90eefdec8a41a6ae189799b/ITree/Iter.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "bsubercaseaux/EmptyHexagonLean",
+    "path": "Lean/attic/Main.lean",
+    "url": "https://github.com/bsubercaseaux/EmptyHexagonLean/blob/3073981d2aa5aa1e399b382e605c0ed12a0b69af/Lean/attic/Main.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "cmu-l3/llmlean",
+    "path": "LLMlean/API/Common.lean",
+    "url": "https://github.com/cmu-l3/llmlean/blob/7ec2df26c124a9c4c4c602a7956bff6997e39602/LLMlean/API/Common.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "collinzrj/sts_lean",
+    "path": "Main.lean",
+    "url": "https://github.com/collinzrj/sts_lean/blob/7abc75b9d2fd82b82b6061972fa774047a04c336/Main.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "david-christiansen/bob24",
+    "path": "Bob/Intro.lean",
+    "url": "https://github.com/david-christiansen/bob24/blob/73ac2757baed0045b42e422debeedd3ebd34f120/Bob/Intro.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "djvelleman/HTPILeanPackage",
+    "path": "Chap3Ex.lean",
+    "url": "https://github.com/djvelleman/HTPILeanPackage/blob/1dead0e8474c3b3b7617f5a45bab2e85a5a1f495/Chap3Ex.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "djvelleman/HTPILeanPackage",
+    "path": "Chap4Ex.lean",
+    "url": "https://github.com/djvelleman/HTPILeanPackage/blob/1dead0e8474c3b3b7617f5a45bab2e85a5a1f495/Chap4Ex.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "djvelleman/HTPILeanPackage",
+    "path": "Chap5Ex.lean",
+    "url": "https://github.com/djvelleman/HTPILeanPackage/blob/1dead0e8474c3b3b7617f5a45bab2e85a5a1f495/Chap5Ex.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "djvelleman/HTPILeanPackage",
+    "path": "Chap6Ex.lean",
+    "url": "https://github.com/djvelleman/HTPILeanPackage/blob/1dead0e8474c3b3b7617f5a45bab2e85a5a1f495/Chap6Ex.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "djvelleman/HTPILeanPackage",
+    "path": "Chap7Ex.lean",
+    "url": "https://github.com/djvelleman/HTPILeanPackage/blob/1dead0e8474c3b3b7617f5a45bab2e85a5a1f495/Chap7Ex.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "djvelleman/HTPILeanPackage",
+    "path": "Chap8Ex.lean",
+    "url": "https://github.com/djvelleman/HTPILeanPackage/blob/1dead0e8474c3b3b7617f5a45bab2e85a5a1f495/Chap8Ex.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "ekmett/coda",
+    "path": "lean/nominal.lean",
+    "url": "https://github.com/ekmett/coda/blob/ed9d720737bf6f1d025d6a587c9435e71fd4f8ec/lean/nominal.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "emilyriehl/infinity-cosmos",
+    "path": "InfinityCosmos/Init.lean",
+    "url": "https://github.com/emilyriehl/infinity-cosmos/blob/b42bf5b0bf5a3d6f69e8284304760a1d347fc83a/InfinityCosmos/Init.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "eric-wieser/lean-matrix-cookbook",
+    "path": "analyze.lean",
+    "url": "https://github.com/eric-wieser/lean-matrix-cookbook/blob/5682ac96f54bd119bd92b053962433c6940b6385/analyze.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "fischerman/GPU-transformation-verifier",
+    "path": "src/aux.lean",
+    "url": "https://github.com/fischerman/GPU-transformation-verifier/blob/75a5016f05382738ff93ce5859c4cfa47ccb63c1/src/aux.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "flypitch/flypitch",
+    "path": "old/cohen_poset.lean",
+    "url": "https://github.com/flypitch/flypitch/blob/d72904c17fbb874f01ffe168667ba12663a7b853/old/cohen_poset.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "flypitch/flypitch",
+    "path": "old/language_vector.lean",
+    "url": "https://github.com/flypitch/flypitch/blob/d72904c17fbb874f01ffe168667ba12663a7b853/old/language_vector.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "flypitch/flypitch",
+    "path": "old/realization.lean",
+    "url": "https://github.com/flypitch/flypitch/blob/d72904c17fbb874f01ffe168667ba12663a7b853/old/realization.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "flypitch/flypitch",
+    "path": "src/bfol.lean",
+    "url": "https://github.com/flypitch/flypitch/blob/d72904c17fbb874f01ffe168667ba12663a7b853/src/bfol.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "flypitch/flypitch",
+    "path": "src/bvm.lean",
+    "url": "https://github.com/flypitch/flypitch/blob/d72904c17fbb874f01ffe168667ba12663a7b853/src/bvm.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "flypitch/flypitch",
+    "path": "src/fol.lean",
+    "url": "https://github.com/flypitch/flypitch/blob/d72904c17fbb874f01ffe168667ba12663a7b853/src/fol.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "fplaunchpad/sal",
+    "path": "Sal/Tactic/Sal.lean",
+    "url": "https://github.com/fplaunchpad/sal/blob/ff6c2ec85d570b6a4f2c5e094300cd0c2a2f1bb0/Sal/Tactic/Sal.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "frenzymath/FATE-H",
+    "path": "FATEH/93.lean",
+    "url": "https://github.com/frenzymath/FATE-H/blob/17967b3118082adfba7c5a5fc03b5f4a53717b59/FATEH/93.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "frenzymath/FATE-X",
+    "path": "FATEX/9.lean",
+    "url": "https://github.com/frenzymath/FATE-X/blob/a6fb49ee85fd05bb8ce9fc66e1c66797b5a0592d/FATEX/9.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "ghost-issue/sf_lean4",
+    "path": "lf/IndProp.lean",
+    "url": "https://github.com/ghost-issue/sf_lean4/blob/31b94ca0e964644ab3117ff5940ed5d7ea2b5f0a/lf/IndProp.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "ghost-issue/sf_lean4",
+    "path": "lf/Lists.lean",
+    "url": "https://github.com/ghost-issue/sf_lean4/blob/31b94ca0e964644ab3117ff5940ed5d7ea2b5f0a/lf/Lists.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "ghost-issue/sf_lean4",
+    "path": "lf/Logic.lean",
+    "url": "https://github.com/ghost-issue/sf_lean4/blob/31b94ca0e964644ab3117ff5940ed5d7ea2b5f0a/lf/Logic.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "ghost-issue/sf_lean4",
+    "path": "lf/Poly.lean",
+    "url": "https://github.com/ghost-issue/sf_lean4/blob/31b94ca0e964644ab3117ff5940ed5d7ea2b5f0a/lf/Poly.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "ghost-issue/sf_lean4",
+    "path": "lf/Tactics.lean",
+    "url": "https://github.com/ghost-issue/sf_lean4/blob/31b94ca0e964644ab3117ff5940ed5d7ea2b5f0a/lf/Tactics.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "google-deepmind/formal-imo",
+    "path": "lakefile.lean",
+    "url": "https://github.com/google-deepmind/formal-imo/blob/a85d84b97c8e88a352c136b1e29c355139609bea/lakefile.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "google-deepmind/formal-putnam-like",
+    "path": "PutnamLike/Set4/B4.lean",
+    "url": "https://github.com/google-deepmind/formal-putnam-like/blob/9d6f67be000cd7ccaa0eedb9325e86e67afca6c7/PutnamLike/Set4/B4.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "google-deepmind/formal-putnam-like",
+    "path": "PutnamLike/Set8/A4.lean",
+    "url": "https://github.com/google-deepmind/formal-putnam-like/blob/9d6f67be000cd7ccaa0eedb9325e86e67afca6c7/PutnamLike/Set8/A4.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "google-deepmind/formal-putnam-like",
+    "path": "lakefile.lean",
+    "url": "https://github.com/google-deepmind/formal-putnam-like/blob/9d6f67be000cd7ccaa0eedb9325e86e67afca6c7/lakefile.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "google-deepmind/miniF2F",
+    "path": "lakefile.lean",
+    "url": "https://github.com/google-deepmind/miniF2F/blob/f0a20e14c1eeccd859d51bb4c2b3ee487889c303/lakefile.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "joehendrix/lean-crypto",
+    "path": "lib/McEliece.lean",
+    "url": "https://github.com/joehendrix/lean-crypto/blob/1c7f01d34496245ee0676c7d98f954c0c9748d75/lib/McEliece.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "kbuzzard/xena",
+    "path": "Build_Maths/build_math.lean",
+    "url": "https://github.com/kbuzzard/xena/blob/268b3bab45ba8fbed09b45cbbdc80a3813f73b5e/Build_Maths/build_math.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "kbuzzard/xena",
+    "path": "src/imo2019_4.lean",
+    "url": "https://github.com/kbuzzard/xena/blob/268b3bab45ba8fbed09b45cbbdc80a3813f73b5e/src/imo2019_4.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "kim-em/proof",
+    "path": "lean/20170403-eq.rec.lean",
+    "url": "https://github.com/kim-em/proof/blob/5ee398aa239a379a431190edbb6022b1a0aa2c70/lean/20170403-eq.rec.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "kim-em/proof",
+    "path": "lean/20170903-refl.lean",
+    "url": "https://github.com/kim-em/proof/blob/5ee398aa239a379a431190edbb6022b1a0aa2c70/lean/20170903-refl.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "kmill/lean4-raytracer",
+    "path": "old/vec.lean",
+    "url": "https://github.com/kmill/lean4-raytracer/blob/205143b32c006199c914cf6f340004137aaaa72a/old/vec.lean",
+    "score": 12
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "leanprover-community/lean4game",
+    "path": "doc/create_game.md",
+    "url": "https://github.com/leanprover-community/lean4game/blob/5de9e84fd16e623b5c566770498aeed3f691392c/doc/create_game.md",
+    "score": 12
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "leanprover/lean-action",
+    "path": "README.md",
+    "url": "https://github.com/leanprover/lean-action/blob/6fe4ae6a449c9758f51250ee249ebbc7ec37ee48/README.md",
+    "score": 12
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "leanprover/lean-action",
+    "path": "scripts/run_nanoda.sh",
+    "url": "https://github.com/leanprover/lean-action/blob/6fe4ae6a449c9758f51250ee249ebbc7ec37ee48/scripts/run_nanoda.sh",
+    "score": 12
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "leanprover/vscode-lean4",
+    "path": "vscode-lean4/manual/manual.md",
+    "url": "https://github.com/leanprover/vscode-lean4/blob/17d1d086d9cce16f885dde102adb056cad15cb50/vscode-lean4/manual/manual.md",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "lecopivo/SciLean",
+    "path": "SciLean.lean",
+    "url": "https://github.com/lecopivo/SciLean/blob/95f8119a2884e9c41f82136523bd5568ea7075c5/SciLean.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "lecopivo/SciLean",
+    "path": "SciLean/AD/FDeriv.lean",
+    "url": "https://github.com/lecopivo/SciLean/blob/95f8119a2884e9c41f82136523bd5568ea7075c5/SciLean/AD/FDeriv.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "lecopivo/SciLean",
+    "path": "SciLean/Data/Vector.lean",
+    "url": "https://github.com/lecopivo/SciLean/blob/95f8119a2884e9c41f82136523bd5568ea7075c5/SciLean/Data/Vector.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "liuchengwucn/FIMO",
+    "path": "lean/fimo.lean",
+    "url": "https://github.com/liuchengwucn/FIMO/blob/4530457435d35e8104d2a2148598a0965a8f3c60/lean/fimo.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "marcusrossel/lean-egg",
+    "path": "Lean/Egg/Tactic/Basic.lean",
+    "url": "https://github.com/marcusrossel/lean-egg/blob/2605a63b6a78407114c692f5dc626531ff62df55/Lean/Egg/Tactic/Basic.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "mariainesdff/ostrowski",
+    "path": "src/talk.lean",
+    "url": "https://github.com/mariainesdff/ostrowski/blob/0d915b86aa803274e10acd956a4affbaa69cbf66/src/talk.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "math-xmum/gametheory",
+    "path": "Matching.lean",
+    "url": "https://github.com/math-xmum/gametheory/blob/ea4bb7cb9548abb82ebd14524f19bb956b168695/Matching.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "math-xmum/gametheory",
+    "path": "Nash1.lean",
+    "url": "https://github.com/math-xmum/gametheory/blob/ea4bb7cb9548abb82ebd14524f19bb956b168695/Nash1.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "math-xmum/gametheory",
+    "path": "Simplex1.lean",
+    "url": "https://github.com/math-xmum/gametheory/blob/ea4bb7cb9548abb82ebd14524f19bb956b168695/Simplex1.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "math-xmum/gametheory",
+    "path": "Sperner.lean",
+    "url": "https://github.com/math-xmum/gametheory/blob/ea4bb7cb9548abb82ebd14524f19bb956b168695/Sperner.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "metasecdev/irrational-gap-mobius",
+    "path": "no_sorry.lean",
+    "url": "https://github.com/metasecdev/irrational-gap-mobius/blob/061fbd572d9df477a8d2f4375520934ffdbacacf/no_sorry.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "miguelmarco/topologia_general_lean",
+    "path": "conjuntos.lean",
+    "url": "https://github.com/miguelmarco/topologia_general_lean/blob/4803efa8c4d45ba7041fc0bdfe54a522c7aabf4e/conjuntos.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_05.lean",
+    "url": "https://github.com/mo271/FormalBook/blob/701731c73f68dbc1559703f3568aa5c4924a7bdc/FormalBook/Chapter_05.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_06.lean",
+    "url": "https://github.com/mo271/FormalBook/blob/701731c73f68dbc1559703f3568aa5c4924a7bdc/FormalBook/Chapter_06.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "nahisaho/MUSUBIX",
+    "path": "001.lean",
+    "url": "https://github.com/nahisaho/MUSUBIX/blob/bd446d09f48578878962c09b99260494db3499b1/001.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "nahisaho/MUSUBIX",
+    "path": "002.lean",
+    "url": "https://github.com/nahisaho/MUSUBIX/blob/bd446d09f48578878962c09b99260494db3499b1/002.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "namin/climber",
+    "path": "Climber/Climb.lean",
+    "url": "https://github.com/namin/climber/blob/6994d29dda860c3a82de207b1f39ea89526f61c9/Climber/Climb.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "namin/climber",
+    "path": "Climber/Object.lean",
+    "url": "https://github.com/namin/climber/blob/6994d29dda860c3a82de207b1f39ea89526f61c9/Climber/Object.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "oOo0oOo/LeanSage",
+    "path": "Main.lean",
+    "url": "https://github.com/oOo0oOo/LeanSage/blob/ec738c2801cf62cfa754100715a8d03a03e18472/Main.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "paulch42/lean-spec",
+    "path": "LeanSpec/Sort.lean",
+    "url": "https://github.com/paulch42/lean-spec/blob/11bea8b249a2711b84df98ea786c9a40968d3b38/LeanSpec/Sort.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "peter5000/Theorem-Proving-In-Lean-Solutions",
+    "path": "exercises/section5.lean",
+    "url": "https://github.com/peter5000/Theorem-Proving-In-Lean-Solutions/blob/e3df4abd5f39481cbf86dc001f9a745225106cdf/exercises/section5.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "peter5000/Theorem-Proving-In-Lean-Solutions",
+    "path": "exercises/section7.lean",
+    "url": "https://github.com/peter5000/Theorem-Proving-In-Lean-Solutions/blob/e3df4abd5f39481cbf86dc001f9a745225106cdf/exercises/section7.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "pitmonticone/ItaLean2025",
+    "path": "ItaLean/Analysis.lean",
+    "url": "https://github.com/pitmonticone/ItaLean2025/blob/2b61f7fb2748c8b81b889d18ee985324a57edaf2/ItaLean/Analysis.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "reilabs/lampe",
+    "path": "Lampe/Lampe/Semantics/Env.lean",
+    "url": "https://github.com/reilabs/lampe/blob/919a38712d22d05fc83e59af17ef57077abda1e0/Lampe/Lampe/Semantics/Env.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "risc0/risc0-lean4",
+    "path": "Soundness/Merkle.lean",
+    "url": "https://github.com/risc0/risc0-lean4/blob/31c956fc9246bbfc84359021d66ed94972afd86b/Soundness/Merkle.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "rnrand/gpt-lean",
+    "path": "lean4/division_theorem.lean",
+    "url": "https://github.com/rnrand/gpt-lean/blob/da5694933f53888d01c234b63c82c87aac77091f/lean4/division_theorem.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "rutgers-apl/FLoPS",
+    "path": "Flops.lean",
+    "url": "https://github.com/rutgers-apl/FLoPS/blob/95081ac643663da507115abe23ebd5701433587f/Flops.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "rwbarton/lean-omin",
+    "path": "omin/cells.lean",
+    "url": "https://github.com/rwbarton/lean-omin/blob/fd733c6d95ef6f4743aae97de5e15df79877c00e/omin/cells.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "rwbarton/swan",
+    "path": "src/bundle.lean",
+    "url": "https://github.com/rwbarton/swan/blob/2febb37b6cf7ce71f7466d337ea23d6b3007d40d/src/bundle.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "CodeGen/OddEvenSum.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/CodeGen/OddEvenSum.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "Kantorovich-aristotle.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/Kantorovich-aristotle.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "LeanAide/CodegenTest.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/LeanAide/CodegenTest.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "check_command.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/check_command.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "codegen.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/codegen.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "descweb.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/descweb.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "notes/LeanAideTalk.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/notes/LeanAideTalk.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "resources/ParitySum.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/resources/ParitySum.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "translate.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/translate.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "sinhp/HoTTLean",
+    "path": "attic/Display.lean",
+    "url": "https://github.com/sinhp/HoTTLean/blob/31133dd5b25226ea897f8aa5e2e43b61392459eb/attic/Display.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "ssomayyajula/linear",
+    "path": "span.lean",
+    "url": "https://github.com/ssomayyajula/linear/blob/dcf28df05e06da1b4fc76bce61b8fa0741300dc8/span.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "standardgalactic/research-projects",
+    "path": "src/lean/plenumhub_core.lean",
+    "url": "https://github.com/standardgalactic/research-projects/blob/8876ec11c47c071d75e2cefe8ed435e1666d2b28/src/lean/plenumhub_core.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "stepfun-ai/StepFun-Prover-Preview",
+    "path": "demo/Main.lean",
+    "url": "https://github.com/stepfun-ai/StepFun-Prover-Preview/blob/78ac29e76860b461338a3eceea152bc3976e77eb/demo/Main.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "suhr/tmath",
+    "path": "Tmath/Fnd.lean",
+    "url": "https://github.com/suhr/tmath/blob/85f9db2e38051ab03e1df75507f581d43528add6/Tmath/Fnd.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "suzukikakuritsu-arch/externals",
+    "path": "sorryman.lean",
+    "url": "https://github.com/suzukikakuritsu-arch/externals/blob/b099aafedf9e70ef9e2b5e12e5546b486c3b06b2/sorryman.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "the-omega-institute/automath",
+    "path": "lean4/Omega/EA/RewriteCore.lean",
+    "url": "https://github.com/the-omega-institute/automath/blob/f76f46f07a1a48d5c12a20c2f8d366bb9df9330d/lean4/Omega/EA/RewriteCore.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "txa/LACpub",
+    "path": "Exercises/ex1.lean",
+    "url": "https://github.com/txa/LACpub/blob/f6a58002ae2a27c430a014aba3d67c40b8734ec8/Exercises/ex1.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "txa/LACpub",
+    "path": "Lectures/L04.lean",
+    "url": "https://github.com/txa/LACpub/blob/f6a58002ae2a27c430a014aba3d67c40b8734ec8/Lectures/L04.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "txa/LACpub",
+    "path": "Proofs/CFG.lean",
+    "url": "https://github.com/txa/LACpub/blob/f6a58002ae2a27c430a014aba3d67c40b8734ec8/Proofs/CFG.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "unitb/lean-lib",
+    "path": "src/util/data/array.lean",
+    "url": "https://github.com/unitb/lean-lib/blob/439b80e606b4ebe4909a08b1d77f4f5c0ee3dee9/src/util/data/array.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "unitb/separation-logic",
+    "path": "src/separation/heap/instances.lean",
+    "url": "https://github.com/unitb/separation-logic/blob/bdde6fc8f16fd43932aea9827d6c63cadd91c2e8/src/separation/heap/instances.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "unitb/separation-logic",
+    "path": "src/separation/program.lean",
+    "url": "https://github.com/unitb/separation-logic/blob/bdde6fc8f16fd43932aea9827d6c63cadd91c2e8/src/separation/program.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "uw-math-ai/LLL",
+    "path": "Zachary/Sierpinski.lean",
+    "url": "https://github.com/uw-math-ai/LLL/blob/113f8bd767273484db6cd3c040c12f4a74c8fad4/Zachary/Sierpinski.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "vaibhavkarve/igl2020",
+    "path": "src/model.lean",
+    "url": "https://github.com/vaibhavkarve/igl2020/blob/891c3c429f3b1ba85cf612940bff60738160787d/src/model.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "verified-optimization/CvxLean",
+    "path": "CvxLean/Tactic/Arith/Arith.lean",
+    "url": "https://github.com/verified-optimization/CvxLean/blob/c62c2f292c6420f31a12e738ebebdfed50f6f840/CvxLean/Tactic/Arith/Arith.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "verse-lab/lean-ssr",
+    "path": "Ssreflect/Utils.lean",
+    "url": "https://github.com/verse-lab/lean-ssr/blob/4ed25fe66779294c4e13d2344e3a58cc48b3266b/Ssreflect/Utils.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "verse-lab/loom",
+    "path": "Loom/TacticAsync.lean",
+    "url": "https://github.com/verse-lab/loom/blob/78928abc9054b31d0bea85985496490baae95244/Loom/TacticAsync.lean",
+    "score": 12
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "verse-lab/splean",
+    "path": "SPLean/Theories/XChange.lean",
+    "url": "https://github.com/verse-lab/splean/blob/e24286f51bd9ee207197d47ec587d592cdfb0ddc/SPLean/Theories/XChange.lean",
+    "score": 12
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "yangky11/miniF2F-lean4",
+    "path": "MiniF2F/Valid/imo_1966_p4.lean",
+    "url": "https://github.com/yangky11/miniF2F-lean4/blob/5746b7d6c47855ce1294bed87329618ff7f1bc31/MiniF2F/Valid/imo_1966_p4.lean",
+    "score": 12
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "yangky11/miniF2F-lean4",
+    "path": "MiniF2F/Valid/imo_1993_p5.lean",
+    "url": "https://github.com/yangky11/miniF2F-lean4/blob/5746b7d6c47855ce1294bed87329618ff7f1bc31/MiniF2F/Valid/imo_1993_p5.lean",
+    "score": 12
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "Paper-Proof/paperproof",
+    "path": "Examples.lean",
+    "url": "https://github.com/Paper-Proof/paperproof/blob/f610d3db77dfaa32766b1f77bb6c464a28de1393/Examples.lean",
+    "score": 10
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "boogie-org/lean-itrees",
+    "path": "ITree/Examples/Nondet.lean",
+    "url": "https://github.com/boogie-org/lean-itrees/blob/f409016314182f4ac90eefdec8a41a6ae189799b/ITree/Examples/Nondet.lean",
+    "score": 10
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "frenzymath/jixia",
+    "path": "Example.lean",
+    "url": "https://github.com/frenzymath/jixia/blob/755fde27a9cf1fb25c17a015b1cc4ac68384aa63/Example.lean",
+    "score": 10
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "gebner/lean4-old",
+    "path": "src/Lean/Meta/Tactic/Util.lean",
+    "url": "https://github.com/gebner/lean4-old/blob/ee51cdfaf63ee313c914d83264f91f414a0e3b6e/src/Lean/Meta/Tactic/Util.lean",
+    "score": 10
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "javra/iit",
+    "path": "Examples/NonLinear.lean",
+    "url": "https://github.com/javra/iit/blob/44e3d082858cd143626f30960174ad3e42560016/Examples/NonLinear.lean",
+    "score": 10
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "kim-em/proof",
+    "path": "lean/20170401-example.lean",
+    "url": "https://github.com/kim-em/proof/blob/5ee398aa239a379a431190edbb6022b1a0aa2c70/lean/20170401-example.lean",
+    "score": 10
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "kim-em/proof",
+    "path": "lean/20170920-example.lean",
+    "url": "https://github.com/kim-em/proof/blob/5ee398aa239a379a431190edbb6022b1a0aa2c70/lean/20170920-example.lean",
+    "score": 10
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "lecopivo/SciLean",
+    "path": "examples/NeuralNetwork.lean",
+    "url": "https://github.com/lecopivo/SciLean/blob/95f8119a2884e9c41f82136523bd5568ea7075c5/examples/NeuralNetwork.lean",
+    "score": 10
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "lecopivo/SciLean",
+    "path": "examples/Rod.lean",
+    "url": "https://github.com/lecopivo/SciLean/blob/95f8119a2884e9c41f82136523bd5568ea7075c5/examples/Rod.lean",
+    "score": 10
+  },
+  {
+    "query": "sorry extension:lean NOT is:fork",
+    "repo": "opencompl/egg-tactic-code",
+    "path": "example.lean",
+    "url": "https://github.com/opencompl/egg-tactic-code/blob/8b4aa748047a43213fc2c0dfca6b7af4a475f785/example.lean",
+    "score": 10
+  },
+  {
+    "query": "\":= by sorry\" extension:lean NOT is:fork",
+    "repo": "tonyxty/Lean-workshop",
+    "path": "example/Fixpoint.lean",
+    "url": "https://github.com/tonyxty/Lean-workshop/blob/387d28bc7b5badb20a2495d78b8464a37c6c1c62/example/Fixpoint.lean",
+    "score": 10
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "uwdb/Cosette",
+    "path": "uexp/src/uexp/rules/fkPennTR.lean",
+    "url": "https://github.com/uwdb/Cosette/blob/7a951aa3b1a70a8b310c676e524740b7114975c3/uexp/src/uexp/rules/fkPennTR.lean",
+    "score": 10
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "verse-lab/lean-ssr",
+    "path": "Examples/Nat.lean",
+    "url": "https://github.com/verse-lab/lean-ssr/blob/4ed25fe66779294c4e13d2344e3a58cc48b3266b/Examples/Nat.lean",
+    "score": 10
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/aesop",
+    "path": "AesopTest/IncompleteScript.lean",
+    "url": "https://github.com/leanprover-community/aesop/blob/b5b9e2bb45ce91e4bc44eaa738c3a8910404ab82/AesopTest/IncompleteScript.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/GeneralizeProofs.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/GeneralizeProofs.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/conv_equals.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/conv_equals.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/exfalso.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/exfalso.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/help_cmd.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/help_cmd.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/lint_simpNF.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/lint_simpNF.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/lint_unreachableTactic.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/lint_unreachableTactic.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/linterVisibility.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/linterVisibility.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/lintsimp.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/lintsimp.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/lintunused.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/lintunused.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/simpa.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/simpa.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/batteries extension:lean",
+    "repo": "leanprover-community/batteries",
+    "path": "BatteriesTest/solve_by_elim.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/BatteriesTest/solve_by_elim.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/import-graph",
+    "path": "ImportGraphTest/WithSorry/Thm.lean",
+    "url": "https://github.com/leanprover-community/import-graph/blob/41f407a8e85b0fdc00910633a8f14754139b63f4/ImportGraphTest/WithSorry/Thm.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Attribute/ToDual.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Attribute/ToDual.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Complex.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Complex.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Data/Real.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Data/Real.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/FBinop.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/FBinop.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/FastInstance.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/FastInstance.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/ImplicitUniverses.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/ImplicitUniverses.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/LibrarySearch/IsCompact.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/LibrarySearch/IsCompact.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/LibrarySearch/basic.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/LibrarySearch/basic.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Linter/AuxLemma.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Linter/AuxLemma.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Linter/EmptyLine.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Linter/EmptyLine.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Linter/HaveLet.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Linter/HaveLet.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/MfldSetTac.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/MfldSetTac.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Quaternion.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Quaternion.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/SlimCheck.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/SlimCheck.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/ApplyFun.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/ApplyFun.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/CancelDenoms.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/CancelDenoms.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/Convert/Basic.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/Convert/Basic.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/ExtractGoal.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/ExtractGoal.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/FieldSimp.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/FieldSimp.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/Monotonicity.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/Monotonicity.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/Nontriviality.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/Nontriviality.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/Polynomial.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/Polynomial.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/Push/PushNeg.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/Push/PushNeg.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/TFAE.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/TFAE.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Tactic/Tauto.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Tactic/Tauto.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/UnusedInstancesInType/Decidable.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/UnusedInstancesInType/Decidable.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Util/PrintSorries.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Util/PrintSorries.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/Widget/Conv.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/Widget/Conv.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/depRewrite.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/depRewrite.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/eqns.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/eqns.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry repo:leanprover-community/mathlib4 extension:lean",
+    "repo": "leanprover-community/mathlib4",
+    "path": "MathlibTest/meta.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/MathlibTest/meta.lean",
+    "score": 4
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/quote4",
+    "path": "QqTest/introQ.lean",
+    "url": "https://github.com/leanprover-community/quote4/blob/7a62bd13860cd39ac98da16ffc8c24d601353f69/QqTest/introQ.lean",
+    "score": 4
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "path": "README.md",
+    "url": "https://github.com/Beneficial-AI-Foundation/FloatSpec/blob/bb9d513511a5ae4e945eebe0b48ba58afbc831f5/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Beneficial-AI-Foundation/deductive-vericoding",
+    "path": "CLAUDE.md",
+    "url": "https://github.com/Beneficial-AI-Foundation/deductive-vericoding/blob/f218525495258dafb6c4434d5a479ba5f66f74bc/CLAUDE.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "GasStationManager/VibeRegistry",
+    "path": "README.md",
+    "url": "https://github.com/GasStationManager/VibeRegistry/blob/9a255dc69ccfcdc0af3c3e0e89756305fdbcf8d1/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Kripner/leantree",
+    "path": "README.md",
+    "url": "https://github.com/Kripner/leantree/blob/53493b9fb48a10a21d01cc6ff77f824e26b6217f/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Kripner/nanoproof",
+    "path": "nanoproof/data/check_init.py",
+    "url": "https://github.com/Kripner/nanoproof/blob/4f410c6e7a820557501848f954402514201322a5/nanoproof/data/check_init.py",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Lean-zh/lean-zh.github.io",
+    "path": "docs/tool/Pypantograph.md",
+    "url": "https://github.com/Lean-zh/lean-zh.github.io/blob/d0824e9df4540898f2099d1ff6d092a9bb2d05bf/docs/tool/Pypantograph.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Lean-zh/lean-zh.github.io",
+    "path": "docs/tool/lean-dojo.md",
+    "url": "https://github.com/Lean-zh/lean-zh.github.io/blob/d0824e9df4540898f2099d1ff6d092a9bb2d05bf/docs/tool/lean-dojo.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Lean-zh/lean-zh.github.io",
+    "path": "docs/tool/pantograph.md",
+    "url": "https://github.com/Lean-zh/lean-zh.github.io/blob/d0824e9df4540898f2099d1ff6d092a9bb2d05bf/docs/tool/pantograph.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Shiyao-Huang/awesome-agent-evolution",
+    "path": "raw-github/lean-dojo_leanagent.md",
+    "url": "https://github.com/Shiyao-Huang/awesome-agent-evolution/blob/2d03ef82fee9090a29067556c3bca92c90a37a72/raw-github/lean-dojo_leanagent.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "SorryDB/SorryDB",
+    "path": "doc/DATABASE.md",
+    "url": "https://github.com/SorryDB/SorryDB/blob/83bd1976b2c0891dfd6dc997cd61956df7005a7f/doc/DATABASE.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "SorryDB/SorryDB",
+    "path": "sorrydb/database/process_sorries.py",
+    "url": "https://github.com/SorryDB/SorryDB/blob/83bd1976b2c0891dfd6dc997cd61956df7005a7f/sorrydb/database/process_sorries.py",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Tibsfox/gsd-skill-creator",
+    "path": "proofs/scribe/README.md",
+    "url": "https://github.com/Tibsfox/gsd-skill-creator/blob/a9135f77ee143f05a7e07069ad5f9324303d0342/proofs/scribe/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Tibsfox/gsd-skill-creator",
+    "path": "src/mathematical-foundations/lean-toolchain.md",
+    "url": "https://github.com/Tibsfox/gsd-skill-creator/blob/a9135f77ee143f05a7e07069ad5f9324303d0342/src/mathematical-foundations/lean-toolchain.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Verified-zkEVM/evm-asm",
+    "path": "scripts/progress-template.md",
+    "url": "https://github.com/Verified-zkEVM/evm-asm/blob/3e40d35603e8cd0d5b6798be29f8e2a2b1d5b311/scripts/progress-template.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Vilin97/lean-pool",
+    "path": "candidates/CRITERIA.txt",
+    "url": "https://github.com/Vilin97/lean-pool/blob/dad15648c180fabd9c30b62539f865c39416d308/candidates/CRITERIA.txt",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "backbay-labs/clawdstrike",
+    "path": "docs/plans/formal-verification/aeneas-pipeline.md",
+    "url": "https://github.com/backbay-labs/clawdstrike/blob/666303e5f3428f3b6e6b72f118c269a02388e0a4/docs/plans/formal-verification/aeneas-pipeline.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "beita6969/ScienceClaw",
+    "path": "skills/lean4-prover/SKILL.md",
+    "url": "https://github.com/beita6969/ScienceClaw/blob/7f5e65691672d5bc58c4615260b5e5f9b4ea7ee9/skills/lean4-prover/SKILL.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "cameronfreer/LeanDepViz",
+    "path": "README.md",
+    "url": "https://github.com/cameronfreer/LeanDepViz/blob/7859d91f89b37c9193d9a09709a58be6d98f94d6/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "cameronfreer/lean4-skills",
+    "path": "plugins/lean4/MIGRATION.md",
+    "url": "https://github.com/cameronfreer/lean4-skills/blob/b9d43b9223b6c582e91adc0a16a927cee956df53/plugins/lean4/MIGRATION.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "cameronfreer/lean4-skills",
+    "path": "plugins/lean4/README.md",
+    "url": "https://github.com/cameronfreer/lean4-skills/blob/b9d43b9223b6c582e91adc0a16a927cee956df53/plugins/lean4/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "favonia/cloudflare-ddns",
+    "path": "proofs/README.markdown",
+    "url": "https://github.com/favonia/cloudflare-ddns/blob/ad95d27b38399c34e5a4c55201be5d4c35d36caa/proofs/README.markdown",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "githubnext/agentics",
+    "path": "workflows/lean-squad.md",
+    "url": "https://github.com/githubnext/agentics/blob/1c6668b751c51af8571f01204ceffb19362e0f66/workflows/lean-squad.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "jasisz/aver",
+    "path": "docs/lean.md",
+    "url": "https://github.com/jasisz/aver/blob/a82fc05bd9b92229b6563e0f3230405748a1d36f/docs/lean.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "katopz/katgpt-rs",
+    "path": ".proofs/README.md",
+    "url": "https://github.com/katopz/katgpt-rs/blob/680fec918c30cbe27c42c6b63e308e581409be44/.proofs/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "lambdaclass/supertensor_lean",
+    "path": "README.md",
+    "url": "https://github.com/lambdaclass/supertensor_lean/blob/0c90e588354bde7e6dd95ba236082a1e9b383289/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "lean-dojo/LeanAgent",
+    "path": "README.md",
+    "url": "https://github.com/lean-dojo/LeanAgent/blob/13f63bd8ed42057dbf909791ba39ea6f8759c690/README.md",
+    "score": 2
+  },
+  {
+    "query": "sorry org:leanprover-community extension:lean",
+    "repo": "leanprover-community/LeanSearchClient",
+    "path": "LeanSearchClientTest/StateSearchExamples.lean",
+    "url": "https://github.com/leanprover-community/LeanSearchClient/blob/c5d5b8fe6e5158def25cd28eb94e4141ad97c843/LeanSearchClientTest/StateSearchExamples.lean",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "loning/the-omega",
+    "path": ".claude/agents/lean4-formalizer.md",
+    "url": "https://github.com/loning/the-omega/blob/5d459de8aebb09eb40c4b20f69de29806adced79/.claude/agents/lean4-formalizer.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "m4lvin/lean4-pdl",
+    "path": "Makefile",
+    "url": "https://github.com/m4lvin/lean4-pdl/blob/183d25d1431ea6e4325a7d7379b8c0ce0ad2b716/Makefile",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "mo271/FormalBook",
+    "path": "README.md",
+    "url": "https://github.com/mo271/FormalBook/blob/701731c73f68dbc1559703f3568aa5c4924a7bdc/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "motanova84/141hz",
+    "path": "SORRY_ELIMINATION_SUMMARY.md",
+    "url": "https://github.com/motanova84/141hz/blob/b4b7e6fa521cfd68e7a79bc876a0c0f12d942828/SORRY_ELIMINATION_SUMMARY.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "mrdouglasny/gaussian-field",
+    "path": "docs/gff-repo-plan.md",
+    "url": "https://github.com/mrdouglasny/gaussian-field/blob/d63a28568a75d99f6cb27af1f888a49a69855a66/docs/gff-repo-plan.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "mtoohey31/tabular-types",
+    "path": "README.md",
+    "url": "https://github.com/mtoohey31/tabular-types/blob/9e69b2ec0b62531eb1a11d789c0e5222228cec59/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "paolino/keri-lean",
+    "path": "docs/index.md",
+    "url": "https://github.com/paolino/keri-lean/blob/e54b668e546545db4dfe20b62bb2f21d417b5763/docs/index.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "project-numina/numina-lean-agent",
+    "path": "tutorial/usage.md",
+    "url": "https://github.com/project-numina/numina-lean-agent/blob/e9e987b47f14ef818d5932a11dc026048abc35e7/tutorial/usage.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "scottnarmstrong/DeGiorgi",
+    "path": "README.md",
+    "url": "https://github.com/scottnarmstrong/DeGiorgi/blob/4c1b3077d3782b24065184df4ba59501b2e56fc7/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "sdwfrost/catagi",
+    "path": "README.md",
+    "url": "https://github.com/sdwfrost/catagi/blob/0deaf2a755bfe9dc8ac141eb10238ca38205907b/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "teorth/analysis",
+    "path": "CONTRIBUTING.md",
+    "url": "https://github.com/teorth/analysis/blob/b3c8e51b0129b8616df441d7a92df275fcb4cfe8/CONTRIBUTING.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "the-omega-institute/automath",
+    "path": ".claude/agents/lean4-formalizer.md",
+    "url": "https://github.com/the-omega-institute/automath/blob/f76f46f07a1a48d5c12a20c2f8d366bb9df9330d/.claude/agents/lean4-formalizer.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "the-omega-institute/automath",
+    "path": ".claude/agents/lean4-optimizer.md",
+    "url": "https://github.com/the-omega-institute/automath/blob/f76f46f07a1a48d5c12a20c2f8d366bb9df9330d/.claude/agents/lean4-optimizer.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "the-omega-institute/automath",
+    "path": "lean4/README.md",
+    "url": "https://github.com/the-omega-institute/automath/blob/f76f46f07a1a48d5c12a20c2f8d366bb9df9330d/lean4/README.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "ulamai/ulamai",
+    "path": "readme.md",
+    "url": "https://github.com/ulamai/ulamai/blob/b9ae7a30e1727650d60c6a7285176f48439cfae4/readme.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "z-tech/z-lean",
+    "path": "AGENTS.md",
+    "url": "https://github.com/z-tech/z-lean/blob/818c662430d312c4b376eb34d6e93cc6024e12b9/AGENTS.md",
+    "score": 2
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "Verilean/sparkle",
+    "path": "Examples/FPU/README.md",
+    "url": "https://github.com/Verilean/sparkle/blob/67854ae262d95e3a93fe91cea49be03e2e7751c8/Examples/FPU/README.md",
+    "score": 0
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "anoma/juvix",
+    "path": "src/Juvix/Compiler/Verification/Dumper.hs",
+    "url": "https://github.com/anoma/juvix/blob/0ea34229b79b8ec266dd27e4fd3e199f8d5d7a3a/src/Juvix/Compiler/Verification/Dumper.hs",
+    "score": 0
+  },
+  {
+    "query": "\"sorry\" \"lean-toolchain\" NOT is:fork",
+    "repo": "frenzymath/Archon",
+    "path": "src/archon/.archon-src/prompts/merge.md",
+    "url": "https://github.com/frenzymath/Archon/blob/93fbf55d5a877a2449d38cf74fbdd514b4976dcf/src/archon/.archon-src/prompts/merge.md",
+    "score": 0
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "LeanAideTest/DSL.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/LeanAideTest/DSL.lean",
+    "score": -6
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "LeanAideTest/Prompt.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/LeanAideTest/Prompt.lean",
+    "score": -6
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "Scratch/Fiddle.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/Scratch/Fiddle.lean",
+    "score": -6
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "Scratch/Fiddle2.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/Scratch/Fiddle2.lean",
+    "score": -6
+  },
+  {
+    "query": "\"by sorry\" extension:lean NOT is:fork",
+    "repo": "siddhartha-gadgil/LeanAide",
+    "path": "Scratch/Fiddle4.lean",
+    "url": "https://github.com/siddhartha-gadgil/LeanAide/blob/81fc96382f36c15be170aab8061e0ea2d50f9de6/Scratch/Fiddle4.lean",
+    "score": -6
+  },
+  {
+    "query": "\"admit\" extension:lean NOT is:fork",
+    "repo": "smrifaki/mathlib4",
+    "path": "MathlibTest/AdmitLinter.lean",
+    "url": "https://github.com/smrifaki/mathlib4/blob/d70be405955bb990940792e1305e77fa17b6abea/MathlibTest/AdmitLinter.lean",
+    "score": -6
+  }
+]

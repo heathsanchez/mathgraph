@@ -1,0 +1,1139 @@
+[
+  {
+    "repo": "teorth/equational_theories",
+    "path": "equational_theories/Definability/Law43.lean",
+    "url": "https://github.com/teorth/equational_theories/blob/b1cc1756202d7f44e07bd4069b5df16901a36938/equational_theories/Definability/Law43.lean",
+    "search_score": 32,
+    "clone_ok": true,
+    "clone_err": "Updating files:  27% (661/2448)\nUpdating files:  28% (686/2448)\nUpdating files:  29% (710/2448)\nUpdating files:  30% (735/2448)\nUpdating files:  31% (759/2448)\nUpdating files:  32% (784/2448)\nUpdating files:  33% (808/2448)\nUpdating files:  33% (832/2448)\nUpdating files:  34% (833/2448)\nUpdating files:  35% (857/2448)\nUpdating files:  36% (882/2448)\nUpdating files:  37% (906/2448)\nUpdating files:  38% (931/2448)\nUpdating files:  39% (955/2448)\nUpdating files:  40% (980/2448)\nUpdating files:  41% (1004/2448)\nUpdating files:  42% (1029/2448)\nUpdating files:  43% (1053/2448)\nUpdating files:  44% (1078/2448)\nUpdating files:  45% (1102/2448)\nUpdating files:  46% (1127/2448)\nUpdating files:  47% (1151/2448)\nUpdating files:  48% (1176/2448)\nUpdating files:  49% (1200/2448)\nUpdating files:  50% (1224/2448)\nUpdating files:  51% (1249/2448)\nUpdating files:  52% (1273/2448)\nUpdating files:  53% (1298/2448)\nUpdating files:  54% (1322/2448)\nUpdating files:  55% (1347/2448)\nUpdating files:  56% (1371/2448)\nUpdating files:  57% (1396/2448)\nUpdating files:  58% (1420/2448)\nUpdating files:  59% (1445/2448)\nUpdating files:  60% (1469/2448)\nUpdating files:  61% (1494/2448)\nUpdating files:  62% (1518/2448)\nUpdating files:  63% (1543/2448)\nUpdating files:  64% (1567/2448)\nUpdating files:  65% (1592/2448)\nUpdating files:  66% (1616/2448)\nUpdating files:  67% (1641/2448)\nUpdating files:  68% (1665/2448)\nUpdating files:  69% (1690/2448)\nUpdating files:  70% (1714/2448)\nUpdating files:  71% (1739/2448)\nUpdating files:  72% (1763/2448)\nUpdating files:  73% (1788/2448)\nUpdating files:  74% (1812/2448)\nUpdating files:  75% (1836/2448)\nUpdating files:  76% (1861/2448)\nUpdating files:  77% (1885/2448)\nUpdating files:  78% (1910/2448)\nUpdating files:  79% (1934/2448)\nUpdating files:  80% (1959/2448)\nUpdating files:  81% (1983/2448)\nUpdating files:  82% (2008/2448)\nUpdating files:  83% (2032/2448)\nUpdating files:  84% (2057/2448)\nUpdating files:  85% (2081/2448)\nUpdating files:  86% (2106/2448)\nUpdating files:  87% (2130/2448)\nUpdating files:  88% (2155/2448)\nUpdating files:  89% (2179/2448)\nUpdating files:  90% (2204/2448)\nUpdating files:  91% (2228/2448)\nUpdating files:  92% (2253/2448)\nUpdating files:  93% (2277/2448)\nUpdating files:  94% (2302/2448)\nUpdating files:  95% (2326/2448)\nUpdating files:  96% (2351/2448)\nUpdating files:  97% (2375/2448)\nUpdating files:  98% (2400/2448)\nUpdating files:  99% (2424/2448)\nUpdating files: 100% (2448/2448)\nUpdating files: 100% (2448/2448), done.\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.29.1",
+    "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+    "active_sorry_count_est": 1,
+    "windows": [
+      {
+        "line": 15,
+        "window": "7: open Law.MagmaLaw\n8: \n9: --TODO: the commutative law is definable from anything of the form f(x,y) \u2243 f(y,x).\n10: theorem Equation43_termDefinableFrom_swapped_args {L : NatMagmaLaw}\n11:     (hL2args : \u2200 e \u2208 L.lhs.elems.1, e \u2208 [0,1] := by decide +kernel)\n12:     (hR2args : \u2200 e \u2208 L.rhs.elems.1, e \u2208 [0,1] := by decide +kernel)\n13:     (hSymm : L.lhs \u2b1d (fun x \u21a6 Lf $ Equiv.swap 0 1 x) = L.rhs := by rfl)\n14:     : Law43.TermDefinableFrom L := by\n15:   sorry\n16: \n17: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 40 `x \u25c7 x = y \u25c7 y`. -/\n18: theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :=\n19:   Equation43_termDefinableFrom_swapped_args\n20: \n21: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 4343 `x \u25c7 (y \u25c7 y) = y \u25c7 (x \u25c7 x)`. -/\n22: theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :=\n23:   Equation43_termDefinableFrom_swapped_args\n24: \n25: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 4293 `x \u25c7 (x \u25c7 y) = y \u25c7 (y \u25c7 x)`. -/"
+      }
+    ],
+    "line_count": 31,
+    "small_file": true,
+    "imports": [
+      "import Batteries.Data.List.Basic",
+      "import equational_theories.Definability.Basic",
+      "import equational_theories.Equations.All"
+    ]
+  },
+  {
+    "repo": "teorth/equational_theories",
+    "path": "equational_theories/Definability/Law46.lean",
+    "url": "https://github.com/teorth/equational_theories/blob/b1cc1756202d7f44e07bd4069b5df16901a36938/equational_theories/Definability/Law46.lean",
+    "search_score": 32,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.29.1",
+    "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+    "active_sorry_count_est": 7,
+    "windows": [
+      {
+        "line": 19,
+        "window": "11: theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}\n12:   (hShape : L.lhs \u2b1d (fun _ \u21a6 Lf 0) = L.rhs \u2b1d (fun _ \u21a6 Lf 0) := by rfl)\n13:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n14:   : Law46.TermDefinableFrom L := by\n15:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n16:   cases hlhs : L.lhs\n17:   next x =>\n18:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n19:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n20:     have hxy : x \u2260 y := sorry\n21:     rw [show L = Lf x \u2243 Lf y from sorry]\n22:     clear hlhs hy hShape hDisjoint\n23:     apply termDefinable_of_termStructural\n24:     apply termStructural_of_implies\n25:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n26:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n27:       --   sorry\n28:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n29:       --   rw [h\u2081]"
+      },
+      {
+        "line": 20,
+        "window": "12:   (hShape : L.lhs \u2b1d (fun _ \u21a6 Lf 0) = L.rhs \u2b1d (fun _ \u21a6 Lf 0) := by rfl)\n13:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n14:   : Law46.TermDefinableFrom L := by\n15:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n16:   cases hlhs : L.lhs\n17:   next x =>\n18:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n19:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n20:     have hxy : x \u2260 y := sorry\n21:     rw [show L = Lf x \u2243 Lf y from sorry]\n22:     clear hlhs hy hShape hDisjoint\n23:     apply termDefinable_of_termStructural\n24:     apply termStructural_of_implies\n25:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n26:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n27:       --   sorry\n28:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n29:       --   rw [h\u2081]\n30:       --   simp"
+      },
+      {
+        "line": 21,
+        "window": "13:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n14:   : Law46.TermDefinableFrom L := by\n15:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n16:   cases hlhs : L.lhs\n17:   next x =>\n18:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n19:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n20:     have hxy : x \u2260 y := sorry\n21:     rw [show L = Lf x \u2243 Lf y from sorry]\n22:     clear hlhs hy hShape hDisjoint\n23:     apply termDefinable_of_termStructural\n24:     apply termStructural_of_implies\n25:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n26:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n27:       --   sorry\n28:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n29:       --   rw [h\u2081]\n30:       --   simp\n31:       -- simp [toFin, h\u2081]"
+      },
+      {
+        "line": 33,
+        "window": "25:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n26:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n27:       --   sorry\n28:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n29:       --   rw [h\u2081]\n30:       --   simp\n31:       -- simp [toFin, h\u2081]\n32:       -- simp_rw [h\u2081]\n33:       sorry\n34:     unfold implies\n35:     simp_rw [\u2190 satisfies_toFin (E := Lf x \u2243 Lf y)\n36:             , \u2190 satisfies_toNat (E := (Lf x \u2243 Lf y).toFin),\n37:             this]\n38:     exact Equation2_implies Law46\n39:   --Otherwise we call back to the more interesting case of a function application\n40:   intro G M hGL\n41:   use \u27e8fun x _ \u21a6 @Term.realize _ _ M.FOStructure _ (fun _ \u21a6 x) L.lhs.toTerm\u27e9\n42:   constructor\n43:   \u00b7 rw [@Law46.models_iff]"
+      },
+      {
+        "line": 49,
+        "window": "41:   use \u27e8fun x _ \u21a6 @Term.realize _ _ M.FOStructure _ (fun _ \u21a6 x) L.lhs.toTerm\u27e9\n42:   constructor\n43:   \u00b7 rw [@Law46.models_iff]\n44:     by_cases hG : Nonempty G\n45:     \u00b7 suffices \u2203 c, \u2200 (x y : G), x \u25c7 y = c by\n46:         obtain \u27e8c,h\u27e9 := this\n47:         intros x y z w\n48:         simp\n49:         sorry\n50:       sorry\n51:     \u00b7 exact (not_nonempty_iff.mp hG).elim\n52:   \u00b7 use (MagmaLanguage.lhomWithConstants _).onTerm (L.lhs.toTerm.subst fun a \u21a6 var 0)\n53:     funext v\n54:     sorry\n55: \n56: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from Equation 40 `x \u25c7 x = y \u25c7 y`. -/\n57: theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=\n58:   Equation46_termDefinableFrom_equalShape\n59: "
+      }
+    ],
+    "line_count": 74,
+    "small_file": true,
+    "imports": [
+      "import Batteries.Data.List.Basic",
+      "import equational_theories.Definability.Basic",
+      "import equational_theories.Equations.All"
+    ]
+  },
+  {
+    "repo": "teorth/equational_theories",
+    "path": "equational_theories/FactsSyntax.lean",
+    "url": "https://github.com/teorth/equational_theories/blob/b1cc1756202d7f44e07bd4069b5df16901a36938/equational_theories/FactsSyntax.lean",
+    "search_score": 32,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.29.1",
+    "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 67,
+    "small_file": true,
+    "imports": [
+      "import Lean",
+      "import equational_theories.Magma"
+    ]
+  },
+  {
+    "repo": "ImperialCollegeLondon/P11-Galois-Theory",
+    "path": "src/ftg.lean",
+    "url": "https://github.com/ImperialCollegeLondon/P11-Galois-Theory/blob/ced2caa52300feb633316b3120c40ca957c8e8ff/src/ftg.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/ImperialCollegeLondon__P11-Galois-Theory'...\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "ced2caa52300feb633316b3120c40ca957c8e8ff",
+    "active_sorry_count_est": 3,
+    "windows": [
+      {
+        "line": 9,
+        "window": "1: import ring_theory.algebra data.fintype.basic linear_algebra.dimension\n2: \n3: universes u v w\n4: \n5: variables (K : Type u) (L : Type v) [field K] [field L]\n6: \n7: class finite_Galois_extension extends algebra K L.\n8: \n9: definition galois_group : Type u \u2192 Type v \u2192 Type w := sorry\n10: \n11: instance [finite_Galois_extension K L] :\n12: fintype (galois_group L K) := sorry\n13: \n14: -- needs fixing\n15: theorem fundamental_theorem_of_Galois_theory (HL : finite_Galois_extension K L) :\n16: (fintype.card (galois_group L K) : cardinal) = vector_space.dim K L := sorry"
+      },
+      {
+        "line": 12,
+        "window": "4: \n5: variables (K : Type u) (L : Type v) [field K] [field L]\n6: \n7: class finite_Galois_extension extends algebra K L.\n8: \n9: definition galois_group : Type u \u2192 Type v \u2192 Type w := sorry\n10: \n11: instance [finite_Galois_extension K L] :\n12: fintype (galois_group L K) := sorry\n13: \n14: -- needs fixing\n15: theorem fundamental_theorem_of_Galois_theory (HL : finite_Galois_extension K L) :\n16: (fintype.card (galois_group L K) : cardinal) = vector_space.dim K L := sorry"
+      },
+      {
+        "line": 16,
+        "window": "8: \n9: definition galois_group : Type u \u2192 Type v \u2192 Type w := sorry\n10: \n11: instance [finite_Galois_extension K L] :\n12: fintype (galois_group L K) := sorry\n13: \n14: -- needs fixing\n15: theorem fundamental_theorem_of_Galois_theory (HL : finite_Galois_extension K L) :\n16: (fintype.card (galois_group L K) : cardinal) = vector_space.dim K L := sorry"
+      }
+    ],
+    "line_count": 16,
+    "small_file": true,
+    "imports": [
+      "import ring_theory.algebra data.fintype.basic linear_algebra.dimension"
+    ]
+  },
+  {
+    "repo": "ImperialCollegeLondon/real-number-game",
+    "path": "ideas/M1Fsheet7solns.lean",
+    "url": "https://github.com/ImperialCollegeLondon/real-number-game/blob/f9dcb7d9255a79b57e62038228a23346c2dc301b/ideas/M1Fsheet7solns.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/ImperialCollegeLondon__real-number-game'...\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "f9dcb7d9255a79b57e62038228a23346c2dc301b",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 55,
+    "small_file": true,
+    "imports": [
+      "import analysis.real xenalib.M1Fstuff "
+    ]
+  },
+  {
+    "repo": "leanprover-community/NNG4",
+    "path": "Game/Levels/LessOrEqual/Level_3.lean",
+    "url": "https://github.com/leanprover-community/NNG4/blob/727e4d219838eeb7f3945d2e9a0539f244d50540/Game/Levels/LessOrEqual/Level_3.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/leanprover-community__NNG4'...\nUpdating files:  69% (150/215)\nUpdating files:  70% (151/215)\nUpdating files:  71% (153/215)\nUpdating files:  72% (155/215)\nUpdating files:  73% (157/215)\nUpdating files:  74% (160/215)\nUpdating files:  75% (162/215)\nUpdating files:  76% (164/215)\nUpdating files:  77% (166/215)\nUpdating files:  78% (168/215)\nUpdating files:  79% (170/215)\nUpdating files:  80% (172/215)\nUpdating files:  81% (175/215)\nUpdating files:  82% (177/215)\nUpdating files:  83% (179/215)\nUpdating files:  84% (181/215)\nUpdating files:  85% (183/215)\nUpdating files:  86% (185/215)\nUpdating files:  87% (188/215)\nUpdating files:  88% (190/215)\nUpdating files:  89% (192/215)\nUpdating files:  90% (194/215)\nUpdating files:  91% (196/215)\nUpdating files:  92% (198/215)\nUpdating files:  93% (200/215)\nUpdating files:  94% (203/215)\nUpdating files:  95% (205/215)\nUpdating files:  96% (207/215)\nUpdating files:  97% (209/215)\nUpdating files:  98% (211/215)\nUpdating files:  99% (213/215)\nUpdating files: 100% (215/215)\nUpdating files: 100% (215/215), done.\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.23.0",
+    "commit": "727e4d219838eeb7f3945d2e9a0539f244d50540",
+    "active_sorry_count_est": 1,
+    "windows": [
+      {
+        "line": 53,
+        "window": "45: /-- For all naturals $a$, $b$, if $a \\leq b$ then $a \\leq  \\operatorname{succ}(b)$.\n46:  -/\n47: Statement\n48:     (a b : \u2115) : a \u2264 b \u2192 a \u2264 (succ b) := by\n49:   intro h\n50:   rcases h with \u27e8c, hc\u27e9\n51:   rw [hc]\n52:   use c + 1\n53:   sorry\n54:   --rfl\n55: \n56: Conclusion\n57: \"\n58: \n59: \""
+      }
+    ],
+    "line_count": 59,
+    "small_file": true,
+    "imports": [
+      "import Game.Metadata",
+      "import Game.MyNat.LE",
+      "import Game.Tactic.Use",
+      "import Std.Tactic.RCases"
+    ]
+  },
+  {
+    "repo": "leanprover-community/NNG4",
+    "path": "Game/MyNat/PeanoAxioms.lean",
+    "url": "https://github.com/leanprover-community/NNG4/blob/727e4d219838eeb7f3945d2e9a0539f244d50540/Game/MyNat/PeanoAxioms.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.23.0",
+    "commit": "727e4d219838eeb7f3945d2e9a0539f244d50540",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 36,
+    "small_file": true,
+    "imports": [
+      "import Game.MyNat.Definition",
+      "import Mathlib.Tactic.ApplyAt",
+      "import Mathlib.Tactic.Contrapose",
+      "import Mathlib.Tactic.Have"
+    ]
+  },
+  {
+    "repo": "leanprover-community/ProofWidgets4",
+    "path": "ProofWidgets/Demos/Euclidean.lean",
+    "url": "https://github.com/leanprover-community/ProofWidgets4/blob/e4952ae2afde0dd2868b313356d1ce00da677bd9/ProofWidgets/Demos/Euclidean.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "files:  19% (22/111)\nUpdating files:  20% (23/111)\nUpdating files:  21% (24/111)\nUpdating files:  22% (25/111)\nUpdating files:  23% (26/111)\nUpdating files:  24% (27/111)\nUpdating files:  25% (28/111)\nUpdating files:  26% (29/111)\nUpdating files:  27% (30/111)\nUpdating files:  28% (32/111)\nUpdating files:  29% (33/111)\nUpdating files:  30% (34/111)\nUpdating files:  31% (35/111)\nUpdating files:  32% (36/111)\nUpdating files:  33% (37/111)\nUpdating files:  34% (38/111)\nUpdating files:  35% (39/111)\nUpdating files:  36% (40/111)\nUpdating files:  37% (42/111)\nUpdating files:  38% (43/111)\nUpdating files:  39% (44/111)\nUpdating files:  40% (45/111)\nUpdating files:  41% (46/111)\nUpdating files:  42% (47/111)\nUpdating files:  43% (48/111)\nUpdating files:  44% (49/111)\nUpdating files:  45% (50/111)\nUpdating files:  46% (52/111)\nUpdating files:  47% (53/111)\nUpdating files:  48% (54/111)\nUpdating files:  49% (55/111)\nUpdating files:  50% (56/111)\nUpdating files:  51% (57/111)\nUpdating files:  52% (58/111)\nUpdating files:  53% (59/111)\nUpdating files:  54% (60/111)\nUpdating files:  55% (62/111)\nUpdating files:  56% (63/111)\nUpdating files:  57% (64/111)\nUpdating files:  58% (65/111)\nUpdating files:  59% (66/111)\nUpdating files:  60% (67/111)\nUpdating files:  61% (68/111)\nUpdating files:  62% (69/111)\nUpdating files:  63% (70/111)\nUpdating files:  64% (72/111)\nUpdating files:  65% (73/111)\nUpdating files:  66% (74/111)\nUpdating files:  67% (75/111)\nUpdating files:  68% (76/111)\nUpdating files:  69% (77/111)\nUpdating files:  70% (78/111)\nUpdating files:  71% (79/111)\nUpdating files:  72% (80/111)\nUpdating files:  73% (82/111)\nUpdating files:  74% (83/111)\nUpdating files:  75% (84/111)\nUpdating files:  76% (85/111)\nUpdating files:  77% (86/111)\nUpdating files:  78% (87/111)\nUpdating files:  79% (88/111)\nUpdating files:  80% (89/111)\nUpdating files:  81% (90/111)\nUpdating files:  82% (92/111)\nUpdating files:  83% (93/111)\nUpdating files:  84% (94/111)\nUpdating files:  85% (95/111)\nUpdating files:  86% (96/111)\nUpdating files:  87% (97/111)\nUpdating files:  88% (98/111)\nUpdating files:  89% (99/111)\nUpdating files:  90% (100/111)\nUpdating files:  91% (102/111)\nUpdating files:  92% (103/111)\nUpdating files:  93% (104/111)\nUpdating files:  94% (105/111)\nUpdating files:  95% (106/111)\nUpdating files:  96% (107/111)\nUpdating files:  97% (108/111)\nUpdating files:  98% (109/111)\nUpdating files:  99% (110/111)\nUpdating files: 100% (111/111)\nUpdating files: 100% (111/111), done.\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "e4952ae2afde0dd2868b313356d1ce00da677bd9",
+    "active_sorry_count_est": 2,
+    "windows": [
+      {
+        "line": 310,
+        "window": "302:         <summary className=\"mv2 pointer\">Euclidean constructions</summary>\n303:         <div className=\"ml1\">{inner}</div>\n304:       </details>\n305: \n306: @[widget_module]\n307: def EuclideanConstructions : Component PanelWidgetProps :=\n308:   mk_rpc_widget% EuclideanConstructions.rpc\n309: \n310: axiom test_sorry {\u03b1} : \u03b1\n311: \n312: show_panel_widgets [local EuclideanConstructions]\n313: \n314: /-! # Example construction -/\n315: \n316: /- Try constructing an equilateral triangle abc\n317: with line segment ab as the base.\n318: \n319: Place your cursor in the proof below.\n320: To make a construction involving objects `x, y, z`,"
+      },
+      {
+        "line": 342,
+        "window": "334:   of `have h : circlesInter C D := ...`\n335:   (i.e., show that the circles intersect)\n336:   using the axioms of `IncidenceGeometry` above.\n337:   Then select `h` in `h : circlesInter C D`. -/\n338: example {a b : Point} (_hab : a \u2260 b) :\n339:     \u2203 L M c, onLine a L \u2227 onLine b M \u2227 onLine c M \u2227 onLine c L := by\n340:   -- Place your cursor here.\n341: \n342:   exact test_sorry"
+      }
+    ],
+    "line_count": 342,
+    "small_file": false,
+    "imports": []
+  },
+  {
+    "repo": "leanprover-community/aesop",
+    "path": "Aesop/RuleTac/Tactic.lean",
+    "url": "https://github.com/leanprover-community/aesop/blob/b5b9e2bb45ce91e4bc44eaa738c3a8910404ab82/Aesop/RuleTac/Tactic.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/leanprover-community__aesop'...\nUpdating files:  52% (136/259)\nUpdating files:  53% (138/259)\nUpdating files:  54% (140/259)\nUpdating files:  55% (143/259)\nUpdating files:  56% (146/259)\nUpdating files:  57% (148/259)\nUpdating files:  58% (151/259)\nUpdating files:  59% (153/259)\nUpdating files:  60% (156/259)\nUpdating files:  61% (158/259)\nUpdating files:  62% (161/259)\nUpdating files:  63% (164/259)\nUpdating files:  64% (166/259)\nUpdating files:  65% (169/259)\nUpdating files:  66% (171/259)\nUpdating files:  67% (174/259)\nUpdating files:  68% (177/259)\nUpdating files:  69% (179/259)\nUpdating files:  70% (182/259)\nUpdating files:  71% (184/259)\nUpdating files:  72% (187/259)\nUpdating files:  73% (190/259)\nUpdating files:  74% (192/259)\nUpdating files:  75% (195/259)\nUpdating files:  76% (197/259)\nUpdating files:  77% (200/259)\nUpdating files:  78% (203/259)\nUpdating files:  79% (205/259)\nUpdating files:  80% (208/259)\nUpdating files:  81% (210/259)\nUpdating files:  82% (213/259)\nUpdating files:  83% (215/259)\nUpdating files:  84% (218/259)\nUpdating files:  85% (221/259)\nUpdating files:  86% (223/259)\nUpdating files:  87% (226/259)\nUpdating files:  88% (228/259)\nUpdating files:  89% (231/259)\nUpdating files:  90% (234/259)\nUpdating files:  91% (236/259)\nUpdating files:  92% (239/259)\nUpdating files:  93% (241/259)\nUpdating files:  94% (244/259)\nUpdating files:  95% (247/259)\nUpdating files:  96% (249/259)\nUpdating files:  97% (252/259)\nUpdating files:  98% (254/259)\nUpdating files:  99% (257/259)\nUpdating files: 100% (259/259)\nUpdating files: 100% (259/259), done.\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "b5b9e2bb45ce91e4bc44eaa738c3a8910404ab82",
+    "active_sorry_count_est": 1,
+    "windows": [
+      {
+        "line": 95,
+        "window": "87:         | throwError \"invalid success probability '{successProbability}', must be between 0 and 1\"\n88:       let .ok stx :=\n89:         Parser.runParserCategory env `tactic tacticStr (fileName := \"<stdin>\")\n90:         | throwError \"failed to parse tactic syntax{indentD tacticStr}\"\n91:       let postGoals := (\u2190 run input.goal (evalTactic stx) |>.run').toArray\n92:       let postState \u2190 saveState\n93:       if let some proof \u2190 getExprMVarAssignment? input.goal then\n94:         if \u2190 hasSorry proof then\n95:           throwError \"generated proof contains sorry\"\n96:       let step := {\n97:         preState := initialState\n98:         preGoal := input.goal\n99:         tacticBuilders := #[return .unstructured \u27e8stx\u27e9]\n100:         postState, postGoals\n101:       }\n102:       let postGoals \u2190\n103:         postGoals.mapM (mvarIdToSubgoal (parentMVarId := input.goal) \u00b7)\n104:       apps := apps.push {\n105:         goals := postGoals"
+      }
+    ],
+    "line_count": 120,
+    "small_file": true,
+    "imports": []
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/CodeAction/Attr.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/CodeAction/Attr.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/leanprover-community__batteries'...\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "9c6e03c0a86237b199ebe6b1fbac18078a767ade",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 136,
+    "small_file": true,
+    "imports": []
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/CodeAction/Basic.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/CodeAction/Basic.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "9c6e03c0a86237b199ebe6b1fbac18078a767ade",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 73,
+    "small_file": true,
+    "imports": []
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/CodeAction/Misc.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/CodeAction/Misc.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "9c6e03c0a86237b199ebe6b1fbac18078a767ade",
+    "active_sorry_count_est": 2,
+    "windows": [
+      {
+        "line": 33,
+        "window": "25: def findStack? (root target : Syntax) : Option Syntax.Stack := do\n26:   let range \u2190 target.getRange?\n27:   root.findStack? (\u00b7.getRange?.any (\u00b7.includes range))\n28:     (fun s => s.getKind == target.getKind && s.getRange? == range)\n29: \n30: /-- Constructs a hole with a kind matching the provided hole elaborator.  -/\n31: def holeKindToHoleString : (elaborator : Name) \u2192 (synthName : String) \u2192 String\n32:   | ``Elab.Term.elabSyntheticHole, name => \"?\" ++ name\n33:   | ``Elab.Term.elabSorry, _ => \"sorry\"\n34:   | _, _ => \"_\"\n35: \n36: /--\n37: Hole code action used to fill in a structure's field when specifying an instance.\n38: \n39: In the following:\n40: ```lean\n41: instance : Monad Id := _\n42: ```\n43: "
+      },
+      {
+        "line": 382,
+        "window": "374:             (\u00b7.modifyArg 0 (\u00b7.modifyArg 2 (\u00b7.modifyArgs (\u00b7.filter fun s =>\n375:               !(s matches `(Parser.Tactic.inductionAlt| | _ $_* => $_))))))\n376:         else info.stx\n377:         (doc.meta.text.utf8PosToLspPos stx'.getTailPos?.get!, \"\")\n378:       else (endPos, \" with\")\n379:       let fallback := if let some \u27e8startPos, endPos\u27e9 := fallback then\n380:         String.Pos.Raw.extract doc.meta.text.source startPos endPos\n381:       else\n382:         \"sorry\"\n383:       let newText := Id.run do\n384:         let mut str := str'\n385:         for (name, args) in ctors do\n386:           let mut ctor := toString name\n387:           if let some _ := (Parser.getTokenTable snap.env).find? ctor then\n388:             ctor := s!\"{idBeginEscape}{ctor}{idEndEscape}\"\n389:           str := str ++ indent ++ s!\"| {ctor}\"\n390:           -- replace n_ih with just ih if there is only one\n391:           let args := if induction &&\n392:             args.foldl (fun c n =>"
+      }
+    ],
+    "line_count": 476,
+    "small_file": false,
+    "imports": []
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "path": "Batteries/Linter/UnreachableTactic.lean",
+    "url": "https://github.com/leanprover-community/batteries/blob/9c6e03c0a86237b199ebe6b1fbac18078a767ade/Batteries/Linter/UnreachableTactic.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "9c6e03c0a86237b199ebe6b1fbac18078a767ade",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 124,
+    "small_file": true,
+    "imports": []
+  },
+  {
+    "repo": "leanprover-community/doc-gen",
+    "path": "src/export_json.lean",
+    "url": "https://github.com/leanprover-community/doc-gen/blob/5e310293a0187d8676a9a8aebf07c1ba674ba877/src/export_json.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/leanprover-community__doc-gen'...\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "5e310293a0187d8676a9a8aebf07c1ba674ba877",
+    "active_sorry_count_est": 1,
+    "windows": [
+      {
+        "line": 330,
+        "window": "322:    if decl_name.is_internal \u2228 d.is_auto_generated e then return none else do\n323:    some filename \u2190 return (e.decl_olean decl_name) | return none,\n324:    some \u27e8line, _\u27e9 \u2190 return (e.decl_pos decl_name) | return none,\n325:    doc_string \u2190 (some <$> doc_string decl_name) <|> return none,\n326:    (args, type) \u2190 get_args_and_type d.type,\n327:    attributes \u2190 attributes_of decl_name,\n328:    equations \u2190 get_equations decl_name,\n329:    let nc_reason := e.decl_noncomputable_reason decl_name,\n330:    sorried \u2190 decl_name.contains_sorry,\n331:    kind \u2190 get_kind d,\n332:    structure_fields \u2190 mk_structure_fields decl_name e,\n333:    constructors \u2190 mk_constructors decl_name e,\n334:    return $ some \u27e8decl_name, !d.is_trusted, args, type, doc_string, filename, line, attributes, nc_reason, sorried, equations, kind, structure_fields, constructors\u27e9\n335: \n336: meta def write_module_doc_pair : pos \u00d7 string \u2192 json\n337: | (\u27e8line, _\u27e9, doc) := json.object [(\"line\", line), (\"doc\", doc)]\n338: \n339: meta def write_olean_docs : tactic (list (string \u00d7 json)) :=\n340: do docs \u2190 olean_doc_strings,"
+      }
+    ],
+    "line_count": 502,
+    "small_file": false,
+    "imports": [
+      "import tactic.core system.io data.string.defs tactic.interactive data.list.sort"
+    ]
+  },
+  {
+    "repo": "leanprover-community/duper",
+    "path": "Duper/Interface.lean",
+    "url": "https://github.com/leanprover-community/duper/blob/5e036ed3a2556f6490825305c9537d9930df7e66/Duper/Interface.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/leanprover-community__duper'...\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.30.0",
+    "commit": "5e036ed3a2556f6490825305c9537d9930df7e66",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 1416,
+    "small_file": false,
+    "imports": [
+      "import Duper.ProofReconstruction",
+      "import Auto.Tactic"
+    ]
+  },
+  {
+    "repo": "leanprover-community/duper",
+    "path": "Duper/RuleM.lean",
+    "url": "https://github.com/leanprover-community/duper/blob/5e036ed3a2556f6490825305c9537d9930df7e66/Duper/RuleM.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.30.0",
+    "commit": "5e036ed3a2556f6490825305c9537d9930df7e66",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 425,
+    "small_file": false,
+    "imports": [
+      "import Lean",
+      "import Duper.Unif",
+      "import Duper.MClause",
+      "import Duper.Match",
+      "import Duper.DUnif.UnifRules",
+      "import Duper.Util.IdStrategyHeap",
+      "import Duper.Util.AbstractMVars"
+    ]
+  },
+  {
+    "repo": "leanprover-community/import-graph",
+    "path": "ImportGraph/Util/FindSorry.lean",
+    "url": "https://github.com/leanprover-community/import-graph/blob/41f407a8e85b0fdc00910633a8f14754139b63f4/ImportGraph/Util/FindSorry.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/leanprover-community__import-graph'...\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "41f407a8e85b0fdc00910633a8f14754139b63f4",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 37,
+    "small_file": true,
+    "imports": [
+      "import Lean.Util.Sorry",
+      "import ImportGraph.Lean.Environment"
+    ]
+  },
+  {
+    "repo": "leanprover-community/import-graph",
+    "path": "MainGraph.lean",
+    "url": "https://github.com/leanprover-community/import-graph/blob/41f407a8e85b0fdc00910633a8f14754139b63f4/MainGraph.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "41f407a8e85b0fdc00910633a8f14754139b63f4",
+    "active_sorry_count_est": 2,
+    "windows": [
+      {
+        "line": 61,
+        "window": "53:       | some _ =>\n54:         let init := NameSet.ofArray to\n55:         let ctx := { options := {}, fileName := \"<input>\", fileMap := default }\n56:         let state := { env }\n57:         let used \u2190 Prod.fst <$> (CoreM.toIO (env.transitivelyRequiredModules' to.toList) ctx state)\n58:         let used := used.foldl (init := init) (fun s _ t => s \u222a t)\n59:         pure <| graph.foldl (fun acc n _ => if used.contains n then acc else acc.insert n) NameSet.empty\n60:       | none => pure NameSet.empty\n61:     let modulesWithSorry := if args.hasFlag \"mark-sorry\" then ImportGraph.allModulesWithSorry env else \u2205\n62: \n63:     if let Option.some f := from? then\n64:       graph := graph.downstreamOf (NameSet.ofArray f)\n65:     let includeLean := args.hasFlag \"include-lean\"\n66:     let includeStd := args.hasFlag \"include-std\" || includeLean\n67:     let includeDeps := args.hasFlag \"include-deps\" || includeStd\n68:     -- Note: `includeDirect` does not imply `includeDeps`!\n69:     -- e.g. if the package contains `import Lean`, the node `Lean` will be included with\n70:     -- `--include-direct`, but not included with `--include-deps`.\n71:     let includeDirect := args.hasFlag \"include-direct\""
+      },
+      {
+        "line": 190,
+        "window": "182:     \"to\" : Array ModuleName;   \"Only show the upstream imports of the specified modules.\"\n183:     \"from\" : Array ModuleName; \"Only show the downstream dependencies of the specified modules.\"\n184:     \"exclude-meta\";            \"Exclude any files starting with `Mathlib.[Tactic|Lean|Util|Mathport]`.\"\n185:     \"include-direct\";          \"Include directly imported files from other libraries\"\n186:     \"include-deps\";            \"Include used files from other libraries (not including Lean itself and `std`)\"\n187:     \"include-std\";             \"Include used files from the Lean standard library (implies `--include-deps`)\"\n188:     \"include-lean\";            \"Include used files from Lean itself (implies `--include-deps` and `--include-std`)\"\n189:     \"mark-package\";            \"Visually highlight the package containing the first `--to` target (used in combination with some `--include-XXX`).\"\n190:     \"mark-sorry\";              \"Visually highlight modules containing sorries.\"\n191: \n192:   ARGS:\n193:     ...outputs : String;  \"Filename(s) for the output. \\\n194:       If none are specified, generates `import_graph.dot`. \\\n195:       Automatically chooses the format based on the file extension. \\\n196:       Currently supported formats are `.dot`, `.gexf`, `.html`, \\\n197:       and if you have `graphviz` installed then any supported output format is allowed.\"\n198: ]\n199: \n200: "
+      }
+    ],
+    "line_count": 203,
+    "small_file": true,
+    "imports": [
+      "import ImportGraph.Export.DotFile",
+      "import ImportGraph.Export.Gexf",
+      "import ImportGraph.Graph.Filter",
+      "import ImportGraph.Imports.ImportGraph",
+      "import ImportGraph.Imports.RequiredModules",
+      "import ImportGraph.Lean.Name",
+      "import ImportGraph.Util.CurrentModule",
+      "import ImportGraph.Util.FindSorry",
+      "import Lean.Data.NameMap.AdditionalOperations"
+    ]
+  },
+  {
+    "repo": "leanprover-community/iris-lean",
+    "path": "Iris/Iris/Std/PartialMap.lean",
+    "url": "https://github.com/leanprover-community/iris-lean/blob/5c1eed3ea33261f4449771b062392c24329588f3/Iris/Iris/Std/PartialMap.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "230)\nUpdating files:  21% (49/230)\nUpdating files:  22% (51/230)\nUpdating files:  23% (53/230)\nUpdating files:  24% (56/230)\nUpdating files:  25% (58/230)\nUpdating files:  26% (60/230)\nUpdating files:  27% (63/230)\nUpdating files:  28% (65/230)\nUpdating files:  29% (67/230)\nUpdating files:  30% (69/230)\nUpdating files:  31% (72/230)\nUpdating files:  32% (74/230)\nUpdating files:  33% (76/230)\nUpdating files:  34% (79/230)\nUpdating files:  35% (81/230)\nUpdating files:  36% (83/230)\nUpdating files:  37% (86/230)\nUpdating files:  38% (88/230)\nUpdating files:  39% (90/230)\nUpdating files:  40% (92/230)\nUpdating files:  41% (95/230)\nUpdating files:  42% (97/230)\nUpdating files:  43% (99/230)\nUpdating files:  44% (102/230)\nUpdating files:  45% (104/230)\nUpdating files:  46% (106/230)\nUpdating files:  47% (109/230)\nUpdating files:  48% (111/230)\nUpdating files:  49% (113/230)\nUpdating files:  50% (115/230)\nUpdating files:  51% (118/230)\nUpdating files:  52% (120/230)\nUpdating files:  53% (122/230)\nUpdating files:  54% (125/230)\nUpdating files:  55% (127/230)\nUpdating files:  56% (129/230)\nUpdating files:  57% (132/230)\nUpdating files:  58% (134/230)\nUpdating files:  59% (136/230)\nUpdating files:  60% (138/230)\nUpdating files:  61% (141/230)\nUpdating files:  62% (143/230)\nUpdating files:  63% (145/230)\nUpdating files:  64% (148/230)\nUpdating files:  65% (150/230)\nUpdating files:  66% (152/230)\nUpdating files:  67% (155/230)\nUpdating files:  68% (157/230)\nUpdating files:  69% (159/230)\nUpdating files:  70% (161/230)\nUpdating files:  71% (164/230)\nUpdating files:  72% (166/230)\nUpdating files:  73% (168/230)\nUpdating files:  74% (171/230)\nUpdating files:  75% (173/230)\nUpdating files:  76% (175/230)\nUpdating files:  77% (178/230)\nUpdating files:  78% (180/230)\nUpdating files:  79% (182/230)\nUpdating files:  80% (184/230)\nUpdating files:  81% (187/230)\nUpdating files:  82% (189/230)\nUpdating files:  83% (191/230)\nUpdating files:  84% (194/230)\nUpdating files:  85% (196/230)\nUpdating files:  86% (198/230)\nUpdating files:  87% (201/230)\nUpdating files:  88% (203/230)\nUpdating files:  89% (205/230)\nUpdating files:  90% (207/230)\nUpdating files:  91% (210/230)\nUpdating files:  92% (212/230)\nUpdating files:  93% (214/230)\nUpdating files:  94% (217/230)\nUpdating files:  95% (219/230)\nUpdating files:  96% (221/230)\nUpdating files:  97% (224/230)\nUpdating files:  98% (226/230)\nUpdating files:  99% (228/230)\nUpdating files: 100% (230/230)\nUpdating files: 100% (230/230), done.\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "5c1eed3ea33261f4449771b062392c24329588f3",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 1221,
+    "small_file": false,
+    "imports": [
+      "import Batteries.Data.List.Perm",
+      "import Iris.Std.FromMathlib"
+    ]
+  },
+  {
+    "repo": "leanprover-community/lean",
+    "path": "library/init/meta/tactic.lean",
+    "url": "https://github.com/leanprover-community/lean/blob/f91b574c40ad862c5134d48995ad083fe48e4cd4/library/init/meta/tactic.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": " files:  26% (808/3107)\nUpdating files:  27% (839/3107)\nUpdating files:  28% (870/3107)\nUpdating files:  29% (902/3107)\nUpdating files:  30% (933/3107)\nUpdating files:  31% (964/3107)\nUpdating files:  32% (995/3107)\nUpdating files:  33% (1026/3107)\nUpdating files:  34% (1057/3107)\nUpdating files:  35% (1088/3107)\nUpdating files:  36% (1119/3107)\nUpdating files:  37% (1150/3107)\nUpdating files:  38% (1181/3107)\nUpdating files:  39% (1212/3107)\nUpdating files:  40% (1243/3107)\nUpdating files:  41% (1274/3107)\nUpdating files:  42% (1305/3107)\nUpdating files:  43% (1337/3107)\nUpdating files:  44% (1368/3107)\nUpdating files:  45% (1399/3107)\nUpdating files:  46% (1430/3107)\nUpdating files:  47% (1461/3107)\nUpdating files:  48% (1492/3107)\nUpdating files:  49% (1523/3107)\nUpdating files:  50% (1554/3107)\nUpdating files:  51% (1585/3107)\nUpdating files:  52% (1616/3107)\nUpdating files:  53% (1647/3107)\nUpdating files:  54% (1678/3107)\nUpdating files:  55% (1709/3107)\nUpdating files:  56% (1740/3107)\nUpdating files:  57% (1771/3107)\nUpdating files:  58% (1803/3107)\nUpdating files:  59% (1834/3107)\nUpdating files:  60% (1865/3107)\nUpdating files:  61% (1896/3107)\nUpdating files:  62% (1927/3107)\nUpdating files:  63% (1958/3107)\nUpdating files:  64% (1989/3107)\nUpdating files:  65% (2020/3107)\nUpdating files:  66% (2051/3107)\nUpdating files:  67% (2082/3107)\nUpdating files:  68% (2113/3107)\nUpdating files:  69% (2144/3107)\nUpdating files:  70% (2175/3107)\nUpdating files:  71% (2206/3107)\nUpdating files:  72% (2238/3107)\nUpdating files:  73% (2269/3107)\nUpdating files:  74% (2300/3107)\nUpdating files:  75% (2331/3107)\nUpdating files:  76% (2362/3107)\nUpdating files:  77% (2393/3107)\nUpdating files:  78% (2424/3107)\nUpdating files:  79% (2455/3107)\nUpdating files:  80% (2486/3107)\nUpdating files:  81% (2517/3107)\nUpdating files:  82% (2548/3107)\nUpdating files:  83% (2579/3107)\nUpdating files:  84% (2610/3107)\nUpdating files:  85% (2641/3107)\nUpdating files:  86% (2673/3107)\nUpdating files:  87% (2704/3107)\nUpdating files:  88% (2735/3107)\nUpdating files:  89% (2766/3107)\nUpdating files:  90% (2797/3107)\nUpdating files:  91% (2828/3107)\nUpdating files:  92% (2859/3107)\nUpdating files:  93% (2890/3107)\nUpdating files:  94% (2921/3107)\nUpdating files:  95% (2952/3107)\nUpdating files:  96% (2983/3107)\nUpdating files:  97% (3014/3107)\nUpdating files:  98% (3045/3107)\nUpdating files:  99% (3076/3107)\nUpdating files: 100% (3107/3107)\nUpdating files: 100% (3107/3107), done.\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "f91b574c40ad862c5134d48995ad083fe48e4cd4",
+    "active_sorry_count_est": 4,
+    "windows": [
+      {
+        "line": 1444,
+        "window": "1436:    This action can be used to create a meta-variable when\n1437:    we don't know its type at creation time -/\n1438: meta def mk_mvar : tactic expr :=\n1439: do u \u2190 mk_meta_univ,\n1440:    t \u2190 mk_meta_var (expr.sort u),\n1441:    mk_meta_var t\n1442: \n1443: /-- Makes a sorry macro with a meta-variable as its type. -/\n1444: meta def mk_sorry : tactic expr := do\n1445: u \u2190 mk_meta_univ,\n1446: t \u2190 mk_meta_var (expr.sort u),\n1447: return $ expr.mk_sorry t\n1448: \n1449: /-- Closes the main goal using sorry. -/\n1450: meta def admit : tactic unit :=\n1451: target >>= exact \u2218 expr.mk_sorry\n1452: \n1453: meta def mk_local' (pp_name : name) (bi : binder_info) (type : expr) : tactic expr := do\n1454: uniq_name \u2190 mk_fresh_name,"
+      },
+      {
+        "line": 1447,
+        "window": "1439: do u \u2190 mk_meta_univ,\n1440:    t \u2190 mk_meta_var (expr.sort u),\n1441:    mk_meta_var t\n1442: \n1443: /-- Makes a sorry macro with a meta-variable as its type. -/\n1444: meta def mk_sorry : tactic expr := do\n1445: u \u2190 mk_meta_univ,\n1446: t \u2190 mk_meta_var (expr.sort u),\n1447: return $ expr.mk_sorry t\n1448: \n1449: /-- Closes the main goal using sorry. -/\n1450: meta def admit : tactic unit :=\n1451: target >>= exact \u2218 expr.mk_sorry\n1452: \n1453: meta def mk_local' (pp_name : name) (bi : binder_info) (type : expr) : tactic expr := do\n1454: uniq_name \u2190 mk_fresh_name,\n1455: return $ expr.local_const uniq_name pp_name bi type\n1456: \n1457: meta def mk_local_def (pp_name : name) (type : expr) : tactic expr :="
+      },
+      {
+        "line": 1450,
+        "window": "1442: \n1443: /-- Makes a sorry macro with a meta-variable as its type. -/\n1444: meta def mk_sorry : tactic expr := do\n1445: u \u2190 mk_meta_univ,\n1446: t \u2190 mk_meta_var (expr.sort u),\n1447: return $ expr.mk_sorry t\n1448: \n1449: /-- Closes the main goal using sorry. -/\n1450: meta def admit : tactic unit :=\n1451: target >>= exact \u2218 expr.mk_sorry\n1452: \n1453: meta def mk_local' (pp_name : name) (bi : binder_info) (type : expr) : tactic expr := do\n1454: uniq_name \u2190 mk_fresh_name,\n1455: return $ expr.local_const uniq_name pp_name bi type\n1456: \n1457: meta def mk_local_def (pp_name : name) (type : expr) : tactic expr :=\n1458: mk_local' pp_name binder_info.default type\n1459: \n1460: meta def mk_local_pis : expr \u2192 tactic (list expr \u00d7 expr)"
+      },
+      {
+        "line": 1451,
+        "window": "1443: /-- Makes a sorry macro with a meta-variable as its type. -/\n1444: meta def mk_sorry : tactic expr := do\n1445: u \u2190 mk_meta_univ,\n1446: t \u2190 mk_meta_var (expr.sort u),\n1447: return $ expr.mk_sorry t\n1448: \n1449: /-- Closes the main goal using sorry. -/\n1450: meta def admit : tactic unit :=\n1451: target >>= exact \u2218 expr.mk_sorry\n1452: \n1453: meta def mk_local' (pp_name : name) (bi : binder_info) (type : expr) : tactic expr := do\n1454: uniq_name \u2190 mk_fresh_name,\n1455: return $ expr.local_const uniq_name pp_name bi type\n1456: \n1457: meta def mk_local_def (pp_name : name) (type : expr) : tactic expr :=\n1458: mk_local' pp_name binder_info.default type\n1459: \n1460: meta def mk_local_pis : expr \u2192 tactic (list expr \u00d7 expr)\n1461: | (expr.pi n bi d b) := do"
+      }
+    ],
+    "line_count": 1908,
+    "small_file": false,
+    "imports": [
+      "import init.function init.data.option.basic init.util",
+      "import init.control.combinators init.control.monad init.control.alternative init.control.monad_fail",
+      "import init.data.nat.div init.meta.exceptional init.meta.format init.meta.environment",
+      "import init.meta.pexpr init.data.repr init.data.string.basic init.meta.interaction_monad",
+      "import init.classical"
+    ]
+  },
+  {
+    "repo": "leanprover-community/lean-auto",
+    "path": "Auto/EvaluateAuto/TestTactics.lean",
+    "url": "https://github.com/leanprover-community/lean-auto/blob/dcc3ecf8fff5baac87b6e42a4d841ba80e903b0f/Auto/EvaluateAuto/TestTactics.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "25/129)\nUpdating files:  20% (26/129)\nUpdating files:  21% (28/129)\nUpdating files:  22% (29/129)\nUpdating files:  23% (30/129)\nUpdating files:  24% (31/129)\nUpdating files:  25% (33/129)\nUpdating files:  26% (34/129)\nUpdating files:  27% (35/129)\nUpdating files:  28% (37/129)\nUpdating files:  29% (38/129)\nUpdating files:  30% (39/129)\nUpdating files:  31% (40/129)\nUpdating files:  32% (42/129)\nUpdating files:  33% (43/129)\nUpdating files:  34% (44/129)\nUpdating files:  35% (46/129)\nUpdating files:  36% (47/129)\nUpdating files:  37% (48/129)\nUpdating files:  38% (50/129)\nUpdating files:  39% (51/129)\nUpdating files:  40% (52/129)\nUpdating files:  41% (53/129)\nUpdating files:  42% (55/129)\nUpdating files:  43% (56/129)\nUpdating files:  44% (57/129)\nUpdating files:  45% (59/129)\nUpdating files:  46% (60/129)\nUpdating files:  47% (61/129)\nUpdating files:  48% (62/129)\nUpdating files:  49% (64/129)\nUpdating files:  50% (65/129)\nUpdating files:  51% (66/129)\nUpdating files:  52% (68/129)\nUpdating files:  53% (69/129)\nUpdating files:  54% (70/129)\nUpdating files:  55% (71/129)\nUpdating files:  56% (73/129)\nUpdating files:  57% (74/129)\nUpdating files:  58% (75/129)\nUpdating files:  59% (77/129)\nUpdating files:  60% (78/129)\nUpdating files:  61% (79/129)\nUpdating files:  62% (80/129)\nUpdating files:  63% (82/129)\nUpdating files:  64% (83/129)\nUpdating files:  65% (84/129)\nUpdating files:  66% (86/129)\nUpdating files:  67% (87/129)\nUpdating files:  68% (88/129)\nUpdating files:  69% (90/129)\nUpdating files:  70% (91/129)\nUpdating files:  71% (92/129)\nUpdating files:  72% (93/129)\nUpdating files:  73% (95/129)\nUpdating files:  74% (96/129)\nUpdating files:  75% (97/129)\nUpdating files:  76% (99/129)\nUpdating files:  77% (100/129)\nUpdating files:  78% (101/129)\nUpdating files:  79% (102/129)\nUpdating files:  80% (104/129)\nUpdating files:  81% (105/129)\nUpdating files:  82% (106/129)\nUpdating files:  83% (108/129)\nUpdating files:  84% (109/129)\nUpdating files:  85% (110/129)\nUpdating files:  86% (111/129)\nUpdating files:  87% (113/129)\nUpdating files:  88% (114/129)\nUpdating files:  89% (115/129)\nUpdating files:  90% (117/129)\nUpdating files:  91% (118/129)\nUpdating files:  92% (119/129)\nUpdating files:  93% (120/129)\nUpdating files:  94% (122/129)\nUpdating files:  95% (123/129)\nUpdating files:  96% (124/129)\nUpdating files:  97% (126/129)\nUpdating files:  98% (127/129)\nUpdating files:  99% (128/129)\nUpdating files: 100% (129/129)\nUpdating files: 100% (129/129), done.\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "dcc3ecf8fff5baac87b6e42a4d841ba80e903b0f",
+    "active_sorry_count_est": 1,
+    "windows": [
+      {
+        "line": 36,
+        "window": "28:   -/\n29:   def testUnknownConstant (ci : ConstantInfo) : TacticM Unit := do\n30:     let .some proof := ci.value?\n31:       | throwError \"{decl_name%} :: ConstantInfo of {ci.name} has no value\"\n32:     let usedConsts := Expr.getUsedConstants proof ++ Expr.getUsedConstants ci.type\n33:     for name in usedConsts do\n34:       if ((\u2190 getEnv).find? name).isNone then\n35:         throwError \"{decl_name%} :: Proof of {ci.name} contains unknown constant {name}\"\n36:     evalTactic (\u2190 `(tactic| sorry))\n37: \n38:   def useRfl : TacticM Unit := do evalTactic (\u2190 `(tactic| intros; rfl))\n39: \n40:   def useSimp : TacticM Unit := do evalTactic (\u2190 `(tactic| intros; simp))\n41: \n42:   def useSimpAll : TacticM Unit := do evalTactic (\u2190 `(tactic| intros; simp_all))\n43: \n44:   def useSimpAllWithPremises (ci : ConstantInfo) : TacticM Unit := do\n45:     let .some proof := ci.value?\n46:       | throwError \"{decl_name%} :: ConstantInfo of {ci.name} has no value\""
+      }
+    ],
+    "line_count": 589,
+    "small_file": false,
+    "imports": [
+      "import Lean",
+      "import Auto.EvaluateAuto.OS",
+      "import Auto.EvaluateAuto.Result",
+      "import Auto.EvaluateAuto.ConstAnalysis",
+      "import Auto.EvaluateAuto.EnvAnalysis",
+      "import Auto.EvaluateAuto.NameArr",
+      "import Auto.EvaluateAuto.CommandAnalysis",
+      "import Auto.Tactic",
+      "import Auto.EvaluateAuto.AutoConfig",
+      "import Std"
+    ]
+  },
+  {
+    "repo": "leanprover-community/lean-liquid",
+    "path": "backup/sheafification_mono.lean",
+    "url": "https://github.com/leanprover-community/lean-liquid/blob/087fffad55dc1dd8d54ab35c9816926a45b8c0fd/backup/sheafification_mono.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": " 21% (93/439)\nUpdating files:  22% (97/439)\nUpdating files:  23% (101/439)\nUpdating files:  24% (106/439)\nUpdating files:  25% (110/439)\nUpdating files:  26% (115/439)\nUpdating files:  27% (119/439)\nUpdating files:  28% (123/439)\nUpdating files:  29% (128/439)\nUpdating files:  30% (132/439)\nUpdating files:  31% (137/439)\nUpdating files:  32% (141/439)\nUpdating files:  33% (145/439)\nUpdating files:  34% (150/439)\nUpdating files:  35% (154/439)\nUpdating files:  36% (159/439)\nUpdating files:  37% (163/439)\nUpdating files:  38% (167/439)\nUpdating files:  39% (172/439)\nUpdating files:  40% (176/439)\nUpdating files:  41% (180/439)\nUpdating files:  42% (185/439)\nUpdating files:  43% (189/439)\nUpdating files:  44% (194/439)\nUpdating files:  45% (198/439)\nUpdating files:  46% (202/439)\nUpdating files:  47% (207/439)\nUpdating files:  48% (211/439)\nUpdating files:  49% (216/439)\nUpdating files:  50% (220/439)\nUpdating files:  51% (224/439)\nUpdating files:  52% (229/439)\nUpdating files:  53% (233/439)\nUpdating files:  54% (238/439)\nUpdating files:  55% (242/439)\nUpdating files:  56% (246/439)\nUpdating files:  57% (251/439)\nUpdating files:  58% (255/439)\nUpdating files:  59% (260/439)\nUpdating files:  60% (264/439)\nUpdating files:  61% (268/439)\nUpdating files:  62% (273/439)\nUpdating files:  63% (277/439)\nUpdating files:  64% (281/439)\nUpdating files:  65% (286/439)\nUpdating files:  66% (290/439)\nUpdating files:  67% (295/439)\nUpdating files:  68% (299/439)\nUpdating files:  69% (303/439)\nUpdating files:  70% (308/439)\nUpdating files:  71% (312/439)\nUpdating files:  72% (317/439)\nUpdating files:  73% (321/439)\nUpdating files:  74% (325/439)\nUpdating files:  75% (330/439)\nUpdating files:  76% (334/439)\nUpdating files:  77% (339/439)\nUpdating files:  78% (343/439)\nUpdating files:  79% (347/439)\nUpdating files:  80% (352/439)\nUpdating files:  81% (356/439)\nUpdating files:  82% (360/439)\nUpdating files:  83% (365/439)\nUpdating files:  84% (369/439)\nUpdating files:  85% (374/439)\nUpdating files:  86% (378/439)\nUpdating files:  87% (382/439)\nUpdating files:  88% (387/439)\nUpdating files:  89% (391/439)\nUpdating files:  90% (396/439)\nUpdating files:  91% (400/439)\nUpdating files:  92% (404/439)\nUpdating files:  93% (409/439)\nUpdating files:  94% (413/439)\nUpdating files:  95% (418/439)\nUpdating files:  96% (422/439)\nUpdating files:  97% (426/439)\nUpdating files:  98% (431/439)\nUpdating files:  99% (435/439)\nUpdating files: 100% (439/439)\nUpdating files: 100% (439/439), done.\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "087fffad55dc1dd8d54ab35c9816926a45b8c0fd",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 77,
+    "small_file": true,
+    "imports": [
+      "import condensed.adjunctions",
+      "import category_theory.adjunction.evaluation"
+    ]
+  },
+  {
+    "repo": "leanprover-community/lean-liquid",
+    "path": "src/condensed/basic.lean",
+    "url": "https://github.com/leanprover-community/lean-liquid/blob/087fffad55dc1dd8d54ab35c9816926a45b8c0fd/src/condensed/basic.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "087fffad55dc1dd8d54ab35c9816926a45b8c0fd",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 152,
+    "small_file": true,
+    "imports": [
+      "import category_theory.sites.limits",
+      "import algebra.category.Group.filtered_colimits",
+      "import algebra.category.Group.abelian",
+      "import topology.category.Profinite.projective",
+      "import for_mathlib.presieve",
+      "import for_mathlib.Profinite.disjoint_union",
+      "import for_mathlib.abelian_sheaves.main",
+      "import for_mathlib.AddCommGroup.explicit_limits",
+      "import condensed.proetale_site",
+      "import condensed.is_proetale_sheaf"
+    ]
+  },
+  {
+    "repo": "leanprover-community/lean-perfectoid-spaces",
+    "path": "src/for_mathlib/topological_groups.lean",
+    "url": "https://github.com/leanprover-community/lean-perfectoid-spaces/blob/95a6520ce578b30a80b4c36e36ab2d559a842690/src/for_mathlib/topological_groups.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": ")\nUpdating files:   7% (7/91)\nUpdating files:   8% (8/91)\nUpdating files:   9% (9/91)\nUpdating files:  10% (10/91)\nUpdating files:  12% (11/91)\nUpdating files:  13% (12/91)\nUpdating files:  14% (13/91)\nUpdating files:  15% (14/91)\nUpdating files:  16% (15/91)\nUpdating files:  17% (16/91)\nUpdating files:  18% (17/91)\nUpdating files:  19% (18/91)\nUpdating files:  20% (19/91)\nUpdating files:  21% (20/91)\nUpdating files:  23% (21/91)\nUpdating files:  24% (22/91)\nUpdating files:  25% (23/91)\nUpdating files:  26% (24/91)\nUpdating files:  27% (25/91)\nUpdating files:  28% (26/91)\nUpdating files:  29% (27/91)\nUpdating files:  30% (28/91)\nUpdating files:  31% (29/91)\nUpdating files:  32% (30/91)\nUpdating files:  34% (31/91)\nUpdating files:  35% (32/91)\nUpdating files:  36% (33/91)\nUpdating files:  37% (34/91)\nUpdating files:  38% (35/91)\nUpdating files:  39% (36/91)\nUpdating files:  40% (37/91)\nUpdating files:  41% (38/91)\nUpdating files:  42% (39/91)\nUpdating files:  43% (40/91)\nUpdating files:  45% (41/91)\nUpdating files:  46% (42/91)\nUpdating files:  47% (43/91)\nUpdating files:  48% (44/91)\nUpdating files:  49% (45/91)\nUpdating files:  50% (46/91)\nUpdating files:  51% (47/91)\nUpdating files:  52% (48/91)\nUpdating files:  53% (49/91)\nUpdating files:  54% (50/91)\nUpdating files:  56% (51/91)\nUpdating files:  57% (52/91)\nUpdating files:  58% (53/91)\nUpdating files:  59% (54/91)\nUpdating files:  60% (55/91)\nUpdating files:  61% (56/91)\nUpdating files:  62% (57/91)\nUpdating files:  63% (58/91)\nUpdating files:  64% (59/91)\nUpdating files:  65% (60/91)\nUpdating files:  67% (61/91)\nUpdating files:  68% (62/91)\nUpdating files:  69% (63/91)\nUpdating files:  70% (64/91)\nUpdating files:  71% (65/91)\nUpdating files:  72% (66/91)\nUpdating files:  73% (67/91)\nUpdating files:  74% (68/91)\nUpdating files:  75% (69/91)\nUpdating files:  76% (70/91)\nUpdating files:  78% (71/91)\nUpdating files:  79% (72/91)\nUpdating files:  80% (73/91)\nUpdating files:  81% (74/91)\nUpdating files:  82% (75/91)\nUpdating files:  83% (76/91)\nUpdating files:  84% (77/91)\nUpdating files:  85% (78/91)\nUpdating files:  86% (79/91)\nUpdating files:  87% (80/91)\nUpdating files:  89% (81/91)\nUpdating files:  90% (82/91)\nUpdating files:  91% (83/91)\nUpdating files:  92% (84/91)\nUpdating files:  93% (85/91)\nUpdating files:  94% (86/91)\nUpdating files:  95% (87/91)\nUpdating files:  96% (88/91)\nUpdating files:  97% (89/91)\nUpdating files:  98% (90/91)\nUpdating files: 100% (91/91)\nUpdating files: 100% (91/91), done.\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "95a6520ce578b30a80b4c36e36ab2d559a842690",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 678,
+    "small_file": false,
+    "imports": [
+      "import tactic.abel",
+      "import topology.algebra.group",
+      "import topology.algebra.uniform_ring",
+      "import ring_theory.subring",
+      "import for_mathlib.topology",
+      "import for_mathlib.filter",
+      "import for_mathlib.data.set.basic",
+      "import algebra.pointwise"
+    ]
+  },
+  {
+    "repo": "leanprover-community/lean4-metaprogramming-book",
+    "path": "lean/solutions/07_elaboration.lean",
+    "url": "https://github.com/leanprover-community/lean4-metaprogramming-book/blob/731400dccbecc24d434838aa5ace19886f7fd22b/lean/solutions/07_elaboration.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/leanprover-community__lean4-metaprogramming-book'...\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.17.0-rc1",
+    "commit": "731400dccbecc24d434838aa5ace19886f7fd22b",
+    "active_sorry_count_est": 1,
+    "windows": [
+      {
+        "line": 90,
+        "window": "82:   if let some loc := loc then\n83:     Lean.logInfo \"rewrite location!\"\n84:   else\n85:     Lean.logInfo \"rewrite target!\"\n86: \n87: example : 2 + 2 = 4 := by\n88:   nth_rewriteC 2 [\u2190 add_zero] at h\n89:   nth_rewriteC 2 [\u2190 add_zero]\n90:   sorry"
+      }
+    ],
+    "line_count": 90,
+    "small_file": true,
+    "imports": [
+      "import Lean"
+    ]
+  },
+  {
+    "repo": "leanprover-community/lean4game",
+    "path": "server/GameServer/Tactic/Template.lean",
+    "url": "https://github.com/leanprover-community/lean4game/blob/5de9e84fd16e623b5c566770498aeed3f691392c/server/GameServer/Tactic/Template.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "4/217)\nUpdating files:  21% (46/217)\nUpdating files:  22% (48/217)\nUpdating files:  23% (50/217)\nUpdating files:  24% (53/217)\nUpdating files:  25% (55/217)\nUpdating files:  26% (57/217)\nUpdating files:  27% (59/217)\nUpdating files:  28% (61/217)\nUpdating files:  29% (63/217)\nUpdating files:  30% (66/217)\nUpdating files:  31% (68/217)\nUpdating files:  32% (70/217)\nUpdating files:  33% (72/217)\nUpdating files:  34% (74/217)\nUpdating files:  35% (76/217)\nUpdating files:  36% (79/217)\nUpdating files:  37% (81/217)\nUpdating files:  38% (83/217)\nUpdating files:  39% (85/217)\nUpdating files:  40% (87/217)\nUpdating files:  41% (89/217)\nUpdating files:  42% (92/217)\nUpdating files:  43% (94/217)\nUpdating files:  44% (96/217)\nUpdating files:  45% (98/217)\nUpdating files:  46% (100/217)\nUpdating files:  47% (102/217)\nUpdating files:  48% (105/217)\nUpdating files:  49% (107/217)\nUpdating files:  50% (109/217)\nUpdating files:  51% (111/217)\nUpdating files:  52% (113/217)\nUpdating files:  53% (116/217)\nUpdating files:  54% (118/217)\nUpdating files:  55% (120/217)\nUpdating files:  56% (122/217)\nUpdating files:  57% (124/217)\nUpdating files:  58% (126/217)\nUpdating files:  59% (129/217)\nUpdating files:  60% (131/217)\nUpdating files:  61% (133/217)\nUpdating files:  62% (135/217)\nUpdating files:  63% (137/217)\nUpdating files:  64% (139/217)\nUpdating files:  65% (142/217)\nUpdating files:  66% (144/217)\nUpdating files:  67% (146/217)\nUpdating files:  68% (148/217)\nUpdating files:  69% (150/217)\nUpdating files:  70% (152/217)\nUpdating files:  71% (155/217)\nUpdating files:  72% (157/217)\nUpdating files:  73% (159/217)\nUpdating files:  74% (161/217)\nUpdating files:  75% (163/217)\nUpdating files:  76% (165/217)\nUpdating files:  77% (168/217)\nUpdating files:  78% (170/217)\nUpdating files:  79% (172/217)\nUpdating files:  80% (174/217)\nUpdating files:  81% (176/217)\nUpdating files:  82% (178/217)\nUpdating files:  83% (181/217)\nUpdating files:  84% (183/217)\nUpdating files:  85% (185/217)\nUpdating files:  86% (187/217)\nUpdating files:  87% (189/217)\nUpdating files:  88% (191/217)\nUpdating files:  89% (194/217)\nUpdating files:  90% (196/217)\nUpdating files:  91% (198/217)\nUpdating files:  92% (200/217)\nUpdating files:  93% (202/217)\nUpdating files:  94% (204/217)\nUpdating files:  95% (207/217)\nUpdating files:  96% (209/217)\nUpdating files:  97% (211/217)\nUpdating files:  98% (213/217)\nUpdating files:  99% (215/217)\nUpdating files: 100% (217/217)\nUpdating files: 100% (217/217), done.\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "5de9e84fd16e623b5c566770498aeed3f691392c",
+    "active_sorry_count_est": 1,
+    "windows": [
+      {
+        "line": 26,
+        "window": "18:     let newArgs := filterArgs args\n19:     Syntax.node info kind \u27e8newArgs\u27e9\n20:   | other => other\n21: where filterArgs (args : List Syntax) : List Syntax :=\n22:   match args with\n23:     | [] => []\n24:     -- replace `Hole` with `sorry`.\n25:     | Syntax.node info `GameServer.Tactic.Hole _ :: r =>\n26:       Syntax.node info `Lean.Parser.Tactic.tacticSorry #[Syntax.atom info \"sorry\"] :: filterArgs r\n27:     -- delete all `Hint` and `Branch` occurrences in the middle.\n28:     | Syntax.node _ `GameServer.Tactic.Hint _ :: _ :: r\n29:     | Syntax.node _ `GameServer.Tactic.Branch _ :: _ :: r =>\n30:       filterArgs r\n31:     -- delete `Hint` and `Branch` occurrence at the end of the tactic sequence.\n32:     | Syntax.node _ `GameServer.Tactic.Hint _ :: []\n33:     | Syntax.node _ `GameServer.Tactic.Branch _ :: [] =>\n34:         []\n35:     -- Recurse on all other Syntax.\n36:     | a :: rest =>"
+      }
+    ],
+    "line_count": 48,
+    "small_file": true,
+    "imports": [
+      "import GameServer.EnvExtensions"
+    ]
+  },
+  {
+    "repo": "leanprover-community/lftcm2020",
+    "path": "src/solutions/tuesday/sets.lean",
+    "url": "https://github.com/leanprover-community/lftcm2020/blob/64d1861d32d4bb38a65994f7c47d96892333130f/src/solutions/tuesday/sets.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "Cloning into '/tmp/sorrydb_target2_scout_v59/leanprover-community__lftcm2020'...\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "64d1861d32d4bb38a65994f7c47d96892333130f",
+    "active_sorry_count_est": 8,
+    "windows": [
+      {
+        "line": 462,
+        "window": "454: \n455: example : f \u207b\u00b9' (u \u222a v) = f \u207b\u00b9' u \u222a f \u207b\u00b9' v :=\n456: -- sorry\n457: by ext x; refl\n458: -- sorry\n459: \n460: example : f '' (s \u2229 t) \u2286 f '' s \u2229 f '' t :=\n461: -- sorry\n462: sorry\n463: -- sorry\n464: \n465: example (h : injective f) : f '' s \u2229 f '' t \u2286 f '' (s \u2229 t) :=\n466: -- sorry\n467: sorry\n468: -- sorry\n469: \n470: example : f '' s \\ f '' t \u2286 f '' (s \\ t) :=\n471: -- sorry\n472: sorry"
+      },
+      {
+        "line": 467,
+        "window": "459: \n460: example : f '' (s \u2229 t) \u2286 f '' s \u2229 f '' t :=\n461: -- sorry\n462: sorry\n463: -- sorry\n464: \n465: example (h : injective f) : f '' s \u2229 f '' t \u2286 f '' (s \u2229 t) :=\n466: -- sorry\n467: sorry\n468: -- sorry\n469: \n470: example : f '' s \\ f '' t \u2286 f '' (s \\ t) :=\n471: -- sorry\n472: sorry\n473: -- sorry\n474: \n475: example : f \u207b\u00b9' u \\ f \u207b\u00b9' v \u2286 f \u207b\u00b9' (u \\ v) :=\n476: -- sorry\n477: sorry"
+      },
+      {
+        "line": 472,
+        "window": "464: \n465: example (h : injective f) : f '' s \u2229 f '' t \u2286 f '' (s \u2229 t) :=\n466: -- sorry\n467: sorry\n468: -- sorry\n469: \n470: example : f '' s \\ f '' t \u2286 f '' (s \\ t) :=\n471: -- sorry\n472: sorry\n473: -- sorry\n474: \n475: example : f \u207b\u00b9' u \\ f \u207b\u00b9' v \u2286 f \u207b\u00b9' (u \\ v) :=\n476: -- sorry\n477: sorry\n478: -- sorry\n479: \n480: example : f '' s \u2229 v = f '' (s \u2229 f \u207b\u00b9' v) :=\n481: -- sorry\n482: sorry"
+      },
+      {
+        "line": 477,
+        "window": "469: \n470: example : f '' s \\ f '' t \u2286 f '' (s \\ t) :=\n471: -- sorry\n472: sorry\n473: -- sorry\n474: \n475: example : f \u207b\u00b9' u \\ f \u207b\u00b9' v \u2286 f \u207b\u00b9' (u \\ v) :=\n476: -- sorry\n477: sorry\n478: -- sorry\n479: \n480: example : f '' s \u2229 v = f '' (s \u2229 f \u207b\u00b9' v) :=\n481: -- sorry\n482: sorry\n483: -- sorry\n484: \n485: example : f '' (s \u2229 f \u207b\u00b9' u) \u2286 f '' s \u222a u :=\n486: -- sorry\n487: sorry"
+      },
+      {
+        "line": 482,
+        "window": "474: \n475: example : f \u207b\u00b9' u \\ f \u207b\u00b9' v \u2286 f \u207b\u00b9' (u \\ v) :=\n476: -- sorry\n477: sorry\n478: -- sorry\n479: \n480: example : f '' s \u2229 v = f '' (s \u2229 f \u207b\u00b9' v) :=\n481: -- sorry\n482: sorry\n483: -- sorry\n484: \n485: example : f '' (s \u2229 f \u207b\u00b9' u) \u2286 f '' s \u222a u :=\n486: -- sorry\n487: sorry\n488: -- sorry\n489: \n490: example : s \u2229 f \u207b\u00b9' u \u2286 f \u207b\u00b9' (f '' s \u2229 u) :=\n491: -- sorry\n492: sorry"
+      }
+    ],
+    "line_count": 584,
+    "small_file": false,
+    "imports": [
+      "import data.set.basic data.set.lattice data.nat.parity",
+      "import data.nat.prime",
+      "import tactic.linarith"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C04_Sets_and_Functions/S02_Functions.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C04_Sets_and_Functions/S02_Functions.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "% (41/202)\nUpdating files:  21% (43/202)\nUpdating files:  22% (45/202)\nUpdating files:  23% (47/202)\nUpdating files:  24% (49/202)\nUpdating files:  25% (51/202)\nUpdating files:  26% (53/202)\nUpdating files:  27% (55/202)\nUpdating files:  28% (57/202)\nUpdating files:  29% (59/202)\nUpdating files:  30% (61/202)\nUpdating files:  31% (63/202)\nUpdating files:  32% (65/202)\nUpdating files:  33% (67/202)\nUpdating files:  34% (69/202)\nUpdating files:  35% (71/202)\nUpdating files:  36% (73/202)\nUpdating files:  37% (75/202)\nUpdating files:  38% (77/202)\nUpdating files:  39% (79/202)\nUpdating files:  40% (81/202)\nUpdating files:  41% (83/202)\nUpdating files:  42% (85/202)\nUpdating files:  43% (87/202)\nUpdating files:  44% (89/202)\nUpdating files:  45% (91/202)\nUpdating files:  46% (93/202)\nUpdating files:  47% (95/202)\nUpdating files:  48% (97/202)\nUpdating files:  49% (99/202)\nUpdating files:  50% (101/202)\nUpdating files:  51% (104/202)\nUpdating files:  52% (106/202)\nUpdating files:  53% (108/202)\nUpdating files:  54% (110/202)\nUpdating files:  55% (112/202)\nUpdating files:  56% (114/202)\nUpdating files:  57% (116/202)\nUpdating files:  58% (118/202)\nUpdating files:  59% (120/202)\nUpdating files:  60% (122/202)\nUpdating files:  61% (124/202)\nUpdating files:  62% (126/202)\nUpdating files:  63% (128/202)\nUpdating files:  64% (130/202)\nUpdating files:  65% (132/202)\nUpdating files:  66% (134/202)\nUpdating files:  67% (136/202)\nUpdating files:  68% (138/202)\nUpdating files:  69% (140/202)\nUpdating files:  70% (142/202)\nUpdating files:  71% (144/202)\nUpdating files:  72% (146/202)\nUpdating files:  73% (148/202)\nUpdating files:  74% (150/202)\nUpdating files:  75% (152/202)\nUpdating files:  76% (154/202)\nUpdating files:  77% (156/202)\nUpdating files:  78% (158/202)\nUpdating files:  79% (160/202)\nUpdating files:  80% (162/202)\nUpdating files:  81% (164/202)\nUpdating files:  82% (166/202)\nUpdating files:  83% (168/202)\nUpdating files:  84% (170/202)\nUpdating files:  85% (172/202)\nUpdating files:  86% (174/202)\nUpdating files:  87% (176/202)\nUpdating files:  88% (178/202)\nUpdating files:  89% (180/202)\nUpdating files:  90% (182/202)\nUpdating files:  91% (184/202)\nUpdating files:  92% (186/202)\nUpdating files:  93% (188/202)\nUpdating files:  94% (190/202)\nUpdating files:  95% (192/202)\nUpdating files:  96% (194/202)\nUpdating files:  97% (196/202)\nUpdating files:  98% (198/202)\nUpdating files:  99% (200/202)\nUpdating files: 100% (202/202)\nUpdating files: 100% (202/202), done.\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.30.0",
+    "commit": "dd6d752fedb14082f557913c2dccb2d4851e5173",
+    "active_sorry_count_est": 28,
+    "windows": [
+      {
+        "line": 37,
+        "window": "29:   use x, Or.inr xt\n30: \n31: example : s \u2286 f \u207b\u00b9' (f '' s) := by\n32:   intro x xs\n33:   show f x \u2208 f '' s\n34:   use x, xs\n35: \n36: example : f '' s \u2286 v \u2194 s \u2286 f \u207b\u00b9' v := by\n37:   sorry\n38: \n39: example (h : Injective f) : f \u207b\u00b9' (f '' s) \u2286 s := by\n40:   sorry\n41: \n42: example : f '' (f \u207b\u00b9' u) \u2286 u := by\n43:   sorry\n44: \n45: example (h : Surjective f) : u \u2286 f '' (f \u207b\u00b9' u) := by\n46:   sorry\n47: "
+      },
+      {
+        "line": 40,
+        "window": "32:   intro x xs\n33:   show f x \u2208 f '' s\n34:   use x, xs\n35: \n36: example : f '' s \u2286 v \u2194 s \u2286 f \u207b\u00b9' v := by\n37:   sorry\n38: \n39: example (h : Injective f) : f \u207b\u00b9' (f '' s) \u2286 s := by\n40:   sorry\n41: \n42: example : f '' (f \u207b\u00b9' u) \u2286 u := by\n43:   sorry\n44: \n45: example (h : Surjective f) : u \u2286 f '' (f \u207b\u00b9' u) := by\n46:   sorry\n47: \n48: example (h : s \u2286 t) : f '' s \u2286 f '' t := by\n49:   sorry\n50: "
+      },
+      {
+        "line": 43,
+        "window": "35: \n36: example : f '' s \u2286 v \u2194 s \u2286 f \u207b\u00b9' v := by\n37:   sorry\n38: \n39: example (h : Injective f) : f \u207b\u00b9' (f '' s) \u2286 s := by\n40:   sorry\n41: \n42: example : f '' (f \u207b\u00b9' u) \u2286 u := by\n43:   sorry\n44: \n45: example (h : Surjective f) : u \u2286 f '' (f \u207b\u00b9' u) := by\n46:   sorry\n47: \n48: example (h : s \u2286 t) : f '' s \u2286 f '' t := by\n49:   sorry\n50: \n51: example (h : u \u2286 v) : f \u207b\u00b9' u \u2286 f \u207b\u00b9' v := by\n52:   sorry\n53: "
+      },
+      {
+        "line": 46,
+        "window": "38: \n39: example (h : Injective f) : f \u207b\u00b9' (f '' s) \u2286 s := by\n40:   sorry\n41: \n42: example : f '' (f \u207b\u00b9' u) \u2286 u := by\n43:   sorry\n44: \n45: example (h : Surjective f) : u \u2286 f '' (f \u207b\u00b9' u) := by\n46:   sorry\n47: \n48: example (h : s \u2286 t) : f '' s \u2286 f '' t := by\n49:   sorry\n50: \n51: example (h : u \u2286 v) : f \u207b\u00b9' u \u2286 f \u207b\u00b9' v := by\n52:   sorry\n53: \n54: example : f \u207b\u00b9' (u \u222a v) = f \u207b\u00b9' u \u222a f \u207b\u00b9' v := by\n55:   sorry\n56: "
+      },
+      {
+        "line": 49,
+        "window": "41: \n42: example : f '' (f \u207b\u00b9' u) \u2286 u := by\n43:   sorry\n44: \n45: example (h : Surjective f) : u \u2286 f '' (f \u207b\u00b9' u) := by\n46:   sorry\n47: \n48: example (h : s \u2286 t) : f '' s \u2286 f '' t := by\n49:   sorry\n50: \n51: example (h : u \u2286 v) : f \u207b\u00b9' u \u2286 f \u207b\u00b9' v := by\n52:   sorry\n53: \n54: example : f \u207b\u00b9' (u \u222a v) = f \u207b\u00b9' u \u222a f \u207b\u00b9' v := by\n55:   sorry\n56: \n57: example : f '' (s \u2229 t) \u2286 f '' s \u2229 f '' t := by\n58:   sorry\n59: "
+      }
+    ],
+    "line_count": 191,
+    "small_file": true,
+    "imports": [
+      "import MIL.Common",
+      "import Mathlib.Data.Set.Lattice",
+      "import Mathlib.Data.Set.Function",
+      "import Mathlib.Analysis.SpecialFunctions.Log.Basic"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C05_Elementary_Number_Theory/S01_Irrational_Roots.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C05_Elementary_Number_Theory/S01_Irrational_Roots.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.30.0",
+    "commit": "dd6d752fedb14082f557913c2dccb2d4851e5173",
+    "active_sorry_count_est": 11,
+    "windows": [
+      {
+        "line": 55,
+        "window": "47: \n48: example (a b c : Nat) (h : a * b = a * c) (h' : a \u2260 0) : b = c :=\n49:   -- apply? suggests the following:\n50:   (mul_right_inj' h').mp h\n51: \n52: example {m n : \u2115} (coprime_mn : m.Coprime n) : m ^ 2 \u2260 2 * n ^ 2 := by\n53:   intro sqr_eq\n54:   have : 2 \u2223 m := by\n55:     sorry\n56:   obtain \u27e8k, meq\u27e9 := dvd_iff_exists_eq_mul_left.mp this\n57:   have : 2 * (2 * k ^ 2) = 2 * n ^ 2 := by\n58:     rw [\u2190 sqr_eq, meq]\n59:     ring\n60:   have : 2 * k ^ 2 = n ^ 2 :=\n61:     sorry\n62:   have : 2 \u2223 n := by\n63:     sorry\n64:   have : 2 \u2223 m.gcd n := by\n65:     sorry"
+      },
+      {
+        "line": 61,
+        "window": "53:   intro sqr_eq\n54:   have : 2 \u2223 m := by\n55:     sorry\n56:   obtain \u27e8k, meq\u27e9 := dvd_iff_exists_eq_mul_left.mp this\n57:   have : 2 * (2 * k ^ 2) = 2 * n ^ 2 := by\n58:     rw [\u2190 sqr_eq, meq]\n59:     ring\n60:   have : 2 * k ^ 2 = n ^ 2 :=\n61:     sorry\n62:   have : 2 \u2223 n := by\n63:     sorry\n64:   have : 2 \u2223 m.gcd n := by\n65:     sorry\n66:   have : 2 \u2223 1 := by\n67:     sorry\n68:   norm_num at this\n69: \n70: example {m n p : \u2115} (coprime_mn : m.Coprime n) (prime_p : p.Prime) : m ^ 2 \u2260 p * n ^ 2 := by\n71:   sorry"
+      },
+      {
+        "line": 63,
+        "window": "55:     sorry\n56:   obtain \u27e8k, meq\u27e9 := dvd_iff_exists_eq_mul_left.mp this\n57:   have : 2 * (2 * k ^ 2) = 2 * n ^ 2 := by\n58:     rw [\u2190 sqr_eq, meq]\n59:     ring\n60:   have : 2 * k ^ 2 = n ^ 2 :=\n61:     sorry\n62:   have : 2 \u2223 n := by\n63:     sorry\n64:   have : 2 \u2223 m.gcd n := by\n65:     sorry\n66:   have : 2 \u2223 1 := by\n67:     sorry\n68:   norm_num at this\n69: \n70: example {m n p : \u2115} (coprime_mn : m.Coprime n) (prime_p : p.Prime) : m ^ 2 \u2260 p * n ^ 2 := by\n71:   sorry\n72: #check Nat.primeFactorsList\n73: #check Nat.prime_of_mem_primeFactorsList"
+      },
+      {
+        "line": 65,
+        "window": "57:   have : 2 * (2 * k ^ 2) = 2 * n ^ 2 := by\n58:     rw [\u2190 sqr_eq, meq]\n59:     ring\n60:   have : 2 * k ^ 2 = n ^ 2 :=\n61:     sorry\n62:   have : 2 \u2223 n := by\n63:     sorry\n64:   have : 2 \u2223 m.gcd n := by\n65:     sorry\n66:   have : 2 \u2223 1 := by\n67:     sorry\n68:   norm_num at this\n69: \n70: example {m n p : \u2115} (coprime_mn : m.Coprime n) (prime_p : p.Prime) : m ^ 2 \u2260 p * n ^ 2 := by\n71:   sorry\n72: #check Nat.primeFactorsList\n73: #check Nat.prime_of_mem_primeFactorsList\n74: #check Nat.prod_primeFactorsList\n75: #check Nat.primeFactorsList_unique"
+      },
+      {
+        "line": 67,
+        "window": "59:     ring\n60:   have : 2 * k ^ 2 = n ^ 2 :=\n61:     sorry\n62:   have : 2 \u2223 n := by\n63:     sorry\n64:   have : 2 \u2223 m.gcd n := by\n65:     sorry\n66:   have : 2 \u2223 1 := by\n67:     sorry\n68:   norm_num at this\n69: \n70: example {m n p : \u2115} (coprime_mn : m.Coprime n) (prime_p : p.Prime) : m ^ 2 \u2260 p * n ^ 2 := by\n71:   sorry\n72: #check Nat.primeFactorsList\n73: #check Nat.prime_of_mem_primeFactorsList\n74: #check Nat.prod_primeFactorsList\n75: #check Nat.primeFactorsList_unique\n76: \n77: theorem factorization_mul' {m n : \u2115} (mnez : m \u2260 0) (nnez : n \u2260 0) (p : \u2115) :"
+      }
+    ],
+    "line_count": 120,
+    "small_file": true,
+    "imports": [
+      "import MIL.Common",
+      "import Mathlib.Data.Nat.Factorization.Basic",
+      "import Mathlib.Data.Nat.Prime.Basic"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C06_Discrete_Mathematics/S03_Inductive_Structures.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C06_Discrete_Mathematics/S03_Inductive_Structures.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.30.0",
+    "commit": "dd6d752fedb14082f557913c2dccb2d4851e5173",
+    "active_sorry_count_est": 9,
+    "windows": [
+      {
+        "line": 64,
+        "window": "56:   . rw [cons_append, ih]\n57: \n58: theorem map_map' (f : \u03b1 \u2192 \u03b2) (g : \u03b2 \u2192 \u03b3) (as : List \u03b1) :\n59:     map g (map f as) = map (g \u2218 f) as := by\n60:   induction' as with a as ih\n61:   . rfl\n62:   . simp [map, ih]\n63: \n64: def reverse : List \u03b1 \u2192 List \u03b1 := sorry\n65: \n66: theorem reverse_append (as bs : List \u03b1) : reverse (as ++ bs) = reverse bs ++ reverse as := by\n67:   sorry\n68: \n69: theorem reverse_reverse (as : List \u03b1) : reverse (reverse as) = as := by sorry\n70: \n71: end MyListSpace3\n72: \n73: inductive BinTree where\n74:   | empty : BinTree"
+      },
+      {
+        "line": 67,
+        "window": "59:     map g (map f as) = map (g \u2218 f) as := by\n60:   induction' as with a as ih\n61:   . rfl\n62:   . simp [map, ih]\n63: \n64: def reverse : List \u03b1 \u2192 List \u03b1 := sorry\n65: \n66: theorem reverse_append (as bs : List \u03b1) : reverse (as ++ bs) = reverse bs ++ reverse as := by\n67:   sorry\n68: \n69: theorem reverse_reverse (as : List \u03b1) : reverse (reverse as) = as := by sorry\n70: \n71: end MyListSpace3\n72: \n73: inductive BinTree where\n74:   | empty : BinTree\n75:   | node  : BinTree \u2192 BinTree \u2192 BinTree\n76: \n77: namespace BinTree"
+      },
+      {
+        "line": 69,
+        "window": "61:   . rfl\n62:   . simp [map, ih]\n63: \n64: def reverse : List \u03b1 \u2192 List \u03b1 := sorry\n65: \n66: theorem reverse_append (as bs : List \u03b1) : reverse (as ++ bs) = reverse bs ++ reverse as := by\n67:   sorry\n68: \n69: theorem reverse_reverse (as : List \u03b1) : reverse (reverse as) = as := by sorry\n70: \n71: end MyListSpace3\n72: \n73: inductive BinTree where\n74:   | empty : BinTree\n75:   | node  : BinTree \u2192 BinTree \u2192 BinTree\n76: \n77: namespace BinTree\n78: \n79: def size : BinTree \u2192 \u2115"
+      },
+      {
+        "line": 100,
+        "window": "92:       \u2264 (2^l.depth - 1) + (2^r.depth - 1) + 1 := by\n93:           gcongr <;> apply size_le\n94:     _ \u2264 (2 ^ max l.depth r.depth - 1) + (2 ^ max l.depth r.depth - 1) + 1 := by\n95:           gcongr <;> simp\n96:     _ \u2264 2 ^ (max l.depth r.depth + 1) - 1 := by\n97:           have : 0 < 2 ^ max l.depth r.depth := by simp\n98:           omega\n99: \n100: theorem depth_le_size : \u2200 t : BinTree, depth t \u2264 size t := by sorry\n101: \n102: def flip : BinTree \u2192 BinTree := sorry\n103: \n104: example: flip  (node (node empty (node empty empty)) (node empty empty)) =\n105:     node (node empty empty) (node (node empty empty) empty) := sorry\n106: \n107: theorem size_flip : \u2200 t, size (flip t) = size t := by sorry\n108: end BinTree\n109: \n110: inductive PropForm : Type where"
+      },
+      {
+        "line": 102,
+        "window": "94:     _ \u2264 (2 ^ max l.depth r.depth - 1) + (2 ^ max l.depth r.depth - 1) + 1 := by\n95:           gcongr <;> simp\n96:     _ \u2264 2 ^ (max l.depth r.depth + 1) - 1 := by\n97:           have : 0 < 2 ^ max l.depth r.depth := by simp\n98:           omega\n99: \n100: theorem depth_le_size : \u2200 t : BinTree, depth t \u2264 size t := by sorry\n101: \n102: def flip : BinTree \u2192 BinTree := sorry\n103: \n104: example: flip  (node (node empty (node empty empty)) (node empty empty)) =\n105:     node (node empty empty) (node (node empty empty) empty) := sorry\n106: \n107: theorem size_flip : \u2200 t, size (flip t) = size t := by sorry\n108: end BinTree\n109: \n110: inductive PropForm : Type where\n111:   | var (n : \u2115)           : PropForm\n112:   | fls                   : PropForm"
+      }
+    ],
+    "line_count": 160,
+    "small_file": true,
+    "imports": [
+      "import Mathlib.Tactic"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathematics_in_lean",
+    "path": "MIL/C07_Structures/S03_Building_the_Gaussian_Integers.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean/blob/dd6d752fedb14082f557913c2dccb2d4851e5173/MIL/C07_Structures/S03_Building_the_Gaussian_Integers.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.30.0",
+    "commit": "dd6d752fedb14082f557913c2dccb2d4851e5173",
+    "active_sorry_count_est": 5,
+    "windows": [
+      {
+        "line": 182,
+        "window": "174:   linarith\n175: \n176: theorem mod'_eq (a b : \u2124) : mod' a b = a - b * div' a b := by linarith [div'_add_mod' a b]\n177: \n178: end Int\n179: \n180: theorem sq_add_sq_eq_zero {\u03b1 : Type*} [Ring \u03b1] [LinearOrder \u03b1] [IsStrictOrderedRing \u03b1]\n181:     (x y : \u03b1) : x ^ 2 + y ^ 2 = 0 \u2194 x = 0 \u2227 y = 0 := by\n182:   sorry\n183: namespace GaussInt\n184: \n185: def norm (x : GaussInt) :=\n186:   x.re ^ 2 + x.im ^ 2\n187: \n188: @[simp]\n189: theorem norm_nonneg (x : GaussInt) : 0 \u2264 norm x := by\n190:   sorry\n191: theorem norm_eq_zero (x : GaussInt) : norm x = 0 \u2194 x = 0 := by\n192:   sorry"
+      },
+      {
+        "line": 190,
+        "window": "182:   sorry\n183: namespace GaussInt\n184: \n185: def norm (x : GaussInt) :=\n186:   x.re ^ 2 + x.im ^ 2\n187: \n188: @[simp]\n189: theorem norm_nonneg (x : GaussInt) : 0 \u2264 norm x := by\n190:   sorry\n191: theorem norm_eq_zero (x : GaussInt) : norm x = 0 \u2194 x = 0 := by\n192:   sorry\n193: theorem norm_pos (x : GaussInt) : 0 < norm x \u2194 x \u2260 0 := by\n194:   sorry\n195: theorem norm_mul (x y : GaussInt) : norm (x * y) = norm x * norm y := by\n196:   sorry\n197: def conj (x : GaussInt) : GaussInt :=\n198:   \u27e8x.re, -x.im\u27e9\n199: \n200: @[simp]"
+      },
+      {
+        "line": 192,
+        "window": "184: \n185: def norm (x : GaussInt) :=\n186:   x.re ^ 2 + x.im ^ 2\n187: \n188: @[simp]\n189: theorem norm_nonneg (x : GaussInt) : 0 \u2264 norm x := by\n190:   sorry\n191: theorem norm_eq_zero (x : GaussInt) : norm x = 0 \u2194 x = 0 := by\n192:   sorry\n193: theorem norm_pos (x : GaussInt) : 0 < norm x \u2194 x \u2260 0 := by\n194:   sorry\n195: theorem norm_mul (x y : GaussInt) : norm (x * y) = norm x * norm y := by\n196:   sorry\n197: def conj (x : GaussInt) : GaussInt :=\n198:   \u27e8x.re, -x.im\u27e9\n199: \n200: @[simp]\n201: theorem conj_re (x : GaussInt) : (conj x).re = x.re :=\n202:   rfl"
+      },
+      {
+        "line": 194,
+        "window": "186:   x.re ^ 2 + x.im ^ 2\n187: \n188: @[simp]\n189: theorem norm_nonneg (x : GaussInt) : 0 \u2264 norm x := by\n190:   sorry\n191: theorem norm_eq_zero (x : GaussInt) : norm x = 0 \u2194 x = 0 := by\n192:   sorry\n193: theorem norm_pos (x : GaussInt) : 0 < norm x \u2194 x \u2260 0 := by\n194:   sorry\n195: theorem norm_mul (x y : GaussInt) : norm (x * y) = norm x * norm y := by\n196:   sorry\n197: def conj (x : GaussInt) : GaussInt :=\n198:   \u27e8x.re, -x.im\u27e9\n199: \n200: @[simp]\n201: theorem conj_re (x : GaussInt) : (conj x).re = x.re :=\n202:   rfl\n203: \n204: @[simp]"
+      },
+      {
+        "line": 196,
+        "window": "188: @[simp]\n189: theorem norm_nonneg (x : GaussInt) : 0 \u2264 norm x := by\n190:   sorry\n191: theorem norm_eq_zero (x : GaussInt) : norm x = 0 \u2194 x = 0 := by\n192:   sorry\n193: theorem norm_pos (x : GaussInt) : 0 < norm x \u2194 x \u2260 0 := by\n194:   sorry\n195: theorem norm_mul (x y : GaussInt) : norm (x * y) = norm x * norm y := by\n196:   sorry\n197: def conj (x : GaussInt) : GaussInt :=\n198:   \u27e8x.re, -x.im\u27e9\n199: \n200: @[simp]\n201: theorem conj_re (x : GaussInt) : (conj x).re = x.re :=\n202:   rfl\n203: \n204: @[simp]\n205: theorem conj_im (x : GaussInt) : (conj x).im = -x.im :=\n206:   rfl"
+      }
+    ],
+    "line_count": 277,
+    "small_file": true,
+    "imports": [
+      "import Mathlib.Algebra.EuclideanDomain.Basic",
+      "import Mathlib.RingTheory.PrincipalIdealDomain",
+      "import MIL.Common"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/02_Basics/02_Proving_Identities_in_Algebraic_Structures.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/02_Basics/02_Proving_Identities_in_Algebraic_Structures.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "37)\nUpdating files:  20% (28/137)\nUpdating files:  21% (29/137)\nUpdating files:  22% (31/137)\nUpdating files:  23% (32/137)\nUpdating files:  24% (33/137)\nUpdating files:  25% (35/137)\nUpdating files:  26% (36/137)\nUpdating files:  27% (37/137)\nUpdating files:  28% (39/137)\nUpdating files:  29% (40/137)\nUpdating files:  30% (42/137)\nUpdating files:  31% (43/137)\nUpdating files:  32% (44/137)\nUpdating files:  33% (46/137)\nUpdating files:  34% (47/137)\nUpdating files:  35% (48/137)\nUpdating files:  36% (50/137)\nUpdating files:  37% (51/137)\nUpdating files:  38% (53/137)\nUpdating files:  39% (54/137)\nUpdating files:  40% (55/137)\nUpdating files:  41% (57/137)\nUpdating files:  42% (58/137)\nUpdating files:  43% (59/137)\nUpdating files:  44% (61/137)\nUpdating files:  45% (62/137)\nUpdating files:  46% (64/137)\nUpdating files:  47% (65/137)\nUpdating files:  48% (66/137)\nUpdating files:  49% (68/137)\nUpdating files:  50% (69/137)\nUpdating files:  51% (70/137)\nUpdating files:  52% (72/137)\nUpdating files:  53% (73/137)\nUpdating files:  54% (74/137)\nUpdating files:  55% (76/137)\nUpdating files:  56% (77/137)\nUpdating files:  57% (79/137)\nUpdating files:  58% (80/137)\nUpdating files:  59% (81/137)\nUpdating files:  60% (83/137)\nUpdating files:  61% (84/137)\nUpdating files:  62% (85/137)\nUpdating files:  63% (87/137)\nUpdating files:  64% (88/137)\nUpdating files:  65% (90/137)\nUpdating files:  66% (91/137)\nUpdating files:  67% (92/137)\nUpdating files:  68% (94/137)\nUpdating files:  69% (95/137)\nUpdating files:  70% (96/137)\nUpdating files:  71% (98/137)\nUpdating files:  72% (99/137)\nUpdating files:  73% (101/137)\nUpdating files:  74% (102/137)\nUpdating files:  75% (103/137)\nUpdating files:  76% (105/137)\nUpdating files:  77% (106/137)\nUpdating files:  78% (107/137)\nUpdating files:  79% (109/137)\nUpdating files:  80% (110/137)\nUpdating files:  81% (111/137)\nUpdating files:  82% (113/137)\nUpdating files:  83% (114/137)\nUpdating files:  84% (116/137)\nUpdating files:  85% (117/137)\nUpdating files:  86% (118/137)\nUpdating files:  87% (120/137)\nUpdating files:  88% (121/137)\nUpdating files:  89% (122/137)\nUpdating files:  90% (124/137)\nUpdating files:  91% (125/137)\nUpdating files:  92% (127/137)\nUpdating files:  93% (128/137)\nUpdating files:  94% (129/137)\nUpdating files:  95% (131/137)\nUpdating files:  96% (132/137)\nUpdating files:  97% (133/137)\nUpdating files:  98% (135/137)\nUpdating files:  99% (136/137)\nUpdating files: 100% (137/137)\nUpdating files: 100% (137/137), done.\n",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "aec34494f2523309f9ae79d2ba6a5d325ad0fa98",
+    "active_sorry_count_est": 12,
+    "windows": [
+      {
+        "line": 63,
+        "window": "55: variables {R : Type*} [ring R]\n56: \n57: theorem neg_add_cancel_left (a b : R) : -a + (a + b) = b :=\n58: by rw [\u2190add_assoc, add_left_neg, zero_add]\n59: \n60: /- Prove these: -/\n61: \n62: theorem add_neg_cancel_right (a b : R) : (a + b) + -b = a :=\n63: sorry\n64: \n65: theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c :=\n66: sorry\n67: \n68: theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c :=\n69: sorry\n70: \n71: theorem mul_zero (a : R) : a * 0 = 0 :=\n72: begin\n73:   have h : a * 0 + a * 0 = a * 0 + 0,"
+      },
+      {
+        "line": 66,
+        "window": "58: by rw [\u2190add_assoc, add_left_neg, zero_add]\n59: \n60: /- Prove these: -/\n61: \n62: theorem add_neg_cancel_right (a b : R) : (a + b) + -b = a :=\n63: sorry\n64: \n65: theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c :=\n66: sorry\n67: \n68: theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c :=\n69: sorry\n70: \n71: theorem mul_zero (a : R) : a * 0 = 0 :=\n72: begin\n73:   have h : a * 0 + a * 0 = a * 0 + 0,\n74:   { rw [\u2190mul_add, add_zero, add_zero] },\n75:   rw add_left_cancel h\n76: end"
+      },
+      {
+        "line": 69,
+        "window": "61: \n62: theorem add_neg_cancel_right (a b : R) : (a + b) + -b = a :=\n63: sorry\n64: \n65: theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c :=\n66: sorry\n67: \n68: theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c :=\n69: sorry\n70: \n71: theorem mul_zero (a : R) : a * 0 = 0 :=\n72: begin\n73:   have h : a * 0 + a * 0 = a * 0 + 0,\n74:   { rw [\u2190mul_add, add_zero, add_zero] },\n75:   rw add_left_cancel h\n76: end\n77: \n78: theorem zero_mul (a : R) : 0 * a = 0 :=\n79: sorry"
+      },
+      {
+        "line": 79,
+        "window": "71: theorem mul_zero (a : R) : a * 0 = 0 :=\n72: begin\n73:   have h : a * 0 + a * 0 = a * 0 + 0,\n74:   { rw [\u2190mul_add, add_zero, add_zero] },\n75:   rw add_left_cancel h\n76: end\n77: \n78: theorem zero_mul (a : R) : 0 * a = 0 :=\n79: sorry\n80: \n81: theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b :=\n82: sorry\n83: \n84: theorem eq_neg_of_add_eq_zero {a b : R} (h : a + b = 0) : a = -b :=\n85: sorry\n86: \n87: theorem neg_zero : (-0 : R) = 0 :=\n88: begin\n89:   apply neg_eq_of_add_eq_zero,"
+      },
+      {
+        "line": 82,
+        "window": "74:   { rw [\u2190mul_add, add_zero, add_zero] },\n75:   rw add_left_cancel h\n76: end\n77: \n78: theorem zero_mul (a : R) : 0 * a = 0 :=\n79: sorry\n80: \n81: theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b :=\n82: sorry\n83: \n84: theorem eq_neg_of_add_eq_zero {a b : R} (h : a + b = 0) : a = -b :=\n85: sorry\n86: \n87: theorem neg_zero : (-0 : R) = 0 :=\n88: begin\n89:   apply neg_eq_of_add_eq_zero,\n90:   rw add_zero\n91: end\n92: "
+      }
+    ],
+    "line_count": 157,
+    "small_file": true,
+    "imports": [
+      "import algebra.ring.defs",
+      "import data.real.basic",
+      "import tactic"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/03_Logic/02_The_Existential_Quantifier.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/03_Logic/02_The_Existential_Quantifier.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "aec34494f2523309f9ae79d2ba6a5d325ad0fa98",
+    "active_sorry_count_est": 5,
+    "windows": [
+      {
+        "line": 45,
+        "window": "37:   cases ubf with a ubfa,\n38:   cases ubg with b ubfb,\n39:   use a + b,\n40:   apply fn_ub_add ubfa ubfb\n41: end\n42: \n43: example (lbf : fn_has_lb f) (lbg : fn_has_lb g) :\n44:   fn_has_lb (\u03bb x, f x + g x) :=\n45: sorry\n46: \n47: example {c : \u211d} (ubf : fn_has_ub f) (h : c \u2265 0):\n48:   fn_has_ub (\u03bb x, c * f x) :=\n49: sorry\n50: \n51: example (ubf : fn_has_ub f) (ubg : fn_has_ub g) :\n52:   fn_has_ub (\u03bb x, f x + g x) :=\n53: begin\n54:   rcases ubf with \u27e8a, ubfa\u27e9,\n55:   rcases ubg with \u27e8b, ubfb\u27e9,"
+      },
+      {
+        "line": 49,
+        "window": "41: end\n42: \n43: example (lbf : fn_has_lb f) (lbg : fn_has_lb g) :\n44:   fn_has_lb (\u03bb x, f x + g x) :=\n45: sorry\n46: \n47: example {c : \u211d} (ubf : fn_has_ub f) (h : c \u2265 0):\n48:   fn_has_ub (\u03bb x, c * f x) :=\n49: sorry\n50: \n51: example (ubf : fn_has_ub f) (ubg : fn_has_ub g) :\n52:   fn_has_ub (\u03bb x, f x + g x) :=\n53: begin\n54:   rcases ubf with \u27e8a, ubfa\u27e9,\n55:   rcases ubg with \u27e8b, ubfb\u27e9,\n56:   exact \u27e8a + b, fn_ub_add ubfa ubfb\u27e9\n57: end\n58: \n59: example : fn_has_ub f \u2192 fn_has_ub g \u2192"
+      },
+      {
+        "line": 110,
+        "window": "102: begin\n103:   cases divab with d beq,\n104:   cases divbc with e ceq,\n105:   rw [ceq, beq],\n106:   use (d * e), ring\n107: end\n108: \n109: example (divab : a \u2223 b) (divac : a \u2223 c) : a \u2223 (b + c) :=\n110: sorry\n111: \n112: end\n113: \n114: section\n115: open function\n116: \n117: example {c : \u211d} : surjective (\u03bb x, x + c) :=\n118: begin\n119:   intro x,\n120:   use x - c,"
+      },
+      {
+        "line": 125,
+        "window": "117: example {c : \u211d} : surjective (\u03bb x, x + c) :=\n118: begin\n119:   intro x,\n120:   use x - c,\n121:   dsimp, ring\n122: end\n123: \n124: example {c : \u211d} (h : c \u2260 0) : surjective (\u03bb x, c * x) :=\n125: sorry\n126: \n127: example (x y : \u211d) (h : x - y \u2260 0) : (x^2 - y^2) / (x - y) = x + y :=\n128: by { field_simp [h], ring }\n129: \n130: example {f : \u211d \u2192 \u211d} (h : surjective f) : \u2203 x, (f x)^2 = 4 :=\n131: begin\n132:   cases h 2 with x hx,\n133:   use x,\n134:   rw hx,\n135:   norm_num"
+      },
+      {
+        "line": 147,
+        "window": "139: \n140: section\n141: open function\n142: variables {\u03b1 : Type*} {\u03b2 : Type*} {\u03b3 : Type*}\n143: variables {g : \u03b2 \u2192 \u03b3} {f : \u03b1 \u2192 \u03b2}\n144: \n145: example (surjg : surjective g) (surjf : surjective f) :\n146:   surjective (\u03bb x, g (f x)) :=\n147: sorry\n148: \n149: end"
+      }
+    ],
+    "line_count": 149,
+    "small_file": true,
+    "imports": [
+      "import data.real.basic"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/03_Logic/03_Negation.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/03_Logic/03_Negation.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "aec34494f2523309f9ae79d2ba6a5d325ad0fa98",
+    "active_sorry_count_est": 15,
+    "windows": [
+      {
+        "line": 33,
+        "window": "25:   cases fnub with a fnuba,\n26:   cases h a with x hx,\n27:   have : f x \u2264 a,\n28:     from fnuba x,\n29:   linarith\n30: end\n31: \n32: example (h : \u2200 a, \u2203 x, f x < a) : \u00ac fn_has_lb f :=\n33: sorry\n34: \n35: example : \u00ac fn_has_ub (\u03bb x, x) :=\n36: sorry\n37: \n38: #check (not_le_of_gt : a > b \u2192 \u00ac a \u2264 b)\n39: #check (not_lt_of_ge : a \u2265 b \u2192 \u00ac a < b)\n40: #check (lt_of_not_ge : \u00ac a \u2265 b \u2192 a < b)\n41: #check (le_of_not_gt : \u00ac a > b \u2192 a \u2264 b)\n42: \n43: example (h : monotone f) (h' : f a < f b) : a < b :="
+      },
+      {
+        "line": 36,
+        "window": "28:     from fnuba x,\n29:   linarith\n30: end\n31: \n32: example (h : \u2200 a, \u2203 x, f x < a) : \u00ac fn_has_lb f :=\n33: sorry\n34: \n35: example : \u00ac fn_has_ub (\u03bb x, x) :=\n36: sorry\n37: \n38: #check (not_le_of_gt : a > b \u2192 \u00ac a \u2264 b)\n39: #check (not_lt_of_ge : a \u2265 b \u2192 \u00ac a < b)\n40: #check (lt_of_not_ge : \u00ac a \u2265 b \u2192 a < b)\n41: #check (le_of_not_gt : \u00ac a > b \u2192 a \u2264 b)\n42: \n43: example (h : monotone f) (h' : f a < f b) : a < b :=\n44: sorry\n45: \n46: example (h : a \u2264 b) (h' : f b < f a) : \u00ac monotone f :="
+      },
+      {
+        "line": 44,
+        "window": "36: sorry\n37: \n38: #check (not_le_of_gt : a > b \u2192 \u00ac a \u2264 b)\n39: #check (not_lt_of_ge : a \u2265 b \u2192 \u00ac a < b)\n40: #check (lt_of_not_ge : \u00ac a \u2265 b \u2192 a < b)\n41: #check (le_of_not_gt : \u00ac a > b \u2192 a \u2264 b)\n42: \n43: example (h : monotone f) (h' : f a < f b) : a < b :=\n44: sorry\n45: \n46: example (h : a \u2264 b) (h' : f b < f a) : \u00ac monotone f :=\n47: sorry\n48: \n49: example :\n50:   \u00ac \u2200 {f : \u211d \u2192 \u211d}, monotone f \u2192 \u2200 {a b}, f a \u2264 f b \u2192 a \u2264 b :=\n51: begin\n52:   intro h,\n53:   let f := \u03bb x : \u211d, (0 : \u211d),\n54:   have monof : monotone f,"
+      },
+      {
+        "line": 47,
+        "window": "39: #check (not_lt_of_ge : a \u2265 b \u2192 \u00ac a < b)\n40: #check (lt_of_not_ge : \u00ac a \u2265 b \u2192 a < b)\n41: #check (le_of_not_gt : \u00ac a > b \u2192 a \u2264 b)\n42: \n43: example (h : monotone f) (h' : f a < f b) : a < b :=\n44: sorry\n45: \n46: example (h : a \u2264 b) (h' : f b < f a) : \u00ac monotone f :=\n47: sorry\n48: \n49: example :\n50:   \u00ac \u2200 {f : \u211d \u2192 \u211d}, monotone f \u2192 \u2200 {a b}, f a \u2264 f b \u2192 a \u2264 b :=\n51: begin\n52:   intro h,\n53:   let f := \u03bb x : \u211d, (0 : \u211d),\n54:   have monof : monotone f,\n55:   { sorry },\n56:   have h' : f 1 \u2264 f 0,\n57:     from le_refl _,"
+      },
+      {
+        "line": 55,
+        "window": "47: sorry\n48: \n49: example :\n50:   \u00ac \u2200 {f : \u211d \u2192 \u211d}, monotone f \u2192 \u2200 {a b}, f a \u2264 f b \u2192 a \u2264 b :=\n51: begin\n52:   intro h,\n53:   let f := \u03bb x : \u211d, (0 : \u211d),\n54:   have monof : monotone f,\n55:   { sorry },\n56:   have h' : f 1 \u2264 f 0,\n57:     from le_refl _,\n58:   sorry\n59: end\n60: \n61: example (x : \u211d) (h : \u2200 \u03b5 > 0, x < \u03b5) : x \u2264 0 :=\n62: sorry\n63: \n64: end\n65: "
+      }
+    ],
+    "line_count": 159,
+    "small_file": true,
+    "imports": [
+      "import data.real.basic"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathematics_in_lean3",
+    "path": "src/04_Sets_and_Functions/01_Sets.lean",
+    "url": "https://github.com/leanprover-community/mathematics_in_lean3/blob/aec34494f2523309f9ae79d2ba6a5d325ad0fa98/src/04_Sets_and_Functions/01_Sets.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": false,
+    "has_toolchain": false,
+    "toolchain": null,
+    "commit": "aec34494f2523309f9ae79d2ba6a5d325ad0fa98",
+    "active_sorry_count_est": 12,
+    "windows": [
+      {
+        "line": 62,
+        "window": "54: example : s \u2229 (t \u222a u) \u2286 (s \u2229 t) \u222a (s \u2229 u) :=\n55: begin\n56:   rintros x \u27e8xs, xt | xu\u27e9,\n57:   { left, exact \u27e8xs, xt\u27e9 },\n58:   right, exact \u27e8xs, xu\u27e9\n59: end\n60: \n61: example : (s \u2229 t) \u222a (s \u2229 u) \u2286 s \u2229 (t \u222a u):=\n62: sorry\n63: \n64: example : s \\ t \\ u \u2286 s \\ (t \u222a u) :=\n65: begin\n66:   intros x xstu,\n67:   have xs : x \u2208 s := xstu.1.1,\n68:   have xnt : x \u2209 t := xstu.1.2,\n69:   have xnu : x \u2209 u := xstu.2,\n70:   split,\n71:   { exact xs }, dsimp,\n72:   intro xtu, -- x \u2208 t \u2228 x \u2208 u"
+      },
+      {
+        "line": 86,
+        "window": "78: example : s \\ t \\ u \u2286 s \\ (t \u222a u) :=\n79: begin\n80:   rintros x \u27e8\u27e8xs, xnt\u27e9, xnu\u27e9,\n81:   use xs,\n82:   rintros (xt | xu); contradiction\n83: end\n84: \n85: example : s \\ (t \u222a u) \u2286 s \\ t \\ u :=\n86: sorry\n87: \n88: example : s \u2229 t = t \u2229 s :=\n89: begin\n90:   ext x,\n91:   simp only [mem_inter_iff],\n92:   split,\n93:   { rintros \u27e8xs, xt\u27e9, exact \u27e8xt, xs\u27e9 },\n94:   rintros \u27e8xt, xs\u27e9, exact \u27e8xs, xt\u27e9\n95: end\n96: "
+      },
+      {
+        "line": 111,
+        "window": "103: example : s \u2229 t = t \u2229 s :=\n104: begin\n105:   apply subset.antisymm,\n106:   { rintros x \u27e8xs, xt\u27e9, exact \u27e8xt, xs\u27e9 },\n107:   rintros x \u27e8xt, xs\u27e9, exact \u27e8xs, xt\u27e9\n108: end\n109: \n110: example : s \u2229 t = t \u2229 s :=\n111: subset.antisymm sorry sorry\n112: \n113: example : s \u2229 (s \u222a t) = s :=\n114: sorry\n115: \n116: example : s \u222a (s \u2229 t) = s :=\n117: sorry\n118: \n119: example : (s \\ t) \u222a t = s \u222a t :=\n120: sorry\n121: "
+      },
+      {
+        "line": 114,
+        "window": "106:   { rintros x \u27e8xs, xt\u27e9, exact \u27e8xt, xs\u27e9 },\n107:   rintros x \u27e8xt, xs\u27e9, exact \u27e8xs, xt\u27e9\n108: end\n109: \n110: example : s \u2229 t = t \u2229 s :=\n111: subset.antisymm sorry sorry\n112: \n113: example : s \u2229 (s \u222a t) = s :=\n114: sorry\n115: \n116: example : s \u222a (s \u2229 t) = s :=\n117: sorry\n118: \n119: example : (s \\ t) \u222a t = s \u222a t :=\n120: sorry\n121: \n122: example : (s \\ t) \u222a (t \\ s) = (s \u222a t) \\ (s \u2229 t) :=\n123: sorry\n124: "
+      },
+      {
+        "line": 117,
+        "window": "109: \n110: example : s \u2229 t = t \u2229 s :=\n111: subset.antisymm sorry sorry\n112: \n113: example : s \u2229 (s \u222a t) = s :=\n114: sorry\n115: \n116: example : s \u222a (s \u2229 t) = s :=\n117: sorry\n118: \n119: example : (s \\ t) \u222a t = s \u222a t :=\n120: sorry\n121: \n122: example : (s \\ t) \u222a (t \\ s) = (s \u222a t) \\ (s \u2229 t) :=\n123: sorry\n124: \n125: \n126: def evens : set \u2115 := {n | even n}\n127: def odds :  set \u2115 := {n | \u00ac even n}"
+      }
+    ],
+    "line_count": 274,
+    "small_file": true,
+    "imports": [
+      "import data.set.lattice",
+      "import data.nat.prime",
+      "import data.nat.parity",
+      "import tactic"
+    ]
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Algebra/Tropical/Basic.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Algebra/Tropical/Basic.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "  26% (2327/8949)\nUpdating files:  27% (2417/8949)\nUpdating files:  28% (2506/8949)\nUpdating files:  29% (2596/8949)\nUpdating files:  30% (2685/8949)\nUpdating files:  31% (2775/8949)\nUpdating files:  32% (2864/8949)\nUpdating files:  33% (2954/8949)\nUpdating files:  34% (3043/8949)\nUpdating files:  35% (3133/8949)\nUpdating files:  36% (3222/8949)\nUpdating files:  37% (3312/8949)\nUpdating files:  38% (3401/8949)\nUpdating files:  39% (3491/8949)\nUpdating files:  40% (3580/8949)\nUpdating files:  41% (3670/8949)\nUpdating files:  42% (3759/8949)\nUpdating files:  43% (3849/8949)\nUpdating files:  44% (3938/8949)\nUpdating files:  45% (4028/8949)\nUpdating files:  46% (4117/8949)\nUpdating files:  47% (4207/8949)\nUpdating files:  48% (4296/8949)\nUpdating files:  49% (4386/8949)\nUpdating files:  50% (4475/8949)\nUpdating files:  51% (4564/8949)\nUpdating files:  52% (4654/8949)\nUpdating files:  53% (4743/8949)\nUpdating files:  54% (4833/8949)\nUpdating files:  55% (4922/8949)\nUpdating files:  56% (5012/8949)\nUpdating files:  57% (5101/8949)\nUpdating files:  58% (5191/8949)\nUpdating files:  59% (5280/8949)\nUpdating files:  60% (5370/8949)\nUpdating files:  61% (5459/8949)\nUpdating files:  62% (5549/8949)\nUpdating files:  63% (5638/8949)\nUpdating files:  64% (5728/8949)\nUpdating files:  65% (5817/8949)\nUpdating files:  66% (5907/8949)\nUpdating files:  67% (5996/8949)\nUpdating files:  68% (6086/8949)\nUpdating files:  69% (6175/8949)\nUpdating files:  70% (6265/8949)\nUpdating files:  71% (6354/8949)\nUpdating files:  72% (6444/8949)\nUpdating files:  73% (6533/8949)\nUpdating files:  74% (6623/8949)\nUpdating files:  75% (6712/8949)\nUpdating files:  76% (6802/8949)\nUpdating files:  77% (6891/8949)\nUpdating files:  78% (6981/8949)\nUpdating files:  79% (7070/8949)\nUpdating files:  80% (7160/8949)\nUpdating files:  81% (7249/8949)\nUpdating files:  82% (7339/8949)\nUpdating files:  83% (7428/8949)\nUpdating files:  84% (7518/8949)\nUpdating files:  85% (7607/8949)\nUpdating files:  86% (7697/8949)\nUpdating files:  87% (7786/8949)\nUpdating files:  88% (7876/8949)\nUpdating files:  89% (7965/8949)\nUpdating files:  90% (8055/8949)\nUpdating files:  91% (8144/8949)\nUpdating files:  92% (8234/8949)\nUpdating files:  93% (8323/8949)\nUpdating files:  94% (8413/8949)\nUpdating files:  95% (8502/8949)\nUpdating files:  96% (8592/8949)\nUpdating files:  97% (8681/8949)\nUpdating files:  98% (8771/8949)\nUpdating files:  99% (8860/8949)\nUpdating files: 100% (8949/8949)\nUpdating files: 100% (8949/8949), done.\n",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 505,
+    "small_file": false,
+    "imports": []
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/CategoryTheory/Category/Basic.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/CategoryTheory/Category/Basic.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "active_sorry_count_est": 6,
+    "windows": [
+      {
+        "line": 141,
+        "window": "133: \n134: /-- Notation for the identity morphism in a category. -/\n135: scoped notation \"\ud835\udfd9\" => CategoryStruct.id  -- type as \\b1\n136: \n137: /-- Notation for composition of morphisms in a category. -/\n138: scoped infixr:80 \" \u226b \" => CategoryStruct.comp -- type as \\gg\n139: \n140: /-- Close the main goal with `sorry` if its type contains `sorry`, and fail otherwise. -/\n141: syntax (name := sorryIfSorry) \"sorry_if_sorry\" : tactic\n142: \n143: open Lean Meta Elab.Tactic in\n144: @[tactic sorryIfSorry, inherit_doc sorryIfSorry] meta def evalSorryIfSorry : Tactic := fun _ => do\n145:   let goalType \u2190 getMainTarget\n146:   if goalType.hasSorry then\n147:     closeMainGoal `sorry_if_sorry (\u2190 mkSorry goalType true)\n148:   else\n149:     throwError \"The goal does not contain `sorry`\"\n150: \n151: /--"
+      },
+      {
+        "line": 144,
+        "window": "136: \n137: /-- Notation for composition of morphisms in a category. -/\n138: scoped infixr:80 \" \u226b \" => CategoryStruct.comp -- type as \\gg\n139: \n140: /-- Close the main goal with `sorry` if its type contains `sorry`, and fail otherwise. -/\n141: syntax (name := sorryIfSorry) \"sorry_if_sorry\" : tactic\n142: \n143: open Lean Meta Elab.Tactic in\n144: @[tactic sorryIfSorry, inherit_doc sorryIfSorry] meta def evalSorryIfSorry : Tactic := fun _ => do\n145:   let goalType \u2190 getMainTarget\n146:   if goalType.hasSorry then\n147:     closeMainGoal `sorry_if_sorry (\u2190 mkSorry goalType true)\n148:   else\n149:     throwError \"The goal does not contain `sorry`\"\n150: \n151: /--\n152: `rfl_cat` is a macro for `intros; rfl` which is attempted in `aesop_cat` before\n153: doing the more expensive `aesop` tactic.\n154: "
+      },
+      {
+        "line": 147,
+        "window": "139: \n140: /-- Close the main goal with `sorry` if its type contains `sorry`, and fail otherwise. -/\n141: syntax (name := sorryIfSorry) \"sorry_if_sorry\" : tactic\n142: \n143: open Lean Meta Elab.Tactic in\n144: @[tactic sorryIfSorry, inherit_doc sorryIfSorry] meta def evalSorryIfSorry : Tactic := fun _ => do\n145:   let goalType \u2190 getMainTarget\n146:   if goalType.hasSorry then\n147:     closeMainGoal `sorry_if_sorry (\u2190 mkSorry goalType true)\n148:   else\n149:     throwError \"The goal does not contain `sorry`\"\n150: \n151: /--\n152: `rfl_cat` is a macro for `intros; rfl` which is attempted in `aesop_cat` before\n153: doing the more expensive `aesop` tactic.\n154: \n155: This gives a speedup because `simp` (called by `aesop`) can be very slow.\n156: https://github.com/leanprover-community/mathlib4/pull/25475 contains measurements from June 2025.\n157: "
+      },
+      {
+        "line": 149,
+        "window": "141: syntax (name := sorryIfSorry) \"sorry_if_sorry\" : tactic\n142: \n143: open Lean Meta Elab.Tactic in\n144: @[tactic sorryIfSorry, inherit_doc sorryIfSorry] meta def evalSorryIfSorry : Tactic := fun _ => do\n145:   let goalType \u2190 getMainTarget\n146:   if goalType.hasSorry then\n147:     closeMainGoal `sorry_if_sorry (\u2190 mkSorry goalType true)\n148:   else\n149:     throwError \"The goal does not contain `sorry`\"\n150: \n151: /--\n152: `rfl_cat` is a macro for `intros; rfl` which is attempted in `aesop_cat` before\n153: doing the more expensive `aesop` tactic.\n154: \n155: This gives a speedup because `simp` (called by `aesop`) can be very slow.\n156: https://github.com/leanprover-community/mathlib4/pull/25475 contains measurements from June 2025.\n157: \n158: Implementation notes:\n159: * `refine id ?_`:"
+      },
+      {
+        "line": 180,
+        "window": "172: /--\n173: A thin wrapper for `aesop` which adds the `CategoryTheory` rule set and\n174: allows `aesop` to look through semireducible definitions when calling `intros`.\n175: This tactic fails when it is unable to solve the goal, making it suitable for\n176: use in auto-params.\n177: -/\n178: macro (name := aesop_cat) \"aesop_cat\" c:Aesop.tactic_clause* : tactic =>\n179: `(tactic|\n180:   first | sorry_if_sorry | rfl_cat |\n181:   aesop $c* (config := { introsTransparency? := some .default, terminal := true })\n182:             (rule_sets := [$(Lean.mkIdent `CategoryTheory):ident]))\n183: \n184: /--\n185: We also use `aesop_cat?` to pass along a `Try this` suggestion when using `aesop_cat`\n186: -/\n187: macro (name := aesop_cat?) \"aesop_cat?\" c:Aesop.tactic_clause* : tactic =>\n188: `(tactic|\n189:   first | sorry_if_sorry | try_this rfl_cat |\n190:   aesop? $c* (config := { introsTransparency? := some .default, terminal := true })"
+      }
+    ],
+    "line_count": 412,
+    "small_file": false,
+    "imports": []
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "path": "Mathlib/Data/FunLike/Embedding.lean",
+    "url": "https://github.com/leanprover-community/mathlib4/blob/d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7/Mathlib/Data/FunLike/Embedding.lean",
+    "search_score": 22,
+    "clone_ok": true,
+    "clone_err": "",
+    "file_exists": true,
+    "has_lakefile": true,
+    "has_toolchain": true,
+    "toolchain": "leanprover/lean4:v4.32.0-rc1",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "active_sorry_count_est": 0,
+    "windows": [],
+    "line_count": 155,
+    "small_file": true,
+    "imports": []
+  }
+]

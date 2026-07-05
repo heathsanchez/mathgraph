@@ -1,0 +1,27 @@
+{
+  "repo": "teorth/equational_theories",
+  "path": "equational_theories/Definability/Law43.lean",
+  "url": "https://github.com/teorth/equational_theories/blob/b1cc1756202d7f44e07bd4069b5df16901a36938/equational_theories/Definability/Law43.lean",
+  "search_score": 32,
+  "clone_ok": true,
+  "clone_err": "Updating files:  27% (661/2448)\nUpdating files:  28% (686/2448)\nUpdating files:  29% (710/2448)\nUpdating files:  30% (735/2448)\nUpdating files:  31% (759/2448)\nUpdating files:  32% (784/2448)\nUpdating files:  33% (808/2448)\nUpdating files:  33% (832/2448)\nUpdating files:  34% (833/2448)\nUpdating files:  35% (857/2448)\nUpdating files:  36% (882/2448)\nUpdating files:  37% (906/2448)\nUpdating files:  38% (931/2448)\nUpdating files:  39% (955/2448)\nUpdating files:  40% (980/2448)\nUpdating files:  41% (1004/2448)\nUpdating files:  42% (1029/2448)\nUpdating files:  43% (1053/2448)\nUpdating files:  44% (1078/2448)\nUpdating files:  45% (1102/2448)\nUpdating files:  46% (1127/2448)\nUpdating files:  47% (1151/2448)\nUpdating files:  48% (1176/2448)\nUpdating files:  49% (1200/2448)\nUpdating files:  50% (1224/2448)\nUpdating files:  51% (1249/2448)\nUpdating files:  52% (1273/2448)\nUpdating files:  53% (1298/2448)\nUpdating files:  54% (1322/2448)\nUpdating files:  55% (1347/2448)\nUpdating files:  56% (1371/2448)\nUpdating files:  57% (1396/2448)\nUpdating files:  58% (1420/2448)\nUpdating files:  59% (1445/2448)\nUpdating files:  60% (1469/2448)\nUpdating files:  61% (1494/2448)\nUpdating files:  62% (1518/2448)\nUpdating files:  63% (1543/2448)\nUpdating files:  64% (1567/2448)\nUpdating files:  65% (1592/2448)\nUpdating files:  66% (1616/2448)\nUpdating files:  67% (1641/2448)\nUpdating files:  68% (1665/2448)\nUpdating files:  69% (1690/2448)\nUpdating files:  70% (1714/2448)\nUpdating files:  71% (1739/2448)\nUpdating files:  72% (1763/2448)\nUpdating files:  73% (1788/2448)\nUpdating files:  74% (1812/2448)\nUpdating files:  75% (1836/2448)\nUpdating files:  76% (1861/2448)\nUpdating files:  77% (1885/2448)\nUpdating files:  78% (1910/2448)\nUpdating files:  79% (1934/2448)\nUpdating files:  80% (1959/2448)\nUpdating files:  81% (1983/2448)\nUpdating files:  82% (2008/2448)\nUpdating files:  83% (2032/2448)\nUpdating files:  84% (2057/2448)\nUpdating files:  85% (2081/2448)\nUpdating files:  86% (2106/2448)\nUpdating files:  87% (2130/2448)\nUpdating files:  88% (2155/2448)\nUpdating files:  89% (2179/2448)\nUpdating files:  90% (2204/2448)\nUpdating files:  91% (2228/2448)\nUpdating files:  92% (2253/2448)\nUpdating files:  93% (2277/2448)\nUpdating files:  94% (2302/2448)\nUpdating files:  95% (2326/2448)\nUpdating files:  96% (2351/2448)\nUpdating files:  97% (2375/2448)\nUpdating files:  98% (2400/2448)\nUpdating files:  99% (2424/2448)\nUpdating files: 100% (2448/2448)\nUpdating files: 100% (2448/2448), done.\n",
+  "file_exists": true,
+  "has_lakefile": true,
+  "has_toolchain": true,
+  "toolchain": "leanprover/lean4:v4.29.1",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "active_sorry_count_est": 1,
+  "windows": [
+    {
+      "line": 15,
+      "window": "7: open Law.MagmaLaw\n8: \n9: --TODO: the commutative law is definable from anything of the form f(x,y) \u2243 f(y,x).\n10: theorem Equation43_termDefinableFrom_swapped_args {L : NatMagmaLaw}\n11:     (hL2args : \u2200 e \u2208 L.lhs.elems.1, e \u2208 [0,1] := by decide +kernel)\n12:     (hR2args : \u2200 e \u2208 L.rhs.elems.1, e \u2208 [0,1] := by decide +kernel)\n13:     (hSymm : L.lhs \u2b1d (fun x \u21a6 Lf $ Equiv.swap 0 1 x) = L.rhs := by rfl)\n14:     : Law43.TermDefinableFrom L := by\n15:   sorry\n16: \n17: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 40 `x \u25c7 x = y \u25c7 y`. -/\n18: theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :=\n19:   Equation43_termDefinableFrom_swapped_args\n20: \n21: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 4343 `x \u25c7 (y \u25c7 y) = y \u25c7 (x \u25c7 x)`. -/\n22: theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :=\n23:   Equation43_termDefinableFrom_swapped_args\n24: \n25: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 4293 `x \u25c7 (x \u25c7 y) = y \u25c7 (y \u25c7 x)`. -/"
+    }
+  ],
+  "line_count": 31,
+  "small_file": true,
+  "imports": [
+    "import Batteries.Data.List.Basic",
+    "import equational_theories.Definability.Basic",
+    "import equational_theories.Equations.All"
+  ]
+}
