@@ -1,0 +1,33 @@
+✔ [3074/3075] Built FormalBook.Mathlib.EdgeFinset (12s)
+✖ [3075/3075] Building FormalBook.Chapter_28 (39s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_formalbook_v4_6_11/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/bin/lean /private/tmp/sorrydb_formalbook_v4_6_11/FormalBook/Chapter_28.lean -o /private/tmp/sorrydb_formalbook_v4_6_11/.lake/build/lib/lean/FormalBook/Chapter_28.olean -i /private/tmp/sorrydb_formalbook_v4_6_11/.lake/build/lib/lean/FormalBook/Chapter_28.ilean -c /private/tmp/sorrydb_formalbook_v4_6_11/.lake/build/ir/FormalBook/Chapter_28.c --setup /private/tmp/sorrydb_formalbook_v4_6_11/.lake/build/ir/FormalBook/Chapter_28.setup.json --json
+error: FormalBook/Chapter_28.lean:70:29: Application type mismatch: The argument
+  he
+has type
+  s(a, a) ∈ G.edgeFinset
+but is expected to have type
+  G.Adj a a
+in the application
+  G.loopless a he
+error: FormalBook/Chapter_28.lean:66:14: unsolved goals
+case h
+α : Type u_1
+inst✝² : Fintype α
+inst✝¹ : DecidableEq α
+G : SimpleGraph α
+inst✝ : DecidableRel G.Adj
+a b : α
+he : s(a, b) ∈ G.edgeFinset
+hne : a ≠ b
+⊢ #{v | v = a ∨ v = b} = 2
+warning: FormalBook/Chapter_28.lean:71:14: This simp argument is unused:
+  hne
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵n̵e̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: Lean exited with code 1
+Some required targets logged failures:
+- FormalBook.Chapter_28
+error: build failed
