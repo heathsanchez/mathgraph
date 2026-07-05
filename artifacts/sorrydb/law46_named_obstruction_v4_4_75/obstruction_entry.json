@@ -1,0 +1,51 @@
+{
+  "artifact": "law46_named_obstruction_v4_4_75",
+  "target_repo": "teorth/equational_theories",
+  "target_commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "target_file": "equational_theories/Definability/Law46.lean",
+  "target_theorem": "Equation46_termDefinableFrom_equalShape",
+  "status": "NAMED_OBSTRUCTION",
+  "obstruction_name": "Law46 leaf/leaf semantic-canonicalization boundary",
+  "summary": "The Law46 leaf/leaf branch admits three local syntactic repairs, but the remaining proof does not close cheaply because the route bottlenecks at the semantic implication interface and MagmaLaw.toFin canonicalization rather than simple term rewriting.",
+  "accepted_partials": [
+    {
+      "patch": "Patch002",
+      "claim": "If L.lhs is a leaf and hShape holds, L.rhs is also a leaf.",
+      "status": "accepted_with_remaining_sorries"
+    },
+    {
+      "patch": "Patch005",
+      "claim": "The leaf variables x and y are distinct using hDisjoint.",
+      "status": "accepted_with_remaining_sorries"
+    },
+    {
+      "patch": "Patch006",
+      "claim": "The law L can be rewritten as Lf x ≃ Lf y in the leaf/leaf case.",
+      "status": "accepted_with_remaining_sorries"
+    }
+  ],
+  "residual_goal_after_local_repairs": "forall {G : Type} [Magma G], G models Lf x ≃ Lf y -> G models Law46",
+  "failed_routes": [
+    {
+      "route": "toFin.toNat = Law2 normalization",
+      "obstruction": "MagmaLaw.toFin produces dependent Fin index types based on elems.length; Law2.toFin and candidate.toFin.toFin do not transport by simple rewriting."
+    },
+    {
+      "route": "direct semantic assignment",
+      "obstruction": "Hypothesis hG remains as satisfiesPhi ... (Lf x ≃ Lf y) and does not simplify directly to the needed equality a = c or b = d."
+    },
+    {
+      "route": "decide/native_decide",
+      "obstruction": "Goals contain free variables and/or quantify over non-decidable semantic structures."
+    }
+  ],
+  "evidence_artifacts": [
+    "law46_patch002_rhs_leaf_v4_4_62",
+    "law46_patch005_hxy_elems_val_v4_4_65",
+    "law46_patch006_law_eq_v4_4_66",
+    "law46_patch010_tofin_corrected_micro_v4_4_70",
+    "law46_patch014_fixed_direct_bypass_v4_4_74"
+  ],
+  "kill_condition_met": true,
+  "recommended_next_action": "Park Law46. Search for another SorryDB target with a smaller semantic/canonicalization boundary, or build a reusable lemma for satisfiesPhi of leaf laws before returning."
+}
