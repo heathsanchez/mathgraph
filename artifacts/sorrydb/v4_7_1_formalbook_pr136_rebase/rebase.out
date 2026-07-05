@@ -1,0 +1,37 @@
+Rebasing (1/1)Auto-merging .github/workflows/blueprint.yml
+CONFLICT (add/add): Merge conflict in .github/workflows/blueprint.yml
+Auto-merging .gitignore
+CONFLICT (add/add): Merge conflict in .gitignore
+Auto-merging FormalBook/Chapter_01.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_01.lean
+Auto-merging FormalBook/Chapter_02.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_02.lean
+Auto-merging FormalBook/Chapter_20.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_20.lean
+Auto-merging FormalBook/Chapter_28.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_28.lean
+Auto-merging FormalBook/Chapter_29.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_29.lean
+Auto-merging FormalBook/Chapter_30.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_30.lean
+Auto-merging FormalBook/Chapter_35.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_35.lean
+Auto-merging FormalBook/Chapter_43.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_43.lean
+Auto-merging FormalBook/Chapter_44.lean
+CONFLICT (add/add): Merge conflict in FormalBook/Chapter_44.lean
+Auto-merging blueprint/src/chapter/chapter28.tex
+CONFLICT (add/add): Merge conflict in blueprint/src/chapter/chapter28.tex
+Auto-merging blueprint/src/chapter/chapter30.tex
+CONFLICT (add/add): Merge conflict in blueprint/src/chapter/chapter30.tex
+Auto-merging blueprint/src/chapter/chapter44.tex
+CONFLICT (add/add): Merge conflict in blueprint/src/chapter/chapter44.tex
+warning: Cannot merge binary files: blueprint/src/print.pdf (HEAD vs. f24e170 (Prove edge cardinality step in Chapter 28 handshaking lemma))
+Auto-merging blueprint/src/print.pdf
+CONFLICT (add/add): Merge conflict in blueprint/src/print.pdf
+error: could not apply f24e170... Prove edge cardinality step in Chapter 28 handshaking lemma
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply f24e170... Prove edge cardinality step in Chapter 28 handshaking lemma
