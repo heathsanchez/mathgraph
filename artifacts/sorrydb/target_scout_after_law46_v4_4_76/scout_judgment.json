@@ -1,0 +1,34 @@
+{
+  "artifact": "target_scout_after_law46_v4_4_76",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "excluded": [
+    "equational_theories/Definability/Law43.lean",
+    "equational_theories/Definability/Law46.lean"
+  ],
+  "candidate_count": 1,
+  "selected_count": 1,
+  "best_candidate": {
+    "file": "equational_theories/FactsSyntax.lean",
+    "active_sorry_count": 1,
+    "line_count": 67,
+    "import_count": 2,
+    "flags": {
+      "definability": false,
+      "equations_all": false,
+      "toFin": false,
+      "satisfies_or_models": true,
+      "models_iff": false,
+      "termdef": false,
+      "aesop": false
+    },
+    "score": 4.35,
+    "sorry_windows": [
+      {
+        "line": 64,
+        "window": "0056:       discard <| withCurrHeartbeats <| Tactic.run goal.mvarId! do evalTactic tac\n0057:       s := s.push (quote n)\n0058:     catch _ =>\n0059:       r := r.push (quote n)\n0060:   /-\n0061:   let factS : Term \u2190 `(term|Facts $Gs [ $(.mk s),* ] [ $(.mk r),* ])\n0062:   let suggest \u2190 `(command|\n0063:       example : Facts $Gs [ $(.mk (s.map fun n => quote n)),* ] [ $(.mk (r.map fun n => quote n)),* ]\n0064:          := by sorry)\n0065:   TryThis.addSuggestion tk suggest\n0066:   -/\n0067:   logInfo m!\"These equations can be solved by the tactic:\\n{s}\\nAnd these cannot:\\n{r}\""
+      }
+    ]
+  },
+  "status": "TARGET_SCOUT_COMPLETE"
+}
