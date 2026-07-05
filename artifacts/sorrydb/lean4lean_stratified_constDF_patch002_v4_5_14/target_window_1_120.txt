@@ -1,0 +1,120 @@
+0001: import Lean4Lean.Theory.Typing.Lemmas
+0002: import Lean4Lean.Theory.Typing.Strong
+0003: 
+0004: namespace Lean4Lean
+0005: namespace VEnv
+0006: 
+0007: open VExpr
+0008: 
+0009: def DefInv (env : VEnv) (U : Nat) (Γ : List VExpr) : VExpr → VExpr → Prop
+0010:   | .forallE A B, .forallE A' B' =>
+0011:     ∃ u v, env.IsDefEq U Γ A A' (.sort u) ∧ env.IsDefEq U (A::Γ) B B' (.sort v)
+0012:   | .forallE .., .sort .. | .sort .., .forallE .. => False
+0013:   | .sort u, .sort v => u ≈ v
+0014:   | _, _ => True
+0015: 
+0016: variable! (henv : Ordered env) in
+0017: nonrec theorem DefInv.symm (h : DefInv env U Γ e1 e2) : DefInv env U Γ e2 e1 := by
+0018:   cases e1 <;> cases e2 <;> try trivial
+0019:   · exact h.symm
+0020:   · let ⟨u, v, h1, h2⟩ := h; exact ⟨u, v, h1.symm, h1.defeqDF_l henv h2.symm⟩
+0021: 
+0022: section
+0023: set_option hygiene false
+0024: local notation:65 Γ " ⊢ " e " : " A:30 => HasType1 Γ e A
+0025: local notation:65 Γ " ⊢ " e1 " ≡ " e2 " : " A:30 => IsDefEq1 Γ e1 e2 A
+0026: 
+0027: variable (env : VEnv) (uvars : Nat)
+0028: 
+0029: variable (IsDefEq1 : List VExpr → VExpr → VExpr → VExpr → Prop) in
+0030: inductive HasType1 : List VExpr → VExpr → VExpr → Prop where
+0031:   | bvar : Lookup Γ i A → Γ ⊢ .bvar i : A
+0032:   | const :
+0033:     env.constants c = some ci →
+0034:     (∀ l ∈ ls, l.WF uvars) →
+0035:     ls.length = ci.uvars →
+0036:     Γ ⊢ .const c ls : ci.type.instL ls
+0037:   | sort : l.WF uvars → Γ ⊢ .sort l : .sort (.succ l)
+0038:   | app : Γ ⊢ f : .forallE A B → Γ ⊢ a : A → Γ ⊢ .app f a : B.inst a
+0039:   | lam : Γ ⊢ A : .sort u → A::Γ ⊢ body : B → Γ ⊢ .lam A body : .forallE A B
+0040:   | forallE : Γ ⊢ A : .sort u → A::Γ ⊢ body : .sort v → Γ ⊢ .forallE A body : .sort (.imax u v)
+0041:   | defeq : Γ ⊢ A ≡ B : .sort u → Γ ⊢ e : A → Γ ⊢ e : B
+0042: 
+0043: variable
+0044:   (HasType1 : List VExpr → VExpr → VExpr → Prop)
+0045:   (defEq : List VExpr → VExpr → VExpr → VExpr → Prop) in
+0046: inductive IsDefEq1 : List VExpr → VExpr → VExpr → VExpr → Prop where
+0047:   | refl : Γ ⊢ e : A → Γ ⊢ e ≡ e : A
+0048:   | symm : Γ ⊢ e ≡ e' : A → Γ ⊢ e' ≡ e : A
+0049:   | trans : Γ ⊢ e₁ ≡ e₂ : A → Γ ⊢ e₂ ≡ e₃ : A → Γ ⊢ e₁ ≡ e₃ : A
+0050:   | constDF :
+0051:     env.constants c = some ci →
+0052:     (∀ l ∈ ls, l.WF uvars) →
+0053:     (∀ l ∈ ls', l.WF uvars) →
+0054:     ls.length = ci.uvars →
+0055:     List.Forall₂ (· ≈ ·) ls ls' →
+0056:     Γ ⊢ .const c ls ≡ .const c ls' : ci.type.instL ls
+0057:   | sortDF : l.WF uvars → l'.WF uvars → l ≈ l' → Γ ⊢ .sort l ≡ .sort l' : .sort l.succ
+0058:   | appDF :
+0059:     Γ ⊢ f ≡ f' : .forallE A B → Γ ⊢ a ≡ a' : A → Γ ⊢ .app f a ≡ .app f' a' : B.inst a
+0060:   | lamDF : Γ ⊢ A ≡ A' : .sort u → A::Γ ⊢ b ≡ b' : B → Γ ⊢ .lam A b ≡ .lam A' b' : .forallE A B
+0061:   | forallEDF :
+0062:     Γ ⊢ A ≡ A' : .sort u → A::Γ ⊢ B ≡ B' : .sort v →
+0063:     Γ ⊢ .forallE A B ≡ .forallE A' B' : .sort (.imax u v)
+0064:   | defeqDF : defEq Γ A B (.sort u) → Γ ⊢ e₁ ≡ e₂ : A → Γ ⊢ e₁ ≡ e₂ : B
+0065:   | beta : A::Γ ⊢ e : B → Γ ⊢ e' : A → Γ ⊢ .app (.lam A e) e' ≡ e.inst e' : B.inst e'
+0066:   | eta : Γ ⊢ e : .forallE A B → Γ ⊢ .lam A (.app e.lift (.bvar 0)) ≡ e : .forallE A B
+0067:   | proofIrrel : Γ ⊢ p : .sort .zero → Γ ⊢ h : p → Γ ⊢ h' : p → Γ ⊢ h ≡ h' : p
+0068:   | extra :
+0069:     env.defeqs df → (∀ l ∈ ls, l.WF uvars) → ls.length = df.uvars →
+0070:     Γ ⊢ df.lhs.instL ls ≡ df.rhs.instL ls : df.type.instL ls
+0071: 
+0072: end
+0073: 
+0074: variable! (henv : Ordered env) (hΓ : OnCtx Γ (env.IsType U)) in
+0075: theorem IsDefEq.induction1
+0076:     (defEq : List VExpr → VExpr → VExpr → VExpr → Prop)
+0077:     (hasType : List VExpr → VExpr → VExpr → Prop)
+0078:     (hty : ∀ {Γ e A}, HasType1 env U defEq Γ e A → hasType Γ e A)
+0079:     (hdf : ∀ {Γ e1 e2 A}, IsDefEq1 env U hasType defEq Γ e1 e2 A → defEq Γ e1 e2 A)
+0080:     (H : env.IsDefEq U Γ e1 e2 A) :
+0081:     HasType1 env U defEq Γ e1 A ∧
+0082:     HasType1 env U defEq Γ e2 A ∧
+0083:     IsDefEq1 env U hasType defEq Γ e1 e2 A := by
+0084:   have H' := H.strong henv hΓ; clear hΓ H
+0085:   induction H' with
+0086:   | bvar h => exact ⟨.bvar h, .bvar h, .refl (hty (.bvar h))⟩
+0087:   | symm _ ih => exact ⟨ih.2.1, ih.1, .symm ih.2.2⟩
+0088:   | trans _ _ ih1 ih2 => exact ⟨ih1.1, ih2.2.1, .trans ih1.2.2 ih2.2.2⟩
+0089:   | @constDF _ _ ls₁ ls₂ u _ h1 h2 h3 h4 h5 =>
+0090:     exact ⟨.const h1 h2 h4,
+0091:       .defeq (u := u.inst ls₁) sorry <| .const h1 h3 (h5.length_eq.symm.trans h4),
+0092:       .constDF h1 h2 h3 h4 h5⟩
+0093:   | @sortDF l l' _ h1 h2 h3 =>
+0094:     refine ⟨.sort h1, ?_, .sortDF h1 h2 h3⟩
+0095:     exact .defeq (hdf <| .symm <| .sortDF (l' := l'.succ) h1 h2 (VLevel.succ_congr h3)) (.sort h2)
+0096:   | appDF _ _ _ _ _ _ _ _ _ ihf iha ihBa =>
+0097:     let ⟨hf, hf', ff⟩ := ihf; let ⟨ha, ha', aa⟩ := iha
+0098:     exact ⟨.app hf ha, .defeq (hdf ihBa.2.2.symm) (.app hf' ha'), .appDF ff aa⟩
+0099:   | lamDF _ _ _ _ _ _ _ ihA ihB _ ihb ihb' =>
+0100:     refine ⟨.lam ihA.1 ihb.1, ?_, .lamDF ihA.2.2 ihb.2.2⟩
+0101:     exact .defeq (hdf <| .symm <| .forallEDF ihA.2.2 ihB.2.2) <| .lam ihA.2.1 ihb'.2.1
+0102:   | forallEDF _ _ _ _ _ ih1 ih2 ih3 =>
+0103:     exact ⟨.forallE ih1.1 ih2.1, .forallE ih1.2.1 ih3.2.1, .forallEDF ih1.2.2 ih2.2.2⟩
+0104:   | defeqDF _ _ _ ih1 ih2 =>
+0105:     exact ⟨.defeq (hdf ih1.2.2) ih2.1, .defeq (hdf ih1.2.2) ih2.2.1, .defeqDF (hdf ih1.2.2) ih2.2.2⟩
+0106:   | beta _ _ _ _ _ _ _ _ ihA _ ihe ihe' _ ihee =>
+0107:     exact ⟨.app (.lam ihA.1 ihe.1) ihe'.1, ihee.1, .beta (hty ihe.1) (hty ihe'.1)⟩
+0108:   | eta _ _ _ _ _ _ _ _ ihA _ _ ihe ihe' =>
+0109:     have := HasType1.app ihe'.1 (.bvar .zero)
+0110:     rw [instN_bvar0] at this
+0111:     exact ⟨.lam ihA.1 this, ihe.1, .eta (hty ihe.1)⟩
+0112:   | proofIrrel _ _ _ ih1 ih2 ih3 =>
+0113:     exact ⟨ih2.1, ih3.1, .proofIrrel (hty ih1.1) (hty ih2.1) (hty ih3.1)⟩
+0114:   | extra h1 h2 h3 _ _ _ _ _ _ _ _ _ ihl' ihr' =>
+0115:     exact ⟨ihl'.1, ihr'.1, .extra h1 h2 h3⟩
+0116: 
+0117: variable! {env : VEnv}
+0118:   {defEq : List VExpr → VExpr → VExpr → VExpr → Prop}
+0119:   (IH : ∀ {Γ e1 e2 A}, defEq Γ e1 e2 A → env.IsDefEq U Γ e1 e2 A) in
+0120: theorem HasType1.induction (H : env.HasType1 U defEq Γ e A) : env.HasType U Γ e A := by

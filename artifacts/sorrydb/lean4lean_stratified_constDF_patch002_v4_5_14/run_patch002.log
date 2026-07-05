@@ -1,0 +1,38 @@
+====================================================================================================
+{
+  "variant": "v01_try_no_explicit_u",
+  "module_returncode": 0,
+  "module_seconds": 1.19,
+  "module_has_error": false,
+  "stratified_has_sorry_warning": false,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- stdout tail ---
+✔ [46/46] Built Lean4Lean.Experimental.Stratified (1.0s)
+Build completed successfully (46 jobs).
+
+SUMMARY
+{
+  "artifact": "lean4lean_stratified_constDF_patch002_v4_5_14",
+  "repo": "digama0/lean4lean",
+  "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "file": "Lean4Lean/Experimental/Stratified.lean",
+  "theorem": "IsDefEq.induction1",
+  "status": "PATCH002_ACCEPTED",
+  "accepted": true,
+  "accepted_variant": "v01_try_no_explicit_u",
+  "insight": "Patch001 failed because the IH is indexed by sort u, while the needed .defeq term is indexed by sort (u.inst ls\u2081). Patch002 probes universe-index adapters and constructors.",
+  "results": [
+    {
+      "variant": "v01_try_no_explicit_u",
+      "module_returncode": 0,
+      "module_seconds": 1.19,
+      "module_has_error": false,
+      "stratified_has_sorry_warning": false,
+      "full_build_returncode": 0,
+      "full_build_seconds": 61.5,
+      "full_build_has_error": false
+    }
+  ]
+}

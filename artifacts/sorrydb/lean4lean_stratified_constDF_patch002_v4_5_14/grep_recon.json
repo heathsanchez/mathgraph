@@ -1,0 +1,3443 @@
+{
+  "def DefInv": [
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 9,
+      "text": "def DefInv (env : VEnv) (U : Nat) (\u0393 : List VExpr) : VExpr \u2192 VExpr \u2192 Prop"
+    }
+  ],
+  "DefInv": [
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 9,
+      "text": "def DefInv (env : VEnv) (U : Nat) (\u0393 : List VExpr) : VExpr \u2192 VExpr \u2192 Prop"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 17,
+      "text": "nonrec theorem DefInv.symm (h : DefInv env U \u0393 e1 e2) : DefInv env U \u0393 e2 e1 := by"
+    }
+  ],
+  "inductive .*IsDefEq1": [
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 46,
+      "text": "inductive IsDefEq1 : List VExpr \u2192 VExpr \u2192 VExpr \u2192 VExpr \u2192 Prop where"
+    }
+  ],
+  "IsDefEq1\\.": [
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 135,
+      "text": "theorem IsDefEq1.induction"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 164,
+      "text": "protected theorem IsDefEq1.hasType_ind"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 193,
+      "text": "theorem IsDefEq1.unique_typing1"
+    }
+  ],
+  "\\|.*defeq": [
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 536,
+      "text": "  | .defeq a b rest => (a.applyS m1 m2, b.applyS m1 m2) :: rest.defeqsS m1 m2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 604,
+      "text": "  | defeqDF : \u0393 \u22a2 A \u2261 B : .sort u \u2192 \u0393 \u22a2 e1 \u2261 e2 : A \u2192 \u0393 \u22a2 e1 \u2261 e2 : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 608,
+      "text": "  -- | extra : Pat p r \u2192 p.MatchesS e m1 m2 \u2192 (dfs : List _).map (\u00b7.2) = r.2.defeqsS m1 m2 \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 610,
+      "text": "  | extra : env.defeqs df \u2192 ls.length = df.uvars \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 665,
+      "text": "  | defeqDF : \u0393 \u22a2 A \u2261 B : .sort u \u2192 \u0393 \u22a2 e1 \u2261 e2 : A \u2192 \u0393 \u22a2 e1 \u2261 e2 : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 672,
+      "text": "  | extra : env.defeqs df \u2192 ls.length = df.uvars \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 725,
+      "text": "  | defeq : \u0393 \u22a2 A \u2261 B : .sort u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 791,
+      "text": "  | cons W hA h ih => exact .cons ih hA (.defeqDF (.subst W hA) h.symm)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 811,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF (ih1 W) (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 949,
+      "text": "  | extra : Pat p r \u2192 p.MatchesS e m1 m2 \u2192 (dfs : List _).map (\u00b7.2) = r.2.defeqsS m1 m2 \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1055,
+      "text": "  | extra : Pat p r \u2192 p.MatchesS e m1 m2 \u2192 (dfs : List _).map (\u00b7.2) = r.2.defeqsS m1 m2 \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1214,
+      "text": "  | defeqDF : \u0393 \u22a2 A \u2261 B : .sort u \u2192 \u0393 \u22a2 e1 \u2261\u209a e2 : A \u2192 \u0393 \u22a2 e1 \u2261\u209a e2 : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1219,
+      "text": "  | refl h => refine .refl (h.defeqDFC W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1230,
+      "text": "  | proofIrrel h1 h2 h3 => exact .proofIrrel (h1.defeqDFC W) (h2.defeqDFC W) (h3.defeqDFC W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1231,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF (h1.defeqDFC W) (ih W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1245,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF h1 ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1250,
+      "text": "  | appDF h1 h2 ih1 ih2 => exact .defeqDF sorry (u := sorry) <| .appDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1256,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF h1 ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1262,
+      "text": "  | appDF h1 h2 ih1 ih2 => exact .defeqDF sorry (u := sorry) <| .appDF (ih1 W) (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1272,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF (h1.weak' W) (ih W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1297,
+      "text": "  | \u27e8l1, _, _, l3, l4, l5\u27e9, H => \u27e8H.defeqDF l1, _, _, l3, l4, l5.defeqDF H\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 28,
+      "text": "  | defeq : \u0393 \u22a2 A \u2261 B \u2192 \u0393 \u22a2 e : A \u2192 \u0393 \u22a2 e : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 86,
+      "text": "  | defeqDF _ _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 110,
+      "text": "  | defeq h1 _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 161,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF (hdf h1) ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 189,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF (hdf h1) ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 202,
+      "text": "  | defeq h1 _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 234,
+      "text": "  -- | defeqDF _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 263,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 293,
+      "text": "  -- | defeqDF _ _ ih1 ih2 => exact .defeqDF (ih1 W) (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 41,
+      "text": "  | defeq : \u0393 \u22a2 A \u2261 B : .sort u \u2192 \u0393 \u22a2 e : A \u2192 \u0393 \u22a2 e : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 64,
+      "text": "  | defeqDF : defEq \u0393 A B (.sort u) \u2192 \u0393 \u22a2 e\u2081 \u2261 e\u2082 : A \u2192 \u0393 \u22a2 e\u2081 \u2261 e\u2082 : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 104,
+      "text": "  | defeqDF _ _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 128,
+      "text": "  | defeq h1 _ ih => exact (IH h1).defeq ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 146,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF (hdf h1) ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 176,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF (hdf h1) ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 204,
+      "text": "  | defeqDF h1 _ ih => exact .defeqDF (hdf h1) ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 217,
+      "text": "  | defeq h1 _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 249,
+      "text": "  -- | defeqDF _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 278,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 308,
+      "text": "  -- | defeqDF _ _ ih1 ih2 => exact .defeqDF (ih1 W) (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 98,
+      "text": "  | defeqDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 100,
+      "text": "  | defeqL :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 204,
+      "text": "  | defeqDF _ _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 205,
+      "text": "  | defeqL _ _ _ _ ih => exact ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 209,
+      "text": "  | extra h1 h2 h3 => exact .extra (defeqs_out h1) h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 227,
+      "text": "  | defeq : Ordered env \u2192 df.WF env \u2192 Ordered (env.addDefEq df)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 233,
+      "text": "  | defeq h1 h2 ih => exact addDefEq_out \u25b8 .defeq ih h2.out"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 257,
+      "text": "  | defeqDF h1 _ _ ih1 ih2 => exact .defeqDF h1 (ih1 W) (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 258,
+      "text": "  | defeqL h1 h2 h3 _ ih => exact .defeqL h1 h2 h3 (ih W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 294,
+      "text": "  | defeqDF h1 _ _ ih1 ih2 => exact .defeqDF h1 ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 295,
+      "text": "  | defeqL h1 h2 h3 _ ih => exact .defeqL h1 h2 h3 ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 338,
+      "text": "  | defeqDF _ _ _ ih1 ih2 => exact .defeqDF (.inst hls) ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 339,
+      "text": "  | defeqL _ _ h3 _ ih => exact .defeqL (.inst hls) (.inst hls) (VLevel.inst_congr_l h3) ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 424,
+      "text": "  | defeqDF h1 _ _ ih1 ih2 => exact .defeqDF h1 (ih1 W h\u0393) (ih2 W h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 425,
+      "text": "  | defeqL h1 h2 h3 _ ih => exact .defeqL h1 h2 h3 (ih W h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 464,
+      "text": "      |>.symm.defeqDF hu (.bvar .zero hu (h1.hasType.2.weakN henv (.zero [(A', u)])))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 490,
+      "text": "  | defeqDF _ _ _ _ ih | defeqL _ _ _ _ ih => exact ih h\u0393 eq"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 536,
+      "text": "  | defeqDF _ h2 => exact h2.hasType.2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 537,
+      "text": "  | defeqL h1 h2 h3 _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 539,
+      "text": "      |>.defeqL (by exact h1) (by exact h2) (VLevel.succ_congr h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 562,
+      "text": "  | defeqDF _ _ _ ih1 ih2 => exact \u27e8ih2.1, ih2.2.1, fun h => VLevel.succ_congr_iff.1 <| ih1.2.1 h\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 563,
+      "text": "  | defeqL _ _ h1 _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 592,
+      "text": "    | defeqDF _ _ _ _ ih => exact ih H1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 593,
+      "text": "    | defeqL _ _ h _ ih => exact propext (VLevel.equiv_congr_right h) \u25b8 ih H1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 613,
+      "text": "    | defeqDF _ _ _ _ ih => exact ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 614,
+      "text": "    | defeqL _ _ h _ ih => exact propext (VLevel.equiv_congr_right h) \u25b8 ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 121,
+      "text": "  | symm H ih => exact .fits fun W => (ih ((LE_Interp.sound H.defeq W).1.2 hM) hA hmem).symm"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 379,
+      "text": "  | @defeqDF \u0393 A' B' u' _ _ Hty He ihTy ihE =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 46,
+      "text": "  | defeq :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 66,
+      "text": "  | defeq d _ ihe => exact d.defeqDF ihe"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 77,
+      "text": "  | defeq d _ ihe =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 132,
+      "text": "  | defeq d _ ihe =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 157,
+      "text": "    exact .defeq (.symm <| .forallEDF h_A.defeq ih_B.1.hasType) (.base (.lam ih_A.2 ih_body'.2))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 160,
+      "text": "  | defeqDF d _ _ ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 208,
+      "text": "  | defeqDF : \u0393 \u22a2' A \u2261 B : .sort u \u2192 \u0393 \u22a2' e1 \u2261 e2 : A \u2192 \u0393 \u22a2' e1 \u2261 e2 : B"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 214,
+      "text": "  | extra : env.defeqs df \u2192 ls.length = df.uvars \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 234,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 254,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 486,
+      "text": "  | .proofIrrel l1 l2 l3, H2 => .proofIrrel l1 l2 (TY.defeq_l H2.defeq l3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 498,
+      "text": "  | H1, .proofIrrel h1 h2 h3 => .proofIrrel h1 (TY.defeq_l H1.symm.defeq h2) h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 313,
+      "text": "      have := TY.symm <| TY.trans (r1.defeq l1) (p1.defeq (r1.hasType l1))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 323,
+      "text": "        .forallEDF l1 (TY.symm <| TY.trans (r1.defeq l1) (p1.defeq (r1.hasType l1)))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 449,
+      "text": "  | tail h1 h2 ih => refine TY.trans ih (h2.defeq (hasType h1 h))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 455,
+      "text": "  | tail h1 h2 ih => refine .tail ih (h2.defeqDFC W (hasType h1 h))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 764,
+      "text": "        exact .inl \u27e8_, h1.tail <| .lam .rfl (a1.defeqDFC (.succ .zero (TY.symm h2))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 827,
+      "text": "    TY.trans (h3.defeq h1) <| TY.trans h5.defeq (TY.symm (h4.defeq h2))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 843,
+      "text": "  | symm _ ih => exact \u27e8TY.symm ih.1, TY.defeq_l ih.1 ih.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 850,
+      "text": "  | defeqDF h1 h2 ih1 ih2 => exact \u27e8ih2.1, TY.defeq_r ih1.1 ih2.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 854,
+      "text": "  | eta h1 ih1 => have h := TY.eta ih1.2; exact \u27e8h, TY.defeq_l (TY.symm h) ih1.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 892,
+      "text": "  | defeqDF _ _ _ ih2 => exact ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5031,
+      "text": "      have := WShape.sort_le.1 <| .of_T ((h_imax_defeq W).1 h_LE_zero).le_sort"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5114,
+      "text": "  | defeqDF h1 h2 ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 129,
+      "text": "  | defeq h1 h2 =>"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 235,
+      "text": "    \u00b7 refine (wf.defeq h1 hi h3).trans he |>.trans (wf.defeq hj h2 h4)"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 236,
+      "text": "    \u00b7 exact (wf.defeq h1 hj h3).trans he.symm |>.trans (wf.defeq hi h2 h4)"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 290,
+      "text": "    exact (wf.defeq a1 hr\u2081 a2).symm.trans <| .trans (H \u2039_\u203a) (wf.defeq b1 hr\u2082 b2)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 690,
+      "text": "  | .cons h1 _ (.vlam h2) => .succ h1.defeqCtx h2"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 691,
+      "text": "  | .cons h1 _ (.vlet ..) => h1.defeqCtx"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 709,
+      "text": "  | .vlet h1 h2 => .vlet (h2.defeqDF h1.symm) h2.symm"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 713,
+      "text": "  | .vlam h1 => .vlam (h1.defeqDFC henv h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 714,
+      "text": "  | .vlet h1 h2 => .vlet (h1.defeqDFC henv h\u0393) (h2.defeqDFC henv h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 890,
+      "text": "  | proj _ l2 ih1 => let .proj r1 r2 := H2; exact l2.uniq henv h\u0394.defeqCtx r2 (ih1 h\u0394 r1)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 903,
+      "text": "  | bvar h1 => have \u27e8_, _, h1\u27e9 := h\u0394.find?_defeqDFC h1; exact \u27e8_, .bvar h1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 904,
+      "text": "  | fvar h1 => have \u27e8_, _, h1\u27e9 := h\u0394.find?_defeqDFC h1; exact \u27e8_, .fvar h1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1006,
+      "text": "  have h1' := h1.defeqU_r henv h\u0394 h2.symm |>.defeqU_l henv h\u0394 h3.symm"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1065,
+      "text": "      |>.1 (htt.hasType.2.defeqDFC henv h\u0394.defeqCtx)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1080,
+      "text": "      |>.hasType.2.defeqDFC henv (.succ h\u0394.defeqCtx htt)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1092,
+      "text": "      |>.1 ((htt.defeqDF hvv).hasType.2.defeqDFC henv h\u0394.defeqCtx)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 2082,
+      "text": "  | nil => exact h2.defeq henv h\u0394 (he.uniq henv (.refl henv h\u0394) h1)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/ConditionallyTyped.lean",
+      "line": 71,
+      "text": "  have h4 := h4.defeqU_r henv h\u0394.toCtx AA |>.defeqU_l henv h\u0394.toCtx ee"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 31,
+      "text": "  | defeq : Aligned C venv \u2192 Aligned C (venv.addDefEq df)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 38,
+      "text": "  | defeq _ ih => exact ih"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 51,
+      "text": "  | defeq _ ih => exact ih"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 74,
+      "text": "  | defn h1 h2 _ h _ ih => exact (ih.const h2 h1.1.1 h rfl).defeq"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 100,
+      "text": "  | defeq h1 ih => let \u27e8_, h1, h2\u27e9 := ih h; exact \u27e8_, h1, h2.mono VEnv.addDefEq_le\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 118,
+      "text": "  | defeq h1 ih => let \u27e8h1, h2\u27e9 := ih h hs; exact \u27e8h1, h2.mono VEnv.addDefEq_le\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 165,
+      "text": "    exact \u27e8h1.trans <| a1.trans b1, b2.defeq c.Ewf c.\u0394wf <| eq'.trans c.Ewf c.\u0394wf eq\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 51,
+      "text": "  | defeq : TrExprS env Us \u0394 e\u2081 e' \u2192 TrExpr env Us \u0394 e\u2082 e' \u2192 IsDefEqE e\u2081 e\u2082"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 64,
+      "text": "  | defeq h1 h2 => let \u27e8_, h2, h3\u27e9 := h2; exact .defeq h2 \u27e8_, h1, h3.symm\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 77,
+      "text": "  | defeq h1 h2 => exact .defeq (h1.weakFV' henv W h\u0394) (h2.weakFV' henv W h\u0394)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Meta.lean",
+      "line": 95,
+      "text": "  | `(vdefeq($[$bis* \u22a2]? $[$args* =>]? $e\u2081:term \u2261 $e\u2082:term)) => do"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 182,
+      "text": "  | defeq (df : VDefEq)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 201,
+      "text": "  | .defeq df :: ls => env.defeqs df \u2227 env.HasObjects ls"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 207,
+      "text": "  | .defeq .. :: _ => .imp henv.2 (mono henv)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 258,
+      "text": "  | defeq : Ordered env \u2192 df.WF env \u2192 Ordered (env.addDefEq df)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 284,
+      "text": "  | defeq h1 h2 ih =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 343,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact \u27e8(ih2 h\u0393).1, (ih2 h\u0393).2.1, (ih1 h\u0393).2.1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 396,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 436,
+      "text": "  | defeq _ _ ih => exact .mono addDefEq_le (ih h)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 444,
+      "text": "  | defeq _ _ ih =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 478,
+      "text": "  | defeqDF _ _ ih1 ih2 => let \u27e8_, hB, _\u27e9 := ih1 W; let \u27e8he1, he2, _\u27e9 := ih2 W; exact \u27e8he1, he2, hB\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 514,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF (ih1 W) (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 610,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 657,
+      "text": "  | defeqDF _ _ ih1 ih2 => exact .defeqDF (ih1 W) (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 703,
+      "text": "    instN henv (h1.weakN henv (.one (A := A')) |>.symm.defeq (.bvar .zero)) H2 (.weakN henv H1 h2)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 735,
+      "text": "  | .succ h1 h2 => .succ (h1.symm henv) (h2.symm.defeqDFC henv h1)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 754,
+      "text": "  | defeqDF _ _ _ ih2 => exact ih2 eq"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 806,
+      "text": "  | defeqDF _ _ _ ih2 => exact ih2 eq"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 860,
+      "text": "  | defeqDF h1 => exact \u27e8_, h1.hasType.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Pattern.lean",
+      "line": 103,
+      "text": "  | defeq (x y : RHS p) (rest : Check p)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Pattern.lean",
+      "line": 217,
+      "text": "  | .defeq a b rest => defeq (RHS.apply m1 m2 a) (RHS.apply m1 m2 b) \u2227 rest.OK defeq m1 m2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 55,
+      "text": "  | defeqDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 130,
+      "text": "  | defeq : u.WF uvars \u2192 \u0393 \u22a2 A \u2261 B : .sort u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 158,
+      "text": "  | defeqDF h1 _ _ ih1 ih2 => exact .defeqDF h1 (ih1 W) (ih2 W)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 193,
+      "text": "  | defeqDF _ _ _ ih1 ih2 => exact .defeqDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 212,
+      "text": "  | defeqDF h1 _ _ ih1 ih2 => exact .defeqDF h1 ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 255,
+      "text": "  | defeqDF _ _ _ _ ih => exact ih"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 319,
+      "text": "  | defeqDF _ _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 347,
+      "text": "  | _::_, \u27e8h1, _, h2\u27e9 => \u27e8levelWF h1, (h2.defeq.levelWF (levelWF h1)).1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 387,
+      "text": "  | defeqDF h1 _ _ ih1 ih2 => exact .defeqDF h1 (ih1 W h\u0393) (ih2 W h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 426,
+      "text": "      |>.symm.defeqDF hu (.bvar .zero hu (h1.hasType.2.weakN henv .one))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 444,
+      "text": "  | defeqDF _ _ _ _ ih2 => exact ih2 h\u0393 eq"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 495,
+      "text": "  | defeqDF _ h2 => exact \u27e8_, h2.hasType.2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 578,
+      "text": "  | defeqDF h1 h2 _ _ ih => exact .defeqDF h1 h2 (ih W H1 H2)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 598,
+      "text": "      (.symm <| .lamDF h1 h2 c1.symm h4 (.defeqDF_l henv W c1.symm h4) c3.symm"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 643,
+      "text": "  | defeqDF hAB _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 730,
+      "text": "  | defeqDF h1 h2 h3 ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 760,
+      "text": "  | defeq h1 h2 h3 h4 h5 ih1 ih2 ih3 => exact .defeqDF h1 h2 ih3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 771,
+      "text": "  | defeq _ _ _ _ _ _ _ ih => exact ih h\u0393 rfl eq'"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 786,
+      "text": "  | defeq _ _ _ _ _ _ _ ih => exact ih h\u0393 rfl eq'"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 800,
+      "text": "  | defeq _ _ _ _ _ _ _ ih => exact ih h\u0393 rfl eq'"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 813,
+      "text": "  | defeq _ _ _ _ _ _ _ ih => exact ih h\u0393 rfl eq'"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 853,
+      "text": "  | defeq : u.WF U \u2192 \u0393 \u22a2 A \u2261 B : .sort u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 867,
+      "text": "  | defeq _ h2 _ _ _ _ _ ih3 => exact h2.defeq ih3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 880,
+      "text": "  | defeq h1 h2 _ _ _ ih1 ih2 ih3 => exact .defeq h1 h2 (ih1 le) (ih2 le) (ih3 le)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 902,
+      "text": "  | defeq h1 h2 _ _ _ ih1 ih2 ih3 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 912,
+      "text": "  | defeq _ _ _ _ _ _ _ ih3 => obtain \u27e8A', hA'\u27e9 := ih3 rfl; exact \u27e8A', hA'.mono (Nat.le_succ _)\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 918,
+      "text": "  | bvar _ h | const _ _ _ h | app _ _ _ _ _ _ h | lam _ _ _ h | defeq _ _ _ h => exact \u27e8_, h\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Basic.lean",
+      "line": 43,
+      "text": "  | defeqDF : \u0393 \u22a2 A \u2261 B : .sort u \u2192 \u0393 \u22a2 e1 \u2261 e2 : A \u2192 \u0393 \u22a2 e1 \u2261 e2 : B"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 70,
+      "text": "  | extra h1 h2 h3 => exact .extra h1 h2 <| h3.map fun a b h => h.defeqDFC henv W"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 221,
+      "text": "  | tail _ h2 ih => exact .tail ih (h2.defeqDFC W)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 331,
+      "text": "  | bvar h1 => exact .bvar (h1.defeqDFC W)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 332,
+      "text": "  | sort h1 => exact .sort (h1.defeqDFC W)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 333,
+      "text": "  | const h1 => exact .const (h1.defeqDFC W)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 492,
+      "text": "  have hB\u2081 := eB.parRedS.hasType (by exact \u27e8h\u0393, _, hA\u27e9) hB |>.defeq_l henv hA\u2081"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 635,
+      "text": "  | base _ ih | defeq _ _ _ _ _ _ _ ih => exact ih h\u0393"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 93,
+      "text": "    | @defeq \u0393 B' B u n' _ b1 b2 b3 b4 b5 _ _ ih' =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 102,
+      "text": "  | @defeq \u0393 A' A u n' _ a1 a2 a3 a4 a5 ih1 ih2 ih' =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 249,
+      "text": "  | refl h => refine .refl (.defeqDFC henv W h)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 433,
+      "text": "  | .proofIrrel l1 l2 l3, H2 => .proofIrrel l1 l2 (.defeqU_l henv h\u0393 (H2.defeq h\u0393) l3)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 447,
+      "text": "  | H1, .proofIrrel h1 h2 h3 => .proofIrrel h1 (.defeqU_l henv h\u0393 (H1.defeq h\u0393).symm h2) h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 883,
+      "text": "        (.symm <| .apply_pat h\u0393 (fun _ _ h => \u27e8_, (h2 _).defeq h\u0393 h\u27e9) h1.hasType.1)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 884,
+      "text": "        (.trans h1 <| .apply_pat h\u0393 (fun _ _ h => \u27e8_, (h2 _).defeq h\u0393 h\u27e9) h1.hasType.2)\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 932,
+      "text": "  | tail h1 h2 ih => exact ih.trans (h2.defeq h\u0393 (hasType h\u0393 h1 h))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 939,
+      "text": "  | tail h1 h2 ih => refine .tail ih (h2.defeqDFC h\u0393 W (hasType (W.isType' h\u0393) h1 h))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1213,
+      "text": "      replace r2 := r2.defeqDFC h\u0393 (.succ .zero l2.symm) <| .defeqDFC henv (.succ .zero l2) h2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1225,
+      "text": "      replace r2 := r2.defeqDFC h\u0393 (.succ .zero W.symm) <| .defeqDFC henv (.succ .zero W) h2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1256,
+      "text": "        exact .inl \u27e8_, h1.tail <| .lam .rfl (a1.defeqDFC h\u0393 (.succ .zero h2'.symm)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1327,
+      "text": "    \u27e8_, .trans_l henv h\u0393 (h3.defeq h\u0393 h1) <| .transU_r henv h\u0393 (h5.defeq h\u0393) (h4.defeq h\u0393 h2).symm\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1372,
+      "text": "  | defeqDF _ _ _ ih2 => exact ih2 h\u0393"
+    }
+  ],
+  "\\|.*constDF": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 37,
+      "text": "  | constDF : List.Forall\u2082 (\u00b7 \u2248 \u00b7) ls ls' \u2192 \u0393 \u22a2 .const c ls \u2261 .const c ls'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 71,
+      "text": "  | @constDF _ _ ls\u2081 ls\u2082 _ _ h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 72,
+      "text": "    exact \u27e8.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 50,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 89,
+      "text": "  | @constDF _ _ ls\u2081 ls\u2082 u _ h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 141,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 64,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 200,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF (constants_out h1) h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 248,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 _ _ _ _ ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 289,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 _ _ _ _ ih1 ih2 ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 321,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 _ _ _ _ _ ih1 ih2 ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 409,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 _ _ _ _ ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 532,
+      "text": "  | constDF _ _ _ _ _ _ _ _ _ h => exact h"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 552,
+      "text": "  | constDF _ _ _ _ _ _ _ _ _ _ _ _ _ ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 596,
+      "text": "  | @constDF c ci ls _ _ _ h1 _ _ _ h2 hu _ d1 d2 d3 d4 ih1 ih2 ih3 ih4 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 599,
+      "text": "    | @constDF c' _ ls' _ _ _ h1' _ _ _ h2' hu' =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 167,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 206,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact TY.constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 228,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 243,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 266,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 320,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 356,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 452,
+      "text": "  | .constDF l1 l2 _ l4 l5, .constDF _ _ r3 r4 r5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 695,
+      "text": "  | constDF l1 l2 l3 l4 l5 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 697,
+      "text": "    | const => exact \u27e8_, .tail .rfl .const, .constDF l1 l2 l3 l4 l5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 846,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact \u27e8TY.constDF h1 h2 h3 h4 h5, TY.const h1 h2 h4\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 869,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .normalEq (.constDF h1 h2 h3 h4 h5)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 325,
+      "text": "  | constDF h1 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 389,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF (henv.1 h1) h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 468,
+      "text": "  | constDF _ h2 h3 => exact \u27e8h2, h3, .instL h2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 508,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 603,
+      "text": "  | @constDF _ _ ls\u2081 ls\u2082 _ h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 651,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 849,
+      "text": "  | constDF h1 h2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 23,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 149,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 _ _ ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 189,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 207,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 246,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 303,
+      "text": "  | constDF h1 h2 h3 h4 h5 _ _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 372,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 _ _ ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 486,
+      "text": "  | constDF h1 h2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 535,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 _ _ ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 620,
+      "text": "  | @constDF _ _ ls\u2081 ls\u2082 _ h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 714,
+      "text": "  | constDF h1 h2 h3 h4 h5 h6 h7 h8 ih1 ih2 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Basic.lean",
+      "line": 24,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 82,
+      "text": "  | constDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 121,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact \u27e8_, .constDF h1 h2 h3 h4 h5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 146,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 167,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 192,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 251,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 289,
+      "text": "  | constDF h1 h2 h3 h4 h5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 398,
+      "text": "  | .constDF l1 l2 _ l4 l5, .constDF _ _ r3 r4 r5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1184,
+      "text": "  | constDF l1 l2 l3 l4 l5 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1186,
+      "text": "    | const => exact \u27e8_, .tail .rfl .const, .constDF l1 l2 l3 l4 l5\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1352,
+      "text": "  | constDF h1 h2 h3 h4 h5 => exact .normalEq h\u0393 (.constDF h1 h2 h3 h4 h5)"
+    }
+  ],
+  "instL": [
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 42,
+      "text": "  --   \u2203 p r m1 m2, Pat p r \u2227 p.Matches (df.lhs.instL ls) m1 m2 \u2227 r.2.OK (IsDefEqU env univs \u0393) m1 m2 \u2227"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 43,
+      "text": "  --   df.rhs.instL ls = r.1.apply m1 m2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 139,
+      "text": "def instL : SExpr \u2192 SExpr"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 143,
+      "text": "  | .app fn arg => .app fn.instL arg.instL"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 144,
+      "text": "  | .lam ty body => .lam ty.instL body.instL"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 145,
+      "text": "  | .forallE ty body => .forallE ty.instL body.instL"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 147,
+      "text": "theorem ClosedN.instL : \u2200 {e}, ClosedN e k \u2192 ClosedN (e.instL ls) k"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 149,
+      "text": "  | .app .., h | .lam .., h | .forallE .., h => \u27e8h.1.instL, h.2.instL\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 239,
+      "text": "@[simp] theorem instL_lift' : (lift' e \u03c1).instL ls = lift' (e.instL ls) \u03c1 := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 240,
+      "text": "  cases e <;> simp [lift', instL, instL_lift']"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 278,
+      "text": "nonrec def Subst.instL (ls : List SLevel) (\u03c3 : Subst) : Subst := instL ls \u2218 \u03c3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 280,
+      "text": "theorem Subst.instL_lift {\u03c3 : Subst} : (\u03c3.instL ls).lift = \u03c3.lift.instL ls := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 281,
+      "text": "  funext i; obtain _|i := i <;> simp [Subst.instL, lift, SExpr.instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 283,
+      "text": "@[simp] theorem instL_subst : (subst e \u03c3).instL ls = subst (e.instL ls) (\u03c3.instL ls) := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 284,
+      "text": "  cases e <;> simp [subst, instL, instL_subst, Subst.instL_lift] <;> simp [Subst.instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 518,
+      "text": "  | .fixed c _ => .instL m1 (.mk c)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 529,
+      "text": "  | .fixed .., h1, _ => h1.mkS.instL.mono (Nat.zero_le _)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 597,
+      "text": "    \u0393 \u22a2 .const c ls : (SExpr.mk ci.type).instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 611,
+      "text": "    \u0393 \u22a2 .instL ls (.mk df.lhs) \u2261 .instL ls (.mk df.rhs) : .instL ls (.mk df.type)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 614,
+      "text": "  \u2203 p r m1 m2 dfs, Pat p r \u2227 p.MatchesS (.instL ls (.mk df.lhs)) m1 m2 \u2227"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 617,
+      "text": "    .instL ls (.mk df.rhs) = r.1.applyS m1 m2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 651,
+      "text": "    \u0393 \u22a2 (SExpr.mk ci.type).instL ls : .sort u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 653,
+      "text": "    (\u2200 cl, \u0393 \u22a2 (SExpr.mk ci.type).instL ls \u2261 (F cl).rhs ls : .sort (F cl).u) \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 654,
+      "text": "    \u0393 \u22a2 .const c ls : (SExpr.mk ci.type).instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 673,
+      "text": "    \u0393 \u22a2 .instL ls (.mk df.lhs) : .instL ls (.mk df.type) \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 674,
+      "text": "    \u0393 \u22a2 .instL ls (.mk df.rhs) : .instL ls (.mk df.type) \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 675,
+      "text": "    \u0393 \u22a2 .instL ls (.mk df.lhs) \u2261 .instL ls (.mk df.rhs) : .instL ls (.mk df.type)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 686,
+      "text": "      \u0393 \u22a2 (SExpr.mk ci.type).instL ls \u2261"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 705,
+      "text": "    \u0393 \u22a2 (mk ci.type).instL ls : .sort u !! n \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 706,
+      "text": "    \u0393 \u22a2 .const c ls :! (mk ci.type).instL ls !! n+1"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 807,
+      "text": "  | const h1 h2 => rw [(henv.closedC h1).mkS.instL.lift'_eq .zero]; exact .const h1 h2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 819,
+      "text": "    rw [hA1.mkS.instL.lift'_eq .zero, hA2.mkS.instL.lift'_eq .zero, hA3.mkS.instL.lift'_eq .zero]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1084,
+      "text": "    \u0393 \u22a2 .const c ls \u25b7 (SExpr.mk ci.type).instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1108,
+      "text": "  | .const h1 h2 => by rw [(henv.closedC h1).mkS.instL.lift'_eq .zero]; exact .const h1 h2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1121,
+      "text": "    exact \u27e8_, ((henv.closedC h1).mkS.instL.lift'_eq .zero).symm, .const h1 h2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/SExpr.lean",
+      "line": 1153,
+      "text": "    rw [(henv.closedC h1).mkS.instL.subst_eq .zero]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 23,
+      "text": "    \u0393 \u22a2 .const c ls : ci.type.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 50,
+      "text": "    \u0393 \u22a2 df.lhs.instL ls \u2261 df.rhs.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 225,
+      "text": "  --   refine .bvar h.instL"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 227,
+      "text": "  --   simp [instL, instL_instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 231,
+      "text": "  -- | app _ _ ih1 ih2 => exact instL_instN \u25b8 .appDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 236,
+      "text": "  -- | eta _ ih => simpa [instL] using .eta ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 239,
+      "text": "  --   simp [instL, instL_instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 252,
+      "text": "    refine .bvar h.instL"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 254,
+      "text": "    simp [instL, instL_instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 260,
+      "text": "  | appDF _ _ ih1 ih2 => exact instL_instN \u25b8 .appDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 265,
+      "text": "  | eta _ ih => simpa [instL] using .eta ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 268,
+      "text": "    simp [instL, instL_instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 285,
+      "text": "    rw [ClosedN.liftN_eq_rev (eqA \u25b8 (henv.closedC h1).instL) (Nat.zero_le _)] at eqA"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 303,
+      "text": "  --     hA1.instL.liftN_eq (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 304,
+      "text": "  --     hA2.instL.liftN_eq (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 305,
+      "text": "  --     hA3.instL.liftN_eq (Nat.zero_le _)]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 36,
+      "text": "    \u0393 \u22a2 .const c ls : ci.type.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 56,
+      "text": "    \u0393 \u22a2 .const c ls \u2261 .const c ls' : ci.type.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 70,
+      "text": "    \u0393 \u22a2 df.lhs.instL ls \u2261 df.rhs.instL ls : df.type.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 240,
+      "text": "  --   refine .bvar h.instL"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 242,
+      "text": "  --   simp [instL, instL_instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 246,
+      "text": "  -- | app _ _ ih1 ih2 => exact instL_instN \u25b8 .appDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 251,
+      "text": "  -- | eta _ ih => simpa [instL] using .eta ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 254,
+      "text": "  --   simp [instL, instL_instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 267,
+      "text": "    refine .bvar h.instL"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 269,
+      "text": "    simp [instL, instL_instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 275,
+      "text": "  | appDF _ _ ih1 ih2 => exact instL_instN \u25b8 .appDF ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 280,
+      "text": "  | eta _ ih => simpa [instL] using .eta ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 283,
+      "text": "    simp [instL, instL_instL]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 300,
+      "text": "    rw [ClosedN.liftN_eq_rev (eqA \u25b8 (henv.closedC h1).instL) (Nat.zero_le _)] at eqA"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 318,
+      "text": "  --     hA1.instL.liftN_eq (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 319,
+      "text": "  --     hA2.instL.liftN_eq (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 320,
+      "text": "  --     hA3.instL.liftN_eq (Nat.zero_le _)]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 71,
+      "text": "    [] \u22a2 ci.type.instL ls : .sort u : .succ u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 72,
+      "text": "    [] \u22a2 ci.type.instL ls' : .sort u : .succ u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 73,
+      "text": "    \u0393 \u22a2 ci.type.instL ls : .sort u : .succ u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 74,
+      "text": "    \u0393 \u22a2 ci.type.instL ls' : .sort u : .succ u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 75,
+      "text": "    \u0393 \u22a2 .const c ls \u2261 .const c ls' : ci.type.instL ls : u"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 122,
+      "text": "    [] \u22a2 df.type.instL ls : .sort u : .succ u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 123,
+      "text": "    [] \u22a2 df.lhs.instL ls : df.type.instL ls : u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 124,
+      "text": "    [] \u22a2 df.rhs.instL ls : df.type.instL ls : u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 125,
+      "text": "    \u0393 \u22a2 df.lhs.instL ls : df.type.instL ls : u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 126,
+      "text": "    \u0393 \u22a2 df.rhs.instL ls : df.type.instL ls : u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 127,
+      "text": "    \u0393 \u22a2 df.lhs.instL ls \u2261 df.rhs.instL ls : df.type.instL ls : u"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 249,
+      "text": "    simp [(henv.out.closedC (constants_out h1)).instL.liftN_eq (Nat.zero_le _)] at ih3 ih4 \u22a2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 276,
+      "text": "      hA1.instL.liftN_eq (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 277,
+      "text": "      hA2.instL.liftN_eq (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 278,
+      "text": "      hA3.instL.liftN_eq (Nat.zero_le _)] at ih4 ih5 \u22a2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 309,
+      "text": "def VCtx.instL (ls : List VLevel) : VCtx \u2192 VCtx := List.map fun (A, u) => (A.instL ls, u.inst ls)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 311,
+      "text": "theorem Lookup.instL : Lookup \u0393 i A u \u2192 Lookup (\u0393.instL ls) i (A.instL ls) (u.inst ls)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 312,
+      "text": "  | .zero => instL_liftN \u25b8 .zero"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 313,
+      "text": "  | .succ h => instL_liftN \u25b8 .succ h.instL"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 316,
+      "text": "theorem IsDefEqStrong.instL (H : env.IsDefEqStrong U \u0393 e1 e2 A u) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 317,
+      "text": "    env.IsDefEqStrong U' (\u0393.instL ls) (e1.instL ls) (e2.instL ls) (A.instL ls) (u.inst ls) := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 320,
+      "text": "    exact .bvar h.instL (.inst hls) ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 322,
+      "text": "    simp [VExpr.instL, VExpr.instL_instL] at ih1 ih2 ih3 ih4 \u22a2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 332,
+      "text": "    exact instL_instN \u25b8 .appDF (.inst hls) (.inst hls)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 333,
+      "text": "      ih1 ih2 ih3 ih4 (instL_instN \u25b8 instL_instN \u25b8 ih5)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 344,
+      "text": "    simpa [VExpr.instL] using .eta (.inst hls) (.inst hls) ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 345,
+      "text": "      (by simpa [VCtx.instL] using ih3) ih4 (by simpa [VExpr.instL] using ih5)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 349,
+      "text": "    simp [VExpr.instL, VExpr.instL_instL] at ih1 ih2 ih3 ih4 ih5 \u22a2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 410,
+      "text": "    simp [(henv.out.closedC (constants_out h1)).instL.instN_eq (Nat.zero_le _)] at ih3 ih4 \u22a2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 451,
+      "text": "      hA1.instL.instN_eq (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 452,
+      "text": "      hA2.instL.instN_eq (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 453,
+      "text": "      hA3.instL.instN_eq (Nat.zero_le _)] at ih4 ih5 \u22a2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 507,
+      "text": "    suffices \u2200 e, VExpr.instL ls e = VExpr.forallE A B \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 516,
+      "text": "    refine \u27e8_, (A1.instL h2).weak0 henv, v.inst ls, ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 517,
+      "text": "    have := (A2.instL h2).weakN henv (.succ (.zero \u0393))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 518,
+      "text": "    have C1 := (A1.instL h2).out.closedN henv.out \u27e8\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 519,
+      "text": "    have C2 := (A2.instL h2).out.closedN henv.out \u27e8\u27e8\u27e9, C1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 151,
+      "text": "    suffices \u2200 {\u03c3}, (LR \u0393\u2080).DefEq (const c ls) (const c ls) (((mk ci.type).instL ls).subst \u03c3) m a"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 153,
+      "text": "    intro \u03c3; rw [(Params.henv.closedC h1).mkS.instL.subst_eq .zero]; clear \u03c3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+      "line": 430,
+      "text": "      rw [hA1.mkS.instL.subst_eq .zero, hA2.mkS.instL.subst_eq .zero, hA3.mkS.instL.subst_eq .zero]"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 34,
+      "text": "    \u0393 \u22a8 (mk ci.type).instL ls : .sort u \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 35,
+      "text": "    \u0393 \u22a8 .const c ls :! (mk ci.type).instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 201,
+      "text": "    \u0393 \u22a2' .const c ls : (SExpr.mk ci.type).instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/UniqueTyping.lean",
+      "line": 215,
+      "text": "    \u0393 \u22a2' .instL ls (.mk df.lhs) \u2261 .instL ls (.mk df.rhs) : .instL ls (.mk df.type)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 48,
+      "text": "    \u0393 \u22a2 .const c ls : ci.type.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 56,
+      "text": "    \u0393 \u22a2 df.lhs.instL ls \u2261 df.rhs.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 58,
+      "text": "    \u0393 \u22a2 df.lhs.instL ls : df.type.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 67,
+      "text": "  isDefEq_instL (hls : \u2200 l \u2208 ls, l.WF U')"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 68,
+      "text": "    (H : \u0393 \u22a2 e1 \u2261 e2) : \u0393.map (VExpr.instL ls) \u22a2 e1.instL ls \u2261 e2.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 69,
+      "text": "  hasType_instL (hls : \u2200 l \u2208 ls, l.WF U')"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 70,
+      "text": "    (H : \u0393 \u22a2 e : A) : \u0393.map (VExpr.instL ls) \u22a2 e.instL ls : A.instL ls"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 71,
+      "text": "  instL_congr : (\u2200 l \u2208 ls, l.WF univs) \u2192 (\u2200 l \u2208 ls', l.WF univs) \u2192 List.Forall\u2082 (\u00b7 \u2248 \u00b7) ls ls' \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 72,
+      "text": "    \u0393 \u22a2 e : A \u2192 \u0393.map (VExpr.instL ls) \u22a2 e.instL ls \u2261 e.instL ls'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 95,
+      "text": "    \u2203 p r m1 m2, Pat p r \u2227 p.Matches (df.lhs.instL ls) m1 m2 \u2227 r.2.OK (IsDefEqU \u0393) m1 m2 \u2227"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 96,
+      "text": "    df.rhs.instL ls = r.1.apply m1 m2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 156,
+      "text": "  | fixed _ h => exact instL_liftN.symm.trans ((h.liftN_eq (Nat.zero_le _)).symm \u25b8 rfl)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 165,
+      "text": "--     exact TY.hasType_instL _ _"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3309,
+      "text": "  | const : R m ((SExpr.mk e).instL ls) \u2192 RHS m (.fixed e cl)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3339,
+      "text": "    LE_Interp \u03c1 a ((SExpr.mk ci.type).instL ls) \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3664,
+      "text": "  | @const _ _ cl h1 => exact .const \u27e8cl.mkS.instL, h1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3693,
+      "text": "    \u00b7 exact (Params.henv.closedC h1).mkS.instL.mono (Nat.zero_le _)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3718,
+      "text": "      \u00b7 exact ih1 _ h <| (Params.henv.closedC h1).mkS.instL.lift'_eq .zero"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3733,
+      "text": "      \u00b7 exact (Params.henv.closedC h1).mkS.instL.lift'_eq .zero \u25b8 ih1 _ h"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 4205,
+      "text": "      \u00b7 exact (closed_iff (Params.henv.closedC h1).mkS.instL).1 h5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 4221,
+      "text": "      \u00b7 exact (Params.henv.closedC h1).mkS.instL.subst_eq .zero \u25b8 ih1 h"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 4615,
+      "text": "    (\u2200 cl, SoundEq \u0393 ((SExpr.mk ci.type).instL ls) ((F cl).rhs ls)) \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 4617,
+      "text": "    StrongSoundCore \u0393 (.const c ls) ((SExpr.mk ci.type).instL ls)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 4756,
+      "text": "    (h_intr_defeq : SoundEq \u0393 ((SExpr.mk ci.type).instL ls) (List.foldr .forallE body Ts))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 5003,
+      "text": "          SoundEq \u0393 ((SExpr.mk ci.type).instL f2) e \u2227 StrongSound \u0393 e (.sort u) := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/VLCtx.lean",
+      "line": 40,
+      "text": "def VLocalDecl.instL : VLocalDecl \u2192 List VLevel \u2192 VLocalDecl"
+    },
+    {
+      "file": "Lean4Lean/Verify/VLCtx.lean",
+      "line": 41,
+      "text": "  | .vlam A, ls => .vlam (A.instL ls)"
+    },
+    {
+      "file": "Lean4Lean/Verify/VLCtx.lean",
+      "line": 42,
+      "text": "  | .vlet A e, ls => .vlet (A.instL ls) (e.instL ls)"
+    },
+    {
+      "file": "Lean4Lean/Verify/VLCtx.lean",
+      "line": 95,
+      "text": "def instL (\u0394 : VLCtx) (ls : List VLevel) : VLCtx :="
+    },
+    {
+      "file": "Lean4Lean/Verify/VLCtx.lean",
+      "line": 98,
+      "text": "  | (ofv, d) :: \u0394 => (ofv, d.instL ls) :: instL \u0394 ls"
+    },
+    {
+      "file": "Lean4Lean/Verify/Axioms.lean",
+      "line": 153,
+      "text": "@[instance] axiom instLawfulBEqLevel : LawfulBEq Level"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 164,
+      "text": "nonrec theorem VLocalDecl.WF.instL {env : VEnv} (hls : \u2200 l \u2208 ls, l.WF U') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 165,
+      "text": "    \u2200 {d}, WF env ls.length \u0393 d \u2192 WF env U' (\u0393.map (\u00b7.instL ls)) (d.instL ls)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 166,
+      "text": "  | .vlam _,  H | .vlet .., H => H.instL hls"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 524,
+      "text": "theorem instL_eq_map (\u0394 : VLCtx) : \u0394.instL ls = \u0394.map (fun (ofv, d) => (ofv, d.instL ls)) := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 525,
+      "text": "  induction \u0394 <;> simp [instL, *]"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 527,
+      "text": "@[simp] theorem instL_toCtx (\u0394 : VLCtx) : (\u0394.instL ls).toCtx = \u0394.toCtx.map (\u00b7.instL ls) := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 530,
+      "text": "  | cons head => obtain \u27e8_, _|_\u27e9 := head <;> rw [instL, VLocalDecl.instL] <;> simp [toCtx, *]"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 533,
+      "text": "protected theorem WF.instL : \u2200 {\u0394}, VLCtx.WF env ls.length \u0394 \u2192"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 534,
+      "text": "    VLCtx.WF env U (\u0394.instL ls)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 537,
+      "text": "    \u27e8h1.instL, by simpa [instL_eq_map, fvars] using h2, by simpa using h3.instL hls\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 539,
+      "text": "theorem find?_instL : find? \u0394 v = some (e, A) \u2192"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 540,
+      "text": "    find? (\u0394.instL ls) v = some (e.instL ls, A.instL ls) := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 544,
+      "text": "    simp [find?, instL]; split <;> simp"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 545,
+      "text": "    \u00b7 rintro rfl rfl; cases d.2 <;> exact \u27e8rfl, by simp [VLocalDecl.instL, VLocalDecl.type]\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 547,
+      "text": "      exact \u27e8_, _, ih h, by cases d.2 <;> simp [VLocalDecl.instL, VLocalDecl.depth]\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1411,
+      "text": "theorem TrProj.instL (H : TrProj \u0393 s i e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1412,
+      "text": "    TrProj (\u0393.map (VExpr.instL ls)) s i (e.instL ls) (e'.instL ls) := sorry"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1482,
+      "text": "theorem TrExprS.instL (H : TrExprS env ps \u0394 e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1483,
+      "text": "    TrExpr env Us (\u0394.instL ls') (e.instantiateLevelParams ps ls) (e'.instL ls') := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1489,
+      "text": "  | bvar h1 => exact (bvar (VLCtx.find?_instL h1)).trExpr henv (h\u0394.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1490,
+      "text": "  | fvar h1 => exact (fvar (VLCtx.find?_instL h1)).trExpr henv (h\u0394.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1501,
+      "text": "    exact .app henv (h\u0394.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1502,
+      "text": "      (VLCtx.instL_toCtx _ \u25b8 h1.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1503,
+      "text": "      (VLCtx.instL_toCtx _ \u25b8 h2.instL Hls') (ih1 h\u0394) (ih2 h\u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1505,
+      "text": "    exact .lam henv (h\u0394.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1506,
+      "text": "      (VLCtx.instL_toCtx _ \u25b8 h1.instL Hls') (ih1 h\u0394) (ih2 \u27e8h\u0394, nofun, eq' \u25b8 h1\u27e9)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1508,
+      "text": "    exact .forallE henv (h\u0394.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1509,
+      "text": "      (VLCtx.instL_toCtx _ \u25b8 h1.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1510,
+      "text": "      (VLCtx.instL_toCtx _ \u25b8 h2.instL Hls') (ih1 h\u0394) (ih2 \u27e8h\u0394, nofun, eq' \u25b8 h1\u27e9)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1512,
+      "text": "    exact .letE henv (h\u0394.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1513,
+      "text": "      (VLCtx.instL_toCtx _ \u25b8 h1.instL Hls') (ih1 h\u0394) (ih2 h\u0394) (ih3 \u27e8h\u0394, nofun, eq' \u25b8 h1\u27e9)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1519,
+      "text": "    exact .proj henv (h\u0394.instL Hls') (ih h\u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1520,
+      "text": "      (VLCtx.instL_toCtx _ \u25b8 h2.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1522,
+      "text": "theorem TrExpr.instL (H : TrExpr env ps \u0394 e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1523,
+      "text": "    TrExpr env Us (\u0394.instL ls') (e.instantiateLevelParams ps ls) (e'.instL ls') :="
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1526,
+      "text": "  (s1.instL henv h\u0394 Hls eq).defeq henv (h\u0394.instL Hls') (VLCtx.instL_toCtx _ \u25b8 h1.instL Hls')"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1637,
+      "text": "@[simp] theorem VExpr.instL_boolFalse : VExpr.boolFalse.instL ls = VExpr.boolFalse := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1638,
+      "text": "  simp [boolFalse, instL]"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1647,
+      "text": "@[simp] theorem VExpr.instL_boolTrue : VExpr.boolTrue.instL ls = VExpr.boolTrue := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1648,
+      "text": "  simp [boolTrue, instL]"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1657,
+      "text": "@[simp] theorem VExpr.instL_boolLit : (VExpr.boolLit b).instL ls = VExpr.boolLit b := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1688,
+      "text": "@[simp] theorem VExpr.instL_natZero : VExpr.natZero.instL ls = .natZero := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1689,
+      "text": "  simp [natZero, instL]"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1698,
+      "text": "@[simp] theorem VExpr.instL_natSucc : VExpr.natSucc.instL ls = .natSucc := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1699,
+      "text": "  simp [natSucc, instL]"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1708,
+      "text": "@[simp] theorem VExpr.instL_natLit : (VExpr.natLit n).instL ls = VExpr.natLit n := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1709,
+      "text": "  induction n <;> simp [*, natLit, instL]"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1740,
+      "text": "  refine \u27e8?_, _, (H.instL (ls := []) nofun).weak0 wf\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1744,
+      "text": "  exact .app ((A.instL (ls := []) nofun).weak0 wf) ((B.instL (ls := []) nofun).weak0 wf)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1753,
+      "text": "  refine \u27e8?_, (H.instL (ls := []) nofun).weak0 wf\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1757,
+      "text": "  exact .app ((A.instL (ls := []) nofun).weak0 wf) ((B.instL (ls := []) nofun).weak0 wf)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1767,
+      "text": "  refine \u27e8?_, (H.instL (ls := []) nofun).weak0 wf\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1771,
+      "text": "  exact .app ((A.instL (ls := []) nofun).weak0 wf) ((B.instL (ls := []) nofun).weak0 wf)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 913,
+      "text": "    have c1 := c.trenv.of_value h3 b1 h4 |>.instL c.Ewf (by trivial) a2 (b2.trans a3.symm)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 916,
+      "text": "    simp [VExpr.instL] at this; rw [VLevel.inst_map_id] at this"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/InferType.lean",
+      "line": 77,
+      "text": "    have s0 := h6.instL c.Ewf (\u0394 := []) trivial H' (h5.trans eq.symm)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/InferType.lean",
+      "line": 79,
+      "text": "    rw [(c.Ewf.ordered.closedC h4).instL.liftN_eq (Nat.le_refl _)] at s1"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Reduce.lean",
+      "line": 51,
+      "text": "  have := heval \u27e8_, h1\u27e9 v1 v2 |>.instL (U' := c.lparams.length) (ls := []) nofun"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Reduce.lean",
+      "line": 52,
+      "text": "  simp [VExpr.instL] at this"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Reduce.lean",
+      "line": 78,
+      "text": "  have := heval \u27e8_, h1\u27e9 v1 v2 |>.instL (U' := c.lparams.length) (ls := []) nofun"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Reduce.lean",
+      "line": 79,
+      "text": "  simp [VExpr.instL] at this"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 144,
+      "text": "def instL : VExpr \u2192 VExpr"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 148,
+      "text": "  | .app fn arg => .app fn.instL arg.instL"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 149,
+      "text": "  | .lam ty body => .lam ty.instL body.instL"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 150,
+      "text": "  | .forallE ty body => .forallE ty.instL body.instL"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 152,
+      "text": "theorem ClosedN.instL : \u2200 {e}, ClosedN e k \u2192 ClosedN (e.instL ls) k"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 154,
+      "text": "  | .app .., h | .lam .., h | .forallE .., h => \u27e8h.1.instL, h.2.instL\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 156,
+      "text": "theorem ClosedN.instL_rev : \u2200 {e}, ClosedN (e.instL ls) k \u2192 ClosedN e k"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 158,
+      "text": "  | .app .., h | .lam .., h | .forallE .., h => \u27e8h.1.instL_rev, h.2.instL_rev\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 160,
+      "text": "@[simp] theorem instL_default : instL ls default = default := rfl"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 162,
+      "text": "@[simp] theorem instL_liftN : (liftN n e k).instL ls = liftN n (e.instL ls) k := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 163,
+      "text": "  cases e <;> simp [liftN, instL, instL_liftN]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 165,
+      "text": "theorem instL_instL {e : VExpr} : (e.instL ls).instL ls' = e.instL (ls.map (VLevel.inst ls')) := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 166,
+      "text": "  cases e <;> simp [instL, instL_instL, Function.comp_def, VLevel.inst_inst]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 174,
+      "text": "theorem LevelWF.instL_id {e : VExpr} (h : e.LevelWF U) : e.instL (VLevel.params U) = e := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 175,
+      "text": "  induction e <;> simp_all [instL, LevelWF, VLevel.inst_id]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 181,
+      "text": "theorem LevelWF.instL (h : \u2200 l \u2208 ls, l.WF U) : (instL ls e).LevelWF U := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 182,
+      "text": "  induction e <;> simp [VExpr.instL, VLevel.WF.inst h, LevelWF, *]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 236,
+      "text": "@[simp] theorem instL_instVar : (instVar i e k).instL ls = instVar i (e.instL ls) k := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 237,
+      "text": "  simp [instVar]; split <;> [skip; split] <;> simp [instL, instL_liftN]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 391,
+      "text": "@[simp] theorem instL_instN {e1 e2 : VExpr} :"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 392,
+      "text": "    (e1.inst e2 k).instL ls = (e1.instL ls).inst (e2.instL ls) k := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 393,
+      "text": "  induction e1 generalizing k <;> simp [instL, inst, *]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 395,
+      "text": "theorem instL_unliftN : instL ls (unliftN e n k) = unliftN (instL ls e) n k := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 397,
+      "text": "  | succ _ ih => rw [ih, instL_instN]; rfl"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 399,
+      "text": "theorem Skips.of_instL (self : (instL ls e).Skips n k) : e.Skips n k := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 401,
+      "text": "  induction e generalizing k <;> simp_all [Skips', instL]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 403,
+      "text": "theorem of_liftN_eq_instL (h : liftN n e1 k = instL ls e2) :"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 404,
+      "text": "    \u2203 e', e1 = instL ls e' \u2227 e2 = liftN n e' k := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 405,
+      "text": "  have : (instL ls e2).Skips n k := h \u25b8 .liftN"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 406,
+      "text": "  obtain \u27e8e', rfl\u27e9 := skips_iff_exists.1 this.of_instL"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 408,
+      "text": "  rw [\u2190 liftN_inj, h, instL_liftN]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 691,
+      "text": "@[simp] theorem instL_lift' : (lift' e \u03c1).instL ls = lift' (e.instL ls) \u03c1 := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 692,
+      "text": "  cases e <;> simp [lift', instL, instL_lift']"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 148,
+      "text": "theorem Lookup.instL : Lookup \u0393 i A \u2192 Lookup (\u0393.map (VExpr.instL ls)) i (A.instL ls)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 149,
+      "text": "  | .zero => instL_liftN \u25b8 .zero"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 150,
+      "text": "  | .succ h => instL_liftN \u25b8 .succ h.instL"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 226,
+      "text": "    HasType env U \u0393 (.const c ls) (ci.type.instL ls) :="
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 327,
+      "text": "    exact \u27e8trivial, trivial, h.instL.mono (Nat.zero_le _)\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 358,
+      "text": "      hl.instL.mono (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 359,
+      "text": "      hr.instL.mono (Nat.zero_le _),"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 360,
+      "text": "      hA.instL.mono (Nat.zero_le _)\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 468,
+      "text": "  | constDF _ h2 h3 => exact \u27e8h2, h3, .instL h2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 486,
+      "text": "  | extra _ h2 => exact \u27e8.instL h2, .instL h2, .instL h2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 492,
+      "text": "  rwa [(IsDefEq.levelWF h trivial).1.instL_id] at this"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 498,
+      "text": "  rwa [(IsDefEq.levelWF wf.1 trivial).1.instL_id, h2.instL_id, h3.instL_id] at this"
+    }
+  ],
+  "VLevel\\.inst": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 230,
+      "text": "  --   exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 259,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 245,
+      "text": "  --   exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 274,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 325,
+      "text": "      (by simpa using h5.imp fun _ _ => VLevel.inst_congr_l)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 326,
+      "text": "      (VLevel.inst_inst \u25b8 VLevel.inst_congr_l h6) (.inst hls) ih1 ih2 ih3 ih4"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 330,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 339,
+      "text": "  | defeqL _ _ h3 _ ih => exact .defeqL (.inst hls) (.inst hls) (VLevel.inst_congr_l h3) ih"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 351,
+      "text": "      (VLevel.inst_inst \u25b8 VLevel.inst_congr_l h4) (.inst hls) ih1 ih2 ih3 ih4 ih5"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 603,
+      "text": "      have eq := VLevel.inst_congr (l := ci.level) rfl h2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 604,
+      "text": "      have eq' := VLevel.inst_congr (l := ci.level) rfl h2'"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1458,
+      "text": "    split <;> simp [*, Nat.ne_of_lt, VLevel.inst]; rintro rfl; clear \u2039_\u203a eq"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 916,
+      "text": "    simp [VExpr.instL] at this; rw [VLevel.inst_map_id] at this"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 147,
+      "text": "  | .const c us => .const c (us.map (VLevel.inst ls))"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 165,
+      "text": "theorem instL_instL {e : VExpr} : (e.instL ls).instL ls' = e.instL (ls.map (VLevel.inst ls')) := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 166,
+      "text": "  cases e <;> simp [instL, instL_instL, Function.comp_def, VLevel.inst_inst]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 175,
+      "text": "  induction e <;> simp_all [instL, LevelWF, VLevel.inst_id]"
+    },
+    {
+      "file": "Lean4Lean/Theory/VExpr.lean",
+      "line": 176,
+      "text": "  case const => exact List.map_id''' _ fun _ h1 => VLevel.inst_id (h _ h1)"
+    },
+    {
+      "file": "Lean4Lean/Theory/VLevel.lean",
+      "line": 148,
+      "text": "    simp [VLevel.inst, List.getD_eq_getElem?_getD]"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 602,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 606,
+      "text": "      (by simp [h4]) (by simpa using h5.imp fun _ _ => VLevel.inst_congr_l)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 245,
+      "text": "    constructor <;> exact .sort (.inst hls) (.inst hls') (VLevel.inst_congr rfl heq)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 251,
+      "text": "        .rfl fun _ _ => VLevel.inst_congr rfl heq)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 307,
+      "text": "      (by simpa using h5.imp fun _ _ => VLevel.inst_congr_l) (.inst hls) ih1 ih2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 311,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    }
+  ],
+  "sort \\(VLevel\\.inst": [],
+  "sortDF": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 38,
+      "text": "  | sortDF : l \u2248 l' \u2192 \u0393 \u22a2 .sort l \u2261 .sort l'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 73,
+      "text": "  | @sortDF l l' _ h1 h2 h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 74,
+      "text": "    refine \u27e8.sort h1, ?_, .sortDF h3\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 76,
+      "text": "      (.sortDF <| VLevel.succ_congr h3.symm)) (.sort h2)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 127,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 156,
+      "text": "  | sortDF h1 h2 h3 => exact \u27e8sort h1 h1 rfl, sort h1 h2 h3\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 185,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 230,
+      "text": "  --   exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 258,
+      "text": "  | sortDF _ _ h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 259,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 289,
+      "text": "  -- | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 57,
+      "text": "  | sortDF : l.WF uvars \u2192 l'.WF uvars \u2192 l \u2248 l' \u2192 \u0393 \u22a2 .sort l \u2261 .sort l' : .sort l.succ"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 93,
+      "text": "  | @sortDF l l' _ h1 h2 h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 94,
+      "text": "    refine \u27e8.sort h1, ?_, .sortDF h1 h2 h3\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 95,
+      "text": "    exact .defeq (hdf <| .symm <| .sortDF (l' := l'.succ) h1 h2 (VLevel.succ_congr h3)) (.sort h2)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 142,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 171,
+      "text": "  | sortDF h1 h2 h3 => exact \u27e8sort h1 h1 rfl, sort h1 h2 h3\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 200,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 245,
+      "text": "  --   exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 273,
+      "text": "  | sortDF _ _ h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 274,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 304,
+      "text": "  -- | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 61,
+      "text": "  | sortDF :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 199,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 247,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 288,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 329,
+      "text": "  | sortDF _ _ h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 330,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 408,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 531,
+      "text": "  | sortDF h1 => exact .sortDF h1 h1 rfl"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 535,
+      "text": "  | forallEDF h1 h2 => exact .sortDF \u27e8h1, h2\u27e9 \u27e8h1, h2\u27e9 rfl"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 538,
+      "text": "    exact (defeqDF (by exact h1) (sortDF h1 h2 h3) (ih h\u0393))"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 557,
+      "text": "  | sortDF _ _ h =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 33,
+      "text": "  sortDF : u.WF univs \u2192 v.WF univs \u2192 u \u2248 v \u2192 \u0393 \u22a2 .sort u \u2261 .sort v"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 166,
+      "text": "  | sortDF : l\u2081.WF TY.univs \u2192 l\u2082.WF TY.univs \u2192 l\u2081 \u2248 l\u2082 \u2192 \u0393 \u22a2 .sort l\u2081 \u2261\u209a .sort l\u2082"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 204,
+      "text": "  | sortDF h1 h2 h3 => exact TY.sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 227,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h2 h1 h3.symm"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 242,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 265,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 319,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 352,
+      "text": "  | sortDF h1 h2 h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 355,
+      "text": "    exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 451,
+      "text": "  | .sortDF l1 _ l3, .sortDF r1 r2 r3 => .sortDF l1 r2 (l3.trans r3)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 483,
+      "text": "      exact TY.sortDF \u27e8hw, \u27e8\u27e9\u27e9 \u27e8\u27e9 rfl"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 594,
+      "text": "      have b2 := TY.defeq_r (TY.sortDF b3 (by trivial) (VLevel.imax_eq_zero.1 this)) b2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 680,
+      "text": "      have := TY.defeq_r (TY.sortDF (by exact \u27e8wf, \u27e8\u27e9\u27e9) (by trivial) VLevel.imax_zero) this"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 691,
+      "text": "  | sortDF l1 l2 l3 =>"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 693,
+      "text": "    | sort => exact \u27e8_, .tail .rfl .sort, .sortDF l1 l2 l3\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 845,
+      "text": "  | sortDF h1 h2 h3 => exact \u27e8TY.sortDF h1 h2 h3, TY.sort h1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 868,
+      "text": "  | sortDF h1 h2 h3 => exact .normalEq (.sortDF h1 h2 h3)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1494,
+      "text": "    exact \u27e8_, .sort a1, _, .sortDF (.of_ofLevel a1) (.inst Hls') a2\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 172,
+      "text": "    refine .pure fun h => \u27e8_, .sortDF (.of_ofLevel hu) (.of_ofLevel hv) ?_\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 632,
+      "text": "      refine .defeq (.sortDF ?_ (.of_ofLevel h5) h6.symm) (hu\u2081.forallE H2)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 223,
+      "text": "  .sortDF h h rfl"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 328,
+      "text": "  | sortDF => exact \u27e8trivial, trivial, trivial\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 390,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 467,
+      "text": "  | sortDF h1 h2 => exact \u27e8h1, h2, h1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 507,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 601,
+      "text": "  | sortDF _ _ h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 602,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 650,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 805,
+      "text": "  | sortDF => obtain \u27e8\u27e8\u27e9\u27e9 | \u27e8\u27e8\u27e9\u27e9 := eq <;> assumption"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 848,
+      "text": "  | sortDF h1 => exact \u27e8_, .sort h1\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 20,
+      "text": "  | sortDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 148,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 188,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 206,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 244,
+      "text": "  | sortDF h1 h2 h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 310,
+      "text": "  | sortDF _ _ h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 311,
+      "text": "    exact .sortDF (VLevel.WF.inst hls) (VLevel.WF.inst hls) (VLevel.inst_congr_l h3)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 371,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 485,
+      "text": "  | sortDF h1 => exact \u27e8_, .sortDF h1 h1 rfl\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 494,
+      "text": "  | forallEDF h1 h2 => exact \u27e8_, .sortDF \u27e8h1, h2\u27e9 \u27e8h1, h2\u27e9 rfl\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 526,
+      "text": "  H2 hv hB hf <| H2 (v := v.succ) hv (.sortDF hv hv rfl) hB (.sortDF hv hv rfl)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 547,
+      "text": "  | sortDF h1 h2 h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 551,
+      "text": "      (.symm <| .sortDF (by exact a1) (by exact a2) (VLevel.succ_congr a3))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 552,
+      "text": "      (.sortDF a2 b2 (a3.symm.trans <| h3.trans b3))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 557,
+      "text": "    exact .defeqDF h2 (.instDF henv W h1 (by exact h2) h3 (.sortDF h2 h2 rfl) h4 this) <|"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 559,
+      "text": "      .instDF henv W h1 (by exact h2) h3 (.sortDF h2 h2 rfl) h4 (ih4 W a2 b2)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 587,
+      "text": "    refine .defeqDF h2 (.instDF henv W h1 (by exact h2) h3 (.sortDF h2 h2 rfl) h4 c2) ?_"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 619,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 631,
+      "text": "      .instDF (v := v.succ) henv h\u0393 hu hv hA (.sortDF hv hv rfl) hB (ih2 h\u0393)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 713,
+      "text": "  | sortDF h1 h2 h3 => exact \u27e8.base <| .sort' h1 h1 rfl, .base <| .sort' h2 h1 h3.symm\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 750,
+      "text": "    refine .defeqDF ?_ (.sortDF ?_ ?_ (VLevel.succ_congr h3)) (.sortDF h1 h1 rfl) <;> assumption"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 861,
+      "text": "    exact IsDefEq.defeq (.sortDF (by exact h1) h2 (VLevel.succ_congr h3)) (.sort h1)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Basic.lean",
+      "line": 21,
+      "text": "  | sortDF :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 476,
+      "text": "    | sortDF _ _ h => exact \u27e8_, rfl, h\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 34,
+      "text": "    exact \u27e8_, .symm <| .sortDF b2 a2 this, _, VLevel.succ_congr this,"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 55,
+      "text": "    exact \u27e8_, .defeqDF (.sortDF e4 a2 e3.symm) (d3.instN henv a6.hasType .zero), _,"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 72,
+      "text": "    exact \u27e8_, .forallEDF a1.hasType (.defeqDF (.symm <| .sortDF f1 f2 e2) c1),"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 85,
+      "text": "    exact \u27e8_, .sortDF \u27e8a1, a2\u27e9 \u27e8b1, b2\u27e9 this, _, rfl,"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 101,
+      "text": "      exact \u27e8_, c1.trans (.defeqDF (.symm <| .sortDF e2 b1 eq) b2), _, eq, c3, b4.mono le\u2082\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 111,
+      "text": "    exact \u27e8_, a2.symm.trans (.defeqDF (.symm <| .sortDF a1 e2 e1) c1), _, eq, a4.mono le\u2081, c4\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 81,
+      "text": "  | sortDF : l\u2081.WF univs \u2192 l\u2082.WF univs \u2192 l\u2081 \u2248 l\u2082 \u2192 \u0393 \u22a2 .sort l\u2081 \u2261\u209a .sort l\u2082"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 118,
+      "text": "  | sortDF h1 h2 h3 => exact \u27e8_, .sortDF h1 h2 h3\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 145,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h2 h1 h3.symm"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 166,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 191,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 250,
+      "text": "  | sortDF h1 h2 h3 => exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 285,
+      "text": "  | sortDF h1 h2 h3 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 288,
+      "text": "    exact .sortDF h1 h2 h3"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 397,
+      "text": "  | .sortDF l1 _ l3, .sortDF r1 r2 r3 => .sortDF l1 r2 (l3.trans r3)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 430,
+      "text": "      exact \u27e8_, .sortDF \u27e8hw, \u27e8\u27e9\u27e9 \u27e8\u27e9 rfl\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1078,
+      "text": "      have b2 := IsDefEq.defeq (.sortDF b3 (by trivial) (VLevel.imax_eq_zero.1 this)) b2"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1168,
+      "text": "      have := IsDefEq.defeq (.sortDF (by exact \u27e8wf, \u27e8\u27e9\u27e9) (by trivial) VLevel.imax_zero) this"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1180,
+      "text": "  | sortDF l1 l2 l3 =>"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1182,
+      "text": "    | sort => exact \u27e8_, .tail .rfl .sort, .sortDF l1 l2 l3\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1351,
+      "text": "  | sortDF h1 h2 h3 => exact .normalEq h\u0393 (.sortDF h1 h2 h3)"
+    }
+  ],
+  "weakN_inv": [
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 275,
+      "text": "theorem IsDefEq.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 282,
+      "text": "    cases liftVar_inj.1 \u2039_\u203a; exact .bvar (h.weakN_inv W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 310,
+      "text": "theorem HasType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 312,
+      "text": "    env.HasType U \u0393 e A := IsDefEq.weakN_inv henv W H"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 315,
+      "text": "theorem IsType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393') (H : env.IsType U \u0393' (A.liftN n k)) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 316,
+      "text": "    env.IsType U \u0393 A := let \u27e8_, h\u27e9 := H; \u27e8_, h.weakN_inv henv W\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 290,
+      "text": "theorem IsDefEq.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 297,
+      "text": "    cases liftVar_inj.1 \u2039_\u203a; exact .bvar (h.weakN_inv W)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 325,
+      "text": "theorem HasType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 327,
+      "text": "    env.HasType U \u0393 e A := IsDefEq.weakN_inv henv W H"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 330,
+      "text": "theorem IsType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393') (H : env.IsType U \u0393' (A.liftN n k)) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 331,
+      "text": "    env.IsType U \u0393 A := let \u27e8_, h\u27e9 := H; \u27e8_, h.weakN_inv henv W\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 62,
+      "text": "  isDefEq_weakN_inv (W : Ctx.LiftN n k \u0393 \u0393') : \u0393' \u22a2 e1.liftN n k \u2261 e2.liftN n k : A \u2192 \u2203 A', \u0393 \u22a2 e1 \u2261 e2 : A'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 343,
+      "text": "theorem NormalEq.weakN_inv_DFC (W : Ctx.LiftN n k \u0393 \u0393\u2082) (W\u2082 : IsDefEqCtx TY.IsDefEqU \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 350,
+      "text": "    have \u27e8_, h'\u27e9 := TY.isDefEq_weakN_inv W (TY.isDefEq_DFC W\u2082 h)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 368,
+      "text": "      let \u27e8_, h\u27e9 := TY.isDefEq_weakN_inv W (TY.app h1 h3) (e1 := .app ..) (e2 := .app ..)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 371,
+      "text": "      let \u27e8_, h\u27e9 := TY.isDefEq_weakN_inv W (TY.app h2 h4)  (e1 := .app ..) (e2 := .app ..)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 404,
+      "text": "    have \u27e8C, hC\u27e9 := TY.isDefEq_weakN_inv W.succ this"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 419,
+      "text": "    have \u27e8C, hC\u27e9 := TY.isDefEq_weakN_inv W.succ this"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 428,
+      "text": "    have \u27e8_, h\u27e9 := TY.isDefEq_weakN_inv W h2'"
+    },
+    {
+      "file": "Lean4Lean/Experimental/NormalEq.lean",
+      "line": 437,
+      "text": "  \u27e8fun H => H.weakN_inv_DFC W .zero, fun H => H.weakN W\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 169,
+      "text": "theorem ParRed.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 611,
+      "text": "      have \u27e8_, a1\u27e9 := TY.isDefEq_weakN_inv .one H"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 667,
+      "text": "      have \u27e8_, b1\u27e9 := TY.isDefEq_weakN_inv .one a3"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 770,
+      "text": "        cases eq; obtain \u27e8_, b1', rfl\u27e9 := b1.weakN_inv .one"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+      "line": 775,
+      "text": "        obtain \u27e8_, b1', rfl\u27e9 := b1.weakN_inv (.succ .one)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/ConditionallyTyped.lean",
+      "line": 18,
+      "text": "theorem ConditionallyTyped.weakN_inv"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/ConditionallyTyped.lean",
+      "line": 56,
+      "text": "theorem ConditionallyHasType.weakN_inv"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/ConditionallyTyped.lean",
+      "line": 110,
+      "text": "theorem ConditionallyWHNF.weakN_inv"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 462,
+      "text": "      InferCache.WF (c.withMLC m) s' ic := fun _ _ h => (H h).weakN_inv c.Ewf wf'.trctx.wf"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 464,
+      "text": "      WHNFCache.WF (c.withMLC m) s' wc := fun _ _ h => (H h).weakN_inv c.Ewf wf'.trctx.wf"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 513,
+      "text": "      InferCache.WF (c.withMLC m) s' ic := fun _ _ h => (H h).weakN_inv c.Ewf wf'.trctx.wf"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 515,
+      "text": "      WHNFCache.WF (c.withMLC m) s' wc := fun _ _ h => (H h).weakN_inv c.Ewf wf'.trctx.wf"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 198,
+      "text": "theorem _root_.Lean4Lean.OnCtx.weakN_inv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 213,
+      "text": "  IsDefEq.weakN_iff' henv h\u0393' (h\u0393'.weakN_inv henv W) W"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 241,
+      "text": "      weakN_iff henv h\u0393' W2, ih (h\u0393'.weakN_inv henv W2) W1 Lift.depth_consN]"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 254,
+      "text": "      weakN_iff henv h\u0393' W2, ih (h\u0393'.weakN_inv henv W2) W1 Lift.depth_consN]"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 279,
+      "text": "    exact ih W1 (.weakN_inv henv W2 H) (by simp)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 275,
+      "text": "theorem NormalEq.weakN_inv_DFC (W : Ctx.LiftN n k \u0393 \u0393\u2082) (W\u2082 : IsDefEqCtx env univs \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 301,
+      "text": "    have h\u0393 := h\u0393\u2082.weakN_inv henv W"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 317,
+      "text": "    -- have h\u0393 := h\u0393\u2082.weakN_inv henv W"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 382,
+      "text": "  \u27e8fun H => H.weakN_inv_DFC h\u0393' W .zero, fun H => H.weakN W\u27e9"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 639,
+      "text": "theorem ParRed.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1262,
+      "text": "        cases eq; obtain \u27e8_, b1', rfl\u27e9 := b1.weakN_inv h\u0393' .one ((h.hasType h\u0393 l1).weak henv)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 1268,
+      "text": "        obtain \u27e8_, b1', rfl\u27e9 := b1.weakN_inv"
+    }
+  ]
+}
