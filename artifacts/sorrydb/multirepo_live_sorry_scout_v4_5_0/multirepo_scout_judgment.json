@@ -1,0 +1,68 @@
+{
+  "artifact": "multirepo_live_sorry_scout_v4_5_0",
+  "status": "ACTIONABLE_TARGET_FOUND",
+  "repo_count": 13,
+  "candidate_count": 660,
+  "actionable_candidate_count": 658,
+  "comment_only_false_positive_count": 138,
+  "best_candidate": {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/BasicFiles/TacticCommon.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 37,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic.Common"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 14,
+        "text": "theorem test_check_tactic : True := by"
+      },
+      {
+        "line": 24,
+        "text": "theorem test_whatsnew : True := trivial"
+      },
+      {
+        "line": 28,
+        "text": "theorem test_count_heartbeats : True := trivial"
+      },
+      {
+        "line": 32,
+        "text": "theorem test_print_sorries : True := sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 32,
+        "window": "0020: #simp only [] => 0\n0021: \n0022: #guard_msgs (substring := true) in\n0023: whatsnew in\n0024: theorem test_whatsnew : True := trivial\n0025: \n0026: #guard_msgs (substring := true) in\n0027: #count_heartbeats in\n0028: theorem test_count_heartbeats : True := trivial\n0029: \n0030: #guard_msgs (substring := true) in\n0031: #print sorries in\n0032: theorem test_print_sorries : True := sorry\n0033: \n0034: -- Guard against the shake tool modifying our imports\n0035: /-- info: [public import Init, public meta import Init, import Mathlib.Tactic.Common] -/\n0036: #guard_msgs in\n0037: run_elab Lean.logInfo m!\"{(\u2190 Lean.MonadEnv.getEnv).imports}\""
+      }
+    ],
+    "score": -45.15
+  }
+}

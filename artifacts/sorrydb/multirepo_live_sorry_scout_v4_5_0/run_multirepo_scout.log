@@ -1,0 +1,211 @@
+====================================================================================================
+SCOUT REPO 1/13: leanprover-community/mathlib4
+{
+  "repo": "leanprover-community/mathlib4",
+  "clone_ok": true,
+  "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+  "has_lake": true,
+  "lean_file_count": 8773,
+  "active_candidate_count": 35,
+  "comment_only_sorry_count": 45
+}
+====================================================================================================
+SCOUT REPO 2/13: leanprover-community/batteries
+{
+  "repo": "leanprover-community/batteries",
+  "clone_ok": true,
+  "commit": "9c6e03c0a86237b199ebe6b1fbac18078a767ade",
+  "has_lake": true,
+  "lean_file_count": 255,
+  "active_candidate_count": 7,
+  "comment_only_sorry_count": 6
+}
+====================================================================================================
+SCOUT REPO 3/13: leanprover/lean4
+{
+  "repo": "leanprover/lean4",
+  "clone_ok": true,
+  "commit": "0d9dae19efbf6e9be542ef39d96bb86981837e1e",
+  "has_lake": false,
+  "lean_file_count": 6864,
+  "active_candidate_count": 484,
+  "comment_only_sorry_count": 76
+}
+====================================================================================================
+SCOUT REPO 4/13: teorth/equational_theories
+{
+  "repo": "teorth/equational_theories",
+  "clone_ok": true,
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "has_lake": true,
+  "lean_file_count": 1301,
+  "active_candidate_count": 2,
+  "comment_only_sorry_count": 1
+}
+====================================================================================================
+SCOUT REPO 5/13: ImperialCollegeLondon/formalising-mathematics-2024
+{
+  "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+  "clone_ok": true,
+  "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+  "has_lake": true,
+  "lean_file_count": 176,
+  "active_candidate_count": 82,
+  "comment_only_sorry_count": 1
+}
+====================================================================================================
+SCOUT REPO 6/13: ImperialCollegeLondon/formalising-mathematics
+{
+  "repo": "ImperialCollegeLondon/formalising-mathematics",
+  "clone_ok": true,
+  "commit": "d81ad67e36774eb68f242bcc1b88d33dacfd87bf",
+  "has_lake": false,
+  "lean_file_count": 45,
+  "active_candidate_count": 23,
+  "comment_only_sorry_count": 1
+}
+====================================================================================================
+SCOUT REPO 7/13: leanprover-community/flt-regular
+{
+  "repo": "leanprover-community/flt-regular",
+  "clone_ok": true,
+  "commit": "dfb5312b6906bc2611fde0c076504453094bc035",
+  "has_lake": true,
+  "lean_file_count": 32,
+  "active_candidate_count": 0,
+  "comment_only_sorry_count": 0
+}
+====================================================================================================
+SCOUT REPO 8/13: leanprover-community/sphere-eversion
+{
+  "repo": "leanprover-community/sphere-eversion",
+  "clone_ok": true,
+  "commit": "ded8fda5e76bd11cfde49ce5018dee73538dd776",
+  "has_lake": true,
+  "lean_file_count": 65,
+  "active_candidate_count": 1,
+  "comment_only_sorry_count": 2
+}
+====================================================================================================
+SCOUT REPO 9/13: leanprover-community/mathlib4_docs
+{
+  "repo": "leanprover-community/mathlib4_docs",
+  "clone_ok": true,
+  "commit": "99dc6d93216c812400a53adb550dc98167ab81d0",
+  "has_lake": true,
+  "lean_file_count": 0,
+  "active_candidate_count": 0,
+  "comment_only_sorry_count": 0
+}
+====================================================================================================
+SCOUT REPO 10/13: ProofWidgets/ProofWidgets4
+{
+  "repo": "ProofWidgets/ProofWidgets4",
+  "clone_ok": false,
+  "commit": null,
+  "has_lake": false,
+  "lean_file_count": 0,
+  "active_candidate_count": 0,
+  "comment_only_sorry_count": 0
+}
+====================================================================================================
+SCOUT REPO 11/13: leanprover-community/aesop
+{
+  "repo": "leanprover-community/aesop",
+  "clone_ok": true,
+  "commit": "b5b9e2bb45ce91e4bc44eaa738c3a8910404ab82",
+  "has_lake": true,
+  "lean_file_count": 250,
+  "active_candidate_count": 5,
+  "comment_only_sorry_count": 4
+}
+====================================================================================================
+SCOUT REPO 12/13: digama0/lean4lean
+{
+  "repo": "digama0/lean4lean",
+  "clone_ok": true,
+  "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "has_lake": true,
+  "lean_file_count": 82,
+  "active_candidate_count": 21,
+  "comment_only_sorry_count": 2
+}
+====================================================================================================
+SCOUT REPO 13/13: reservoir-data/reservoir
+{
+  "repo": "reservoir-data/reservoir",
+  "clone_ok": false,
+  "commit": null,
+  "has_lake": false,
+  "lean_file_count": 0,
+  "active_candidate_count": 0,
+  "comment_only_sorry_count": 0
+}
+{
+  "artifact": "multirepo_live_sorry_scout_v4_5_0",
+  "status": "ACTIONABLE_TARGET_FOUND",
+  "repo_count": 13,
+  "candidate_count": 660,
+  "actionable_candidate_count": 658,
+  "comment_only_false_positive_count": 138,
+  "best_candidate": {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/BasicFiles/TacticCommon.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 37,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic.Common"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 14,
+        "text": "theorem test_check_tactic : True := by"
+      },
+      {
+        "line": 24,
+        "text": "theorem test_whatsnew : True := trivial"
+      },
+      {
+        "line": 28,
+        "text": "theorem test_count_heartbeats : True := trivial"
+      },
+      {
+        "line": 32,
+        "text": "theorem test_print_sorries : True := sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 32,
+        "window": "0020: #simp only [] => 0\n0021: \n0022: #guard_msgs (substring := true) in\n0023: whatsnew in\n0024: theorem test_whatsnew : True := trivial\n0025: \n0026: #guard_msgs (substring := true) in\n0027: #count_heartbeats in\n0028: theorem test_count_heartbeats : True := trivial\n0029: \n0030: #guard_msgs (substring := true) in\n0031: #print sorries in\n0032: theorem test_print_sorries : True := sorry\n0033: \n0034: -- Guard against the shake tool modifying our imports\n0035: /-- info: [public import Init, public meta import Init, import Mathlib.Tactic.Common] -/\n0036: #guard_msgs in\n0037: run_elab Lean.logInfo m!\"{(\u2190 Lean.MonadEnv.getEnv).imports}\""
+      }
+    ],
+    "score": -45.15
+  }
+}

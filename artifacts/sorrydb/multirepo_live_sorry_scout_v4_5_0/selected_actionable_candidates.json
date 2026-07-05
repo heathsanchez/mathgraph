@@ -1,0 +1,2755 @@
+[
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/BasicFiles/TacticCommon.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 37,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic.Common"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 14,
+        "text": "theorem test_check_tactic : True := by"
+      },
+      {
+        "line": 24,
+        "text": "theorem test_whatsnew : True := trivial"
+      },
+      {
+        "line": 28,
+        "text": "theorem test_count_heartbeats : True := trivial"
+      },
+      {
+        "line": 32,
+        "text": "theorem test_print_sorries : True := sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 32,
+        "window": "0020: #simp only [] => 0\n0021: \n0022: #guard_msgs (substring := true) in\n0023: whatsnew in\n0024: theorem test_whatsnew : True := trivial\n0025: \n0026: #guard_msgs (substring := true) in\n0027: #count_heartbeats in\n0028: theorem test_count_heartbeats : True := trivial\n0029: \n0030: #guard_msgs (substring := true) in\n0031: #print sorries in\n0032: theorem test_print_sorries : True := sorry\n0033: \n0034: -- Guard against the shake tool modifying our imports\n0035: /-- info: [public import Init, public meta import Init, import Mathlib.Tactic.Common] -/\n0036: #guard_msgs in\n0037: run_elab Lean.logInfo m!\"{(\u2190 Lean.MonadEnv.getEnv).imports}\""
+      }
+    ],
+    "score": -45.15
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section15numberTheory/Sheet7.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 25,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 23,
+        "text": "example (n : \u2115) : \u2211 i in range n, i ^ 3 \u2223 3 * \u2211 i in range n, i ^ 5 := sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 23,
+        "window": "0011: \n0012: # Prove that for every positive integer n the number 3 \u00d7 (1\u2075 +2\u2075 +...+n\u2075)\n0013: # is divisible by 1\u00b3+2\u00b3+...+n\u00b3\n0014: \n0015: This is question 9 in Sierpinski's book\n0016: \n0017: -/\n0018: \n0019: open scoped BigOperators\n0020: \n0021: open Finset\n0022: \n0023: example (n : \u2115) : \u2211 i in range n, i ^ 3 \u2223 3 * \u2211 i in range n, i ^ 5 := sorry\n0024: \n0025: end Section15Sheet7"
+      }
+    ],
+    "score": -35.75
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section06orderingsAndLattices/Sheet3.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 28,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 26,
+        "text": "example (L : Type) [Lattice L] :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 28,
+        "window": "0016: of a lattice where neither `A \u2293 (B \u2294 C) = (A \u2294 B) \u2293 (A \u2294 C)` nor `A \u2293 (B \u2294 C) = (A \u2293 B) \u2294 (A \u2293 C)`\n0017: held. But it turns out that in a general lattice, one of these equalities holds if and only if the\n0018: other one does! This was quite surprising to me.\n0019: \n0020: The challenge is to prove it in Lean. My strategy would be to prove it on paper first\n0021: and then formalise the proof. If you're not in to puzzles like this, then feel free to skip\n0022: this question.\n0023: \n0024: -/\n0025: \n0026: example (L : Type) [Lattice L] :\n0027:     (\u2200 a b c : L, a \u2294 b \u2293 c = (a \u2294 b) \u2293 (a \u2294 c)) \u2194 \u2200 a b c : L, a \u2293 (b \u2294 c) = a \u2293 b \u2294 a \u2293 c := by\n0028:   sorry"
+      }
+    ],
+    "score": -35.6
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section15numberTheory/Sheet4.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 38,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 32,
+        "text": "example (n : \u2115) (hn : 0 < n) : -- remark; not going to use hn"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 36,
+        "window": "0024: and we want it to divide `3\u00b3\u207d\u1d48\u207a\u00b9\u207e\u207a\u00b3-26(d+1)-27`\n0025: \n0026: so we're done if it divides the difference, which is\n0027: `-26d-26-27+26*27d+27*27`\n0028: which is `26*26n+26*26 = 13*13*something`\n0029: -/\n0030: \n0031: -- The statement has subtraction in, so we use integers.\n0032: example (n : \u2115) (hn : 0 < n) : -- remark; not going to use hn\n0033:     (169 : \u2124) \u2223 3 ^ (3 * n + 3) - 26 * n - 27 := by\n0034:   clear hn\n0035:   -- told you\n0036:   sorry\n0037: \n0038: end Section15Sheet4"
+      }
+    ],
+    "score": -35.1
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/JacobiSymbol.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 1,
+    "line_count": 51,
+    "import_count": 2,
+    "imports": [
+      "import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol",
+      "import Mathlib.Tactic.NormNum.Prime"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 37,
+        "text": "instance prime_1000003 : Fact (Nat.Prime 1000003) := \u27e8by norm_num1\u27e9"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 49,
+        "window": "0037: instance prime_1000003 : Fact (Nat.Prime 1000003) := \u27e8by norm_num1\u27e9\n0038: /-- info: -1 -/\n0039: #guard_msgs in\n0040: #eval @legendreSym 1000003 prime_1000003 7\n0041: \n0042: -- Should replace `legendreSym` with `fastJacobiSym` without using `Fact p.Prime`\n0043: /--\n0044: info: 1\n0045: ---\n0046: warning: declaration uses `sorry`\n0047: -/\n0048: #guard_msgs in\n0049: #eval! @legendreSym (2 ^ 11213 - 1) sorry 7\n0050: \n0051: end Csimp"
+      }
+    ],
+    "score": -34.45
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section15numberTheory/Sheet5.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 33,
+    "import_count": 2,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.Data.ZMod.Basic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 29,
+        "text": "theorem sixteen_pow_sixtyfour_mod_nineteen : (16 : ZMod 19) ^ 64 = 16 := by rfl"
+      },
+      {
+        "line": 31,
+        "text": "example (k : \u2115) : 19 \u2223 2 ^ 2 ^ (6 * k + 2) + 3 := sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 31,
+        "window": "0019: thoughts\n0020: \n0021: if a(k)=2^(2\u2076\u1d4f\u207a\u00b2)\n0022: then a(k+1)=2^(2\u2076*2\u2076\u1d4f\u207a\u00b2)=a(k)^64\n0023: \n0024: Note that 16^64 is 16 mod 19 according to a brute force calculation\n0025: and so all of the a(k) are 16 mod 19 and we're done\n0026: \n0027: -/\n0028: \n0029: theorem sixteen_pow_sixtyfour_mod_nineteen : (16 : ZMod 19) ^ 64 = 16 := by rfl\n0030: \n0031: example (k : \u2115) : 19 \u2223 2 ^ 2 ^ (6 * k + 2) + 3 := sorry\n0032: \n0033: end Section15Sheet5"
+      }
+    ],
+    "score": -33.35
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Simproc/VecPerm.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 1,
+    "line_count": 41,
+    "import_count": 3,
+    "imports": [
+      "import Mathlib.Data.Fin.Tuple.Reflection",
+      "import Mathlib.GroupTheory.Perm.Cycle.Concrete",
+      "import Mathlib.Tactic.Simproc.VecPerm"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 9,
+        "text": "example : ![a, b, c] \u2218 Equiv.swap 0 1 = ![b, a, c] := by"
+      },
+      {
+        "line": 12,
+        "text": "example : ![a, b, c] \u2218 Equiv.swap 0 2 = ![c, b, a] := by"
+      },
+      {
+        "line": 15,
+        "text": "example : ![a, b, c] \u2218 c[0, 1] = ![b, a, c] := by"
+      },
+      {
+        "line": 18,
+        "text": "example : ![a, b, c] \u2218 c[2, 0, 1] = ![b, c, a] := by"
+      },
+      {
+        "line": 21,
+        "text": "example : ![a, b, c, d] \u2218 c[2, 3, 0, 1] = ![b, c, d, a] := by"
+      },
+      {
+        "line": 24,
+        "text": "example : ![a, b, c, d] \u2218 ![1, 3, 1, 3] = ![b, d, b, d] := by"
+      },
+      {
+        "line": 31,
+        "text": "example (u v w x : Fin 4) : ![a, b, c, d] \u2218 ![u, v, w, x] = ![b, d, b, d] := by"
+      },
+      {
+        "line": 40,
+        "text": "example {n : Nat} (p q r : Fin n \u2192 Fin n) : p \u2218 q = r := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 34,
+        "window": "0022:   simp [vecPerm, Equiv.swap_apply_def]\n0023: \n0024: example : ![a, b, c, d] \u2218 ![1, 3, 1, 3] = ![b, d, b, d] := by\n0025:   simp [vecPerm]\n0026: \n0027: set_option linter.unusedSimpArgs false\n0028: \n0029: /-- warning: declaration uses `sorry` -/\n0030: #guard_msgs in\n0031: example (u v w x : Fin 4) : ![a, b, c, d] \u2218 ![u, v, w, x] = ![b, d, b, d] := by\n0032:   simp [vecPerm]\n0033:   guard_target = ![a, b, c, d] \u2218 ![u, v, w, x] = ![b, d, b, d]\n0034:   sorry\n0035: \n0036: /--\n0037: error: `simp` made no progress\n0038: -/\n0039: #guard_msgs in\n0040: example {n : Nat} (p q r : Fin n \u2192 Fin n) : p \u2218 q = r := by\n0041:   simp [vecPerm]"
+      }
+    ],
+    "score": -32.95
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Tactic/AesopCat.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 1,
+    "line_count": 23,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.CategoryTheory.Category.Basic"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": true,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": true,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 9,
+        "text": "example : Foo where"
+      },
+      {
+        "line": 22,
+        "text": "example : Foo where"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 10,
+        "window": "0001: import Mathlib.CategoryTheory.Category.Basic\n0002: \n0003: structure Foo where\n0004:   x : Nat\n0005:   w : x = 37 := by cat_disch\n0006: \n0007: /-- warning: declaration uses `sorry` -/\n0008: #guard_msgs in\n0009: example : Foo where\n0010:   x := sorry\n0011: \n0012: /--\n0013: error: could not synthesize default value for field 'w' of 'Foo' using tactics\n0014: ---\n0015: error: tactic 'aesop' failed, failed to prove the goal after exhaustive search.\n0016: Initial goal:\n0017:   \u22a2 35 = 37\n0018: Remaining goals after safe rules:\n0019:   \u22a2 False\n0020: -/\n0021: #guard_msgs in\n0022: example : Foo where"
+      }
+    ],
+    "score": -32.85
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section15numberTheory/Sheet8.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 33,
+    "import_count": 3,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.Data.ZMod.Algebra",
+      "import Mathlib.NumberTheory.Wilson"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 29,
+        "text": "theorem exists_sqrt_neg_one_of_one_mod_four"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 31,
+        "window": "0019: `((p-1)/2)!` works!\n0020: \n0021: Why does it work: claim `1*2*...*(p-1)/2` squared is `-1`\n0022: `1*2*....*(p-1)/2 - p` is 1 mod 4 so this is also\n0023: `-1 * -2 * ... * -((p-1)/2)`, and mod p this is the same\n0024: `(p-1) * (p-2) * ... ((p+1)/2)`, so `i\u00b2=1*2*....*(p-2)*(p-1)=(p-1)!`\n0025: Wilson's theorem tells us that `(p-1)! = -1 mod p` if p is prime.\n0026: \n0027: -/\n0028: \n0029: theorem exists_sqrt_neg_one_of_one_mod_four\n0030:     (p : \u2115) (hp : p.Prime) (hp2 : \u2203 n, p = 4 * n + 1) :\n0031:     \u2203 i : ZMod p, i ^ 2 = -1 := sorry\n0032: \n0033: end Section15Sheet8"
+      }
+    ],
+    "score": -31.35
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "BatteriesTest/lintunused.lean",
+    "commit": "9c6e03c0a86237b199ebe6b1fbac18078a767ade",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 1,
+    "line_count": 51,
+    "import_count": 1,
+    "imports": [
+      "import Batteries.Tactic.Lint"
+    ],
+    "repo_penalty": 1.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 6,
+        "text": "def foo (h : 1 = 1) : Bool := sorry"
+      },
+      {
+        "line": 9,
+        "text": "def foo' (_h : 1 = 1) : Bool := true"
+      },
+      {
+        "line": 13,
+        "text": "def fooBad (h : 1 = 1) : Bool := true"
+      },
+      {
+        "line": 15,
+        "text": "theorem foo1_ok (_h : 1 = 2) : True := trivial"
+      },
+      {
+        "line": 18,
+        "text": "theorem foo2_bad (h : 1 = 1) : True := trivial"
+      },
+      {
+        "line": 20,
+        "text": "theorem foo3_bad [Mul Nat] : True := trivial"
+      },
+      {
+        "line": 23,
+        "text": "theorem foo4_bad [h : Mul Nat] : True := trivial"
+      },
+      {
+        "line": 25,
+        "text": "theorem foo5_ok [_h : Mul Nat] : True := trivial"
+      },
+      {
+        "line": 27,
+        "text": "theorem foo6_ok (_ : Nat) : True := trivial"
+      },
+      {
+        "line": 30,
+        "text": "theorem foo7_bad [Mul Nat] [inst : Add Nat] {h : 1 = 1} \u2983h' : 0 = 0\u2984 : True := trivial"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 6,
+        "window": "0001: import Batteries.Tactic.Lint\n0002: \n0003: -- should be ignored as the proof contains sorry\n0004: /-- warning: declaration uses `sorry` -/\n0005: #guard_msgs in\n0006: def foo (h : 1 = 1) : Bool := sorry\n0007: \n0008: -- should be ignored since it uses `_h`\n0009: def foo' (_h : 1 = 1) : Bool := true\n0010: \n0011: -- should not be ignored\n0012: set_option linter.unusedVariables false in\n0013: def fooBad (h : 1 = 1) : Bool := true\n0014: \n0015: theorem foo1_ok (_h : 1 = 2) : True := trivial\n0016: \n0017: set_option linter.unusedVariables false in\n0018: theorem foo2_bad (h : 1 = 1) : True := trivial"
+      }
+    ],
+    "score": -30.95
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section15numberTheory/Sheet6.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 18,
+    "import_count": 4,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.Data.ZMod.Basic",
+      "import Mathlib.FieldTheory.Finite.Basic",
+      "import Mathlib.Data.Nat.PrimeNormNum"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 16,
+        "text": "example : 13 \u2223 2 ^ 70 + 3 ^ 70 := sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 16,
+        "window": "0004: import Mathlib.Data.Nat.PrimeNormNum\n0005: \n0006: section Section15Sheet6\n0007: /-\n0008: \n0009: # Prove the theorem, due to Kraichik, asserting that 13|2\u2077\u2070+3\u2077\u2070\n0010: \n0011: This is the sixth question in Sierpinski's book \"250 elementary problems\n0012: in number theory\".\n0013: \n0014: -/\n0015: \n0016: example : 13 \u2223 2 ^ 70 + 3 ^ 70 := sorry\n0017: \n0018: end Section15Sheet6"
+      }
+    ],
+    "score": -30.1
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section10TopologicalSpaces/Sheet2.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 41,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 18,
+        "text": "example (X Y : Type) [TopologicalSpace X] [TopologicalSpace Y] (f : X \u2192 Y) :"
+      },
+      {
+        "line": 23,
+        "text": "example (X Y : Type) [MetricSpace X] [MetricSpace Y] (f : X \u2192 Y) :"
+      },
+      {
+        "line": 28,
+        "text": "example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]"
+      },
+      {
+        "line": 33,
+        "text": "example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]"
+      },
+      {
+        "line": 38,
+        "text": "example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 31,
+        "window": "0019:     Continuous f \u2194 \u2200 U : Set Y, IsOpen U \u2192 IsOpen (f \u207b\u00b9' U) := by\n0020:   -- exact? solves this\n0021:   exact continuous_def -- proof is not `rfl`, but who cares\n0022: \n0023: example (X Y : Type) [MetricSpace X] [MetricSpace Y] (f : X \u2192 Y) :\n0024:     Continuous f \u2194 \u2200 x : X, \u2200 \u03b5 > 0, \u2203 \u03b4 > 0, \u2200 x' : X, dist x' x < \u03b4 \u2192 dist (f x') (f x) < \u03b5 := by\n0025:   -- exact? solves this\n0026:   exact Metric.continuous_iff -- proof is not `rfl`, but who cares\n0027: \n0028: example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]\n0029:     (f : X \u2192 Y) (g : Y \u2192 Z) (hf : Continuous f) (hg : Continuous g) : Continuous (g \u2218 f) := by\n0030:   -- can you prove this from first principles? Start with `rw [continuous_def] at *`.\n0031:   sorry\n0032: \n0033: example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]\n0034:     (f : X \u2192 Y) (g : Y \u2192 Z) (hf : Continuous f) (hg : Continuous g) : Continuous (g \u2218 f) := by\n0035:   -- There's a tactic for continuity proofs by the way\n0036:   continuity\n0037: \n0038: example (X Y Z : Type) [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z]\n0039:     (f : X \u2192 Y) (g : Y \u2192 Z) (hf : Continuous f) (hg : Continuous g) : Continuous (g \u2218 f) := by\n0040:   -- And of course it's already in the library.\n0041:   exact Continuous.comp hg hf"
+      }
+    ],
+    "score": -26.95
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section21galoisTheory/Sheet6.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 61,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.FieldTheory.AbelRuffini"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 24,
+        "text": "example : p.Gal = (SplittingField p \u2243\u2090[E] SplittingField p) :="
+      },
+      {
+        "line": 45,
+        "text": "example : IntermediateField E F :="
+      },
+      {
+        "line": 49,
+        "text": "example (a : solvableByRad E F) : IsSolvable (minpoly E a).Gal :="
+      },
+      {
+        "line": 54,
+        "text": "example (X : Type) (hX : 5 \u2264 Cardinal.mk X) : \u00acIsSolvable (Equiv.Perm X) :="
+      },
+      {
+        "line": 58,
+        "text": "example : \u2203 x : \u2102, IsAlgebraic \u211a x \u2227 \u00acIsSolvableByRad \u211a x :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 59,
+        "window": "0047: \n0048: -- The Abel-Ruffini theorem is that the min poly of an element in `IsSolvableByRad E F` has solvable Galois group\n0049: example (a : solvableByRad E F) : IsSolvable (minpoly E a).Gal :=\n0050:   solvableByRad.isSolvable a\n0051: \n0052: -- This was hard won! It was only finished a year or so ago.\n0053: -- A symmetric group of size 5 or more is known not to be solvable:\n0054: example (X : Type) (hX : 5 \u2264 Cardinal.mk X) : \u00acIsSolvable (Equiv.Perm X) :=\n0055:   Equiv.Perm.not_solvable X hX\n0056: \n0057: -- Using a root of x^5-4x+2 and the machinery in this section, Browning proves\n0058: example : \u2203 x : \u2102, IsAlgebraic \u211a x \u2227 \u00acIsSolvableByRad \u211a x :=\n0059:   sorry\n0060: \n0061: -- See the file `archive.100-theorems-list.16_abel_ruffini`."
+      }
+    ],
+    "score": -25.95
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section11vectorSpaces/Sheet2.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 67,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic -- imports all the Lean tactics"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 65,
+        "text": "example (A B : Subspace k V) (hV : finrank k V = 9) (hA : finrank k A = 5) (hB : finrank k B = 5) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 67,
+        "window": "0055: # An example sheet question\n0056: \n0057: A 2019 University of Edinburgh example sheet question (set to me as a challenge by a lecturer\n0058: there): prove that if `V` is a 9-dimensional\n0059: vector space and `A, B` are two subspaces of dimension 5, then `A \u2229 B` cannot be\n0060: the zero vector space.\n0061: \n0062: -/\n0063: open FiniteDimensional -- now we can just write `finrank`.\n0064: \n0065: example (A B : Subspace k V) (hV : finrank k V = 9) (hA : finrank k A = 5) (hB : finrank k B = 5) :\n0066:     A \u2293 B \u2260 \u22a5 := by\n0067:   sorry"
+      }
+    ],
+    "score": -25.65
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section17curvesAndSurfaces/Sheet5.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 47,
+    "import_count": 2,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.MeasureTheory.Function.LpSpace"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 35,
+        "text": "example : Prop :="
+      },
+      {
+        "line": 40,
+        "text": "example : Type :="
+      },
+      {
+        "line": 43,
+        "text": "example : AddCommGroup (Lp F p \u03bc) := by infer_instance"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 47,
+        "window": "0035: example : Prop :=\n0036:   Mem\u2112p f p \u03bc\n0037: \n0038: -- The reason it's called `snorm` not `norm`, is because we didn't yet quotient out by\n0039: -- the things whose integral is zero. This quotient is called `Lp`\n0040: example : Type :=\n0041:   Lp F p \u03bc\n0042: \n0043: example : AddCommGroup (Lp F p \u03bc) := by infer_instance\n0044: \n0045: -- sum of two p-integrable functions is p-integrable\n0046: -- If 1 \u2264 p then it's a normed group\n0047: noncomputable example [Fact (1 \u2264 p)] : NormedAddCommGroup (Lp F p \u03bc) := by sorry"
+      }
+    ],
+    "score": -24.65
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Linter/GlobalAttributeIn.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 1,
+    "line_count": 91,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic.Linter.GlobalAttributeIn"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 27,
+        "text": "instance : Inhabited Int where"
+      },
+      {
+        "line": 36,
+        "text": "instance : Inhabited Int where"
+      },
+      {
+        "line": 45,
+        "text": "instance : Inhabited Int where"
+      },
+      {
+        "line": 53,
+        "text": "theorem foo (x y : Nat) : x = y := sorry"
+      },
+      {
+        "line": 65,
+        "text": "def bar := False"
+      },
+      {
+        "line": 70,
+        "text": "instance : Inhabited Int where"
+      },
+      {
+        "line": 76,
+        "text": "instance : Inhabited Int where"
+      },
+      {
+        "line": 82,
+        "text": "instance : Inhabited Int where"
+      },
+      {
+        "line": 88,
+        "text": "instance : Inhabited Int where"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 53,
+        "window": "0041: please remove the `in` or make this a `local simp`\n0042: -/\n0043: #guard_msgs in\n0044: attribute [simp] Int.add in\n0045: instance : Inhabited Int where\n0046:   default := 0\n0047: \n0048: namespace X\n0049: \n0050: -- Here's another example, with nested attributes.\n0051: /-- warning: declaration uses `sorry` -/\n0052: #guard_msgs in\n0053: theorem foo (x y : Nat) : x = y := sorry\n0054: \n0055: /--\n0056: error: Despite the `in`, the attribute simp is added globally to foo\n0057: please remove the `in` or make this a `local simp`\n0058: ---\n0059: error: Despite the `in`, the attribute ext is added globally to foo\n0060: please remove the `in` or make this a `local ext`\n0061: -/\n0062: #guard_msgs in\n0063: set_option warning.simp.varHead false in\n0064: attribute [simp, local simp, ext, -simp, -ext] foo in\n0065: def bar := False"
+      }
+    ],
+    "score": -24.45
+  },
+  {
+    "repo": "leanprover-community/aesop",
+    "file": "AesopTest/SplitScript.lean",
+    "commit": "b5b9e2bb45ce91e4bc44eaa738c3a8910404ab82",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 4,
+    "active_sorry_count": 1,
+    "line_count": 53,
+    "import_count": 1,
+    "imports": [
+      "import Aesop"
+    ],
+    "repo_penalty": 15.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": true,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 25,
+        "text": "example {A B : Prop} : if P then A else B := by"
+      },
+      {
+        "line": 37,
+        "text": "example (h : if P then A else B) : A \u2228 B := by"
+      },
+      {
+        "line": 49,
+        "text": "theorem foo (n : Nat) (h : match n with | 0 => A | 1 => B | _ => C) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 27,
+        "window": "0015: /--\n0016: info: Try this:\n0017: \n0018:   [apply]     split\n0019:     next h => sorry\n0020:     next h => sorry\n0021: ---\n0022: warning: declaration uses `sorry`\n0023: -/\n0024: #guard_msgs in\n0025: example {A B : Prop} : if P then A else B := by\n0026:   aesop? (config := { warnOnNonterminal := false })\n0027:   all_goals sorry\n0028: \n0029: /--\n0030: info: Try this:\n0031: \n0032:   [apply]     split at h\n0033:     next h_1 => simp_all only [true_or]\n0034:     next h_1 => simp_all only [or_true]\n0035: -/\n0036: #guard_msgs in\n0037: example (h : if P then A else B) : A \u2228 B := by\n0038:   aesop?\n0039: "
+      }
+    ],
+    "score": -24.35
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section16commutativeAlgebra/Sheet1.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 64,
+    "import_count": 2,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.RingTheory.Noetherian"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 39,
+        "text": "example (R : Type) [CommRing R] [IsNoetherianRing R] (\u03c6 : R \u2192+* R) (h\u03c6surj : Surjective \u03c6) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 61,
+        "window": "0049:   -- Hence K is a monotone function.\n0050:   -- So by Noetherian-ness of `R`, there exists `n` such that `K\u2099=K\u2099\u208a\u2081=K\u2099\u208a\u2082=\u2026`\n0051:   -- It suffices to prove that every element of ker(\u03c6) is 0\n0052:   -- so say r \u2208 ker(\u03c6)\n0053:   -- and let's prove r=0\n0054:   -- For all naturals m, The map \u03c6^m is surjective\n0055:   -- (by an easy induction)\n0056:   -- so r = \u03c6^n r' for some r' \u2208 R\n0057:   -- Thus 0 = \u03c6(r)=\u03c6^{n+1}(r')\n0058:   -- Therefore r' \u2208 ker(\u03c6^{n+1})\n0059:   -- ...=ker(\u03c6^n)\n0060:   -- and hence r=\u03c6^n(r')=0 as required\n0061:   sorry\n0062: \n0063: \n0064: end Section16Sheet1"
+      }
+    ],
+    "score": -23.8
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section19algebraicNumberTheory/Sheet2.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 47,
+    "import_count": 3,
+    "imports": [
+      "import Mathlib.Data.Real.Basic",
+      "import Mathlib.NumberTheory.NumberField.ClassNumber",
+      "import Mathlib.Tactic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 30,
+        "text": "theorem lemma1 (R : Type) [CommRing R] [Algebra R K] (a : K) :"
+      },
+      {
+        "line": 44,
+        "text": "example (a b : K) (ha : IsIntegral \u2124 a) (hb : IsIntegral \u2124 b) : IsIntegral \u2124 (a + b) := by sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 44,
+        "window": "0032:   constructor\n0033:   -- Both directions are delicate to do in Lean, but there already\n0034:   \u00b7 exact IsIntegral.fg_adjoin_singleton\n0035:   \u00b7 intro h\n0036:     exact IsIntegral.of_mem_of_fg _ h _ (Algebra.self_mem_adjoin_singleton R a)\n0037: \n0038: -- One can use this lemma to prove that if `a` and `b` are integral then `R[a]` is finitely-generated\n0039: -- as an R-module, and `R[a][b]` is finitely-generated as an R[a]-module, so finitely-generated\n0040: -- as an `R`-module. If furthermore `R` is Noetherian (for example `R=\u2124` then the subalgebras `R[a+b]` and `R[ab]`\n0041: -- are finitely-generated as `R`-modules, so by the lemma applied the other way we deduce\n0042: -- that these elements are integral. This is still a hard exercise (despite the lemma)\n0043: -- because you have to move between `R` and `R[a]`.\n0044: example (a b : K) (ha : IsIntegral \u2124 a) (hb : IsIntegral \u2124 b) : IsIntegral \u2124 (a + b) := by sorry\n0045: \n0046: -- I don't finish this in the solutions\n0047: end Section19sheet2"
+      }
+    ],
+    "score": -22.65
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Theory/Typing/InductiveLemmas.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 10,
+    "import_count": 3,
+    "imports": [
+      "import Std",
+      "import Lean4Lean.Theory.Typing.Lemmas",
+      "import Lean4Lean.Theory.Typing.Env"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 8,
+        "text": "theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 10,
+        "window": "0001: import Std\n0002: import Lean4Lean.Theory.Typing.Lemmas\n0003: import Lean4Lean.Theory.Typing.Env\n0004: \n0005: namespace Lean4Lean\n0006: namespace VEnv\n0007: \n0008: theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)\n0009:     (henv' : addInduct env decl = some env') : Ordered env' :=\n0010:   sorry"
+      }
+    ],
+    "score": -22.0
+  },
+  {
+    "repo": "leanprover-community/aesop",
+    "file": "AesopTest/205.lean",
+    "commit": "b5b9e2bb45ce91e4bc44eaa738c3a8910404ab82",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 1,
+    "line_count": 32,
+    "import_count": 1,
+    "imports": [
+      "import Aesop"
+    ],
+    "repo_penalty": 15.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": true,
+      "simp_nearby": false,
+      "aesop_nearby": true,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 30,
+        "text": "example (\u03b1 : Type u_1) (x y a b : \u03b1) (h\u2082 : R x a) (h\u2083 : R y b) : False := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 32,
+        "window": "0020:     have fwd_1 : R b y := sym h\u2083\n0021:     have fwd_2 : R a a := tran fwd h\u2082\n0022:     have fwd_3 : R y y := tran h\u2083 fwd_1\n0023:     have fwd_4 : R b b := tran fwd_1 h\u2083\n0024:     have fwd_5 : R x x := tran h\u2082 fwd\n0025:     sorry\n0026: ---\n0027: warning: declaration uses `sorry`\n0028: -/\n0029: #guard_msgs in\n0030: example (\u03b1 : Type u_1) (x y a b : \u03b1) (h\u2082 : R x a) (h\u2083 : R y b) : False := by\n0031:   aesop? (rule_sets := [-builtin]) (config := { warnOnNonterminal := false })\n0032:   sorry"
+      }
+    ],
+    "score": -21.4
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Solutions/Section17curvesAndSurfaces/Sheet2.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 46,
+    "import_count": 4,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.Data.Real.Basic",
+      "import Mathlib.Analysis.Calculus.ParametricIntegral",
+      "import Mathlib.Analysis.SpecialFunctions.ExpDeriv"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 22,
+        "text": "theorem Complex.differentiableAt_coe {f : \u211d \u2192 \u211d} {x : \u211d} (hf : DifferentiableAt \u211d f x) :"
+      },
+      {
+        "line": 27,
+        "text": "example (a : \u2102) (x : \u211d) :"
+      },
+      {
+        "line": 43,
+        "text": "example : ContDiffOn \u211d \u22a4 (fun x => (Real.cos x, Real.sin x)) (Set.Icc 0 1) :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 44,
+        "window": "0032:     apply differentiableAt_id'\n0033:   \u00b7 apply DifferentiableAt.neg\n0034:     apply DifferentiableAt.mul\n0035:     \u00b7 apply differentiableAt_const\n0036:     \u00b7 norm_cast\n0037:       apply Complex.differentiableAt_coe\n0038:       apply DifferentiableAt.pow\n0039:       apply differentiableAt_id'\n0040: \n0041: noncomputable def \u03c6\u2081 : \u211d \u2192 \u211d \u00d7 \u211d := fun x => (Real.cos x, Real.sin x)\n0042: \n0043: example : ContDiffOn \u211d \u22a4 (fun x => (Real.cos x, Real.sin x)) (Set.Icc 0 1) :=\n0044:   sorry\n0045: \n0046: end Section17sheet2solutions"
+      }
+    ],
+    "score": -20.7
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Solutions/Section21galoisTheory/Sheet6.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 70,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.FieldTheory.AbelRuffini"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 32,
+        "text": "example : p.Gal = (SplittingField p \u2243\u2090[E] SplittingField p) :="
+      },
+      {
+        "line": 54,
+        "text": "example : IntermediateField E F :="
+      },
+      {
+        "line": 58,
+        "text": "example (a : solvableByRad E F) : IsSolvable (minpoly E a).Gal :="
+      },
+      {
+        "line": 63,
+        "text": "example (X : Type) (hX : 5 \u2264 Cardinal.mk X) : \u00acIsSolvable (Equiv.Perm X) :="
+      },
+      {
+        "line": 67,
+        "text": "example : \u2203 x : \u2102, IsAlgebraic \u211a x \u2227 \u00acIsSolvableByRad \u211a x :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 68,
+        "window": "0056: \n0057: -- The Abel-Ruffini theorem is that the min poly of an element in `solvable_by_rad E F` has solvable Galois group\n0058: example (a : solvableByRad E F) : IsSolvable (minpoly E a).Gal :=\n0059:   solvableByRad.isSolvable a\n0060: \n0061: -- This was hard won! It was only finished a year or so ago.\n0062: -- A symmetric group of size 5 or more is known not to be solvable:\n0063: example (X : Type) (hX : 5 \u2264 Cardinal.mk X) : \u00acIsSolvable (Equiv.Perm X) :=\n0064:   Equiv.Perm.not_solvable X hX\n0065: \n0066: -- Using a root of x^5-4x+2 and the machinery in this section, Browning proves\n0067: example : \u2203 x : \u2102, IsAlgebraic \u211a x \u2227 \u00acIsSolvableByRad \u211a x :=\n0068:   sorry\n0069: \n0070: -- See the file `archive.100-theorems-list.16_abel_ruffini`."
+      }
+    ],
+    "score": -15.5
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "BatteriesTest/lintsimp.lean",
+    "commit": "9c6e03c0a86237b199ebe6b1fbac18078a767ade",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 58,
+    "import_count": 1,
+    "imports": [
+      "import Batteries.Tactic.Lint"
+    ],
+    "repo_penalty": 1.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": true,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 6,
+        "text": "def f : Nat := 0"
+      },
+      {
+        "line": 7,
+        "text": "def g : Nat := 0"
+      },
+      {
+        "line": 8,
+        "text": "def h : Nat := 0"
+      },
+      {
+        "line": 17,
+        "text": "def SemiconjBy [Mul M] (a x y : M) : Prop :="
+      },
+      {
+        "line": 27,
+        "text": "instance [Mul \u03b1] : Mul \u03b1\u1d50\u1d52\u1d56 where mul x y := op (unop y * unop x)"
+      },
+      {
+        "line": 44,
+        "text": "def MyPred (_ : Nat \u2192 Nat) : Prop := True"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 34,
+        "window": "0022: \n0023: postfix:max \"\u1d50\u1d52\u1d56\" => MulOpposite\n0024: \n0025: namespace MulOpposite\n0026: \n0027: instance [Mul \u03b1] : Mul \u03b1\u1d50\u1d52\u1d56 where mul x y := op (unop y * unop x)\n0028: \n0029: @[simp] theorem unop_inj {x y : \u03b1\u1d50\u1d52\u1d56} : unop x = unop y \u2194 x = y := by\n0030:   cases x; cases y; simp\n0031: \n0032: #guard_msgs (drop warning) in\n0033: @[simp] theorem semiconj_by_unop [Mul \u03b1] {a x y : \u03b1\u1d50\u1d52\u1d56} :\n0034:     SemiconjBy (unop a) (unop y) (unop x) \u2194 SemiconjBy a x y := sorry\n0035: \n0036: run_meta guard (\u2190 simpComm.test ``unop_inj).isNone\n0037: \n0038: run_meta guard (\u2190 simpComm.test ``semiconj_by_unop).isNone\n0039: \n0040: end MulOpposite\n0041: \n0042: section\n0043: \n0044: def MyPred (_ : Nat \u2192 Nat) : Prop := True\n0045: \n0046: @[simp] theorem bad1 (f : Unit \u2192 Nat \u2192 Nat) : MyPred (f ()) \u2194 True := by"
+      }
+    ],
+    "score": -14.6
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section11vectorSpaces/Sheet3.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 90,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 51,
+        "text": "example : Type :="
+      },
+      {
+        "line": 66,
+        "text": "example (X : Type) (k : Type) [Field k] : Module k (X \u2192\u2080 k) := by"
+      },
+      {
+        "line": 76,
+        "text": "example (X : Type) (k : Type) [Field k] (f : X \u2192\u2080 k) (x : X) : k :="
+      },
+      {
+        "line": 82,
+        "text": "example (X : Type) (k : Type) [Field k] (f g : X \u2192\u2080 k) (c : k) : X \u2192\u2080 k :="
+      },
+      {
+        "line": 89,
+        "text": "example (X : Type) (k : Type) [Field k] (f : X \u2192\u2080 k) : Finset X := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 90,
+        "window": "0078: \n0079: -- Because these things are a vector space, addition of two finitely-supported functions is a\n0080: -- finitely-supported function. Similarly multiplication by a scalar is a finitely-supported\n0081: -- function\n0082: example (X : Type) (k : Type) [Field k] (f g : X \u2192\u2080 k) (c : k) : X \u2192\u2080 k :=\n0083:   c \u2022 f + g\n0084: \n0085: -- How do we access the support of `f`? i.e. what is the finite subset of `X` where `f`\n0086: -- is nonzero? If you try `by exact?` below you'll get `Finset.empty` (`exact?` is\n0087: -- designed to prove theorems, not find definitions), but we want\n0088: -- to definitely use `f` so try `by exact? using f` and you'll hopefully get the right answer.\n0089: example (X : Type) (k : Type) [Field k] (f : X \u2192\u2080 k) : Finset X := by\n0090:   sorry"
+      }
+    ],
+    "score": -14.5
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Solutions/Section17curvesAndSurfaces/Sheet3.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 68,
+    "import_count": 5,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.Data.Real.Basic",
+      "import Mathlib.Analysis.Calculus.ParametricIntegral",
+      "import Mathlib.Analysis.Calculus.ContDiff.Defs",
+      "import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 22,
+        "text": "example : ContDiffOn \u211d \u22a4 \u03c6\u2081 (Set.Icc 0 1) :="
+      },
+      {
+        "line": 34,
+        "text": "example : ContDiffOn \u211d \u22a4 \u03c6\u2082 (Set.Icc 0 1) :="
+      },
+      {
+        "line": 45,
+        "text": "example (\u03c6 : \u211d \u2192 \u211d) (\u03c8 : \u211d \u2192 \u211d) (a b c d : \u211d) (hab : a \u2264 b) (hcd : c \u2264 d)"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 54,
+        "window": "0042:   on [a,b]. Then \u03c8 is smooth and \u03c8' is nonvanishing on [c,d],\n0043:   and \u03c8'(y)*\u03c6'(\u03c8(y))=1.\n0044: -/\n0045: example (\u03c6 : \u211d \u2192 \u211d) (\u03c8 : \u211d \u2192 \u211d) (a b c d : \u211d) (hab : a \u2264 b) (hcd : c \u2264 d)\n0046:     (h\u03c6 : \u2200 x, x \u2208 Set.Icc a b \u2192 \u03c6 x \u2208 Set.Icc c d)\n0047:     (h\u03c8 : \u2200 y, y \u2208 Set.Icc c d \u2192 \u03c8 y \u2208 Set.Icc a b)\n0048:     (left_inv : \u2200 x, x \u2208 Set.Icc a b \u2192 \u03c8 (\u03c6 x) = x)\n0049:     (right_inv : \u2200 y, y \u2208 Set.Icc c d \u2192 \u03c6 (\u03c8 y) = y)\n0050:     (h\u03c6diff : ContDiffOn \u211d \u22a4 \u03c6 (Set.Icc a b))\n0051:     (h\u03c6regular : \u2200 x, x \u2208 Set.Icc a b \u2192 fderiv \u211d \u03c6 x \u2260 0) :\n0052:     ContDiffOn \u211d \u22a4 \u03c8 (Set.Icc c d) \u2227\n0053:       \u2200 y, y \u2208 Set.Icc c d \u2192 \u2200 z, fderiv \u211d \u03c8 y (fderiv \u211d \u03c6 (\u03c8 y) z) = z :=\n0054:   sorry\n0055: \n0056: \n0057: /-\n0058: Heather Macbeth: @Kevin Buzzard This is a toy case of the inverse function theorem,\n0059: but you might need to glue together several related results. Some starting points:\n0060: docs#ContDiffAt.to_localInverse, docs#HasStrictFDerivAt.localInverse_unique\n0061: \n0062: Heather Macbeth: If you want to construct the inverse, and you want to avoid invoking\n0063: the inverse function theorem on Banach spaces, you can also route through order theory\n0064: for a purely one-dimensional construction. Look at the construction of docs#Real.arctan\n0065: for a model; it uses docs#StrictMonoOn.orderIso\n0066: -/"
+      }
+    ],
+    "score": -13.6
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section15numberTheory/Sheet1.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 116,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 27,
+        "text": "example : (2 : \u2115) - 3 = 0 :="
+      },
+      {
+        "line": 31,
+        "text": "example : (2 : \u2124) - 3 = -1 :="
+      },
+      {
+        "line": 41,
+        "text": "example (n : \u2115) : \u2124 :="
+      },
+      {
+        "line": 45,
+        "text": "example (n : \u2115) : \u2124 :="
+      },
+      {
+        "line": 49,
+        "text": "example (n : \u2115) (z : \u2124) : \u211a :="
+      },
+      {
+        "line": 58,
+        "text": "example (a b : \u2115) (h : a + b = 37) : (a : \u2124) + b = 37 :="
+      },
+      {
+        "line": 71,
+        "text": "example (a b : \u2115) (h : a + b = 37) : (a : \u2124) + b = 37 := by exact_mod_cast h"
+      },
+      {
+        "line": 74,
+        "text": "example (a b : \u2115) (h : a + b = 37) : (a : \u2124) + b = 37 := by assumption_mod_cast"
+      },
+      {
+        "line": 78,
+        "text": "example (a b : \u2115) : ((a + b : \u2115) : \u2124) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 := by"
+      },
+      {
+        "line": 84,
+        "text": "example (a b : \u2115) : ((a + b : \u2115) : \u2124) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 :="
+      },
+      {
+        "line": 116,
+        "text": "example (n : \u2115) (hn : 0 < n) : n + 1 \u2223 n ^ 2 + 1 \u2194 n = 1 := sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 116,
+        "window": "0104: out the Lean 4 documentation for these tactics if you want to know\n0105: more (I didn't cover them in the course notes):\n0106: - [`zify`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Zify.html#Mathlib.Tactic.Zify.zify)\n0107: - [`lift`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Lift.html#Mathlib.Tactic.lift)\n0108: \n0109: ## For which positive integers n does n+1 divide n\u00b2+1?\n0110: \n0111: This is the first question in Sierpinski's book.\n0112: \n0113: Hint: n+1 divides n^2-1.\n0114: \n0115: -/\n0116: example (n : \u2115) (hn : 0 < n) : n + 1 \u2223 n ^ 2 + 1 \u2194 n = 1 := sorry"
+      }
+    ],
+    "score": -13.2
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Solutions/Section18graphTheory/Sheet3.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 83,
+    "import_count": 2,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.Combinatorics.SimpleGraph.Acyclic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 23,
+        "text": "example : Prop :="
+      },
+      {
+        "line": 27,
+        "text": "example : G.IsAcyclic \u2194 \u2200 (v : V) (p : G.Walk v v), \u00acp.IsCycle := by rfl"
+      },
+      {
+        "line": 30,
+        "text": "example : Prop :="
+      },
+      {
+        "line": 33,
+        "text": "example : G.IsTree \u2194 G.Connected \u2227 G.IsAcyclic :="
+      },
+      {
+        "line": 39,
+        "text": "example : G.IsAcyclic \u2194 \u2200 (v w : V) (p q : G.Path v w), p = q :="
+      },
+      {
+        "line": 44,
+        "text": "example : G.IsTree \u2194 Nonempty V \u2227 \u2200 v w : V, \u2203! p : G.Walk v w, p.IsPath :="
+      },
+      {
+        "line": 48,
+        "text": "example : G.IsTree \u2194 Nonempty V \u2227 \u2200 v w : V, \u2203! p : G.Path v w, True :="
+      },
+      {
+        "line": 81,
+        "text": "example (V : Type) [Fintype V] (G : SimpleGraph V) (hG : G.IsTree) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 83,
+        "window": "0071: Because induction on the size of `V` will be messy (it will involve\n0072: changing `V` and them moving between graphs on different types)\n0073: I think that the best way to do this would be to prove that for\n0074: an acyclic graph on a fixed `V`, #connected components + #edges = #vertices,\n0075: by induction on number of edges.\n0076: \n0077: Note: the solution to this is not in the solutions!\n0078: -/\n0079: open scoped Classical\n0080: \n0081: example (V : Type) [Fintype V] (G : SimpleGraph V) (hG : G.IsTree) :\n0082:     1 + Finset.card G.edgeFinset = Fintype.card V :=\n0083:   sorry"
+      }
+    ],
+    "score": -12.85
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Solutions/Section19algebraicNumberTheory/Sheet2.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 89,
+    "import_count": 4,
+    "imports": [
+      "import Mathlib.Data.Real.Basic",
+      "import Mathlib.NumberTheory.NumberField.ClassNumber",
+      "import Mathlib.RingTheory.Adjoin.Basic",
+      "import Mathlib.Tactic"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 30,
+        "text": "theorem lemma1 (R : Type) [CommRing R] [Algebra R K] (a : K) :"
+      },
+      {
+        "line": 44,
+        "text": "example (a b : K) (ha : IsIntegral \u2124 a) (hb : IsIntegral \u2124 b) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 89,
+        "window": "0077:           rfl\n0078:     \u00b7 rw [\u2190 Algebra.adjoin_algebraMap_image_union_eq_adjoin_adjoin]\n0079:       refine Algebra.adjoin_mono ?_\n0080:       simp only [Algebra.id.map_eq_id, RingHom.id_apply, Set.image_singleton,\n0081:         Set.union_singleton]\n0082:       convert Set.Subset.rfl  using 1\n0083:       exact Set.pair_comm a b\n0084:       -- In fact foo can be proved by using\n0085:       -- `Algebra.adjoin_algebraMap_image_union_eq_adjoin_adjoin`\n0086:       -- but the two API's are still missing and is worth PRing\n0087:   -- API is missing?\n0088:   -- this is pretty messy actually :-/\n0089:   sorry"
+      }
+    ],
+    "score": -12.55
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section21galoisTheory/Sheet2.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 76,
+    "import_count": 3,
+    "imports": [
+      "import Mathlib.Algebra.Algebra.Tower",
+      "import Mathlib.RingTheory.Norm -- for norms",
+      "import Mathlib.RingTheory.Trace -- for traces"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 30,
+        "text": "example (E F K : Type) [Field E] [Field F] [Field K] [Algebra E F] [Algebra F K] [Algebra E K]"
+      },
+      {
+        "line": 51,
+        "text": "example : Module.rank E F * Module.rank F K = Module.rank E K :="
+      },
+      {
+        "line": 59,
+        "text": "example [FiniteDimensional E F] : finrank E F * finrank F K = finrank E K :="
+      },
+      {
+        "line": 69,
+        "text": "example : finrank E F * finrank F K = finrank E K := by sorry"
+      },
+      {
+        "line": 72,
+        "text": "example [FiniteDimensional E F] [FiniteDimensional F K] (k : K) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 69,
+        "window": "0057: \n0058: -- Tower law for dimensions, natural number case.\n0059: example [FiniteDimensional E F] : finrank E F * finrank F K = finrank E K :=\n0060:   finrank_mul_finrank E F K\n0061: \n0062: /- Note that if K/F is infinite-dimensional then `finrank F K = 0` as does `finrank E K`.\n0063: The same argument should apply if F/E is infinite-dimensional; this seems to be a minor\n0064: glitch in mathlib!\n0065: -/\n0066: -- Tricky exercise: look at proof of `finrank_mul_finrank` in mathlib and see if you\n0067: -- can generalise it by removing the `[FiniteDimensional E F]` condition in the case\n0068: -- where everything is a field.\n0069: example : finrank E F * finrank F K = finrank E K := by sorry\n0070: \n0071: -- trace of trace is trace in a tower\n0072: example [FiniteDimensional E F] [FiniteDimensional F K] (k : K) :\n0073:     (Algebra.trace E F) ((Algebra.trace F K) k) = (Algebra.trace E K) k :=\n0074:   Algebra.trace_trace k\n0075: \n0076: -- I can't find the norm version though :-/"
+      }
+    ],
+    "score": -11.2
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Util/AssertNoSorry.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 27,
+    "import_count": 0,
+    "imports": [],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": true,
+      "metaprogramming": true,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [],
+    "sorry_windows": [
+      {
+        "line": 27,
+        "window": "0015: Throws an error if the given identifier uses sorryAx.\n0016: -/\n0017: \n0018: public meta section\n0019: \n0020: open Lean Meta Elab Command\n0021: \n0022: /-- Throws an error if the given identifier uses sorryAx. -/\n0023: elab \"assert_no_sorry \" n:ident : command => do\n0024:   let name \u2190 liftCoreM <| Lean.Elab.realizeGlobalConstNoOverloadWithInfo n\n0025:   let axioms \u2190 Lean.collectAxioms name\n0026:   if axioms.contains ``sorryAx\n0027:   then throwError \"{n} contains sorry\""
+      }
+    ],
+    "score": -9.65
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/UnusedInstancesInType/Decidable.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 1,
+    "line_count": 152,
+    "import_count": 1,
+    "imports": [
+      "import MathlibTest.UnusedInstancesInType.Basic"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 18,
+        "text": "theorem foo {\u03b1} [DecidableEq \u03b1] : True := True.intro"
+      },
+      {
+        "line": 20,
+        "text": "def Foo (\u03b1) [DecidableEq \u03b1] := Unit"
+      },
+      {
+        "line": 23,
+        "text": "theorem bar {\u03b1} [DecidableEq \u03b1] (s : Foo \u03b1) : s = s := rfl"
+      },
+      {
+        "line": 34,
+        "text": "theorem foo\u2082 (a : Type) [\u2200 \u03b1 : Type, Decidable (Nonempty \u03b1)] (_ : Unit) [Nonempty a] : True :="
+      },
+      {
+        "line": 47,
+        "text": "theorem foo\u2083 {\u03b2} [\u2200 \u03b1 : Type, Decidable (Nonempty \u03b1)] [DecidableEq \u03b2] : True := trivial"
+      },
+      {
+        "line": 59,
+        "text": "theorem foo\u2084 {\u03b2} : let _ := 2; \u2200 [DecidableEq \u03b2], True := trivial"
+      },
+      {
+        "line": 64,
+        "text": "theorem fooSorry {\u03b2} [\u2200 \u03b1 : Type, Decidable (Nonempty \u03b1)] [DecidableEq \u03b2] (b : sorry) : True :="
+      },
+      {
+        "line": 74,
+        "text": "theorem fooUsing [DecidableEq (Nat \u2192 Nat)] : UsesInstanceOf (DecidableEq (Nat \u2192 Nat)) := trivial"
+      },
+      {
+        "line": 76,
+        "text": "theorem fooUsing\u2081 [DecidableEq (Nat \u2192 Nat)] : UsesInstanceOf (DecidableEq (Nat \u2192 Nat)) \u2192 True :="
+      },
+      {
+        "line": 88,
+        "text": "theorem fooUsing\u2081' [DecidableEq (Nat \u2192 Nat)] :"
+      },
+      {
+        "line": 101,
+        "text": "theorem fooUsing\u2081'' [DecidableEq (Nat \u2192 Nat)]"
+      },
+      {
+        "line": 115,
+        "text": "theorem fooUsing\u2082 [DecidablePred Nonempty] [DecidableEq (Nat \u2192 Nat)] :"
+      },
+      {
+        "line": 120,
+        "text": "theorem fooUsing\u2083 [DecidablePred Nonempty] [DecidableEq (Nat \u2192 Nat)]"
+      },
+      {
+        "line": 132,
+        "text": "theorem fooUsing\u2082' [DecidablePred Nonempty] [DecidableEq (Nat \u2192 Nat)] :"
+      },
+      {
+        "line": 148,
+        "text": "theorem fooUsing\u2082'' [DecidablePred Nonempty] [DecidableEq (Nat \u2192 Nat)] :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 64,
+        "window": "0052:   \u2022 [DecidableEq \u03b2] (#2)\n0053: \n0054: Consider removing this hypothesis and using `classical` in the proof instead. For terms, consider using `open scoped Classical in` at the term level (not the command level).\n0055: \n0056: Note: This linter can be disabled with `set_option linter.unusedDecidableInType false`\n0057: -/\n0058: #guard_msgs in\n0059: theorem foo\u2084 {\u03b2} : let _ := 2; \u2200 [DecidableEq \u03b2], True := trivial\n0060: \n0061: -- Linter should not fire when `sorry` appears in the type, even though the instances are unused\n0062: /-- warning: declaration uses `sorry` -/\n0063: #guard_msgs in\n0064: theorem fooSorry {\u03b2} [\u2200 \u03b1 : Type, Decidable (Nonempty \u03b1)] [DecidableEq \u03b2] (b : sorry) : True :=\n0065:   trivial\n0066: \n0067: end unused\n0068: \n0069: section used\n0070: \n0071: /- The linter either should not fire on these declarations because the instance hypotheses are used\n0072: in the type, or not fire on *every* instance in these declarations. -/\n0073: \n0074: theorem fooUsing [DecidableEq (Nat \u2192 Nat)] : UsesInstanceOf (DecidableEq (Nat \u2192 Nat)) := trivial\n0075: \n0076: theorem fooUsing\u2081 [DecidableEq (Nat \u2192 Nat)] : UsesInstanceOf (DecidableEq (Nat \u2192 Nat)) \u2192 True :="
+      }
+    ],
+    "score": -7.4
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "BatteriesTest/lint_unreachableTactic.lean",
+    "commit": "9c6e03c0a86237b199ebe6b1fbac18078a767ade",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 2,
+    "line_count": 36,
+    "import_count": 1,
+    "imports": [
+      "import Batteries.Linter.UnreachableTactic"
+    ],
+    "repo_penalty": 1.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 16,
+        "text": "example : 1 = 1 := by"
+      },
+      {
+        "line": 23,
+        "text": "example : 1 = 1 := by"
+      },
+      {
+        "line": 28,
+        "text": "def t : Nat \u2192 Nat := sorry"
+      },
+      {
+        "line": 32,
+        "text": "theorem a : aa = 0 \u2192 t aa = 0 := sorry"
+      },
+      {
+        "line": 35,
+        "text": "example (ha : aa = 0) : t aa = 0 := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 28,
+        "window": "0016: example : 1 = 1 := by\n0017:   rfl <;> simp\n0018: \n0019: /--\n0020: warning: declaration uses `sorry`\n0021: -/\n0022: #guard_msgs in\n0023: example : 1 = 1 := by\n0024:   stop\n0025:   rfl\n0026: \n0027: #guard_msgs (drop warning) in\n0028: def t : Nat \u2192 Nat := sorry\n0029: \n0030: #guard_msgs (drop warning) in\n0031: @[simp]\n0032: theorem a : aa = 0 \u2192 t aa = 0 := sorry\n0033: \n0034: #guard_msgs in\n0035: example (ha : aa = 0) : t aa = 0 := by\n0036:   simp (disch := assumption)"
+      },
+      {
+        "line": 32,
+        "window": "0020: warning: declaration uses `sorry`\n0021: -/\n0022: #guard_msgs in\n0023: example : 1 = 1 := by\n0024:   stop\n0025:   rfl\n0026: \n0027: #guard_msgs (drop warning) in\n0028: def t : Nat \u2192 Nat := sorry\n0029: \n0030: #guard_msgs (drop warning) in\n0031: @[simp]\n0032: theorem a : aa = 0 \u2192 t aa = 0 := sorry\n0033: \n0034: #guard_msgs in\n0035: example (ha : aa = 0) : t aa = 0 := by\n0036:   simp (disch := assumption)"
+      }
+    ],
+    "score": -6.7
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/UnusedInstancesInType/Fintype.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 1,
+    "line_count": 124,
+    "import_count": 3,
+    "imports": [
+      "import ImportGraph.Lean.Environment",
+      "import MathlibTest.UnusedInstancesInType.Basic",
+      "import Mathlib.Data.Fintype.EquivFin"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 20,
+        "text": "theorem foo {\u03b1} [Fintype \u03b1] : True := True.intro"
+      },
+      {
+        "line": 22,
+        "text": "def Foo (\u03b1) [Fintype \u03b1] := Unit"
+      },
+      {
+        "line": 25,
+        "text": "theorem bar {\u03b1} [Fintype \u03b1] (s : Foo \u03b1) : s = s := rfl"
+      },
+      {
+        "line": 37,
+        "text": "theorem foo\u2082 (a : Type) [\u2200 \u03b1 : Type, Fintype \u03b1] (_ : Unit) [Fintype a] : True :="
+      },
+      {
+        "line": 50,
+        "text": "theorem foo\u2083 {\u03b2} [\u2200 \u03b1 : Type, Fintype \u03b1] [Fintype \u03b2] : True := trivial"
+      },
+      {
+        "line": 62,
+        "text": "theorem foo\u2084 {\u03b2} : let _ := 2; \u2200 [Fintype \u03b2], True := trivial"
+      },
+      {
+        "line": 67,
+        "text": "theorem fooSorry {\u03b2} [\u2200 \u03b1 : Type, Fintype \u03b1] [Fintype \u03b2] (b : sorry) : True :="
+      },
+      {
+        "line": 77,
+        "text": "theorem fooUsing [Fintype (Nat \u2192 Nat)] : UsesInstanceOf (Fintype (Nat \u2192 Nat)) := trivial"
+      },
+      {
+        "line": 79,
+        "text": "theorem fooUsing\u2081 [Fintype (Nat \u2192 Nat)] : UsesInstanceOf (Fintype (Nat \u2192 Nat)) \u2192 True :="
+      },
+      {
+        "line": 92,
+        "text": "theorem fooUsing\u2082 [Fintype Bool] [Fintype (Nat \u2192 Nat)] :"
+      },
+      {
+        "line": 97,
+        "text": "theorem fooUsing\u2083 [Fintype Bool] [Fintype (Nat \u2192 Nat)]"
+      },
+      {
+        "line": 102,
+        "text": "theorem fooUsing\u2082' [Fintype Bool] [Fintype (Nat \u2192 Nat)] :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 67,
+        "window": "0055:   \u2022 [Fintype \u03b2] (#2)\n0056: \n0057: Consider replacing this hypothesis with the corresponding instance of `Finite` and using `Fintype.ofFinite` in the proof, or removing it entirely.\n0058: \n0059: Note: This linter can be disabled with `set_option linter.unusedFintypeInType false`\n0060: -/\n0061: #guard_msgs in\n0062: theorem foo\u2084 {\u03b2} : let _ := 2; \u2200 [Fintype \u03b2], True := trivial\n0063: \n0064: -- Linter should not fire when `sorry` appears in the type, even though the instances are unused\n0065: /-- warning: declaration uses `sorry` -/\n0066: #guard_msgs in\n0067: theorem fooSorry {\u03b2} [\u2200 \u03b1 : Type, Fintype \u03b1] [Fintype \u03b2] (b : sorry) : True :=\n0068:   trivial\n0069: \n0070: end unused\n0071: \n0072: section used\n0073: \n0074: /- The linter either should not fire on these declarations because the instance hypotheses are used\n0075: in the type, or not fire on *every* instance in these declarations. -/\n0076: \n0077: theorem fooUsing [Fintype (Nat \u2192 Nat)] : UsesInstanceOf (Fintype (Nat \u2192 Nat)) := trivial\n0078: \n0079: theorem fooUsing\u2081 [Fintype (Nat \u2192 Nat)] : UsesInstanceOf (Fintype (Nat \u2192 Nat)) \u2192 True :="
+      }
+    ],
+    "score": -4.8
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Linter/EmptyLine.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 1,
+    "line_count": 207,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic.Linter.EmptyLine"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 36,
+        "text": "example : True := by"
+      },
+      {
+        "line": 59,
+        "text": "example : True :="
+      },
+      {
+        "line": 124,
+        "text": "example := 0"
+      },
+      {
+        "line": 153,
+        "text": "example : True := by  -- The following empty line is not reported, since the command is noisy."
+      },
+      {
+        "line": 174,
+        "text": "example : True := by"
+      },
+      {
+        "line": 198,
+        "text": "def F\u2080 : F where"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 156,
+        "window": "0144: structure WithAString\n0145: \n0146:  where\n0147:   str : String := \"I have\n0148: \n0149:                   embedded empty lines, but that is ok!\"\n0150: \n0151: /-- warning: declaration uses `sorry` -/\n0152: #guard_msgs in\n0153: example : True := by  -- The following empty line is not reported, since the command is noisy.\n0154: \n0155:   stop\n0156:   sorry\n0157: \n0158: /--\n0159: warning: Please, write a comment here or remove this line, but do not place empty lines within commands!\n0160: Context:\n0161:                        \u2193\n0162:   \u23ceexample : True := by\u23ce\u23ce  -- Here I start\u23ce\u23ce\n0163: \n0164: Note: This linter can be disabled with `set_option linter.style.emptyLine false`\n0165: ---\n0166: warning: Please, write a comment here or remove this line, but do not place empty lines within commands!\n0167: Context:\n0168:            \u2193"
+      }
+    ],
+    "score": -4.65
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Tactic/Tauto.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 182,
+    "import_count": 3,
+    "imports": [
+      "import Mathlib.Tactic.Tauto",
+      "import Mathlib.Tactic.SplitIfs",
+      "import Mathlib.Data.Part"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 17,
+        "text": "example : p \u2227 p := by tauto"
+      },
+      {
+        "line": 26,
+        "text": "example : \u2203 x, p x := by tauto"
+      },
+      {
+        "line": 39,
+        "text": "example : \u2203 x, r x := by tauto"
+      },
+      {
+        "line": 45,
+        "text": "example (p : Prop) : p \u2227 True \u2194 p := by tauto"
+      },
+      {
+        "line": 46,
+        "text": "example (p : Prop) : p \u2228 False \u2194 p := by tauto"
+      },
+      {
+        "line": 48,
+        "text": "example (p q : Prop) (h : p \u2260 q) : \u00ac p \u2194 q := by tauto"
+      },
+      {
+        "line": 49,
+        "text": "example (p q : Prop) (h : \u00ac p = q) : \u00ac p \u2194 q := by tauto"
+      },
+      {
+        "line": 51,
+        "text": "example (p q r : Prop) : p \u2228 (q \u2227 r) \u2194 (p \u2228 q) \u2227 (r \u2228 p \u2228 r) := by tauto"
+      },
+      {
+        "line": 52,
+        "text": "example (p q r : Prop) : p \u2228 (q \u2227 r) \u2194 (p \u2228 q) \u2227 (r \u2228 p \u2228 r) := by tauto"
+      },
+      {
+        "line": 54,
+        "text": "example (p q : Prop) (h : \u00ac (p \u2194 q)) (h' : \u00ac p) : q := by tauto"
+      },
+      {
+        "line": 55,
+        "text": "example (p q : Prop) (h : \u00ac (p \u2194 q)) (h' : p) : \u00ac q := by tauto"
+      },
+      {
+        "line": 56,
+        "text": "example (p q : Prop) (h : \u00ac (p \u2194 q)) (h' : q) : \u00ac p := by tauto"
+      },
+      {
+        "line": 57,
+        "text": "example (p q : Prop) (h : \u00ac (p \u2194 q)) (h' : \u00ac q) : p := by tauto"
+      },
+      {
+        "line": 59,
+        "text": "example (p q : Prop) (h : \u00ac (p \u2194 q)) (h' : \u00ac q) (h'' : \u00ac p) : False := by"
+      },
+      {
+        "line": 62,
+        "text": "example (p q r : Prop) (h : p \u2194 q) (h' : r \u2194 q) (h'' : \u00ac r) : \u00ac p := by"
+      },
+      {
+        "line": 65,
+        "text": "example (p q r : Prop) (h : p \u2194 q) (h' : r \u2194 q) : p \u2194 r := by tauto"
+      },
+      {
+        "line": 67,
+        "text": "example (p q r : Prop) (h : \u00ac p = q) (h' : r = q) : p \u2194 \u00ac r := by tauto"
+      },
+      {
+        "line": 69,
+        "text": "example (p : Prop) : p \u2192 \u00ac (p \u2192 \u00ac p) := by tauto"
+      },
+      {
+        "line": 70,
+        "text": "example (p : Prop) (em : p \u2228 \u00ac p) : \u00ac (p \u2194 \u00ac p) := by tauto"
+      },
+      {
+        "line": 74,
+        "text": "example (hp : p) (hq : q) : (if p \u2227 q then 1 else 0) = 1 := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 98,
+        "window": "0086: example (p : Prop) (h : False) : p := by\n0087:   -- causes `h'` to have a type that's a metavariable:\n0088:   have h' := h\n0089:   clear h\n0090:   tauto\n0091: \n0092: example (hp : p) (hq : q) : p \u2227 q := by\n0093:   -- causes goal to have a type that's a metavariable:\n0094:   suffices h : ?foo by exact h\n0095:   tauto\n0096: \n0097: -- Checking `tauto` can deal with annotations:\n0098: example (hp : \u00ac p) (hq : \u00ac (q \u2194 p) := by sorry) : q := by\n0099:   tauto\n0100: \n0101: example (P : Nat \u2192 Prop) (n : Nat) : P n \u2192 n = 7 \u2228 n = 0 \u2228 \u00ac (n = 7 \u2228 n = 0) \u2227 P n := by\n0102:   tauto\n0103: \n0104: section implementation_detail_ldecl\n0105: variable (a b c : Nat)\n0106: \n0107: /--\n0108: Mathlib.Tactic.Tauto.distribNot must ignore any LocalDecl where isImplementationDetail\n0109: is true. Otherwise, this example yields an error saying \"well-founded recursion cannot\n0110: be used\"."
+      }
+    ],
+    "score": -1.9
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section11vectorSpaces/Sheet1.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 154,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.Tactic -- imports all the Lean tactics"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 48,
+        "text": "example (a : k) (v : V) : V :="
+      },
+      {
+        "line": 54,
+        "text": "example : a \u2022 (v + w) = a \u2022 v + a \u2022 w :="
+      },
+      {
+        "line": 57,
+        "text": "example : (a + b) \u2022 v = a \u2022 v + b \u2022 v :="
+      },
+      {
+        "line": 60,
+        "text": "example : (1 : k) \u2022 v = v :="
+      },
+      {
+        "line": 63,
+        "text": "example : a \u2022 b \u2022 v = (a * b) \u2022 v :="
+      },
+      {
+        "line": 67,
+        "text": "example : (a - b) \u2022 v = a \u2022 v - b \u2022 v :="
+      },
+      {
+        "line": 70,
+        "text": "example : (0 : k) \u2022 v = 0 :="
+      },
+      {
+        "line": 95,
+        "text": "example : Prop :="
+      },
+      {
+        "line": 98,
+        "text": "example : Subspace k V :="
+      },
+      {
+        "line": 101,
+        "text": "example : Subspace k V :="
+      },
+      {
+        "line": 106,
+        "text": "example : Subspace k V :="
+      },
+      {
+        "line": 109,
+        "text": "example : Subspace k V :="
+      },
+      {
+        "line": 115,
+        "text": "example : Prop :="
+      },
+      {
+        "line": 129,
+        "text": "example : \u03c6 (a \u2022 v) = a \u2022 \u03c6 v :="
+      },
+      {
+        "line": 132,
+        "text": "example : \u03c6 (v + w) = \u03c6 v + \u03c6 w :="
+      },
+      {
+        "line": 136,
+        "text": "example : Type := V \u29f8 X"
+      },
+      {
+        "line": 139,
+        "text": "example : V \u2192\u2097[k] V \u29f8 X :="
+      },
+      {
+        "line": 145,
+        "text": "example (X : Subspace k V) : Subspace k W :="
+      },
+      {
+        "line": 148,
+        "text": "example (Y : Subspace k W) : Subspace k V :="
+      },
+      {
+        "line": 153,
+        "text": "example (X : Subspace k V) (Y : Subspace k W) : X.map \u03c6 \u2264 Y \u2194 X \u2264 Y.comap \u03c6 := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 154,
+        "window": "0142: -- ...which is inconsistent with the group theory quotient conventions, aah well.\n0143: \n0144: -- You can take the image and preimage of subspaces along a linear map `\u03c6 : V \u2192\u2097[k] W`.\n0145: example (X : Subspace k V) : Subspace k W :=\n0146:   X.map \u03c6\n0147: \n0148: example (Y : Subspace k W) : Subspace k V :=\n0149:   Y.comap \u03c6\n0150: \n0151: -- Here's an actual question at long last. If \u03c6 : V \u2192 W is a linear map,\n0152: -- if X is a subspace of V and Y a subspace of W, prove that \u03c6(X) \u2286 Y iff X \u2286 \u03c6\u207b\u00b9(Y)\n0153: example (X : Subspace k V) (Y : Subspace k W) : X.map \u03c6 \u2264 Y \u2194 X \u2264 Y.comap \u03c6 := by\n0154:   sorry"
+      }
+    ],
+    "score": -1.3
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section20representationTheory/Sheet4.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 118,
+    "import_count": 1,
+    "imports": [
+      "import Mathlib.RepresentationTheory.Rep"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": true,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 28,
+        "text": "example : Type 1 :="
+      },
+      {
+        "line": 56,
+        "text": "example : Type :="
+      },
+      {
+        "line": 60,
+        "text": "example : X \u27f6 X :="
+      },
+      {
+        "line": 68,
+        "text": "example : X \u27f6 Z :="
+      },
+      {
+        "line": 73,
+        "text": "example : \u03c6 \u226b \ud835\udfd9 Y = \u03c6 :="
+      },
+      {
+        "line": 76,
+        "text": "example : \ud835\udfd9 X \u226b \u03c6 = \u03c6 :="
+      },
+      {
+        "line": 81,
+        "text": "example : (\u03c6 \u226b \u03c8) \u226b \u03be = \u03c6 \u226b \u03c8 \u226b \u03be :="
+      },
+      {
+        "line": 98,
+        "text": "example (V : Rep k G) : Type :="
+      },
+      {
+        "line": 114,
+        "text": "example (v : V) : W :="
+      },
+      {
+        "line": 118,
+        "text": "example (g : G) (v : V) : \u03b1.hom (V.\u03c1 g v) = W.\u03c1 g (\u03b1.hom v) := by sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 118,
+        "window": "0106: -- Now say `V` and `W` are representations in the sense of category theory\n0107: variable (V W : Rep k G)\n0108: \n0109: -- A G-linear map from V to W is a morphism in the category!\n0110: variable (\u03b1 : V \u27f6 W)\n0111: \n0112: -- this is `\\hom` not `\u2192`\n0113: -- This \u03b1 is some abstract morphism. To get the actual map, use \u03b1.hom\n0114: example (v : V) : W :=\n0115:   \u03b1.hom v\n0116: \n0117: -- (hard) exercise: use `\u03b1.comm` to prove the below.\n0118: example (g : G) (v : V) : \u03b1.hom (V.\u03c1 g v) = W.\u03c1 g (\u03b1.hom v) := by sorry"
+      }
+    ],
+    "score": -1.1
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Section18graphTheory/Sheet2.lean",
+    "commit": "c4cfdc64d59c12e07e0c88d702bfe654d518c0bd",
+    "branch": "main",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 160,
+    "import_count": 2,
+    "imports": [
+      "import Mathlib.Tactic",
+      "import Mathlib.Combinatorics.SimpleGraph.Connectivity"
+    ],
+    "repo_penalty": 6.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 39,
+        "text": "example : Type :="
+      },
+      {
+        "line": 43,
+        "text": "example : G.Walk v v :="
+      },
+      {
+        "line": 49,
+        "text": "example : G.Walk v v :="
+      },
+      {
+        "line": 53,
+        "text": "example (h : G.Adj v w) (a : G.Walk w x) : G.Walk v x :="
+      },
+      {
+        "line": 57,
+        "text": "example (h : G.Adj v w) (a : G.Walk w x) : G.Walk v x :="
+      },
+      {
+        "line": 61,
+        "text": "example (a : G.Walk v w) (b : G.Walk w x) : G.Walk v x :="
+      },
+      {
+        "line": 68,
+        "text": "example : \u2115 :="
+      },
+      {
+        "line": 72,
+        "text": "example : G.Walk w v :="
+      },
+      {
+        "line": 76,
+        "text": "example (n : \u2115) : V :="
+      },
+      {
+        "line": 80,
+        "text": "example : a.getVert 0 = v :="
+      },
+      {
+        "line": 84,
+        "text": "example : a.getVert a.length = w :="
+      },
+      {
+        "line": 88,
+        "text": "example : List V :="
+      },
+      {
+        "line": 92,
+        "text": "example : List (Sym2 V) :="
+      },
+      {
+        "line": 96,
+        "text": "example : Prop :="
+      },
+      {
+        "line": 100,
+        "text": "example : Prop :="
+      },
+      {
+        "line": 107,
+        "text": "example (b : G.Walk v v) : Prop :="
+      },
+      {
+        "line": 112,
+        "text": "example (b : G.Walk v v) : Prop :="
+      },
+      {
+        "line": 120,
+        "text": "example {u v : V} (p : G.Walk v u) (h : G.Adj u v) :"
+      },
+      {
+        "line": 131,
+        "text": "example (a : G.Walk v w) (u : V) (hu : u \u2208 a.support) : G.Walk v u :="
+      },
+      {
+        "line": 135,
+        "text": "example (a : G.Walk v w) (u : V) (hu : u \u2208 a.support) : G.Walk u w :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 150,
+        "window": "0138: -- Example in the API : those two walks added together give the original\n0139: -- walk again\n0140: example (a : G.Walk v w) (u : V) (hu : u \u2208 a.support) :\n0141:     (a.takeUntil u hu).append (a.dropUntil u hu) = a :=\n0142:   Walk.take_spec a hu\n0143: \n0144: -- Two vertices `u` and `v` satisfy `G.reachable u v : Prop` if there's a walk from `u` to `v`.\n0145: example : G.Reachable v w \u2194 Nonempty (G.Walk v w) :=\n0146:   Iff.rfl\n0147: \n0148: -- true by definition\n0149: -- Can you show that `G.reachable` is an equivalence relation?\n0150: example : Equivalence G.Reachable := by sorry\n0151: \n0152: -- A graph is \"preconnected\" if `G.reachable v w` is true for any `v w : V`.\n0153: -- Note that this includes the empty graph with `V` empty, for silly logic reasons.\n0154: example : G.Preconnected \u2194 \u2200 v w : V, G.Reachable v w :=\n0155:   Iff.rfl\n0156: -- true by definition\n0157: \n0158: -- A graph is connected iff it's preconnected and nonempty.\n0159: example : G.Connected \u2194 G.Preconnected \u2227 Nonempty V :=\n0160:   connected_iff G"
+      }
+    ],
+    "score": 1.0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Tactic/Use.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 1,
+    "line_count": 268,
+    "import_count": 4,
+    "imports": [
+      "import Mathlib.Tactic.Use",
+      "import Mathlib.Tactic.Basic",
+      "import Mathlib.Logic.Equiv.Defs",
+      "import Mathlib.Data.PNat.Defs"
+    ],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 16,
+        "text": "example : \u2203 x : Nat, x = x := by use 42"
+      },
+      {
+        "line": 21,
+        "text": "example : \u2203 x : Nat, x = x := by use 42, rfl"
+      },
+      {
+        "line": 23,
+        "text": "example : \u2203 x : Nat, x = x := by use! 42"
+      },
+      {
+        "line": 25,
+        "text": "example (h : 42 = y) : \u2203 x : Nat, x = y := by use 42, h"
+      },
+      {
+        "line": 28,
+        "text": "example (h : 42 = y) : \u2203 x : Nat, x = y := by use 42"
+      },
+      {
+        "line": 36,
+        "text": "example (n : Fin 3) : \u2203 x : Nat, x = x := show_term by use n"
+      },
+      {
+        "line": 38,
+        "text": "example : \u2203 x : Nat, \u2203 y : Nat, x = y := by use 42, 42"
+      },
+      {
+        "line": 50,
+        "text": "example : \u2203 p : Nat \u00d7 Nat, p.1 = p.2 := by use 42; sorry"
+      },
+      {
+        "line": 52,
+        "text": "example : \u2203 p : Nat \u00d7 Nat, p.1 = p.2 := by use! 42, 42"
+      },
+      {
+        "line": 54,
+        "text": "example : \u2203 p : Nat \u00d7 Nat, p.1 = p.2 := by use! (42, 42)"
+      },
+      {
+        "line": 56,
+        "text": "example (r : Nat \u2192 Nat \u2192 Prop) (h : \u2200 x, r x x) :"
+      },
+      {
+        "line": 59,
+        "text": "example (r : Nat \u2192 Nat \u2192 Prop) (h : \u2200 x, r x x) :"
+      },
+      {
+        "line": 62,
+        "text": "example (r : Nat \u2192 Nat \u2192 Prop) (h : \u2200 x, r x x) :"
+      },
+      {
+        "line": 65,
+        "text": "example : \u2203 x : String \u00d7 String, x.1 = x.2 := by use (\"a\", \"a\")"
+      },
+      {
+        "line": 67,
+        "text": "example : \u2203 x : String \u00d7 String, x.1 = x.2 := by use! \"a\", \"a\""
+      },
+      {
+        "line": 69,
+        "text": "example : Nonempty Nat := by use 5"
+      },
+      {
+        "line": 71,
+        "text": "example : Nonempty (PNat \u2243 Nat) := by"
+      },
+      {
+        "line": 76,
+        "text": "example : \u2203 n : {n : Nat // n % 2 = 0}, n.val > 10 := by use! 20; simp"
+      },
+      {
+        "line": 79,
+        "text": "example : \u2203 x : Nat, x = x := by"
+      },
+      {
+        "line": 83,
+        "text": "example (\u03b1 : Type) : \u2203 S : List \u03b1, S = S := by use \u2205"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 50,
+        "window": "0038: example : \u2203 x : Nat, \u2203 y : Nat, x = y := by use 42, 42\n0039: \n0040: /--\n0041: error: failed to synthesize instance of type class\n0042:   OfNat (\u2115 \u00d7 \u2115) 42\n0043: numerals are polymorphic in Lean, but the numeral `42` cannot be used in a context where the expected type is\n0044:   \u2115 \u00d7 \u2115\n0045: due to the absence of the instance above\n0046: \n0047: Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n0048: -/\n0049: #guard_msgs in\n0050: example : \u2203 p : Nat \u00d7 Nat, p.1 = p.2 := by use 42; sorry\n0051: \n0052: example : \u2203 p : Nat \u00d7 Nat, p.1 = p.2 := by use! 42, 42\n0053: \n0054: example : \u2203 p : Nat \u00d7 Nat, p.1 = p.2 := by use! (42, 42)\n0055: \n0056: example (r : Nat \u2192 Nat \u2192 Prop) (h : \u2200 x, r x x) :\n0057:     \u2203 p : Nat \u00d7 Nat, r p.1 p.2 := by use! 42; use! 42; apply h\n0058: \n0059: example (r : Nat \u2192 Nat \u2192 Prop) (h : \u2200 x, r x x) :\n0060:     \u2203 p : Nat \u00d7 Nat, r p.1 p.2 := by use! 42, 42; apply h\n0061: \n0062: example (r : Nat \u2192 Nat \u2192 Prop) (h : \u2200 x, r x x) :"
+      }
+    ],
+    "score": 4.4
+  }
+]

@@ -1,0 +1,830 @@
+[
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Algebra/Algebra/RestrictScalars.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Algebra/Group/Hom/Defs.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Algebra/Group/Invertible/Defs.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Algebra/Tropical/Basic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Computability/AkraBazzi/AkraBazzi.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Data/FunLike/Basic.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Data/FunLike/Embedding.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Data/FunLike/Equiv.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Data/Int/Bitwise.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Data/Nat/Init.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Data/SetLike/Basic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Geometry/Manifold/LocalDiffeomorph.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/GroupTheory/FiniteAbelian/Basic.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Lean/Expr/Basic.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/NumberTheory/ModularForms/Derivative.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Order/PrimeSeparator.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Order/Std.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Probability/Independence/Integration.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/CongrM.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Convert.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Eval.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/FastInstance.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/FieldSimp.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Linter/EmptyLine.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Linter/GlobalAttributeIn.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Linter/UnusedInstancesInType.lean",
+    "raw_sorry_count": 6,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Qify.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Set.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/SimpIntro.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Translate/ToAdditive.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Translate/ToDual.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/Zify.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Topology/Algebra/Module/IsWeak.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Complex.lean",
+    "raw_sorry_count": 12,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/DifferentialGeometry/Notation/Advanced.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/FinCoercions.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/LibrarySearch/IsCompact.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Linter/DeprecatedSyntax.lean",
+    "raw_sorry_count": 8,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Linter/DocString.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/MinImports.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Quaternion.lean",
+    "raw_sorry_count": 8,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/SlimCheck.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Tactic/Hint/All.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/Widget/CalcQuestionMark.lean",
+    "raw_sorry_count": 8,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "MathlibTest/eqns.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "Batteries/CodeAction/Basic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "Batteries/Linter/UnreachableTactic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "Batteries/Tactic/Case.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "Batteries/Tactic/GeneralizeProofs.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "Batteries/Tactic/Lint/Misc.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/batteries",
+    "file": "BatteriesTest/help_cmd.lean",
+    "raw_sorry_count": 8,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/BinderNameHint.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Conv.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Data/Array/Lemmas.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Data/Dyadic/Round.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Data/Order/Classes.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Data/Order/PackageFactories.lean",
+    "raw_sorry_count": 14,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Grind/Attr.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Grind/Config.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Notation.lean",
+    "raw_sorry_count": 9,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Prelude.lean",
+    "raw_sorry_count": 7,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Init/Try.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Compiler/IR/Basic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Compiler/LCNF/ElimDeadBranches.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/App.lean",
+    "raw_sorry_count": 9,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/AutoBound.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/BuiltinTerm.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/ConfigEval/Types.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/Do/Basic.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/Extra.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/Idbg.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/SyntheticMVars.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/Tactic/Basic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/Tactic/Do/Internal/VCGen/Frontend.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/Tactic/ElabTerm.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/Tactic/Grind/Basic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Elab/Tactic/Impossible.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Environment.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/KeyedDeclsAttribute.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Linter/Extra/UnreachableTactic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Linter/Extra/UnusedDecidableInType.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Message.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Meta/AbstractNestedProofs.lean",
+    "raw_sorry_count": 6,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Meta/Check.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Meta/CoeAttr.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Meta/ExprDefEq.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Meta/Instances.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Meta/Sorry.lean",
+    "raw_sorry_count": 27,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Meta/Tactic/Grind/Arith/Propagate.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/MetavarContext.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Parser/Command.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Parser/Term.lean",
+    "raw_sorry_count": 12,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Server/CodeActions/Attr.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "src/Lean/Server/CodeActions/Provider.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/1163.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/1910.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/2226.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/3554.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/3922.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/4365.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/4670.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/5407.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/6199.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/9591.lean",
+    "raw_sorry_count": 6,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/allGoals.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/autoLift.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/byAsSorry.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/cdotTests.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/extraModUses.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/fin_coercions.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/generalizeMany.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/haveTactic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/idSuggestStandalone.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/issue10573.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/librarySearch.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/library_search_all.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/mvcgenRflReducibility.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/pairsSumToZero.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/proofAsSorry.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/qed_macro.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/showTactic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/structInst.lean",
+    "raw_sorry_count": 2,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab/versoDocWarningsErrors.lean",
+    "raw_sorry_count": 7,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/elab_fail/bootstrapSorry.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/server_interactive/hover.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/server_interactive/incrementalCommand.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover/lean4",
+    "file": "tests/server_interactive/unterminatedDocComment.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "teorth/equational_theories",
+    "file": "equational_theories/FactsSyntax.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics-2024",
+    "file": "FormalisingMathematics2024/Solutions/Section02reals/Sheet3.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "ImperialCollegeLondon/formalising-mathematics",
+    "file": "src/week_1/kb_solutions/Part_A_logic_solutions.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/sphere-eversion",
+    "file": "SphereEversion/ToMathlib/Analysis/Convex/Basic.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/sphere-eversion",
+    "file": "SphereEversion/ToMathlib/Geometry/Manifold/Algebra/SmoothGerm.lean",
+    "raw_sorry_count": 4,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/aesop",
+    "file": "Aesop/Tree/ExtractScript.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/aesop",
+    "file": "Aesop/Tree/State.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/aesop",
+    "file": "AesopTest/IncompleteScript.lean",
+    "raw_sorry_count": 3,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "leanprover-community/aesop",
+    "file": "AesopTest/List.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+    "raw_sorry_count": 10,
+    "active_sorry_count": 0
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/TypeChecker.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 0
+  }
+]
