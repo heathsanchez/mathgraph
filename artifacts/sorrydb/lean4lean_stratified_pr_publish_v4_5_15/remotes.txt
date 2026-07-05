@@ -1,0 +1,4 @@
+fork	https://github.com/heathsanchez/lean4lean.git (fetch)
+fork	https://github.com/heathsanchez/lean4lean.git (push)
+origin	https://github.com/digama0/lean4lean.git (fetch)
+origin	https://github.com/digama0/lean4lean.git (push)
