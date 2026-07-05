@@ -1,0 +1,1200 @@
+{
+  "artifact": "official_sorrydb_target_ranker_v4_6_4",
+  "input_count": 1000,
+  "malformed_count": 0,
+  "status": "TARGETS_RANKED",
+  "top_candidate": {
+    "rank_score": -41,
+    "rank_reasons": [
+      "lean_4_27",
+      "educational_problem_repo",
+      "tactic_hint",
+      "short_goal",
+      "exercise_like_path"
+    ],
+    "split_index": 527,
+    "id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3",
+    "remote": "https://github.com/mo271/FormalBook",
+    "branch": "main",
+    "commit": "865934361ca7005e0a874efb39f5809117052e85",
+    "lean_version": "v4.27.0-rc1",
+    "path": "FormalBook/Chapter_28.lean",
+    "start_line": 64,
+    "start_column": 65,
+    "end_line": 64,
+    "end_column": 70,
+    "goal": "α : Type u_1\ninst✝² : Fintype α\ninst✝¹ : DecidableEq α\nG : SimpleGraph α\ninst✝ : DecidableRel G.Adj\ne : Sym2 α\nhe : e ∈ G.edgeFinset\n⊢ {v | v ∈ e}.card = 2",
+    "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_28.lean#L64",
+    "goal_length": 155,
+    "raw_item": {
+      "repo": {
+        "remote": "https://github.com/mo271/FormalBook",
+        "branch": "main",
+        "commit": "865934361ca7005e0a874efb39f5809117052e85",
+        "lean_version": "v4.27.0-rc1"
+      },
+      "location": {
+        "path": "FormalBook/Chapter_28.lean",
+        "start_line": 64,
+        "start_column": 65,
+        "end_line": 64,
+        "end_column": 70
+      },
+      "debug_info": {
+        "goal": "α : Type u_1\ninst✝² : Fintype α\ninst✝¹ : DecidableEq α\nG : SimpleGraph α\ninst✝ : DecidableRel G.Adj\ne : Sym2 α\nhe : e ∈ G.edgeFinset\n⊢ {v | v ∈ e}.card = 2",
+        "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_28.lean#L64"
+      },
+      "metadata": {
+        "blame_email_hash": "ef3bc37f67e8",
+        "blame_date": "2025-08-31T10:16:06+02:00",
+        "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+      },
+      "id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3"
+    }
+  },
+  "top_20": [
+    {
+      "rank_score": -41,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "tactic_hint",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 527,
+      "id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_28.lean",
+      "start_line": 64,
+      "start_column": 65,
+      "end_line": 64,
+      "end_column": 70,
+      "goal": "α : Type u_1\ninst✝² : Fintype α\ninst✝¹ : DecidableEq α\nG : SimpleGraph α\ninst✝ : DecidableRel G.Adj\ne : Sym2 α\nhe : e ∈ G.edgeFinset\n⊢ {v | v ∈ e}.card = 2",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_28.lean#L64",
+      "goal_length": 155,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_28.lean",
+          "start_line": 64,
+          "start_column": 65,
+          "end_line": 64,
+          "end_column": 70
+        },
+        "debug_info": {
+          "goal": "α : Type u_1\ninst✝² : Fintype α\ninst✝¹ : DecidableEq α\nG : SimpleGraph α\ninst✝ : DecidableRel G.Adj\ne : Sym2 α\nhe : e ∈ G.edgeFinset\n⊢ {v | v ∈ e}.card = 2",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_28.lean#L64"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-08-31T10:16:06+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3"
+      }
+    },
+    {
+      "rank_score": -38,
+      "rank_reasons": [
+        "lean_4_24_25",
+        "educational_problem_repo",
+        "true_goal",
+        "short_goal"
+      ],
+      "split_index": 392,
+      "id": "a0fb95b1a0baea3d3412576625bd86683b560faa7b95b4e4d68e8e2689e166f4",
+      "remote": "https://github.com/fpvandoorn/LeanCourse25",
+      "branch": "master",
+      "commit": "cd0f32f5b07311e08a9e89733a1375f54eb790c0",
+      "lean_version": "v4.24.0",
+      "path": "LeanCourse25/Lectures/Lecture20Before.lean",
+      "start_line": 409,
+      "start_column": 25,
+      "end_line": 409,
+      "end_column": 30,
+      "goal": "A✝¹ : Type u\nB✝¹ : A✝¹ → Type v\nA✝ : Type u\nB✝ : A✝ → Prop\nA : Sort u\nB : A → Sort v\n⊢ True",
+      "url": "https://github.com/fpvandoorn/LeanCourse25/blob/cd0f32f5b07311e08a9e89733a1375f54eb790c0/LeanCourse25/Lectures/Lecture20Before.lean#L409",
+      "goal_length": 91,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/fpvandoorn/LeanCourse25",
+          "branch": "master",
+          "commit": "cd0f32f5b07311e08a9e89733a1375f54eb790c0",
+          "lean_version": "v4.24.0"
+        },
+        "location": {
+          "path": "LeanCourse25/Lectures/Lecture20Before.lean",
+          "start_line": 409,
+          "start_column": 25,
+          "end_line": 409,
+          "end_column": 30
+        },
+        "debug_info": {
+          "goal": "A✝¹ : Type u\nB✝¹ : A✝¹ → Type v\nA✝ : Type u\nB✝ : A✝ → Prop\nA : Sort u\nB : A → Sort v\n⊢ True",
+          "url": "https://github.com/fpvandoorn/LeanCourse25/blob/cd0f32f5b07311e08a9e89733a1375f54eb790c0/LeanCourse25/Lectures/Lecture20Before.lean#L409"
+        },
+        "metadata": {
+          "blame_email_hash": "0a77110e33df",
+          "blame_date": "2025-12-18T10:00:46+01:00",
+          "inclusion_date": "2026-01-10T00:19:36.813828+00:00"
+        },
+        "id": "a0fb95b1a0baea3d3412576625bd86683b560faa7b95b4e4d68e8e2689e166f4"
+      }
+    },
+    {
+      "rank_score": -38,
+      "rank_reasons": [
+        "lean_4_24_25",
+        "educational_problem_repo",
+        "true_goal",
+        "short_goal"
+      ],
+      "split_index": 277,
+      "id": "b5bd9f98d658acbbfbf98ae0c9cf2ac12f8f23e98c31b40f020dc4303477694c",
+      "remote": "https://github.com/fpvandoorn/LeanCourse25",
+      "branch": "master",
+      "commit": "cd0f32f5b07311e08a9e89733a1375f54eb790c0",
+      "lean_version": "v4.24.0",
+      "path": "LeanCourse25/Lectures/Lecture20.lean",
+      "start_line": 421,
+      "start_column": 25,
+      "end_line": 421,
+      "end_column": 30,
+      "goal": "f : (n : ℕ) → Fin n\nn : ℕ\nA✝² : Type u\nB✝² : Type v\nA✝¹ : Type u\nB✝¹ : A✝¹ → Type v\nA✝ : Type u\nB✝ : A✝ → Prop\nA : Sort u\nB : A → Sort v\n⊢ True",
+      "url": "https://github.com/fpvandoorn/LeanCourse25/blob/cd0f32f5b07311e08a9e89733a1375f54eb790c0/LeanCourse25/Lectures/Lecture20.lean#L421",
+      "goal_length": 143,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/fpvandoorn/LeanCourse25",
+          "branch": "master",
+          "commit": "cd0f32f5b07311e08a9e89733a1375f54eb790c0",
+          "lean_version": "v4.24.0"
+        },
+        "location": {
+          "path": "LeanCourse25/Lectures/Lecture20.lean",
+          "start_line": 421,
+          "start_column": 25,
+          "end_line": 421,
+          "end_column": 30
+        },
+        "debug_info": {
+          "goal": "f : (n : ℕ) → Fin n\nn : ℕ\nA✝² : Type u\nB✝² : Type v\nA✝¹ : Type u\nB✝¹ : A✝¹ → Type v\nA✝ : Type u\nB✝ : A✝ → Prop\nA : Sort u\nB : A → Sort v\n⊢ True",
+          "url": "https://github.com/fpvandoorn/LeanCourse25/blob/cd0f32f5b07311e08a9e89733a1375f54eb790c0/LeanCourse25/Lectures/Lecture20.lean#L421"
+        },
+        "metadata": {
+          "blame_email_hash": "0a77110e33df",
+          "blame_date": "2025-12-18T11:51:20+01:00",
+          "inclusion_date": "2026-01-10T00:19:36.813828+00:00"
+        },
+        "id": "b5bd9f98d658acbbfbf98ae0c9cf2ac12f8f23e98c31b40f020dc4303477694c"
+      }
+    },
+    {
+      "rank_score": -38,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "negation_or_contradiction",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 195,
+      "id": "86cb618467cd206603b0a29384c83e22f508f3c834b6a6cf9d120ae95cec7ff2",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_06.lean",
+      "start_line": 78,
+      "start_column": 29,
+      "end_line": 78,
+      "end_column": 34,
+      "goal": "q n : ℕ\nlamb : ℂ\na : ℝ := lamb.re\nb : ℝ := lamb.im\nh : lamb ∈ primitiveRoots n ℂ\nh_lamb : lamb ≠ 1\nh_a_lt_one : ‖a‖ < 1\n⊢ ‖eval (↑q) (X - C lamb)‖ ^ 2 = ‖↑q - lamb‖ ^ 2",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_06.lean#L78",
+      "goal_length": 168,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_06.lean",
+          "start_line": 78,
+          "start_column": 29,
+          "end_line": 78,
+          "end_column": 34
+        },
+        "debug_info": {
+          "goal": "q n : ℕ\nlamb : ℂ\na : ℝ := lamb.re\nb : ℝ := lamb.im\nh : lamb ∈ primitiveRoots n ℂ\nh_lamb : lamb ≠ 1\nh_a_lt_one : ‖a‖ < 1\n⊢ ‖eval (↑q) (X - C lamb)‖ ^ 2 = ‖↑q - lamb‖ ^ 2",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_06.lean#L78"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-08-31T10:16:06+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "86cb618467cd206603b0a29384c83e22f508f3c834b6a6cf9d120ae95cec7ff2"
+      }
+    },
+    {
+      "rank_score": -38,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "negation_or_contradiction",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 575,
+      "id": "d4b4aea0a504a532f3211c605cc8bc1ba852b5b14e610e8af733a17f169bb74a",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_06.lean",
+      "start_line": 90,
+      "start_column": 4,
+      "end_line": 90,
+      "end_column": 9,
+      "goal": "q n : ℕ\nlamb : ℂ\na : ℝ := lamb.re\nb : ℝ := lamb.im\nh : lamb ∈ primitiveRoots n ℂ\nh_lamb : lamb ≠ 1\nh_a_lt_one : ‖a‖ < 1\nh_ineq : ‖eval (↑q) (X - C lamb)‖ ^ 2 > (↑q - 1) ^ 2\nthis✝ : 0 ≤ (↑q - 1) ^ 2\ng : ↑q - 1 < √(‖eval (↑q) (X - C lamb)‖ ^ 2)\nthis : √((↑q - 1) ^ 2) = ↑q - 1\n⊢ 0 ≤ ‖eval (↑q) (X - C lamb)‖",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_06.lean#L90",
+      "goal_length": 305,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_06.lean",
+          "start_line": 90,
+          "start_column": 4,
+          "end_line": 90,
+          "end_column": 9
+        },
+        "debug_info": {
+          "goal": "q n : ℕ\nlamb : ℂ\na : ℝ := lamb.re\nb : ℝ := lamb.im\nh : lamb ∈ primitiveRoots n ℂ\nh_lamb : lamb ≠ 1\nh_a_lt_one : ‖a‖ < 1\nh_ineq : ‖eval (↑q) (X - C lamb)‖ ^ 2 > (↑q - 1) ^ 2\nthis✝ : 0 ≤ (↑q - 1) ^ 2\ng : ↑q - 1 < √(‖eval (↑q) (X - C lamb)‖ ^ 2)\nthis : √((↑q - 1) ^ 2) = ↑q - 1\n⊢ 0 ≤ ‖eval (↑q) (X - C lamb)‖",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_06.lean#L90"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-08-31T10:16:06+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "d4b4aea0a504a532f3211c605cc8bc1ba852b5b14e610e8af733a17f169bb74a"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 878,
+      "id": "5f63aa96f6ab4c2fdcfe7b133c9d7582069a26bab74decda4bf6db0233db44ba",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_04.lean",
+      "start_line": 185,
+      "start_column": 2,
+      "end_line": 185,
+      "end_column": 7,
+      "goal": "k : ℕ\n⊢ Fintype.card ↑(ch04.U k) = Fintype.card ↑(ch04.T k)",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_04.lean#L185",
+      "goal_length": 59,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_04.lean",
+          "start_line": 185,
+          "start_column": 2,
+          "end_line": 185,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "k : ℕ\n⊢ Fintype.card ↑(ch04.U k) = Fintype.card ↑(ch04.T k)",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_04.lean#L185"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2024-10-20T20:48:44+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "5f63aa96f6ab4c2fdcfe7b133c9d7582069a26bab74decda4bf6db0233db44ba"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 64,
+      "id": "ca4a5d8256fb5bd3104fcfd32887a170fb933a093273c74530c869b781e977a6",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_02.lean",
+      "start_line": 221,
+      "start_column": 38,
+      "end_line": 221,
+      "end_column": 43,
+      "goal": "n : ℕ\nhn : 1 < n\n⊢ ↑n.factorial > chapter2.e * (↑n / chapter2.e) ^ n",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_02.lean#L221",
+      "goal_length": 68,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_02.lean",
+          "start_line": 221,
+          "start_column": 38,
+          "end_line": 221,
+          "end_column": 43
+        },
+        "debug_info": {
+          "goal": "n : ℕ\nhn : 1 < n\n⊢ ↑n.factorial > chapter2.e * (↑n / chapter2.e) ^ n",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_02.lean#L221"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-12-31T15:28:45+01:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "ca4a5d8256fb5bd3104fcfd32887a170fb933a093273c74530c869b781e977a6"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 953,
+      "id": "5658635a134b6404fb24addedbb23bcb9364dab0ce6a5d9e187369034dced759",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_04.lean",
+      "start_line": 248,
+      "start_column": 2,
+      "end_line": 248,
+      "end_column": 7,
+      "goal": "k : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\n⊢ Odd (Fintype.card ↑(ch04.T k))",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_04.lean#L248",
+      "goal_length": 72,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_04.lean",
+          "start_line": 248,
+          "start_column": 2,
+          "end_line": 248,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "k : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\n⊢ Odd (Fintype.card ↑(ch04.T k))",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_04.lean#L248"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2024-10-20T20:48:44+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "5658635a134b6404fb24addedbb23bcb9364dab0ce6a5d9e187369034dced759"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 316,
+      "id": "a78ca65b87970fabbb5521a907ce4ba2f71b6713d4a4543a6efc2f9edbf87d37",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_01.lean",
+      "start_line": 187,
+      "start_column": 50,
+      "end_line": 187,
+      "end_column": 55,
+      "goal": "n : ℕ\nx : ℝ\nhxge : x ≥ ↑n\nhxlt : x < ↑n + 1\n⊢ Real.log x ≤ ∑ k ∈ Icc 1 n, (↑k)⁻¹",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_01.lean#L187",
+      "goal_length": 80,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_01.lean",
+          "start_line": 187,
+          "start_column": 50,
+          "end_line": 187,
+          "end_column": 55
+        },
+        "debug_info": {
+          "goal": "n : ℕ\nx : ℝ\nhxge : x ≥ ↑n\nhxlt : x < ↑n + 1\n⊢ Real.log x ≤ ∑ k ∈ Icc 1 n, (↑k)⁻¹",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_01.lean#L187"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-08-31T10:16:06+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "a78ca65b87970fabbb5521a907ce4ba2f71b6713d4a4543a6efc2f9edbf87d37"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 989,
+      "id": "3f4ef9e3cfcb5ab03b7b0e0387a4f687a6c7f5c0a8570e52e0d8e8b42e24c8c3",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_04.lean",
+      "start_line": 287,
+      "start_column": 79,
+      "end_line": 287,
+      "end_column": 84,
+      "goal": "k : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\n⊢ (fixedPoints (ch04.trivialInvo k)).Nonempty",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_04.lean#L287",
+      "goal_length": 85,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_04.lean",
+          "start_line": 287,
+          "start_column": 79,
+          "end_line": 287,
+          "end_column": 84
+        },
+        "debug_info": {
+          "goal": "k : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\n⊢ (fixedPoints (ch04.trivialInvo k)).Nonempty",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_04.lean#L287"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2024-10-20T20:48:44+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "3f4ef9e3cfcb5ab03b7b0e0387a4f687a6c7f5c0a8570e52e0d8e8b42e24c8c3"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 132,
+      "id": "85b49489509ec0b01e4a1df0173345e0e168acd0d179fac6932bb46a1d8dcc78",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_02.lean",
+      "start_line": 225,
+      "start_column": 56,
+      "end_line": 225,
+      "end_column": 61,
+      "goal": "k n : ℕ\n⊢ ↑(n.choose k) ≤ ↑n ^ k / ↑k.factorial ∧ ↑n ^ k / ↑k.factorial ≤ ↑n ^ k / 2 ^ (k - 1)",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_02.lean#L225",
+      "goal_length": 94,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_02.lean",
+          "start_line": 225,
+          "start_column": 56,
+          "end_line": 225,
+          "end_column": 61
+        },
+        "debug_info": {
+          "goal": "k n : ℕ\n⊢ ↑(n.choose k) ≤ ↑n ^ k / ↑k.factorial ∧ ↑n ^ k / ↑k.factorial ≤ ↑n ^ k / 2 ^ (k - 1)",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_02.lean#L225"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-12-31T15:28:45+01:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "85b49489509ec0b01e4a1df0173345e0e168acd0d179fac6932bb46a1d8dcc78"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 622,
+      "id": "fafb865c35ed180a88ec7877c6fb3432fc771002d0021d4e0dd67de1341ec201",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_24.lean",
+      "start_line": 38,
+      "start_column": 76,
+      "end_line": 38,
+      "end_column": 81,
+      "goal": "n : ℕ\nM : Matrix (Fin n) (Fin n) ℝ\n⊢ M ∈ doublyStochastic ℝ (Fin n) → M.permanent ≥ ↑n.factorial / ↑n ^ n",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_24.lean#L38",
+      "goal_length": 105,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_24.lean",
+          "start_line": 38,
+          "start_column": 76,
+          "end_line": 38,
+          "end_column": 81
+        },
+        "debug_info": {
+          "goal": "n : ℕ\nM : Matrix (Fin n) (Fin n) ℝ\n⊢ M ∈ doublyStochastic ℝ (Fin n) → M.permanent ≥ ↑n.factorial / ↑n ^ n",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_24.lean#L38"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2024-11-20T15:34:40+01:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "fafb865c35ed180a88ec7877c6fb3432fc771002d0021d4e0dd67de1341ec201"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 374,
+      "id": "23148bda427a6f78e69b003d58a8a7ac9ca69d51fdc533e4ff0ab1688d783ecc",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_01.lean",
+      "start_line": 189,
+      "start_column": 74,
+      "end_line": 189,
+      "end_column": 79,
+      "goal": "n : ℕ\nx : ℝ\nhxge : x ≥ ↑n\nhxlt : x < ↑n + 1\n⊢ ∑' (m : ↑(S₁ x)), (↑↑m)⁻¹ ≤ ∏ p ∈ ⌊x⌋.natAbs.primesBelow, ∑' (k : ℕ), (↑p ^ k)⁻¹",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_01.lean#L189",
+      "goal_length": 126,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_01.lean",
+          "start_line": 189,
+          "start_column": 74,
+          "end_line": 189,
+          "end_column": 79
+        },
+        "debug_info": {
+          "goal": "n : ℕ\nx : ℝ\nhxge : x ≥ ↑n\nhxlt : x < ↑n + 1\n⊢ ∑' (m : ↑(S₁ x)), (↑↑m)⁻¹ ≤ ∏ p ∈ ⌊x⌋.natAbs.primesBelow, ∑' (k : ℕ), (↑p ^ k)⁻¹",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_01.lean#L189"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-08-31T10:16:06+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "23148bda427a6f78e69b003d58a8a7ac9ca69d51fdc533e4ff0ab1688d783ecc"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 477,
+      "id": "1404fd8c29641a0312cb9c9f79fb69017a1274c372110ba04643eb4dca1d0478",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_01.lean",
+      "start_line": 191,
+      "start_column": 65,
+      "end_line": 191,
+      "end_column": 70,
+      "goal": "n : ℕ\nx : ℝ\nhxge : x ≥ ↑n\nhxlt : x < ↑n + 1\n⊢ ↑(∏ k ∈ Icc 1 (primeCountingReal x), nth Nat.Prime k / (nth Nat.Prime k - 1)) ≤\n    ↑(∏ k ∈ Icc 1 (primeCountingReal x), (k + 1) / k)",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_01.lean#L191",
+      "goal_length": 179,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_01.lean",
+          "start_line": 191,
+          "start_column": 65,
+          "end_line": 191,
+          "end_column": 70
+        },
+        "debug_info": {
+          "goal": "n : ℕ\nx : ℝ\nhxge : x ≥ ↑n\nhxlt : x < ↑n + 1\n⊢ ↑(∏ k ∈ Icc 1 (primeCountingReal x), nth Nat.Prime k / (nth Nat.Prime k - 1)) ≤\n    ↑(∏ k ∈ Icc 1 (primeCountingReal x), (k + 1) / k)",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_01.lean#L191"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-08-31T10:16:06+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "1404fd8c29641a0312cb9c9f79fb69017a1274c372110ba04643eb4dca1d0478"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 427,
+      "id": "96336aaeb19b31c66ae605692b4f9d1cfd72a2867b2778a68a60cda20153bd18",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_01.lean",
+      "start_line": 190,
+      "start_column": 97,
+      "end_line": 190,
+      "end_column": 102,
+      "goal": "n : ℕ\nx : ℝ\nhxge : x ≥ ↑n\nhxlt : x < ↑n + 1\n⊢ ∏ p ∈ ⌊x⌋.natAbs.primesBelow, ∑' (k : ℕ), (↑p ^ k)⁻¹ ≤\n    ↑(∏ k ∈ Icc 1 (primeCountingReal x), nth Nat.Prime k / (nth Nat.Prime k - 1))",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_01.lean#L190",
+      "goal_length": 182,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_01.lean",
+          "start_line": 190,
+          "start_column": 97,
+          "end_line": 190,
+          "end_column": 102
+        },
+        "debug_info": {
+          "goal": "n : ℕ\nx : ℝ\nhxge : x ≥ ↑n\nhxlt : x < ↑n + 1\n⊢ ∏ p ∈ ⌊x⌋.natAbs.primesBelow, ∑' (k : ℕ), (↑p ^ k)⁻¹ ≤\n    ↑(∏ k ∈ Icc 1 (primeCountingReal x), nth Nat.Prime k / (nth Nat.Prime k - 1))",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_01.lean#L190"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2025-08-31T10:16:06+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "96336aaeb19b31c66ae605692b4f9d1cfd72a2867b2778a68a60cda20153bd18"
+      }
+    },
+    {
+      "rank_score": -36,
+      "rank_reasons": [
+        "lean_4_27",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 916,
+      "id": "ed95579168afee87333af9d50b4d41cd2c6d6c298657a682a3eb2e1f74a79edf",
+      "remote": "https://github.com/mo271/FormalBook",
+      "branch": "main",
+      "commit": "865934361ca7005e0a874efb39f5809117052e85",
+      "lean_version": "v4.27.0-rc1",
+      "path": "FormalBook/Chapter_04.lean",
+      "start_line": 239,
+      "start_column": 4,
+      "end_line": 239,
+      "end_column": 9,
+      "goal": "case h.mp\nk : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\nt : ↑(ch04.U k)\nht : ⟨⟨(t.1.1.1 - t.1.1.2.1 + t.1.1.2.2, t.1.1.2.1, 2 * t.1.1.2.1 - t.1.1.2.2), ⋯⟩, ⋯⟩ = t\n⊢ t ∈ {⟨⟨(↑k, 1), ⋯⟩, ⋯⟩}",
+      "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_04.lean#L239",
+      "goal_length": 182,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/mo271/FormalBook",
+          "branch": "main",
+          "commit": "865934361ca7005e0a874efb39f5809117052e85",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FormalBook/Chapter_04.lean",
+          "start_line": 239,
+          "start_column": 4,
+          "end_line": 239,
+          "end_column": 9
+        },
+        "debug_info": {
+          "goal": "case h.mp\nk : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\nt : ↑(ch04.U k)\nht : ⟨⟨(t.1.1.1 - t.1.1.2.1 + t.1.1.2.2, t.1.1.2.1, 2 * t.1.1.2.1 - t.1.1.2.2), ⋯⟩, ⋯⟩ = t\n⊢ t ∈ {⟨⟨(↑k, 1), ⋯⟩, ⋯⟩}",
+          "url": "https://github.com/mo271/FormalBook/blob/865934361ca7005e0a874efb39f5809117052e85/FormalBook/Chapter_04.lean#L239"
+        },
+        "metadata": {
+          "blame_email_hash": "ef3bc37f67e8",
+          "blame_date": "2024-10-20T20:48:44+02:00",
+          "inclusion_date": "2026-01-10T23:51:38.906486+00:00"
+        },
+        "id": "ed95579168afee87333af9d50b4d41cd2c6d6c298657a682a3eb2e1f74a79edf"
+      }
+    },
+    {
+      "rank_score": -34,
+      "rank_reasons": [
+        "lean_4_24_25",
+        "true_goal",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 370,
+      "id": "b4d345ad1d3f7441b59f93f76f7041de9119dbd22ce9f96b637ae36a1ab933b2",
+      "remote": "https://github.com/leanprover-community/batteries",
+      "branch": "weak.backward.privateInPublic",
+      "commit": "fce4da76bae6a8daa1503009abb00587253c4177",
+      "lean_version": "v4.25.0-rc2",
+      "path": "BatteriesTest/lintunused.lean",
+      "start_line": 7,
+      "start_column": 2,
+      "end_line": 7,
+      "end_column": 7,
+      "goal": "h : 1 = 1\n⊢ True",
+      "url": "https://github.com/leanprover-community/batteries/blob/fce4da76bae6a8daa1503009abb00587253c4177/BatteriesTest/lintunused.lean#L7",
+      "goal_length": 16,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/leanprover-community/batteries",
+          "branch": "weak.backward.privateInPublic",
+          "commit": "fce4da76bae6a8daa1503009abb00587253c4177",
+          "lean_version": "v4.25.0-rc2"
+        },
+        "location": {
+          "path": "BatteriesTest/lintunused.lean",
+          "start_line": 7,
+          "start_column": 2,
+          "end_line": 7,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "h : 1 = 1\n⊢ True",
+          "url": "https://github.com/leanprover-community/batteries/blob/fce4da76bae6a8daa1503009abb00587253c4177/BatteriesTest/lintunused.lean#L7"
+        },
+        "metadata": {
+          "blame_email_hash": "45b5ed8e3c8e",
+          "blame_date": "2023-08-08T02:17:31+02:00",
+          "inclusion_date": "2026-01-10T15:43:56.184226+00:00"
+        },
+        "id": "b4d345ad1d3f7441b59f93f76f7041de9119dbd22ce9f96b637ae36a1ab933b2"
+      }
+    },
+    {
+      "rank_score": -34,
+      "rank_reasons": [
+        "lean_4_26",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 237,
+      "id": "d07abd6472334451129fc38084a82a564546548b8cebc419be814b3029019605",
+      "remote": "https://github.com/djvelleman/HTPILeanPackage",
+      "branch": "master",
+      "commit": "12ca2d2d0f0d12e6c2a158cf01268df350a7c884",
+      "lean_version": "v4.26.0",
+      "path": "Chap8Ex.lean",
+      "start_line": 33,
+      "start_column": 55,
+      "end_line": 33,
+      "end_column": 60,
+      "goal": "⊢ denum ↑{n | even n}",
+      "url": "https://github.com/djvelleman/HTPILeanPackage/blob/12ca2d2d0f0d12e6c2a158cf01268df350a7c884/Chap8Ex.lean#L33",
+      "goal_length": 21,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/djvelleman/HTPILeanPackage",
+          "branch": "master",
+          "commit": "12ca2d2d0f0d12e6c2a158cf01268df350a7c884",
+          "lean_version": "v4.26.0"
+        },
+        "location": {
+          "path": "Chap8Ex.lean",
+          "start_line": 33,
+          "start_column": 55,
+          "end_line": 33,
+          "end_column": 60
+        },
+        "debug_info": {
+          "goal": "⊢ denum ↑{n | even n}",
+          "url": "https://github.com/djvelleman/HTPILeanPackage/blob/12ca2d2d0f0d12e6c2a158cf01268df350a7c884/Chap8Ex.lean#L33"
+        },
+        "metadata": {
+          "blame_email_hash": "915d100f01e6",
+          "blame_date": "2025-05-12T09:44:57-04:00",
+          "inclusion_date": "2026-01-09T22:11:53.147284+00:00"
+        },
+        "id": "d07abd6472334451129fc38084a82a564546548b8cebc419be814b3029019605"
+      }
+    },
+    {
+      "rank_score": -34,
+      "rank_reasons": [
+        "lean_4_26",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 978,
+      "id": "71df22034435c40ccf64fc56a3915dccb30d1fd475a9232b45498910519b73f1",
+      "remote": "https://github.com/djvelleman/HTPILeanPackage",
+      "branch": "master",
+      "commit": "12ca2d2d0f0d12e6c2a158cf01268df350a7c884",
+      "lean_version": "v4.26.0",
+      "path": "Chap8Ex.lean",
+      "start_line": 104,
+      "start_column": 69,
+      "end_line": 104,
+      "end_column": 74,
+      "goal": "n : ℕ\nh : ↑(I 0) ∼ ↑(I n)\n⊢ n = 0",
+      "url": "https://github.com/djvelleman/HTPILeanPackage/blob/12ca2d2d0f0d12e6c2a158cf01268df350a7c884/Chap8Ex.lean#L104",
+      "goal_length": 33,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/djvelleman/HTPILeanPackage",
+          "branch": "master",
+          "commit": "12ca2d2d0f0d12e6c2a158cf01268df350a7c884",
+          "lean_version": "v4.26.0"
+        },
+        "location": {
+          "path": "Chap8Ex.lean",
+          "start_line": 104,
+          "start_column": 69,
+          "end_line": 104,
+          "end_column": 74
+        },
+        "debug_info": {
+          "goal": "n : ℕ\nh : ↑(I 0) ∼ ↑(I n)\n⊢ n = 0",
+          "url": "https://github.com/djvelleman/HTPILeanPackage/blob/12ca2d2d0f0d12e6c2a158cf01268df350a7c884/Chap8Ex.lean#L104"
+        },
+        "metadata": {
+          "blame_email_hash": "915d100f01e6",
+          "blame_date": "2025-05-12T09:44:57-04:00",
+          "inclusion_date": "2026-01-09T22:11:53.147284+00:00"
+        },
+        "id": "71df22034435c40ccf64fc56a3915dccb30d1fd475a9232b45498910519b73f1"
+      }
+    },
+    {
+      "rank_score": -34,
+      "rank_reasons": [
+        "lean_4_26",
+        "educational_problem_repo",
+        "short_goal",
+        "exercise_like_path"
+      ],
+      "split_index": 410,
+      "id": "b4a0b17a6112b4f5b728ae25a5f17b6c7ef0d5ab8c96a3f2d37f4bf54e1a712f",
+      "remote": "https://github.com/djvelleman/HTPILeanPackage",
+      "branch": "master",
+      "commit": "12ca2d2d0f0d12e6c2a158cf01268df350a7c884",
+      "lean_version": "v4.26.0",
+      "path": "Chap8Ex.lean",
+      "start_line": 45,
+      "start_column": 35,
+      "end_line": 45,
+      "end_column": 40,
+      "goal": "U V : Type\nh : U ∼ V\n⊢ Set U ∼ Set V",
+      "url": "https://github.com/djvelleman/HTPILeanPackage/blob/12ca2d2d0f0d12e6c2a158cf01268df350a7c884/Chap8Ex.lean#L45",
+      "goal_length": 36,
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/djvelleman/HTPILeanPackage",
+          "branch": "master",
+          "commit": "12ca2d2d0f0d12e6c2a158cf01268df350a7c884",
+          "lean_version": "v4.26.0"
+        },
+        "location": {
+          "path": "Chap8Ex.lean",
+          "start_line": 45,
+          "start_column": 35,
+          "end_line": 45,
+          "end_column": 40
+        },
+        "debug_info": {
+          "goal": "U V : Type\nh : U ∼ V\n⊢ Set U ∼ Set V",
+          "url": "https://github.com/djvelleman/HTPILeanPackage/blob/12ca2d2d0f0d12e6c2a158cf01268df350a7c884/Chap8Ex.lean#L45"
+        },
+        "metadata": {
+          "blame_email_hash": "915d100f01e6",
+          "blame_date": "2025-05-12T09:44:57-04:00",
+          "inclusion_date": "2026-01-09T22:11:53.147284+00:00"
+        },
+        "id": "b4a0b17a6112b4f5b728ae25a5f17b6c7ef0d5ab8c96a3f2d37f4bf54e1a712f"
+      }
+    }
+  ],
+  "lean_versions": [
+    [
+      "v4.27.0-rc1",
+      318
+    ],
+    [
+      "v4.26.0",
+      218
+    ],
+    [
+      "v4.24.0",
+      145
+    ],
+    [
+      "v4.26.0-rc2",
+      97
+    ],
+    [
+      "v4.22.0",
+      72
+    ],
+    [
+      "v4.23.0-rc2",
+      37
+    ],
+    [
+      "v4.24.0-rc1",
+      36
+    ],
+    [
+      "v4.25.0-rc2",
+      22
+    ],
+    [
+      "v4.18.0-rc1",
+      14
+    ],
+    [
+      "v4.25.0",
+      12
+    ],
+    [
+      "v4.18.0",
+      11
+    ],
+    [
+      "v4.26.0-rc1",
+      10
+    ],
+    [
+      "v4.21.0",
+      7
+    ],
+    [
+      "v4.22.0-rc4",
+      1
+    ]
+  ],
+  "repo_counts": [
+    [
+      "https://github.com/AlexKontorovich/PrimeNumberTheoremAnd",
+      21
+    ],
+    [
+      "https://github.com/AlexKontorovich/RealAnalysisGame",
+      21
+    ],
+    [
+      "https://github.com/Beneficial-AI-Foundation/curve25519-dalek-lean-verify",
+      21
+    ],
+    [
+      "https://github.com/FormalizedFormalLogic/Foundation",
+      21
+    ],
+    [
+      "https://github.com/rkirov/category-theory-in-context-lean",
+      21
+    ],
+    [
+      "https://github.com/FredRaj3/SemicircleLaw",
+      21
+    ],
+    [
+      "https://github.com/HEPLean/PhysLean",
+      21
+    ],
+    [
+      "https://github.com/ImperialCollegeLondon/FLT",
+      21
+    ],
+    [
+      "https://github.com/fpvandoorn/LeanCourse25",
+      20
+    ],
+    [
+      "https://github.com/PatrickMassot/GlimpseOfLean",
+      20
+    ],
+    [
+      "https://github.com/Paul-Lez/PersistentDecomp",
+      20
+    ],
+    [
+      "https://github.com/RemyDegenne/brownian-motion",
+      20
+    ],
+    [
+      "https://github.com/Timeroot/Lean-QuantumInfo",
+      20
+    ],
+    [
+      "https://github.com/VCA-EPFL/graphiti",
+      20
+    ],
+    [
+      "https://github.com/Verified-zkEVM/ArkLib",
+      20
+    ],
+    [
+      "https://github.com/Verified-zkEVM/VCV-io",
+      20
+    ],
+    [
+      "https://github.com/YaelDillies/LeanAPAP",
+      20
+    ],
+    [
+      "https://github.com/leanprover-community/mathlib4",
+      20
+    ],
+    [
+      "https://github.com/YaelDillies/LeanCamCombi",
+      20
+    ],
+    [
+      "https://github.com/YaelDillies/MiscYD",
+      20
+    ],
+    [
+      "https://github.com/apnelson1/Matroid",
+      20
+    ],
+    [
+      "https://github.com/arademaker/fad",
+      20
+    ],
+    [
+      "https://github.com/djvelleman/HTPILeanPackage",
+      20
+    ],
+    [
+      "https://github.com/dwrensha/compfiles",
+      20
+    ],
+    [
+      "https://github.com/jsm28/IMOLean",
+      20
+    ],
+    [
+      "https://github.com/google-deepmind/formal-conjectures",
+      20
+    ],
+    [
+      "https://github.com/fpvandoorn/carleson",
+      20
+    ],
+    [
+      "https://github.com/google-deepmind/formal-imo",
+      20
+    ],
+    [
+      "https://github.com/yangky11/miniF2F-lean4",
+      20
+    ],
+    [
+      "https://github.com/jcreedcmu/Noperthedron",
+      20
+    ]
+  ]
+}
