@@ -1,0 +1,638 @@
+[
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 473,
+    "import_count": 1,
+    "imports": [
+      "import Lean4Lean.Experimental.ShapeLogRel"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 8,
+        "text": "def LR.Adequate (\u0393\u2080 \u0393 : List SExpr) (\u03c1 : Valuation) (M N A : SExpr) (m a : WShape n) :="
+      },
+      {
+        "line": 14,
+        "text": "theorem LR.Adequate.bot (ha : a.HasType .type) : Adequate \u0393\u2080 \u0393 \u03c1 M N A .bot a :="
+      },
+      {
+        "line": 17,
+        "text": "theorem LR.Adequate.fits"
+      },
+      {
+        "line": 21,
+        "text": "theorem LR.Adequate.refl"
+      },
+      {
+        "line": 26,
+        "text": "theorem LR.Adequate.left : Adequate \u0393\u2080 \u0393 \u03c1 M N A m a \u2192 Adequate \u0393\u2080 \u0393 \u03c1 M M A m a"
+      },
+      {
+        "line": 29,
+        "text": "theorem LR.Adequate.symm : Adequate \u0393\u2080 \u0393 \u03c1 M N A m a \u2192 Adequate \u0393\u2080 \u0393 \u03c1 N M A m a"
+      },
+      {
+        "line": 32,
+        "text": "theorem LR.Adequate.trans :"
+      },
+      {
+        "line": 37,
+        "text": "theorem LR.Adequate.trans' : Adequate \u0393\u2080 \u0393 \u03c1 A\u2081 A\u2082 (.sort u) a s \u2192"
+      },
+      {
+        "line": 45,
+        "text": "theorem LR.Adequate.cons"
+      },
+      {
+        "line": 94,
+        "text": "theorem LR.toValTy {m : WShape n'} {b : WShape n} (le_n : n \u2264 n') (le_a : b.T \u2264 m.T)"
+      },
+      {
+        "line": 106,
+        "text": "theorem LR.adequacy (H : \u0393 \u22a2 M \u2261 N : A)"
+      },
+      {
+        "line": 434,
+        "text": "theorem forallE_whRed_l (d : \u0393 \u22a2 A\u2080 \u2261 SExpr.forallE B\u2081 F\u2081 : .sort s) :"
+      },
+      {
+        "line": 450,
+        "text": "theorem forallE_inv (H : \u0393 \u22a2 SExpr.forallE A\u2080 B\u2080 \u2261 SExpr.forallE A\u2081 B\u2081 : .sort s) :"
+      },
+      {
+        "line": 455,
+        "text": "theorem sort_forallE_inv : \u00ac\u0393 \u22a2 .sort u \u2261 SExpr.forallE A\u2081 B\u2081 : .sort s :="
+      },
+      {
+        "line": 459,
+        "text": "theorem sort_inv (d : \u0393 \u22a2 SExpr.sort u \u2261 SExpr.sort v : V) : u = v := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 154,
+        "window": "0142:     | _ =>\n0143:       obtain h | h := WShape.le_sort.1 hM.le_sort'\n0144:       \u00b7 dsimp only at h; rw [h]; exact (LR _).bot hmem.isType\n0145:       \u00b7 simp [WShape.ext_iff, WShape.forallE, WShape.sort, Shape.sort,\n0146:           WShape.lam', WShape.lam, WShape.bot, WShape.ctor, WShape.indTy,\n0147:           Shape.bot] at h <;> first | split at h <;> simp_all only [reduceCtorEq] | simp_all\n0148:   | @const c ci \u0393 ls _ h1 h2 h3 =>\n0149:     cases hM with | bot => exact .bot hmem.isType | const a1 _ a3 a4 a5 a6\n0150:     cases h1.symm.trans a1\n0151:     suffices \u2200 {\u03c3}, (LR \u0393\u2080).DefEq (const c ls) (const c ls) (((mk ci.type).instL ls).subst \u03c3) m a\n0152:       from \u27e8fun _ _ _ => \u27e8this, this\u27e9, fun _ _ => this\u27e9\n0153:     intro \u03c3; rw [(Params.henv.closedC h1).mkS.instL.subst_eq .zero]; clear \u03c3\n0154:     sorry\n0155:   | @appDF \u0393 A u F F' B X X' v _ Hf Ha HBa _ ihf iha ihBa =>\n0156:     cases hM with | bot => exact .bot hmem.isType | @app _ nf_app f _ _ _ x hif hia le_m\n0157:     suffices \u2200 {F F' X X' \u03c3 \u03c3'}, SubstWF \u0393\u2080 \u03c3 \u03c3' \u0393 \u03c1 \u2192\n0158:         \u0393 \u22a2 F \u2261 F' : A.forallE B \u2192 \u0393 \u22a2 X \u2261 X' : A \u2192 \u0393 \u22a2 B.inst X \u2261 B.inst X' : .sort v \u2192\n0159:         LE_Interp \u03c1 f.T F \u2192 LE_Interp \u03c1 x.T X \u2192 LE_Interp \u03c1 a.T (B.inst X) \u2192\n0160:         (\u2200 {n'} {mf af : WShape n'}, LE_Interp \u03c1 mf.T F \u2192 LE_Interp \u03c1 af.T (.forallE A B) \u2192\n0161:           mf.HasType af \u2192 Adequate \u0393\u2080 \u0393 \u03c1 F F' (.forallE A B) mf af) \u2192\n0162:         (\u2200 {n'} {ma aa : WShape n'}, LE_Interp \u03c1 ma.T X \u2192 LE_Interp \u03c1 aa.T A \u2192\n0163:           ma.HasType aa \u2192 Adequate \u0393\u2080 \u0393 \u03c1 X X' A ma aa) \u2192\n0164:         (\u2200 {n'} {mb av : WShape n'}, LE_Interp \u03c1 mb.T (B.inst X) \u2192 LE_Interp \u03c1 av.T (.sort v) \u2192\n0165:           mb.HasType av \u2192 Adequate \u0393\u2080 \u0393 \u03c1 (B.inst X) (B.inst X') (.sort v) mb av) \u2192\n0166:         (LR \u0393\u2080).DefEq (.subst (.app F X) \u03c3) (.subst (.app F' X') \u03c3')"
+      }
+    ],
+    "score": 21.15,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -23.85,
+    "selector_score": -42.85
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/MoreStepIndexed.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 5,
+    "active_sorry_count": 1,
+    "line_count": 489,
+    "import_count": 1,
+    "imports": [
+      "import Lean4Lean.Experimental.SExpr"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": true,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": true,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 24,
+        "text": "def BIProp.restrict (C : BIProp n) (m : Nat) (h : m \u2264 n) : BIProp m where"
+      },
+      {
+        "line": 29,
+        "text": "def IProp.restrict (P : IProp) (n : Nat) : BIProp n where"
+      },
+      {
+        "line": 35,
+        "text": "theorem IProp.restrict_restrict {P : IProp} : (P.restrict n).restrict m h = P.restrict m := by"
+      },
+      {
+        "line": 46,
+        "text": "def CRDefEqN (\u0393 : List SExpr) (A B : SExpr) (n : Nat) : Prop :="
+      },
+      {
+        "line": 49,
+        "text": "theorem CRDefEqN.mono : n \u2264 n' \u2192 CRDefEqN \u0393 e e' n \u2192 CRDefEqN \u0393 e e' n'"
+      },
+      {
+        "line": 52,
+        "text": "def CheckType (\u0393 : List SExpr) (e A : SExpr) : Prop :="
+      },
+      {
+        "line": 54,
+        "text": "def CheckTypeN (\u0393 : List SExpr) (e A : SExpr) (n : Nat) : Prop :="
+      },
+      {
+        "line": 57,
+        "text": "theorem CheckTypeN.mono : n \u2264 n' \u2192 CheckTypeN \u0393 e e' n \u2192 CheckTypeN \u0393 e e' n'"
+      },
+      {
+        "line": 69,
+        "text": "def Shape : Nat \u2192 Type"
+      },
+      {
+        "line": 103,
+        "text": "def ShapeFun.Compat (R : \u03b1 \u2192 \u03b2 \u2192 Bool) (f : List (\u03b1 \u00d7 \u03b1)) (f' : List (\u03b2 \u00d7 \u03b2)) : Bool :="
+      },
+      {
+        "line": 106,
+        "text": "def Shape.Compat : \u2200 {n}, Shape n \u2192 Shape n \u2192 Bool"
+      },
+      {
+        "line": 113,
+        "text": "def ShapeFun.ble (R : \u03b1 \u2192 \u03b1 \u2192 Bool) (f f' : List (\u03b1 \u00d7 \u03b1)) : Bool :="
+      },
+      {
+        "line": 116,
+        "text": "def Shape.ble : \u2200 {n}, Shape n \u2192 Shape n \u2192 Bool"
+      },
+      {
+        "line": 123,
+        "text": "def ShapeFun.LE (s s' : ShapeFun n) : Prop := ShapeFun.ble Shape.ble s s'"
+      },
+      {
+        "line": 124,
+        "text": "def Shape.LE (s s' : Shape n) : Prop := s.ble s'"
+      },
+      {
+        "line": 125,
+        "text": "instance : LE (Shape n) := \u27e8Shape.LE\u27e9"
+      },
+      {
+        "line": 126,
+        "text": "instance : DecidableRel (\u03b1 := Shape n) (\u00b7 \u2264 \u00b7) := fun x y => inferInstanceAs (Decidable (x.ble y))"
+      },
+      {
+        "line": 132,
+        "text": "theorem Shape.LE.def {s s' : Shape (n + 1)} : s \u2264 s' \u2194"
+      },
+      {
+        "line": 143,
+        "text": "theorem Shape.LE.rfl {s : Shape n} : s \u2264 s := by"
+      },
+      {
+        "line": 153,
+        "text": "def ShapeFun.lift (lift : \u03b1 \u2192 \u03b2) (x : List (\u03b1 \u00d7 \u03b1)) : List (\u03b2 \u00d7 \u03b2) :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 310,
+        "window": "0298:   | _+1, .sort, .sort => .sort -- (max i j) (by omega)\n0299:   | _+1, .forallE s f, .forallE s' f' => .forallE (join s s') (ShapeFun.join join f f')\n0300:   | _+1, .lam f, .lam f' => .lam (ShapeFun.join join f f')\n0301:   | _+1, _, _ => .bot\n0302: \n0303: def ShapeFun.maxBelow (s : ShapeFun n) : Shape n \u00d7 Shape n :=\n0304:   (s.find? fun (x, _) => s.all fun (x', _) => x' \u2264 x).getD (.bot, .bot)\n0305: \n0306: def ShapeFun.app (s : ShapeFun n) (a : Shape n) : Shape n :=\n0307:   maxBelow (s.filter (\u00b7.1 \u2264 a)) |>.2\n0308: \n0309: theorem ShapeFun.app_mono_l {f f' : ShapeFun n} : f.LE f' \u2192 \u2200 a, f.app a \u2264 f'.app a :=\n0310:   sorry\n0311: \n0312: def Shape.app : Shape (n + 1) \u2192 Shape n \u2192 Shape n\n0313:   | .lam f, x => ShapeFun.app f x\n0314:   | _, _ => .bot\n0315: \n0316: theorem Shape.app_mono_l {f f' : Shape (n + 1)} (le : f \u2264 f') (a) : f.app a \u2264 f'.app a := by\n0317:   unfold app; split <;> [split; simp]\n0318:   \u00b7 exact ShapeFun.app_mono_l le _\n0319:   \u00b7 cases f' <;> simp [LE.def] at le; grind\n0320: \n0321: def Shape.HasType : \u2200 {n}, Shape n \u2192 Shape n \u2192 Prop\n0322:   | 0, _, _ | _+1, .bot, _ => True"
+      }
+    ],
+    "score": 26.95,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -18.05,
+    "selector_score": -37.05
+  },
+  {
+    "repo": "leanprover-community/sphere-eversion",
+    "file": "SphereEversion/ToMathlib/Unused/GeometryManifoldMisc.lean",
+    "commit": "ded8fda5e76bd11cfde49ce5018dee73538dd776",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 16,
+    "active_sorry_count": 6,
+    "line_count": 385,
+    "import_count": 3,
+    "imports": [
+      "import Mathlib.Geometry.Manifold.VectorBundle.Tangent",
+      "import Mathlib.Geometry.Manifold.MFDeriv.Defs",
+      "import Mathlib.Analysis.Calculus.ContDiff.Defs"
+    ],
+    "repo_penalty": 10.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 16,
+        "text": "theorem map_fst_nhdsWithin_eq {x : \u03b1 \u00d7 \u03b2} {s : Set \u03b1} :"
+      },
+      {
+        "line": 21,
+        "text": "theorem nhdsWithin_preimage_fst_le {x : \u03b1 \u00d7 \u03b2} {s : Set \u03b1} :"
+      },
+      {
+        "line": 26,
+        "text": "theorem Filter.Eventually.nhdsWithin_preimage_fst {z : \u03b1 \u00d7 \u03b2} {s : Set \u03b1} {p : \u03b1 \u00d7 \u03b2 \u2192 Prop}"
+      },
+      {
+        "line": 31,
+        "text": "theorem Filter.EventuallyEq.nhdsWithin_preimage_fst {z : \u03b1 \u00d7 \u03b2} {s : Set \u03b1} {f g : \u03b1 \u00d7 \u03b2 \u2192 \u03b3}"
+      },
+      {
+        "line": 35,
+        "text": "theorem eventually_mem_nhds_within' {\u03b1} [TopologicalSpace \u03b1] {s t : Set \u03b1} {a : \u03b1} :"
+      },
+      {
+        "line": 39,
+        "text": "theorem eventually_mem_nhds_within'' {\u03b1} [TopologicalSpace \u03b1] {s t : Set \u03b1} {a : \u03b1} :"
+      },
+      {
+        "line": 61,
+        "text": "theorem VectorBundleCore.smoothAt_coordChange {\u03b9} (Z : VectorBundleCore \ud835\udd5c B F \u03b9) [Z.IsContMDiff IB \u221e]"
+      },
+      {
+        "line": 70,
+        "text": "theorem smoothAt_coord_change (e e' : Trivialization F (\u03c0 F E)) {x\u2080 : B}"
+      },
+      {
+        "line": 77,
+        "text": "theorem contMDiffAt_coord_change_apply (e e' : Trivialization F (\u03c0 F E)) {x\u2080 : M} {f : M \u2192 B}"
+      },
+      {
+        "line": 103,
+        "text": "theorem Trivialization.smoothAt (e : Trivialization F (\u03c0 F E)) [MemTrivializationAtlas e]"
+      },
+      {
+        "line": 142,
+        "text": "theorem Trivialization.smoothOn (e : Trivialization F (\u03c0 F E)) [MemTrivializationAtlas e] :"
+      },
+      {
+        "line": 147,
+        "text": "theorem smoothAt_trivializationAt {x\u2080 : B} {x : TotalSpace F E}"
+      },
+      {
+        "line": 153,
+        "text": "theorem smoothOn_trivializationAt (x\u2080 : B) :"
+      },
+      {
+        "line": 339,
+        "text": "theorem contMDiffAt_tangentBundle_trivializationAt_continuousLinearMap (x\u2080 : TangentBundle I M) :"
+      },
+      {
+        "line": 355,
+        "text": "theorem ContMDiffAt.contMDiffAt_tangentMap (x\u2080 : TangentBundle I M)"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 81,
+        "window": "0069: \n0070: theorem smoothAt_coord_change (e e' : Trivialization F (\u03c0 F E)) {x\u2080 : B}\n0071:     (hx\u2080 : x\u2080 \u2208 e.baseSet \u2229 e'.baseSet) [MemTrivializationAtlas e] [MemTrivializationAtlas e'] :\n0072:     ContMDiffAt IB \ud835\udcd8(\ud835\udd5c, F \u2192L[\ud835\udd5c] F) \u221e (fun b : B \u21a6 (e.coordChangeL \ud835\udd5c e' b : F \u2192L[\ud835\udd5c] F)) x\u2080 :=\n0073:   (contMDiffOn_coordChangeL e e').contMDiffAt <| (e.open_baseSet.inter e'.open_baseSet).mem_nhds hx\u2080\n0074: \n0075: variable {IB}\n0076: \n0077: theorem contMDiffAt_coord_change_apply (e e' : Trivialization F (\u03c0 F E)) {x\u2080 : M} {f : M \u2192 B}\n0078:     {g : M \u2192 F} (hf : ContMDiffAt IM IB n f x\u2080) (hg : ContMDiffAt IM \ud835\udcd8(\ud835\udd5c, F) n g x\u2080)\n0079:     (hx\u2080 : f x\u2080 \u2208 e.baseSet \u2229 e'.baseSet) [MemTrivializationAtlas e] [MemTrivializationAtlas e'] :\n0080:     ContMDiffAt IM \ud835\udcd8(\ud835\udd5c, F) n (fun x \u21a6 e.coordChangeL \ud835\udd5c e' (f x) (g x)) x\u2080 :=\n0081:   (((smoothAt_coord_change IB e e' hx\u2080).of_le sorry).comp x\u2080 hf).clm_apply hg\n0082: \n0083: end VectorBundle\n0084: \n0085: section VectorBundle\n0086: \n0087: open IsManifold\n0088: \n0089: open scoped Bundle ContDiff\n0090: \n0091: variable {\ud835\udd5c B F M : Type*} {E : B \u2192 Type*} [NontriviallyNormedField \ud835\udd5c] [\u2200 x, AddCommMonoid (E x)]\n0092:   [\u2200 x, Module \ud835\udd5c (E x)] [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] [TopologicalSpace (TotalSpace F E)]\n0093:   [\u2200 x, TopologicalSpace (E x)] {EB : Type*} [NormedAddCommGroup EB] [NormedSpace \ud835\udd5c EB]"
+      },
+      {
+        "line": 117,
+        "window": "0105:     ContMDiffAt (IB.prod \ud835\udcd8(\ud835\udd5c, F)) (IB.prod \ud835\udcd8(\ud835\udd5c, F)) \u221e e x\u2080 := by\n0106:   rw [@contMDiffAt_prod_iff]\n0107:   refine \u27e8(contMDiffAt_proj E).congr_of_eventuallyEq ?_, ?_\u27e9\n0108:   \u00b7 exact eventually_of_mem (e.open_source.mem_nhds <| e.mem_source.mpr hx\u2080) fun x hx \u21a6 e.coe_fst hx\n0109:   simp_rw [contMDiffAt_iff_source_of_mem_source (mem_chart_source _ _)]\n0110:   simp only [FiberBundle.extChartAt, Function.comp, prod_univ, mfld_simps]\n0111:   let e' := trivializationAt F E x\u2080.proj\n0112:   let c := (extChartAt IB x\u2080.proj).symm\n0113:   have h0 := (extChartAt IB x\u2080.proj).left_inv (mem_extChartAt_source x\u2080.proj)\n0114:   have : ContMDiffWithinAt \ud835\udcd8(\ud835\udd5c, EB \u00d7 F) \ud835\udcd8(\ud835\udd5c, F) \u221e\n0115:       (fun x : EB \u00d7 F \u21a6 e'.coordChangeL \ud835\udd5c e (c x.1) x.2)\n0116:       (Prod.fst \u207b\u00b9' range IB) (extChartAt IB x\u2080.proj x\u2080.proj, (e' x\u2080).2) := by\n0117:     sorry /-refine ContMDiffWithinAt.clm_apply (\ud835\udd5c := \ud835\udd5c) ?_ contDiffWithinAt_snd.contMDiffWithinAt\n0118:     have h1 := smoothAt_coord_change IB e' e \u27e8mem_base_set_trivialization_at F E x\u2080.proj, hx\u2080\u27e9\n0119:     refine' h1.cont_mdiff_within_at.comp_of_eq _ (maps_to_univ _ _) _\n0120:     \u00b7 refine' ((contMDiffOn_extChartAt_symm x\u2080.proj _ <|\n0121:           (extChartAt IB x\u2080.proj).mapsTo <| mem_extChartAt_source IB x\u2080.proj).mono_of_mem\n0122:         _).comp_of_eq _ (mapsTo_preimage _ _) rfl\n0123:       \u00b7 exact extChartAt_target_mem_nhdsWithin IB x\u2080.proj\n0124:       exact contDiffWithinAt_fst.contMDiffWithinAt\n0125:     \u00b7 exact h0 -/\n0126:   sorry /- was: refine this.congr_of_eventuallyEq_insert ?_\n0127:   rw [insert_eq_of_mem]\n0128:   swap; exact mem_range_self _\n0129:   refine' Filter.Eventually.nhdsWithin_preimage_fst _"
+      },
+      {
+        "line": 126,
+        "window": "0114:   have : ContMDiffWithinAt \ud835\udcd8(\ud835\udd5c, EB \u00d7 F) \ud835\udcd8(\ud835\udd5c, F) \u221e\n0115:       (fun x : EB \u00d7 F \u21a6 e'.coordChangeL \ud835\udd5c e (c x.1) x.2)\n0116:       (Prod.fst \u207b\u00b9' range IB) (extChartAt IB x\u2080.proj x\u2080.proj, (e' x\u2080).2) := by\n0117:     sorry /-refine ContMDiffWithinAt.clm_apply (\ud835\udd5c := \ud835\udd5c) ?_ contDiffWithinAt_snd.contMDiffWithinAt\n0118:     have h1 := smoothAt_coord_change IB e' e \u27e8mem_base_set_trivialization_at F E x\u2080.proj, hx\u2080\u27e9\n0119:     refine' h1.cont_mdiff_within_at.comp_of_eq _ (maps_to_univ _ _) _\n0120:     \u00b7 refine' ((contMDiffOn_extChartAt_symm x\u2080.proj _ <|\n0121:           (extChartAt IB x\u2080.proj).mapsTo <| mem_extChartAt_source IB x\u2080.proj).mono_of_mem\n0122:         _).comp_of_eq _ (mapsTo_preimage _ _) rfl\n0123:       \u00b7 exact extChartAt_target_mem_nhdsWithin IB x\u2080.proj\n0124:       exact contDiffWithinAt_fst.contMDiffWithinAt\n0125:     \u00b7 exact h0 -/\n0126:   sorry /- was: refine this.congr_of_eventuallyEq_insert ?_\n0127:   rw [insert_eq_of_mem]\n0128:   swap; exact mem_range_self _\n0129:   refine' Filter.Eventually.nhdsWithin_preimage_fst _\n0130:   dsimp only\n0131:   have h1 :=\n0132:     (continuousAt_extChartAt_symm IB x\u2080.proj).preimage_mem_nhds\n0133:       ((trivialization_at F E _).open_baseSet.mem_nhds <| mem_base_set_trivialization_at _ _ _)\n0134:   rw [h0] at h1\n0135:   have h2 :=\n0136:     (continuousAt_extChartAt_symm IB x\u2080.proj).preimage_mem_nhds\n0137:       (e.open_base_set.mem_nhds <| by rwa [h0])\n0138:   filter_upwards [nhdsWithin_le_nhds h1, nhdsWithin_le_nhds h2] with b h1b h2b y"
+      },
+      {
+        "line": 359,
+        "window": "0347:   have h1 :=\n0348:     (FiberBundle.continuous_proj E (TangentSpace I)).continuousAt.preimage_mem_nhds\n0349:       (e.open_baseSet.mem_nhds <| mem_baseSet_trivializationAt _ _ _)\n0350:   filter_upwards [h1] with x hx\n0351:   rw [Trivialization.continuousLinearMapAt_apply, e.coe_linearMapAt_of_mem hx]\n0352:   exact (e.smoothAt I <| mem_baseSet_trivializationAt E _ _).snd.of_le (sup_eq_left.mp rfl)\n0353: \n0354: /-- Not useful by itself. TODO: generalize to `contMDiffWithinAt` of `tangentMapWithin` -/\n0355: theorem ContMDiffAt.contMDiffAt_tangentMap (x\u2080 : TangentBundle I M)\n0356:     (hf : ContMDiffAt I I' n f x\u2080.proj) (hmn : m + 1 \u2264 n) :\n0357:     ContMDiffAt I.tangent I'.tangent m (tangentMap I I' f) x\u2080 := by\n0358:   rw [contMDiffAt_totalSpace]\n0359:   refine \u27e8(hf.comp x\u2080 (contMDiffAt_proj (TangentSpace I))).of_le <| sorry, ?_\u27e9\n0360:   dsimp only [tangentMap]\n0361:   let e := trivializationAt E (TangentSpace I) x\u2080.proj\n0362:   let e' := trivializationAt E' (TangentSpace I') (f x\u2080.proj)\n0363:   have : ContMDiffAt I.tangent \ud835\udcd8(\ud835\udd5c, E') m\n0364:       (fun x : TangentBundle I M \u21a6\n0365:         inTangentCoordinates I I' id f (mfderiv I I' f) x\u2080.proj x.proj <|\n0366:           e.continuousLinearMapAt \ud835\udd5c x.proj x.2) x\u2080 := by\n0367:     sorry /-apply ContMDiffAt.mfderiv_apply (fun _ \u21a6 f) id TotalSpace.proj\n0368:       (fun x \u21a6 e.continuousLinearMapAt \ud835\udd5c x.proj x.2) _ contMDiffAt_id (contMDiffAt_proj _) _\n0369:       hmn\n0370:     apply ContMDiffAt.comp (x\u2080.proj, x\u2080.proj) hf contMDiffAt_snd\n0371:     apply contMDiffAt_tangentBundle_trivializationAt_continuousLinearMap -/"
+      },
+      {
+        "line": 367,
+        "window": "0355: theorem ContMDiffAt.contMDiffAt_tangentMap (x\u2080 : TangentBundle I M)\n0356:     (hf : ContMDiffAt I I' n f x\u2080.proj) (hmn : m + 1 \u2264 n) :\n0357:     ContMDiffAt I.tangent I'.tangent m (tangentMap I I' f) x\u2080 := by\n0358:   rw [contMDiffAt_totalSpace]\n0359:   refine \u27e8(hf.comp x\u2080 (contMDiffAt_proj (TangentSpace I))).of_le <| sorry, ?_\u27e9\n0360:   dsimp only [tangentMap]\n0361:   let e := trivializationAt E (TangentSpace I) x\u2080.proj\n0362:   let e' := trivializationAt E' (TangentSpace I') (f x\u2080.proj)\n0363:   have : ContMDiffAt I.tangent \ud835\udcd8(\ud835\udd5c, E') m\n0364:       (fun x : TangentBundle I M \u21a6\n0365:         inTangentCoordinates I I' id f (mfderiv I I' f) x\u2080.proj x.proj <|\n0366:           e.continuousLinearMapAt \ud835\udd5c x.proj x.2) x\u2080 := by\n0367:     sorry /-apply ContMDiffAt.mfderiv_apply (fun _ \u21a6 f) id TotalSpace.proj\n0368:       (fun x \u21a6 e.continuousLinearMapAt \ud835\udd5c x.proj x.2) _ contMDiffAt_id (contMDiffAt_proj _) _\n0369:       hmn\n0370:     apply ContMDiffAt.comp (x\u2080.proj, x\u2080.proj) hf contMDiffAt_snd\n0371:     apply contMDiffAt_tangentBundle_trivializationAt_continuousLinearMap -/\n0372:     --exact this.congr_of_eventually_eq _\n0373:   have h1 :=\n0374:     (FiberBundle.continuous_proj E (TangentSpace I)).continuousAt.preimage_mem_nhds\n0375:       (e.open_baseSet.mem_nhds <| mem_baseSet_trivializationAt _ _ _)\n0376:   have h2 :=\n0377:     (hf.continuousAt.comp\n0378:       (FiberBundle.continuous_proj E (TangentSpace I)).continuousAt).preimage_mem_nhds\n0379:       (e'.open_baseSet.mem_nhds <| mem_baseSet_trivializationAt _ _ _)"
+      },
+      {
+        "line": 380,
+        "window": "0368:       (fun x \u21a6 e.continuousLinearMapAt \ud835\udd5c x.proj x.2) _ contMDiffAt_id (contMDiffAt_proj _) _\n0369:       hmn\n0370:     apply ContMDiffAt.comp (x\u2080.proj, x\u2080.proj) hf contMDiffAt_snd\n0371:     apply contMDiffAt_tangentBundle_trivializationAt_continuousLinearMap -/\n0372:     --exact this.congr_of_eventually_eq _\n0373:   have h1 :=\n0374:     (FiberBundle.continuous_proj E (TangentSpace I)).continuousAt.preimage_mem_nhds\n0375:       (e.open_baseSet.mem_nhds <| mem_baseSet_trivializationAt _ _ _)\n0376:   have h2 :=\n0377:     (hf.continuousAt.comp\n0378:       (FiberBundle.continuous_proj E (TangentSpace I)).continuousAt).preimage_mem_nhds\n0379:       (e'.open_baseSet.mem_nhds <| mem_baseSet_trivializationAt _ _ _)\n0380:   sorry /-filter_upwards [h1, h2] with x hx h2x\n0381:   dsimp only [inTangentCoordinates, in_coordinates, id_def]\n0382:   simp_rw [ContinuousLinearMap.comp_apply, e.symmL_continuous_linear_map_at hx,\n0383:     Trivialization.continuousLinearMapAt_apply, e'.coe_linear_map_at_of_mem h2x] -/\n0384: \n0385: end SmoothManifoldWithCorners"
+      }
+    ],
+    "score": 99.75,
+    "active_sorry_count_after_string_strip": 3,
+    "string_aware_real_score": 69.75,
+    "selector_score": 47.75
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/ParallelReduction.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 2,
+    "line_count": 905,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.Strong",
+      "import Lean4Lean.Experimental.NormalEq"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 29,
+        "text": "def NonNeutral (TY : Typing) (\u0393 : List VExpr) (e : VExpr) : Prop :="
+      },
+      {
+        "line": 56,
+        "text": "theorem ParRed.weakN (W : Ctx.LiftN n k \u0393 \u0393') (H : ParRed TY \u0393 e1 e2) :"
+      },
+      {
+        "line": 72,
+        "text": "theorem ParRed.instN (W : Ctx.InstN \u0393\u2080 a1 A\u2080 k \u0393\u2081 \u0393)"
+      },
+      {
+        "line": 97,
+        "text": "theorem ParRed.defeq (H : ParRed TY \u0393 e e') (he : TY.HasType \u0393 e A) : TY.IsDefEqU \u0393 e e' := by"
+      },
+      {
+        "line": 120,
+        "text": "theorem ParRed.hasType (H : ParRed TY \u0393 e e') (he : TY.HasType \u0393 e A) : TY.HasType \u0393 e' A :="
+      },
+      {
+        "line": 123,
+        "text": "theorem ParRed.defeqDFC (W : IsDefEqCtx TY.IsDefEqU \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+      },
+      {
+        "line": 146,
+        "text": "theorem ParRed.apply_pat {p : Pattern} (r : p.RHS) {m1 m2 m3}"
+      },
+      {
+        "line": 153,
+        "text": "theorem Pattern.RHS.apply_liftN {p : Pattern} (r : p.RHS) {m1 m2} :"
+      },
+      {
+        "line": 169,
+        "text": "theorem ParRed.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 223,
+        "text": "theorem CParRed.toParRed (H : CParRed TY \u0393 e e') : ParRed TY \u0393 e e' := by"
+      },
+      {
+        "line": 234,
+        "text": "theorem CParRed.exists (H : TY.HasType \u0393 e A) : \u2203 e', CParRed TY \u0393 e e' := by"
+      },
+      {
+        "line": 282,
+        "text": "theorem ParRed.triangle (H1 : TY.HasType \u0393 e A) (H : ParRed TY \u0393 e e') (H2 : CParRed TY \u0393 e o) :"
+      },
+      {
+        "line": 431,
+        "text": "theorem ParRed.church_rosser (H : TY.HasType \u0393 e A)"
+      },
+      {
+        "line": 439,
+        "text": "def ParRedS (TY : Typing) (\u0393 : List VExpr) : VExpr \u2192 VExpr \u2192 Prop := ReflTransGen (ParRed TY \u0393)"
+      },
+      {
+        "line": 441,
+        "text": "theorem ParRedS.hasType (H : ParRedS TY \u0393 e e') : TY.HasType \u0393 e A \u2192 TY.HasType \u0393 e' A := by"
+      },
+      {
+        "line": 446,
+        "text": "theorem ParRedS.defeq (H : ParRedS TY \u0393 e e') (h : TY.HasType \u0393 e A) : TY.IsDefEqU \u0393 e e' := by"
+      },
+      {
+        "line": 451,
+        "text": "theorem ParRedS.defeqDFC (W : IsDefEqCtx TY.IsDefEqU \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+      },
+      {
+        "line": 457,
+        "text": "theorem ParRedS.app (hf : ParRedS TY \u0393 f f') (ha : ParRedS TY \u0393 a a') :"
+      },
+      {
+        "line": 468,
+        "text": "theorem ParRedS.lam (hf : ParRedS TY \u0393 A A') (ha : ParRedS TY (A::\u0393) body body') :"
+      },
+      {
+        "line": 479,
+        "text": "theorem ParRedS.forallE (hf : ParRedS TY \u0393 A A') (ha : ParRedS TY (A::\u0393) body body') :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 699,
+        "window": "0687: theorem NormalEq.parRed (H1 : NormalEq TY \u0393 e\u2081 e\u2082) (H2 : ParRed TY \u0393 e\u2082 e\u2082') :\n0688:     \u2203 e\u2081', ParRedS TY \u0393 e\u2081 e\u2081' \u2227 NormalEq TY \u0393 e\u2081' e\u2082' := by\n0689:   induction H1 generalizing e\u2082' with\n0690:   | refl l1 => exact \u27e8_, .tail .rfl H2, .refl (H2.hasType l1)\u27e9\n0691:   | sortDF l1 l2 l3 =>\n0692:     cases H2 with\n0693:     | sort => exact \u27e8_, .tail .rfl .sort, .sortDF l1 l2 l3\u27e9\n0694:     | extra r1 r2 => cases r2\n0695:   | constDF l1 l2 l3 l4 l5 =>\n0696:     cases H2 with\n0697:     | const => exact \u27e8_, .tail .rfl .const, .constDF l1 l2 l3 l4 l5\u27e9\n0698:     | extra r1 r2 r3 r4 =>\n0699:       sorry\n0700:   | @appDF \u0393 f A B f\u2082 a b l1 l2 l3 l4 l5 l6 ih1 ih2 =>\n0701:     cases H2 with\n0702:     | app r1 r2 =>\n0703:       let \u27e8_, a1, a2\u27e9 := ih1 r1\n0704:       let \u27e8_, b1, b2\u27e9 := ih2 r2\n0705:       exact \u27e8_, .app a1 b1,\n0706:         .appDF (a1.hasType l1) (r1.hasType l2) (b1.hasType l3) (r2.hasType l4) a2 b2\u27e9\n0707:     | @beta A _ e e' _ b' r1 r2 =>\n0708:       let \u27e8f', a1, a2\u27e9 := ih1 (.lam .rfl r1)\n0709:       let \u27e8a', b1, b2\u27e9 := ih2 r2\n0710:       let \u27e8_, _, d1, d2\u27e9 := TY.lam_inv l2\n0711:       let \u27e8u1, u2\u27e9 := TY.forallE_defInv (TY.uniq (TY.lam d1 d2) l2)"
+      },
+      {
+        "line": 718,
+        "window": "0706:         .appDF (a1.hasType l1) (r1.hasType l2) (b1.hasType l3) (r2.hasType l4) a2 b2\u27e9\n0707:     | @beta A _ e e' _ b' r1 r2 =>\n0708:       let \u27e8f', a1, a2\u27e9 := ih1 (.lam .rfl r1)\n0709:       let \u27e8a', b1, b2\u27e9 := ih2 r2\n0710:       let \u27e8_, _, d1, d2\u27e9 := TY.lam_inv l2\n0711:       let \u27e8u1, u2\u27e9 := TY.forallE_defInv (TY.uniq (TY.lam d1 d2) l2)\n0712:       replace d2 := r1.hasType (TY.defeq_r u2 d2)\n0713:       replace l3 := b1.hasType (TY.defeq_r (TY.symm u1) l3)\n0714:       let \u27e8_, h1, h2\u27e9 := ParRedExt.parRed_beta a2\n0715:         (TY.app (TY.defeq_l a2.symm.defeq (TY.lam d1 d2)) l3)\n0716:       exact \u27e8_, .trans (a1.app b1) h1, h2.trans (.instN_r l3 b2 .zero d2)\u27e9\n0717:     | extra r1 r2 r3 r4 =>\n0718:       sorry\n0719:   | lamDF l1 l2 l3 l4 ih1 =>\n0720:     cases H2 with\n0721:     | lam r1 r2 =>\n0722:       have \u27e8_, h1\u27e9 := TY.has_type l4.defeq\n0723:       have h2 := TY.defeq_l l4.defeq h1\n0724:       replace r2 := r2.defeqDFC (.succ .zero l3) <| TY.isDefEq_DFC (.succ .zero (TY.symm l3)) h2\n0725:       let \u27e8_, b1, b2\u27e9 := ih1 r2\n0726:       exact \u27e8_, .lam .rfl (b1.defeqDFC (.succ .zero (TY.symm l2)) h1),\n0727:         .lamDF l1 l2 (TY.trans (TY.symm (r1.defeq (TY.defeq_l (TY.symm l3) l1))) l3) b2\u27e9\n0728:     | extra _ r2 => cases r2\n0729:   | forallEDF l1 l2 l3 l4 l5 ih1 ih2 =>\n0730:     cases H2 with"
+      }
+    ],
+    "score": 85.75,
+    "active_sorry_count_after_string_strip": 2,
+    "string_aware_real_score": 55.75,
+    "selector_score": 60.75
+  },
+  {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Tactic/ITauto.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 7,
+    "active_sorry_count": 6,
+    "line_count": 744,
+    "import_count": 0,
+    "imports": [],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 93,
+        "text": "theorem prover. -/"
+      },
+      {
+        "line": 97,
+        "text": "instance : Inhabited AndKind := \u27e8AndKind.and\u27e9"
+      },
+      {
+        "line": 124,
+        "text": "instance : Inhabited IProp := \u27e8IProp.true\u27e9"
+      },
+      {
+        "line": 127,
+        "text": "def AndKind.sides : AndKind \u2192 IProp \u2192 IProp \u2192 IProp \u00d7 IProp"
+      },
+      {
+        "line": 132,
+        "text": "def IProp.format : IProp \u2192 Std.Format"
+      },
+      {
+        "line": 142,
+        "text": "instance : Std.ToFormat IProp := \u27e8IProp.format\u27e9"
+      },
+      {
+        "line": 145,
+        "text": "def AndKind.cmp (p q : AndKind) : Ordering := by"
+      },
+      {
+        "line": 150,
+        "text": "def IProp.cmp (p q : IProp) : Ordering := by"
+      },
+      {
+        "line": 165,
+        "text": "instance : LT IProp := \u27e8fun p q => p.cmp q = .lt\u27e9"
+      },
+      {
+        "line": 167,
+        "text": "instance : DecidableLT IProp := fun _ _ => inferInstanceAs (Decidable (_ = _))"
+      },
+      {
+        "line": 238,
+        "text": "instance : Inhabited Proof := \u27e8Proof.triv\u27e9"
+      },
+      {
+        "line": 241,
+        "text": "def Proof.format : Proof \u2192 Std.Format"
+      },
+      {
+        "line": 263,
+        "text": "instance : Std.ToFormat Proof := \u27e8Proof.format\u27e9"
+      },
+      {
+        "line": 266,
+        "text": "def Proof.exfalso : IProp \u2192 Proof \u2192 Proof"
+      },
+      {
+        "line": 271,
+        "text": "def Proof.orElim : Proof \u2192 Name \u2192 Proof \u2192 Proof \u2192 Proof"
+      },
+      {
+        "line": 277,
+        "text": "def Proof.app : Proof \u2192 Proof \u2192 Proof"
+      },
+      {
+        "line": 290,
+        "text": "def Proof.check : Lean.NameMap IProp \u2192 Proof \u2192 Option IProp"
+      },
+      {
+        "line": 351,
+        "text": "def Context.format (\u0393 : Context) : Std.Format :="
+      },
+      {
+        "line": 354,
+        "text": "instance : Std.ToFormat Context := \u27e8Context.format\u27e9"
+      },
+      {
+        "line": 389,
+        "text": "def mapProof (f : Proof \u2192 Proof) : Bool \u00d7 Proof \u2192 Bool \u00d7 Proof"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 174,
+        "window": "0162:           .gt, .gt, .gt, .gt, .lt,\n0163:           .gt, .gt, .gt, .gt, .gt]\n0164: \n0165: instance : LT IProp := \u27e8fun p q => p.cmp q = .lt\u27e9\n0166: \n0167: instance : DecidableLT IProp := fun _ _ => inferInstanceAs (Decidable (_ = _))\n0168: \n0169: open Lean (Name)\n0170: \n0171: /-- A reified inductive proof type for intuitionistic propositional logic. -/\n0172: inductive Proof\n0173:   /-- `\u22a2 A`, causes failure during reconstruction -/\n0174:   | sorry : Proof\n0175:   /-- `(n: A) \u22a2 A` -/\n0176:   | hyp (n : Name) : Proof\n0177:   /-- `\u22a2 \u22a4` -/\n0178:   | triv : Proof\n0179:   /-- `(p: \u22a5) \u22a2 A` -/\n0180:   | exfalso' (p : Proof) : Proof\n0181:   /-- `(p: (x: A) \u22a2 B) \u22a2 A \u2192 B` -/\n0182:   | intro (x : Name) (p : Proof) : Proof\n0183:   /--\n0184:   * `ak = .and`: `(p: A \u2227 B) \u22a2 A`\n0185:   * `ak = .iff`: `(p: A \u2194 B) \u22a2 A \u2192 B`\n0186:   * `ak = .eq`: `(p: A = B) \u22a2 A \u2192 B`"
+      },
+      {
+        "line": 242,
+        "window": "0230:   -/\n0231:   | em (classical : Bool) (p : Name) : Proof\n0232:   /-- The variable `x` here names the variable that will be used in the elaborated proof.\n0233:   * `(p: ((x:A) \u2192 B) \u2192 C) \u22a2 B \u2192 C`\n0234:   -/\n0235:   | impImpSimp (x : Name) (p : Proof) : Proof\n0236:   deriving Lean.ToExpr\n0237: \n0238: instance : Inhabited Proof := \u27e8Proof.triv\u27e9\n0239: \n0240: /-- Debugging printer for proof objects. -/\n0241: def Proof.format : Proof \u2192 Std.Format\n0242:   | .sorry => \"sorry\"\n0243:   | .hyp i => Std.format i\n0244:   | .triv => \"triv\"\n0245:   | .exfalso' p => f!\"(exfalso {p.format})\"\n0246:   | .intro x p => f!\"(fun {x} \u21a6 {p.format})\"\n0247:   | .andLeft _ p => f!\"{p.format} .1\"\n0248:   | .andRight _ p => f!\"{p.format} .2\"\n0249:   | .andIntro _ p q => f!\"\u27e8{p.format}, {q.format}\u27e9\"\n0250:   | .curry _ p => f!\"(curry {p.format})\"\n0251:   | .curry\u2082 _ p q => f!\"(curry {p.format} {q.format})\"\n0252:   | .app' p q => f!\"({p.format} {q.format})\"\n0253:   | .orImpL p => f!\"(orImpL {p.format})\"\n0254:   | .orImpR p => f!\"(orImpR {p.format})\""
+      },
+      {
+        "line": 399,
+        "window": "0387: \n0388: /-- Map a function over the proof (regardless of whether the proof is successful or not). -/\n0389: def mapProof (f : Proof \u2192 Proof) : Bool \u00d7 Proof \u2192 Bool \u00d7 Proof\n0390:   | (b, p) => (b, f p)\n0391: \n0392: /-- Convert a value-with-success to an optional value. -/\n0393: def isOk : (Bool \u00d7 Proof) \u00d7 Nat \u2192 Option (Proof \u00d7 Nat)\n0394:   | ((false, _), _) => none\n0395:   | ((true, p), n) => some (p, n)\n0396: \n0397: /-- Skip the continuation and return a failed proof if the Boolean is false. -/\n0398: def whenOk : Bool \u2192 IProp \u2192 StateM Nat (Bool \u00d7 Proof) \u2192 StateM Nat (Bool \u00d7 Proof)\n0399:   | false, _, _ => pure (false, .sorry)\n0400:   | true, _, f => f\n0401: \n0402: mutual\n0403: \n0404: /-- The search phase, which deals with the level 3 rules, which are rules that are not validity\n0405: preserving and so require proof search. One obvious one is the or-introduction rule: we prove\n0406: `A \u2228 B` by proving `A` or `B`, and we might have to try one and backtrack.\n0407: \n0408: There are two rules dealing with implication in this category: `p, p \u2192 C \u22a2 B` where `p` is an\n0409: atom (which is safe if we can find it but often requires the right search to expose the `p`\n0410: assumption), and `(A\u2081 \u2192 A\u2082) \u2192 C \u22a2 B`. We decompose the double implication into two subgoals: one to\n0411: prove `A\u2081 \u2192 A\u2082`, which can be written `A\u2082 \u2192 C, A\u2081 \u22a2 A\u2082` (where we used `A\u2081` to simplify"
+      },
+      {
+        "line": 436,
+        "window": "0424:       let .imp A\u2081 A\u2082 := A' | none\n0425:       let \u0393 : Context := \u0393.erase A\n0426:       let (a, n) := freshName n\n0427:       let (p\u2081, n) \u2190 isOk <| \u0393.withAdd A\u2081 (.hyp a) A\u2082 (fun \u0393_A\u2081 A\u2082 =>\n0428:         \u0393_A\u2081.withAdd (IProp.imp A\u2082 C) (.impImpSimp a p) A\u2082 prove) n\n0429:       isOk <| \u0393.withAdd C (p.app (.intro a p\u2081)) B prove n\n0430:   if let some (r, n) := search\u2081 then\n0431:     ((true, r), n)\n0432:   else if let .or B\u2081 B\u2082 := B then\n0433:     match (mapProof .orInL <$> prove \u0393 B\u2081) n with\n0434:     | ((false, _), _) => (mapProof .orInR <$> prove \u0393 B\u2082) n\n0435:     | r => r\n0436:   else ((false, .sorry), n)\n0437: \n0438: /-- The main prover. This receives a context of proven or assumed lemmas and a target proposition,\n0439: and returns a proof or `none` (with state for the fresh variable generator).\n0440: The intuitionistic logic rules are separated into three groups:\n0441: \n0442: * level 1: No splitting, validity preserving: apply whenever you can.\n0443:   Left rules in `Context.add`, right rules in `prove`\n0444: * level 2: Splitting rules, validity preserving: apply after level 1 rules. Done in `prove`\n0445: * level 3: Splitting rules, not validity preserving: apply only if nothing else applies.\n0446:   Done in `search`\n0447: \n0448: The level 1 rules on the right of the turnstile are `\u0393 \u22a2 \u22a4` and `\u0393 \u22a2 A \u2192 B`, these are easy to"
+      },
+      {
+        "line": 500,
+        "window": "0488:   | ~q($a \u2228 $b) => return .or (\u2190 reify a) (\u2190 reify b)\n0489:   | ~q($a \u2194 $b) => return .iff (\u2190 reify a) (\u2190 reify b)\n0490:   | ~q(Xor $a $b) => return .xor (\u2190 reify a) (\u2190 reify b)\n0491:   | ~q(@Eq Prop $a $b) => return .eq (\u2190 reify a) (\u2190 reify b)\n0492:   | ~q(@Ne Prop $a $b) => return .not (.eq (\u2190 reify a) (\u2190 reify b))\n0493:   | e =>\n0494:     if e.isArrow then return .imp (\u2190 reify e.bindingDomain!) (\u2190 reify e.bindingBody!)\n0495:     else return .var (\u2190 AtomM.addAtom e).1\n0496: \n0497: /-- Once we have a proof object, we have to apply it to the goal. -/\n0498: partial def applyProof (g : MVarId) (\u0393 : NameMap Expr) (p : Proof) : MetaM Unit :=\n0499:   match p with\n0500:   | .sorry => throwError \"itauto failed\\n{g}\"\n0501:   | .hyp n => do g.assignIfDefEq (\u2190 liftOption (\u0393.find? n))\n0502:   | .triv => g.assignIfDefEq q(trivial)\n0503:   | .exfalso' p => do\n0504:     let A \u2190 mkFreshExprMVarQ q(Prop)\n0505:     let t \u2190 mkFreshExprMVarQ q(False)\n0506:     g.assignIfDefEq q(@False.elim $A $t)\n0507:     applyProof t.mvarId! \u0393 p\n0508:   | .intro x p => do\n0509:     let (e, g) \u2190 g.intro x; g.withContext do\n0510:       applyProof g (\u0393.insert x (.fvar e)) p\n0511:   | .andLeft .and p => do\n0512:     let A \u2190 mkFreshExprMVarQ q(Prop)"
+      }
+    ],
+    "score": 101.2,
+    "active_sorry_count_after_string_strip": 3,
+    "string_aware_real_score": 71.2,
+    "selector_score": 87.2
+  }
+]

@@ -1,0 +1,119 @@
+{
+  "artifact": "pr_watch_next_portal_selector_v4_5_16",
+  "input_target_count": 12,
+  "rejected_count": 7,
+  "remaining_count": 5,
+  "next_candidate": {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 473,
+    "import_count": 1,
+    "imports": [
+      "import Lean4Lean.Experimental.ShapeLogRel"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 8,
+        "text": "def LR.Adequate (\u0393\u2080 \u0393 : List SExpr) (\u03c1 : Valuation) (M N A : SExpr) (m a : WShape n) :="
+      },
+      {
+        "line": 14,
+        "text": "theorem LR.Adequate.bot (ha : a.HasType .type) : Adequate \u0393\u2080 \u0393 \u03c1 M N A .bot a :="
+      },
+      {
+        "line": 17,
+        "text": "theorem LR.Adequate.fits"
+      },
+      {
+        "line": 21,
+        "text": "theorem LR.Adequate.refl"
+      },
+      {
+        "line": 26,
+        "text": "theorem LR.Adequate.left : Adequate \u0393\u2080 \u0393 \u03c1 M N A m a \u2192 Adequate \u0393\u2080 \u0393 \u03c1 M M A m a"
+      },
+      {
+        "line": 29,
+        "text": "theorem LR.Adequate.symm : Adequate \u0393\u2080 \u0393 \u03c1 M N A m a \u2192 Adequate \u0393\u2080 \u0393 \u03c1 N M A m a"
+      },
+      {
+        "line": 32,
+        "text": "theorem LR.Adequate.trans :"
+      },
+      {
+        "line": 37,
+        "text": "theorem LR.Adequate.trans' : Adequate \u0393\u2080 \u0393 \u03c1 A\u2081 A\u2082 (.sort u) a s \u2192"
+      },
+      {
+        "line": 45,
+        "text": "theorem LR.Adequate.cons"
+      },
+      {
+        "line": 94,
+        "text": "theorem LR.toValTy {m : WShape n'} {b : WShape n} (le_n : n \u2264 n') (le_a : b.T \u2264 m.T)"
+      },
+      {
+        "line": 106,
+        "text": "theorem LR.adequacy (H : \u0393 \u22a2 M \u2261 N : A)"
+      },
+      {
+        "line": 434,
+        "text": "theorem forallE_whRed_l (d : \u0393 \u22a2 A\u2080 \u2261 SExpr.forallE B\u2081 F\u2081 : .sort s) :"
+      },
+      {
+        "line": 450,
+        "text": "theorem forallE_inv (H : \u0393 \u22a2 SExpr.forallE A\u2080 B\u2080 \u2261 SExpr.forallE A\u2081 B\u2081 : .sort s) :"
+      },
+      {
+        "line": 455,
+        "text": "theorem sort_forallE_inv : \u00ac\u0393 \u22a2 .sort u \u2261 SExpr.forallE A\u2081 B\u2081 : .sort s :="
+      },
+      {
+        "line": 459,
+        "text": "theorem sort_inv (d : \u0393 \u22a2 SExpr.sort u \u2261 SExpr.sort v : V) : u = v := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 154,
+        "window": "0142:     | _ =>\n0143:       obtain h | h := WShape.le_sort.1 hM.le_sort'\n0144:       \u00b7 dsimp only at h; rw [h]; exact (LR _).bot hmem.isType\n0145:       \u00b7 simp [WShape.ext_iff, WShape.forallE, WShape.sort, Shape.sort,\n0146:           WShape.lam', WShape.lam, WShape.bot, WShape.ctor, WShape.indTy,\n0147:           Shape.bot] at h <;> first | split at h <;> simp_all only [reduceCtorEq] | simp_all\n0148:   | @const c ci \u0393 ls _ h1 h2 h3 =>\n0149:     cases hM with | bot => exact .bot hmem.isType | const a1 _ a3 a4 a5 a6\n0150:     cases h1.symm.trans a1\n0151:     suffices \u2200 {\u03c3}, (LR \u0393\u2080).DefEq (const c ls) (const c ls) (((mk ci.type).instL ls).subst \u03c3) m a\n0152:       from \u27e8fun _ _ _ => \u27e8this, this\u27e9, fun _ _ => this\u27e9\n0153:     intro \u03c3; rw [(Params.henv.closedC h1).mkS.instL.subst_eq .zero]; clear \u03c3\n0154:     sorry\n0155:   | @appDF \u0393 A u F F' B X X' v _ Hf Ha HBa _ ihf iha ihBa =>\n0156:     cases hM with | bot => exact .bot hmem.isType | @app _ nf_app f _ _ _ x hif hia le_m\n0157:     suffices \u2200 {F F' X X' \u03c3 \u03c3'}, SubstWF \u0393\u2080 \u03c3 \u03c3' \u0393 \u03c1 \u2192\n0158:         \u0393 \u22a2 F \u2261 F' : A.forallE B \u2192 \u0393 \u22a2 X \u2261 X' : A \u2192 \u0393 \u22a2 B.inst X \u2261 B.inst X' : .sort v \u2192\n0159:         LE_Interp \u03c1 f.T F \u2192 LE_Interp \u03c1 x.T X \u2192 LE_Interp \u03c1 a.T (B.inst X) \u2192\n0160:         (\u2200 {n'} {mf af : WShape n'}, LE_Interp \u03c1 mf.T F \u2192 LE_Interp \u03c1 af.T (.forallE A B) \u2192\n0161:           mf.HasType af \u2192 Adequate \u0393\u2080 \u0393 \u03c1 F F' (.forallE A B) mf af) \u2192\n0162:         (\u2200 {n'} {ma aa : WShape n'}, LE_Interp \u03c1 ma.T X \u2192 LE_Interp \u03c1 aa.T A \u2192\n0163:           ma.HasType aa \u2192 Adequate \u0393\u2080 \u0393 \u03c1 X X' A ma aa) \u2192\n0164:         (\u2200 {n'} {mb av : WShape n'}, LE_Interp \u03c1 mb.T (B.inst X) \u2192 LE_Interp \u03c1 av.T (.sort v) \u2192\n0165:           mb.HasType av \u2192 Adequate \u0393\u2080 \u0393 \u03c1 (B.inst X) (B.inst X') (.sort v) mb av) \u2192\n0166:         (LR \u0393\u2080).DefEq (.subst (.app F X) \u03c3) (.subst (.app F' X') \u03c3')"
+      }
+    ],
+    "score": 21.15,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -23.85,
+    "selector_score": -42.85
+  },
+  "open_prs": [
+    "https://github.com/digama0/lean4lean/pull/14",
+    "https://github.com/digama0/lean4lean/pull/15",
+    "https://github.com/teorth/equational_theories/pull/1461"
+  ],
+  "status": "NEXT_PORTAL_SELECTED"
+}

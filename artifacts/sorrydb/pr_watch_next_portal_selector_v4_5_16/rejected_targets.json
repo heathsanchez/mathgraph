@@ -1,0 +1,766 @@
+[
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 1,
+    "line_count": 317,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.Lemmas",
+      "import Lean4Lean.Theory.Typing.Strong"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 55,
+        "text": "theorem IsDefEq.inductionU1"
+      },
+      {
+        "line": 102,
+        "text": "theorem HasTypeU1.induction (H : env.HasTypeU1 U defEq \u0393 e A) : env.HasType U \u0393 e A := by"
+      },
+      {
+        "line": 120,
+        "text": "theorem IsDefEqU1.induction"
+      },
+      {
+        "line": 178,
+        "text": "theorem IsDefEqU1.unique_typing1"
+      },
+      {
+        "line": 196,
+        "text": "theorem HasType1.unique_typing'"
+      },
+      {
+        "line": 245,
+        "text": "theorem IsDefEq.unique_typing'"
+      },
+      {
+        "line": 275,
+        "text": "theorem IsDefEq.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 310,
+        "text": "theorem HasType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 315,
+        "text": "theorem IsType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393') (H : env.IsType U \u0393' (A.liftN n k)) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 72,
+        "window": "0060:       HasTypeU1 env U defEq \u0393 e1 A1 \u2192 HasTypeU1 env U defEq \u0393 e2 A2 \u2192\n0061:       IsDefEqU1 env U hasType \u0393 e1 e2 \u2192 defEq \u0393 e1 e2)\n0062:     (H : env.IsDefEq U \u0393 e1 e2 A) :\n0063:     HasTypeU1 env U defEq \u0393 e1 A \u2227\n0064:     HasTypeU1 env U defEq \u0393 e2 A \u2227\n0065:     IsDefEqU1 env U hasType \u0393 e1 e2 := by\n0066:   have H' := H.strong henv h\u0393; clear h\u0393 H\n0067:   induction H' with\n0068:   | bvar h => exact \u27e8.bvar h, .bvar h, .refl\u27e9\n0069:   | symm _ ih => exact \u27e8ih.2.1, ih.1, .symm ih.2.2\u27e9\n0070:   | trans _ _ ih1 ih2 => exact \u27e8ih1.1, ih2.2.1, .trans ih1.2.2 ih2.2.2\u27e9\n0071:   | @constDF _ _ ls\u2081 ls\u2082 _ _ h1 h2 h3 h4 h5 =>\n0072:     exact \u27e8.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5\u27e9\n0073:   | @sortDF l l' _ h1 h2 h3 =>\n0074:     refine \u27e8.sort h1, ?_, .sortDF h3\u27e9\n0075:     exact .defeq (hdf (.sort (l := l'.succ) h2) (.sort (l := l.succ) h1)\n0076:       (.sortDF <| VLevel.succ_congr h3.symm)) (.sort h2)\n0077:   | appDF _ _ _ _ _ _ _ _ _ ihf iha ihBa =>\n0078:     let \u27e8hf, hf', ff\u27e9 := ihf; let \u27e8ha, ha', aa\u27e9 := iha\n0079:     exact \u27e8.app hf ha, .defeq (hdf ihBa.2.1 ihBa.1 (.symm ihBa.2.2)) (.app hf' ha'), .appDF ff aa\u27e9\n0080:   | lamDF _ _ _ _ _ _ _ ihA ihB ihB' ihb ihb' =>\n0081:     refine \u27e8.lam ihA.1 ihb.1, .defeq ?_ <| .lam ihA.2.1 ihb'.2.1, .lamDF ihA.2.2 ihb.2.2\u27e9\n0082:     exact hdf (.forallE ihA.2.1 ihB'.1) (.forallE ihA.1 ihB.1) <|\n0083:       .symm <| .forallEDF ihA.2.2 ihB.2.2\n0084:   | forallEDF _ _ _ _ _ ih1 ih2 ih3 =>"
+      }
+    ],
+    "score": 19.35,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -25.65,
+    "selector_reject_reason": "PR_OPENED_DIGAMA0_LEAN4LEAN_14"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/Stratified.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 1,
+    "line_count": 332,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.Lemmas",
+      "import Lean4Lean.Theory.Typing.Strong"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 9,
+        "text": "def DefInv (env : VEnv) (U : Nat) (\u0393 : List VExpr) : VExpr \u2192 VExpr \u2192 Prop"
+      },
+      {
+        "line": 75,
+        "text": "theorem IsDefEq.induction1"
+      },
+      {
+        "line": 120,
+        "text": "theorem HasType1.induction (H : env.HasType1 U defEq \u0393 e A) : env.HasType U \u0393 e A := by"
+      },
+      {
+        "line": 135,
+        "text": "theorem IsDefEq1.induction"
+      },
+      {
+        "line": 193,
+        "text": "theorem IsDefEq1.unique_typing1"
+      },
+      {
+        "line": 211,
+        "text": "theorem HasType1.unique_typing'"
+      },
+      {
+        "line": 260,
+        "text": "theorem IsDefEq.unique_typing'"
+      },
+      {
+        "line": 290,
+        "text": "theorem IsDefEq.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 325,
+        "text": "theorem HasType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 330,
+        "text": "theorem IsType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393') (H : env.IsType U \u0393' (A.liftN n k)) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 91,
+        "window": "0079:     (hdf : \u2200 {\u0393 e1 e2 A}, IsDefEq1 env U hasType defEq \u0393 e1 e2 A \u2192 defEq \u0393 e1 e2 A)\n0080:     (H : env.IsDefEq U \u0393 e1 e2 A) :\n0081:     HasType1 env U defEq \u0393 e1 A \u2227\n0082:     HasType1 env U defEq \u0393 e2 A \u2227\n0083:     IsDefEq1 env U hasType defEq \u0393 e1 e2 A := by\n0084:   have H' := H.strong henv h\u0393; clear h\u0393 H\n0085:   induction H' with\n0086:   | bvar h => exact \u27e8.bvar h, .bvar h, .refl (hty (.bvar h))\u27e9\n0087:   | symm _ ih => exact \u27e8ih.2.1, ih.1, .symm ih.2.2\u27e9\n0088:   | trans _ _ ih1 ih2 => exact \u27e8ih1.1, ih2.2.1, .trans ih1.2.2 ih2.2.2\u27e9\n0089:   | @constDF _ _ ls\u2081 ls\u2082 u _ h1 h2 h3 h4 h5 =>\n0090:     exact \u27e8.const h1 h2 h4,\n0091:       .defeq (u := u.inst ls\u2081) sorry <| .const h1 h3 (h5.length_eq.symm.trans h4),\n0092:       .constDF h1 h2 h3 h4 h5\u27e9\n0093:   | @sortDF l l' _ h1 h2 h3 =>\n0094:     refine \u27e8.sort h1, ?_, .sortDF h1 h2 h3\u27e9\n0095:     exact .defeq (hdf <| .symm <| .sortDF (l' := l'.succ) h1 h2 (VLevel.succ_congr h3)) (.sort h2)\n0096:   | appDF _ _ _ _ _ _ _ _ _ ihf iha ihBa =>\n0097:     let \u27e8hf, hf', ff\u27e9 := ihf; let \u27e8ha, ha', aa\u27e9 := iha\n0098:     exact \u27e8.app hf ha, .defeq (hdf ihBa.2.2.symm) (.app hf' ha'), .appDF ff aa\u27e9\n0099:   | lamDF _ _ _ _ _ _ _ ihA ihB _ ihb ihb' =>\n0100:     refine \u27e8.lam ihA.1 ihb.1, ?_, .lamDF ihA.2.2 ihb.2.2\u27e9\n0101:     exact .defeq (hdf <| .symm <| .forallEDF ihA.2.2 ihB.2.2) <| .lam ihA.2.1 ihb'.2.1\n0102:   | forallEDF _ _ _ _ _ ih1 ih2 ih3 =>\n0103:     exact \u27e8.forallE ih1.1 ih2.1, .forallE ih1.2.1 ih3.2.1, .forallEDF ih1.2.2 ih2.2.2\u27e9"
+      }
+    ],
+    "score": 20.1,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -24.9,
+    "selector_reject_reason": "PR_OPENED_DIGAMA0_LEAN4LEAN_15"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Verify/TypeChecker/InferType.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 509,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Verify.TypeChecker.Reduce",
+      "import Lean4Lean.Verify.EquivManager"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": true
+    },
+    "theorem_like": [
+      {
+        "line": 8,
+        "text": "theorem ensureSortCore.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+      },
+      {
+        "line": 19,
+        "text": "theorem ensureForallCore.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+      },
+      {
+        "line": 30,
+        "text": "theorem ensureForallCore.WF' {c : VContext} {s : VState} (he : c.TrExpr e e') :"
+      },
+      {
+        "line": 37,
+        "text": "theorem checkLevel.WF {c : VContext} (H : l.hasMVar' = false) :"
+      },
+      {
+        "line": 42,
+        "text": "theorem inferFVar.WF {c : VContext} :"
+      },
+      {
+        "line": 52,
+        "text": "theorem envGet.WF {c : VContext} :"
+      },
+      {
+        "line": 56,
+        "text": "theorem inferConstant.WF {c : VContext}"
+      },
+      {
+        "line": 104,
+        "text": "theorem inferLambda.loop.WF {c : VContext} {e\u2080 : Expr}"
+      },
+      {
+        "line": 179,
+        "text": "theorem inferLambda.WF"
+      },
+      {
+        "line": 187,
+        "text": "theorem inferForall.loop.WF {c : VContext} {e\u2080 : Expr}"
+      },
+      {
+        "line": 239,
+        "text": "theorem inferForall.WF"
+      },
+      {
+        "line": 245,
+        "text": "theorem inferApp.loop.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 288,
+        "text": "theorem inferApp.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+      },
+      {
+        "line": 300,
+        "text": "theorem inferLet.loop.WF {c : VContext} {e\u2080 : Expr}"
+      },
+      {
+        "line": 388,
+        "text": "theorem inferLet.WF"
+      },
+      {
+        "line": 397,
+        "text": "theorem inferProj.WF"
+      },
+      {
+        "line": 402,
+        "text": "theorem literal_is_primitive (H : n = ``Nat \u2228 n = ``Char.ofNat \u2228 n = ``String.ofList)  :"
+      },
+      {
+        "line": 407,
+        "text": "theorem infer_literal {c : VContext} (H : c.venv.ContainsLits l) :"
+      },
+      {
+        "line": 417,
+        "text": "theorem infer_sort {c : VContext} (H : VLevel.ofLevel c.lparams u = some u') :"
+      },
+      {
+        "line": 422,
+        "text": "theorem inferType'.WF"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 400,
+        "window": "0388: theorem inferLet.WF\n0389:     (hr : e.FVarsIn (\u00b7 \u2208 c.vlctx.fvars))\n0390:     (hinf : inferOnly = true \u2192 \u2203 e', c.TrExprS e e') :\n0391:     (inferLet e inferOnly).WF c s fun ty _ =>\n0392:       \u2203 e' ty', c.TrTyping e ty e' ty' := by\n0393:   refine .stateWF fun wf => ?_\n0394:   refine (c.withMLC_self \u25b8 inferLet.loop.WF (Nat.zero_le _) [] rfl rfl rfl rfl rfl ?_ hr) hinf\n0395:   exact fun P hP he => \u27e8(AllAbove.wf wf.trctx.wf.fvwf).2 hP, he.mono fun _ h _ => h, fun _ => id\u27e9\n0396: \n0397: theorem inferProj.WF\n0398:     (he : c.TrExprS e e') (hty : c.TrExprS ety ety') (hasty : c.HasType e' ty') :\n0399:     (inferProj st i e ety).WF c s fun ty _ =>\n0400:       \u2203 ty', c.TrTyping (.proj st i e) ty e' ty' := sorry\n0401: \n0402: theorem literal_is_primitive (H : n = ``Nat \u2228 n = ``Char.ofNat \u2228 n = ``String.ofList)  :\n0403:     Environment.primitives.contains n := by\n0404:   simp [Environment.primitives, NameSet.ofList]\n0405:   obtain rfl|rfl|rfl := H <;> simp +decide [NameSet.contains]\n0406: \n0407: theorem infer_literal {c : VContext} (H : c.venv.ContainsLits l) :\n0408:     c.TrTyping (.lit l) l.type (.trLiteral l) (.const l.typeName []) := by\n0409:   refine\n0410:     have := TrExprS.trLiteral c.Ewf c.hasPrimitives l H\n0411:     \u27e8fun _ _ _ => .litType, this.1, ?_, this.2\u27e9\n0412:   rw [\u2190 Literal.mkConst_typeName]"
+      }
+    ],
+    "score": 22.95,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -22.05,
+    "selector_reject_reason": "LEAN4LEAN_VERIFY_STACK_RISK"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Verify/Typing/Expr.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 172,
+    "import_count": 4,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.Basic",
+      "import Lean4Lean.Verify.NameGenerator",
+      "import Lean4Lean.Verify.VLCtx",
+      "import Lean4Lean.Verify.Axioms"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 9,
+        "text": "def Closed : Expr \u2192 (k :_:= 0) \u2192 Prop"
+      },
+      {
+        "line": 22,
+        "text": "def _root_.Lean.Expr.fvarsList : Expr \u2192 List FVarId"
+      },
+      {
+        "line": 32,
+        "text": "def FVarsIn : Expr \u2192 Prop"
+      },
+      {
+        "line": 47,
+        "text": "def VLocalDecl.WF (env : VEnv) (U : Nat) (\u0393 : List VExpr) : VLocalDecl \u2192 Prop"
+      },
+      {
+        "line": 51,
+        "text": "def VLCtx.FVWF : VLCtx \u2192 Prop"
+      },
+      {
+        "line": 57,
+        "text": "def VLCtx.WF : VLCtx \u2192 Prop"
+      },
+      {
+        "line": 63,
+        "text": "def VLCtx.WF.fvwf : \u2200 {\u0394}, VLCtx.WF env U \u0394 \u2192 \u0394.FVWF"
+      },
+      {
+        "line": 67,
+        "text": "def TrProj : \u2200 (\u0393 : List VExpr) (structName : Name) (idx : Nat) (e : VExpr), VExpr \u2192 Prop := sorry"
+      },
+      {
+        "line": 69,
+        "text": "def VEnv.ContainsLits (env : VEnv) : Literal \u2192 Prop"
+      },
+      {
+        "line": 105,
+        "text": "def TrExpr (env : VEnv) (Us : List Name) (\u0394 : VLCtx) (e : Expr) (e' : VExpr) : Prop :="
+      },
+      {
+        "line": 108,
+        "text": "def VExpr.bool : VExpr := .const ``Bool []"
+      },
+      {
+        "line": 109,
+        "text": "def VExpr.boolTrue : VExpr := .const ``Bool.true []"
+      },
+      {
+        "line": 110,
+        "text": "def VExpr.boolFalse : VExpr := .const ``Bool.false []"
+      },
+      {
+        "line": 111,
+        "text": "def VExpr.boolLit : Bool \u2192 VExpr"
+      },
+      {
+        "line": 115,
+        "text": "def VExpr.nat : VExpr := .const ``Nat []"
+      },
+      {
+        "line": 116,
+        "text": "def VExpr.natZero : VExpr := .const ``Nat.zero []"
+      },
+      {
+        "line": 117,
+        "text": "def VExpr.natSucc : VExpr := .const ``Nat.succ []"
+      },
+      {
+        "line": 118,
+        "text": "def VExpr.natLit : Nat \u2192 VExpr"
+      },
+      {
+        "line": 122,
+        "text": "def VExpr.char : VExpr := .const ``Char []"
+      },
+      {
+        "line": 123,
+        "text": "def VExpr.string : VExpr := .const ``String []"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 67,
+        "window": "0055: \n0056: variable (env : VEnv) (U : Nat) in\n0057: def VLCtx.WF : VLCtx \u2192 Prop\n0058:   | [] => True\n0059:   | (ofv, d) :: (\u0394 : VLCtx) =>\n0060:     VLCtx.WF \u0394 \u2227 (\u2200 fv deps, ofv = some (fv, deps) \u2192 fv \u2209 \u0394.fvars \u2227 deps \u2286 \u0394.fvars) \u2227\n0061:     VLocalDecl.WF env U \u0394.toCtx d\n0062: \n0063: def VLCtx.WF.fvwf : \u2200 {\u0394}, VLCtx.WF env U \u0394 \u2192 \u0394.FVWF\n0064:   | [], h => h\n0065:   | _ :: _, \u27e8h1, h2, _\u27e9 => \u27e8h1.fvwf, h2\u27e9\n0066: \n0067: def TrProj : \u2200 (\u0393 : List VExpr) (structName : Name) (idx : Nat) (e : VExpr), VExpr \u2192 Prop := sorry\n0068: \n0069: def VEnv.ContainsLits (env : VEnv) : Literal \u2192 Prop\n0070:   | .natVal _ => env.contains ``Nat\n0071:   | .strVal _ => env.contains ``Char.ofNat \u2227 env.contains ``String.ofList\n0072: \n0073: variable (env : VEnv) (Us : List Name) in\n0074: inductive TrExprS : VLCtx \u2192 Expr \u2192 VExpr \u2192 Prop\n0075:   | bvar : \u0394.find? (.inl i) = some (e, A) \u2192 TrExprS \u0394 (.bvar i) e\n0076:   | fvar : \u0394.find? (.inr fv) = some (e, A) \u2192 TrExprS \u0394 (.fvar fv) e\n0077:   | sort : VLevel.ofLevel Us u = some u' \u2192 TrExprS \u0394 (.sort u) (.sort u')\n0078:   | const :\n0079:     env.constants c = some ci \u2192"
+      }
+    ],
+    "score": 16.1,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -3.9,
+    "selector_reject_reason": "LEAN4LEAN_VERIFY_STACK_RISK"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Verify/Level.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 1,
+    "line_count": 592,
+    "import_count": 5,
+    "imports": [
+      "import Lean4Lean.Theory.VLevel",
+      "import Lean4Lean.Level",
+      "import Lean4Lean.Verify.Axioms",
+      "import Std.Tactic.BVDecide",
+      "import Std.Data.TreeMap.Lemmas"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": true,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 12,
+        "text": "instance : TransCmp cmp := by"
+      },
+      {
+        "line": 43,
+        "text": "instance : LawfulBEqCmp cmp where"
+      },
+      {
+        "line": 51,
+        "text": "instance : TransCmp quickCmp where"
+      },
+      {
+        "line": 77,
+        "text": "instance : LawfulBEqCmp quickCmp where"
+      },
+      {
+        "line": 115,
+        "text": "theorem mkData_depth (H : d < 2 ^ 24) : (mkData h d hmv hp).depth.toNat = d := by"
+      },
+      {
+        "line": 132,
+        "text": "theorem mkData_hasParam (H : d < 2 ^ 24) : (mkData h d hmv hp).hasParam = hp := by"
+      },
+      {
+        "line": 147,
+        "text": "theorem mkData_hasMVar (H : d < 2 ^ 24) : (mkData h d hmv hp).hasMVar = hmv := by"
+      },
+      {
+        "line": 162,
+        "text": "theorem ofLevel_of_not_hasParam (Us) {l : Level}"
+      },
+      {
+        "line": 167,
+        "text": "def getUndefParam.F (ps : List Name) (l : Level) : StateT (Option Name) Id Bool := do"
+      },
+      {
+        "line": 175,
+        "text": "theorem getUndefParam_none {l : Level} (hmv : l.hasMVar' = false) :"
+      },
+      {
+        "line": 213,
+        "text": "def substParams' (red : Bool) : Level \u2192 Level"
+      },
+      {
+        "line": 225,
+        "text": "theorem substParams_eq_self {u : Level} (h : u.hasParam' = false) :"
+      },
+      {
+        "line": 236,
+        "text": "theorem substParams_id {u : Level} :"
+      },
+      {
+        "line": 249,
+        "text": "instance : LawfulBEq VarNode where"
+      },
+      {
+        "line": 261,
+        "text": "def evalParam (x : Name) : Nat :="
+      },
+      {
+        "line": 264,
+        "text": "theorem evalParam_eq (hv : ls.idxOf x < ls.length) :"
+      },
+      {
+        "line": 268,
+        "text": "def VarNode.eval (l : VarNode) : Nat := evalParam ls \u03c1 l.var + l.offset"
+      },
+      {
+        "line": 271,
+        "text": "def Node.eval (l : Node) : Nat :="
+      },
+      {
+        "line": 274,
+        "text": "theorem Node.eval_le : eval ls \u03c1 l \u2264 n \u2194"
+      },
+      {
+        "line": 281,
+        "text": "def allNZ (path : List Name) : Bool := path.all (0 < evalParam ls \u03c1 \u00b7)"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 545,
+        "window": "0533:       \u00b7 simp [evalPath]; split <;> [rename_i nz; simp]\n0534:         have hm := (h \u25b8 mem_orderedInsert).2 (.inl rfl)\n0535:         have \u27e8p1, p2, a1, a2, a3, a4\u27e9 := le.of_mem hm\n0536:         have := evalPath_le.1 a3 (allNZ_mono a1 nz)\n0537:         simp [allNZ] at nz; specialize nz _ hm\n0538:         simp [VLevel.eval, \u2190 evalParam_eq hv]\n0539:         revert this nz; cases evalParam .. <;> simp; omega\n0540:       \u00b7 rw [NormLevel.addVar_eval H, this, evalPath_cons, evalPath_cons]\n0541:         congr 2; split <;> simp [VLevel.eval, \u2190 evalParam_eq hv]\n0542: \n0543: theorem NormLevel.subsumption_eval {s : NormLevel} :\n0544:     s.subsumption.eval ls \u03c1 = s.eval ls \u03c1 := by\n0545:   sorry\n0546: \n0547: theorem normalize_eval (hu : VLevel.ofLevel ls u = some u') :\n0548:     (normalize u).eval ls \u03c1 = u'.eval \u03c1 := by\n0549:   simp [normalize, NormLevel.subsumption_eval]\n0550:   exact normalizeAux_eval hu (by simp) .nil\n0551: \n0552: theorem Node.eval_congr {a b : Node} (H : a == b) : a.eval ls \u03c1 = b.eval ls \u03c1 := by\n0553:   simp +instances [instBEqNode] at H; simp [H, eval]\n0554: \n0555: theorem NormLevel.eval_congr {a b : NormLevel} (H : a == b) : a.eval ls \u03c1 = b.eval ls \u03c1 := by\n0556:   simp +instances only [instBEqNormLevel, Std.TreeMap.all_eq_all_toList,\n0557:     Bool.and_eq_true, List.all_eq_true] at H"
+      }
+    ],
+    "score": 36.1,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -3.9,
+    "selector_reject_reason": "LEAN4LEAN_VERIFY_STACK_RISK"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 2,
+    "line_count": 176,
+    "import_count": 1,
+    "imports": [
+      "import Lean4Lean.Verify.TypeChecker.Reduce"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 6,
+        "text": "theorem reduceRecursor.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+      },
+      {
+        "line": 10,
+        "text": "theorem whnfFVar.WF {c : VContext} {s : VState} (he : c.TrExprS (.fvar fv) e') :"
+      },
+      {
+        "line": 25,
+        "text": "theorem reduceProj.WF {c : VContext} {s : VState} (he : c.TrExprS (.proj n i e) e') :"
+      },
+      {
+        "line": 29,
+        "text": "theorem whnfCore'.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+      },
+      {
+        "line": 133,
+        "text": "theorem whnf'.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 8,
+        "window": "0001: import Lean4Lean.Verify.TypeChecker.Reduce\n0002: \n0003: namespace Lean4Lean.TypeChecker.Inner\n0004: open Lean hiding Environment Exception\n0005: \n0006: theorem reduceRecursor.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :\n0007:     RecM.WF c s (reduceRecursor e cheapRec cheapProj) fun oe _ =>\n0008:       \u2200 e\u2081, oe = some e\u2081 \u2192 c.FVarsBelow e e\u2081 \u2227 c.TrExpr e\u2081 e' := sorry\n0009: \n0010: theorem whnfFVar.WF {c : VContext} {s : VState} (he : c.TrExprS (.fvar fv) e') :\n0011:     RecM.WF c s (whnfFVar (.fvar fv) cheapRec cheapProj) fun e\u2081 _ =>\n0012:       c.FVarsBelow (.fvar fv) e\u2081 \u2227 c.TrExpr e\u2081 e' := by\n0013:   refine .getLCtx ?_\n0014:   simp [Expr.fvarId!]; split <;> [skip; exact .pure \u27e8.rfl, he.trExpr c.Ewf c.\u0394wf\u27e9]\n0015:   rename_i decl h\n0016:   rw [c.trlctx.1.find?_eq_find?_toList] at h\n0017:   have := List.find?_some h; simp at this; subst this\n0018:   let \u27e8e', ty', h1, h2, _, h3, _\u27e9 :=\n0019:     c.trlctx.find?_of_mem c.Ewf (List.mem_of_find?_eq_some h)\n0020:   refine (whnfCore.WF h3).mono fun _ _ _ \u27e8h4, h5\u27e9 => ?_"
+      },
+      {
+        "line": 27,
+        "window": "0015:   rename_i decl h\n0016:   rw [c.trlctx.1.find?_eq_find?_toList] at h\n0017:   have := List.find?_some h; simp at this; subst this\n0018:   let \u27e8e', ty', h1, h2, _, h3, _\u27e9 :=\n0019:     c.trlctx.find?_of_mem c.Ewf (List.mem_of_find?_eq_some h)\n0020:   refine (whnfCore.WF h3).mono fun _ _ _ \u27e8h4, h5\u27e9 => ?_\n0021:   refine \u27e8h2.trans h4, h5.defeq c.Ewf c.\u0394wf ?_\u27e9\n0022:   refine (TrExprS.fvar h1).uniq c.Ewf ?_ he\n0023:   exact .refl c.Ewf c.\u0394wf\n0024: \n0025: theorem reduceProj.WF {c : VContext} {s : VState} (he : c.TrExprS (.proj n i e) e') :\n0026:     RecM.WF c s (reduceProj i e cheapRec cheapProj) fun oe _ =>\n0027:       \u2200 e\u2081, oe = some e\u2081 \u2192 c.FVarsBelow (.proj n i e) e\u2081 \u2227 c.TrExpr e\u2081 e' := sorry\n0028: \n0029: theorem whnfCore'.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :\n0030:     RecM.WF c s (whnfCore' e cheapRec cheapProj) fun e\u2081 _ =>\n0031:       c.FVarsBelow e e\u2081 \u2227 c.TrExpr e\u2081 e' := by\n0032:   unfold whnfCore'; extract_lets F G\n0033:   let full := (\u00b7 matches Expr.fvar _ | .app .. | .letE .. | .proj ..)\n0034:   generalize hP : (fun e\u2081 (_ : VState) => _) = P\n0035:   have hid {s} : RecM.WF c s (pure e) P := hP \u25b8 .pure \u27e8.rfl, he.trExpr c.Ewf c.\u0394wf\u27e9\n0036:   suffices hG : full e \u2192 RecM.WF c s (G \u27e8\u27e9) P by\n0037:     split\n0038:     any_goals exact hid\n0039:     any_goals exact hG rfl"
+      }
+    ],
+    "score": 43.3,
+    "active_sorry_count_after_string_strip": 2,
+    "string_aware_real_score": 13.3,
+    "selector_reject_reason": "LEAN4LEAN_VERIFY_STACK_RISK"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 2,
+    "line_count": 557,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Verify.TypeChecker.Reduce",
+      "import Lean4Lean.Verify.EquivManager"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": true,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 7,
+        "text": "theorem isDefEqLambda.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 77,
+        "text": "theorem isDefEqForall.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 147,
+        "text": "theorem quickIsDefEq.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 181,
+        "text": "theorem isDefEqArgs.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 201,
+        "text": "theorem tryEtaExpansionCore.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 216,
+        "text": "theorem tryEtaExpansion.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 224,
+        "text": "theorem tryEtaStructCore.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 228,
+        "text": "theorem tryEtaStruct.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 236,
+        "text": "theorem isDefEqApp.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 282,
+        "text": "theorem isProp.WF"
+      },
+      {
+        "line": 292,
+        "text": "theorem isDefEqProofIrrel.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 304,
+        "text": "theorem cacheFailure.WF {c : VContext} {s : VState} :"
+      },
+      {
+        "line": 309,
+        "text": "theorem tryUnfoldProjApp.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+      },
+      {
+        "line": 319,
+        "text": "def _root_.Lean4Lean.TypeChecker.ReductionStatus.WF"
+      },
+      {
+        "line": 325,
+        "text": "def _root_.Lean4Lean.TypeChecker.ReductionStatus.WF.defeq"
+      },
+      {
+        "line": 335,
+        "text": "theorem lazyDeltaReductionStep.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 392,
+        "text": "theorem isNatZero_wf {c : VContext} (H : isNatZero e) (h : c.TrExprS e e') : e' = .natZero := by"
+      },
+      {
+        "line": 400,
+        "text": "theorem isNatSuccOf?_wf {c : VContext} (H : isNatSuccOf? e = some e\u2081)"
+      },
+      {
+        "line": 413,
+        "text": "theorem isDefEqOffset.WF {c : VContext} {s : VState}"
+      },
+      {
+        "line": 428,
+        "text": "theorem lazyDeltaReduction.loop.WF {c : VContext} {s : VState}"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 226,
+        "window": "0214:   exact (h hb).trans c.Ewf c.\u0394wf \u27e8_, .eta a4\u27e9\n0215: \n0216: theorem tryEtaExpansion.WF {c : VContext} {s : VState}\n0217:     (he\u2081 : c.TrExprS e\u2081 e\u2081') (he\u2082 : c.TrExprS e\u2082 e\u2082') :\n0218:     RecM.WF c s (tryEtaExpansion e\u2081 e\u2082) fun b _ => b \u2192 c.IsDefEqU e\u2081' e\u2082' := by\n0219:   simp [tryEtaExpansion, orM, toBool]\n0220:   refine (tryEtaExpansionCore.WF he\u2081 he\u2082).bind fun _ _ _ h => ?_\n0221:   split <;> [exact .pure fun _ => h rfl; skip]\n0222:   exact (tryEtaExpansionCore.WF he\u2082 he\u2081).mono fun _ _ _ h hb => (h hb).symm\n0223: \n0224: theorem tryEtaStructCore.WF {c : VContext} {s : VState}\n0225:     (he\u2081 : c.TrExprS e\u2081 e\u2081') (he\u2082 : c.TrExprS e\u2082 e\u2082') :\n0226:     RecM.WF c s (tryEtaStructCore e\u2081 e\u2082) fun b _ => b \u2192 c.IsDefEqU e\u2081' e\u2082' := sorry\n0227: \n0228: theorem tryEtaStruct.WF {c : VContext} {s : VState}\n0229:     (he\u2081 : c.TrExprS e\u2081 e\u2081') (he\u2082 : c.TrExprS e\u2082 e\u2082') :\n0230:     RecM.WF c s (tryEtaStruct e\u2081 e\u2082) fun b _ => b \u2192 c.IsDefEqU e\u2081' e\u2082' := by\n0231:   simp [tryEtaStruct, orM, toBool]\n0232:   refine (tryEtaStructCore.WF he\u2081 he\u2082).bind fun _ _ _ h => ?_\n0233:   split <;> [exact .pure fun _ => h rfl; skip]\n0234:   exact (tryEtaStructCore.WF he\u2082 he\u2081).mono fun _ _ _ h hb => (h hb).symm\n0235: \n0236: theorem isDefEqApp.WF {c : VContext} {s : VState}\n0237:     (he\u2081 : c.TrExprS e\u2081 e\u2081') (he\u2082 : c.TrExprS e\u2082 e\u2082') :\n0238:     RecM.WF c s (isDefEqApp e\u2081 e\u2082) fun b _ => b \u2192 c.IsDefEqU e\u2081' e\u2082' := by"
+      },
+      {
+        "line": 475,
+        "window": "0463:   let .lit _ he\u2081 := he\u2081\n0464:   exact .toLBoolM <| isDefEqCore.WF he\u2081 he\u2082\n0465: \n0466: theorem tryStringLitExpansion.WF {c : VContext} {s : VState}\n0467:     (he\u2081 : c.TrExprS e\u2081 e\u2081') (he\u2082 : c.TrExprS e\u2082 e\u2082') :\n0468:     RecM.WF c s (tryStringLitExpansion e\u2081 e\u2082) fun b _ => b = .true \u2192 c.IsDefEqU e\u2081' e\u2082' := by\n0469:   refine (tryStringLitExpansionCore.WF he\u2081 he\u2082).bind fun _ _ _ h => ?_\n0470:   split <;> [skip; exact .pure h]\n0471:   exact (tryStringLitExpansionCore.WF he\u2082 he\u2081).mono fun _ _ _ h hb => (h hb).symm\n0472: \n0473: theorem isDefEqUnitLike.WF {c : VContext} {s : VState}\n0474:     (he\u2081 : c.TrExprS e\u2081 e\u2081') (he\u2082 : c.TrExprS e\u2082 e\u2082') :\n0475:     RecM.WF c s (isDefEqUnitLike e\u2081 e\u2082) fun b _ => b = .true \u2192 c.IsDefEqU e\u2081' e\u2082' := sorry\n0476: \n0477: theorem isDefEqCore'.WF {c : VContext} {s : VState}\n0478:     (he\u2081 : c.TrExprS e\u2081 e\u2081') (he\u2082 : c.TrExprS e\u2082 e\u2082') :\n0479:     RecM.WF c s (isDefEqCore' e\u2081 e\u2082) fun b _ => b = true \u2192 c.IsDefEqU e\u2081' e\u2082' := by\n0480:   unfold isDefEqCore'; extract_lets F1 F2 F3\n0481:   refine (quickIsDefEq.WF he\u2081 he\u2082).bind fun _ _ _ h => ?_\n0482:   split <;> [exact .pure fun hb => h (by simpa using hb); skip]\n0483:   refine .pureBind <| .readThe ?_\n0484:   suffices \u2200 {s}, RecM.WF c s (F2 \u27e8\u27e9) fun b _ => b = true \u2192 c.IsDefEqU e\u2081' e\u2082' by\n0485:     split <;> [rename_i h1; exact this]\n0486:     refine (whnf.WF he\u2081).bind fun _ _ _ \u27e8_, _, a1, a2\u27e9 => ?_\n0487:     split <;> [rename_i h2; exact this]"
+      }
+    ],
+    "score": 64.35,
+    "active_sorry_count_after_string_strip": 2,
+    "string_aware_real_score": 34.35,
+    "selector_reject_reason": "LEAN4LEAN_VERIFY_STACK_RISK"
+  }
+]
