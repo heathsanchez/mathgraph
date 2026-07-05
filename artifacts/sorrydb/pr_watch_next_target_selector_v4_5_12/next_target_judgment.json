@@ -1,0 +1,99 @@
+{
+  "artifact": "pr_watch_next_target_selector_v4_5_12",
+  "input_target_count": 12,
+  "rejected_count": 6,
+  "remaining_count": 6,
+  "next_candidate": {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/Stratified.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 1,
+    "line_count": 332,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.Lemmas",
+      "import Lean4Lean.Theory.Typing.Strong"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 9,
+        "text": "def DefInv (env : VEnv) (U : Nat) (\u0393 : List VExpr) : VExpr \u2192 VExpr \u2192 Prop"
+      },
+      {
+        "line": 75,
+        "text": "theorem IsDefEq.induction1"
+      },
+      {
+        "line": 120,
+        "text": "theorem HasType1.induction (H : env.HasType1 U defEq \u0393 e A) : env.HasType U \u0393 e A := by"
+      },
+      {
+        "line": 135,
+        "text": "theorem IsDefEq1.induction"
+      },
+      {
+        "line": 193,
+        "text": "theorem IsDefEq1.unique_typing1"
+      },
+      {
+        "line": 211,
+        "text": "theorem HasType1.unique_typing'"
+      },
+      {
+        "line": 260,
+        "text": "theorem IsDefEq.unique_typing'"
+      },
+      {
+        "line": 290,
+        "text": "theorem IsDefEq.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 325,
+        "text": "theorem HasType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 330,
+        "text": "theorem IsType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393') (H : env.IsType U \u0393' (A.liftN n k)) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 91,
+        "window": "0079:     (hdf : \u2200 {\u0393 e1 e2 A}, IsDefEq1 env U hasType defEq \u0393 e1 e2 A \u2192 defEq \u0393 e1 e2 A)\n0080:     (H : env.IsDefEq U \u0393 e1 e2 A) :\n0081:     HasType1 env U defEq \u0393 e1 A \u2227\n0082:     HasType1 env U defEq \u0393 e2 A \u2227\n0083:     IsDefEq1 env U hasType defEq \u0393 e1 e2 A := by\n0084:   have H' := H.strong henv h\u0393; clear h\u0393 H\n0085:   induction H' with\n0086:   | bvar h => exact \u27e8.bvar h, .bvar h, .refl (hty (.bvar h))\u27e9\n0087:   | symm _ ih => exact \u27e8ih.2.1, ih.1, .symm ih.2.2\u27e9\n0088:   | trans _ _ ih1 ih2 => exact \u27e8ih1.1, ih2.2.1, .trans ih1.2.2 ih2.2.2\u27e9\n0089:   | @constDF _ _ ls\u2081 ls\u2082 u _ h1 h2 h3 h4 h5 =>\n0090:     exact \u27e8.const h1 h2 h4,\n0091:       .defeq (u := u.inst ls\u2081) sorry <| .const h1 h3 (h5.length_eq.symm.trans h4),\n0092:       .constDF h1 h2 h3 h4 h5\u27e9\n0093:   | @sortDF l l' _ h1 h2 h3 =>\n0094:     refine \u27e8.sort h1, ?_, .sortDF h1 h2 h3\u27e9\n0095:     exact .defeq (hdf <| .symm <| .sortDF (l' := l'.succ) h1 h2 (VLevel.succ_congr h3)) (.sort h2)\n0096:   | appDF _ _ _ _ _ _ _ _ _ ihf iha ihBa =>\n0097:     let \u27e8hf, hf', ff\u27e9 := ihf; let \u27e8ha, ha', aa\u27e9 := iha\n0098:     exact \u27e8.app hf ha, .defeq (hdf ihBa.2.2.symm) (.app hf' ha'), .appDF ff aa\u27e9\n0099:   | lamDF _ _ _ _ _ _ _ ihA ihB _ ihb ihb' =>\n0100:     refine \u27e8.lam ihA.1 ihb.1, ?_, .lamDF ihA.2.2 ihb.2.2\u27e9\n0101:     exact .defeq (hdf <| .symm <| .forallEDF ihA.2.2 ihB.2.2) <| .lam ihA.2.1 ihb'.2.1\n0102:   | forallEDF _ _ _ _ _ ih1 ih2 ih3 =>\n0103:     exact \u27e8.forallE ih1.1 ih2.1, .forallE ih1.2.1 ih3.2.1, .forallEDF ih1.2.2 ih2.2.2\u27e9"
+      }
+    ],
+    "score": 20.1,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -24.9,
+    "selector_score": -49.9
+  },
+  "open_prs": [
+    "https://github.com/digama0/lean4lean/pull/14",
+    "https://github.com/teorth/equational_theories/pull/1461"
+  ],
+  "status": "NEXT_TARGET_SELECTED"
+}
