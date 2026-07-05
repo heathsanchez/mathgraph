@@ -1,0 +1,12 @@
+diff --git a/Lean4Lean/Theory/Typing/InductiveLemmas.lean b/Lean4Lean/Theory/Typing/InductiveLemmas.lean
+index 8113f11..dcd9115 100644
+--- a/Lean4Lean/Theory/Typing/InductiveLemmas.lean
++++ b/Lean4Lean/Theory/Typing/InductiveLemmas.lean
+@@ -6,5 +6,6 @@ namespace Lean4Lean
+ namespace VEnv
+ 
+ theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)
+-    (henv' : addInduct env decl = some env') : Ordered env' :=
++    (henv' : addInduct env decl = some env') : Ordered env' := by
++  trace_state
+   sorry

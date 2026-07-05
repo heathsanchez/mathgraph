@@ -1,0 +1,6 @@
+{
+  "returncode": 1,
+  "seconds": 67.84,
+  "stdout_tail": "",
+  "stderr_tail": "info: Version 4.2.3 of elan is available! Use `elan self update` to update.\ninfo: downloading https://releases.lean-lang.org/lean4/v4.29.0/lean-4.29.0-darwin_aarch64.tar.zst\ninfo: installing /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0\ninfo: batteries: cloning https://github.com/leanprover-community/batteries\ninfo: batteries: checking out revision '756e3321fd3b02a85ffda19fef789916223e578c'\nerror: unknown executable cache"
+}

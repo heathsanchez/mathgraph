@@ -1,0 +1,1387 @@
+{
+  "\\bdef\\s+addInduct\\b": [],
+  "\\btheorem\\s+.*addInduct": [
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 65,
+      "text": "theorem Aligned.addInduct (H : AddInduct C\u2081 venv\u2081 decl C\u2082 venv\u2082) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Basic.lean",
+      "line": 69,
+      "text": "nonrec theorem AddInduct.to_addInduct"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/InductiveLemmas.lean",
+      "line": 8,
+      "text": "theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)"
+    }
+  ],
+  "\\blemma\\s+.*addInduct": [],
+  "\\bdef\\s+Ordered\\b": [],
+  "\\btheorem\\s+.*Ordered": [
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 229,
+      "text": "theorem Ordered.out (H : Ordered env) : env.out.Ordered := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 456,
+      "text": "theorem IsDefEqStrong.defeqDF_l (henv : Ordered env) (h\u0393 : CtxStrong env U \u0393)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 156,
+      "text": "nonrec theorem VLocalDecl.WF.weakN (henv : env.Ordered) (W : Ctx.LiftN n k \u0393 \u0393') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 160,
+      "text": "nonrec theorem VLocalDecl.WF.instN (henv : env.Ordered) (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 711,
+      "text": "theorem VLocalDecl.IsDefEq.defeqDFC (henv : Ordered env) (h\u0393 : IsDefEqCtx env U \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1181,
+      "text": "theorem TrExprS.inst {\u0394 : VLCtx} (henv : Ordered env)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1271,
+      "text": "theorem TrExprS.inst_let {\u0394 : VLCtx} (henv : Ordered env)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1662,
+      "text": "theorem VExpr.WF.boolLit_has_type (wf : env.Ordered) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1675,
+      "text": "theorem TrExprS.nat_of_natZero (wf : env.Ordered) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1725,
+      "text": "theorem VEnv.HasPrimitives.nat_of_charOfNat (wf : Ordered env) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1733,
+      "text": "theorem TrExprS.listChar (wf : env.Ordered) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1747,
+      "text": "theorem TrExprS.listCharNil (wf : env.Ordered) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1760,
+      "text": "theorem TrExprS.listCharCons (wf : env.Ordered) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1774,
+      "text": "theorem TrExprS.listCharLit (wf : env.Ordered) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1792,
+      "text": "theorem TrExprS.trLiteral (wf : env.Ordered) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 2060,
+      "text": "theorem TrExprS.inst_fvar {\u0394 : VLCtx} (henv : Ordered env)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/QuotLemmas.lean",
+      "line": 7,
+      "text": "theorem addQuot_WF (henv : Ordered env) (hq : QuotReady env) :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 268,
+      "text": "theorem Ordered.induction (motive : VEnv \u2192 Nat \u2192 VExpr \u2192 VExpr \u2192 Prop)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 362,
+      "text": "theorem Ordered.closed (H : Ordered env) : env.OnTypes fun _ e A => e.ClosedN \u2227 A.ClosedN :="
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 365,
+      "text": "theorem Ordered.closedC (H : Ordered env)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 369,
+      "text": "theorem IsDefEq.closedN {env : VEnv} (henv : env.Ordered)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 373,
+      "text": "theorem _root_.Lean4Lean.VExpr.WF.closedN {env : VEnv} (henv : env.Ordered)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 427,
+      "text": "theorem Ordered.constWF (H : Ordered env) (h : env.constants n = some ci) : ci.WF env := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 438,
+      "text": "theorem Ordered.defEqWF (H : Ordered env) (h : env.defeqs df) : df.WF env := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 591,
+      "text": "theorem IsType.lookup (henv : Ordered env) (h : OnCtx \u0393 (IsType env U)) (hL : Lookup \u0393 n A) :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 673,
+      "text": "theorem HasType.instN {env : VEnv} (henv : env.Ordered) (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 677,
+      "text": "theorem IsType.instN {env : VEnv} (henv : env.Ordered) (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 681,
+      "text": "theorem IsDefEqU.instN {env : VEnv} (henv : env.Ordered) (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 685,
+      "text": "theorem _root_.Lean4Lean.Ctx.InstN.wf (henv : Ordered env) (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 692,
+      "text": "theorem IsDefEq.defeqDF_l' (henv : Ordered env) (h1 : env.IsDefEq U \u0393 A A' (.sort u))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 705,
+      "text": "theorem IsDefEq.defeqDF_l (henv : Ordered env) (h1 : env.IsDefEq U \u0393 A A' (.sort u))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 709,
+      "text": "theorem HasType.defeq_l (henv : Ordered env) (h1 : env.IsDefEq U \u0393 A A' (.sort u))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 712,
+      "text": "theorem IsDefEq.defeqDFC' (henv : Ordered env) (h1 : IsDefEqCtx env U \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 719,
+      "text": "theorem IsDefEq.defeqDFC (henv : Ordered env) (h1 : IsDefEqCtx env U \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 722,
+      "text": "theorem HasType.defeqDFC (henv : Ordered env) (h1 : IsDefEqCtx env U \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 725,
+      "text": "theorem IsType.defeqDFC (henv : Ordered env) (h1 : IsDefEqCtx env U \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 728,
+      "text": "theorem IsDefEqU.defeqDFC (henv : Ordered env) (h1 : IsDefEqCtx env U \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 732,
+      "text": "theorem IsDefEqCtx.symm (henv : Ordered env) :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 786,
+      "text": "theorem HasType.forallE_inv (henv : Ordered env) (H : env.HasType U \u0393 (A.forallE B) V) :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 794,
+      "text": "theorem IsType.forallE_inv (henv : Ordered env) (H : env.IsType U \u0393 (A.forallE B)) :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 826,
+      "text": "theorem IsDefEq.sort_inv_l (henv : Ordered env) (H : env.IsDefEq U \u0393 (.sort u) e2 V) : u.WF U :="
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 829,
+      "text": "theorem IsDefEq.sort_inv_r (henv : Ordered env) (H : env.IsDefEq U \u0393 e2 (.sort u) V) : u.WF U :="
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 832,
+      "text": "theorem HasType.sort_inv (henv : Ordered env) (H : env.HasType U \u0393 (.sort u) V) : u.WF U :="
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 835,
+      "text": "theorem IsType.sort_inv (henv : Ordered env) (H : env.IsType U \u0393 (.sort u)) : u.WF U :="
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 866,
+      "text": "theorem Ordered.isType (H : Ordered env) :"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 872,
+      "text": "theorem IsDefEq.isType (henv : Ordered env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 875,
+      "text": "theorem IsDefEq.sort_r (henv : Ordered env)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 419,
+      "text": "theorem IsDefEqStrong.defeqDF_l (henv : Ordered env) (h\u0393 : CtxStrong env U \u0393)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 666,
+      "text": "theorem CtxStrong.strong' (henv : Ordered env) (envIH : env.OnTypes (EnvStrong env))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 672,
+      "text": "theorem Ordered.strong (henv : Ordered env) : OnTypes env (EnvStrong env) := by"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 683,
+      "text": "theorem CtxStrong.strong (henv : Ordered env) (h\u0393 : OnCtx \u0393 (env.IsType U)) : CtxStrong env U \u0393 :="
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 686,
+      "text": "theorem IsDefEq.strong (henv : Ordered env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/InductiveLemmas.lean",
+      "line": 8,
+      "text": "theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/EnvLemmas.lean",
+      "line": 8,
+      "text": "theorem VEnv.WF.ordered : WF env \u2192 Ordered env"
+    }
+  ],
+  "\\blemma\\s+.*Ordered": [],
+  "\\bdef\\s+WF\\b": [
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 7,
+      "text": "def WF (x : Except \u03b5 \u03b1) (Q : \u03b1 \u2192 Prop) : Prop := \u2200 a, x = .ok a \u2192 Q a"
+    },
+    {
+      "file": "Lean4Lean/Theory/VLevel.lean",
+      "line": 19,
+      "text": "def WF : VLevel \u2192 Prop"
+    }
+  ],
+  "\\btheorem\\s+.*WF": [
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 216,
+      "text": "nonrec theorem VConstant.WF.out {ci : VConstant} (H : ci.WF env) : ci.toVConstant.WF env.out :="
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 219,
+      "text": "theorem VDefEq.WF.out {ci : VDefEq} (H : ci.WF env) : ci.toVDefEq.WF env.out :="
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 865,
+      "text": "theorem Shape.WF.lift_iff (le : n \u2264 m) : WF (x.lift m) \u2194 WF (n := n) x := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 891,
+      "text": "theorem ShapeFun.WF.lift_iff {x : ShapeFun n} (le : n \u2264 m) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 895,
+      "text": "protected theorem Shape.WF.lift (le : n \u2264 m) : WF (n := n) x \u2192 WF (x.lift m) := (lift_iff le).2"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 897,
+      "text": "protected theorem ShapeFun.WF.lift {x : ShapeFun n} (le : n \u2264 m) : WF Shape.WF x \u2192"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 900,
+      "text": "protected theorem Shape.WF.olift {x : Shape n} (H : x.olift (m := m) = some x') :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 906,
+      "text": "protected theorem ShapeFun.WF.olift {x : ShapeFun n}"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 912,
+      "text": "protected theorem Shape.WF.bot : (Shape.bot (n := n)).WF := by cases n <;> trivial"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 913,
+      "text": "protected theorem Shape.WF.sort : (Shape.sort (n := n) r).WF := by cases n <;> trivial"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 915,
+      "text": "protected theorem ShapeFun.WF.bot : (ShapeFun.bot (n := n)).WF Shape.WF := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 972,
+      "text": "theorem WShape.mk_ctor {n} (l : List (Shape n)) (wf : Shape.WF (n := n+1) (.ctor c l)) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 1655,
+      "text": "protected theorem Shape.WF.plift (x : WShape n) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 1713,
+      "text": "-- theorem ShapeFun.WF'.plift (h : WF (n := n) Shape.WF x) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 1718,
+      "text": "-- theorem Shape.WF.plift (h : WF (n := n) x) : WF (n := m) x.plift.1 := sorry"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 1719,
+      "text": "-- theorem ShapeFun.WF.plift (h : WF (n := n) Shape.WF x) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 2243,
+      "text": "theorem ShapeFun.WF.bot_le (wf : WF Shape.WF f) : ShapeFun.bot.LE f := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 2247,
+      "text": "theorem Shape.WF.lam_non_bot (wf : WF (n := n+1) (.lam f)) : \u2203 x y, (x, y) \u2208 f \u2227 y \u2260 .bot :="
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 2402,
+      "text": "protected theorem ShapeFun.WF.single (x y : WShape n) : WF Shape.WF (single x.1 y.1) := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3433,
+      "text": "theorem LE_Interp.Matches.head_wf (H : Matches p c rargs m) (wf : p.WF cl top k) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3440,
+      "text": "theorem LE_Interp.Matches.head_wf_eq (H : Matches p c rargs m) (wf : p.WF cl top k) :"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 3451,
+      "text": "theorem LE_Interp.Matches.mono_l {rargs rargs'} (wfp : p.WF Params.classify b k)"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 6065,
+      "text": "theorem LR.SubstWF.fits : LR.SubstWF \u0393\u2080 \u03c3 \u03c3' \u0393 \u03c1 \u2192 \u03c1.Fits \u0393\u2080 \u0393"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 6069,
+      "text": "theorem LR.SubstWF.toSubstEq : LR.SubstWF \u0393\u2080 \u03c3 \u03c3' \u0393 \u03c1 \u2192 Ctx.SubstEq \u0393\u2080 \u03c3 \u03c3' \u0393"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 6073,
+      "text": "theorem LR.SubstWF.left (W : LR.SubstWF \u0393\u2080 \u03c3 \u03c3' \u0393 \u03c1) : LR.SubstWF \u0393\u2080 \u03c3 \u03c3 \u0393 \u03c1 := by"
+    },
+    {
+      "file": "Lean4Lean/Experimental/ShapeLogRel.lean",
+      "line": 6081,
+      "text": "theorem LR.SubstWF.symm (W : LR.SubstWF \u0393\u2080 \u03c3 \u03c3' \u0393 \u03c1) : LR.SubstWF \u0393\u2080 \u03c3' \u03c3 \u0393 \u03c1 := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 163,
+      "text": "theorem IsDefEqE.uniq (henv : env.WF) (noBV : \u0394.NoBV) (h\u0394 : \u0394.WF env Us.length)"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 184,
+      "text": "theorem M.WF.stateWF {P : \u03b1 \u2192 EquivManager \u2192 Prop}"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 188,
+      "text": "protected theorem M.WF.pure {a : \u03b1} {P : \u03b1 \u2192 EquivManager \u2192 Prop} (H : P a m) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 192,
+      "text": "protected theorem M.WF.bind {x : StateM EquivManager \u03b2} {f : \u03b2 \u2192 StateM EquivManager \u03b3}"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 200,
+      "text": "protected theorem M.WF.mono {x : StateM EquivManager \u03b2}"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 205,
+      "text": "protected theorem M.WF.bind_le {x : StateM EquivManager \u03b2} {f : \u03b2 \u2192 StateM EquivManager \u03b3}"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 210,
+      "text": "protected theorem M.WF.andM {x y : StateM EquivManager Bool}"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 217,
+      "text": "theorem find.WF : M.WF env Us \u0394 m (EquivManager.find i) fun j m => m.uf.Equiv i j := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 225,
+      "text": "theorem merge.WF (wf : m.WF env Us \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 238,
+      "text": "theorem toNode.WF :"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 262,
+      "text": "theorem isEquiv.WF :"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 315,
+      "text": "theorem addEquiv.WF {c : VContext} {s : VState} (he\u2081 : c.TrExprS e\u2081 e') (he\u2082 : c.TrExpr e\u2082 e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/EquivManager.lean",
+      "line": 327,
+      "text": "theorem isDefEq.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 126,
+      "text": "theorem WF.map_wf {lctx : LocalContext} : lctx.WF \u2192 lctx.fvarIdToDecl.WF"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 130,
+      "text": "theorem WF.decls_wf {lctx : LocalContext} : lctx.WF \u2192 lctx.decls.WF"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 136,
+      "text": "theorem WF.map_toList : WF lctx \u2192"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 148,
+      "text": "theorem WF.find?_eq_find?_toList (H : WF lctx) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 153,
+      "text": "theorem WF.nodup : WF lctx \u2192 (lctx.toList.map (\u00b7.fvarId)).Nodup"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 161,
+      "text": "protected theorem WF.mkLocalDecl"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 165,
+      "text": "protected theorem WF.mkLetDecl"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 197,
+      "text": "theorem TrLocalDecl.wf : TrLocalDecl env Us \u0394 d d' \u2192 d'.WF env Us.length \u0394.toCtx"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 264,
+      "text": "theorem TrLCtx'.wf : TrLCtx' env Us ds \u0394 \u2192 (ds.map (\u00b7.fvarId)).Nodup \u2192 \u0394.WF env Us.length"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 270,
+      "text": "theorem TrLCtx.wf (H : TrLCtx env Us lctx \u0394) : \u0394.WF env Us.length := H.2.wf H.1.nodup"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 276,
+      "text": "theorem TrLCtx'.find?_of_mem (henv : env.WF) (H : TrLCtx' env Us ds \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/LocalContext.lean",
+      "line": 307,
+      "text": "theorem TrLCtx.find?_of_mem (henv : env.WF) (H : TrLCtx env Us lctx \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 24,
+      "text": "theorem Methods.withFuel.WF : \u2200 {n}, (withFuel n).WF"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 37,
+      "text": "theorem RecM.WF.run {x : RecM \u03b1} (H : x.WF c s Q) : (RecM.run x).WF c s Q :="
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 51,
+      "text": "theorem VState.WF.empty {env : Environment} {ves : VEnvs} {wf : ves.WF env}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 63,
+      "text": "theorem M.WF.run {env : Environment} {ves : VEnvs} (wf : ves.WF env)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 72,
+      "text": "nonrec theorem whnf.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 76,
+      "text": "nonrec theorem inferType.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 80,
+      "text": "nonrec theorem checkType.WF {c : VContext} {s : VState} (h1 : e.FVarsIn (\u00b7 \u2208 c.vlctx.fvars)) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 84,
+      "text": "nonrec theorem isDefEq.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 89,
+      "text": "nonrec theorem isProp.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 93,
+      "text": "nonrec theorem ensureSort.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 97,
+      "text": "nonrec theorem ensureForall.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker.lean",
+      "line": 102,
+      "text": "nonrec theorem ensureType.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Axioms.lean",
+      "line": 44,
+      "text": "@[simp] theorem WF.toList'_length (h : WF arr) : arr.toList'.length = arr.size := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 151,
+      "text": "theorem VLocalDecl.WF.hasType : \u2200 {d}, VLocalDecl.WF env U (VLCtx.toCtx \u0394) d \u2192"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 156,
+      "text": "nonrec theorem VLocalDecl.WF.weakN (henv : env.Ordered) (W : Ctx.LiftN n k \u0393 \u0393') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 160,
+      "text": "nonrec theorem VLocalDecl.WF.instN (henv : env.Ordered) (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 164,
+      "text": "nonrec theorem VLocalDecl.WF.instL {env : VEnv} (hls : \u2200 l \u2208 ls, l.WF U') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 187,
+      "text": "theorem VLocalDecl.weak'_iff : VLocalDecl.WF env U \u0393' (d.lift' n) \u2194 VLocalDecl.WF env U \u0393 d :="
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 193,
+      "text": "theorem VLocalDecl.weakN_iff : VLocalDecl.WF env U \u0393' (d.liftN n k) \u2194 VLocalDecl.WF env U \u0393 d :="
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 201,
+      "text": "theorem WF.find?_wf {\u0394 : VLCtx} (h\u0394 : WF env U \u0394) (H : \u0394.find? v = some (e, A)) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 211,
+      "text": "theorem WF.toCtx : \u2200 {\u0394}, WF env U \u0394 \u2192 OnCtx \u0394.toCtx (env.IsType U)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 218,
+      "text": "theorem WF.fvars_nodup : \u2200 {\u0394}, WF env U \u0394 \u2192 \u0394.fvars.Nodup"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 282,
+      "text": "theorem FVLift'.wf (W : FVLift' \u0394 \u0394' dk n k) (h\u0394' : \u0394'.WF env U) : \u0394.WF env U := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 294,
+      "text": "protected theorem FVLift'.find? (W : FVLift' \u0394 \u0394' dk n k) (h\u0394' : \u0394'.WF env U)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 355,
+      "text": "theorem FVLift.wf (W : FVLift \u0394 \u0394' dk n k) (h\u0394' : \u0394'.WF env U) : \u0394.WF env U :="
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 364,
+      "text": "protected theorem FVLift.find? (W : FVLift \u0394 \u0394' dk n k) (h\u0394' : \u0394'.WF env U)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 391,
+      "text": "theorem BVLift.wf (W : BVLift \u0394 \u0394' dn dk n k) (h\u0394' : \u0394'.WF env U) : \u0394.WF env U := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 443,
+      "text": "theorem InstN.wf (W : InstN \u0394\u2080 e\u2080 A\u2080 dk k \u0394\u2081 \u0394) (h\u0394' : \u0394\u2081.WF env U) : \u0394.WF env U := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 467,
+      "text": "theorem InstLet.wf (W : InstLet \u0394\u2080 e\u2080 A\u2080 dk k \u0394\u2081 \u0394) (h\u0394' : \u0394\u2081.WF env U) : \u0394.WF env U := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 491,
+      "text": "theorem Abstract.wf (W : Abstract \u0394\u2080 v\u2080 d\u2080 dk k \u0394\u2081 \u0394) (h\u0394' : \u0394\u2081.WF env U) : \u0394.WF env U := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 533,
+      "text": "protected theorem WF.instL : \u2200 {\u0394}, VLCtx.WF env ls.length \u0394 \u2192"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 565,
+      "text": "theorem TrExprS.weakFV' (W : VLCtx.FVLift' \u0394 \u0394' dk n k) (h\u0394' : \u0394'.WF env Us.length)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 589,
+      "text": "theorem TrExpr.weakFV' (W : VLCtx.FVLift' \u0394 \u0394' dk n k) (h\u0394' : \u0394'.WF env Us.length)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 595,
+      "text": "theorem TrExprS.weakFV (W : VLCtx.FVLift \u0394 \u0394' dk n k) (h\u0394' : \u0394'.WF env Us.length)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 600,
+      "text": "theorem TrExpr.weakFV (W : VLCtx.FVLift \u0394 \u0394' dk n k) (h\u0394' : \u0394'.WF env Us.length)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 638,
+      "text": "theorem TrProj.weak'_inv (henv : VEnv.WF env) (h\u0393' : OnCtx \u0393' (env.IsType U))"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 641,
+      "text": "theorem TrProj.defeqDFC (henv : VEnv.WF env) (h\u0393 : env.IsDefEqCtx U [] \u0393\u2081 \u0393\u2082)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 679,
+      "text": "theorem VLocalDecl.IsDefEq.refl : \u2200 {d}, VLocalDecl.WF env U \u0393 d \u2192 VLocalDecl.IsDefEq env U \u0393 d d"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 684,
+      "text": "theorem VLCtx.IsDefEq.refl : \u2200 {\u0394}, VLCtx.WF env U \u0394 \u2192 VLCtx.IsDefEq env U \u0394 \u0394"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 698,
+      "text": "theorem VLocalDecl.IsDefEq.wf : VLocalDecl.IsDefEq env U \u0393 d\u2081 d\u2082 \u2192 VLocalDecl.WF env U \u0393 d\u2081"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 702,
+      "text": "theorem VLCtx.IsDefEq.wf : VLCtx.IsDefEq env U \u0394\u2081 \u0394\u2082 \u2192 VLCtx.WF env U \u0394\u2081"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 809,
+      "text": "theorem TrProj.wf (H1 : TrProj \u0394 s i e e') (H2 : VExpr.WF env U \u0393 e) : VExpr.WF env U \u0393 e' := sorry"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 811,
+      "text": "theorem TrExpr.wf (H : TrExpr env Us \u0394 e e') : VExpr.WF env Us.length \u0394.toCtx e' :="
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 815,
+      "text": "theorem TrExprS.wf (H : TrExprS env Us \u0394 e e') : VExpr.WF env Us.length \u0394.toCtx e' := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 835,
+      "text": "theorem TrExpr.defeq (henv : VEnv.WF env) (h\u0394 : OnCtx \u0394.toCtx (env.IsType Us.length))"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 839,
+      "text": "theorem TrExpr.app (henv : VEnv.WF env) (h\u0394 : OnCtx \u0394.toCtx (env.IsType Us.length))"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 963,
+      "text": "theorem TrExpr.lam (henv : VEnv.WF env) (h\u0394 : VLCtx.WF env Us.length \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 978,
+      "text": "theorem TrExpr.forallE (henv : VEnv.WF env) (h\u0394 : VLCtx.WF env Us.length \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 996,
+      "text": "theorem TrExpr.letE (henv : VEnv.WF env) (h\u0394 : VLCtx.WF env Us.length \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1021,
+      "text": "theorem TrExpr.proj {env Us \u0394 e e' s i e''} (henv : VEnv.WF env) (h\u0394 : VLCtx.WF env Us.length \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1028,
+      "text": "theorem TrExprS.weakFV'_inv (henv : VEnv.WF env)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1104,
+      "text": "theorem TrExprS.weakFV_inv (henv : VEnv.WF env)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1188,
+      "text": "theorem TrExpr.inst (henv : VEnv.WF env) (h\u0394 : VLCtx.WF env Us.length \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1277,
+      "text": "theorem TrExpr.inst_let (henv : VEnv.WF env) (h\u0394 : VLCtx.WF env Us.length \u0394)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1662,
+      "text": "theorem VExpr.WF.boolLit_has_type (wf : env.Ordered) (henv : env.HasPrimitives)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1819,
+      "text": "theorem IsFVarUpSet.congr : \u2200 {\u0394}, VLCtx.FVWF \u0394 \u2192"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1828,
+      "text": "theorem IsFVarUpSet.and_fvars (H : VLCtx.FVWF \u0394) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1837,
+      "text": "theorem IsFVarUpSet.fvars (H : VLCtx.FVWF \u0394) : IsFVarUpSet (\u00b7 \u2208 \u0394.fvars) \u0394 :="
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 1842,
+      "text": "theorem AllAbove.wf (H : \u0394.FVWF) : IsFVarUpSet (AllAbove \u0394 P) \u0394 \u2194 IsFVarUpSet P \u0394 :="
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 2078,
+      "text": "theorem TrExpr.rebuild_mkAppRevList (henv : env.WF) (h\u0394 : \u0394.WF env Us.length)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Typing/Lemmas.lean",
+      "line": 2088,
+      "text": "theorem TrExpr.rebuild_mkAppList (henv : env.WF) (h\u0394 : \u0394.WF env Us.length)"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 33,
+      "text": "theorem Aligned.map_wf (H : Aligned safety C venv) : C.WF := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Lemmas.lean",
+      "line": 78,
+      "text": "theorem TrEnv'.map_wf (H : TrEnv' safety C Q venv) : C.WF := H.aligned.map_wf"
+    },
+    {
+      "file": "Lean4Lean/Verify/Environment/Basic.lean",
+      "line": 108,
+      "text": "theorem TrEnv'.wf (H : TrEnv' safety C Q venv) : venv.WF := by"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 7,
+      "text": "theorem isDefEqLambda.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 77,
+      "text": "theorem isDefEqForall.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 147,
+      "text": "theorem quickIsDefEq.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 181,
+      "text": "theorem isDefEqArgs.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 201,
+      "text": "theorem tryEtaExpansionCore.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 216,
+      "text": "theorem tryEtaExpansion.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 224,
+      "text": "theorem tryEtaStructCore.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 228,
+      "text": "theorem tryEtaStruct.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 236,
+      "text": "theorem isDefEqApp.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 282,
+      "text": "theorem isProp.WF"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 292,
+      "text": "theorem isDefEqProofIrrel.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 304,
+      "text": "theorem cacheFailure.WF {c : VContext} {s : VState} :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 309,
+      "text": "theorem tryUnfoldProjApp.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 335,
+      "text": "theorem lazyDeltaReductionStep.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 413,
+      "text": "theorem isDefEqOffset.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 428,
+      "text": "theorem lazyDeltaReduction.loop.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 459,
+      "text": "theorem tryStringLitExpansionCore.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 466,
+      "text": "theorem tryStringLitExpansion.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 473,
+      "text": "theorem isDefEqUnitLike.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/IsDefEq.lean",
+      "line": 477,
+      "text": "theorem isDefEqCore'.WF {c : VContext} {s : VState}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 6,
+      "text": "theorem reduceRecursor.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 10,
+      "text": "theorem whnfFVar.WF {c : VContext} {s : VState} (he : c.TrExprS (.fvar fv) e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 25,
+      "text": "theorem reduceProj.WF {c : VContext} {s : VState} (he : c.TrExprS (.proj n i e) e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 29,
+      "text": "theorem whnfCore'.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/WHNF.lean",
+      "line": 133,
+      "text": "theorem whnf'.WF {c : VContext} {s : VState} (he : c.TrExprS e e') :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 9,
+      "text": "theorem WF.bind {x : Except \u03b5 \u03b1} {f : \u03b1 \u2192 Except \u03b5 \u03b2} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 16,
+      "text": "theorem WF.pure {Q} (H : Q a) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 19,
+      "text": "theorem WF.map {x : Except \u03b5 \u03b1} {f : \u03b1 \u2192 \u03b2} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 24,
+      "text": "theorem WF.mono {x : Except \u03b5 \u03b1} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 28,
+      "text": "theorem WF.throw {Q} : (throw e : Except \u03b5 \u03b1).WF Q := nofun"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 30,
+      "text": "theorem WF.le {Q R} {x : Except \u03b5 \u03b1}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 34,
+      "text": "theorem WF.pureBind  {f : \u03b2 \u2192 Except \u03b5 \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 92,
+      "text": "theorem WF.empty : WF env Us \u0394 {} where"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 97,
+      "text": "theorem WF.weak' (wf : WF env Us \u0394 m) : WF env Us \u0394' m where"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 168,
+      "text": "theorem MLCtx.WF.tr : \u2200 {c : MLCtx}, c.WF env Us \u2192 TrLCtx env Us c.lctx c.vlctx"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 173,
+      "text": "theorem MLCtx.WF.dropN {c : MLCtx} (n hn) : c.WF env Us \u2192 (c.dropN n hn).WF env Us :="
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 203,
+      "text": "theorem VContext.Ewf (c : VContext) : VEnv.WF c.venv := c.trenv.wf"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 204,
+      "text": "theorem VContext.\u0394wf (c : VContext) : c.vlctx.WF c.venv c.lparams.length := c.trlctx.wf"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 233,
+      "text": "theorem _root_.Lean4Lean.InferCache.WF.empty : InferCache.WF c s {} := fun _ => by simp"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 238,
+      "text": "theorem WHNFCache.WF.empty : WHNFCache.WF c s {} := fun _ => by simp"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 255,
+      "text": "theorem VState.WF.find?_eq_none {id}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 281,
+      "text": "theorem M.WF.bind {c : VContext} {s : VState} {x : M \u03b1} {f : \u03b1 \u2192 M \u03b2} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 293,
+      "text": "theorem M.WF.pure {c : VContext} {s : VState} {Q} (H : Q a s) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 296,
+      "text": "theorem M.WF.map {c : VContext} {s : VState} {x : M \u03b1} {f : \u03b1 \u2192 \u03b2} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 301,
+      "text": "theorem M.WF.mono {c : VContext} {s : VState} {x : M \u03b1} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 305,
+      "text": "theorem M.WF.throw {c : VContext} {s : VState} {Q} : (throw e : M \u03b1).WF c s Q := nofun"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 307,
+      "text": "theorem M.WF.le {c : VContext} {s : VState} {Q R} {x : M \u03b1}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 327,
+      "text": "theorem M.WF.liftExcept {c : VContext} {s : VState} {x : Except Exception \u03b1} {Q} (h : x.WF Q) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 333,
+      "text": "theorem M.WF.lift {c : VContext} {s : VState} {x : M \u03b1} {Q} (h : x.WF c s Q) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 338,
+      "text": "theorem RecM.WF.bind {c : VContext} {s : VState} {x : RecM \u03b1} {f : \u03b1 \u2192 RecM \u03b2} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 342,
+      "text": "theorem RecM.WF.bind_le {c : VContext} {s : VState} {x : RecM \u03b1} {f : \u03b1 \u2192 RecM \u03b2} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 347,
+      "text": "theorem RecM.WF.pure {c : VContext} {s : VState} {Q} (H : Q a s) : (pure a : RecM \u03b1).WF c s Q :="
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 350,
+      "text": "theorem RecM.WF.map {c : VContext} {s : VState} {x : RecM \u03b1} {f : \u03b1 \u2192 \u03b2} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 355,
+      "text": "theorem RecM.WF.mono {c : VContext} {s : VState} {x : RecM \u03b1} {Q R}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 359,
+      "text": "theorem RecM.WF.throw {c : VContext} {s : VState} {Q} : (throw e : RecM \u03b1).WF c s Q := nofun"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 361,
+      "text": "theorem RecM.WF.le {c : VContext} {s : VState} {Q R} {x : RecM \u03b1}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 365,
+      "text": "theorem RecM.WF.pureBind {c : VContext} {s : VState} {f : \u03b2 \u2192 RecM \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 368,
+      "text": "theorem get.WF {c : VContext} {s : VState} :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 372,
+      "text": "theorem RecM.WF.get {c : VContext} {s : VState} {f : State \u2192 RecM \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 375,
+      "text": "theorem getEnv.WF {c : VContext} {s : VState} :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 379,
+      "text": "theorem RecM.WF.getEnv {c : VContext} {s : VState} {f : Environment \u2192 RecM \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 382,
+      "text": "theorem getLCtx.WF {c : VContext} {s : VState} :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 386,
+      "text": "theorem RecM.WF.getLCtx {c : VContext} {s : VState} {f : LocalContext \u2192 RecM \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 390,
+      "text": "theorem RecM.WF.readThe {c : VContext} {s : VState} {f : Context \u2192 RecM \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 393,
+      "text": "theorem getNGen.WF {c : VContext} {s : VState} :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 397,
+      "text": "theorem M.WF.getNGen {c : VContext} {s : VState} {f : NameGenerator \u2192 M \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 400,
+      "text": "theorem RecM.WF.getNGen {c : VContext} {s : VState} {f : NameGenerator \u2192 RecM \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 403,
+      "text": "theorem RecM.WF.stateWF {c : VContext} {s : VState} {x : RecM \u03b1} {Q}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 410,
+      "text": "theorem RecM.WF.toLBoolM {Q : VState \u2192 Prop} {x : RecM Bool}"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 426,
+      "text": "protected theorem RecM.WF.withLocalDecl {c : VContext} {m} [cwf : c.MLCWF m]"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 474,
+      "text": "protected theorem RecM.WF.withLetDecl {c : VContext} {m} [cwf : c.MLCWF m]"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 541,
+      "text": "theorem AllAbove.wf (H : \u0394.FVWF) : IsFVarUpSet (AllAbove \u0394 P) \u0394 \u2194 IsFVarUpSet P \u0394 :="
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 595,
+      "text": "theorem MLCtx.WF.mkForall_trS {c : MLCtx} (wf : c.WF env Us)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 635,
+      "text": "theorem MLCtx.WF.mkForall'_congr {c : MLCtx} (wf : c.WF env Us)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 646,
+      "text": "theorem MLCtx.WF.mkForall_tr (henv : VEnv.WF env) {c : MLCtx} (wf : c.WF env Us)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 659,
+      "text": "theorem MLCtx.WF.mkLambda_trS {c : MLCtx} (wf : c.WF env Us)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 681,
+      "text": "theorem MLCtx.WF.mkLambda'_congr {c : MLCtx} (wf : c.WF env Us)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 692,
+      "text": "theorem MLCtx.WF.mkLambda_tr (henv : VEnv.WF env) {c : MLCtx} (wf : c.WF env Us)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 705,
+      "text": "theorem MLCtx.WF.mkLet_trS {c : MLCtx} (wf : c.WF env Us)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 734,
+      "text": "theorem MLCtx.WF.fvars_nodup : \u2200 {c : MLCtx}, c.WF env Us \u2192 c.vlctx.fvars.Nodup"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 739,
+      "text": "theorem MLCtx.WF.fvarRevList_nodup {c : MLCtx} (wf : c.WF env Us)"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 743,
+      "text": "theorem MLCtx.WF.decls_size {c : MLCtx} (wf : c.WF env Us) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 751,
+      "text": "theorem MLCtx.WF.toList_eq {c : MLCtx} (wf : c.WF env Us) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 759,
+      "text": "theorem MLCtx.WF.find?_eq {c : MLCtx} (wf : c.WF env Us) :"
+    },
+    {
+      "file": "Lean4Lean/Verify/TypeChecker/Basic.lean",
+      "line": 787,
+      "text": "theorem MLCtx.WF.mkForall_partial {c : MLCtx} (wf : c.WF env Us) (n hn)"
+    }
+  ],
+  "\\blemma\\s+.*WF": [],
+  "\\bnamespace\\s+VEnv\\b": [
+    {
+      "file": "Lean4Lean/Experimental/CoinductiveLogRel.lean",
+      "line": 4,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "line": 5,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stratified.lean",
+      "line": 5,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Experimental/Stronger.lean",
+      "line": 17,
+      "text": "namespace VEnv'"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/QuotLemmas.lean",
+      "line": 5,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 184,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Lemmas.lean",
+      "line": 425,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Strong.lean",
+      "line": 4,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Meta.lean",
+      "line": 4,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Basic.lean",
+      "line": 9,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/HeadReduction.lean",
+      "line": 14,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+      "line": 7,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/InductiveLemmas.lean",
+      "line": 6,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/Injectivity.lean",
+      "line": 9,
+      "text": "namespace VEnv"
+    },
+    {
+      "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+      "line": 6,
+      "text": "namespace VEnv"
+    }
+  ]
+}

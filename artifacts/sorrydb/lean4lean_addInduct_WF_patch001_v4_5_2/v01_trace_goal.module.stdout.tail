@@ -1,0 +1,13 @@
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+⚠ [57/57] Built Lean4Lean.Theory.Typing.InductiveLemmas (642ms)
+info: Lean4Lean/Theory/Typing/InductiveLemmas.lean:10:2: env : VEnv
+decl : VInductDecl
+env' : VEnv
+henv : env.Ordered
+hdecl : VInductDecl.WF env decl
+henv' : env.addInduct decl = some env'
+⊢ env'.Ordered
+warning: Lean4Lean/Theory/Typing/InductiveLemmas.lean:8:8: declaration uses `sorry`
+Build completed successfully (57 jobs).

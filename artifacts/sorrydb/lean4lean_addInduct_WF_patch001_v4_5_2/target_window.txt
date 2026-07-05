@@ -1,0 +1,10 @@
+0001: import Std
+0002: import Lean4Lean.Theory.Typing.Lemmas
+0003: import Lean4Lean.Theory.Typing.Env
+0004: 
+0005: namespace Lean4Lean
+0006: namespace VEnv
+0007: 
+0008: theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)
+0009:     (henv' : addInduct env decl = some env') : Ordered env' :=
+0010:   sorry

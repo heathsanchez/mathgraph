@@ -1,0 +1,271 @@
+====================================================================================================
+{
+  "variant": "v01_trace_goal",
+  "module_returncode": 0,
+  "module_seconds": 0.87,
+  "module_has_error": false,
+  "module_has_sorry_warning": true,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- module stdout tail ---
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+⚠ [57/57] Built Lean4Lean.Theory.Typing.InductiveLemmas (642ms)
+info: Lean4Lean/Theory/Typing/InductiveLemmas.lean:10:2: env : VEnv
+decl : VInductDecl
+env' : VEnv
+henv : env.Ordered
+hdecl : VInductDecl.WF env decl
+henv' : env.addInduct decl = some env'
+⊢ env'.Ordered
+warning: Lean4Lean/Theory/Typing/InductiveLemmas.lean:8:8: declaration uses `sorry`
+Build completed successfully (57 jobs).
+--- module stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v02_simpa_using_henv",
+  "module_returncode": 1,
+  "module_seconds": 0.81,
+  "module_has_error": true,
+  "module_has_sorry_warning": true,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- module stdout tail ---
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+✖ [57/57] Building Lean4Lean.Theory.Typing.InductiveLemmas (636ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/Lean4Lean/Theory/Typing/InductiveLemmas.lean -o /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.olean -i /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.ilean -c /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.c --setup /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.setup.json --json
+error: Lean4Lean/Theory/Typing/InductiveLemmas.lean:10:2: Type mismatch: After simplification, term
+  henv
+ has type
+  env.Ordered
+but is expected to have type
+  env'.Ordered
+warning: Lean4Lean/Theory/Typing/InductiveLemmas.lean:10:9: declaration uses `sorry`
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Theory.Typing.InductiveLemmas
+--- module stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v03_cases_decl_simp",
+  "module_returncode": 1,
+  "module_seconds": 0.81,
+  "module_has_error": true,
+  "module_has_sorry_warning": true,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- module stdout tail ---
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+✖ [57/57] Building Lean4Lean.Theory.Typing.InductiveLemmas (634ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/Lean4Lean/Theory/Typing/InductiveLemmas.lean -o /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.olean -i /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.ilean -c /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.c --setup /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.setup.json --json
+error: Lean4Lean/Theory/Typing/InductiveLemmas.lean:9:63: unsolved goals
+case mk
+env env' : VEnv
+henv : env.Ordered
+uvars✝ nparams✝ : Nat
+types✝ : List VInductiveType
+hdecl : VInductDecl.WF env { uvars := uvars✝, nparams := nparams✝, types := types✝ }
+henv' : sorry = some env'
+⊢ env'.Ordered
+warning: Lean4Lean/Theory/Typing/InductiveLemmas.lean:10:23: declaration uses `sorry`
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Theory.Typing.InductiveLemmas
+--- module stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v04_unfold_addInduct_at_henv",
+  "module_returncode": 1,
+  "module_seconds": 0.71,
+  "module_has_error": true,
+  "module_has_sorry_warning": true,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- module stdout tail ---
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+✖ [57/57] Building Lean4Lean.Theory.Typing.InductiveLemmas (619ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/Lean4Lean/Theory/Typing/InductiveLemmas.lean -o /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.olean -i /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.ilean -c /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.c --setup /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.setup.json --json
+error: Lean4Lean/Theory/Typing/InductiveLemmas.lean:11:2: Tactic `split` failed: Could not split an `if` or `match` expression in the type `sorry = some env'` of `henv'`
+
+Hint: Use `set_option trace.split.failure true` to display additional diagnostic information
+
+env : VEnv
+decl : VInductDecl
+env' : VEnv
+henv : env.Ordered
+hdecl : VInductDecl.WF env decl
+henv' : sorry = some env'
+⊢ env'.Ordered
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Theory.Typing.InductiveLemmas
+--- module stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v05_unfold_ordered_addInduct",
+  "module_returncode": 1,
+  "module_seconds": 0.7,
+  "module_has_error": true,
+  "module_has_sorry_warning": true,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- module stdout tail ---
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+✖ [57/57] Building Lean4Lean.Theory.Typing.InductiveLemmas (619ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/Lean4Lean/Theory/Typing/InductiveLemmas.lean -o /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.olean -i /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.ilean -c /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.c --setup /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.setup.json --json
+error: Lean4Lean/Theory/Typing/InductiveLemmas.lean:10:9: Tactic `unfold` failed to unfold `addInduct` in
+  env.Ordered
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Theory.Typing.InductiveLemmas
+--- module stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v06_aesop_after_simp",
+  "module_returncode": 1,
+  "module_seconds": 0.7,
+  "module_has_error": true,
+  "module_has_sorry_warning": true,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- module stdout tail ---
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+✖ [57/57] Building Lean4Lean.Theory.Typing.InductiveLemmas (618ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/Lean4Lean/Theory/Typing/InductiveLemmas.lean -o /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.olean -i /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.ilean -c /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.c --setup /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.setup.json --json
+error: Lean4Lean/Theory/Typing/InductiveLemmas.lean:11:3: unknown tactic
+error: Lean4Lean/Theory/Typing/InductiveLemmas.lean:9:63: unsolved goals
+env : VEnv
+decl : VInductDecl
+env' : VEnv
+henv : env.Ordered
+hdecl : VInductDecl.WF env decl
+henv' : sorry = some env'
+⊢ env'.Ordered
+warning: Lean4Lean/Theory/Typing/InductiveLemmas.lean:10:8: declaration uses `sorry`
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Theory.Typing.InductiveLemmas
+--- module stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v07_cases_hdecl_simp_all",
+  "module_returncode": 1,
+  "module_seconds": 0.7,
+  "module_has_error": true,
+  "module_has_sorry_warning": true,
+  "full_build_returncode": null,
+  "full_build_seconds": null
+}
+--- module stdout tail ---
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+✖ [57/57] Building Lean4Lean.Theory.Typing.InductiveLemmas (619ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/Lean4Lean/Theory/Typing/InductiveLemmas.lean -o /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.olean -i /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.ilean -c /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.c --setup /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.setup.json --json
+error: Lean4Lean/Theory/Typing/InductiveLemmas.lean:12:3: unknown tactic
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Theory.Typing.InductiveLemmas
+--- module stderr tail ---
+error: build failed
+
+SUMMARY
+{
+  "artifact": "lean4lean_addInduct_WF_patch001_v4_5_2",
+  "repo": "digama0/lean4lean",
+  "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "file": "Lean4Lean/Theory/Typing/InductiveLemmas.lean",
+  "theorem": "VEnv.addInduct_WF",
+  "base_build_returncode": 0,
+  "accepted_variant": null,
+  "accepted": false,
+  "status": "PATCH001_REJECTED_OR_DIAGNOSTIC",
+  "results": [
+    {
+      "variant": "v01_trace_goal",
+      "module_returncode": 0,
+      "module_seconds": 0.87,
+      "module_has_error": false,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v02_simpa_using_henv",
+      "module_returncode": 1,
+      "module_seconds": 0.81,
+      "module_has_error": true,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v03_cases_decl_simp",
+      "module_returncode": 1,
+      "module_seconds": 0.81,
+      "module_has_error": true,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v04_unfold_addInduct_at_henv",
+      "module_returncode": 1,
+      "module_seconds": 0.71,
+      "module_has_error": true,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v05_unfold_ordered_addInduct",
+      "module_returncode": 1,
+      "module_seconds": 0.7,
+      "module_has_error": true,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v06_aesop_after_simp",
+      "module_returncode": 1,
+      "module_seconds": 0.7,
+      "module_has_error": true,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v07_cases_hdecl_simp_all",
+      "module_returncode": 1,
+      "module_seconds": 0.7,
+      "module_has_error": true,
+      "module_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    }
+  ]
+}

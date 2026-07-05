@@ -1,0 +1,9 @@
+⚠ [55/57] Replayed Lean4Lean.Theory.Inductive
+warning: Lean4Lean/Theory/Inductive.lean:5:4: declaration uses `sorry`
+warning: Lean4Lean/Theory/Inductive.lean:7:4: declaration uses `sorry`
+✖ [57/57] Building Lean4Lean.Theory.Typing.InductiveLemmas (619ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/Lean4Lean/Theory/Typing/InductiveLemmas.lean -o /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.olean -i /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/lib/lean/Lean4Lean/Theory/Typing/InductiveLemmas.ilean -c /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.c --setup /private/tmp/sorrydb_lean4lean_addInduct_v4_5_2/.lake/build/ir/Lean4Lean/Theory/Typing/InductiveLemmas.setup.json --json
+error: Lean4Lean/Theory/Typing/InductiveLemmas.lean:12:3: unknown tactic
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Theory.Typing.InductiveLemmas
