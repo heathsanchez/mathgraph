@@ -1,0 +1,28 @@
+diff --git a/equational_theories/Definability/Law46.lean b/equational_theories/Definability/Law46.lean
+index bf3630b..d71050e 100644
+--- a/equational_theories/Definability/Law46.lean
++++ b/equational_theories/Definability/Law46.lean
+@@ -16,8 +16,21 @@ theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}
+   cases hlhs : L.lhs
+   next x =>
+     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2
+-    obtain ⟨y,hy⟩ : ∃ y, L.rhs = Lf y := sorry
+-    have hxy : x ≠ y := sorry
++    obtain ⟨y,hy⟩ : ∃ y, L.rhs = Lf y := by
++      cases hrhs : L.rhs with
++      | Leaf y =>
++          exact ⟨y, rfl⟩
++      | Fork l r =>
++          exfalso
++          rw [hlhs, hrhs] at hShape
++          simp [FreeMagma.evalInMagma] at hShape
++    have hxy : x ≠ y := by
++      intro hxy
++      rw [hlhs, hy] at hDisjoint
++      subst y
++      have hx : x ∈ (Lf x).elems.val := by
++        simp
++      exact hDisjoint hx hx
+     rw [show L = Lf x ≃ Lf y from sorry]
+     clear hlhs hy hShape hDisjoint
+     apply termDefinable_of_termStructural
