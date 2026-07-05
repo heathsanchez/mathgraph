@@ -1,0 +1,89 @@
+[
+  {
+    "variant": "v01_rw_List_Disjoint_direct",
+    "returncode": 1,
+    "seconds": 49.12,
+    "build_completed": false,
+    "has_error": true,
+    "has_warning": false,
+    "remaining_sorry_warning": false,
+    "error_lines": [
+      "error: equational_theories/Definability/Law46.lean:32:8: `simp` made no progress",
+      "error: equational_theories/Definability/Law46.lean:33:20: failed to synthesize instance of type class",
+      "error: equational_theories/Definability/Law46.lean:36:22: Application type mismatch: The argument",
+      "error: Lean exited with code 1",
+      "error: build failed"
+    ]
+  },
+  {
+    "variant": "v02_disjoint_direct_without_rw",
+    "returncode": 1,
+    "seconds": 5.96,
+    "build_completed": false,
+    "has_error": true,
+    "has_warning": false,
+    "remaining_sorry_warning": false,
+    "error_lines": [
+      "error: equational_theories/Definability/Law46.lean:31:8: `simp` made no progress",
+      "error: equational_theories/Definability/Law46.lean:32:20: failed to synthesize instance of type class",
+      "error: Lean exited with code 1",
+      "error: build failed"
+    ]
+  },
+  {
+    "variant": "v03_simp_at_hDisjoint",
+    "returncode": 1,
+    "seconds": 3.83,
+    "build_completed": false,
+    "has_error": true,
+    "has_warning": true,
+    "remaining_sorry_warning": false,
+    "error_lines": [
+      "error: equational_theories/Definability/Law46.lean:27:24: unsolved goals",
+      "error: Lean exited with code 1",
+      "error: build failed"
+    ]
+  },
+  {
+    "variant": "v04_simpa_List_Disjoint",
+    "returncode": 1,
+    "seconds": 3.36,
+    "build_completed": false,
+    "has_error": true,
+    "has_warning": false,
+    "remaining_sorry_warning": false,
+    "error_lines": [
+      "error: equational_theories/Definability/Law46.lean:30:6: Type mismatch: After simplification, term",
+      "error: Lean exited with code 1",
+      "error: build failed"
+    ]
+  },
+  {
+    "variant": "v05_not_disjoint_singletons",
+    "returncode": 1,
+    "seconds": 2.88,
+    "build_completed": false,
+    "has_error": true,
+    "has_warning": false,
+    "remaining_sorry_warning": false,
+    "error_lines": [
+      "error: equational_theories/Definability/Law46.lean:33:22: Application type mismatch: The argument",
+      "error: Lean exited with code 1",
+      "error: build failed"
+    ]
+  },
+  {
+    "variant": "v06_contradiction_after_simp",
+    "returncode": 1,
+    "seconds": 4.13,
+    "build_completed": false,
+    "has_error": true,
+    "has_warning": false,
+    "remaining_sorry_warning": false,
+    "error_lines": [
+      "error: equational_theories/Definability/Law46.lean:31:22: Application type mismatch: The argument",
+      "error: Lean exited with code 1",
+      "error: build failed"
+    ]
+  }
+]

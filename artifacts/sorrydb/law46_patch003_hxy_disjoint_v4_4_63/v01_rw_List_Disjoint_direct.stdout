@@ -1,0 +1,36 @@
+✔ [971/989] Built equational_theories.Magma (383ms)
+✔ [972/989] Built equational_theories.Homomorphisms (5.6s)
+✔ [973/989] Built equational_theories.ForMathlib.Definability (7.2s)
+✔ [974/989] Built equational_theories.FreeMagma (4.4s)
+✔ [975/989] Built equational_theories.MagmaLaw (4.6s)
+✔ [976/989] Built equational_theories.EquationLawConversion (3.2s)
+✔ [977/989] Built equational_theories.Preorder (3.3s)
+✔ [978/989] Built equational_theories.Definability.Basic (5.9s)
+✔ [979/989] Built equational_theories.ParseImplications (6.0s)
+✔ [980/989] Built equational_theories.Equations.Command (6.1s)
+✔ [981/989] Built equational_theories.Equations.Basic (10s)
+✔ [982/989] Built equational_theories.EquationalResult (11s)
+✔ [983/989] Built equational_theories.Equations.Eqns4000_4694 (14s)
+✔ [984/989] Built equational_theories.Equations.Eqns3000_3999 (15s)
+✔ [985/989] Built equational_theories.Equations.Eqns1_999 (15s)
+✔ [986/989] Built equational_theories.Equations.Eqns1000_1999 (15s)
+✔ [987/989] Built equational_theories.Equations.Eqns2000_2999 (15s)
+✔ [988/989] Built equational_theories.Equations.All (4.3s)
+✖ [989/989] Building equational_theories.Definability.Law46 (2.8s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch003_v4_4_63/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch003_v4_4_63/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:32:8: `simp` made no progress
+error: equational_theories/Definability/Law46.lean:33:20: failed to synthesize instance of type class
+  Membership ℕ { l // l.Nodup ∧ ∀ (a : ℕ), a ∈ l ↔ FreeMagma.Mem a L.rhs }
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: equational_theories/Definability/Law46.lean:36:22: Application type mismatch: The argument
+  x
+has type
+  ℕ
+of sort `Type` but is expected to have type
+  ?m.191 ∈ ↑L.lhs.elems
+of sort `Prop` in the application
+  hDisjoint x
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
