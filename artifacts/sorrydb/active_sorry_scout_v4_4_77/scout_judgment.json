@@ -1,0 +1,13 @@
+{
+  "artifact": "active_sorry_scout_v4_4_77",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "excluded": [
+    "equational_theories/Definability/Law43.lean",
+    "equational_theories/Definability/Law46.lean"
+  ],
+  "candidate_count": 0,
+  "false_positive_comment_sorry_count": 1,
+  "best_candidate": null,
+  "status": "NO_ACTIVE_TARGET_FOUND"
+}
