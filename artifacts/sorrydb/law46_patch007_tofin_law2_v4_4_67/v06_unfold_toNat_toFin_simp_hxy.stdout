@@ -1,0 +1,18 @@
+✖ [989/989] Building equational_theories.Definability.Law46 (1.7s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch007_v4_4_67/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch007_v4_4_67/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:44:12: Unknown constant `Law.NatMagmaLaw.toFin`
+error: equational_theories/Definability/Law46.lean:43:47: unsolved goals
+L : NatMagmaLaw
+x y : ℕ
+hxy : x ≠ y
+⊢ map (fun x_1 ↦ ↑x_1) (Lf x ≃ Lf y).toFin.toFin = Law2
+warning: equational_theories/Definability/Law46.lean:44:47: This simp argument is unused:
+  hxy
+
+Hint: Omit it from the simp argument list.
+  simp [NatMagmaLaw.toFin, MagmaLaw.toNat,̵ ̵h̵x̵y̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
