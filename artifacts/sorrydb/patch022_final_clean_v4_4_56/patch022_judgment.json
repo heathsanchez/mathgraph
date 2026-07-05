@@ -1,0 +1,14 @@
+{
+  "cmd": [
+    "lake",
+    "build",
+    "equational_theories.Definability.Law43"
+  ],
+  "seconds": 48.52,
+  "returncode": 0,
+  "ok": true,
+  "stdout_tail": "\u2714 [971/993] Built equational_theories.Magma (278ms)\n\u2714 [972/993] Built equational_theories.Homomorphisms (5.3s)\n\u2714 [973/993] Built equational_theories.ForMathlib.Definability (6.9s)\n\u2714 [974/993] Built equational_theories.FreeMagma (2.5s)\n\u2714 [975/993] Built equational_theories.MagmaLaw (3.3s)\n\u2714 [976/993] Built equational_theories.EquationLawConversion (3.2s)\n\u2714 [977/993] Built equational_theories.Preorder (3.3s)\n\u2714 [978/993] Built equational_theories.MagmaOp (4.9s)\n\u2714 [979/993] Built equational_theories.Definability.Basic (5.0s)\n\u2714 [980/993] Built equational_theories.ParseImplications (5.2s)\n\u2714 [981/993] Built equational_theories.Equations.Command (5.4s)\n\u2714 [982/993] Built equational_theories.Equations.Basic (11s)\n\u2714 [983/993] Built equational_theories.Duals.Command (12s)\n\u2714 [984/993] Built equational_theories.EquationalResult (13s)\n\u2714 [985/993] Built equational_theories.Equations.Eqns4000_4694 (19s)\n\u2714 [986/993] Built equational_theories.Equations.Eqns1_999 (19s)\n\u2714 [987/993] Built equational_theories.Equations.Eqns1000_1999 (19s)\n\u2714 [988/993] Built equational_theories.Equations.Eqns2000_2999 (19s)\n\u2714 [989/993] Built equational_theories.Equations.Eqns3000_3999 (19s)\n\u2714 [990/993] Built equational_theories.Equations.All (3.8s)\n\u2714 [991/993] Built equational_theories.Duals.Basic (11s)\n\u2714 [992/993] Built equational_theories.Definability.Simple (2.3s)\n\u2714 [993/993] Built equational_theories.Definability.Law43 (1.5s)\nBuild completed successfully (993 jobs).\n",
+  "stderr_tail": "",
+  "no_sorry_warning": true,
+  "no_unused_warning": true
+}

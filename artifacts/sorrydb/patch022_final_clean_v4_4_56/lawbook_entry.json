@@ -1,0 +1,21 @@
+{
+  "artifact": "sorrydb_patch022_final_clean",
+  "status": "VERIFIED_REPAIR",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law43.lean",
+  "theorem": "Equation43_termDefinableFrom_swapped_args",
+  "build_command": [
+    "lake",
+    "build",
+    "equational_theories.Definability.Law43"
+  ],
+  "seconds": 48.52,
+  "returncode": 0,
+  "ok": true,
+  "no_sorry_warning": true,
+  "no_unused_warning": true,
+  "patch": "final_Law43.patch",
+  "accepted_file": "accepted_Law43.lean",
+  "report": "REPORT.md"
+}
