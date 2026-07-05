@@ -1,0 +1,142 @@
+[
+  {
+    "file": "equational_theories/Definability/Law43.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 31,
+    "import_count": 3,
+    "imports": [
+      "import Batteries.Data.List.Basic",
+      "import equational_theories.Definability.Basic",
+      "import equational_theories.Equations.All"
+    ],
+    "score": 492.55,
+    "flags": {
+      "known_parked": false,
+      "known_solved": true,
+      "definability": true,
+      "equations_all": true,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "models_iff": false,
+      "termdef": true,
+      "macro_or_elab": false,
+      "category_theory": false,
+      "uses_aesop": false,
+      "uses_decide": true,
+      "small_imports": true
+    },
+    "theorem_like": [
+      {
+        "line": 10,
+        "text": "theorem Equation43_termDefinableFrom_swapped_args {L : NatMagmaLaw}"
+      },
+      {
+        "line": 18,
+        "text": "theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :="
+      },
+      {
+        "line": 22,
+        "text": "theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :="
+      },
+      {
+        "line": 26,
+        "text": "theorem Equation43_termDefinableFrom_Equation4293 : Law43.TermDefinableFrom Law4293 :="
+      },
+      {
+        "line": 30,
+        "text": "theorem Equation43_termDefinableFrom_Equation4321 : Law43.TermDefinableFrom Law4321 :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 15,
+        "window": "0003: import equational_theories.Equations.All\n0004: \n0005: open FirstOrder.Language\n0006: open Law\n0007: open Law.MagmaLaw\n0008: \n0009: --TODO: the commutative law is definable from anything of the form f(x,y) \u2243 f(y,x).\n0010: theorem Equation43_termDefinableFrom_swapped_args {L : NatMagmaLaw}\n0011:     (hL2args : \u2200 e \u2208 L.lhs.elems.1, e \u2208 [0,1] := by decide +kernel)\n0012:     (hR2args : \u2200 e \u2208 L.rhs.elems.1, e \u2208 [0,1] := by decide +kernel)\n0013:     (hSymm : L.lhs \u2b1d (fun x \u21a6 Lf $ Equiv.swap 0 1 x) = L.rhs := by rfl)\n0014:     : Law43.TermDefinableFrom L := by\n0015:   sorry\n0016: \n0017: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 40 `x \u25c7 x = y \u25c7 y`. -/\n0018: theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :=\n0019:   Equation43_termDefinableFrom_swapped_args\n0020: \n0021: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 4343 `x \u25c7 (y \u25c7 y) = y \u25c7 (x \u25c7 x)`. -/\n0022: theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :=\n0023:   Equation43_termDefinableFrom_swapped_args\n0024: \n0025: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 4293 `x \u25c7 (x \u25c7 y) = y \u25c7 (y \u25c7 x)`. -/\n0026: theorem Equation43_termDefinableFrom_Equation4293 : Law43.TermDefinableFrom Law4293 :=\n0027:   Equation43_termDefinableFrom_swapped_args"
+      }
+    ]
+  },
+  {
+    "file": "equational_theories/Definability/Law46.lean",
+    "raw_sorry_count": 8,
+    "active_sorry_count": 7,
+    "line_count": 74,
+    "import_count": 3,
+    "imports": [
+      "import Batteries.Data.List.Basic",
+      "import equational_theories.Definability.Basic",
+      "import equational_theories.Equations.All"
+    ],
+    "score": 1176.7,
+    "flags": {
+      "known_parked": true,
+      "known_solved": false,
+      "definability": true,
+      "equations_all": true,
+      "toFin": true,
+      "satisfies_or_models": true,
+      "models_iff": true,
+      "termdef": true,
+      "macro_or_elab": false,
+      "category_theory": false,
+      "uses_aesop": false,
+      "uses_decide": true,
+      "small_imports": true
+    },
+    "theorem_like": [
+      {
+        "line": 11,
+        "text": "theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}"
+      },
+      {
+        "line": 57,
+        "text": "theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :="
+      },
+      {
+        "line": 61,
+        "text": "theorem Equation46_termDefinableFrom_Equation4276 : Law46.TermDefinableFrom Law4276 :="
+      },
+      {
+        "line": 65,
+        "text": "theorem Equation46_termDefinableFrom_Equation4308 : Law46.TermDefinableFrom Law4308 :="
+      },
+      {
+        "line": 69,
+        "text": "theorem Equation46_termDefinableFrom_Equation4336 : Law46.TermDefinableFrom Law4336 :="
+      },
+      {
+        "line": 73,
+        "text": "theorem Equation46_termDefinableFrom_Equation4355 : Law46.TermDefinableFrom Law4355 :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 19,
+        "window": "0007: open Law.MagmaLaw\n0008: \n0009: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from any law `lhs = rhs`, where\n0010: lhs and rhs are the same shape, but with disjoint sets of variables. -/\n0011: theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}\n0012:   (hShape : L.lhs \u2b1d (fun _ \u21a6 Lf 0) = L.rhs \u2b1d (fun _ \u21a6 Lf 0) := by rfl)\n0013:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n0014:   : Law46.TermDefinableFrom L := by\n0015:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n0016:   cases hlhs : L.lhs\n0017:   next x =>\n0018:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n0019:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n0020:     have hxy : x \u2260 y := sorry\n0021:     rw [show L = Lf x \u2243 Lf y from sorry]\n0022:     clear hlhs hy hShape hDisjoint\n0023:     apply termDefinable_of_termStructural\n0024:     apply termStructural_of_implies\n0025:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n0026:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n0027:       --   sorry\n0028:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n0029:       --   rw [h\u2081]\n0030:       --   simp\n0031:       -- simp [toFin, h\u2081]"
+      },
+      {
+        "line": 20,
+        "window": "0008: \n0009: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from any law `lhs = rhs`, where\n0010: lhs and rhs are the same shape, but with disjoint sets of variables. -/\n0011: theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}\n0012:   (hShape : L.lhs \u2b1d (fun _ \u21a6 Lf 0) = L.rhs \u2b1d (fun _ \u21a6 Lf 0) := by rfl)\n0013:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n0014:   : Law46.TermDefinableFrom L := by\n0015:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n0016:   cases hlhs : L.lhs\n0017:   next x =>\n0018:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n0019:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n0020:     have hxy : x \u2260 y := sorry\n0021:     rw [show L = Lf x \u2243 Lf y from sorry]\n0022:     clear hlhs hy hShape hDisjoint\n0023:     apply termDefinable_of_termStructural\n0024:     apply termStructural_of_implies\n0025:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n0026:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n0027:       --   sorry\n0028:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n0029:       --   rw [h\u2081]\n0030:       --   simp\n0031:       -- simp [toFin, h\u2081]\n0032:       -- simp_rw [h\u2081]"
+      },
+      {
+        "line": 21,
+        "window": "0009: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from any law `lhs = rhs`, where\n0010: lhs and rhs are the same shape, but with disjoint sets of variables. -/\n0011: theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}\n0012:   (hShape : L.lhs \u2b1d (fun _ \u21a6 Lf 0) = L.rhs \u2b1d (fun _ \u21a6 Lf 0) := by rfl)\n0013:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)\n0014:   : Law46.TermDefinableFrom L := by\n0015:   --There are two cases: there is at least one function application, or both sides of L are leaves.\n0016:   cases hlhs : L.lhs\n0017:   next x =>\n0018:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2\n0019:     obtain \u27e8y,hy\u27e9 : \u2203 y, L.rhs = Lf y := sorry\n0020:     have hxy : x \u2260 y := sorry\n0021:     rw [show L = Lf x \u2243 Lf y from sorry]\n0022:     clear hlhs hy hShape hDisjoint\n0023:     apply termDefinable_of_termStructural\n0024:     apply termStructural_of_implies\n0025:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n0026:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n0027:       --   sorry\n0028:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n0029:       --   rw [h\u2081]\n0030:       --   simp\n0031:       -- simp [toFin, h\u2081]\n0032:       -- simp_rw [h\u2081]\n0033:       sorry"
+      },
+      {
+        "line": 33,
+        "window": "0021:     rw [show L = Lf x \u2243 Lf y from sorry]\n0022:     clear hlhs hy hShape hDisjoint\n0023:     apply termDefinable_of_termStructural\n0024:     apply termStructural_of_implies\n0025:     have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\n0026:       -- have h\u2081 : (Lf x \u2243 Lf y : NatMagmaLaw).elems.1 = [x,y] := by\n0027:       --   sorry\n0028:       -- have h\u2082 : Fin ((Lf x \u2243 Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by\n0029:       --   rw [h\u2081]\n0030:       --   simp\n0031:       -- simp [toFin, h\u2081]\n0032:       -- simp_rw [h\u2081]\n0033:       sorry\n0034:     unfold implies\n0035:     simp_rw [\u2190 satisfies_toFin (E := Lf x \u2243 Lf y)\n0036:             , \u2190 satisfies_toNat (E := (Lf x \u2243 Lf y).toFin),\n0037:             this]\n0038:     exact Equation2_implies Law46\n0039:   --Otherwise we call back to the more interesting case of a function application\n0040:   intro G M hGL\n0041:   use \u27e8fun x _ \u21a6 @Term.realize _ _ M.FOStructure _ (fun _ \u21a6 x) L.lhs.toTerm\u27e9\n0042:   constructor\n0043:   \u00b7 rw [@Law46.models_iff]\n0044:     by_cases hG : Nonempty G\n0045:     \u00b7 suffices \u2203 c, \u2200 (x y : G), x \u25c7 y = c by"
+      },
+      {
+        "line": 49,
+        "window": "0037:             this]\n0038:     exact Equation2_implies Law46\n0039:   --Otherwise we call back to the more interesting case of a function application\n0040:   intro G M hGL\n0041:   use \u27e8fun x _ \u21a6 @Term.realize _ _ M.FOStructure _ (fun _ \u21a6 x) L.lhs.toTerm\u27e9\n0042:   constructor\n0043:   \u00b7 rw [@Law46.models_iff]\n0044:     by_cases hG : Nonempty G\n0045:     \u00b7 suffices \u2203 c, \u2200 (x y : G), x \u25c7 y = c by\n0046:         obtain \u27e8c,h\u27e9 := this\n0047:         intros x y z w\n0048:         simp\n0049:         sorry\n0050:       sorry\n0051:     \u00b7 exact (not_nonempty_iff.mp hG).elim\n0052:   \u00b7 use (MagmaLanguage.lhomWithConstants _).onTerm (L.lhs.toTerm.subst fun a \u21a6 var 0)\n0053:     funext v\n0054:     sorry\n0055: \n0056: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from Equation 40 `x \u25c7 x = y \u25c7 y`. -/\n0057: theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=\n0058:   Equation46_termDefinableFrom_equalShape\n0059: \n0060: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from 4276 `x \u25c7 (x \u25c7 x) = y \u25c7 (y \u25c7 y)`. -/\n0061: theorem Equation46_termDefinableFrom_Equation4276 : Law46.TermDefinableFrom Law4276 :="
+      },
+      {
+        "line": 50,
+        "window": "0038:     exact Equation2_implies Law46\n0039:   --Otherwise we call back to the more interesting case of a function application\n0040:   intro G M hGL\n0041:   use \u27e8fun x _ \u21a6 @Term.realize _ _ M.FOStructure _ (fun _ \u21a6 x) L.lhs.toTerm\u27e9\n0042:   constructor\n0043:   \u00b7 rw [@Law46.models_iff]\n0044:     by_cases hG : Nonempty G\n0045:     \u00b7 suffices \u2203 c, \u2200 (x y : G), x \u25c7 y = c by\n0046:         obtain \u27e8c,h\u27e9 := this\n0047:         intros x y z w\n0048:         simp\n0049:         sorry\n0050:       sorry\n0051:     \u00b7 exact (not_nonempty_iff.mp hG).elim\n0052:   \u00b7 use (MagmaLanguage.lhomWithConstants _).onTerm (L.lhs.toTerm.subst fun a \u21a6 var 0)\n0053:     funext v\n0054:     sorry\n0055: \n0056: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from Equation 40 `x \u25c7 x = y \u25c7 y`. -/\n0057: theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=\n0058:   Equation46_termDefinableFrom_equalShape\n0059: \n0060: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from 4276 `x \u25c7 (x \u25c7 x) = y \u25c7 (y \u25c7 y)`. -/\n0061: theorem Equation46_termDefinableFrom_Equation4276 : Law46.TermDefinableFrom Law4276 :=\n0062:   Equation46_termDefinableFrom_equalShape"
+      },
+      {
+        "line": 54,
+        "window": "0042:   constructor\n0043:   \u00b7 rw [@Law46.models_iff]\n0044:     by_cases hG : Nonempty G\n0045:     \u00b7 suffices \u2203 c, \u2200 (x y : G), x \u25c7 y = c by\n0046:         obtain \u27e8c,h\u27e9 := this\n0047:         intros x y z w\n0048:         simp\n0049:         sorry\n0050:       sorry\n0051:     \u00b7 exact (not_nonempty_iff.mp hG).elim\n0052:   \u00b7 use (MagmaLanguage.lhomWithConstants _).onTerm (L.lhs.toTerm.subst fun a \u21a6 var 0)\n0053:     funext v\n0054:     sorry\n0055: \n0056: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from Equation 40 `x \u25c7 x = y \u25c7 y`. -/\n0057: theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=\n0058:   Equation46_termDefinableFrom_equalShape\n0059: \n0060: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from 4276 `x \u25c7 (x \u25c7 x) = y \u25c7 (y \u25c7 y)`. -/\n0061: theorem Equation46_termDefinableFrom_Equation4276 : Law46.TermDefinableFrom Law4276 :=\n0062:   Equation46_termDefinableFrom_equalShape\n0063: \n0064: /-- The constant law 46 `x \u25c7 y = z \u25c7 w` is TermDefinable from 4308 `x \u25c7 (x \u25c7 y) = z \u25c7 (z \u25c7 w)`. -/\n0065: theorem Equation46_termDefinableFrom_Equation4308 : Law46.TermDefinableFrom Law4308 :=\n0066:   Equation46_termDefinableFrom_equalShape"
+      }
+    ]
+  }
+]

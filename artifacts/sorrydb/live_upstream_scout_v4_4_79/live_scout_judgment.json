@@ -1,0 +1,65 @@
+{
+  "artifact": "live_upstream_scout_v4_4_79",
+  "repo": "teorth/equational_theories",
+  "branch": "main",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "candidate_count": 2,
+  "comment_only_false_positive_count": 1,
+  "best_candidate": {
+    "file": "equational_theories/Definability/Law43.lean",
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 31,
+    "import_count": 3,
+    "imports": [
+      "import Batteries.Data.List.Basic",
+      "import equational_theories.Definability.Basic",
+      "import equational_theories.Equations.All"
+    ],
+    "score": 492.55,
+    "flags": {
+      "known_parked": false,
+      "known_solved": true,
+      "definability": true,
+      "equations_all": true,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "models_iff": false,
+      "termdef": true,
+      "macro_or_elab": false,
+      "category_theory": false,
+      "uses_aesop": false,
+      "uses_decide": true,
+      "small_imports": true
+    },
+    "theorem_like": [
+      {
+        "line": 10,
+        "text": "theorem Equation43_termDefinableFrom_swapped_args {L : NatMagmaLaw}"
+      },
+      {
+        "line": 18,
+        "text": "theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :="
+      },
+      {
+        "line": 22,
+        "text": "theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :="
+      },
+      {
+        "line": 26,
+        "text": "theorem Equation43_termDefinableFrom_Equation4293 : Law43.TermDefinableFrom Law4293 :="
+      },
+      {
+        "line": 30,
+        "text": "theorem Equation43_termDefinableFrom_Equation4321 : Law43.TermDefinableFrom Law4321 :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 15,
+        "window": "0003: import equational_theories.Equations.All\n0004: \n0005: open FirstOrder.Language\n0006: open Law\n0007: open Law.MagmaLaw\n0008: \n0009: --TODO: the commutative law is definable from anything of the form f(x,y) \u2243 f(y,x).\n0010: theorem Equation43_termDefinableFrom_swapped_args {L : NatMagmaLaw}\n0011:     (hL2args : \u2200 e \u2208 L.lhs.elems.1, e \u2208 [0,1] := by decide +kernel)\n0012:     (hR2args : \u2200 e \u2208 L.rhs.elems.1, e \u2208 [0,1] := by decide +kernel)\n0013:     (hSymm : L.lhs \u2b1d (fun x \u21a6 Lf $ Equiv.swap 0 1 x) = L.rhs := by rfl)\n0014:     : Law43.TermDefinableFrom L := by\n0015:   sorry\n0016: \n0017: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 40 `x \u25c7 x = y \u25c7 y`. -/\n0018: theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :=\n0019:   Equation43_termDefinableFrom_swapped_args\n0020: \n0021: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 4343 `x \u25c7 (y \u25c7 y) = y \u25c7 (x \u25c7 x)`. -/\n0022: theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :=\n0023:   Equation43_termDefinableFrom_swapped_args\n0024: \n0025: /-- The commutative law 43 `x \u25c7 y = y \u25c7 x` is TermDefinable from 4293 `x \u25c7 (x \u25c7 y) = y \u25c7 (y \u25c7 x)`. -/\n0026: theorem Equation43_termDefinableFrom_Equation4293 : Law43.TermDefinableFrom Law4293 :=\n0027:   Equation43_termDefinableFrom_swapped_args"
+      }
+    ]
+  },
+  "status": "LIVE_ACTIVE_TARGET_FOUND"
+}
