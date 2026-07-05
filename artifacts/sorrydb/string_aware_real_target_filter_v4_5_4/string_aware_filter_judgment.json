@@ -1,0 +1,91 @@
+{
+  "artifact": "string_aware_real_target_filter_v4_5_4",
+  "source_artifact": "multirepo_live_sorry_scout_v4_5_0",
+  "input_candidate_count": 660,
+  "rejected_count": 648,
+  "real_target_count": 12,
+  "best_candidate": {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 1,
+    "line_count": 317,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.Lemmas",
+      "import Lean4Lean.Theory.Typing.Strong"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 55,
+        "text": "theorem IsDefEq.inductionU1"
+      },
+      {
+        "line": 102,
+        "text": "theorem HasTypeU1.induction (H : env.HasTypeU1 U defEq \u0393 e A) : env.HasType U \u0393 e A := by"
+      },
+      {
+        "line": 120,
+        "text": "theorem IsDefEqU1.induction"
+      },
+      {
+        "line": 178,
+        "text": "theorem IsDefEqU1.unique_typing1"
+      },
+      {
+        "line": 196,
+        "text": "theorem HasType1.unique_typing'"
+      },
+      {
+        "line": 245,
+        "text": "theorem IsDefEq.unique_typing'"
+      },
+      {
+        "line": 275,
+        "text": "theorem IsDefEq.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 310,
+        "text": "theorem HasType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393')"
+      },
+      {
+        "line": 315,
+        "text": "theorem IsType.weakN_inv (W : Ctx.LiftN n k \u0393 \u0393') (H : env.IsType U \u0393' (A.liftN n k)) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 72,
+        "window": "0060:       HasTypeU1 env U defEq \u0393 e1 A1 \u2192 HasTypeU1 env U defEq \u0393 e2 A2 \u2192\n0061:       IsDefEqU1 env U hasType \u0393 e1 e2 \u2192 defEq \u0393 e1 e2)\n0062:     (H : env.IsDefEq U \u0393 e1 e2 A) :\n0063:     HasTypeU1 env U defEq \u0393 e1 A \u2227\n0064:     HasTypeU1 env U defEq \u0393 e2 A \u2227\n0065:     IsDefEqU1 env U hasType \u0393 e1 e2 := by\n0066:   have H' := H.strong henv h\u0393; clear h\u0393 H\n0067:   induction H' with\n0068:   | bvar h => exact \u27e8.bvar h, .bvar h, .refl\u27e9\n0069:   | symm _ ih => exact \u27e8ih.2.1, ih.1, .symm ih.2.2\u27e9\n0070:   | trans _ _ ih1 ih2 => exact \u27e8ih1.1, ih2.2.1, .trans ih1.2.2 ih2.2.2\u27e9\n0071:   | @constDF _ _ ls\u2081 ls\u2082 _ _ h1 h2 h3 h4 h5 =>\n0072:     exact \u27e8.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5\u27e9\n0073:   | @sortDF l l' _ h1 h2 h3 =>\n0074:     refine \u27e8.sort h1, ?_, .sortDF h3\u27e9\n0075:     exact .defeq (hdf (.sort (l := l'.succ) h2) (.sort (l := l.succ) h1)\n0076:       (.sortDF <| VLevel.succ_congr h3.symm)) (.sort h2)\n0077:   | appDF _ _ _ _ _ _ _ _ _ ihf iha ihBa =>\n0078:     let \u27e8hf, hf', ff\u27e9 := ihf; let \u27e8ha, ha', aa\u27e9 := iha\n0079:     exact \u27e8.app hf ha, .defeq (hdf ihBa.2.1 ihBa.1 (.symm ihBa.2.2)) (.app hf' ha'), .appDF ff aa\u27e9\n0080:   | lamDF _ _ _ _ _ _ _ ihA ihB ihB' ihb ihb' =>\n0081:     refine \u27e8.lam ihA.1 ihb.1, .defeq ?_ <| .lam ihA.2.1 ihb'.2.1, .lamDF ihA.2.2 ihb.2.2\u27e9\n0082:     exact hdf (.forallE ihA.2.1 ihB'.1) (.forallE ihA.1 ihB.1) <|\n0083:       .symm <| .forallEDF ihA.2.2 ihB.2.2\n0084:   | forallEDF _ _ _ _ _ ih1 ih2 ih3 =>"
+      }
+    ],
+    "score": 19.35,
+    "active_sorry_count_after_string_strip": 1,
+    "string_aware_real_score": -25.65
+  },
+  "status": "STRING_AWARE_REAL_TARGET_FOUND"
+}
