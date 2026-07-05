@@ -1,0 +1,742 @@
+{
+  "sorrydb/__init__.py": {
+    "lines": 0,
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  "sorrydb/database/process_sorries.py": {
+    "lines": 256,
+    "classes": [],
+    "functions": [
+      "hash_string",
+      "should_process_file",
+      "get_potential_sorry_files",
+      "process_lean_file",
+      "process_lean_repo",
+      "get_repo_lean_version",
+      "prepare_and_process_lean_repo"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/database/build_database.py": {
+    "lines": 296,
+    "classes": [],
+    "functions": [
+      "init_database",
+      "compute_new_sorries_stats",
+      "process_new_commits",
+      "repo_has_updates",
+      "get_new_leaf_commits",
+      "find_new_sorries",
+      "update_database"
+    ],
+    "import_count": 12
+  },
+  "sorrydb/database/__init__.py": {
+    "lines": 0,
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  "sorrydb/database/sorry.py": {
+    "lines": 139,
+    "classes": [
+      "RepoInfo",
+      "Location",
+      "DebugInfo",
+      "Metadata",
+      "Sorry",
+      "SorryResult",
+      "FailedSorry",
+      "SorryJSONEncoder"
+    ],
+    "functions": [
+      "sorry_object_hook"
+    ],
+    "import_count": 5
+  },
+  "sorrydb/database/sorry_database.py": {
+    "lines": 198,
+    "classes": [
+      "JsonDatabase"
+    ],
+    "functions": [],
+    "import_count": 6
+  },
+  "sorrydb/database/reservoir.py": {
+    "lines": 63,
+    "classes": [],
+    "functions": [
+      "clone_reservoir",
+      "find_metadata_files",
+      "process_repositories",
+      "scrape_reservoir"
+    ],
+    "import_count": 5
+  },
+  "sorrydb/database/deduplicate_database.py": {
+    "lines": 99,
+    "classes": [],
+    "functions": [
+      "deduplicate_sorries_by_goal",
+      "varied_repo_frequent_n_sorries",
+      "deduplicate_database"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/strategies/aristotle_collect_strategy.py": {
+    "lines": 181,
+    "classes": [
+      "AristotleCollectStrategy"
+    ],
+    "functions": [],
+    "import_count": 11
+  },
+  "sorrydb/strategies/aristotle_strategy.py": {
+    "lines": 70,
+    "classes": [
+      "AristotleStrategy"
+    ],
+    "functions": [],
+    "import_count": 7
+  },
+  "sorrydb/strategies/tactic_strategy.py": {
+    "lines": 544,
+    "classes": [
+      "StrategyMode",
+      "TacticByTacticStrategy"
+    ],
+    "functions": [],
+    "import_count": 14
+  },
+  "sorrydb/strategies/llm_proof_utils.py": {
+    "lines": 153,
+    "classes": [],
+    "functions": [
+      "extract_proof_from_code_block",
+      "extract_proof_from_full_theorem_statement",
+      "extract_context",
+      "deepseek_post_processing"
+    ],
+    "import_count": 4
+  },
+  "sorrydb/strategies/llm_strategy.py": {
+    "lines": 395,
+    "classes": [
+      "LLMStrategy"
+    ],
+    "functions": [],
+    "import_count": 14
+  },
+  "sorrydb/strategies/cloud_llm_strategy.py": {
+    "lines": 107,
+    "classes": [
+      "LLMProvider",
+      "CloudLLMDebugManager",
+      "CloudLLMStrategy"
+    ],
+    "functions": [],
+    "import_count": 7
+  },
+  "sorrydb/strategies/agentic_strategy.py": {
+    "lines": 388,
+    "classes": [
+      "AgenticState",
+      "AgenticStrategy"
+    ],
+    "functions": [],
+    "import_count": 15
+  },
+  "sorrydb/strategies/rfl_strategy.py": {
+    "lines": 85,
+    "classes": [
+      "RflStrategy",
+      "SimpStrategy",
+      "NormNumStrategy",
+      "SingleTacticStrategy",
+      "ProveAllStrategy"
+    ],
+    "functions": [],
+    "import_count": 5
+  },
+  "sorrydb/strategies/aristotle_strategy_v2.py": {
+    "lines": 214,
+    "classes": [
+      "AristotleStrategyV2"
+    ],
+    "functions": [],
+    "import_count": 9
+  },
+  "sorrydb/utils/logging.py": {
+    "lines": 54,
+    "classes": [],
+    "functions": [
+      "setup_logger"
+    ],
+    "import_count": 4
+  },
+  "sorrydb/utils/git_ops.py": {
+    "lines": 394,
+    "classes": [],
+    "functions": [
+      "get_changed_files",
+      "get_merge_base",
+      "get_repo_metadata",
+      "get_git_blame_info",
+      "prepare_repository",
+      "get_default_branch",
+      "remote_heads",
+      "remote_heads_hash",
+      "leaf_commits",
+      "sanitize_repo_name",
+      "parse_remote",
+      "github_commit_exists"
+    ],
+    "import_count": 12
+  },
+  "sorrydb/utils/llm_tools.py": {
+    "lines": 1161,
+    "classes": [],
+    "functions": [
+      "setup_logger",
+      "get_logger",
+      "_get_gcp_id_token",
+      "format_lean_errors",
+      "trim_warnings",
+      "read_file",
+      "read_file_with_context",
+      "create_read_lean_file_tool",
+      "create_read_lean_file_around_location_tool",
+      "grep_files",
+      "_format_grep_results",
+      "create_grep_tool",
+      "search_web",
+      "web_search_tool",
+      "search_wikipedia",
+      "wikipedia_search_tool",
+      "loogle",
+      "search_loogle_tool",
+      "lean_explore",
+      "lean_search",
+      "search_lean_search_tool",
+      "create_lean_search_tool",
+      "search_lean_explore_tool",
+      "read_file",
+      "create_read_file_tool",
+      "list_lean_files",
+      "list_all_declarations_in_lean_code",
+      "list_all_declarations_in_path",
+      "create_list_local_definitions_tool"
+    ],
+    "import_count": 15
+  },
+  "sorrydb/utils/verify_lean_interact.py": {
+    "lines": 472,
+    "classes": [
+      "VerificationContext"
+    ],
+    "functions": [
+      "verify_lean_interact",
+      "position_to_index"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/utils/__init__.py": {
+    "lines": 1,
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  "sorrydb/utils/lean_repo.py": {
+    "lines": 76,
+    "classes": [
+      "LakeTimeoutError"
+    ],
+    "functions": [
+      "lake_build_with_timeout",
+      "build_lean_project"
+    ],
+    "import_count": 3
+  },
+  "sorrydb/utils/repl_ops.py": {
+    "lines": 362,
+    "classes": [
+      "ReplError",
+      "LeanRepl"
+    ],
+    "functions": [
+      "setup_repl",
+      "check_lean_file"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/utils/verify.py": {
+    "lines": 278,
+    "classes": [],
+    "functions": [
+      "verify_proof",
+      "position_to_index"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/utils/sorry_extraction.py": {
+    "lines": 128,
+    "classes": [
+      "SorryExtractor",
+      "ReplSorryExtractor"
+    ],
+    "functions": [
+      "extract_proof_from_diff",
+      "initialise_sorry_extractor"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/leaderboard/__init__.py": {
+    "lines": 0,
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  "sorrydb/leaderboard/database/postgres_database.py": {
+    "lines": 161,
+    "classes": [
+      "SQLDatabase"
+    ],
+    "functions": [
+      "_parse_version"
+    ],
+    "import_count": 8
+  },
+  "sorrydb/leaderboard/admin/auth.py": {
+    "lines": 93,
+    "classes": [
+      "AdminAuthBackend"
+    ],
+    "functions": [],
+    "import_count": 6
+  },
+  "sorrydb/leaderboard/admin/__init__.py": {
+    "lines": 1,
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  "sorrydb/leaderboard/admin/views.py": {
+    "lines": 81,
+    "classes": [
+      "UserAdmin",
+      "AgentAdmin",
+      "ChallengeAdmin",
+      "SorryAdmin"
+    ],
+    "functions": [],
+    "import_count": 5
+  },
+  "sorrydb/leaderboard/model/user.py": {
+    "lines": 22,
+    "classes": [
+      "User"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  "sorrydb/leaderboard/model/sorry.py": {
+    "lines": 58,
+    "classes": [
+      "SQLSorry"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  "sorrydb/leaderboard/model/agent.py": {
+    "lines": 23,
+    "classes": [
+      "Agent"
+    ],
+    "functions": [],
+    "import_count": 3
+  },
+  "sorrydb/leaderboard/model/challenge.py": {
+    "lines": 42,
+    "classes": [
+      "ChallengeStatus",
+      "Challenge"
+    ],
+    "functions": [],
+    "import_count": 7
+  },
+  "sorrydb/leaderboard/api/auth.py": {
+    "lines": 102,
+    "classes": [
+      "UserCreate",
+      "UserRead",
+      "Token",
+      "PasswordChange"
+    ],
+    "functions": [],
+    "import_count": 10
+  },
+  "sorrydb/leaderboard/api/sorries.py": {
+    "lines": 22,
+    "classes": [],
+    "functions": [],
+    "import_count": 7
+  },
+  "sorrydb/leaderboard/api/leaderboard.py": {
+    "lines": 47,
+    "classes": [
+      "LeaderboardEntry"
+    ],
+    "functions": [],
+    "import_count": 6
+  },
+  "sorrydb/leaderboard/api/postgres_database_session.py": {
+    "lines": 39,
+    "classes": [],
+    "functions": [
+      "connect_to_db",
+      "create_db_and_tables",
+      "get_session"
+    ],
+    "import_count": 6
+  },
+  "sorrydb/leaderboard/api/agents.py": {
+    "lines": 90,
+    "classes": [
+      "AgentCreate",
+      "AgentUpdate",
+      "AgentRead"
+    ],
+    "functions": [],
+    "import_count": 10
+  },
+  "sorrydb/leaderboard/api/app.py": {
+    "lines": 125,
+    "classes": [],
+    "functions": [
+      "_setup_admin",
+      "_create_initial_admin"
+    ],
+    "import_count": 16
+  },
+  "sorrydb/leaderboard/api/challenges.py": {
+    "lines": 110,
+    "classes": [
+      "ChallengeRead",
+      "ChallengeSubmissionCreate"
+    ],
+    "functions": [
+      "verify_agent_ownership"
+    ],
+    "import_count": 15
+  },
+  "sorrydb/leaderboard/api/dependencies.py": {
+    "lines": 53,
+    "classes": [],
+    "functions": [],
+    "import_count": 7
+  },
+  "sorrydb/leaderboard/api/app_config.py": {
+    "lines": 35,
+    "classes": [
+      "Settings"
+    ],
+    "functions": [
+      "get_repository",
+      "get_logger"
+    ],
+    "import_count": 4
+  },
+  "sorrydb/leaderboard/services/auth_services.py": {
+    "lines": 63,
+    "classes": [],
+    "functions": [
+      "hash_password",
+      "verify_password",
+      "create_access_token",
+      "decode_access_token",
+      "authenticate_user",
+      "register_user",
+      "change_user_password"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/leaderboard/services/agent_services.py": {
+    "lines": 64,
+    "classes": [
+      "AgentNotFound"
+    ],
+    "functions": [
+      "register_agent",
+      "update_agent",
+      "list_agents",
+      "get_agent"
+    ],
+    "import_count": 5
+  },
+  "sorrydb/leaderboard/services/sorry_service.py": {
+    "lines": 36,
+    "classes": [
+      "NoSorryError"
+    ],
+    "functions": [
+      "select_sorry",
+      "add_sorry",
+      "add_sorries"
+    ],
+    "import_count": 5
+  },
+  "sorrydb/leaderboard/services/challenge_services.py": {
+    "lines": 60,
+    "classes": [
+      "ChallengeNotFound"
+    ],
+    "functions": [
+      "request_sorry_challenge",
+      "submit_proof",
+      "list_challenges"
+    ],
+    "import_count": 5
+  },
+  "sorrydb/cli/run_compare_agents.py": {
+    "lines": 161,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 13
+  },
+  "sorrydb/cli/submit_aristotle_jobs.py": {
+    "lines": 737,
+    "classes": [],
+    "functions": [
+      "_write_progress_file",
+      "load_previous_run"
+    ],
+    "import_count": 15
+  },
+  "sorrydb/cli/run_morphcloud_agent.py": {
+    "lines": 123,
+    "classes": [],
+    "functions": [],
+    "import_count": 9
+  },
+  "sorrydb/cli/submit_aristotle_local.py": {
+    "lines": 224,
+    "classes": [],
+    "functions": [
+      "build_prompt",
+      "main"
+    ],
+    "import_count": 10
+  },
+  "sorrydb/cli/run_supersimple.py": {
+    "lines": 44,
+    "classes": [],
+    "functions": [],
+    "import_count": 4
+  },
+  "sorrydb/cli/run_agentic.py": {
+    "lines": 43,
+    "classes": [],
+    "functions": [],
+    "import_count": 4
+  },
+  "sorrydb/cli/update_db.py": {
+    "lines": 68,
+    "classes": [],
+    "functions": [
+      "update"
+    ],
+    "import_count": 6
+  },
+  "sorrydb/cli/run_sagemaker_agent.py": {
+    "lines": 125,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 9
+  },
+  "sorrydb/cli/deduplicate_db.py": {
+    "lines": 57,
+    "classes": [],
+    "functions": [
+      "deduplicate"
+    ],
+    "import_count": 6
+  },
+  "sorrydb/cli/sorrydb_cli.py": {
+    "lines": 54,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 9
+  },
+  "sorrydb/cli/deploy_sagemaker_endpoint.py": {
+    "lines": 51,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 3
+  },
+  "sorrydb/cli/run_tactic_agent.py": {
+    "lines": 150,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/cli/run_llm_agent.py": {
+    "lines": 102,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 7
+  },
+  "sorrydb/cli/settings.py": {
+    "lines": 42,
+    "classes": [
+      "LogLevel",
+      "SorryDBSettings"
+    ],
+    "functions": [],
+    "import_count": 4
+  },
+  "sorrydb/cli/analyze_reservoir_history.py": {
+    "lines": 428,
+    "classes": [],
+    "functions": [
+      "get_repo_name_from_url",
+      "clone_or_fetch_repo",
+      "count_sorries_in_line",
+      "parse_sorry_diff",
+      "analyze_repo_sorry_history",
+      "count_sorries_at_commit",
+      "analyze_repo_accurate",
+      "analyze_all_reservoir_sorries",
+      "main"
+    ],
+    "import_count": 10
+  },
+  "sorrydb/cli/scrape_reservoir.py": {
+    "lines": 43,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 3
+  },
+  "sorrydb/cli/run_modal_agent.py": {
+    "lines": 119,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 11
+  },
+  "sorrydb/cli/run_rfl_agent.py": {
+    "lines": 92,
+    "classes": [],
+    "functions": [
+      "main"
+    ],
+    "import_count": 6
+  },
+  "sorrydb/cli/init_db.py": {
+    "lines": 77,
+    "classes": [],
+    "functions": [
+      "init"
+    ],
+    "import_count": 8
+  },
+  "sorrydb/cli/run_morphcloud_local.py": {
+    "lines": 536,
+    "classes": [],
+    "functions": [
+      "create_strategy_from_spec"
+    ],
+    "import_count": 19
+  },
+  "sorrydb/runners/morphcloud_runner.py": {
+    "lines": 1076,
+    "classes": [
+      "MathlibCacheError",
+      "MorphCloudAgent"
+    ],
+    "functions": [
+      "_calculate_sorry_stats",
+      "_create_cache_retry_step",
+      "_get_log_path",
+      "_create_run_summary",
+      "_filter_failed_sorries",
+      "_validate_github_commits"
+    ],
+    "import_count": 19
+  },
+  "sorrydb/runners/__init__.py": {
+    "lines": 1,
+    "classes": [],
+    "functions": [],
+    "import_count": 0
+  },
+  "sorrydb/runners/modal_app.py": {
+    "lines": 139,
+    "classes": [],
+    "functions": [
+      "solve_sorry_deepseek",
+      "solve_sorry_kimina"
+    ],
+    "import_count": 1
+  },
+  "sorrydb/runners/json_runner.py": {
+    "lines": 227,
+    "classes": [
+      "SorryStrategy",
+      "JsonRunner"
+    ],
+    "functions": [
+      "load_sorry_json",
+      "save_sorry_json",
+      "save_proofs_json"
+    ],
+    "import_count": 10
+  },
+  "sorrydb/runners/strategy_comparison_runner.py": {
+    "lines": 218,
+    "classes": [
+      "LoadedSorry",
+      "AttemptStatus",
+      "SorryAttempt",
+      "StrategyComparisonRunner"
+    ],
+    "functions": [],
+    "import_count": 13
+  },
+  "sorrydb/runners/sagemaker_hugging_face_provider.py": {
+    "lines": 174,
+    "classes": [
+      "SagemakerLLMProvider",
+      "SagemakerHuggingFaceEndpointManager"
+    ],
+    "functions": [
+      "load_existing_sagemaker_endpoint"
+    ],
+    "import_count": 6
+  },
+  "sorrydb/runners/modal_hugging_face_provider.py": {
+    "lines": 26,
+    "classes": [
+      "ModalDeepseekProverLLMProvider",
+      "ModalKiminaLLMProvider"
+    ],
+    "functions": [],
+    "import_count": 3
+  }
+}
