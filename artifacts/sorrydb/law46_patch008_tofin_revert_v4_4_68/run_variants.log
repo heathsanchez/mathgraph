@@ -1,0 +1,565 @@
+====================================================================================================
+{
+  "variant": "v01_decide_kernel_revert",
+  "returncode": 1,
+  "seconds": 37.13,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✔ [971/989] Built equational_theories.Magma (268ms)
+✔ [972/989] Built equational_theories.Homomorphisms (5.2s)
+✔ [973/989] Built equational_theories.ForMathlib.Definability (6.0s)
+✔ [974/989] Built equational_theories.FreeMagma (1.8s)
+✔ [975/989] Built equational_theories.MagmaLaw (2.8s)
+✔ [976/989] Built equational_theories.EquationLawConversion (1.5s)
+✔ [977/989] Built equational_theories.Preorder (1.6s)
+✔ [978/989] Built equational_theories.ParseImplications (1.7s)
+✔ [979/989] Built equational_theories.Equations.Command (1.8s)
+✔ [980/989] Built equational_theories.Definability.Basic (3.2s)
+✔ [981/989] Built equational_theories.Equations.Basic (7.7s)
+✔ [982/989] Built equational_theories.EquationalResult (8.6s)
+✔ [983/989] Built equational_theories.Equations.Eqns4000_4694 (12s)
+✔ [984/989] Built equational_theories.Equations.Eqns1_999 (13s)
+✔ [985/989] Built equational_theories.Equations.Eqns1000_1999 (13s)
+✔ [986/989] Built equational_theories.Equations.Eqns2000_2999 (13s)
+✔ [987/989] Built equational_theories.Equations.Eqns3000_3999 (13s)
+✔ [988/989] Built equational_theories.Equations.All (5.8s)
+✖ [989/989] Building equational_theories.Definability.Law46 (2.6s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → (Lf x ≃ Lf y).toFin.toNat = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v02_decide_revert",
+  "returncode": 1,
+  "seconds": 4.94,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (2.0s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → (Lf x ≃ Lf y).toFin.toNat = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v03_native_decide_revert",
+  "returncode": 1,
+  "seconds": 2.87,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.4s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → (Lf x ≃ Lf y).toFin.toNat = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v04_unfold_toNat_decide_kernel_revert",
+  "returncode": 1,
+  "seconds": 2.97,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 map (fun x_1 \u21a6 \u2191x_1) (Lf x \u2243 Lf y).toFin.toFin = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → map (fun x_1 ↦ ↑x_1) (Lf x ≃ Lf y).toFin.toFin = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v05_change_map_then_decide_kernel_revert",
+  "returncode": 1,
+  "seconds": 2.85,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 map (fun x_1 \u21a6 \u2191x_1) (Lf x \u2243 Lf y).toFin.toFin = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.4s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → map (fun x_1 ↦ ↑x_1) (Lf x ≃ Lf y).toFin.toFin = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v06_exact_by_have_general",
+  "returncode": 1,
+  "seconds": 2.95,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:45:8: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:45:8: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → (Lf x ≃ Lf y).toFin.toNat = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v07_exact_by_have_general_revert",
+  "returncode": 1,
+  "seconds": 2.9,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:45:8: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:45:8: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → (Lf x ≃ Lf y).toFin.toNat = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v08_by_cases_decide_kernel_revert",
+  "returncode": 1,
+  "seconds": 2.84,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:46:8: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 \u00acx = y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:46:8: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → ¬x = y → (Lf x ≃ Lf y).toFin.toNat = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v09_have_ne_then_decide_kernel_revert",
+  "returncode": 1,
+  "seconds": 3.68,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 \u00acx = y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (2.3s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → ¬x = y → (Lf x ≃ Lf y).toFin.toNat = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v10_simp_toNat_then_decide_kernel_revert",
+  "returncode": 1,
+  "seconds": 2.88,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 map (fun x_1 \u21a6 \u2191x_1) (Lf x \u2243 Lf y).toFin.toFin = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch008_v4_4_68/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch008_v4_4_68/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → map (fun x_1 ↦ ↑x_1) (Lf x ≃ Lf y).toFin.toFin = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+
+SUMMARY
+{
+  "artifact": "law46_patch008_tofin_revert_v4_4_68",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law46.lean",
+  "patch002_carried_forward": true,
+  "patch005_carried_forward": true,
+  "patch006_carried_forward": true,
+  "target_sorry": "have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by sorry",
+  "patch007_obstruction": "decide needed +revert because target contained free variables",
+  "accepted_variant": null,
+  "accepted": false,
+  "results": [
+    {
+      "variant": "v01_decide_kernel_revert",
+      "returncode": 1,
+      "seconds": 37.13,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v02_decide_revert",
+      "returncode": 1,
+      "seconds": 4.94,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v03_native_decide_revert",
+      "returncode": 1,
+      "seconds": 2.87,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v04_unfold_toNat_decide_kernel_revert",
+      "returncode": 1,
+      "seconds": 2.97,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 map (fun x_1 \u21a6 \u2191x_1) (Lf x \u2243 Lf y).toFin.toFin = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v05_change_map_then_decide_kernel_revert",
+      "returncode": 1,
+      "seconds": 2.85,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 map (fun x_1 \u21a6 \u2191x_1) (Lf x \u2243 Lf y).toFin.toFin = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v06_exact_by_have_general",
+      "returncode": 1,
+      "seconds": 2.95,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:45:8: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v07_exact_by_have_general_revert",
+      "returncode": 1,
+      "seconds": 2.9,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:45:8: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v08_by_cases_decide_kernel_revert",
+      "returncode": 1,
+      "seconds": 2.84,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:46:8: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 \u00acx = y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v09_have_ne_then_decide_kernel_revert",
+      "returncode": 1,
+      "seconds": 3.68,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 \u00acx = y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v10_simp_toNat_then_decide_kernel_revert",
+      "returncode": 1,
+      "seconds": 2.88,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:45:6: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 map (fun x_1 \u21a6 \u2191x_1) (Lf x \u2243 Lf y).toFin.toFin = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    }
+  ]
+}

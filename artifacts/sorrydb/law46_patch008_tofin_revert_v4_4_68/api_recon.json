@@ -1,0 +1,43 @@
+{
+  "cmd_1": [
+    "grep",
+    "-R",
+    "def toFin",
+    "-n",
+    "equational_theories"
+  ],
+  "returncode_1": 0,
+  "stdout_1": "equational_theories/MagmaLaw.lean:163:def toFin {\u03b1} [DecidableEq \u03b1] (m : MagmaLaw \u03b1) : MagmaLaw (Fin m.elems.1.length) :=\nequational_theories/FreeMagma.lean:230:def toFin {\u03b1} [DecidableEq \u03b1] (m : FreeMagma \u03b1) : FreeMagma (Fin m.elems.1.length) :=\n",
+  "stderr_1": "",
+  "cmd_2": [
+    "grep",
+    "-R",
+    "def toNat",
+    "-n",
+    "equational_theories"
+  ],
+  "returncode_2": 0,
+  "stdout_2": "equational_theories/MagmaLaw.lean:166:def toNat {\u03b1} [DecidableEq \u03b1] (m : MagmaLaw \u03b1) : MagmaLaw \u2115 :=\nequational_theories/FreeMagma.lean:233:def toNat {\u03b1} [DecidableEq \u03b1] (m : FreeMagma \u03b1) : FreeMagma \u2115 :=\n",
+  "stderr_2": "",
+  "cmd_3": [
+    "grep",
+    "-R",
+    "abbrev Law2\\|def Law2\\|theorem Law2\\|Law2 :=",
+    "-n",
+    "equational_theories"
+  ],
+  "returncode_3": 0,
+  "stdout_3": "equational_theories/Preorder.lean:102:    (h1 : Law1.map f = Law2) (h2 : Law2.map g = Law1) : Law1.iff Law2 :=\nequational_theories/Duals/Command.lean:8:theorem flip_dual {Law1 Law2 : NatMagmaLaw} (H : Law1.IsDual Law2.symm) : Law1.IsDual Law2 :=\nequational_theories/Definability/Law46.lean:25:    have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by\nequational_theories/Definability/Simple.lean:42:theorem all_termDefinableFrom_Equation2 (L : NatMagmaLaw) : L.TermDefinableFrom Law2 := by\n",
+  "stderr_3": "",
+  "cmd_4": [
+    "grep",
+    "-R",
+    "namespace Law\\|namespace MagmaLaw\\|namespace NatMagmaLaw",
+    "-n",
+    "equational_theories/MagmaLaw.lean",
+    "equational_theories/EquationLawConversion.lean"
+  ],
+  "returncode_4": 0,
+  "stdout_4": "equational_theories/MagmaLaw.lean:6:namespace Law\nequational_theories/MagmaLaw.lean:112:namespace Law\nequational_theories/MagmaLaw.lean:114:namespace MagmaLaw\n",
+  "stderr_4": ""
+}
