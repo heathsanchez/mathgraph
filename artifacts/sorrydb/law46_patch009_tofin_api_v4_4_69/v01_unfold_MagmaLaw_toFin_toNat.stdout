@@ -1,0 +1,24 @@
+✔ [971/989] Built equational_theories.Magma (413ms)
+✔ [972/989] Built equational_theories.Homomorphisms (7.4s)
+✔ [973/989] Built equational_theories.ForMathlib.Definability (8.8s)
+✔ [974/989] Built equational_theories.FreeMagma (8.8s)
+✔ [975/989] Built equational_theories.MagmaLaw (6.9s)
+✔ [976/989] Built equational_theories.EquationLawConversion (7.9s)
+✔ [977/989] Built equational_theories.Preorder (8.0s)
+✔ [978/989] Built equational_theories.Definability.Basic (10s)
+✔ [979/989] Built equational_theories.ParseImplications (10s)
+✔ [980/989] Built equational_theories.Equations.Command (10s)
+✔ [981/989] Built equational_theories.Equations.Basic (9.0s)
+✔ [982/989] Built equational_theories.EquationalResult (9.8s)
+✔ [983/989] Built equational_theories.Equations.Eqns4000_4694 (12s)
+✔ [984/989] Built equational_theories.Equations.Eqns1_999 (13s)
+✔ [985/989] Built equational_theories.Equations.Eqns2000_2999 (14s)
+✔ [986/989] Built equational_theories.Equations.Eqns3000_3999 (14s)
+✔ [987/989] Built equational_theories.Equations.Eqns1000_1999 (14s)
+✔ [988/989] Built equational_theories.Equations.All (5.2s)
+✖ [989/989] Building equational_theories.Definability.Law46 (2.6s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:46:6: `simp` made no progress
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46

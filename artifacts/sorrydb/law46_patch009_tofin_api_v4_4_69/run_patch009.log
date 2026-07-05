@@ -1,0 +1,662 @@
+====================================================================================================
+{
+  "variant": "v01_unfold_MagmaLaw_toFin_toNat",
+  "returncode": 1,
+  "seconds": 66.18,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:46:6: `simp` made no progress",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✔ [971/989] Built equational_theories.Magma (413ms)
+✔ [972/989] Built equational_theories.Homomorphisms (7.4s)
+✔ [973/989] Built equational_theories.ForMathlib.Definability (8.8s)
+✔ [974/989] Built equational_theories.FreeMagma (8.8s)
+✔ [975/989] Built equational_theories.MagmaLaw (6.9s)
+✔ [976/989] Built equational_theories.EquationLawConversion (7.9s)
+✔ [977/989] Built equational_theories.Preorder (8.0s)
+✔ [978/989] Built equational_theories.Definability.Basic (10s)
+✔ [979/989] Built equational_theories.ParseImplications (10s)
+✔ [980/989] Built equational_theories.Equations.Command (10s)
+✔ [981/989] Built equational_theories.Equations.Basic (9.0s)
+✔ [982/989] Built equational_theories.EquationalResult (9.8s)
+✔ [983/989] Built equational_theories.Equations.Eqns4000_4694 (12s)
+✔ [984/989] Built equational_theories.Equations.Eqns1_999 (13s)
+✔ [985/989] Built equational_theories.Equations.Eqns2000_2999 (14s)
+✔ [986/989] Built equational_theories.Equations.Eqns3000_3999 (14s)
+✔ [987/989] Built equational_theories.Equations.Eqns1000_1999 (14s)
+✔ [988/989] Built equational_theories.Equations.All (5.2s)
+✖ [989/989] Building equational_theories.Definability.Law46 (2.6s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:46:6: `simp` made no progress
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v02_unfold_MagmaLaw_toFin_toNat_decide",
+  "returncode": 1,
+  "seconds": 5.45,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:46:6: Expected type must not contain free variables",
+    "  map (fun x_1 \u21a6 \u2191x_1)",
+    "      (map (\u21d1(map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).finEquiv.symm)",
+    "        (map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).attach) =",
+    "    Law2",
+    "",
+    "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (3.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:46:6: Expected type must not contain free variables
+  map (fun x_1 ↦ ↑x_1)
+      (map (⇑(map (⇑(Lf x ≃ Lf y).finEquiv.symm) (Lf x ≃ Lf y).attach).finEquiv.symm)
+        (map (⇑(Lf x ≃ Lf y).finEquiv.symm) (Lf x ≃ Lf y).attach).attach) =
+    Law2
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v03_show_map_goal_unfold_toFin",
+  "returncode": 1,
+  "seconds": 5.83,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:47:6: `simp` made no progress",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (4.2s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:47:6: `simp` made no progress
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v04_specialize_by_cases_x_y_then_native",
+  "returncode": 1,
+  "seconds": 2.98,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:47:8: Expected type must not contain free variables",
+    "  (Lf x \u2243 Lf y).toFin.toNat = Law2",
+    "",
+    "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:47:8: Expected type must not contain free variables
+  (Lf x ≃ Lf y).toFin.toNat = Law2
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v05_match_x_y_decEq_then_decide",
+  "returncode": 1,
+  "seconds": 2.79,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:51:22: Expected type must not contain free variables",
+    "  \u00ac0 = y + 1 \u2192 (Lf 0 \u2243 Lf (y + 1)).toFin.toNat = Law2",
+    "",
+    "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+    "error: equational_theories/Definability/Law46.lean:55:20: Expected type must not contain free variables",
+    "  \u00acx + 1 = 0 \u2192 (Lf (x + 1) \u2243 Lf 0).toFin.toNat = Law2",
+    "",
+    "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+    "error: equational_theories/Definability/Law46.lean:61:14: Expected type must not contain free variables",
+    "  \u00acx + 1 = y + 1 \u2192 (Lf (x + 1) \u2243 Lf (y + 1)).toFin.toNat = Law2",
+    "",
+    "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.4s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:51:22: Expected type must not contain free variables
+  ¬0 = y + 1 → (Lf 0 ≃ Lf (y + 1)).toFin.toNat = Law2
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
+error: equational_theories/Definability/Law46.lean:55:20: Expected type must not contain free variables
+  ¬x + 1 = 0 → (Lf (x + 1) ≃ Lf 0).toFin.toNat = Law2
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
+error: equational_theories/Definability/Law46.lean:61:14: Expected type must not contain free variables
+  ¬x + 1 = y + 1 → (Lf (x + 1) ≃ Lf (y + 1)).toFin.toNat = Law2
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v06_use_congr_after_toFin_eval_zero_one",
+  "returncode": 1,
+  "seconds": 2.88,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:46:6: `simp` made no progress",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:46:6: `simp` made no progress
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v07_try_original_commented_route",
+  "returncode": 1,
+  "seconds": 2.9,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:46:8: `simp` made no progress",
+    "error: equational_theories/Definability/Law46.lean:48:6: `simp` made no progress",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:46:8: `simp` made no progress
+error: equational_theories/Definability/Law46.lean:48:6: `simp` made no progress
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v08_try_tofin_tofin_eq",
+  "returncode": 1,
+  "seconds": 3.62,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": true,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:45:58: Type mismatch",
+    "  Law2",
+    "has type",
+    "  NatMagmaLaw",
+    "but is expected to have type",
+    "  MagmaLaw (Fin 2)",
+    "error: equational_theories/Definability/Law46.lean:45:87: unsolved goals",
+    "L : NatMagmaLaw",
+    "x y : \u2115",
+    "hxy : x \u2260 y",
+    "\u22a2 map (\u21d1(map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).finEquiv.symm)",
+    "      (map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).attach =",
+    "    sorry ()",
+    "error: equational_theories/Definability/Law46.lean:48:6: Tactic `assumption` failed",
+    "",
+    "L : NatMagmaLaw",
+    "x y : \u2115",
+    "hxy : x \u2260 y",
+    "h\u2082 : (Lf x \u2243 Lf y).toFin.toFin = sorry",
+    "\u22a2 map (fun x_1 \u21a6 \u2191x_1) (sorry ()) = Law2",
+    "warning: equational_theories/Definability/Law46.lean:47:14: This simp argument is unused:",
+    "  hxy",
+    "",
+    "Hint: Omit it from the simp argument list.",
+    "  simp \u0335[\u0335h\u0335x\u0335y\u0335]\u0335",
+    "",
+    "Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (2.3s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:45:58: Type mismatch
+  Law2
+has type
+  NatMagmaLaw
+but is expected to have type
+  MagmaLaw (Fin 2)
+error: equational_theories/Definability/Law46.lean:45:87: unsolved goals
+L : NatMagmaLaw
+x y : ℕ
+hxy : x ≠ y
+⊢ map (⇑(map (⇑(Lf x ≃ Lf y).finEquiv.symm) (Lf x ≃ Lf y).attach).finEquiv.symm)
+      (map (⇑(Lf x ≃ Lf y).finEquiv.symm) (Lf x ≃ Lf y).attach).attach =
+    sorry ()
+error: equational_theories/Definability/Law46.lean:48:6: Tactic `assumption` failed
+
+L : NatMagmaLaw
+x y : ℕ
+hxy : x ≠ y
+h₂ : (Lf x ≃ Lf y).toFin.toFin = sorry
+⊢ map (fun x_1 ↦ ↑x_1) (sorry ()) = Law2
+warning: equational_theories/Definability/Law46.lean:47:14: This simp argument is unused:
+  hxy
+
+Hint: Omit it from the simp argument list.
+  simp ̵[̵h̵x̵y̵]̵
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v09_try_aesop_after_unfold",
+  "returncode": 1,
+  "seconds": 2.77,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": true,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "warning: equational_theories/Definability/Law46.lean:46:6: aesop: failed to prove the goal after exhaustive search.",
+    "error: equational_theories/Definability/Law46.lean:43:47: unsolved goals",
+    "L : NatMagmaLaw",
+    "x y : \u2115",
+    "hxy : \u00acx = y",
+    "\u22a2 map (fun x_1 \u21a6 \u2191x_1)",
+    "      (map (\u21d1(map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).finEquiv.symm)",
+    "        (map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).attach) =",
+    "    Law2",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.5s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+warning: equational_theories/Definability/Law46.lean:46:6: aesop: failed to prove the goal after exhaustive search.
+error: equational_theories/Definability/Law46.lean:43:47: unsolved goals
+L : NatMagmaLaw
+x y : ℕ
+hxy : ¬x = y
+⊢ map (fun x_1 ↦ ↑x_1)
+      (map (⇑(map (⇑(Lf x ≃ Lf y).finEquiv.symm) (Lf x ≃ Lf y).attach).finEquiv.symm)
+        (map (⇑(Lf x ≃ Lf y).finEquiv.symm) (Lf x ≃ Lf y).attach).attach) =
+    Law2
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v10_try_simp_all_after_unfold",
+  "returncode": 1,
+  "seconds": 3.36,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:43:47: unsolved goals",
+    "L : NatMagmaLaw",
+    "x y : \u2115",
+    "hxy : \u00acx = y",
+    "\u22a2 map (fun x_1 \u21a6 \u2191x_1)",
+    "      (map (\u21d1(map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).finEquiv.symm)",
+    "        (map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).attach) =",
+    "    Law2",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.9s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch009_v4_4_69/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch009_v4_4_69/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:43:47: unsolved goals
+L : NatMagmaLaw
+x y : ℕ
+hxy : ¬x = y
+⊢ map (fun x_1 ↦ ↑x_1)
+      (map (⇑(map (⇑(Lf x ≃ Lf y).finEquiv.symm) (Lf x ≃ Lf y).attach).finEquiv.symm)
+        (map (⇑(Lf x ≃ Lf y).finEquiv.symm) (Lf x ≃ Lf y).attach).attach) =
+    Law2
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+
+SUMMARY
+{
+  "artifact": "law46_patch009_tofin_api_v4_4_69",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law46.lean",
+  "patch002_carried_forward": true,
+  "patch005_carried_forward": true,
+  "patch006_carried_forward": true,
+  "target_sorry": "have : (Lf x \u2243 Lf y).toFin.toNat = Law2 := by sorry",
+  "patch008_obstruction": "revert generalized to a non-decidable quantified theorem",
+  "micro_returncode": 1,
+  "accepted_variant": null,
+  "accepted": false,
+  "results": [
+    {
+      "variant": "v01_unfold_MagmaLaw_toFin_toNat",
+      "returncode": 1,
+      "seconds": 66.18,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:46:6: `simp` made no progress",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v02_unfold_MagmaLaw_toFin_toNat_decide",
+      "returncode": 1,
+      "seconds": 5.45,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:46:6: Expected type must not contain free variables",
+        "  map (fun x_1 \u21a6 \u2191x_1)",
+        "      (map (\u21d1(map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).finEquiv.symm)",
+        "        (map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).attach) =",
+        "    Law2",
+        "",
+        "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v03_show_map_goal_unfold_toFin",
+      "returncode": 1,
+      "seconds": 5.83,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:47:6: `simp` made no progress",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v04_specialize_by_cases_x_y_then_native",
+      "returncode": 1,
+      "seconds": 2.98,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:47:8: Expected type must not contain free variables",
+        "  (Lf x \u2243 Lf y).toFin.toNat = Law2",
+        "",
+        "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v05_match_x_y_decEq_then_decide",
+      "returncode": 1,
+      "seconds": 2.79,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:51:22: Expected type must not contain free variables",
+        "  \u00ac0 = y + 1 \u2192 (Lf 0 \u2243 Lf (y + 1)).toFin.toNat = Law2",
+        "",
+        "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+        "error: equational_theories/Definability/Law46.lean:55:20: Expected type must not contain free variables",
+        "  \u00acx + 1 = 0 \u2192 (Lf (x + 1) \u2243 Lf 0).toFin.toNat = Law2",
+        "",
+        "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+        "error: equational_theories/Definability/Law46.lean:61:14: Expected type must not contain free variables",
+        "  \u00acx + 1 = y + 1 \u2192 (Lf (x + 1) \u2243 Lf (y + 1)).toFin.toNat = Law2",
+        "",
+        "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v06_use_congr_after_toFin_eval_zero_one",
+      "returncode": 1,
+      "seconds": 2.88,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:46:6: `simp` made no progress",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v07_try_original_commented_route",
+      "returncode": 1,
+      "seconds": 2.9,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:46:8: `simp` made no progress",
+        "error: equational_theories/Definability/Law46.lean:48:6: `simp` made no progress",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v08_try_tofin_tofin_eq",
+      "returncode": 1,
+      "seconds": 3.62,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": true,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:45:58: Type mismatch",
+        "  Law2",
+        "has type",
+        "  NatMagmaLaw",
+        "but is expected to have type",
+        "  MagmaLaw (Fin 2)",
+        "error: equational_theories/Definability/Law46.lean:45:87: unsolved goals",
+        "L : NatMagmaLaw",
+        "x y : \u2115",
+        "hxy : x \u2260 y",
+        "\u22a2 map (\u21d1(map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).finEquiv.symm)",
+        "      (map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).attach =",
+        "    sorry ()",
+        "error: equational_theories/Definability/Law46.lean:48:6: Tactic `assumption` failed",
+        "",
+        "L : NatMagmaLaw",
+        "x y : \u2115",
+        "hxy : x \u2260 y",
+        "h\u2082 : (Lf x \u2243 Lf y).toFin.toFin = sorry",
+        "\u22a2 map (fun x_1 \u21a6 \u2191x_1) (sorry ()) = Law2",
+        "warning: equational_theories/Definability/Law46.lean:47:14: This simp argument is unused:",
+        "  hxy",
+        "",
+        "Hint: Omit it from the simp argument list.",
+        "  simp \u0335[\u0335h\u0335x\u0335y\u0335]\u0335",
+        "",
+        "Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v09_try_aesop_after_unfold",
+      "returncode": 1,
+      "seconds": 2.77,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": true,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "warning: equational_theories/Definability/Law46.lean:46:6: aesop: failed to prove the goal after exhaustive search.",
+        "error: equational_theories/Definability/Law46.lean:43:47: unsolved goals",
+        "L : NatMagmaLaw",
+        "x y : \u2115",
+        "hxy : \u00acx = y",
+        "\u22a2 map (fun x_1 \u21a6 \u2191x_1)",
+        "      (map (\u21d1(map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).finEquiv.symm)",
+        "        (map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).attach) =",
+        "    Law2",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v10_try_simp_all_after_unfold",
+      "returncode": 1,
+      "seconds": 3.36,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:43:47: unsolved goals",
+        "L : NatMagmaLaw",
+        "x y : \u2115",
+        "hxy : \u00acx = y",
+        "\u22a2 map (fun x_1 \u21a6 \u2191x_1)",
+        "      (map (\u21d1(map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).finEquiv.symm)",
+        "        (map (\u21d1(Lf x \u2243 Lf y).finEquiv.symm) (Lf x \u2243 Lf y).attach).attach) =",
+        "    Law2",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    }
+  ]
+}
