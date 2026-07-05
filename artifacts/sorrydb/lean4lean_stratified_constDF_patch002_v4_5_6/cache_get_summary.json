@@ -1,0 +1,6 @@
+{
+  "returncode": 1,
+  "seconds": 3.76,
+  "stdout_tail": "",
+  "stderr_tail": "info: batteries: cloning https://github.com/leanprover-community/batteries\ninfo: batteries: checking out revision '756e3321fd3b02a85ffda19fef789916223e578c'\nerror: unknown executable cache"
+}

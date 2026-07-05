@@ -1,0 +1,14 @@
+diff --git a/Lean4Lean/Experimental/StratifiedUntyped.lean b/Lean4Lean/Experimental/StratifiedUntyped.lean
+index d1ba4df..a57f747 100644
+--- a/Lean4Lean/Experimental/StratifiedUntyped.lean
++++ b/Lean4Lean/Experimental/StratifiedUntyped.lean
+@@ -69,7 +69,8 @@ theorem IsDefEq.inductionU1
+   | symm _ ih => exact ⟨ih.2.1, ih.1, .symm ih.2.2⟩
+   | trans _ _ ih1 ih2 => exact ⟨ih1.1, ih2.2.1, .trans ih1.2.2 ih2.2.2⟩
+   | @constDF _ _ ls₁ ls₂ _ _ h1 h2 h3 h4 h5 =>
+-    exact ⟨.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5⟩
++    have hd := hdf a_ih.2.1 a_ih.1 (.symm a_ih.2.2)
++    exact ⟨.const h1 h2 h4, .defeq hd <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5⟩
+   | @sortDF l l' _ h1 h2 h3 =>
+     refine ⟨.sort h1, ?_, .sortDF h3⟩
+     exact .defeq (hdf (.sort (l := l'.succ) h2) (.sort (l := l.succ) h1)

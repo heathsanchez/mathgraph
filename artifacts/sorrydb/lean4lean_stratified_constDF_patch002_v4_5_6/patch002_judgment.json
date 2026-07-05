@@ -1,0 +1,87 @@
+{
+  "artifact": "lean4lean_stratified_constDF_patch002_v4_5_6",
+  "repo": "digama0/lean4lean",
+  "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+  "theorem": "IsDefEq.inductionU1",
+  "target_line": 72,
+  "base_module_build_returncode": 0,
+  "accepted_variant": null,
+  "accepted": false,
+  "status": "PATCH002_REJECTED_OR_DIAGNOSTIC",
+  "hypothesis": "Use recursive IH a_ih for the constant type and reverse it via IsDefEqU1.symm to supply the defEq argument to HasTypeU1.defeq.",
+  "results": [
+    {
+      "variant": "v01_use_type_ih_reverse_direct",
+      "module_returncode": 1,
+      "module_seconds": 2.73,
+      "module_has_error": true,
+      "stratified_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v02_use_type_ih_reverse_explicit_IsDefEqU1_symm",
+      "module_returncode": 1,
+      "module_seconds": 1.12,
+      "module_has_error": true,
+      "stratified_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v03_have_hd_from_type_ih_reverse",
+      "module_returncode": 1,
+      "module_seconds": 0.91,
+      "module_has_error": true,
+      "stratified_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v04_trace_a_ih_names",
+      "module_returncode": 0,
+      "module_seconds": 1.02,
+      "module_has_error": false,
+      "stratified_has_sorry_warning": true,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v05_destructure_a_ih_then_hdf_reverse",
+      "module_returncode": 1,
+      "module_seconds": 0.91,
+      "module_has_error": true,
+      "stratified_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v06_destructure_a_ih_explicit_symm",
+      "module_returncode": 1,
+      "module_seconds": 0.92,
+      "module_has_error": true,
+      "stratified_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v07_refine_then_exact_goal",
+      "module_returncode": 1,
+      "module_seconds": 0.91,
+      "module_has_error": true,
+      "stratified_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    },
+    {
+      "variant": "v08_refine_then_explicit_symm",
+      "module_returncode": 1,
+      "module_seconds": 0.81,
+      "module_has_error": true,
+      "stratified_has_sorry_warning": false,
+      "full_build_returncode": null,
+      "full_build_seconds": null
+    }
+  ]
+}

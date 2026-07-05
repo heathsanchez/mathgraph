@@ -1,0 +1,8 @@
+✖ [46/46] Building Lean4Lean.Experimental.StratifiedUntyped (763ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_6/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_6/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_6/Lean4Lean/Experimental/StratifiedUntyped.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_6/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_6/.lake/build/lib/lean/Lean4Lean/Experimental/StratifiedUntyped.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_6/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_6/.lake/build/ir/Lean4Lean/Experimental/StratifiedUntyped.setup.json --json
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:73:14: Unknown identifier `a_ih`
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:73:23: Unknown identifier `a_ih`
+error: Lean4Lean/Experimental/StratifiedUntyped.lean:73:37: Unknown identifier `a_ih`
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.StratifiedUntyped

@@ -1,0 +1,19 @@
+0060:       HasTypeU1 env U defEq Γ e1 A1 → HasTypeU1 env U defEq Γ e2 A2 →
+0061:       IsDefEqU1 env U hasType Γ e1 e2 → defEq Γ e1 e2)
+0062:     (H : env.IsDefEq U Γ e1 e2 A) :
+0063:     HasTypeU1 env U defEq Γ e1 A ∧
+0064:     HasTypeU1 env U defEq Γ e2 A ∧
+0065:     IsDefEqU1 env U hasType Γ e1 e2 := by
+0066:   have H' := H.strong henv hΓ; clear hΓ H
+0067:   induction H' with
+0068:   | bvar h => exact ⟨.bvar h, .bvar h, .refl⟩
+0069:   | symm _ ih => exact ⟨ih.2.1, ih.1, .symm ih.2.2⟩
+0070:   | trans _ _ ih1 ih2 => exact ⟨ih1.1, ih2.2.1, .trans ih1.2.2 ih2.2.2⟩
+0071:   | @constDF _ _ ls₁ ls₂ _ _ h1 h2 h3 h4 h5 =>
+0072:     exact ⟨.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5⟩
+0073:   | @sortDF l l' _ h1 h2 h3 =>
+0074:     refine ⟨.sort h1, ?_, .sortDF h3⟩
+0075:     exact .defeq (hdf (.sort (l := l'.succ) h2) (.sort (l := l.succ) h1)
+0076:       (.sortDF <| VLevel.succ_congr h3.symm)) (.sort h2)
+0077:   | appDF _ _ _ _ _ _ _ _ _ ihf iha ihBa =>
+0078:     let ⟨hf, hf', ff⟩ := ihf; let ⟨ha, ha', aa⟩ := iha
