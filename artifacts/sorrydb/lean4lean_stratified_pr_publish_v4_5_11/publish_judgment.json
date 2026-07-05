@@ -1,0 +1,14 @@
+{
+  "artifact": "lean4lean_stratified_pr_publish_v4_5_11",
+  "repo": "digama0/lean4lean",
+  "fork": "heathsanchez/lean4lean",
+  "branch": "sorrydb-fix-stratified-constdf",
+  "base_commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "patch_commit": "8c0e5200672c57337ece302c623b8027c0f09db3",
+  "module_build_returncode": 0,
+  "full_build_returncode": 0,
+  "push_returncode": 0,
+  "pr_create_returncode": 0,
+  "pr_url_or_output": "https://github.com/digama0/lean4lean/pull/14",
+  "status": "PR_OPENED"
+}
