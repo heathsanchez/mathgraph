@@ -1,0 +1,92 @@
+0001: import Batteries.Data.List.Basic
+0002: import equational_theories.Definability.Basic
+0003: import equational_theories.Equations.All
+0004: 
+0005: open FirstOrder.Language
+0006: open Law
+0007: open Law.MagmaLaw
+0008: 
+0009: /-- The constant law 46 `x ◇ y = z ◇ w` is TermDefinable from any law `lhs = rhs`, where
+0010: lhs and rhs are the same shape, but with disjoint sets of variables. -/
+0011: theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}
+0012:   (hShape : L.lhs ⬝ (fun _ ↦ Lf 0) = L.rhs ⬝ (fun _ ↦ Lf 0) := by rfl)
+0013:   (hDisjoint : L.lhs.elems.val.Disjoint L.rhs.elems := by rw [List.Disjoint]; decide +kernel)
+0014:   : Law46.TermDefinableFrom L := by
+0015:   --There are two cases: there is at least one function application, or both sides of L are leaves.
+0016:   cases hlhs : L.lhs
+0017:   next x =>
+0018:     --In this case, the law is of the form x = y. Thus, it is (equivalent to) equation 2
+0019:     obtain ⟨y,hy⟩ : ∃ y, L.rhs = Lf y := by
+0020:       cases hrhs : L.rhs with
+0021:       | Leaf y =>
+0022:           exact ⟨y, rfl⟩
+0023:       | Fork l r =>
+0024:           exfalso
+0025:           rw [hlhs, hrhs] at hShape
+0026:           simp [FreeMagma.evalInMagma] at hShape
+0027:     have hxy : x ≠ y := by
+0028:       intro hxy
+0029:       rw [hlhs, hy] at hDisjoint
+0030:       have hx : x ∈ (Lf x).elems.val := by
+0031:         exact ((Lf x).elems.2.2 x).2 rfl
+0032:       have hyx : x ∈ (Lf y).elems.val := by
+0033:         subst y
+0034:         exact ((Lf x).elems.2.2 x).2 rfl
+0035:       exact hDisjoint hx hyx
+0036:     rw [show L = Lf x ≃ Lf y from by
+0037:       cases L
+0038:       simp at hlhs hy ⊢
+0039:       aesop]
+0040:     clear hlhs hy hShape hDisjoint
+0041:     apply termDefinable_of_termStructural
+0042:     apply termStructural_of_implies
+0043:     have : (Lf x ≃ Lf y).toFin.toNat = Law2 := by
+0044:       -- have h₁ : (Lf x ≃ Lf y : NatMagmaLaw).elems.1 = [x,y] := by
+0045:       --   sorry
+0046:       -- have h₂ : Fin ((Lf x ≃ Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by
+0047:       --   rw [h₁]
+0048:       --   simp
+0049:       -- simp [toFin, h₁]
+0050:       -- simp_rw [h₁]
+0051:       sorry
+0052:     unfold implies
+0053:     simp_rw [← satisfies_toFin (E := Lf x ≃ Lf y)
+0054:             , ← satisfies_toNat (E := (Lf x ≃ Lf y).toFin),
+0055:             this]
+0056:     exact Equation2_implies Law46
+0057:   --Otherwise we call back to the more interesting case of a function application
+0058:   intro G M hGL
+0059:   use ⟨fun x _ ↦ @Term.realize _ _ M.FOStructure _ (fun _ ↦ x) L.lhs.toTerm⟩
+0060:   constructor
+0061:   · rw [@Law46.models_iff]
+0062:     by_cases hG : Nonempty G
+0063:     · suffices ∃ c, ∀ (x y : G), x ◇ y = c by
+0064:         obtain ⟨c,h⟩ := this
+0065:         intros x y z w
+0066:         simp
+0067:         sorry
+0068:       sorry
+0069:     · exact (not_nonempty_iff.mp hG).elim
+0070:   · use (MagmaLanguage.lhomWithConstants _).onTerm (L.lhs.toTerm.subst fun a ↦ var 0)
+0071:     funext v
+0072:     sorry
+0073: 
+0074: /-- The constant law 46 `x ◇ y = z ◇ w` is TermDefinable from Equation 40 `x ◇ x = y ◇ y`. -/
+0075: theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=
+0076:   Equation46_termDefinableFrom_equalShape
+0077: 
+0078: /-- The constant law 46 `x ◇ y = z ◇ w` is TermDefinable from 4276 `x ◇ (x ◇ x) = y ◇ (y ◇ y)`. -/
+0079: theorem Equation46_termDefinableFrom_Equation4276 : Law46.TermDefinableFrom Law4276 :=
+0080:   Equation46_termDefinableFrom_equalShape
+0081: 
+0082: /-- The constant law 46 `x ◇ y = z ◇ w` is TermDefinable from 4308 `x ◇ (x ◇ y) = z ◇ (z ◇ w)`. -/
+0083: theorem Equation46_termDefinableFrom_Equation4308 : Law46.TermDefinableFrom Law4308 :=
+0084:   Equation46_termDefinableFrom_equalShape
+0085: 
+0086: /-- The constant law 46 `x ◇ y = z ◇ w` is TermDefinable from 4336 `x ◇ (y ◇ x) = z ◇ (w ◇ z)`. -/
+0087: theorem Equation46_termDefinableFrom_Equation4336 : Law46.TermDefinableFrom Law4336 :=
+0088:   Equation46_termDefinableFrom_equalShape
+0089: 
+0090: /-- The constant law 46 `x ◇ y = z ◇ w` is TermDefinable from 4355 `x ◇ (y ◇ y) = z ◇ (w ◇ w)`. -/
+0091: theorem Equation46_termDefinableFrom_Equation4355 : Law46.TermDefinableFrom Law4355 :=
+0092:   Equation46_termDefinableFrom_equalShape

@@ -1,0 +1,177 @@
+====================================================================================================
+{
+  "variant": "v01_native_decide_nat_goal_only",
+  "returncode": 1,
+  "seconds": 6.22,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:44:6: Expected type must not contain free variables",
+    "  (Lf x \u2243 Lf y).toFin.toNat = Law2",
+    "",
+    "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (4.9s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch011_v4_4_71/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:44:6: Expected type must not contain free variables
+  (Lf x ≃ Lf y).toFin.toNat = Law2
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v02_decide_kernel_revert_nat_goal_only",
+  "returncode": 1,
+  "seconds": 4.58,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize",
+    "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+    "",
+    "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (3.1s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch011_v4_4_71/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize
+  Decidable (∀ (x y : ℕ), x ≠ y → (Lf x ≃ Lf y).toFin.toNat = Law2)
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+====================================================================================================
+{
+  "variant": "v03_exact_zero_one_native_after_cases",
+  "returncode": 1,
+  "seconds": 3.31,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false,
+  "error_lines": [
+    "error: equational_theories/Definability/Law46.lean:45:6: Expected type must not contain free variables",
+    "  (Lf x \u2243 Lf y).toFin.toNat = Law2",
+    "",
+    "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+    "error: Lean exited with code 1",
+    "Some required targets logged failures:",
+    "- equational_theories.Definability.Law46",
+    "",
+    "error: build failed"
+  ]
+}
+--- stdout tail ---
+✖ [989/989] Building equational_theories.Definability.Law46 (1.0s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch011_v4_4_71/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch011_v4_4_71/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:45:6: Expected type must not contain free variables
+  (Lf x ≃ Lf y).toFin.toNat = Law2
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
+--- stderr tail ---
+error: build failed
+
+SUMMARY
+{
+  "artifact": "law46_patch011_direct_route_v4_4_71",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law46.lean",
+  "base_build_returncode": 0,
+  "micro_returncode": 1,
+  "patch002_carried_forward": true,
+  "patch005_carried_forward": true,
+  "patch006_carried_forward": true,
+  "tofin_obstruction_from_patch010": "Law2.toFin and candidate.toFin.toFin have different dependent Fin index types",
+  "accepted_variant": null,
+  "accepted": false,
+  "results": [
+    {
+      "variant": "v01_native_decide_nat_goal_only",
+      "returncode": 1,
+      "seconds": 6.22,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:44:6: Expected type must not contain free variables",
+        "  (Lf x \u2243 Lf y).toFin.toNat = Law2",
+        "",
+        "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v02_decide_kernel_revert_nat_goal_only",
+      "returncode": 1,
+      "seconds": 4.58,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:44:6: failed to synthesize",
+        "  Decidable (\u2200 (x y : \u2115), x \u2260 y \u2192 (Lf x \u2243 Lf y).toFin.toNat = Law2)",
+        "",
+        "Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    },
+    {
+      "variant": "v03_exact_zero_one_native_after_cases",
+      "returncode": 1,
+      "seconds": 3.31,
+      "build_completed": false,
+      "has_error": true,
+      "has_warning": false,
+      "remaining_sorry_warning": false,
+      "error_lines": [
+        "error: equational_theories/Definability/Law46.lean:45:6: Expected type must not contain free variables",
+        "  (Lf x \u2243 Lf y).toFin.toNat = Law2",
+        "",
+        "Hint: Use the `+revert` option to automatically clean up and revert free variables",
+        "error: Lean exited with code 1",
+        "Some required targets logged failures:",
+        "- equational_theories.Definability.Law46",
+        "",
+        "error: build failed"
+      ]
+    }
+  ]
+}

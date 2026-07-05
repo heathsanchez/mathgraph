@@ -1,0 +1,778 @@
+===== termDefinable_of_termStructural =====
+equational_theories/Definability/Law46.lean:41:    apply termDefinable_of_termStructural
+equational_theories/Definability/Basic.lean:199:theorem termDefinable_of_termStructural (h : L'.TermStructuralFrom L) : L'.TermDefinableFrom L := by
+equational_theories/Definability/Basic.lean:302:  termDefinable_of_termStructural TermStructural.refl
+equational_theories/Definability/Simple.lean:37:  refine termDefinable_of_termStructural (termStructural_of_implies fun _ ↦ ?_)
+equational_theories/Definability/Simple.lean:43:  refine termDefinable_of_termStructural (termStructural_of_implies ?_)
+equational_theories/Definability/Simple.lean:57:  <| termDefinable_of_termStructural (TermStructural_dual Law5)
+equational_theories/Definability/Simple.lean:66:  <| termDefinable_of_termStructural (termStructural_of_implies (this))
+
+
+===== termStructural_of_implies =====
+equational_theories/Definability/Law46.lean:42:    apply termStructural_of_implies
+equational_theories/Definability/Basic.lean:179:theorem termStructural_of_implies (h : L.implies L') : L'.TermStructuralFrom L := by
+equational_theories/Definability/Basic.lean:298:  termStructural_of_implies L₁.implies_refl
+equational_theories/Definability/Simple.lean:37:  refine termDefinable_of_termStructural (termStructural_of_implies fun _ ↦ ?_)
+equational_theories/Definability/Simple.lean:43:  refine termDefinable_of_termStructural (termStructural_of_implies ?_)
+equational_theories/Definability/Simple.lean:66:  <| termDefinable_of_termStructural (termStructural_of_implies (this))
+
+
+===== TermDefinableFrom =====
+equational_theories/Definability/Law46.lean:14:  : Law46.TermDefinableFrom L := by
+equational_theories/Definability/Law46.lean:75:theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=
+equational_theories/Definability/Law46.lean:79:theorem Equation46_termDefinableFrom_Equation4276 : Law46.TermDefinableFrom Law4276 :=
+equational_theories/Definability/Law46.lean:83:theorem Equation46_termDefinableFrom_Equation4308 : Law46.TermDefinableFrom Law4308 :=
+equational_theories/Definability/Law46.lean:87:theorem Equation46_termDefinableFrom_Equation4336 : Law46.TermDefinableFrom Law4336 :=
+equational_theories/Definability/Law46.lean:91:theorem Equation46_termDefinableFrom_Equation4355 : Law46.TermDefinableFrom Law4355 :=
+equational_theories/Definability/Basic.lean:130:def TermDefinableFrom (L L' : Law.MagmaLaw β) : Prop :=
+equational_theories/Definability/Basic.lean:199:theorem termDefinable_of_termStructural (h : L'.TermStructuralFrom L) : L'.TermDefinableFrom L := by
+equational_theories/Definability/Basic.lean:211:theorem definable_of_termDefinable (h : L'.TermDefinableFrom L) : L'.DefinableFrom L := by
+equational_theories/Definability/Basic.lean:246:theorem TermDefinable.trans (h₁₂ : L₂.TermDefinableFrom L₁) (h₂₃ : L₃.TermDefinableFrom L₂) :
+equational_theories/Definability/Basic.lean:247:    L₃.TermDefinableFrom L₁ := by
+equational_theories/Definability/Basic.lean:301:theorem TermDefinable.refl : L₁.TermDefinableFrom L₁ :=
+equational_theories/Definability/Basic.lean:318:  le l₁ l₂ := l₂.TermDefinableFrom l₁
+equational_theories/Definability/Simple.lean:36:theorem Equation1_termDefinableFrom_all (L : NatMagmaLaw) : Law1.TermDefinableFrom L := by
+equational_theories/Definability/Simple.lean:42:theorem all_termDefinableFrom_Equation2 (L : NatMagmaLaw) : L.TermDefinableFrom Law2 := by
+equational_theories/Definability/Simple.lean:47:theorem Equation4_termDefinableFrom_all (L : NatMagmaLaw) : Law4.TermDefinableFrom L := by
+equational_theories/Definability/Simple.lean:55:theorem Equation5_termDefinableFrom_all (L : NatMagmaLaw) : Law5.TermDefinableFrom L :=
+equational_theories/Definability/Simple.lean:60:theorem Equation4512_termDefinableFrom_all (L : NatMagmaLaw) : Law4512.TermDefinableFrom L :=
+equational_theories/Definability/Tarski543.lean:161:theorem Equation4512_termDefinableFrom_Equation43 : Law43.TermDefinableFrom Law543 := by
+equational_theories/Definability/Law43.lean:14:    : Law43.TermDefinableFrom L := by
+equational_theories/Definability/Law43.lean:18:theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :=
+equational_theories/Definability/Law43.lean:22:theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :=
+equational_theories/Definability/Law43.lean:26:theorem Equation43_termDefinableFrom_Equation4293 : Law43.TermDefinableFrom Law4293 :=
+equational_theories/Definability/Law43.lean:30:theorem Equation43_termDefinableFrom_Equation4321 : Law43.TermDefinableFrom Law4321 :=
+
+
+===== TermStructural =====
+equational_theories/Definability/Basic.lean:153:def TermStructuralOnMagma (L : Law.MagmaLaw β) (M : Magma G) : Prop :=
+equational_theories/Definability/Basic.lean:160:/-- A MagmaLaw L is term-structural from another law L' if L is TermStructuralOn every
+equational_theories/Definability/Basic.lean:162:def TermStructuralFrom (L L' : Law.MagmaLaw β) : Prop :=
+equational_theories/Definability/Basic.lean:163:  ∀ {G : Type} (M : Magma G), satisfies G L' → TermStructuralOnMagma L M
+equational_theories/Definability/Basic.lean:179:theorem termStructural_of_implies (h : L.implies L') : L'.TermStructuralFrom L := by
+equational_theories/Definability/Basic.lean:190:theorem structural_of_termStructural (h : L'.TermStructuralFrom L) : L'.StructuralFrom L := by
+equational_theories/Definability/Basic.lean:199:theorem termDefinable_of_termStructural (h : L'.TermStructuralFrom L) : L'.TermDefinableFrom L := by
+equational_theories/Definability/Basic.lean:253:theorem TermStructural.trans (h₁₂ : L₂.TermStructuralFrom L₁) (h₂₃ : L₃.TermStructuralFrom L₂) :
+equational_theories/Definability/Basic.lean:254:    L₃.TermStructuralFrom L₁ := by
+equational_theories/Definability/Basic.lean:297:theorem TermStructural.refl : L₁.TermStructuralFrom L₁ :=
+equational_theories/Definability/Basic.lean:302:  termDefinable_of_termStructural TermStructural.refl
+equational_theories/Definability/Basic.lean:306:  structural_of_termStructural TermStructural.refl
+equational_theories/Definability/Basic.lean:323:namespace TermStructuralPreorder
+equational_theories/Definability/Basic.lean:325:  le l₁ l₂ := l₂.TermStructuralFrom l₁
+equational_theories/Definability/Basic.lean:326:  le_refl := fun _ ↦ TermStructural.refl
+equational_theories/Definability/Basic.lean:327:  le_trans := fun _ _ _ ↦ TermStructural.trans
+equational_theories/Definability/Basic.lean:328:end TermStructuralPreorder
+equational_theories/Definability/Simple.lean:26:/-- Every law is TermStructural from its dual. -/
+equational_theories/Definability/Simple.lean:27:theorem TermStructural_dual (L : NatMagmaLaw) : L.TermStructuralFrom L.dual := by
+equational_theories/Definability/Simple.lean:57:  <| termDefinable_of_termStructural (TermStructural_dual Law5)
+
+
+===== Law2 =====
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:7:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4065.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:15:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law43.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:23:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law936498.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:31:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law916037.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:39:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law8.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:47:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law387.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:55:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:63:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law930594.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:71:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law921941.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:79:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law910472.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:87:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law914612.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:95:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4512.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:103:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law384.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:111:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law325.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:119:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law378.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:127:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law333.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:135:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law377.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:143:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law385.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:151:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law323.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:159:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law335.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:167:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3308.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:175:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3751.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:183:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3918.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:191:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3761.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:199:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3521.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:207:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3928.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:215:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3925.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:223:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3555.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:231:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3748.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:239:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3318.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:247:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3917.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:255:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3309.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:263:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3955.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:271:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3712.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:279:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3511.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:287:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3546.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:295:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3558.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:303:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3548.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:311:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3345.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:319:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3512.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:327:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3752.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:335:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3714.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:343:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3952.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:351:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3924.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:359:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3556.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:367:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3927.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:375:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3951.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:383:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3346.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:391:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3315.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:399:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3549.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:407:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3759.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:415:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3519.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:423:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3954.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:431:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3352.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:439:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3961.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:447:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3725.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:455:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3509.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:463:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3721.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:471:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law3355.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:479:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4636.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:487:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4399.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:495:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4364.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:503:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4479.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:511:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4158.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:519:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4284.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:527:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4121.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:535:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4433.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:543:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4293.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:551:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4443.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:559:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4165.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:567:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4679.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:575:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4515.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:583:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4369.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:591:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4606.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:599:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4406.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:607:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4541.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:615:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4120.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:623:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4436.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:631:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4155.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:639:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4314.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:647:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4362.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:655:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4629.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:663:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4658.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:671:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4408.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:679:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4472.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:687:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4154.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:695:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4291.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:703:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4599.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:711:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4157.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:719:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4321.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:727:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4164.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:735:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4525.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:743:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4684.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:751:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4445.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:759:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4673.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:7:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law43.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:15:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law936498.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:23:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law916037.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:31:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law930594.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:39:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law921941.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:47:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law910472.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:55:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law914612.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:63:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4512.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:71:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4364.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:79:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4433.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:87:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4679.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:95:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4515.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:103:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4369.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:111:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4541.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:119:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4362.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:127:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4525.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:135:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4684.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:143:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4673.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:7:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4656.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:15:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4065.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:23:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law381.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:31:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law936498.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:39:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4315.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:47:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law916037.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:55:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law8.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:63:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law3744.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:71:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4522.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:79:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law42.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:87:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law3.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:95:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:7:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law4065.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:15:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law381.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:23:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law16.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:31:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law936498.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:39:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law39.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:47:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law916037.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:55:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law3744.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:63:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law3.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:71:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law1491.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:79:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law4564.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:87:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law4579.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:95:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law1701.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:103:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law65.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyRightProj_counterexamples.lean:111:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyRightProj) _ Law5.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyList_counterexamples.lean:7:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyList) _ Law936498.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyList_counterexamples.lean:15:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyList) _ Law1.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyList_counterexamples.lean:23:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyList) _ Law916037.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyList_counterexamples.lean:31:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyList) _ Law930594.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyList_counterexamples.lean:39:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyList) _ Law921941.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyList_counterexamples.lean:47:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyList) _ Law910472.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyList_counterexamples.lean:55:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyList) _ Law914612.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyList_counterexamples.lean:63:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyList) _ Law4512.models_iff Law26302.models_iff
+equational_theories/ParseImplications.lean:102:      (@Iff.mp (@satisfies.{0, 0} Nat G inst Law2) (@EquationN.{0} G inst) (@LawN.models_iff.{0} G inst) h))
+equational_theories/MagmaOp.lean:80:def IsDual {α} (Law1 Law2 : MagmaLaw α) := Law1.iff Law2.dual
+equational_theories/MagmaOp.lean:82:theorem IsDual.symm {Law1 Law2 : MagmaLaw α} (H : IsDual Law1 Law2) : IsDual Law2 Law1 :=
+equational_theories/Preorder.lean:101:theorem reindex_iff {α β} {Law1 : MagmaLaw α} {Law2 : MagmaLaw β} (f g)
+equational_theories/Preorder.lean:102:    (h1 : Law1.map f = Law2) (h2 : Law2.map g = Law1) : Law1.iff Law2 :=
+equational_theories/Duals/Command.lean:8:theorem flip_dual {Law1 Law2 : NatMagmaLaw} (H : Law1.IsDual Law2.symm) : Law1.IsDual Law2 :=
+equational_theories/Definability/Law46.lean:43:    have : (Lf x ≃ Lf y).toFin.toNat = Law2 := by
+equational_theories/Definability/Simple.lean:42:theorem all_termDefinableFrom_Equation2 (L : NatMagmaLaw) : L.TermDefinableFrom Law2 := by
+
+
+===== Equation2 =====
+equational_theories/Generated/TrivialBruteforce/theorems/Apply2.lean:33:theorem Equation34_implies_Equation250 (G: Type _) [Magma G] (h: Equation34 G) : Equation250 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:237:theorem Equation166_implies_Equation2161 (G: Type _) [Magma G] (h: Equation166 G) : Equation2161 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:249:theorem Equation174_implies_Equation2176 (G: Type _) [Magma G] (h: Equation174 G) : Equation2176 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:265:theorem Equation186_implies_Equation2009 (G: Type _) [Magma G] (h: Equation186 G) : Equation2009 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:269:theorem Equation188_implies_Equation2215 (G: Type _) [Magma G] (h: Equation188 G) : Equation2215 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:273:theorem Equation189_implies_Equation2013 (G: Type _) [Magma G] (h: Equation189 G) : Equation2013 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:277:theorem Equation189_implies_Equation2216 (G: Type _) [Magma G] (h: Equation189 G) : Equation2216 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:289:theorem Equation190_implies_Equation2014 (G: Type _) [Magma G] (h: Equation190 G) : Equation2014 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:293:theorem Equation194_implies_Equation2227 (G: Type _) [Magma G] (h: Equation194 G) : Equation2227 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:297:theorem Equation198_implies_Equation2029 (G: Type _) [Magma G] (h: Equation198 G) : Equation2029 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:301:theorem Equation198_implies_Equation2232 (G: Type _) [Magma G] (h: Equation198 G) : Equation2232 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:305:theorem Equation2_implies_Equation1999 (G: Type _) [Magma G] (h: Equation2 G) : Equation1999 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:309:theorem Equation205_implies_Equation2249 (G: Type _) [Magma G] (h: Equation205 G) : Equation2249 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:313:theorem Equation207_implies_Equation2252 (G: Type _) [Magma G] (h: Equation207 G) : Equation2252 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:317:theorem Equation208_implies_Equation2476 (G: Type _) [Magma G] (h: Equation208 G) : Equation2476 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:321:theorem Equation210_implies_Equation2479 (G: Type _) [Magma G] (h: Equation210 G) : Equation2479 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:325:theorem Equation213_implies_Equation1866 (G: Type _) [Magma G] (h: Equation213 G) : Equation1866 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:329:theorem Equation214_implies_Equation2285 (G: Type _) [Magma G] (h: Equation214 G) : Equation2285 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:333:theorem Equation214_implies_Equation2488 (G: Type _) [Magma G] (h: Equation214 G) : Equation2488 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:337:theorem Equation215_implies_Equation2286 (G: Type _) [Magma G] (h: Equation215 G) : Equation2286 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:341:theorem Equation216_implies_Equation2491 (G: Type _) [Magma G] (h: Equation216 G) : Equation2491 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:345:theorem Equation217_implies_Equation2289 (G: Type _) [Magma G] (h: Equation217 G) : Equation2289 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:349:theorem Equation217_implies_Equation2492 (G: Type _) [Magma G] (h: Equation217 G) : Equation2492 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:353:theorem Equation218_implies_Equation2770 (G: Type _) [Magma G] (h: Equation218 G) : Equation2770 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:357:theorem Equation220_implies_Equation2773 (G: Type _) [Magma G] (h: Equation220 G) : Equation2773 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:361:theorem Equation223_implies_Equation1903 (G: Type _) [Magma G] (h: Equation223 G) : Equation1903 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:365:theorem Equation224_implies_Equation2322 (G: Type _) [Magma G] (h: Equation224 G) : Equation2322 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:369:theorem Equation224_implies_Equation2782 (G: Type _) [Magma G] (h: Equation224 G) : Equation2782 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:373:theorem Equation225_implies_Equation2323 (G: Type _) [Magma G] (h: Equation225 G) : Equation2323 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:377:theorem Equation226_implies_Equation2785 (G: Type _) [Magma G] (h: Equation226 G) : Equation2785 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:381:theorem Equation227_implies_Equation1920 (G: Type _) [Magma G] (h: Equation227 G) : Equation1920 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:385:theorem Equation227_implies_Equation2326 (G: Type _) [Magma G] (h: Equation227 G) : Equation2326 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:389:theorem Equation227_implies_Equation2786 (G: Type _) [Magma G] (h: Equation227 G) : Equation2786 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:393:theorem Equation230_implies_Equation1930 (G: Type _) [Magma G] (h: Equation230 G) : Equation1930 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:397:theorem Equation234_implies_Equation2359 (G: Type _) [Magma G] (h: Equation234 G) : Equation2359 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:401:theorem Equation237_implies_Equation2363 (G: Type _) [Magma G] (h: Equation237 G) : Equation2363 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:405:theorem Equation238_implies_Equation2618 (G: Type _) [Magma G] (h: Equation238 G) : Equation2618 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:409:theorem Equation239_implies_Equation2619 (G: Type _) [Magma G] (h: Equation239 G) : Equation2619 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:413:theorem Equation240_implies_Equation2824 (G: Type _) [Magma G] (h: Equation240 G) : Equation2824 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:417:theorem Equation241_implies_Equation1974 (G: Type _) [Magma G] (h: Equation241 G) : Equation1974 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:421:theorem Equation241_implies_Equation2622 (G: Type _) [Magma G] (h: Equation241 G) : Equation2622 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:425:theorem Equation241_implies_Equation2825 (G: Type _) [Magma G] (h: Equation241 G) : Equation2825 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:429:theorem Equation246_implies_Equation2836 (G: Type _) [Magma G] (h: Equation246 G) : Equation2836 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:433:theorem Equation25_implies_Equation214 (G: Type _) [Magma G] (h: Equation25 G) : Equation214 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:437:theorem Equation250_implies_Equation2435 (G: Type _) [Magma G] (h: Equation250 G) : Equation2435 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:441:theorem Equation250_implies_Equation2638 (G: Type _) [Magma G] (h: Equation250 G) : Equation2638 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:445:theorem Equation250_implies_Equation2841 (G: Type _) [Magma G] (h: Equation250 G) : Equation2841 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:449:theorem Equation257_implies_Equation2655 (G: Type _) [Magma G] (h: Equation257 G) : Equation2655 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:453:theorem Equation259_implies_Equation2049 (G: Type _) [Magma G] (h: Equation259 G) : Equation2049 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:457:theorem Equation26_implies_Equation1873 (G: Type _) [Magma G] (h: Equation26 G) : Equation1873 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:461:theorem Equation26_implies_Equation4135 (G: Type _) [Magma G] (h: Equation26 G) : Equation4135 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:465:theorem Equation260_implies_Equation2882 (G: Type _) [Magma G] (h: Equation260 G) : Equation2882 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:469:theorem Equation262_implies_Equation2059 (G: Type _) [Magma G] (h: Equation262 G) : Equation2059 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:473:theorem Equation265_implies_Equation2069 (G: Type _) [Magma G] (h: Equation265 G) : Equation2069 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:477:theorem Equation266_implies_Equation2691 (G: Type _) [Magma G] (h: Equation266 G) : Equation2691 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:481:theorem Equation267_implies_Equation2692 (G: Type _) [Magma G] (h: Equation267 G) : Equation2692 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:485:theorem Equation268_implies_Equation2897 (G: Type _) [Magma G] (h: Equation268 G) : Equation2897 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:489:theorem Equation269_implies_Equation2086 (G: Type _) [Magma G] (h: Equation269 G) : Equation2086 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:493:theorem Equation27_implies_Equation165 (G: Type _) [Magma G] (h: Equation27 G) : Equation165 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:497:theorem Equation27_implies_Equation217 (G: Type _) [Magma G] (h: Equation27 G) : Equation217 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:501:theorem Equation27_implies_Equation4136 (G: Type _) [Magma G] (h: Equation27 G) : Equation4136 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:505:theorem Equation270_implies_Equation3176 (G: Type _) [Magma G] (h: Equation270 G) : Equation3176 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:509:theorem Equation272_implies_Equation3179 (G: Type _) [Magma G] (h: Equation272 G) : Equation3179 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:513:theorem Equation275_implies_Equation2106 (G: Type _) [Magma G] (h: Equation275 G) : Equation2106 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:517:theorem Equation276_implies_Equation3188 (G: Type _) [Magma G] (h: Equation276 G) : Equation3188 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:521:theorem Equation277_implies_Equation2729 (G: Type _) [Magma G] (h: Equation277 G) : Equation2729 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:525:theorem Equation278_implies_Equation3191 (G: Type _) [Magma G] (h: Equation278 G) : Equation3191 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:529:theorem Equation279_implies_Equation2123 (G: Type _) [Magma G] (h: Equation279 G) : Equation2123 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:533:theorem Equation279_implies_Equation2732 (G: Type _) [Magma G] (h: Equation279 G) : Equation2732 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:537:theorem Equation28_implies_Equation290 (G: Type _) [Magma G] (h: Equation28 G) : Equation290 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:541:theorem Equation282_implies_Equation2133 (G: Type _) [Magma G] (h: Equation282 G) : Equation2133 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:545:theorem Equation286_implies_Equation2765 (G: Type _) [Magma G] (h: Equation286 G) : Equation2765 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:549:theorem Equation29_implies_Equation2167 (G: Type _) [Magma G] (h: Equation29 G) : Equation2167 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:553:theorem Equation29_implies_Equation3994 (G: Type _) [Magma G] (h: Equation29 G) : Equation3994 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:557:theorem Equation290_implies_Equation3227 (G: Type _) [Magma G] (h: Equation290 G) : Equation3227 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:561:theorem Equation291_implies_Equation3025 (G: Type _) [Magma G] (h: Equation291 G) : Equation3025 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:565:theorem Equation292_implies_Equation3230 (G: Type _) [Magma G] (h: Equation292 G) : Equation3230 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:569:theorem Equation293_implies_Equation2177 (G: Type _) [Magma G] (h: Equation293 G) : Equation2177 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:573:theorem Equation293_implies_Equation3028 (G: Type _) [Magma G] (h: Equation293 G) : Equation3028 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:577:theorem Equation293_implies_Equation3231 (G: Type _) [Magma G] (h: Equation293 G) : Equation3231 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:581:theorem Equation294_implies_Equation3029 (G: Type _) [Magma G] (h: Equation294 G) : Equation3029 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:585:theorem Equation298_implies_Equation3242 (G: Type _) [Magma G] (h: Equation298 G) : Equation3242 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply.lean:609:theorem Equation31_implies_Equation2795 (G: Type _) [Magma G] (h: Equation31 G) : Equation2795 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:93:theorem Equation23_implies_Equation1629 (G: Type _) [Magma G] (h: Equation23 G) : Equation1629 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:97:theorem Equation23_implies_Equation2441 (G: Type _) [Magma G] (h: Equation23 G) : Equation2441 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:101:theorem Equation23_implies_Equation3050 (G: Type _) [Magma G] (h: Equation23 G) : Equation3050 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:105:theorem Equation23_implies_Equation3522 (G: Type _) [Magma G] (h: Equation23 G) : Equation3522 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:109:theorem Equation23_implies_Equation4118 (G: Type _) [Magma G] (h: Equation23 G) : Equation4118 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:113:theorem Equation24_implies_Equation3057 (G: Type _) [Magma G] (h: Equation24 G) : Equation3057 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:117:theorem Equation24_implies_Equation4124 (G: Type _) [Magma G] (h: Equation24 G) : Equation4124 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:121:theorem Equation25_implies_Equation1650 (G: Type _) [Magma G] (h: Equation25 G) : Equation1650 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:125:theorem Equation25_implies_Equation3071 (G: Type _) [Magma G] (h: Equation25 G) : Equation3071 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:129:theorem Equation25_implies_Equation3525 (G: Type _) [Magma G] (h: Equation25 G) : Equation3525 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:133:theorem Equation25_implies_Equation4138 (G: Type _) [Magma G] (h: Equation25 G) : Equation4138 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:137:theorem Equation25_implies_Equation4631 (G: Type _) [Magma G] (h: Equation25 G) : Equation4631 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:141:theorem Equation26_implies_Equation2485 (G: Type _) [Magma G] (h: Equation26 G) : Equation2485 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:145:theorem Equation26_implies_Equation3094 (G: Type _) [Magma G] (h: Equation26 G) : Equation3094 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:149:theorem Equation26_implies_Equation3526 (G: Type _) [Magma G] (h: Equation26 G) : Equation3526 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:153:theorem Equation26_implies_Equation4146 (G: Type _) [Magma G] (h: Equation26 G) : Equation4146 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:157:theorem Equation27_implies_Equation4676 (G: Type _) [Magma G] (h: Equation27 G) : Equation4676 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:161:theorem Equation28_implies_Equation1701 (G: Type _) [Magma G] (h: Equation28 G) : Equation1701 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:165:theorem Equation28_implies_Equation2567 (G: Type _) [Magma G] (h: Equation28 G) : Equation2567 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:169:theorem Equation28_implies_Equation3533 (G: Type _) [Magma G] (h: Equation28 G) : Equation3533 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:173:theorem Equation28_implies_Equation4192 (G: Type _) [Magma G] (h: Equation28 G) : Equation4192 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:177:theorem Equation29_implies_Equation2576 (G: Type _) [Magma G] (h: Equation29 G) : Equation2576 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:181:theorem Equation29_implies_Equation2979 (G: Type _) [Magma G] (h: Equation29 G) : Equation2979 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:185:theorem Equation29_implies_Equation3195 (G: Type _) [Magma G] (h: Equation29 G) : Equation3195 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:189:theorem Equation29_implies_Equation4200 (G: Type _) [Magma G] (h: Equation29 G) : Equation4200 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:205:theorem Equation3_implies_Equation203 (G: Type _) [Magma G] (h: Equation3 G) : Equation203 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:209:theorem Equation3_implies_Equation2035 (G: Type _) [Magma G] (h: Equation3 G) : Equation2035 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:213:theorem Equation3_implies_Equation2238 (G: Type _) [Magma G] (h: Equation3 G) : Equation2238 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:217:theorem Equation3_implies_Equation255 (G: Type _) [Magma G] (h: Equation3 G) : Equation255 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:221:theorem Equation3_implies_Equation2644 (G: Type _) [Magma G] (h: Equation3 G) : Equation2644 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:225:theorem Equation3_implies_Equation2847 (G: Type _) [Magma G] (h: Equation3 G) : Equation2847 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:277:theorem Equation31_implies_Equation2605 (G: Type _) [Magma G] (h: Equation31 G) : Equation2605 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:281:theorem Equation31_implies_Equation2761 (G: Type _) [Magma G] (h: Equation31 G) : Equation2761 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:860:theorem Equation200_implies_Equation20 (G: Type _) [Magma G] (h: Equation200 G) : Equation20 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:868:theorem Equation2001_implies_Equation200 (G: Type _) [Magma G] (h: Equation2001 G) : Equation200 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:875:theorem Equation2002_implies_Equation2001 (G: Type _) [Magma G] (h: Equation2002 G) : Equation2001 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:882:theorem Equation2007_implies_Equation2006 (G: Type _) [Magma G] (h: Equation2007 G) : Equation2006 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:890:theorem Equation201_implies_Equation2008 (G: Type _) [Magma G] (h: Equation201 G) : Equation2008 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:898:theorem Equation2015_implies_Equation201 (G: Type _) [Magma G] (h: Equation2015 G) : Equation201 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:906:theorem Equation2020_implies_Equation202 (G: Type _) [Magma G] (h: Equation2020 G) : Equation202 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:914:theorem Equation2021_implies_Equation2020 (G: Type _) [Magma G] (h: Equation2021 G) : Equation2020 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:922:theorem Equation2022_implies_Equation2021 (G: Type _) [Magma G] (h: Equation2022 G) : Equation2021 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:930:theorem Equation2025_implies_Equation2023 (G: Type _) [Magma G] (h: Equation2025 G) : Equation2023 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:938:theorem Equation2026_implies_Equation2025 (G: Type _) [Magma G] (h: Equation2026 G) : Equation2025 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:946:theorem Equation2027_implies_Equation2026 (G: Type _) [Magma G] (h: Equation2027 G) : Equation2026 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:954:theorem Equation2031_implies_Equation2030 (G: Type _) [Magma G] (h: Equation2031 G) : Equation2030 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:963:theorem Equation2032_implies_Equation2031 (G: Type _) [Magma G] (h: Equation2032 G) : Equation2031 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:972:theorem Equation2033_implies_Equation2032 (G: Type _) [Magma G] (h: Equation2033 G) : Equation2032 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:981:theorem Equation21_implies_Equation2034 (G: Type _) [Magma G] (h: Equation21 G) : Equation2034 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:988:theorem Equation2106_implies_Equation41 (G: Type _) [Magma G] (h: Equation2106 G) : Equation41 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:993:theorem Equation2138_implies_Equation21 (G: Type _) [Magma G] (h: Equation2138 G) : Equation21 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:999:theorem Equation2146_implies_Equation3688 (G: Type _) [Magma G] (h: Equation2146 G) : Equation3688 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1004:theorem Equation2157_implies_Equation2155 (G: Type _) [Magma G] (h: Equation2157 G) : Equation2155 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1012:theorem Equation2177_implies_Equation41 (G: Type _) [Magma G] (h: Equation2177 G) : Equation41 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1019:theorem Equation2191_implies_Equation2189 (G: Type _) [Magma G] (h: Equation2191 G) : Equation2189 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1027:theorem Equation2200_implies_Equation22 (G: Type _) [Magma G] (h: Equation2200 G) : Equation22 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1034:theorem Equation2208_implies_Equation2206 (G: Type _) [Magma G] (h: Equation2208 G) : Equation2206 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1042:theorem Equation2215_implies_Equation373 (G: Type _) [Magma G] (h: Equation2215 G) : Equation373 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1047:theorem Equation2228_implies_Equation2226 (G: Type _) [Magma G] (h: Equation2228 G) : Equation2226 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1055:theorem Equation2233_implies_Equation2231 (G: Type _) [Magma G] (h: Equation2233 G) : Equation2231 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1064:theorem Equation2234_implies_Equation2233 (G: Type _) [Magma G] (h: Equation2234 G) : Equation2233 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1073:theorem Equation2292_implies_Equation46 (G: Type _) [Magma G] (h: Equation2292 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1079:theorem Equation2295_implies_Equation46 (G: Type _) [Magma G] (h: Equation2295 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1085:theorem Equation2298_implies_Equation46 (G: Type _) [Magma G] (h: Equation2298 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1091:theorem Equation2302_implies_Equation46 (G: Type _) [Magma G] (h: Equation2302 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1097:theorem Equation2305_implies_Equation46 (G: Type _) [Magma G] (h: Equation2305 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1103:theorem Equation2312_implies_Equation46 (G: Type _) [Magma G] (h: Equation2312 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1109:theorem Equation232_implies_Equation2237 (G: Type _) [Magma G] (h: Equation232 G) : Equation2237 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1115:theorem Equation2320_implies_Equation46 (G: Type _) [Magma G] (h: Equation2320 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1121:theorem Equation2329_implies_Equation46 (G: Type _) [Magma G] (h: Equation2329 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1127:theorem Equation2332_implies_Equation46 (G: Type _) [Magma G] (h: Equation2332 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1133:theorem Equation2339_implies_Equation46 (G: Type _) [Magma G] (h: Equation2339 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1139:theorem Equation235_implies_Equation2346 (G: Type _) [Magma G] (h: Equation235 G) : Equation2346 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1146:theorem Equation2352_implies_Equation235 (G: Type _) [Magma G] (h: Equation2352 G) : Equation235 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1153:theorem Equation2353_implies_Equation2352 (G: Type _) [Magma G] (h: Equation2353 G) : Equation2352 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1160:theorem Equation2356_implies_Equation2354 (G: Type _) [Magma G] (h: Equation2356 G) : Equation2354 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1167:theorem Equation2357_implies_Equation2356 (G: Type _) [Magma G] (h: Equation2357 G) : Equation2356 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1174:theorem Equation236_implies_Equation2358 (G: Type _) [Magma G] (h: Equation236 G) : Equation2358 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1181:theorem Equation2361_implies_Equation2360 (G: Type _) [Magma G] (h: Equation2361 G) : Equation2360 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1189:theorem Equation2366_implies_Equation46 (G: Type _) [Magma G] (h: Equation2366 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1195:theorem Equation2374_implies_Equation46 (G: Type _) [Magma G] (h: Equation2374 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1201:theorem Equation2386_implies_Equation237 (G: Type _) [Magma G] (h: Equation2386 G) : Equation237 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1208:theorem Equation2387_implies_Equation2386 (G: Type _) [Magma G] (h: Equation2387 G) : Equation2386 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1215:theorem Equation2390_implies_Equation2388 (G: Type _) [Magma G] (h: Equation2390 G) : Equation2388 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1222:theorem Equation2391_implies_Equation2390 (G: Type _) [Magma G] (h: Equation2391 G) : Equation2390 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1229:theorem Equation2395_implies_Equation2394 (G: Type _) [Magma G] (h: Equation2395 G) : Equation2394 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1237:theorem Equation2400_implies_Equation46 (G: Type _) [Magma G] (h: Equation2400 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1243:theorem Equation2403_implies_Equation2397 (G: Type _) [Magma G] (h: Equation2403 G) : Equation2397 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1250:theorem Equation2404_implies_Equation2403 (G: Type _) [Magma G] (h: Equation2404 G) : Equation2403 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1257:theorem Equation2407_implies_Equation2405 (G: Type _) [Magma G] (h: Equation2407 G) : Equation2405 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1264:theorem Equation2408_implies_Equation2407 (G: Type _) [Magma G] (h: Equation2408 G) : Equation2407 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1271:theorem Equation2412_implies_Equation2411 (G: Type _) [Magma G] (h: Equation2412 G) : Equation2411 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1279:theorem Equation2421_implies_Equation2414 (G: Type _) [Magma G] (h: Equation2421 G) : Equation2414 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1287:theorem Equation2422_implies_Equation2421 (G: Type _) [Magma G] (h: Equation2422 G) : Equation2421 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1295:theorem Equation2423_implies_Equation2422 (G: Type _) [Magma G] (h: Equation2423 G) : Equation2422 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1303:theorem Equation2426_implies_Equation2424 (G: Type _) [Magma G] (h: Equation2426 G) : Equation2424 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1311:theorem Equation2427_implies_Equation2426 (G: Type _) [Magma G] (h: Equation2427 G) : Equation2426 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1319:theorem Equation2428_implies_Equation2427 (G: Type _) [Magma G] (h: Equation2428 G) : Equation2427 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1327:theorem Equation243_implies_Equation2429 (G: Type _) [Magma G] (h: Equation243 G) : Equation2429 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1334:theorem Equation2431_implies_Equation243 (G: Type _) [Magma G] (h: Equation2431 G) : Equation243 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1342:theorem Equation2432_implies_Equation2431 (G: Type _) [Magma G] (h: Equation2432 G) : Equation2431 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1350:theorem Equation2433_implies_Equation2432 (G: Type _) [Magma G] (h: Equation2433 G) : Equation2432 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1358:theorem Equation2436_implies_Equation2434 (G: Type _) [Magma G] (h: Equation2436 G) : Equation2434 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1367:theorem Equation2437_implies_Equation2436 (G: Type _) [Magma G] (h: Equation2437 G) : Equation2436 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1376:theorem Equation2438_implies_Equation2437 (G: Type _) [Magma G] (h: Equation2438 G) : Equation2437 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1385:theorem Equation2439_implies_Equation2438 (G: Type _) [Magma G] (h: Equation2439 G) : Equation2438 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1394:theorem Equation244_implies_Equation2439 (G: Type _) [Magma G] (h: Equation244 G) : Equation2439 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1401:theorem Equation2440_implies_Equation244 (G: Type _) [Magma G] (h: Equation2440 G) : Equation244 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1411:theorem Equation245_implies_Equation2440 (G: Type _) [Magma G] (h: Equation245 G) : Equation2440 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1419:theorem Equation2495_implies_Equation46 (G: Type _) [Magma G] (h: Equation2495 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1425:theorem Equation2498_implies_Equation46 (G: Type _) [Magma G] (h: Equation2498 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1431:theorem Equation2501_implies_Equation46 (G: Type _) [Magma G] (h: Equation2501 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1437:theorem Equation251_implies_Equation249 (G: Type _) [Magma G] (h: Equation251 G) : Equation249 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1445:theorem Equation2515_implies_Equation46 (G: Type _) [Magma G] (h: Equation2515 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1451:theorem Equation2523_implies_Equation46 (G: Type _) [Magma G] (h: Equation2523 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1457:theorem Equation2532_implies_Equation46 (G: Type _) [Magma G] (h: Equation2532 G) : Equation46 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:1463:theorem Equation2535_implies_Equation46 (G: Type _) [Magma G] (h: Equation2535 G) : Equation46 G := by
+
+
+===== toFin.toNat =====
+equational_theories/Definability/Law46.lean:43:    have : (Lf x ≃ Lf y).toFin.toNat = Law2 := by
+
+
+===== toFin.toFin =====
+
+
+===== Law46 =====
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:479:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4636.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:483:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4636.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:567:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4679.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:571:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4679.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:591:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4606.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:595:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4606.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:655:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4629.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:659:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4629.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:663:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4658.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:667:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4658.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:743:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4684.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:747:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4684.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:759:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4673.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:763:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4673.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:87:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4679.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:91:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4679.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:135:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4684.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:139:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4684.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:143:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4673.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:147:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4673.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:7:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4656.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:11:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4656.models_iff Law345169.models_iff
+equational_theories/Definability.lean:4:-- import equational_theories.Definability.Law46
+equational_theories/Definability/Law46.lean:14:  : Law46.TermDefinableFrom L := by
+equational_theories/Definability/Law46.lean:56:    exact Equation2_implies Law46
+equational_theories/Definability/Law46.lean:61:  · rw [@Law46.models_iff]
+equational_theories/Definability/Law46.lean:75:theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=
+equational_theories/Definability/Law46.lean:79:theorem Equation46_termDefinableFrom_Equation4276 : Law46.TermDefinableFrom Law4276 :=
+equational_theories/Definability/Law46.lean:83:theorem Equation46_termDefinableFrom_Equation4308 : Law46.TermDefinableFrom Law4308 :=
+equational_theories/Definability/Law46.lean:87:theorem Equation46_termDefinableFrom_Equation4336 : Law46.TermDefinableFrom Law4336 :=
+equational_theories/Definability/Law46.lean:91:theorem Equation46_termDefinableFrom_Equation4355 : Law46.TermDefinableFrom Law4355 :=
+
+
+===== Law43 =====
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:15:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law43.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:19:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law43.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:487:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4399.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:491:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4399.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:495:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4364.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:499:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4364.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:583:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4369.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:587:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4369.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:639:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4314.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:643:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4314.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:647:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4362.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:651:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4362.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:719:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4321.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyFinset_counterexamples.lean:723:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyFinset) _ Law4321.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:7:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law43.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:11:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law43.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:71:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4364.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:75:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4364.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:103:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4369.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:107:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4369.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:119:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4362.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyMultiset_counterexamples.lean:123:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyMultiset) _ Law4362.models_iff Law345169.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:39:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4315.models_iff Law26302.models_iff
+equational_theories/Generated/InvariantMetatheoremNonimplications/instLiftingMagmaFamilyLeftProj_counterexamples.lean:43:    LiftingMagmaFamily.establishNonimplication (family := instLiftingMagmaFamilyLeftProj) _ Law4315.models_iff Law345169.models_iff
+equational_theories/Definability.lean:3:-- import equational_theories.Definability.Law43
+equational_theories/Definability/Law46.lean:83:theorem Equation46_termDefinableFrom_Equation4308 : Law46.TermDefinableFrom Law4308 :=
+equational_theories/Definability/Law46.lean:87:theorem Equation46_termDefinableFrom_Equation4336 : Law46.TermDefinableFrom Law4336 :=
+equational_theories/Definability/Law46.lean:91:theorem Equation46_termDefinableFrom_Equation4355 : Law46.TermDefinableFrom Law4355 :=
+equational_theories/Definability/Tarski543.lean:161:theorem Equation4512_termDefinableFrom_Equation43 : Law43.TermDefinableFrom Law543 := by
+equational_theories/Definability/Tarski543.lean:167:    rw [@Law43.models_iff]
+equational_theories/Definability/Tarski543.lean:187:theorem Equation43_StructuralFrom_Equation543 : Law43.StructuralFrom Law543 := by
+equational_theories/Definability/Tarski543.lean:192:  · rw [@Law43.models_iff]
+equational_theories/Definability/Law43.lean:14:    : Law43.TermDefinableFrom L := by
+equational_theories/Definability/Law43.lean:18:theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :=
+equational_theories/Definability/Law43.lean:22:theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :=
+equational_theories/Definability/Law43.lean:26:theorem Equation43_termDefinableFrom_Equation4293 : Law43.TermDefinableFrom Law4293 :=
+equational_theories/Definability/Law43.lean:30:theorem Equation43_termDefinableFrom_Equation4321 : Law43.TermDefinableFrom Law4321 :=
+
+
+===== Equation43 =====
+equational_theories/Generated/TrivialBruteforce/theorems/Apply2.lean:189:theorem Equation43_implies_Equation4531 (G: Type _) [Magma G] (h: Equation43 G) : Equation4531 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply2.lean:193:theorem Equation4308_implies_Equation4293 (G: Type _) [Magma G] (h: Equation4308 G) : Equation4293 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply2.lean:197:theorem Equation4336_implies_Equation4321 (G: Type _) [Magma G] (h: Equation4336 G) : Equation4321 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply2.lean:201:theorem Equation4355_implies_Equation4343 (G: Type _) [Magma G] (h: Equation4355 G) : Equation4343 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/Apply2.lean:273:theorem Equation54_implies_Equation435 (G: Type _) [Magma G] (h: Equation54 G) : Equation435 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:26:theorem Equation314_implies_Equation4349 (G: Type _) [Magma G] (h: Equation314 G) : Equation4349 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:109:theorem Equation317_implies_Equation4312 (G: Type _) [Magma G] (h: Equation317 G) : Equation4312 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:130:theorem Equation319_implies_Equation4337 (G: Type _) [Magma G] (h: Equation319 G) : Equation4337 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:214:theorem Equation3288_implies_Equation4351 (G: Type _) [Magma G] (h: Equation3288 G) : Equation4351 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2914:theorem Equation4269_implies_Equation4316 (G: Type _) [Magma G] (h: Equation4269 G) : Equation4316 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2923:theorem Equation4270_implies_Equation4341 (G: Type _) [Magma G] (h: Equation4270 G) : Equation4341 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2932:theorem Equation4271_implies_Equation4361 (G: Type _) [Magma G] (h: Equation4271 G) : Equation4361 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2941:theorem Equation4272_implies_Equation4351 (G: Type _) [Magma G] (h: Equation4272 G) : Equation4351 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2950:theorem Equation4273_implies_Equation4332 (G: Type _) [Magma G] (h: Equation4273 G) : Equation4332 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2959:theorem Equation4274_implies_Equation4375 (G: Type _) [Magma G] (h: Equation4274 G) : Equation4375 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2968:theorem Equation4275_implies_Equation4307 (G: Type _) [Magma G] (h: Equation4275 G) : Equation4307 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2987:theorem Equation4278_implies_Equation4310 (G: Type _) [Magma G] (h: Equation4278 G) : Equation4310 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:2996:theorem Equation4278_implies_Equation4323 (G: Type _) [Magma G] (h: Equation4278 G) : Equation4323 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3005:theorem Equation4278_implies_Equation4334 (G: Type _) [Magma G] (h: Equation4278 G) : Equation4334 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3014:theorem Equation4278_implies_Equation4362 (G: Type _) [Magma G] (h: Equation4278 G) : Equation4362 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3023:theorem Equation4279_implies_Equation4324 (G: Type _) [Magma G] (h: Equation4279 G) : Equation4324 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3033:theorem Equation4280_implies_Equation4346 (G: Type _) [Magma G] (h: Equation4280 G) : Equation4346 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3043:theorem Equation4281_implies_Equation4309 (G: Type _) [Magma G] (h: Equation4281 G) : Equation4309 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3053:theorem Equation4281_implies_Equation4326 (G: Type _) [Magma G] (h: Equation4281 G) : Equation4326 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3063:theorem Equation4281_implies_Equation4337 (G: Type _) [Magma G] (h: Equation4281 G) : Equation4337 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3073:theorem Equation4285_implies_Equation4342 (G: Type _) [Magma G] (h: Equation4285 G) : Equation4342 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3115:theorem Equation4287_implies_Equation4340 (G: Type _) [Magma G] (h: Equation4287 G) : Equation4340 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3124:theorem Equation4289_implies_Equation4317 (G: Type _) [Magma G] (h: Equation4289 G) : Equation4317 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3134:theorem Equation4289_implies_Equation4318 (G: Type _) [Magma G] (h: Equation4289 G) : Equation4318 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3220:theorem Equation4295_implies_Equation4371 (G: Type _) [Magma G] (h: Equation4295 G) : Equation4371 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3238:theorem Equation4300_implies_Equation4374 (G: Type _) [Magma G] (h: Equation4300 G) : Equation4374 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3247:theorem Equation4302_implies_Equation4375 (G: Type _) [Magma G] (h: Equation4302 G) : Equation4375 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3257:theorem Equation4303_implies_Equation4376 (G: Type _) [Magma G] (h: Equation4303 G) : Equation4376 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3275:theorem Equation4306_implies_Equation4379 (G: Type _) [Magma G] (h: Equation4306 G) : Equation4379 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3294:theorem Equation4310_implies_Equation4354 (G: Type _) [Magma G] (h: Equation4310 G) : Equation4354 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3304:theorem Equation4315_implies_Equation4357 (G: Type _) [Magma G] (h: Equation4315 G) : Equation4357 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3313:theorem Equation4317_implies_Equation4361 (G: Type _) [Magma G] (h: Equation4317 G) : Equation4361 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3355:theorem Equation4319_implies_Equation4361 (G: Type _) [Magma G] (h: Equation4319 G) : Equation4361 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3365:theorem Equation4322_implies_Equation4363 (G: Type _) [Magma G] (h: Equation4322 G) : Equation4363 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3383:theorem Equation4323_implies_Equation4378 (G: Type _) [Magma G] (h: Equation4323 G) : Equation4378 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3425:theorem Equation4328_implies_Equation4293 (G: Type _) [Magma G] (h: Equation4328 G) : Equation4293 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3443:theorem Equation4328_implies_Equation4303 (G: Type _) [Magma G] (h: Equation4328 G) : Equation4303 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3461:theorem Equation4329_implies_Equation4379 (G: Type _) [Magma G] (h: Equation4329 G) : Equation4379 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3480:theorem Equation4330_implies_Equation4300 (G: Type _) [Magma G] (h: Equation4330 G) : Equation4300 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3489:theorem Equation4333_implies_Equation4375 (G: Type _) [Magma G] (h: Equation4333 G) : Equation4375 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3499:theorem Equation4335_implies_Equation4379 (G: Type _) [Magma G] (h: Equation4335 G) : Equation4379 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3518:theorem Equation4339_implies_Equation4315 (G: Type _) [Magma G] (h: Equation4339 G) : Equation4315 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3527:theorem Equation4340_implies_Equation4360 (G: Type _) [Magma G] (h: Equation4340 G) : Equation4360 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3536:theorem Equation4342_implies_Equation4361 (G: Type _) [Magma G] (h: Equation4342 G) : Equation4361 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3546:theorem Equation4345_implies_Equation4293 (G: Type _) [Magma G] (h: Equation4345 G) : Equation4293 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3564:theorem Equation4345_implies_Equation4295 (G: Type _) [Magma G] (h: Equation4345 G) : Equation4295 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3582:theorem Equation4348_implies_Equation4378 (G: Type _) [Magma G] (h: Equation4348 G) : Equation4378 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3624:theorem Equation4350_implies_Equation4375 (G: Type _) [Magma G] (h: Equation4350 G) : Equation4375 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3666:theorem Equation4389_implies_Equation4591 (G: Type _) [Magma G] (h: Equation4389 G) : Equation4591 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3673:theorem Equation4390_implies_Equation4623 (G: Type _) [Magma G] (h: Equation4390 G) : Equation4623 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3683:theorem Equation4392_implies_Equation4651 (G: Type _) [Magma G] (h: Equation4392 G) : Equation4651 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3690:theorem Equation4393_implies_Equation4670 (G: Type _) [Magma G] (h: Equation4393 G) : Equation4670 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3725:theorem Equation4462_implies_Equation4336 (G: Type _) [Magma G] (h: Equation4462 G) : Equation4336 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteCombinations.lean:3774:theorem Equation4499_implies_Equation4355 (G: Type _) [Magma G] (h: Equation4499 G) : Equation4355 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:17:theorem Equation10_implies_Equation4316 (G: Type _) [Magma G] (h: Equation10 G) : Equation4316 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:21:theorem Equation10_implies_Equation432 (G: Type _) [Magma G] (h: Equation10 G) : Equation432 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:69:theorem Equation14_implies_Equation4332 (G: Type _) [Magma G] (h: Equation14 G) : Equation4332 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:269:theorem Equation309_implies_Equation4316 (G: Type _) [Magma G] (h: Equation309 G) : Equation4316 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:301:theorem Equation310_implies_Equation4341 (G: Type _) [Magma G] (h: Equation310 G) : Equation4341 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:305:theorem Equation311_implies_Equation4361 (G: Type _) [Magma G] (h: Equation311 G) : Equation4361 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:317:theorem Equation313_implies_Equation4332 (G: Type _) [Magma G] (h: Equation313 G) : Equation4332 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:325:theorem Equation314_implies_Equation4375 (G: Type _) [Magma G] (h: Equation314 G) : Equation4375 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:333:theorem Equation315_implies_Equation4307 (G: Type _) [Magma G] (h: Equation315 G) : Equation4307 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:349:theorem Equation318_implies_Equation4378 (G: Type _) [Magma G] (h: Equation318 G) : Equation4378 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:389:theorem Equation334_implies_Equation4357 (G: Type _) [Magma G] (h: Equation334 G) : Equation4357 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:661:theorem Equation40_implies_Equation4341 (G: Type _) [Magma G] (h: Equation40 G) : Equation4341 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:737:theorem Equation4294_implies_Equation4308 (G: Type _) [Magma G] (h: Equation4294 G) : Equation4308 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:749:theorem Equation4304_implies_Equation4275 (G: Type _) [Magma G] (h: Equation4304 G) : Equation4275 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:753:theorem Equation4305_implies_Equation4275 (G: Type _) [Magma G] (h: Equation4305 G) : Equation4275 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:757:theorem Equation4311_implies_Equation4277 (G: Type _) [Magma G] (h: Equation4311 G) : Equation4277 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:761:theorem Equation4312_implies_Equation4277 (G: Type _) [Magma G] (h: Equation4312 G) : Equation4277 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:765:theorem Equation4318_implies_Equation4269 (G: Type _) [Magma G] (h: Equation4318 G) : Equation4269 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:769:theorem Equation4319_implies_Equation4286 (G: Type _) [Magma G] (h: Equation4319 G) : Equation4286 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:773:theorem Equation4324_implies_Equation4336 (G: Type _) [Magma G] (h: Equation4324 G) : Equation4336 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:777:theorem Equation4325_implies_Equation4273 (G: Type _) [Magma G] (h: Equation4325 G) : Equation4273 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:781:theorem Equation4327_implies_Equation4269 (G: Type _) [Magma G] (h: Equation4327 G) : Equation4269 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:785:theorem Equation4330_implies_Equation4291 (G: Type _) [Magma G] (h: Equation4330 G) : Equation4291 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:789:theorem Equation4331_implies_Equation4273 (G: Type _) [Magma G] (h: Equation4331 G) : Equation4273 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:793:theorem Equation4334_implies_Equation4296 (G: Type _) [Magma G] (h: Equation4334 G) : Equation4296 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:797:theorem Equation4337_implies_Equation4279 (G: Type _) [Magma G] (h: Equation4337 G) : Equation4279 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:801:theorem Equation4338_implies_Equation4311 (G: Type _) [Magma G] (h: Equation4338 G) : Equation4311 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:805:theorem Equation4339_implies_Equation4314 (G: Type _) [Magma G] (h: Equation4339 G) : Equation4314 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:809:theorem Equation4340_implies_Equation4284 (G: Type _) [Magma G] (h: Equation4340 G) : Equation4284 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:813:theorem Equation4342_implies_Equation4288 (G: Type _) [Magma G] (h: Equation4342 G) : Equation4288 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:817:theorem Equation4346_implies_Equation4355 (G: Type _) [Magma G] (h: Equation4346 G) : Equation4355 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:821:theorem Equation4354_implies_Equation4304 (G: Type _) [Magma G] (h: Equation4354 G) : Equation4304 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:825:theorem Equation4364_implies_Equation4290 (G: Type _) [Magma G] (h: Equation4364 G) : Equation4290 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:829:theorem Equation4365_implies_Equation4313 (G: Type _) [Magma G] (h: Equation4365 G) : Equation4313 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:833:theorem Equation4365_implies_Equation4338 (G: Type _) [Magma G] (h: Equation4365 G) : Equation4338 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:837:theorem Equation4365_implies_Equation4361 (G: Type _) [Magma G] (h: Equation4365 G) : Equation4361 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:841:theorem Equation4365_implies_Equation4363 (G: Type _) [Magma G] (h: Equation4365 G) : Equation4363 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:845:theorem Equation4365_implies_Equation4377 (G: Type _) [Magma G] (h: Equation4365 G) : Equation4377 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:849:theorem Equation4366_implies_Equation4365 (G: Type _) [Magma G] (h: Equation4366 G) : Equation4365 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:853:theorem Equation4372_implies_Equation4368 (G: Type _) [Magma G] (h: Equation4372 G) : Equation4368 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:857:theorem Equation4377_implies_Equation4372 (G: Type _) [Magma G] (h: Equation4377 G) : Equation4372 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:861:theorem Equation4381_implies_Equation4597 (G: Type _) [Magma G] (h: Equation4381 G) : Equation4597 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:865:theorem Equation4382_implies_Equation4631 (G: Type _) [Magma G] (h: Equation4382 G) : Equation4631 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:869:theorem Equation4383_implies_Equation4656 (G: Type _) [Magma G] (h: Equation4383 G) : Equation4656 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:873:theorem Equation4384_implies_Equation4676 (G: Type _) [Magma G] (h: Equation4384 G) : Equation4676 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:877:theorem Equation4385_implies_Equation4666 (G: Type _) [Magma G] (h: Equation4385 G) : Equation4666 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:881:theorem Equation4386_implies_Equation4647 (G: Type _) [Magma G] (h: Equation4386 G) : Equation4647 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:885:theorem Equation4387_implies_Equation4690 (G: Type _) [Magma G] (h: Equation4387 G) : Equation4690 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:889:theorem Equation4388_implies_Equation4622 (G: Type _) [Magma G] (h: Equation4388 G) : Equation4622 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesis.lean:893:theorem Equation4391_implies_Equation4693 (G: Type _) [Magma G] (h: Equation4391 G) : Equation4693 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:9:theorem Equation39_implies_Equation4340 (G: Type _) [Magma G] (h: Equation39 G) : Equation4340 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:17:theorem Equation4298_implies_Equation4313 (G: Type _) [Magma G] (h: Equation4298 G) : Equation4313 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:21:theorem Equation4309_implies_Equation4306 (G: Type _) [Magma G] (h: Equation4309 G) : Equation4306 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:25:theorem Equation4323_implies_Equation4278 (G: Type _) [Magma G] (h: Equation4323 G) : Equation4278 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:29:theorem Equation4326_implies_Equation4338 (G: Type _) [Magma G] (h: Equation4326 G) : Equation4338 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:33:theorem Equation4328_implies_Equation4330 (G: Type _) [Magma G] (h: Equation4328 G) : Equation4330 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:37:theorem Equation4345_implies_Equation4340 (G: Type _) [Magma G] (h: Equation4345 G) : Equation4340 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:41:theorem Equation4347_implies_Equation4356 (G: Type _) [Magma G] (h: Equation4347 G) : Equation4356 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:45:theorem Equation4348_implies_Equation4278 (G: Type _) [Magma G] (h: Equation4348 G) : Equation4278 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:49:theorem Equation4353_implies_Equation4349 (G: Type _) [Magma G] (h: Equation4353 G) : Equation4349 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:53:theorem Equation4395_implies_Equation4282 (G: Type _) [Magma G] (h: Equation4395 G) : Equation4282 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:57:theorem Equation4409_implies_Equation4307 (G: Type _) [Magma G] (h: Equation4409 G) : Equation4307 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:61:theorem Equation4432_implies_Equation4316 (G: Type _) [Magma G] (h: Equation4432 G) : Equation4316 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:65:theorem Equation4446_implies_Equation4332 (G: Type _) [Magma G] (h: Equation4446 G) : Equation4332 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:69:theorem Equation4469_implies_Equation4341 (G: Type _) [Magma G] (h: Equation4469 G) : Equation4341 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:73:theorem Equation4483_implies_Equation4351 (G: Type _) [Magma G] (h: Equation4483 G) : Equation4351 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:77:theorem Equation4506_implies_Equation4361 (G: Type _) [Magma G] (h: Equation4506 G) : Equation4361 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:81:theorem Equation4507_implies_Equation4357 (G: Type _) [Magma G] (h: Equation4507 G) : Equation4357 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:85:theorem Equation4508_implies_Equation4360 (G: Type _) [Magma G] (h: Equation4508 G) : Equation4360 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:89:theorem Equation4510_implies_Equation4357 (G: Type _) [Magma G] (h: Equation4510 G) : Equation4357 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:93:theorem Equation4511_implies_Equation4357 (G: Type _) [Magma G] (h: Equation4511 G) : Equation4357 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:97:theorem Equation4516_implies_Equation4360 (G: Type _) [Magma G] (h: Equation4516 G) : Equation4360 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:101:theorem Equation4527_implies_Equation4357 (G: Type _) [Magma G] (h: Equation4527 G) : Equation4357 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:105:theorem Equation4529_implies_Equation4374 (G: Type _) [Magma G] (h: Equation4529 G) : Equation4374 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:109:theorem Equation4533_implies_Equation4374 (G: Type _) [Magma G] (h: Equation4533 G) : Equation4374 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:113:theorem Equation4542_implies_Equation4360 (G: Type _) [Magma G] (h: Equation4542 G) : Equation4360 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:117:theorem Equation4546_implies_Equation4374 (G: Type _) [Magma G] (h: Equation4546 G) : Equation4374 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteGoal.lean:121:theorem Equation4550_implies_Equation4378 (G: Type _) [Magma G] (h: Equation4550 G) : Equation4378 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:2335:theorem Equation3392_implies_Equation4327 (G: Type _) [Magma G] (h: Equation3392 G) : Equation4327 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:2541:theorem Equation43_implies_Equation4677 (G: Type _) [Magma G] (h: Equation43 G) : Equation4677 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/RewriteHypothesisAndGoal.lean:2546:theorem Equation4389_implies_Equation4276 (G: Type _) [Magma G] (h: Equation4389 G) : Equation4276 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/NthRewrites.lean:1263:theorem Equation3330_implies_Equation4340 (G: Type _) [Magma G] (h: Equation3330 G) : Equation4340 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/NthRewrites.lean:10207:theorem Equation43_implies_Equation4358 (G: Type _) [Magma G] (h: Equation43 G) : Equation4358 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/NthRewrites.lean:10219:theorem Equation43_implies_Equation4544 (G: Type _) [Magma G] (h: Equation43 G) : Equation4544 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/NthRewrites.lean:10231:theorem Equation4301_implies_Equation4277 (G: Type _) [Magma G] (h: Equation4301 G) : Equation4277 G := by
+equational_theories/Generated/TrivialBruteforce/theorems/NthRewrites.lean:10273:theorem Equation4331_implies_Equation4355 (G: Type _) [Magma G] (h: Equation4331 G) : Equation4355 G := by
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:66:theorem Equation432_implies_Equation413 (G : Type*) [Magma G] (h : Equation432 G) : Equation413 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:88:theorem Equation575_implies_Equation436 (G : Type*) [Magma G] (h : Equation575 G) : Equation436 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1106:theorem Equation4304_implies_Equation4272 (G : Type*) [Magma G] (h : Equation4304 G) : Equation4272 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1108:theorem Equation4305_implies_Equation4273 (G : Type*) [Magma G] (h : Equation4305 G) : Equation4273 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1110:theorem Equation4307_implies_Equation4275 (G : Type*) [Magma G] (h : Equation4307 G) : Equation4275 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1112:theorem Equation4316_implies_Equation4269 (G : Type*) [Magma G] (h : Equation4316 G) : Equation4269 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1114:theorem Equation4318_implies_Equation4270 (G : Type*) [Magma G] (h : Equation4318 G) : Equation4270 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1116:theorem Equation4325_implies_Equation4270 (G : Type*) [Magma G] (h : Equation4325 G) : Equation4270 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1118:theorem Equation4327_implies_Equation4272 (G : Type*) [Magma G] (h : Equation4327 G) : Equation4272 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1120:theorem Equation4330_implies_Equation4272 (G : Type*) [Magma G] (h : Equation4330 G) : Equation4272 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1122:theorem Equation4332_implies_Equation4273 (G : Type*) [Magma G] (h : Equation4332 G) : Equation4273 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1124:theorem Equation4339_implies_Equation4268 (G : Type*) [Magma G] (h : Equation4339 G) : Equation4268 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1126:theorem Equation4340_implies_Equation4269 (G : Type*) [Magma G] (h : Equation4340 G) : Equation4269 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1128:theorem Equation4341_implies_Equation4270 (G : Type*) [Magma G] (h : Equation4341 G) : Equation4270 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1130:theorem Equation4351_implies_Equation4272 (G : Type*) [Magma G] (h : Equation4351 G) : Equation4272 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1132:theorem Equation4358_implies_Equation4283 (G : Type*) [Magma G] (h : Equation4358 G) : Equation4283 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1134:theorem Equation4364_implies_Equation4283 (G : Type*) [Magma G] (h : Equation4364 G) : Equation4283 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1136:theorem Equation4369_implies_Equation4290 (G : Type*) [Magma G] (h : Equation4369 G) : Equation4290 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1138:theorem Equation4384_implies_Equation4381 (G : Type*) [Magma G] (h : Equation4384 G) : Equation4381 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1140:theorem Equation4390_implies_Equation4381 (G : Type*) [Magma G] (h : Equation4390 G) : Equation4381 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1142:theorem Equation4391_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4391 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1144:theorem Equation4392_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4392 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1146:theorem Equation4393_implies_Equation4383 (G : Type*) [Magma G] (h : Equation4393 G) : Equation4383 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1148:theorem Equation4397_implies_Equation4381 (G : Type*) [Magma G] (h : Equation4397 G) : Equation4381 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1150:theorem Equation4400_implies_Equation4381 (G : Type*) [Magma G] (h : Equation4400 G) : Equation4381 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1152:theorem Equation4401_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4401 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1154:theorem Equation4402_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4402 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1156:theorem Equation4403_implies_Equation4383 (G : Type*) [Magma G] (h : Equation4403 G) : Equation4383 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1158:theorem Equation4412_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4412 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1160:theorem Equation4413_implies_Equation4383 (G : Type*) [Magma G] (h : Equation4413 G) : Equation4383 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1162:theorem Equation4415_implies_Equation4385 (G : Type*) [Magma G] (h : Equation4415 G) : Equation4385 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1164:theorem Equation4416_implies_Equation4385 (G : Type*) [Magma G] (h : Equation4416 G) : Equation4385 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1166:theorem Equation4420_implies_Equation4385 (G : Type*) [Magma G] (h : Equation4420 G) : Equation4385 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1168:theorem Equation4421_implies_Equation4386 (G : Type*) [Magma G] (h : Equation4421 G) : Equation4386 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1170:theorem Equation4423_implies_Equation4388 (G : Type*) [Magma G] (h : Equation4423 G) : Equation4388 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1172:theorem Equation4424_implies_Equation4388 (G : Type*) [Magma G] (h : Equation4424 G) : Equation4388 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1174:theorem Equation4425_implies_Equation4389 (G : Type*) [Magma G] (h : Equation4425 G) : Equation4389 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1176:theorem Equation4434_implies_Equation4381 (G : Type*) [Magma G] (h : Equation4434 G) : Equation4381 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1178:theorem Equation4437_implies_Equation4381 (G : Type*) [Magma G] (h : Equation4437 G) : Equation4381 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1180:theorem Equation4438_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4438 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1182:theorem Equation4439_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4439 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1184:theorem Equation4440_implies_Equation4383 (G : Type*) [Magma G] (h : Equation4440 G) : Equation4383 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1186:theorem Equation4450_implies_Equation4383 (G : Type*) [Magma G] (h : Equation4450 G) : Equation4383 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1188:theorem Equation4452_implies_Equation4385 (G : Type*) [Magma G] (h : Equation4452 G) : Equation4385 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1190:theorem Equation4456_implies_Equation4385 (G : Type*) [Magma G] (h : Equation4456 G) : Equation4385 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1192:theorem Equation4458_implies_Equation4386 (G : Type*) [Magma G] (h : Equation4458 G) : Equation4386 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1194:theorem Equation4460_implies_Equation4388 (G : Type*) [Magma G] (h : Equation4460 G) : Equation4388 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1196:theorem Equation4461_implies_Equation4388 (G : Type*) [Magma G] (h : Equation4461 G) : Equation4388 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1198:theorem Equation4462_implies_Equation4389 (G : Type*) [Magma G] (h : Equation4462 G) : Equation4389 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1200:theorem Equation4471_implies_Equation4381 (G : Type*) [Magma G] (h : Equation4471 G) : Equation4381 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1202:theorem Equation4474_implies_Equation4381 (G : Type*) [Magma G] (h : Equation4474 G) : Equation4381 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1204:theorem Equation4475_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4475 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1206:theorem Equation4476_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4476 G) : Equation4382 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1208:theorem Equation4477_implies_Equation4383 (G : Type*) [Magma G] (h : Equation4477 G) : Equation4383 G := λ x y => h x x y
+equational_theories/Generated/SimpleRewrites/theorems/Rewrite_yx_zy.lean:1210:theorem Equation4486_implies_Equation4382 (G : Type*) [Magma G] (h : Equation4486 G) : Equation4382 G := λ x y => h x x y
+
+
+===== equalShape =====
+equational_theories/Definability/Law46.lean:11:theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}
+equational_theories/Definability/Law46.lean:76:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Law46.lean:80:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Law46.lean:84:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Law46.lean:88:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Law46.lean:92:  Equation46_termDefinableFrom_equalShape
+
+
+===== termDefinable =====
+equational_theories/Definability/Law46.lean:11:theorem Equation46_termDefinableFrom_equalShape {L : NatMagmaLaw}
+equational_theories/Definability/Law46.lean:41:    apply termDefinable_of_termStructural
+equational_theories/Definability/Law46.lean:75:theorem Equation46_termDefinableFrom_Equation40 : Law46.TermDefinableFrom Law40 :=
+equational_theories/Definability/Law46.lean:76:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Law46.lean:79:theorem Equation46_termDefinableFrom_Equation4276 : Law46.TermDefinableFrom Law4276 :=
+equational_theories/Definability/Law46.lean:80:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Law46.lean:83:theorem Equation46_termDefinableFrom_Equation4308 : Law46.TermDefinableFrom Law4308 :=
+equational_theories/Definability/Law46.lean:84:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Law46.lean:87:theorem Equation46_termDefinableFrom_Equation4336 : Law46.TermDefinableFrom Law4336 :=
+equational_theories/Definability/Law46.lean:88:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Law46.lean:91:theorem Equation46_termDefinableFrom_Equation4355 : Law46.TermDefinableFrom Law4355 :=
+equational_theories/Definability/Law46.lean:92:  Equation46_termDefinableFrom_equalShape
+equational_theories/Definability/Basic.lean:175:-- definable. termStructural is also stronger than termDefinable, which is stronger than definable.
+equational_theories/Definability/Basic.lean:199:theorem termDefinable_of_termStructural (h : L'.TermStructuralFrom L) : L'.TermDefinableFrom L := by
+equational_theories/Definability/Basic.lean:211:theorem definable_of_termDefinable (h : L'.TermDefinableFrom L) : L'.DefinableFrom L := by
+equational_theories/Definability/Basic.lean:302:  termDefinable_of_termStructural TermStructural.refl
+equational_theories/Definability/Simple.lean:36:theorem Equation1_termDefinableFrom_all (L : NatMagmaLaw) : Law1.TermDefinableFrom L := by
+equational_theories/Definability/Simple.lean:37:  refine termDefinable_of_termStructural (termStructural_of_implies fun _ ↦ ?_)
+equational_theories/Definability/Simple.lean:42:theorem all_termDefinableFrom_Equation2 (L : NatMagmaLaw) : L.TermDefinableFrom Law2 := by
+equational_theories/Definability/Simple.lean:43:  refine termDefinable_of_termStructural (termStructural_of_implies ?_)
+equational_theories/Definability/Simple.lean:47:theorem Equation4_termDefinableFrom_all (L : NatMagmaLaw) : Law4.TermDefinableFrom L := by
+equational_theories/Definability/Simple.lean:55:theorem Equation5_termDefinableFrom_all (L : NatMagmaLaw) : Law5.TermDefinableFrom L :=
+equational_theories/Definability/Simple.lean:56:  TermDefinable.trans (Equation4_termDefinableFrom_all L)
+equational_theories/Definability/Simple.lean:57:  <| termDefinable_of_termStructural (TermStructural_dual Law5)
+equational_theories/Definability/Simple.lean:60:theorem Equation4512_termDefinableFrom_all (L : NatMagmaLaw) : Law4512.TermDefinableFrom L :=
+equational_theories/Definability/Simple.lean:65:  TermDefinable.trans (Equation4_termDefinableFrom_all L)
+equational_theories/Definability/Simple.lean:66:  <| termDefinable_of_termStructural (termStructural_of_implies (this))
+equational_theories/Definability/Tarski543.lean:161:theorem Equation4512_termDefinableFrom_Equation43 : Law43.TermDefinableFrom Law543 := by
+equational_theories/Definability/Law43.lean:10:theorem Equation43_termDefinableFrom_swapped_args {L : NatMagmaLaw}
+equational_theories/Definability/Law43.lean:18:theorem Equation43_termDefinableFrom_Equation40 : Law43.TermDefinableFrom Law40 :=
+equational_theories/Definability/Law43.lean:19:  Equation43_termDefinableFrom_swapped_args
+equational_theories/Definability/Law43.lean:22:theorem Equation43_termDefinableFrom_Equation4343 : Law43.TermDefinableFrom Law4343 :=
+equational_theories/Definability/Law43.lean:23:  Equation43_termDefinableFrom_swapped_args
+equational_theories/Definability/Law43.lean:26:theorem Equation43_termDefinableFrom_Equation4293 : Law43.TermDefinableFrom Law4293 :=
+equational_theories/Definability/Law43.lean:27:  Equation43_termDefinableFrom_swapped_args
+equational_theories/Definability/Law43.lean:30:theorem Equation43_termDefinableFrom_Equation4321 : Law43.TermDefinableFrom Law4321 :=
+equational_theories/Definability/Law43.lean:31:  Equation43_termDefinableFrom_swapped_args
+
+
+===== termStructural =====
+equational_theories/Definability/Law46.lean:41:    apply termDefinable_of_termStructural
+equational_theories/Definability/Law46.lean:42:    apply termStructural_of_implies
+equational_theories/Definability/Basic.lean:174:-- "implies" is stronger than termStructural, which is stronger than structural, which is stronger than
+equational_theories/Definability/Basic.lean:175:-- definable. termStructural is also stronger than termDefinable, which is stronger than definable.
+equational_theories/Definability/Basic.lean:179:theorem termStructural_of_implies (h : L.implies L') : L'.TermStructuralFrom L := by
+equational_theories/Definability/Basic.lean:190:theorem structural_of_termStructural (h : L'.TermStructuralFrom L) : L'.StructuralFrom L := by
+equational_theories/Definability/Basic.lean:199:theorem termDefinable_of_termStructural (h : L'.TermStructuralFrom L) : L'.TermDefinableFrom L := by
+equational_theories/Definability/Basic.lean:298:  termStructural_of_implies L₁.implies_refl
+equational_theories/Definability/Basic.lean:302:  termDefinable_of_termStructural TermStructural.refl
+equational_theories/Definability/Basic.lean:306:  structural_of_termStructural TermStructural.refl
+equational_theories/Definability/Simple.lean:37:  refine termDefinable_of_termStructural (termStructural_of_implies fun _ ↦ ?_)
+equational_theories/Definability/Simple.lean:43:  refine termDefinable_of_termStructural (termStructural_of_implies ?_)
+equational_theories/Definability/Simple.lean:57:  <| termDefinable_of_termStructural (TermStructural_dual Law5)
+equational_theories/Definability/Simple.lean:66:  <| termDefinable_of_termStructural (termStructural_of_implies (this))
