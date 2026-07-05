@@ -1,0 +1,33 @@
+{
+  "artifact": "shape_logrel_obstruction_sorrydb_leaderboard_prep_v4_5_18",
+  "parked_target": {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Experimental/ShapeLogRelAdequacy.lean",
+    "theorem": "LR.adequacy",
+    "line": 154,
+    "case": "const"
+  },
+  "status": "PARKED_NAMED_OBSTRUCTION",
+  "obstruction_name": "ShapeLogRel const DefEq adequacy boundary",
+  "summary": "After closed constant substitution, the remaining goal is an LR.DefEq self-constant adequacy proof. Simple witnesses hmem, bot, refl, constructor, simp, and cases do not close it. LR.DefEq is not an inductive constructor target and has no refl/bot dotted constructors. The proof likely requires unfolding/using the semantic definition of LR.DefEq plus LE_Interp.Const fields.",
+  "useful_goal": "(LR Γ₀).DefEq (const c ls) (const c ls) (instL ls (mk ci.type)) m a",
+  "available_key_terms": [
+    "hA : LE_Interp ρ a.T (instL ls (mk ci.type))",
+    "hmem : m.HasType a",
+    "a3 : m.T ≤ m'",
+    "a6 : LE_Interp.Const c ls R [] m'",
+    "a5 : LE_Interp ρ a' (instL ls (mk ci.type))"
+  ],
+  "failed_attempt_classes": [
+    "exact hmem",
+    "LR.bot",
+    ".refl",
+    "Adequate.refl",
+    "constructor",
+    "simp",
+    "simp_all",
+    "cases a",
+    "cases m a"
+  ],
+  "next_portal_if_revisited": "Define or locate lemma: LE_Interp.Const + HasType + interpretation witness implies LR.DefEq const self at instantiated constant type."
+}
