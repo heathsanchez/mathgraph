@@ -1,0 +1,13 @@
+{
+  "artifact": "lean4lean_stratified_pr_publish_v4_5_10",
+  "repo": "digama0/lean4lean",
+  "branch": "sorrydb-fix-stratified-constdf",
+  "base_commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "patch_commit": "fddde29e12f8974b9c464a16819525dd4db3df7b",
+  "module_build_returncode": 0,
+  "full_build_returncode": 0,
+  "push_returncode": 128,
+  "pr_create_returncode": 127,
+  "pr_url_or_output": "",
+  "status": "BUILD_VERIFIED_PR_MANUAL_OR_PUSH_FAILED"
+}
