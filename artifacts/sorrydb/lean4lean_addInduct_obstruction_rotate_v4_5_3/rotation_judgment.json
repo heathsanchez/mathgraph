@@ -1,0 +1,139 @@
+{
+  "artifact": "lean4lean_addInduct_obstruction_rotate_v4_5_3",
+  "source_artifact": "multirepo_real_target_filter_v4_5_1",
+  "parked_target": {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Theory/Typing/InductiveLemmas.lean",
+    "theorem": "VEnv.addInduct_WF",
+    "status": "PARKED_DEPENDENCY_SORRY_TRAP",
+    "evidence_artifact": "lean4lean_addInduct_WF_patch001_v4_5_2",
+    "diagnostic": "unfold/simp produced henv' : sorry = some env', because addInduct depends on unfinished upstream definitions."
+  },
+  "input_candidate_count": 16,
+  "rotation_rejected_count": 5,
+  "remaining_candidate_count": 11,
+  "next_candidate": {
+    "repo": "leanprover-community/mathlib4",
+    "file": "Mathlib/Algebra/Order/CauSeq/Completion.lean",
+    "commit": "d3716e6d2ea114ae7d9f994e5ebf3c064d80c8a7",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 415,
+    "import_count": 0,
+    "imports": [],
+    "repo_penalty": 0.0,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": true,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 33,
+        "text": "def Cauchy :="
+      },
+      {
+        "line": 39,
+        "text": "def mk : CauSeq _ abv \u2192 Cauchy abv :="
+      },
+      {
+        "line": 43,
+        "text": "theorem mk_eq_mk (f : CauSeq _ abv) : @Eq (Cauchy abv) \u27e6f\u27e7 (mk f) :="
+      },
+      {
+        "line": 46,
+        "text": "theorem mk_eq {f g : CauSeq _ abv} : mk f = mk g \u2194 LimZero (f - g) :="
+      },
+      {
+        "line": 50,
+        "text": "def ofRat (x : \u03b2) : Cauchy abv :="
+      },
+      {
+        "line": 53,
+        "text": "instance : Zero (Cauchy abv) :="
+      },
+      {
+        "line": 56,
+        "text": "instance : One (Cauchy abv) :="
+      },
+      {
+        "line": 59,
+        "text": "instance : Inhabited (Cauchy abv) :="
+      },
+      {
+        "line": 62,
+        "text": "theorem ofRat_zero : (ofRat 0 : Cauchy abv) = 0 :="
+      },
+      {
+        "line": 65,
+        "text": "theorem ofRat_one : (ofRat 1 : Cauchy abv) = 1 :="
+      },
+      {
+        "line": 69,
+        "text": "theorem mk_eq_zero {f : CauSeq _ abv} : mk f = 0 \u2194 LimZero f := by"
+      },
+      {
+        "line": 73,
+        "text": "instance : Add (Cauchy abv) :="
+      },
+      {
+        "line": 77,
+        "text": "theorem mk_add (f g : CauSeq \u03b2 abv) : mk f + mk g = mk (f + g) :="
+      },
+      {
+        "line": 80,
+        "text": "instance : Neg (Cauchy abv) :="
+      },
+      {
+        "line": 84,
+        "text": "theorem mk_neg (f : CauSeq \u03b2 abv) : -mk f = mk (-f) :="
+      },
+      {
+        "line": 87,
+        "text": "instance : Mul (Cauchy abv) :="
+      },
+      {
+        "line": 91,
+        "text": "theorem mk_mul (f g : CauSeq \u03b2 abv) : mk f * mk g = mk (f * g) :="
+      },
+      {
+        "line": 94,
+        "text": "instance : Sub (Cauchy abv) :="
+      },
+      {
+        "line": 98,
+        "text": "theorem mk_sub (f g : CauSeq \u03b2 abv) : mk f - mk g = mk (f - g) :="
+      },
+      {
+        "line": 101,
+        "text": "instance {\u03b3 : Type*} [SMul \u03b3 \u03b2] [IsScalarTower \u03b3 \u03b2 \u03b2] : SMul \u03b3 (Cauchy abv) :="
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 261,
+        "window": "0249:   nnqsmul_def _ x := Quotient.inductionOn x fun _ \u21a6 congr_arg mk <| ext fun _ \u21a6 NNRat.smul_def _ _\n0250:   qsmul_def _ x := Quotient.inductionOn x fun _ \u21a6 congr_arg mk <| ext fun _ \u21a6 Rat.smul_def _ _\n0251: \n0252: /-- Show the first 10 items of a representative of this equivalence class of Cauchy sequences.\n0253: \n0254: The representative chosen is the one passed in the VM to `Quot.mk`, so two Cauchy sequences\n0255: converging to the same number may be printed differently.\n0256: -/\n0257: unsafe instance [Repr \u03b2] : Repr (Cauchy abv) where\n0258:   reprPrec r _ :=\n0259:     let N := 10\n0260:     let seq := r.unquot\n0261:     \"(sorry /- \" ++ Std.Format.joinSep ((List.range N).map <| repr \u2218 seq) \", \" ++ \", ... -/)\"\n0262: \n0263: end\n0264: \n0265: section\n0266: \n0267: variable {\u03b1 : Type*} [Field \u03b1] [LinearOrder \u03b1] [IsStrictOrderedRing \u03b1]\n0268: variable {\u03b2 : Type*} [Field \u03b2] {abv : \u03b2 \u2192 \u03b1} [IsAbsoluteValue abv]\n0269: \n0270: /-- The Cauchy completion forms a field. -/\n0271: noncomputable instance Cauchy.field : Field (Cauchy abv) :=\n0272:   { Cauchy.divisionRing, Cauchy.commRing with }\n0273: "
+      }
+    ],
+    "score": 13.75,
+    "real_target_score": -21.25
+  },
+  "status": "NEXT_TARGET_FOUND"
+}

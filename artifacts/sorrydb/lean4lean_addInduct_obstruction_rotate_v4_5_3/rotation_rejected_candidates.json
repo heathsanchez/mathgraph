@@ -1,0 +1,442 @@
+[
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Theory/Typing/InductiveLemmas.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 10,
+    "import_count": 3,
+    "imports": [
+      "import Std",
+      "import Lean4Lean.Theory.Typing.Lemmas",
+      "import Lean4Lean.Theory.Typing.Env"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 8,
+        "text": "theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 10,
+        "window": "0001: import Std\n0002: import Lean4Lean.Theory.Typing.Lemmas\n0003: import Lean4Lean.Theory.Typing.Env\n0004: \n0005: namespace Lean4Lean\n0006: namespace VEnv\n0007: \n0008: theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)\n0009:     (henv' : addInduct env decl = some env') : Ordered env' :=\n0010:   sorry"
+      }
+    ],
+    "score": -22.0,
+    "real_target_score": -62.0,
+    "rotation_reject_reason": "DEPENDENCY_SORRY_TRAP: target theorem depends on addInduct, but addInduct unfolds to upstream `sorry`; diagnostic showed henv' : sorry = some env'."
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Theory/Typing/UniqueTyping.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 279,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.Injectivity",
+      "import Lean4Lean.Theory.Typing.Pattern"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 13,
+        "text": "theorem IsDefEq.uniq (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 113,
+        "text": "theorem IsDefEq.uniqU (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 117,
+        "text": "theorem isDefEq_iff (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U)) :"
+      },
+      {
+        "line": 124,
+        "text": "theorem IsDefEq.trans_r (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 128,
+        "text": "theorem IsDefEq.trans_l (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 132,
+        "text": "theorem IsDefEq.transU_r (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 136,
+        "text": "theorem IsDefEq.transU_l (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 140,
+        "text": "theorem IsDefEqU.defeqDF (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 147,
+        "text": "theorem IsDefEqU.of_l (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 151,
+        "text": "theorem HasType.defeqU_l (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 155,
+        "text": "theorem IsType.defeqU_l (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 159,
+        "text": "theorem IsDefEqU.of_r (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 163,
+        "text": "theorem HasType.defeqU_r (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 167,
+        "text": "theorem IsDefEqU.trans (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 172,
+        "text": "theorem IsDefEqU.weakN_iff (W : Ctx.LiftN n k \u0393 \u0393') :"
+      },
+      {
+        "line": 177,
+        "text": "theorem _root_.Lean4Lean.VExpr.WF.weakN_iff (W : Ctx.LiftN n k \u0393 \u0393') :"
+      },
+      {
+        "line": 180,
+        "text": "theorem IsDefEq.skips (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393' (env.IsType U))"
+      },
+      {
+        "line": 190,
+        "text": "theorem IsDefEq.weakN_iff' (W : Ctx.LiftN n k \u0393 \u0393') :"
+      },
+      {
+        "line": 198,
+        "text": "theorem _root_.Lean4Lean.OnCtx.weakN_inv"
+      },
+      {
+        "line": 211,
+        "text": "theorem IsDefEq.weakN_iff (W : Ctx.LiftN n k \u0393 \u0393') :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 174,
+        "window": "0162: \n0163: theorem HasType.defeqU_r (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0164:     (h1 : env.IsDefEqU U \u0393 A\u2081 A\u2082) (h2 : env.HasType U \u0393 e A\u2081) :\n0165:     env.HasType U \u0393 e A\u2082 := h1.defeqDF henv h\u0393 h2\n0166: \n0167: theorem IsDefEqU.trans (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0168:     (h1 : env.IsDefEqU U \u0393 e\u2081 e\u2082) (h2 : env.IsDefEqU U \u0393 e\u2082 e\u2083) :\n0169:     env.IsDefEqU U \u0393 e\u2081 e\u2083 := h1.imp fun _ h1 => let \u27e8_, h2\u27e9 := h2; h1.trans_l henv h\u0393 h2\n0170: \n0171: variable! (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393' (env.IsType U)) in\n0172: theorem IsDefEqU.weakN_iff (W : Ctx.LiftN n k \u0393 \u0393') :\n0173:     env.IsDefEqU U \u0393' (e1.liftN n k) (e2.liftN n k) \u2194 env.IsDefEqU U \u0393 e1 e2 := by\n0174:   refine \u27e8fun h => have := henv; have := h\u0393; sorry, fun h => h.weakN henv W\u27e9\n0175: \n0176: variable! (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393' (env.IsType U)) in\n0177: theorem _root_.Lean4Lean.VExpr.WF.weakN_iff (W : Ctx.LiftN n k \u0393 \u0393') :\n0178:     VExpr.WF env U \u0393' (e.liftN n k) \u2194 VExpr.WF env U \u0393 e := IsDefEqU.weakN_iff henv h\u0393 W\n0179: \n0180: theorem IsDefEq.skips (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393' (env.IsType U))\n0181:     (W : Ctx.LiftN n k \u0393 \u0393')\n0182:     (H : env.IsDefEq U \u0393' e\u2081 e\u2082 A) (h1 : e\u2081.Skips n k) (h2 : e\u2082.Skips n k) :\n0183:     \u2203 B, env.IsDefEq U \u0393' e\u2081 e\u2082 B \u2227 B.Skips n k := by\n0184:   obtain \u27e8e\u2081, rfl\u27e9 := VExpr.skips_iff_exists.1 h1\n0185:   obtain \u27e8e\u2082, rfl\u27e9 := VExpr.skips_iff_exists.1 h2\n0186:   have \u27e8_, H\u27e9 := (IsDefEqU.weakN_iff henv h\u0393 W).1 \u27e8_, H\u27e9"
+      }
+    ],
+    "score": 17.45,
+    "real_target_score": -17.55,
+    "rotation_reject_reason": "LEAN4LEAN_CORE_THEORY_DEPENDENCY_RISK"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Theory/Typing/Injectivity.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 3,
+    "active_sorry_count": 3,
+    "line_count": 34,
+    "import_count": 2,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.EnvLemmas",
+      "import Lean4Lean.Theory.Typing.Strong"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 11,
+        "text": "theorem IsDefEqU.sort_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 14,
+        "text": "theorem IsDefEqU.forallE_inv_stratified (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 23,
+        "text": "theorem IsDefEqU.forallE_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))"
+      },
+      {
+        "line": 33,
+        "text": "theorem IsDefEqU.sort_forallE_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U)) :"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 12,
+        "window": "0001: import Lean4Lean.Theory.Typing.EnvLemmas\n0002: import Lean4Lean.Theory.Typing.Strong\n0003: \n0004: /-!\n0005: A bunch of important structural theorems which we can't prove :(\n0006: -/\n0007: \n0008: namespace Lean4Lean\n0009: namespace VEnv\n0010: \n0011: theorem IsDefEqU.sort_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0012:     (h1 : env.IsDefEqU U \u0393 (.sort u) (.sort v)) : u \u2248 v := sorry\n0013: \n0014: theorem IsDefEqU.forallE_inv_stratified (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0015:     (h1 : env.IsDefEqU U \u0393 (.forallE A B) (.forallE A' B'))\n0016:     (h2 : env.HasTypeStratified U \u0393 (.forallE A B) V true n)\n0017:     (h3 : env.HasTypeStratified U \u0393 (.forallE A' B') V' true n') :\n0018:     (\u2203 u, env.IsDefEq U \u0393 A A' (.sort u) \u2227 env.HasTypeStratified U \u0393 A (.sort u) true n) \u2227\n0019:     \u2203 u, env.IsDefEq U (A::\u0393) B B' (.sort u) \u2227\n0020:       env.HasTypeStratified U (A::\u0393) B (.sort u) true n \u2227\n0021:       env.HasTypeStratified U (A'::\u0393) B' (.sort u) true n' := sorry\n0022: \n0023: theorem IsDefEqU.forallE_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0024:     (h1 : env.IsDefEqU U \u0393 (.forallE A B) (.forallE A' B')) :"
+      },
+      {
+        "line": 21,
+        "window": "0009: namespace VEnv\n0010: \n0011: theorem IsDefEqU.sort_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0012:     (h1 : env.IsDefEqU U \u0393 (.sort u) (.sort v)) : u \u2248 v := sorry\n0013: \n0014: theorem IsDefEqU.forallE_inv_stratified (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0015:     (h1 : env.IsDefEqU U \u0393 (.forallE A B) (.forallE A' B'))\n0016:     (h2 : env.HasTypeStratified U \u0393 (.forallE A B) V true n)\n0017:     (h3 : env.HasTypeStratified U \u0393 (.forallE A' B') V' true n') :\n0018:     (\u2203 u, env.IsDefEq U \u0393 A A' (.sort u) \u2227 env.HasTypeStratified U \u0393 A (.sort u) true n) \u2227\n0019:     \u2203 u, env.IsDefEq U (A::\u0393) B B' (.sort u) \u2227\n0020:       env.HasTypeStratified U (A::\u0393) B (.sort u) true n \u2227\n0021:       env.HasTypeStratified U (A'::\u0393) B' (.sort u) true n' := sorry\n0022: \n0023: theorem IsDefEqU.forallE_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0024:     (h1 : env.IsDefEqU U \u0393 (.forallE A B) (.forallE A' B')) :\n0025:     (\u2203 u, env.IsDefEq U \u0393 A A' (.sort u)) \u2227 \u2203 u, env.IsDefEq U (A::\u0393) B B' (.sort u) :=\n0026:   let \u27e8_, eq\u27e9 := h1\n0027:   let \u27e8h2, h3\u27e9 := (eq.strong henv h\u0393).hasType'\n0028:   let \u27e8_, h2\u27e9 := h2.stratify\n0029:   let \u27e8_, h3\u27e9 := h3.stratify\n0030:   let \u27e8\u27e8_, a1, _\u27e9, _, a2, _\u27e9 := IsDefEqU.forallE_inv_stratified henv h\u0393 h1 h2 h3\n0031:   \u27e8\u27e8_, a1\u27e9, _, a2\u27e9\n0032: \n0033: theorem IsDefEqU.sort_forallE_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U)) :"
+      },
+      {
+        "line": 34,
+        "window": "0022: \n0023: theorem IsDefEqU.forallE_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U))\n0024:     (h1 : env.IsDefEqU U \u0393 (.forallE A B) (.forallE A' B')) :\n0025:     (\u2203 u, env.IsDefEq U \u0393 A A' (.sort u)) \u2227 \u2203 u, env.IsDefEq U (A::\u0393) B B' (.sort u) :=\n0026:   let \u27e8_, eq\u27e9 := h1\n0027:   let \u27e8h2, h3\u27e9 := (eq.strong henv h\u0393).hasType'\n0028:   let \u27e8_, h2\u27e9 := h2.stratify\n0029:   let \u27e8_, h3\u27e9 := h3.stratify\n0030:   let \u27e8\u27e8_, a1, _\u27e9, _, a2, _\u27e9 := IsDefEqU.forallE_inv_stratified henv h\u0393 h1 h2 h3\n0031:   \u27e8\u27e8_, a1\u27e9, _, a2\u27e9\n0032: \n0033: theorem IsDefEqU.sort_forallE_inv (henv : VEnv.WF env) (h\u0393 : OnCtx \u0393 (env.IsType U)) :\n0034:     \u00acenv.IsDefEqU U \u0393 (.sort u) (.forallE A B) := sorry"
+      }
+    ],
+    "score": 26.2,
+    "real_target_score": -3.8,
+    "rotation_reject_reason": "LEAN4LEAN_CORE_THEORY_DEPENDENCY_RISK"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Theory/Inductive.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 2,
+    "line_count": 7,
+    "import_count": 1,
+    "imports": [
+      "import Lean4Lean.Theory.VDecl"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 5,
+        "text": "def VInductDecl.WF (env : VEnv) (decl : VInductDecl) : Prop := sorry"
+      },
+      {
+        "line": 7,
+        "text": "def VEnv.addInduct (env : VEnv) (decl : VInductDecl) : Option VEnv := sorry"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 5,
+        "window": "0001: import Lean4Lean.Theory.VDecl\n0002: \n0003: namespace Lean4Lean\n0004: \n0005: def VInductDecl.WF (env : VEnv) (decl : VInductDecl) : Prop := sorry\n0006: \n0007: def VEnv.addInduct (env : VEnv) (decl : VInductDecl) : Option VEnv := sorry"
+      },
+      {
+        "line": 7,
+        "window": "0001: import Lean4Lean.Theory.VDecl\n0002: \n0003: namespace Lean4Lean\n0004: \n0005: def VInductDecl.WF (env : VEnv) (decl : VInductDecl) : Prop := sorry\n0006: \n0007: def VEnv.addInduct (env : VEnv) (decl : VInductDecl) : Option VEnv := sorry"
+      }
+    ],
+    "score": 10.85,
+    "real_target_score": 0.85,
+    "rotation_reject_reason": "LEAN4LEAN_CORE_THEORY_DEPENDENCY_RISK"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Theory/Typing/ChurchRosser.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 2,
+    "active_sorry_count": 2,
+    "line_count": 1384,
+    "import_count": 3,
+    "imports": [
+      "import Lean4Lean.Theory.Typing.Pattern",
+      "import Lean4Lean.Theory.Typing.Strong",
+      "import Lean4Lean.Theory.Typing.UniqueTyping"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 32,
+        "text": "theorem Params.pat_not_var : \u00acPat (.var p) r := (nomatch pat_simple \u00b7)"
+      },
+      {
+        "line": 38,
+        "text": "theorem _root_.Lean4Lean.Pattern.Check.OK.weakN (W : Ctx.LiftN n k \u0393 \u0393') {p : Pattern}"
+      },
+      {
+        "line": 45,
+        "text": "theorem _root_.Lean4Lean.Pattern.Check.OK.instN (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393) (H\u2080 : \u0393\u2080 \u22a2 e\u2080 : A\u2080)"
+      },
+      {
+        "line": 54,
+        "text": "theorem IsDefEq.apply_pat"
+      },
+      {
+        "line": 65,
+        "text": "theorem _root_.Lean4Lean.Pattern.Matches.hasType {p : Pattern} {e : VExpr} {m1 m2}"
+      },
+      {
+        "line": 115,
+        "text": "theorem NormalEq.defeq (H : \u0393 \u22a2 e1 \u2261\u209a e2) : \u0393 \u22a2 e1 \u2261 e2 := by"
+      },
+      {
+        "line": 142,
+        "text": "theorem NormalEq.symm (H : \u0393 \u22a2 e1 \u2261\u209a e2) : \u0393 \u22a2 e2 \u2261\u209a e1 := by"
+      },
+      {
+        "line": 162,
+        "text": "theorem NormalEq.weakN (W : Ctx.LiftN n k \u0393 \u0393') (H : \u0393 \u22a2 e1 \u2261\u209a e2) :"
+      },
+      {
+        "line": 187,
+        "text": "theorem NormalEq.instN (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393) (H : \u0393\u2081 \u22a2 e1 \u2261\u209a e2) :"
+      },
+      {
+        "line": 208,
+        "text": "theorem NormalEq.instN_r (W : Ctx.InstN \u0393\u2080 e\u2080 A\u2080 k \u0393\u2081 \u0393) (H : \u0393\u2081 \u22a2 e : A) :"
+      },
+      {
+        "line": 246,
+        "text": "theorem NormalEq.defeqDFC (W : IsDefEqCtx env univs \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+      },
+      {
+        "line": 271,
+        "text": "theorem NormalEq.defeq_l (W : \u0393 \u22a2 A \u2261 A' : sort u) (H : A::\u0393 \u22a2 e1 \u2261\u209a e2) :"
+      },
+      {
+        "line": 275,
+        "text": "theorem NormalEq.weakN_inv_DFC (W : Ctx.LiftN n k \u0393 \u0393\u2082) (W\u2082 : IsDefEqCtx env univs \u0393\u2080 \u0393\u2081 \u0393\u2082)"
+      },
+      {
+        "line": 380,
+        "text": "theorem NormalEq.weakN_iff (W : Ctx.LiftN n k \u0393 \u0393') :"
+      },
+      {
+        "line": 395,
+        "text": "theorem NormalEq.trans (h\u0393 : OnCtx \u0393 (IsType env univs)) :"
+      },
+      {
+        "line": 452,
+        "text": "theorem NormalEq.apply_pat"
+      },
+      {
+        "line": 479,
+        "text": "def NonNeutral (\u0393 : List VExpr) (e : VExpr) : Prop :="
+      },
+      {
+        "line": 502,
+        "text": "theorem ParRed.weakN (W : Ctx.LiftN n k \u0393 \u0393') (H : \u0393 \u22a2 e1 \u226b e2) :"
+      },
+      {
+        "line": 518,
+        "text": "theorem ParRed.instN (W : Ctx.InstN \u0393\u2080 a1 A\u2080 k \u0393\u2081 \u0393)"
+      },
+      {
+        "line": 544,
+        "text": "theorem ParRed.defeq (H : \u0393 \u22a2 e \u226b e') (he : \u0393 \u22a2 e : A) : \u0393 \u22a2 e \u2261 e' : A := by"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 1188,
+        "window": "1176: theorem NormalEq.parRed (H1 : \u0393 \u22a2 e\u2081 \u2261\u209a e\u2082) (H2 : \u0393 \u22a2 e\u2082 \u226b e\u2082') :\n1177:     \u2203 e\u2081', \u0393 \u22a2 e\u2081 \u226b* e\u2081' \u2227 \u0393 \u22a2 e\u2081' \u2261\u209a e\u2082' := by\n1178:   induction H1 generalizing e\u2082' with\n1179:   | refl l1 => exact \u27e8_, .tail .rfl H2, .refl (H2.hasType h\u0393 l1)\u27e9\n1180:   | sortDF l1 l2 l3 =>\n1181:     cases H2 with\n1182:     | sort => exact \u27e8_, .tail .rfl .sort, .sortDF l1 l2 l3\u27e9\n1183:     | extra r1 r2 => cases r2\n1184:   | constDF l1 l2 l3 l4 l5 =>\n1185:     cases H2 with\n1186:     | const => exact \u27e8_, .tail .rfl .const, .constDF l1 l2 l3 l4 l5\u27e9\n1187:     | extra r1 r2 r3 r4 =>\n1188:       sorry\n1189:   | @appDF \u0393 f A B f\u2082 a b l1 l2 l3 l4 l5 l6 ih1 ih2 =>\n1190:     cases H2 with\n1191:     | app r1 r2 =>\n1192:       let \u27e8_, a1, a2\u27e9 := ih1 h\u0393 r1\n1193:       let \u27e8_, b1, b2\u27e9 := ih2 h\u0393 r2\n1194:       exact \u27e8_, .app a1 b1,\n1195:         .appDF (a1.hasType h\u0393 l1) (r1.hasType h\u0393 l2) (b1.hasType h\u0393 l3) (r2.hasType h\u0393 l4) a2 b2\u27e9\n1196:     | @beta A _ e e' _ b' r1 r2 =>\n1197:       let \u27e8f', a1, a2\u27e9 := ih1 h\u0393 (.lam .rfl r1)\n1198:       let \u27e8a', b1, b2\u27e9 := ih2 h\u0393 r2\n1199:       let \u27e8\u27e8_, d1\u27e9, _, d2\u27e9 := l2.lam_inv henv h\u0393\n1200:       let \u27e8\u27e8_, u1\u27e9, _, u2\u27e9 := ((d1.lam d2).uniqU henv h\u0393 l2).forallE_inv henv h\u0393"
+      },
+      {
+        "line": 1207,
+        "window": "1195:         .appDF (a1.hasType h\u0393 l1) (r1.hasType h\u0393 l2) (b1.hasType h\u0393 l3) (r2.hasType h\u0393 l4) a2 b2\u27e9\n1196:     | @beta A _ e e' _ b' r1 r2 =>\n1197:       let \u27e8f', a1, a2\u27e9 := ih1 h\u0393 (.lam .rfl r1)\n1198:       let \u27e8a', b1, b2\u27e9 := ih2 h\u0393 r2\n1199:       let \u27e8\u27e8_, d1\u27e9, _, d2\u27e9 := l2.lam_inv henv h\u0393\n1200:       let \u27e8\u27e8_, u1\u27e9, _, u2\u27e9 := ((d1.lam d2).uniqU henv h\u0393 l2).forallE_inv henv h\u0393\n1201:       refine have h\u0393' := (by exact \u27e8h\u0393, _, d1\u27e9); have d2 := r1.hasType h\u0393' (u2.defeq d2); ?_\n1202:       replace l3 := b1.hasType h\u0393 (u1.symm.defeq l3)\n1203:       let \u27e8_, h1, h2\u27e9 := ParRedExt.parRed_beta h\u0393 a2\n1204:         (.app (.defeqU_l henv h\u0393 (a2.defeq h\u0393).symm (d1.lam d2)) l3)\n1205:       exact \u27e8_, .trans (a1.app b1) h1, h2.trans h\u0393 (.instN_r h\u0393' l3 b2 .zero d2)\u27e9\n1206:     | extra r1 r2 r3 r4 =>\n1207:       sorry\n1208:   | lamDF l1 l2 l3 ih1 =>\n1209:     cases H2 with\n1210:     | lam r1 r2 =>\n1211:       refine have h\u0393' := (by exact \u27e8h\u0393, _, l1.hasType.1\u27e9); have \u27e8_, h1\u27e9 := l3.defeq h\u0393'; ?_\n1212:       have h2 := h1.hasType.1.defeqU_l henv h\u0393' (l3.defeq h\u0393')\n1213:       replace r2 := r2.defeqDFC h\u0393 (.succ .zero l2.symm) <| .defeqDFC henv (.succ .zero l2) h2\n1214:       let \u27e8_, b1, b2\u27e9 := ih1 h\u0393' r2\n1215:       exact \u27e8_, .lam .rfl (b1.defeqDFC h\u0393 (.succ .zero l1) h1.hasType.1),\n1216:         .lamDF l1 (.trans l2 (r1.defeq h\u0393 (.defeqU_l henv h\u0393 \u27e8_, l2\u27e9 l1.hasType.1))) b2\u27e9\n1217:     | extra _ r2 => cases r2\n1218:   | forallEDF l1 l2 l3 l4 ih1 ih2 =>\n1219:     cases H2 with"
+      }
+    ],
+    "score": 111.7,
+    "real_target_score": 86.7,
+    "rotation_reject_reason": "LEAN4LEAN_CORE_THEORY_DEPENDENCY_RISK"
+  }
+]
