@@ -1,0 +1,397 @@
+====================================================================================================
+{
+  "variant": "v01_by_simpa_using_he",
+  "file_build_returncode": 1,
+  "file_build_seconds": 3.86,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v02_by_simpa",
+  "file_build_returncode": 1,
+  "file_build_seconds": 4.46,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v03_by_exact_comment_lemma",
+  "file_build_returncode": 1,
+  "file_build_seconds": 5.75,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v04_by_simpa_comment_lemma",
+  "file_build_returncode": 1,
+  "file_build_seconds": 4.22,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v05_by_exact_edgeFinset_card",
+  "file_build_returncode": 1,
+  "file_build_seconds": 4.97,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v06_by_have_comment_lemma",
+  "file_build_returncode": 1,
+  "file_build_seconds": 2.88,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v07_by_convert_comment_lemma",
+  "file_build_returncode": 1,
+  "file_build_seconds": 2.34,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v08_by_aesop",
+  "file_build_returncode": 1,
+  "file_build_seconds": 2.19,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v09_by_simp_all",
+  "file_build_returncode": 1,
+  "file_build_seconds": 2.26,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+====================================================================================================
+{
+  "variant": "v10_by_trace",
+  "file_build_returncode": 1,
+  "file_build_seconds": 2.37,
+  "file_has_error": true,
+  "target_has_sorry_warning": false,
+  "module_build_returncode": null,
+  "module_build_seconds": null
+}
+--- stdout tail ---
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+--- stderr tail ---
+
+
+SUMMARY
+{
+  "artifact": "official_formalbook_ch28_edgecard_patch002_v4_6_6",
+  "source": "official SorryDB 1000 evaluation split",
+  "sorrydb_id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3",
+  "repo": "https://github.com/mo271/FormalBook",
+  "commit": "865934361ca7005e0a874efb39f5809117052e85",
+  "file": "FormalBook/Chapter_28.lean",
+  "line": 64,
+  "goal": "e ∈ G.edgeFinset ⊢ {v | v ∈ e}.card = 2",
+  "accepted": false,
+  "accepted_variant": null,
+  "status": "PATCH002_REJECTED_OR_DIAGNOSTIC",
+  "results": [
+    {
+      "variant": "v01_by_simpa_using_he",
+      "file_build_returncode": 1,
+      "file_build_seconds": 3.86,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v02_by_simpa",
+      "file_build_returncode": 1,
+      "file_build_seconds": 4.46,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v03_by_exact_comment_lemma",
+      "file_build_returncode": 1,
+      "file_build_seconds": 5.75,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v04_by_simpa_comment_lemma",
+      "file_build_returncode": 1,
+      "file_build_seconds": 4.22,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v05_by_exact_edgeFinset_card",
+      "file_build_returncode": 1,
+      "file_build_seconds": 4.97,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v06_by_have_comment_lemma",
+      "file_build_returncode": 1,
+      "file_build_seconds": 2.88,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v07_by_convert_comment_lemma",
+      "file_build_returncode": 1,
+      "file_build_seconds": 2.34,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v08_by_aesop",
+      "file_build_returncode": 1,
+      "file_build_seconds": 2.19,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v09_by_simp_all",
+      "file_build_returncode": 1,
+      "file_build_seconds": 2.26,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    },
+    {
+      "variant": "v10_by_trace",
+      "file_build_returncode": 1,
+      "file_build_seconds": 2.37,
+      "file_has_error": true,
+      "target_has_sorry_warning": false,
+      "module_build_returncode": null,
+      "module_build_seconds": null
+    }
+  ]
+}

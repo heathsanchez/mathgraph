@@ -1,0 +1,16 @@
+FormalBook/Chapter_28.lean:6:0: error: unknown module prefix 'FormalBook'
+
+No directory 'FormalBook' or file 'FormalBook.olean' in the search path entries:
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Cli/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/batteries/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/Qq/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/aesop/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/proofwidgets/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/importGraph/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/LeanSearchClient/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/plausible/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/mathlib/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/packages/checkdecls/.lake/build/lib/lean
+/private/tmp/sorrydb_formalbook_v4_6_6/.lake/build/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/lib/lean
