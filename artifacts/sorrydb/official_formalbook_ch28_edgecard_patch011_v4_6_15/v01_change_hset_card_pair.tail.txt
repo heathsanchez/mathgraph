@@ -1,0 +1,3 @@
+✔ [3074/3075] Built FormalBook.Mathlib.EdgeFinset (7.0s)
+✔ [3075/3075] Built FormalBook.Chapter_28 (42s)
+Build completed successfully (3075 jobs).

@@ -1,0 +1,20 @@
+{
+  "artifact": "official_formalbook_ch28_edgecard_patch011_v4_6_15",
+  "repo": "https://github.com/mo271/FormalBook",
+  "commit": "865934361ca7005e0a874efb39f5809117052e85",
+  "file": "FormalBook/Chapter_28.lean",
+  "module": "FormalBook.Chapter_28",
+  "sorrydb_id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3",
+  "accepted": true,
+  "accepted_variant": "v01_change_hset_card_pair",
+  "status": "PATCH011_ACCEPTED",
+  "results": [
+    {
+      "variant": "v01_change_hset_card_pair",
+      "returncode": 0,
+      "seconds": 54.55,
+      "has_error": false,
+      "has_sorry": false
+    }
+  ]
+}
