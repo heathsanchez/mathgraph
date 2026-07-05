@@ -1,0 +1,44 @@
+{
+  "artifact": "sorrydb_campaign_closeout_v4_4_78",
+  "status": "CAMPAIGN_CLOSED_ON_PINNED_COMMIT",
+  "target_repo": "teorth/equational_theories",
+  "target_commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "summary": "The SorryDB repair campaign on the pinned equational_theories commit produced one upstream-ready solved target, one named obstruction, and then exhausted remaining active non-comment sorry targets.",
+  "solved_targets": [
+    {
+      "file": "equational_theories/Definability/Law43.lean",
+      "theorem": "Equation43_termDefinableFrom_swapped_args",
+      "status": "SOLVED",
+      "local_artifact": "patch022_final_clean_v4_4_56",
+      "upstream_pr": "https://github.com/teorth/equational_theories/pull/1461"
+    }
+  ],
+  "parked_targets": [
+    {
+      "file": "equational_theories/Definability/Law46.lean",
+      "theorem": "Equation46_termDefinableFrom_equalShape",
+      "status": "NAMED_OBSTRUCTION",
+      "obstruction_artifact": "law46_named_obstruction_v4_4_75",
+      "accepted_local_repairs": [
+        "Patch002 rhs-is-leaf",
+        "Patch005 hxy : x != y",
+        "Patch006 L = Lf x ≃ Lf y"
+      ],
+      "obstruction": "semantic implication / dependent canonicalization boundary around satisfiesPhi, MagmaLaw.toFin, and Law2 transport"
+    }
+  ],
+  "active_sorry_scout": {
+    "artifact": "active_sorry_scout_v4_4_77",
+    "excluded": [
+      "equational_theories/Definability/Law43.lean",
+      "equational_theories/Definability/Law46.lean"
+    ],
+    "active_candidate_count": 0,
+    "comment_only_false_positives": 1
+  },
+  "next_recommended_actions": [
+    "Stop local SorryDB patching on this pinned commit.",
+    "Either monitor upstream for new sorries, or switch to a new verifier campaign.",
+    "Return to Law46 only after building a reusable semantic lemma for leaf-law satisfaction or a transport lemma for MagmaLaw.toFin."
+  ]
+}
