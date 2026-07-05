@@ -1,0 +1,10 @@
+{
+  "artifact": "lean4lean_stratified_pr_package_v4_5_8",
+  "repo": "digama0/lean4lean",
+  "base_commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+  "patch_commit": "90b7b513f4836d132378e614ff6a6ab65f41171b",
+  "file": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+  "module_build_returncode": ,
+  "full_build_returncode": ,
+  "status": "PR_PACKAGE_FAILED"
+}
