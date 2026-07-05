@@ -1,0 +1,14 @@
+{
+  "artifact": "law46_patch001_leaf_rhs_v4_4_61",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law46.lean",
+  "target_sorry": "first leaf-case rhs-is-leaf proof",
+  "cache_get_returncode": 0,
+  "build_returncode": 1,
+  "seconds": 113.98,
+  "build_completed": false,
+  "has_error": true,
+  "has_warning": false,
+  "remaining_sorry_warning": false
+}

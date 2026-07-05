@@ -1,0 +1,31 @@
+✔ [971/989] Built equational_theories.Magma (275ms)
+✔ [972/989] Built equational_theories.Homomorphisms (5.4s)
+✔ [973/989] Built equational_theories.ForMathlib.Definability (7.0s)
+✔ [974/989] Built equational_theories.FreeMagma (1.7s)
+✔ [975/989] Built equational_theories.MagmaLaw (2.8s)
+✔ [976/989] Built equational_theories.Preorder (1.7s)
+✔ [977/989] Built equational_theories.EquationLawConversion (1.6s)
+✔ [978/989] Built equational_theories.ParseImplications (1.7s)
+✔ [979/989] Built equational_theories.Equations.Command (1.9s)
+✔ [980/989] Built equational_theories.Definability.Basic (7.3s)
+✔ [981/989] Built equational_theories.Equations.Basic (11s)
+✔ [982/989] Built equational_theories.EquationalResult (12s)
+✔ [983/989] Built equational_theories.Equations.Eqns4000_4694 (15s)
+✔ [984/989] Built equational_theories.Equations.Eqns1_999 (16s)
+✔ [985/989] Built equational_theories.Equations.Eqns1000_1999 (16s)
+✔ [986/989] Built equational_theories.Equations.Eqns2000_2999 (17s)
+✔ [987/989] Built equational_theories.Equations.Eqns3000_3999 (17s)
+✔ [988/989] Built equational_theories.Equations.All (4.8s)
+✖ [989/989] Building equational_theories.Definability.Law46 (2.3s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch001_v4_4_61/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch001_v4_4_61/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:22:20: Application type mismatch: The argument
+  hrhs
+has type
+  L.rhs = Lf y
+but is expected to have type
+  Lf y = Lf y
+in the application
+  Exists.intro y hrhs
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
