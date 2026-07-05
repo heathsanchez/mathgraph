@@ -1,0 +1,11 @@
+⚠ [989/989] Built equational_theories.Definability.Law46 (1.7s)
+info: equational_theories/Definability/Law46.lean:45:4: case h.h
+L : NatMagmaLaw
+x y : ℕ
+hxy : x ≠ y
+G : Type
+M : Magma G
+hG : G ⊧ Lf x ≃ Lf y
+⊢ G ⊧ Law46
+warning: equational_theories/Definability/Law46.lean:11:8: declaration uses `sorry`
+Build completed successfully (989 jobs).

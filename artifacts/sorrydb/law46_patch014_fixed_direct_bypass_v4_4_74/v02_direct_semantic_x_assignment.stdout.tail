@@ -1,0 +1,17 @@
+✖ [989/989] Building equational_theories.Definability.Law46 (3.0s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch014_v4_4_74/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch014_v4_4_74/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:49:6: Type mismatch: After simplification, term
+  hh
+ has type
+  satisfiesPhi (fun n ↦ if n = x then a else c) (Lf x ≃ Lf y)
+but is expected to have type
+  a = c
+error: equational_theories/Definability/Law46.lean:52:6: Type mismatch: After simplification, term
+  hh
+ has type
+  satisfiesPhi (fun n ↦ if n = x then b else d) (Lf x ≃ Lf y)
+but is expected to have type
+  b = d
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46

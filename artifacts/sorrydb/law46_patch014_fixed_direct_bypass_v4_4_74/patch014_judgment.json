@@ -1,0 +1,60 @@
+{
+  "artifact": "law46_patch014_fixed_direct_bypass_v4_4_74",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law46.lean",
+  "patch002_carried_forward": true,
+  "patch005_carried_forward": true,
+  "patch006_carried_forward": true,
+  "accepted_variant": null,
+  "accepted": false,
+  "status": "PATCH014_REJECTED_OR_DIAGNOSTIC_ONLY",
+  "named_obstruction_if_rejected": "Law46 leaf/leaf branch accepts local syntactic repairs, but the proof route bottlenecks at the semantic implication / MagmaLaw.toFin / Law2 canonicalization interface rather than simple term rewriting.",
+  "results": [
+    {
+      "variant": "v01_trace_goal_after_unfold_diagnostic",
+      "returncode": 0,
+      "seconds": 47.56,
+      "diagnostic": true,
+      "has_error": false,
+      "has_sorry_warning": false,
+      "accepted_leaf_bypass": false
+    },
+    {
+      "variant": "v02_direct_semantic_x_assignment",
+      "returncode": 1,
+      "seconds": 4.71,
+      "diagnostic": false,
+      "has_error": true,
+      "has_sorry_warning": false,
+      "accepted_leaf_bypass": false
+    },
+    {
+      "variant": "v03_direct_semantic_two_var_assignment",
+      "returncode": 1,
+      "seconds": 2.61,
+      "diagnostic": false,
+      "has_error": true,
+      "has_sorry_warning": false,
+      "accepted_leaf_bypass": false
+    },
+    {
+      "variant": "v04_after_intro_diagnostic",
+      "returncode": 0,
+      "seconds": 2.99,
+      "diagnostic": true,
+      "has_error": false,
+      "has_sorry_warning": false,
+      "accepted_leaf_bypass": false
+    },
+    {
+      "variant": "v05_after_law46_models_diagnostic",
+      "returncode": 0,
+      "seconds": 2.61,
+      "diagnostic": true,
+      "has_error": false,
+      "has_sorry_warning": false,
+      "accepted_leaf_bypass": false
+    }
+  ]
+}

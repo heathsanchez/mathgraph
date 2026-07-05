@@ -1,0 +1,16 @@
+    apply termDefinable_of_termStructural
+    apply termStructural_of_implies
+    have : (Lf x ≃ Lf y).toFin.toNat = Law2 := by
+      -- have h₁ : (Lf x ≃ Lf y : NatMagmaLaw).elems.1 = [x,y] := by
+      --   sorry
+      -- have h₂ : Fin ((Lf x ≃ Lf y : NatMagmaLaw).elems).1.length = Fin 2 := by
+      --   rw [h₁]
+      --   simp
+      -- simp [toFin, h₁]
+      -- simp_rw [h₁]
+      sorry
+    unfold implies
+    simp_rw [← satisfies_toFin (E := Lf x ≃ Lf y)
+            , ← satisfies_toNat (E := (Lf x ≃ Lf y).toFin),
+            this]
+    exact Equation2_implies Law46

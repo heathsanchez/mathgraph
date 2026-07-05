@@ -1,0 +1,26 @@
+✔ [971/989] Built equational_theories.Magma (320ms)
+✔ [972/989] Built equational_theories.Homomorphisms (6.7s)
+✔ [973/989] Built equational_theories.ForMathlib.Definability (8.4s)
+✔ [974/989] Built equational_theories.FreeMagma (5.1s)
+✔ [975/989] Built equational_theories.MagmaLaw (2.9s)
+✔ [976/989] Built equational_theories.EquationLawConversion (5.7s)
+✔ [977/989] Built equational_theories.Preorder (5.7s)
+✔ [978/989] Built equational_theories.Definability.Basic (4.9s)
+✔ [979/989] Built equational_theories.ParseImplications (4.0s)
+✔ [980/989] Built equational_theories.Equations.Command (5.1s)
+✔ [981/989] Built equational_theories.Equations.Basic (8.1s)
+✔ [982/989] Built equational_theories.EquationalResult (9.1s)
+✔ [983/989] Built equational_theories.Equations.Eqns4000_4694 (12s)
+✔ [984/989] Built equational_theories.Equations.Eqns1000_1999 (13s)
+✔ [985/989] Built equational_theories.Equations.Eqns3000_3999 (13s)
+✔ [986/989] Built equational_theories.Equations.Eqns1_999 (13s)
+✔ [987/989] Built equational_theories.Equations.Eqns2000_2999 (13s)
+✔ [988/989] Built equational_theories.Equations.All (4.3s)
+⚠ [989/989] Built equational_theories.Definability.Law46 (2.4s)
+info: equational_theories/Definability/Law46.lean:44:4: case h.h
+L : NatMagmaLaw
+x y : ℕ
+hxy : x ≠ y
+⊢ ∀ ⦃G : Type⦄ [inst : Magma G], G ⊧ Lf x ≃ Lf y → G ⊧ Law46
+warning: equational_theories/Definability/Law46.lean:11:8: declaration uses `sorry`
+Build completed successfully (989 jobs).
