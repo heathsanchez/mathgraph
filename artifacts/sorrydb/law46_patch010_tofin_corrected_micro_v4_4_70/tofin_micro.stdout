@@ -1,0 +1,925 @@
+Law.MagmaLaw.toNat.{u_1} {α : Type u_1} [DecidableEq.{u_1 + 1} α] (m : Law.MagmaLaw.{u_1} α) : Law.MagmaLaw.{0} Nat
+Law2 : Law.NatMagmaLaw
+@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+  Law2 : Law.MagmaLaw.{0}
+  (Fin
+    (@List.length.{0} Nat
+      (@Subtype.val.{1} (List.{0} Nat)
+        (fun (l : List.{0} Nat) =>
+          And (@List.Nodup.{0} Nat l)
+            (∀ (a : Nat),
+              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+@Law.MagmaLaw.toFin.{0}
+  (Fin
+    (@List.length.{0} Nat
+      (@Subtype.val.{1} (List.{0} Nat)
+        (fun (l : List.{0} Nat) =>
+          And (@List.Nodup.{0} Nat l)
+            (∀ (a : Nat),
+              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+  (instDecidableEqFin
+    (@List.length.{0} Nat
+      (@Subtype.val.{1} (List.{0} Nat)
+        (fun (l : List.{0} Nat) =>
+          And (@List.Nodup.{0} Nat l)
+            (∀ (a : Nat),
+              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+  (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+    Law2) : Law.MagmaLaw.{0}
+  (Fin
+    (@List.length.{0}
+      (Fin
+        (@List.length.{0} Nat
+          (@Subtype.val.{1} (List.{0} Nat)
+            (fun (l : List.{0} Nat) =>
+              And (@List.Nodup.{0} Nat l)
+                (∀ (a : Nat),
+                  Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                    (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+            (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+      (@Subtype.val.{1}
+        (List.{0}
+          (Fin
+            (@List.length.{0} Nat
+              (@Subtype.val.{1} (List.{0} Nat)
+                (fun (l : List.{0} Nat) =>
+                  And (@List.Nodup.{0} Nat l)
+                    (∀ (a : Nat),
+                      Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                        (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2)))))
+        (fun
+            (l :
+              List.{0}
+                (Fin
+                  (@List.length.{0} Nat
+                    (@Subtype.val.{1} (List.{0} Nat)
+                      (fun (l : List.{0} Nat) =>
+                        And (@List.Nodup.{0} Nat l)
+                          (∀ (a : Nat),
+                            Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                              (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                      (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))) =>
+          And
+            (@List.Nodup.{0}
+              (Fin
+                (@List.length.{0} Nat
+                  (@Subtype.val.{1} (List.{0} Nat)
+                    (fun (l : List.{0} Nat) =>
+                      And (@List.Nodup.{0} Nat l)
+                        (∀ (a : Nat),
+                          Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                            (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                    (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+              l)
+            (∀
+              (a :
+                Fin
+                  (@List.length.{0} Nat
+                    (@Subtype.val.{1} (List.{0} Nat)
+                      (fun (l : List.{0} Nat) =>
+                        And (@List.Nodup.{0} Nat l)
+                          (∀ (a : Nat),
+                            Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                              (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                      (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2)))),
+              Iff
+                (@Membership.mem.{0, 0}
+                  (Fin
+                    (@List.length.{0} Nat
+                      (@Subtype.val.{1} (List.{0} Nat)
+                        (fun (l : List.{0} Nat) =>
+                          And (@List.Nodup.{0} Nat l)
+                            (∀ (a : Nat),
+                              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+                  (List.{0}
+                    (Fin
+                      (@List.length.{0} Nat
+                        (@Subtype.val.{1} (List.{0} Nat)
+                          (fun (l : List.{0} Nat) =>
+                            And (@List.Nodup.{0} Nat l)
+                              (∀ (a : Nat),
+                                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                  (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2)))))
+                  (@List.instMembership.{0}
+                    (Fin
+                      (@List.length.{0} Nat
+                        (@Subtype.val.{1} (List.{0} Nat)
+                          (fun (l : List.{0} Nat) =>
+                            And (@List.Nodup.{0} Nat l)
+                              (∀ (a : Nat),
+                                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                  (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2)))))
+                  l a)
+                (@Law.MagmaLaw.Mem.{0}
+                  (Fin
+                    (@List.length.{0} Nat
+                      (@Subtype.val.{1} (List.{0} Nat)
+                        (fun (l : List.{0} Nat) =>
+                          And (@List.Nodup.{0} Nat l)
+                            (∀ (a : Nat),
+                              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+                  a (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat Law2))))
+        (@Law.MagmaLaw.elems.{0}
+          (Fin
+            (@List.length.{0} Nat
+              (@Subtype.val.{1} (List.{0} Nat)
+                (fun (l : List.{0} Nat) =>
+                  And (@List.Nodup.{0} Nat l)
+                    (∀ (a : Nat),
+                      Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                        (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+          (instDecidableEqFin
+            (@List.length.{0} Nat
+              (@Subtype.val.{1} (List.{0} Nat)
+                (fun (l : List.{0} Nat) =>
+                  And (@List.Nodup.{0} Nat l)
+                    (∀ (a : Nat),
+                      Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                        (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+                (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+          (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat Law2)))))
+@Law.MagmaLaw.mk.{0} Nat (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+  (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) : Law.MagmaLaw.{0} Nat
+@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+  (@Law.MagmaLaw.mk.{0} Nat (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+    (@FreeMagma.Leaf.{0} Nat
+      (@OfNat.ofNat.{0} Nat (nat_lit 1)
+        (instOfNatNat
+          (nat_lit
+            1))))) : Law.MagmaLaw.{0}
+  (Fin
+    (@List.length.{0} Nat
+      (@Subtype.val.{1} (List.{0} Nat)
+        (fun (l : List.{0} Nat) =>
+          And (@List.Nodup.{0} Nat l)
+            (∀ (a : Nat),
+              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                (@Law.MagmaLaw.Mem.{0} Nat a
+                  (@Law.MagmaLaw.mk.{0} Nat
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+          (@Law.MagmaLaw.mk.{0} Nat
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+@Law.MagmaLaw.toFin.{0}
+  (Fin
+    (@List.length.{0} Nat
+      (@Subtype.val.{1} (List.{0} Nat)
+        (fun (l : List.{0} Nat) =>
+          And (@List.Nodup.{0} Nat l)
+            (∀ (a : Nat),
+              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                (@Law.MagmaLaw.Mem.{0} Nat a
+                  (@Law.MagmaLaw.mk.{0} Nat
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+          (@Law.MagmaLaw.mk.{0} Nat
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+  (instDecidableEqFin
+    (@List.length.{0} Nat
+      (@Subtype.val.{1} (List.{0} Nat)
+        (fun (l : List.{0} Nat) =>
+          And (@List.Nodup.{0} Nat l)
+            (∀ (a : Nat),
+              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                (@Law.MagmaLaw.Mem.{0} Nat a
+                  (@Law.MagmaLaw.mk.{0} Nat
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+          (@Law.MagmaLaw.mk.{0} Nat
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+  (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+    (@Law.MagmaLaw.mk.{0} Nat (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+      (@FreeMagma.Leaf.{0} Nat
+        (@OfNat.ofNat.{0} Nat (nat_lit 1)
+          (instOfNatNat
+            (nat_lit
+              1)))))) : Law.MagmaLaw.{0}
+  (Fin
+    (@List.length.{0}
+      (Fin
+        (@List.length.{0} Nat
+          (@Subtype.val.{1} (List.{0} Nat)
+            (fun (l : List.{0} Nat) =>
+              And (@List.Nodup.{0} Nat l)
+                (∀ (a : Nat),
+                  Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                    (@Law.MagmaLaw.Mem.{0} Nat a
+                      (@Law.MagmaLaw.mk.{0} Nat
+                        (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                        (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+            (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+              (@Law.MagmaLaw.mk.{0} Nat
+                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+      (@Subtype.val.{1}
+        (List.{0}
+          (Fin
+            (@List.length.{0} Nat
+              (@Subtype.val.{1} (List.{0} Nat)
+                (fun (l : List.{0} Nat) =>
+                  And (@List.Nodup.{0} Nat l)
+                    (∀ (a : Nat),
+                      Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                        (@Law.MagmaLaw.Mem.{0} Nat a
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                  (@Law.MagmaLaw.mk.{0} Nat
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))))
+        (fun
+            (l :
+              List.{0}
+                (Fin
+                  (@List.length.{0} Nat
+                    (@Subtype.val.{1} (List.{0} Nat)
+                      (fun (l : List.{0} Nat) =>
+                        And (@List.Nodup.{0} Nat l)
+                          (∀ (a : Nat),
+                            Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                              (@Law.MagmaLaw.Mem.{0} Nat a
+                                (@Law.MagmaLaw.mk.{0} Nat
+                                  (@FreeMagma.Leaf.{0} Nat
+                                    (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                  (@FreeMagma.Leaf.{0} Nat
+                                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                      (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                        (@Law.MagmaLaw.mk.{0} Nat
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                          (@FreeMagma.Leaf.{0} Nat
+                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))) =>
+          And
+            (@List.Nodup.{0}
+              (Fin
+                (@List.length.{0} Nat
+                  (@Subtype.val.{1} (List.{0} Nat)
+                    (fun (l : List.{0} Nat) =>
+                      And (@List.Nodup.{0} Nat l)
+                        (∀ (a : Nat),
+                          Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                            (@Law.MagmaLaw.Mem.{0} Nat a
+                              (@Law.MagmaLaw.mk.{0} Nat
+                                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                (@FreeMagma.Leaf.{0} Nat
+                                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                    (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                      (@Law.MagmaLaw.mk.{0} Nat
+                        (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                        (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+              l)
+            (∀
+              (a :
+                Fin
+                  (@List.length.{0} Nat
+                    (@Subtype.val.{1} (List.{0} Nat)
+                      (fun (l : List.{0} Nat) =>
+                        And (@List.Nodup.{0} Nat l)
+                          (∀ (a : Nat),
+                            Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                              (@Law.MagmaLaw.Mem.{0} Nat a
+                                (@Law.MagmaLaw.mk.{0} Nat
+                                  (@FreeMagma.Leaf.{0} Nat
+                                    (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                  (@FreeMagma.Leaf.{0} Nat
+                                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                      (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                        (@Law.MagmaLaw.mk.{0} Nat
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))),
+              Iff
+                (@Membership.mem.{0, 0}
+                  (Fin
+                    (@List.length.{0} Nat
+                      (@Subtype.val.{1} (List.{0} Nat)
+                        (fun (l : List.{0} Nat) =>
+                          And (@List.Nodup.{0} Nat l)
+                            (∀ (a : Nat),
+                              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                (@Law.MagmaLaw.Mem.{0} Nat a
+                                  (@Law.MagmaLaw.mk.{0} Nat
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+                  (List.{0}
+                    (Fin
+                      (@List.length.{0} Nat
+                        (@Subtype.val.{1} (List.{0} Nat)
+                          (fun (l : List.{0} Nat) =>
+                            And (@List.Nodup.{0} Nat l)
+                              (∀ (a : Nat),
+                                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                  (@Law.MagmaLaw.Mem.{0} Nat a
+                                    (@Law.MagmaLaw.mk.{0} Nat
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))))
+                  (@List.instMembership.{0}
+                    (Fin
+                      (@List.length.{0} Nat
+                        (@Subtype.val.{1} (List.{0} Nat)
+                          (fun (l : List.{0} Nat) =>
+                            And (@List.Nodup.{0} Nat l)
+                              (∀ (a : Nat),
+                                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                  (@Law.MagmaLaw.Mem.{0} Nat a
+                                    (@Law.MagmaLaw.mk.{0} Nat
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))))
+                  l a)
+                (@Law.MagmaLaw.Mem.{0}
+                  (Fin
+                    (@List.length.{0} Nat
+                      (@Subtype.val.{1} (List.{0} Nat)
+                        (fun (l : List.{0} Nat) =>
+                          And (@List.Nodup.{0} Nat l)
+                            (∀ (a : Nat),
+                              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                (@Law.MagmaLaw.Mem.{0} Nat a
+                                  (@Law.MagmaLaw.mk.{0} Nat
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+                  a
+                  (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+                    (@Law.MagmaLaw.mk.{0} Nat
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+        (@Law.MagmaLaw.elems.{0}
+          (Fin
+            (@List.length.{0} Nat
+              (@Subtype.val.{1} (List.{0} Nat)
+                (fun (l : List.{0} Nat) =>
+                  And (@List.Nodup.{0} Nat l)
+                    (∀ (a : Nat),
+                      Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                        (@Law.MagmaLaw.Mem.{0} Nat a
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                  (@Law.MagmaLaw.mk.{0} Nat
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+          (instDecidableEqFin
+            (@List.length.{0} Nat
+              (@Subtype.val.{1} (List.{0} Nat)
+                (fun (l : List.{0} Nat) =>
+                  And (@List.Nodup.{0} Nat l)
+                    (∀ (a : Nat),
+                      Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                        (@Law.MagmaLaw.Mem.{0} Nat a
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                  (@Law.MagmaLaw.mk.{0} Nat
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+          (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+            (@Law.MagmaLaw.mk.{0} Nat
+              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))))
+@Law.MagmaLaw.toNat.{0}
+  (Fin
+    (@List.length.{0} Nat
+      (@Subtype.val.{1} (List.{0} Nat)
+        (fun (l : List.{0} Nat) =>
+          And (@List.Nodup.{0} Nat l)
+            (∀ (a : Nat),
+              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                (@Law.MagmaLaw.Mem.{0} Nat a
+                  (@Law.MagmaLaw.mk.{0} Nat
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+          (@Law.MagmaLaw.mk.{0} Nat
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+  (instDecidableEqFin
+    (@List.length.{0} Nat
+      (@Subtype.val.{1} (List.{0} Nat)
+        (fun (l : List.{0} Nat) =>
+          And (@List.Nodup.{0} Nat l)
+            (∀ (a : Nat),
+              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                (@Law.MagmaLaw.Mem.{0} Nat a
+                  (@Law.MagmaLaw.mk.{0} Nat
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                    (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+          (@Law.MagmaLaw.mk.{0} Nat
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+  (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+    (@Law.MagmaLaw.mk.{0} Nat (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))) : Law.MagmaLaw.{0} Nat
+@Law.MagmaLaw.mk.{0} Nat (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+  (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+@Law.MagmaLaw.mk.{0} Nat (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+  (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+Law46ToFinRecon.lean:27:52: error: Type mismatch
+  @Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat Law2
+has type
+  Law.MagmaLaw.{0}
+    (Fin
+      (@List.length.{0} Nat
+        (@Subtype.val.{1} (List.{0} Nat)
+          (fun (l : List.{0} Nat) =>
+            And (@List.Nodup.{0} Nat l)
+              (∀ (a : Nat),
+                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                  (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+but is expected to have type
+  Law.MagmaLaw.{0}
+    (Fin
+      (@List.length.{0}
+        (Fin
+          (@List.length.{0} Nat
+            (@Subtype.val.{1} (List.{0} Nat)
+              (fun (l : List.{0} Nat) =>
+                And (@List.Nodup.{0} Nat l)
+                  (∀ (a : Nat),
+                    Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                      (@Law.MagmaLaw.Mem.{0} Nat a
+                        (@Law.MagmaLaw.mk.{0} Nat
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+              (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                (@Law.MagmaLaw.mk.{0} Nat
+                  (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                  (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+        (@Subtype.val.{1}
+          (List.{0}
+            (Fin
+              (@List.length.{0} Nat
+                (@Subtype.val.{1} (List.{0} Nat)
+                  (fun (l : List.{0} Nat) =>
+                    And (@List.Nodup.{0} Nat l)
+                      (∀ (a : Nat),
+                        Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                          (@Law.MagmaLaw.Mem.{0} Nat a
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                  (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                    (@Law.MagmaLaw.mk.{0} Nat
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))))
+          (fun
+              (l :
+                List.{0}
+                  (Fin
+                    (@List.length.{0} Nat
+                      (@Subtype.val.{1} (List.{0} Nat)
+                        (fun (l : List.{0} Nat) =>
+                          And (@List.Nodup.{0} Nat l)
+                            (∀ (a : Nat),
+                              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                (@Law.MagmaLaw.Mem.{0} Nat a
+                                  (@Law.MagmaLaw.mk.{0} Nat
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                            (@FreeMagma.Leaf.{0} Nat
+                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))) =>
+            And
+              (@List.Nodup.{0}
+                (Fin
+                  (@List.length.{0} Nat
+                    (@Subtype.val.{1} (List.{0} Nat)
+                      (fun (l : List.{0} Nat) =>
+                        And (@List.Nodup.{0} Nat l)
+                          (∀ (a : Nat),
+                            Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                              (@Law.MagmaLaw.Mem.{0} Nat a
+                                (@Law.MagmaLaw.mk.{0} Nat
+                                  (@FreeMagma.Leaf.{0} Nat
+                                    (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                  (@FreeMagma.Leaf.{0} Nat
+                                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                      (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                        (@Law.MagmaLaw.mk.{0} Nat
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+                l)
+              (∀
+                (a :
+                  Fin
+                    (@List.length.{0} Nat
+                      (@Subtype.val.{1} (List.{0} Nat)
+                        (fun (l : List.{0} Nat) =>
+                          And (@List.Nodup.{0} Nat l)
+                            (∀ (a : Nat),
+                              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                (@Law.MagmaLaw.Mem.{0} Nat a
+                                  (@Law.MagmaLaw.mk.{0} Nat
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                            (@FreeMagma.Leaf.{0} Nat
+                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))),
+                Iff
+                  (@Membership.mem.{0, 0}
+                    (Fin
+                      (@List.length.{0} Nat
+                        (@Subtype.val.{1} (List.{0} Nat)
+                          (fun (l : List.{0} Nat) =>
+                            And (@List.Nodup.{0} Nat l)
+                              (∀ (a : Nat),
+                                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                  (@Law.MagmaLaw.Mem.{0} Nat a
+                                    (@Law.MagmaLaw.mk.{0} Nat
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+                    (List.{0}
+                      (Fin
+                        (@List.length.{0} Nat
+                          (@Subtype.val.{1} (List.{0} Nat)
+                            (fun (l : List.{0} Nat) =>
+                              And (@List.Nodup.{0} Nat l)
+                                (∀ (a : Nat),
+                                  Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                    (@Law.MagmaLaw.Mem.{0} Nat a
+                                      (@Law.MagmaLaw.mk.{0} Nat
+                                        (@FreeMagma.Leaf.{0} Nat
+                                          (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                        (@FreeMagma.Leaf.{0} Nat
+                                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                            (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                              (@Law.MagmaLaw.mk.{0} Nat
+                                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                (@FreeMagma.Leaf.{0} Nat
+                                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))))
+                    (@List.instMembership.{0}
+                      (Fin
+                        (@List.length.{0} Nat
+                          (@Subtype.val.{1} (List.{0} Nat)
+                            (fun (l : List.{0} Nat) =>
+                              And (@List.Nodup.{0} Nat l)
+                                (∀ (a : Nat),
+                                  Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                    (@Law.MagmaLaw.Mem.{0} Nat a
+                                      (@Law.MagmaLaw.mk.{0} Nat
+                                        (@FreeMagma.Leaf.{0} Nat
+                                          (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                        (@FreeMagma.Leaf.{0} Nat
+                                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                            (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                              (@Law.MagmaLaw.mk.{0} Nat
+                                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                (@FreeMagma.Leaf.{0} Nat
+                                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))))
+                    l a)
+                  (@Law.MagmaLaw.Mem.{0}
+                    (Fin
+                      (@List.length.{0} Nat
+                        (@Subtype.val.{1} (List.{0} Nat)
+                          (fun (l : List.{0} Nat) =>
+                            And (@List.Nodup.{0} Nat l)
+                              (∀ (a : Nat),
+                                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                  (@Law.MagmaLaw.Mem.{0} Nat a
+                                    (@Law.MagmaLaw.mk.{0} Nat
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+                    a
+                    (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+                      (@Law.MagmaLaw.mk.{0} Nat
+                        (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                        (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+          (@Law.MagmaLaw.elems.{0}
+            (Fin
+              (@List.length.{0} Nat
+                (@Subtype.val.{1} (List.{0} Nat)
+                  (fun (l : List.{0} Nat) =>
+                    And (@List.Nodup.{0} Nat l)
+                      (∀ (a : Nat),
+                        Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                          (@Law.MagmaLaw.Mem.{0} Nat a
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                  (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                    (@Law.MagmaLaw.mk.{0} Nat
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+            (instDecidableEqFin
+              (@List.length.{0} Nat
+                (@Subtype.val.{1} (List.{0} Nat)
+                  (fun (l : List.{0} Nat) =>
+                    And (@List.Nodup.{0} Nat l)
+                      (∀ (a : Nat),
+                        Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                          (@Law.MagmaLaw.Mem.{0} Nat a
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))
+                  (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                    (@Law.MagmaLaw.mk.{0} Nat
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))))))
+            (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+              (@Law.MagmaLaw.mk.{0} Nat
+                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))))))))
+Law46ToFinRecon.lean:30:52: error: Type mismatch
+  @Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat Law2
+has type
+  Law.MagmaLaw.{0}
+    (Fin
+      (@List.length.{0} Nat
+        (@Subtype.val.{1} (List.{0} Nat)
+          (fun (l : List.{0} Nat) =>
+            And (@List.Nodup.{0} Nat l)
+              (∀ (a : Nat),
+                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                  (@Law.MagmaLaw.Mem.{0} Nat a Law2)))
+          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat Law2))))
+but is expected to have type
+  Law.MagmaLaw.{0}
+    (Fin
+      (@List.length.{0}
+        (Fin
+          (@List.length.{0} Nat
+            (@Subtype.val.{1} (List.{0} Nat)
+              (fun (l : List.{0} Nat) =>
+                And (@List.Nodup.{0} Nat l)
+                  (∀ (a : Nat),
+                    Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                      (@Law.MagmaLaw.Mem.{0} Nat a
+                        (@Law.MagmaLaw.mk.{0} Nat
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+              (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                (@Law.MagmaLaw.mk.{0} Nat
+                  (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                  (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))))
+        (@Subtype.val.{1}
+          (List.{0}
+            (Fin
+              (@List.length.{0} Nat
+                (@Subtype.val.{1} (List.{0} Nat)
+                  (fun (l : List.{0} Nat) =>
+                    And (@List.Nodup.{0} Nat l)
+                      (∀ (a : Nat),
+                        Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                          (@Law.MagmaLaw.Mem.{0} Nat a
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                  (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                    (@Law.MagmaLaw.mk.{0} Nat
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))))
+          (fun
+              (l :
+                List.{0}
+                  (Fin
+                    (@List.length.{0} Nat
+                      (@Subtype.val.{1} (List.{0} Nat)
+                        (fun (l : List.{0} Nat) =>
+                          And (@List.Nodup.{0} Nat l)
+                            (∀ (a : Nat),
+                              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                (@Law.MagmaLaw.Mem.{0} Nat a
+                                  (@Law.MagmaLaw.mk.{0} Nat
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                            (@FreeMagma.Leaf.{0} Nat
+                              (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))))) =>
+            And
+              (@List.Nodup.{0}
+                (Fin
+                  (@List.length.{0} Nat
+                    (@Subtype.val.{1} (List.{0} Nat)
+                      (fun (l : List.{0} Nat) =>
+                        And (@List.Nodup.{0} Nat l)
+                          (∀ (a : Nat),
+                            Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                              (@Law.MagmaLaw.Mem.{0} Nat a
+                                (@Law.MagmaLaw.mk.{0} Nat
+                                  (@FreeMagma.Leaf.{0} Nat
+                                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                  (@FreeMagma.Leaf.{0} Nat
+                                    (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                      (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                        (@Law.MagmaLaw.mk.{0} Nat
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                          (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))))
+                l)
+              (∀
+                (a :
+                  Fin
+                    (@List.length.{0} Nat
+                      (@Subtype.val.{1} (List.{0} Nat)
+                        (fun (l : List.{0} Nat) =>
+                          And (@List.Nodup.{0} Nat l)
+                            (∀ (a : Nat),
+                              Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                (@Law.MagmaLaw.Mem.{0} Nat a
+                                  (@Law.MagmaLaw.mk.{0} Nat
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                    (@FreeMagma.Leaf.{0} Nat
+                                      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                        (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                          (@Law.MagmaLaw.mk.{0} Nat
+                            (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                            (@FreeMagma.Leaf.{0} Nat
+                              (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))),
+                Iff
+                  (@Membership.mem.{0, 0}
+                    (Fin
+                      (@List.length.{0} Nat
+                        (@Subtype.val.{1} (List.{0} Nat)
+                          (fun (l : List.{0} Nat) =>
+                            And (@List.Nodup.{0} Nat l)
+                              (∀ (a : Nat),
+                                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                  (@Law.MagmaLaw.Mem.{0} Nat a
+                                    (@Law.MagmaLaw.mk.{0} Nat
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))))
+                    (List.{0}
+                      (Fin
+                        (@List.length.{0} Nat
+                          (@Subtype.val.{1} (List.{0} Nat)
+                            (fun (l : List.{0} Nat) =>
+                              And (@List.Nodup.{0} Nat l)
+                                (∀ (a : Nat),
+                                  Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                    (@Law.MagmaLaw.Mem.{0} Nat a
+                                      (@Law.MagmaLaw.mk.{0} Nat
+                                        (@FreeMagma.Leaf.{0} Nat
+                                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                        (@FreeMagma.Leaf.{0} Nat
+                                          (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                            (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                              (@Law.MagmaLaw.mk.{0} Nat
+                                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                (@FreeMagma.Leaf.{0} Nat
+                                  (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))))
+                    (@List.instMembership.{0}
+                      (Fin
+                        (@List.length.{0} Nat
+                          (@Subtype.val.{1} (List.{0} Nat)
+                            (fun (l : List.{0} Nat) =>
+                              And (@List.Nodup.{0} Nat l)
+                                (∀ (a : Nat),
+                                  Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                    (@Law.MagmaLaw.Mem.{0} Nat a
+                                      (@Law.MagmaLaw.mk.{0} Nat
+                                        (@FreeMagma.Leaf.{0} Nat
+                                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                        (@FreeMagma.Leaf.{0} Nat
+                                          (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                            (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                              (@Law.MagmaLaw.mk.{0} Nat
+                                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                (@FreeMagma.Leaf.{0} Nat
+                                  (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))))
+                    l a)
+                  (@Law.MagmaLaw.Mem.{0}
+                    (Fin
+                      (@List.length.{0} Nat
+                        (@Subtype.val.{1} (List.{0} Nat)
+                          (fun (l : List.{0} Nat) =>
+                            And (@List.Nodup.{0} Nat l)
+                              (∀ (a : Nat),
+                                Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                                  (@Law.MagmaLaw.Mem.{0} Nat a
+                                    (@Law.MagmaLaw.mk.{0} Nat
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                                      (@FreeMagma.Leaf.{0} Nat
+                                        (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                          (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))))
+                    a
+                    (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+                      (@Law.MagmaLaw.mk.{0} Nat
+                        (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                        (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))))
+          (@Law.MagmaLaw.elems.{0}
+            (Fin
+              (@List.length.{0} Nat
+                (@Subtype.val.{1} (List.{0} Nat)
+                  (fun (l : List.{0} Nat) =>
+                    And (@List.Nodup.{0} Nat l)
+                      (∀ (a : Nat),
+                        Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                          (@Law.MagmaLaw.Mem.{0} Nat a
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                  (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                    (@Law.MagmaLaw.mk.{0} Nat
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))))
+            (instDecidableEqFin
+              (@List.length.{0} Nat
+                (@Subtype.val.{1} (List.{0} Nat)
+                  (fun (l : List.{0} Nat) =>
+                    And (@List.Nodup.{0} Nat l)
+                      (∀ (a : Nat),
+                        Iff (@Membership.mem.{0, 0} Nat (List.{0} Nat) (@List.instMembership.{0} Nat) l a)
+                          (@Law.MagmaLaw.Mem.{0} Nat a
+                            (@Law.MagmaLaw.mk.{0} Nat
+                              (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                              (@FreeMagma.Leaf.{0} Nat
+                                (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))
+                  (@Law.MagmaLaw.elems.{0} Nat instDecidableEqNat
+                    (@Law.MagmaLaw.mk.{0} Nat
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                      (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))))
+            (@Law.MagmaLaw.toFin.{0} Nat instDecidableEqNat
+              (@Law.MagmaLaw.mk.{0} Nat
+                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+                (@FreeMagma.Leaf.{0} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))))))

@@ -1,0 +1,19 @@
+✖ [989/989] Building equational_theories.Definability.Law46 (1.4s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.1/bin/lean --tstack=262144 /private/tmp/sorrydb_law46_patch010_v4_4_70/equational_theories/Definability/Law46.lean -o /private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/build/lib/lean/equational_theories/Definability/Law46.olean -i /private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/build/lib/lean/equational_theories/Definability/Law46.ilean -c /private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/build/ir/equational_theories/Definability/Law46.c --setup /private/tmp/sorrydb_law46_patch010_v4_4_70/.lake/build/ir/equational_theories/Definability/Law46.setup.json --json
+error: equational_theories/Definability/Law46.lean:44:60: Type mismatch
+  toFin Law2
+has type
+  MagmaLaw (Fin (↑(elems Law2)).length)
+but is expected to have type
+  MagmaLaw (Fin (↑(Lf x ≃ Lf y).toFin.elems).length)
+error: equational_theories/Definability/Law46.lean:47:13: Invalid argument: Variable `hfin` is not a proposition or let-declaration
+error: equational_theories/Definability/Law46.lean:47:6: Tactic `assumption` failed
+
+L : NatMagmaLaw
+x y : ℕ
+hxy : x ≠ y
+hfin : sorry
+⊢ map (fun x_1 ↦ ↑x_1) (Lf x ≃ Lf y).toFin.toFin = Law2
+error: Lean exited with code 1
+Some required targets logged failures:
+- equational_theories.Definability.Law46
