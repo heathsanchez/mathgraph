@@ -1,0 +1,1263 @@
+{
+  "artifact": "official_sorrydb_dataset_scout_v4_6_1",
+  "split_path": "/tmp/mathgraph_official_sorrydb_v4_6_1/data/SorryDB_2601/SorryDB_2601_1000_evaluation_split.json",
+  "full_path": "/tmp/mathgraph_official_sorrydb_v4_6_1/data/SorryDB_2601/SorryDB_2601.json",
+  "split_count": 1000,
+  "full_count": 5663,
+  "schema_keys": [
+    "debug_info",
+    "debug_info.goal",
+    "debug_info.url",
+    "id",
+    "location",
+    "location.end_column",
+    "location.end_line",
+    "location.path",
+    "location.start_column",
+    "location.start_line",
+    "metadata",
+    "metadata.blame_date",
+    "metadata.blame_email_hash",
+    "metadata.inclusion_date",
+    "repo",
+    "repo.branch",
+    "repo.commit",
+    "repo.lean_version",
+    "repo.remote"
+  ],
+  "repo_count": 107,
+  "top_repos": [
+    [
+      "{\"branch\": \"main\", \"commit\": \"26963c3700b2b6cc66e605e0826977f9a4a0be94\", \"lean_version\": \"v4.23.0-rc2\", \"remote\": \"https://github.com/AlexKontorovich/RealAnalysisGame\"}",
+      21
+    ],
+    [
+      "{\"branch\": \"solutions\", \"commit\": \"0c3d7da4c6d640d8c91d2d645837ee0458647e91\", \"lean_version\": \"v4.24.0-rc1\", \"remote\": \"https://github.com/rkirov/category-theory-in-context-lean\"}",
+      21
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"7c74089c2442ee211abfa1e2dd5a75091800f57b\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/FormalizedFormalLogic/Foundation\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"cd0f32f5b07311e08a9e89733a1375f54eb790c0\", \"lean_version\": \"v4.24.0\", \"remote\": \"https://github.com/fpvandoorn/LeanCourse25\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"38ee6e4afd371b18d831ae09244fcd223a1bc535\", \"lean_version\": \"v4.22.0\", \"remote\": \"https://github.com/PatrickMassot/GlimpseOfLean\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"c36471055817ef5332e27b4f99654257f45c68d1\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/Paul-Lez/PersistentDecomp\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"type-inference\", \"commit\": \"3285ca701a33477bbd2a3ac954584439d80db747\", \"lean_version\": \"v4.26.0-rc2\", \"remote\": \"https://github.com/VCA-EPFL/graphiti\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"dtumad/finalize-4-26\", \"commit\": \"f04465d1faac1b46505a53fa5af90cfa223ad823\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/Verified-zkEVM/ArkLib\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"pfunction-4-26\", \"commit\": \"2049180482d07341e984f723c047d6d030a839bb\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/Verified-zkEVM/VCV-io\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"96325adf1d139b2adaa32d9839f096eec959480d\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/YaelDillies/LeanAPAP\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"34daaaac92e24dcedf36f3d059764534daa7999d\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/YaelDillies/LeanCamCombi\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"27148468f2c268580e0d652a005a6ca6be6c10cb\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/YaelDillies/MiscYD\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"3d4d082a70e17cc7ed1db37a316b7525e8f5f437\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/apnelson1/Matroid\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"ac40e4faf3b1252bc943676314449c22b5af3c9d\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/arademaker/fad\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"12ca2d2d0f0d12e6c2a158cf01268df350a7c884\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/djvelleman/HTPILeanPackage\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"a2ff4bb1396c3bc8047103a0a45a00e2c57571c4\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/dwrensha/compfiles\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"265ae0e596f743accb299efa89e265ff2b69aae1\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/jsm28/IMOLean\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"d3f9410760a5566c773a9136023a08d9be86684e\", \"lean_version\": \"v4.22.0\", \"remote\": \"https://github.com/google-deepmind/formal-imo\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"separate-files\", \"commit\": \"edd17c9b99619066db24769d91b56672f338e9c9\", \"lean_version\": \"v4.24.0\", \"remote\": \"https://github.com/yangky11/miniF2F-lean4\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"05eb814bfe42f2d8ca0ef0c3e35be9e24761ddac\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/jcreedcmu/Noperthedron\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"ba05b7c08b42f31c9886795e9462fd5f82628bb7\", \"lean_version\": \"v4.24.0\", \"remote\": \"https://github.com/knowsys/Formale-Systeme-in-LEAN\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"simp-suggestion-incomplete\", \"commit\": \"6f9009d2561a5d7528f84992efbffb948820719c\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/m4lvin/lean4-pdl\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"yoh-IsInnerPart\", \"commit\": \"02099b8e7d2e117fc62cc41d81b5cbda35eb9808\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/oliver-butterley/SpectralThm\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"theta-mdiff\", \"commit\": \"c51fb6a165e3faf4def1861304d5ba2904ef99f8\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/thefundamentaltheor3m/Sphere-Packing-Lean\"}",
+      20
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"96a4997e423f3abf5e430d1dfc64dcd861ea5b65\", \"lean_version\": \"v4.26.0-rc2\", \"remote\": \"https://github.com/m4lvin/Gossip-in-Lean\"}",
+      19
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"865934361ca7005e0a874efb39f5809117052e85\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/mo271/FormalBook\"}",
+      19
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"6099da24305d6ca71df680ccada8f91d026cb604\", \"lean_version\": \"v4.24.0\", \"remote\": \"https://github.com/Timeroot/Lean-QuantumInfo\"}",
+      18
+    ],
+    [
+      "{\"branch\": \"More-FKS\", \"commit\": \"ddcb6542f2b62883c8642d3db4ecc115afcce33e\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/AlexKontorovich/PrimeNumberTheoremAnd\"}",
+      17
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"91a239351a488168b0d0881e5117ecffefb9e6de\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/kebekus/ProjectVD\"}",
+      17
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"4ee9104bc4b3d6d3623b6115653f6a8a04239215\", \"lean_version\": \"v4.26.0-rc2\", \"remote\": \"https://github.com/pitmonticone/ItaLean2025\"}",
+      16
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"aca048ef73ce1156156cce5845945b902aa66698\", \"lean_version\": \"v4.18.0-rc1\", \"remote\": \"https://github.com/lean-dojo/LeanMillenniumPrizeProblems\"}",
+      14
+    ],
+    [
+      "{\"branch\": \"stable\", \"commit\": \"5391fe11b1446d55ca49929326cd6bba91e2f39c\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/leanprover-community/aesop\"}",
+      14
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"b583ce5eab44bf8d0dcde6ee5986df0658af8419\", \"lean_version\": \"v4.26.0\", \"remote\": \"https://github.com/peabrainiac/lean-catdg\"}",
+      14
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"972ba89adc19bf0775bf37866c60ac0dba4adef8\", \"lean_version\": \"v4.24.0\", \"remote\": \"https://github.com/FredRaj3/SemicircleLaw\"}",
+      14
+    ],
+    [
+      "{\"branch\": \"test\", \"commit\": \"40df92c5af58a2a2592dfe7b2dd967cb5942db42\", \"lean_version\": \"v4.22.0\", \"remote\": \"https://github.com/google-deepmind/formal-conjectures\"}",
+      14
+    ],
+    [
+      "{\"branch\": \"master\", \"commit\": \"de8a2f66d0863c0d1b4355aa6743fd228462d7df\", \"lean_version\": \"v4.26.0-rc2\", \"remote\": \"https://github.com/dagurtomas/LeanCondensed\"}",
+      13
+    ],
+    [
+      "{\"branch\": \"faster-femto\", \"commit\": \"6dfafe27ea1e733e1e7f01610a63789772eccec6\", \"lean_version\": \"v4.23.0-rc2\", \"remote\": \"https://github.com/Verified-zkEVM/clean\"}",
+      13
+    ],
+    [
+      "{\"branch\": \"bump3\", \"commit\": \"01e7781b606cf06e729e0771ac1c7a2329256e30\", \"lean_version\": \"v4.25.0-rc2\", \"remote\": \"https://github.com/fpvandoorn/carleson\"}",
+      12
+    ],
+    [
+      "{\"branch\": \"main\", \"commit\": \"0c58039684da5f50b937f288501fa0ff877ddb7a\", \"lean_version\": \"v4.27.0-rc1\", \"remote\": \"https://github.com/kbuzzard/ClassFieldTheory\"}",
+      12
+    ],
+    [
+      "{\"branch\": \"mul_internal_quark\", \"commit\": \"84bd2056c319ef7cf304d2ecb049da476f3ee0ac\", \"lean_version\": \"v4.24.0\", \"remote\": \"https://github.com/Beneficial-AI-Foundation/curve25519-dalek-lean-verify\"}",
+      12
+    ]
+  ],
+  "lean_versions": [
+    [
+      "None",
+      1000
+    ]
+  ],
+  "top_paths": [
+    [
+      "Matroid/Graph/Matching.lean",
+      20
+    ],
+    [
+      "Chap8Ex.lean",
+      20
+    ],
+    [
+      "Carleson/ToMathlib/Lorentz.lean",
+      20
+    ],
+    [
+      "VCVio/OracleComp/Constructions/UniformSelect.lean",
+      19
+    ],
+    [
+      "GlimpseOfLean/Exercises/Topics/RingTheory.lean",
+      19
+    ],
+    [
+      "Graphiti/Projects/Noc/Utils.lean",
+      18
+    ],
+    [
+      "PrimeNumberTheoremAnd/FioriKadiriSwidinsky.lean",
+      17
+    ],
+    [
+      "Foundation/Propositional/Kripke2/FTheory.lean",
+      16
+    ],
+    [
+      "VD/CartanExperimentation.lean",
+      15
+    ],
+    [
+      "SpectralThm/SpectralTheorem.lean",
+      15
+    ],
+    [
+      "PersistentDecomp/DirectSumDecompositionDual.lean",
+      13
+    ],
+    [
+      "CategoryTheoryInContextLean/Section_1_3.lean",
+      13
+    ],
+    [
+      "QuantumInfo/Finite/ResourceTheory/SteinsLemma.lean",
+      13
+    ],
+    [
+      "Gossip/Necessary.lean",
+      13
+    ],
+    [
+      "Compfiles/Bulgaria1998P1.lean",
+      12
+    ],
+    [
+      "Mathlib/Analysis/Distribution/Distribution.lean",
+      11
+    ],
+    [
+      "AesopTest/ExtScript.lean",
+      11
+    ],
+    [
+      "SemicircleLaw/RandomMatrix/WignerMatrix.lean",
+      11
+    ],
+    [
+      "FormaleSystemeInLean/Chomsky/ContextFree/Theorems.lean",
+      10
+    ],
+    [
+      "ItaLean/Analysis.lean",
+      10
+    ],
+    [
+      "FLT/HaarMeasure/HaarChar/AdeleRing.lean",
+      10
+    ],
+    [
+      "FormaleSystemeInLean/Chomsky/ContextFree/ContextFreeDerivation.lean",
+      10
+    ],
+    [
+      "ClassFieldTheory/IsNonarchimedeanLocalField/Instances.lean",
+      10
+    ],
+    [
+      "Pdl/PartInterpolation.lean",
+      10
+    ],
+    [
+      "LeanCourse25/Assignments/Assignment9.lean",
+      9
+    ],
+    [
+      "Noperthedron/Global.lean",
+      9
+    ],
+    [
+      "Mathlib/Probability/MarcinkiewiczZygmund.lean",
+      9
+    ],
+    [
+      "LeanCamCombi/Mathlib/Probability/Combinatorics/BinomialRandomGraph/Defs.lean",
+      8
+    ],
+    [
+      "Pdl/BuildTree.lean",
+      8
+    ],
+    [
+      "ArkLib/OracleReduction/LiftContext/Reduction.lean",
+      8
+    ],
+    [
+      "Clean/Utils/Test/TestCircuitProofStart.lean",
+      8
+    ],
+    [
+      "Clap/Compilation.lean",
+      7
+    ],
+    [
+      "Noperthedron/Global/BoundedPartialsControlDifference.lean",
+      7
+    ],
+    [
+      "LeanCondensed/Projects/LightSolid.lean",
+      7
+    ],
+    [
+      "LeanAPAP/Prereqs/Inner/Hoelder/Compact.lean",
+      7
+    ],
+    [
+      "SemicircleLaw/Moments/LoopWalk.lean",
+      7
+    ],
+    [
+      "SpherePacking/MagicFunction/a/Integrability/ComplexIntegrands.lean",
+      7
+    ],
+    [
+      "LeanCamCombi/Mathlib/Probability/Distributions/Bernoulli.lean",
+      7
+    ],
+    [
+      "Curve25519Dalek/Specs/Backend/Serial/CurveModels/ProjectivePoint/Double.lean",
+      7
+    ],
+    [
+      "FormalBook/Chapter_04.lean",
+      7
+    ]
+  ],
+  "unique_commits": 1,
+  "examples": [
+    {
+      "index": 0,
+      "repo": {
+        "remote": "https://github.com/AlexKontorovich/PrimeNumberTheoremAnd",
+        "branch": "More-FKS",
+        "commit": "ddcb6542f2b62883c8642d3db4ecc115afcce33e",
+        "lean_version": "v4.26.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "PrimeNumberTheoremAnd/FioriKadiriSwidinsky.lean",
+      "line": 44,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/AlexKontorovich/PrimeNumberTheoremAnd",
+          "branch": "More-FKS",
+          "commit": "ddcb6542f2b62883c8642d3db4ecc115afcce33e",
+          "lean_version": "v4.26.0"
+        },
+        "location": {
+          "path": "PrimeNumberTheoremAnd/FioriKadiriSwidinsky.lean",
+          "start_line": 44,
+          "start_column": 137,
+          "end_line": 44,
+          "end_column": 142
+        },
+        "debug_info": {
+          "goal": "T₀ S₀ : ℝ\nh : (T₀, S₀) ∈ FKS.table_1\n⊢ (riemannZeta.zeroes_sum Set.univ (Set.Ioo 0 T₀) fun ρ => 1 / ρ.im) < S₀",
+          "url": "https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/ddcb6542f2b62883c8642d3db4ecc115afcce33e/PrimeNumberTheoremAnd/FioriKadiriSwidinsky.lean#L44"
+        },
+        "metadata": {
+          "blame_email_hash": "d7f0e4a42bbb",
+          "blame_date": "2026-01-07T20:41:59-08:00",
+          "inclusion_date": "2026-01-08T16:02:15.154672+00:00"
+        },
+        "id": "7956fe8e4946a9ddf7098ee84c69669db5bc902715dad6e7cdf0db121aa5bfce"
+      }
+    },
+    {
+      "index": 1,
+      "repo": {
+        "remote": "https://github.com/AlexKontorovich/RealAnalysisGame",
+        "branch": "main",
+        "commit": "26963c3700b2b6cc66e605e0826977f9a4a0be94",
+        "lean_version": "v4.23.0-rc2"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "Game/Levels/L25Levels/L02.lean",
+      "line": 128,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/AlexKontorovich/RealAnalysisGame",
+          "branch": "main",
+          "commit": "26963c3700b2b6cc66e605e0826977f9a4a0be94",
+          "lean_version": "v4.23.0-rc2"
+        },
+        "location": {
+          "path": "Game/Levels/L25Levels/L02.lean",
+          "start_line": 128,
+          "start_column": 2,
+          "end_line": 128,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "case refine_1\nf : ℝ → ℝ\nhf : FunCont f\na b : ℝ\nhab : a < b\nhfa : f a < 0\nhfb : 0 < f b\nS : Set ℝ := {x | x ∈ Icc a b ∧ f x < 0}\na_in_S : a ∈ S\nSnonempty : S.Nonempty\nSbounded : IsUB S b\nc : ℝ\nhc : IsLUB S c\na_le_c : a ≤ c\nc_le_b : c ≤ b\nfc_lt : ¬f c < 0\nfc_gt : ¬0 < f c\nfc : f c = 0\nhc' : c ∈ Icc a b\nhca : a ≠ c\nhcb : b ≠ c\n⊢ a < c",
+          "url": "https://github.com/AlexKontorovich/RealAnalysisGame/blob/26963c3700b2b6cc66e605e0826977f9a4a0be94/Game/Levels/L25Levels/L02.lean#L128"
+        },
+        "metadata": {
+          "blame_email_hash": "4bcdc021face",
+          "blame_date": "2025-12-08T23:16:09-05:00",
+          "inclusion_date": "2026-01-08T17:34:21.417632+00:00"
+        },
+        "id": "6dd43615a40211db23841338772a86df572bcf90ddfa32a21f794e9930da5cec"
+      }
+    },
+    {
+      "index": 2,
+      "repo": {
+        "remote": "https://github.com/Beneficial-AI-Foundation/curve25519-dalek-lean-verify",
+        "branch": "fix-task",
+        "commit": "075e335a00266a429fc135c712ed91479776436e",
+        "lean_version": "v4.24.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "Curve25519Dalek/Specs/Field/FieldElement51/Invert.lean",
+      "line": 58,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/Beneficial-AI-Foundation/curve25519-dalek-lean-verify",
+          "branch": "fix-task",
+          "commit": "075e335a00266a429fc135c712ed91479776436e",
+          "lean_version": "v4.24.0"
+        },
+        "location": {
+          "path": "Curve25519Dalek/Specs/Field/FieldElement51/Invert.lean",
+          "start_line": 58,
+          "start_column": 4,
+          "end_line": 58,
+          "end_column": 9
+        },
+        "debug_info": {
+          "goal": "r : backend.serial.u64.field.FieldElement51\nh_bounds : ∀ i < 5, ↑r[i]! < 2 ^ 54\n⊢ ∃ r',\n    invert r = ok r' ∧\n      let r_nat := Field51_as_Nat r % p;\n      let r'_nat := Field51_as_Nat r' % p;\n      (r_nat ≠ 0 → r'_nat * r_nat % p = 1) ∧ (r_nat = 0 → r'_nat = 0) ∧ ∀ i < 5, ↑r'[i]! < 2 ^ 52",
+          "url": "https://github.com/Beneficial-AI-Foundation/curve25519-dalek-lean-verify/blob/075e335a00266a429fc135c712ed91479776436e/Curve25519Dalek/Specs/Field/FieldElement51/Invert.lean#L58"
+        },
+        "metadata": {
+          "blame_email_hash": "c435eb4d84c1",
+          "blame_date": "2025-11-27T14:53:09+01:00",
+          "inclusion_date": "2026-01-08T19:20:21.974099+00:00"
+        },
+        "id": "aa7106277ec3e62d61b65fe7f87d11780a01be95794a5f88076a32cc1d81a63f"
+      }
+    },
+    {
+      "index": 3,
+      "repo": {
+        "remote": "https://github.com/Bergschaf/lean-banach-tarski",
+        "branch": "main",
+        "commit": "1c6bf6edb1dff258a7967a51986f7139bf89a51b",
+        "lean_version": "v4.25.0-rc2"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "LeanBanachTarski/Equidecomp/BallCenter.lean",
+      "line": 45,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/Bergschaf/lean-banach-tarski",
+          "branch": "main",
+          "commit": "1c6bf6edb1dff258a7967a51986f7139bf89a51b",
+          "lean_version": "v4.25.0-rc2"
+        },
+        "location": {
+          "path": "LeanBanachTarski/Equidecomp/BallCenter.lean",
+          "start_line": 45,
+          "start_column": 17,
+          "end_line": 45,
+          "end_column": 22
+        },
+        "debug_info": {
+          "goal": "r : ℝ\nhr : Irrational r\nn : ℕ\nhd : 2 ≤ n\n⊢ ∃ S,\n    Equidecomp.IsDecompOn sorry\n      (@sdiff (Set (Point n)) Set.instSDiff (Ball r n)\n        (@singleton (Point n) (Set (Point n)) Set.instSingletonSet (origin n)))\n      S",
+          "url": "https://github.com/Bergschaf/lean-banach-tarski/blob/1c6bf6edb1dff258a7967a51986f7139bf89a51b/LeanBanachTarski/Equidecomp/BallCenter.lean#L45"
+        },
+        "metadata": {
+          "blame_email_hash": "6620d7b89ad7",
+          "blame_date": "2025-02-18T20:29:20-08:00",
+          "inclusion_date": "2026-01-08T21:34:49.473253+00:00"
+        },
+        "id": "bd461ed93430d58485ec02d7f122b07e160bd56332d35789392bad88913bec82"
+      }
+    },
+    {
+      "index": 4,
+      "repo": {
+        "remote": "https://github.com/Clap-lang/clap-lean",
+        "branch": "assert_range2",
+        "commit": "326f55435f91295d95a6166b060cace7ef92e6e4",
+        "lean_version": "v4.26.0-rc2"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "Clap/Compilation.lean",
+      "line": 278,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/Clap-lang/clap-lean",
+          "branch": "assert_range2",
+          "commit": "326f55435f91295d95a6166b060cace7ef92e6e4",
+          "lean_version": "v4.26.0-rc2"
+        },
+        "location": {
+          "path": "Clap/Compilation.lean",
+          "start_line": 278,
+          "start_column": 2,
+          "end_line": 278,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "p : ℕ\ninst✝ : Fact (Nat.Prime p)\nw : ℕ\nargs : Vector (ZMod p) w\ncs : Clap.Cs p (ZMod p)\ni : ℕ\nh : i < w\nh' : ¬args[i] = 0\nh'' : ¬args[i] = 1\n⊢ Clap.Cs.eval p inst✝ (Clap.assert_bits_e p inst✝ (ZMod p) w args cs) = denotation.n",
+          "url": "https://github.com/Clap-lang/clap-lean/blob/326f55435f91295d95a6166b060cace7ef92e6e4/Clap/Compilation.lean#L278"
+        },
+        "metadata": {
+          "blame_email_hash": "2b0dbdf2bd27",
+          "blame_date": "2026-01-08T16:49:20+00:00",
+          "inclusion_date": "2026-01-08T22:26:21.439472+00:00"
+        },
+        "id": "19f8c8d2aa81dccb1ea0da25a7f9271c9330e18eb3ec4aa453917a3c5d29cbed"
+      }
+    },
+    {
+      "index": 5,
+      "repo": {
+        "remote": "https://github.com/Deducteam/lean2dk",
+        "branch": "thesis",
+        "commit": "84bb8c1be3b1442e257c759e51658b910ab5c8ad",
+        "lean_version": "v4.22.0-rc4"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "fixtures/Temp.lean",
+      "line": 21,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/Deducteam/lean2dk",
+          "branch": "thesis",
+          "commit": "84bb8c1be3b1442e257c759e51658b910ab5c8ad",
+          "lean_version": "v4.22.0-rc4"
+        },
+        "location": {
+          "path": "fixtures/Temp.lean",
+          "start_line": 21,
+          "start_column": 2,
+          "end_line": 21,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "A : Type u\nU V : A → Type v\nhAUBV : ((a : A) → U a) = ((a : A) → V a)\n⊢ U = V",
+          "url": "https://github.com/Deducteam/lean2dk/blob/84bb8c1be3b1442e257c759e51658b910ab5c8ad/fixtures/Temp.lean#L21"
+        },
+        "metadata": {
+          "blame_email_hash": "3dade9baec16",
+          "blame_date": "2024-05-02T19:15:48+02:00",
+          "inclusion_date": "2026-01-08T22:59:30.688541+00:00"
+        },
+        "id": "e5ceba46ff1bd945142c5cbd4e15f400f19fc4ff71378edae19a500ee46a6be3"
+      }
+    },
+    {
+      "index": 6,
+      "repo": {
+        "remote": "https://github.com/FormalizedFormalLogic/Foundation",
+        "branch": "master",
+        "commit": "7c74089c2442ee211abfa1e2dd5a75091800f57b",
+        "lean_version": "v4.27.0-rc1"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "Foundation/Modal/Modality/Basic.lean",
+      "line": 520,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/FormalizedFormalLogic/Foundation",
+          "branch": "master",
+          "commit": "7c74089c2442ee211abfa1e2dd5a75091800f57b",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "Foundation/Modal/Modality/Basic.lean",
+          "start_line": 520,
+          "start_column": 6,
+          "end_line": 520,
+          "end_column": 11
+        },
+        "debug_info": {
+          "goal": "case h₂.hpq\nL : Logic ℕ\ninst✝ : L.IsNormal\nm : LO.Modal.Modality\n⊢ L ⊢ ∼□atom 0 ➝ ∼∼◇(∼atom 0)",
+          "url": "https://github.com/FormalizedFormalLogic/Foundation/blob/7c74089c2442ee211abfa1e2dd5a75091800f57b/Foundation/Modal/Modality/Basic.lean#L520"
+        },
+        "metadata": {
+          "blame_email_hash": "165d0178d95d",
+          "blame_date": "2026-01-04T04:01:43+09:00",
+          "inclusion_date": "2026-01-09T01:07:19.040717+00:00"
+        },
+        "id": "e2b7f3155da720cc910c29b2b918514f6891de6cd5b3670097303be2d789fb58"
+      }
+    },
+    {
+      "index": 7,
+      "repo": {
+        "remote": "https://github.com/rkirov/category-theory-in-context-lean",
+        "branch": "solutions",
+        "commit": "0c3d7da4c6d640d8c91d2d645837ee0458647e91",
+        "lean_version": "v4.24.0-rc1"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "CategoryTheoryInContextLean/Section_1_4.lean",
+      "line": 64,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/rkirov/category-theory-in-context-lean",
+          "branch": "solutions",
+          "commit": "0c3d7da4c6d640d8c91d2d645837ee0458647e91",
+          "lean_version": "v4.24.0-rc1"
+        },
+        "location": {
+          "path": "CategoryTheoryInContextLean/Section_1_4.lean",
+          "start_line": 64,
+          "start_column": 4,
+          "end_line": 64,
+          "end_column": 9
+        },
+        "debug_info": {
+          "goal": "α : Type u_1\nβ : Type u_2\nC : Category α\nD : Category β\nF G : Functor α β\nη : @CategoryInContext.NaturalTransformation α β C D F G\nh : @CategoryInContext.IsNatIso α β C D F G η\nX Y : α\nf : Hom X Y\n⊢ comp\n      (have this := @h X;\n      (fun f hf => f.inv) (Classical.choose ⋯) ⋯)\n      (Functor.homF f) =\n    comp (Functor.homF f)\n      (have this := @h Y;\n      (fun f hf => f.inv) (Classical.choose ⋯) ⋯)",
+          "url": "https://github.com/rkirov/category-theory-in-context-lean/blob/0c3d7da4c6d640d8c91d2d645837ee0458647e91/CategoryTheoryInContextLean/Section_1_4.lean#L64"
+        },
+        "metadata": {
+          "blame_email_hash": "d8813e9a092f",
+          "blame_date": "2025-10-19T00:25:19-07:00",
+          "inclusion_date": "2026-01-11T01:29:25.950210+00:00"
+        },
+        "id": "94afb7ce3cf75e11187f72682f0d01b13bcb5a18a5bbbe86c37e430e21a3a1fa"
+      }
+    },
+    {
+      "index": 8,
+      "repo": {
+        "remote": "https://github.com/FredRaj3/SemicircleLaw",
+        "branch": "feat/feature-laytonandluke",
+        "commit": "ab1c284c23cf71d13f2967ff4730e99e97a96839",
+        "lean_version": "v4.22.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "SemicircleLaw/SemicircleDistribution/SemicircleDistribution.lean",
+      "line": 1586,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/FredRaj3/SemicircleLaw",
+          "branch": "feat/feature-laytonandluke",
+          "commit": "ab1c284c23cf71d13f2967ff4730e99e97a96839",
+          "lean_version": "v4.22.0"
+        },
+        "location": {
+          "path": "SemicircleLaw/SemicircleDistribution/SemicircleDistribution.lean",
+          "start_line": 1586,
+          "start_column": 50,
+          "end_line": 1586,
+          "end_column": 55
+        },
+        "debug_info": {
+          "goal": "μ : ℝ\nv : NNReal\nn : ℕ\nh1 : ¬v = 0\nh2 : v > 0\nf : ℝ → ℝ := fun x => x ^ (2 * n + 1) * √(4 * ↑v - x ^ 2)\n⊢ ∀ (x : ℝ), f (-1 * x) = -f x",
+          "url": "https://github.com/FredRaj3/SemicircleLaw/blob/ab1c284c23cf71d13f2967ff4730e99e97a96839/SemicircleLaw/SemicircleDistribution/SemicircleDistribution.lean#L1586"
+        },
+        "metadata": {
+          "blame_email_hash": "8a35473559da",
+          "blame_date": "2025-12-03T12:54:52-08:00",
+          "inclusion_date": "2026-01-09T01:52:20.373794+00:00"
+        },
+        "id": "2bac88baee9f079ef3248df92ff852f099a81fc83589a0e88abd7b9518a009d4"
+      }
+    },
+    {
+      "index": 9,
+      "repo": {
+        "remote": "https://github.com/GasStationManager/SafeVerify",
+        "branch": "v4.21",
+        "commit": "e072239e31072e71ae894ffb4d4bed9978465bbc",
+        "lean_version": "v4.21.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "SafeVerifyTest/ImpBy/Target.lean",
+      "line": 7,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/GasStationManager/SafeVerify",
+          "branch": "v4.21",
+          "commit": "e072239e31072e71ae894ffb4d4bed9978465bbc",
+          "lean_version": "v4.21.0"
+        },
+        "location": {
+          "path": "SafeVerifyTest/ImpBy/Target.lean",
+          "start_line": 7,
+          "start_column": 2,
+          "end_line": 7,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "⊢ 2 ≤ definitely_at_least_two",
+          "url": "https://github.com/GasStationManager/SafeVerify/blob/e072239e31072e71ae894ffb4d4bed9978465bbc/SafeVerifyTest/ImpBy/Target.lean#L7"
+        },
+        "metadata": {
+          "blame_email_hash": "6e8091041644",
+          "blame_date": "2025-09-24T08:36:02+01:00",
+          "inclusion_date": "2026-01-09T02:29:14.941717+00:00"
+        },
+        "id": "e94e0170800c4a4a9fc6627365576862c352de8e24d0a9abd0a35d8a2ae68837"
+      }
+    },
+    {
+      "index": 10,
+      "repo": {
+        "remote": "https://github.com/HEPLean/PhysLean",
+        "branch": "master",
+        "commit": "7dfd69e529686e5a5bf0dc32006ad0a8a6e510de",
+        "lean_version": "v4.26.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "PhysLean/ClassicalMechanics/Lagrangian/TotalDerivativeEquivalence.lean",
+      "line": 111,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/HEPLean/PhysLean",
+          "branch": "master",
+          "commit": "7dfd69e529686e5a5bf0dc32006ad0a8a6e510de",
+          "lean_version": "v4.26.0"
+        },
+        "location": {
+          "path": "PhysLean/ClassicalMechanics/Lagrangian/TotalDerivativeEquivalence.lean",
+          "start_line": 111,
+          "start_column": 2,
+          "end_line": 111,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "n : ℕ\nδL : EuclideanSpace ℝ (Fin n) → ℝ\nhδL0 : δL 0 = 0\nh : ClassicalMechanics.Lagrangian.IsTotalTimeDerivative n fun x v x_1 => δL v\n⊢ ∃ g, ∀ (v : EuclideanSpace ℝ (Fin n)), δL v = inner ℝ g v",
+          "url": "https://github.com/HEPLean/PhysLean/blob/7dfd69e529686e5a5bf0dc32006ad0a8a6e510de/PhysLean/ClassicalMechanics/Lagrangian/TotalDerivativeEquivalence.lean#L111"
+        },
+        "metadata": {
+          "blame_email_hash": "0dae1c91e8fd",
+          "blame_date": "2026-01-02T06:50:26-05:00",
+          "inclusion_date": "2026-01-09T03:36:41.661367+00:00"
+        },
+        "id": "834783195158689713d69b0448331a3455e70f198d1fd1d4e87373602992535a"
+      }
+    },
+    {
+      "index": 11,
+      "repo": {
+        "remote": "https://github.com/ImperialCollegeLondon/FLT",
+        "branch": "kbuzzard-left_mul_eq_right_mul-finiteadeles2",
+        "commit": "f17c712d62509f9043b2596eb7b8f9eae41a016c",
+        "lean_version": "v4.27.0-rc1"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "FLT/HaarMeasure/HaarChar/FiniteAdeleRing.lean",
+      "line": 31,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/ImperialCollegeLondon/FLT",
+          "branch": "kbuzzard-left_mul_eq_right_mul-finiteadeles2",
+          "commit": "f17c712d62509f9043b2596eb7b8f9eae41a016c",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "FLT/HaarMeasure/HaarChar/FiniteAdeleRing.lean",
+          "start_line": 31,
+          "start_column": 38,
+          "end_line": 31,
+          "end_column": 43
+        },
+        "debug_info": {
+          "goal": "K : Type u_1\ninst✝¹⁰ : Field K\ninst✝⁹ : NumberField K\nB✝ : Type u_2\ninst✝⁸ : Ring B✝\ninst✝⁷ : Algebra K B✝\ninst✝⁶ : FiniteDimensional K B✝\nk : Type u_3\nA : Type u_4\nB : Type u_5\ninst✝⁵ : Field k\ninst✝⁴ : CommRing A\ninst✝³ : Ring B\ninst✝² : Algebra k A\ninst✝¹ : Algebra k B\ninst✝ : Algebra.IsCentral k B\n⊢ Algebra.IsCentral A (TensorProduct k A B)",
+          "url": "https://github.com/ImperialCollegeLondon/FLT/blob/f17c712d62509f9043b2596eb7b8f9eae41a016c/FLT/HaarMeasure/HaarChar/FiniteAdeleRing.lean#L31"
+        },
+        "metadata": {
+          "blame_email_hash": "c7989443bd81",
+          "blame_date": "2026-01-08T13:24:59+00:00",
+          "inclusion_date": "2026-01-09T04:43:40.116362+00:00"
+        },
+        "id": "1b0a3cc783470777f62ed6e2c7ebf546bbeba44e51a08f8a58e719bbb36f5e79"
+      }
+    },
+    {
+      "index": 12,
+      "repo": {
+        "remote": "https://github.com/Ivan-Sergeyev/seymour",
+        "branch": "thesis",
+        "commit": "cd8eea36e3ea843d9bc2b773d63e8c8bbfbd2b4c",
+        "lean_version": "v4.18.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "Seymour/Results/EasyDirection.lean",
+      "line": 25,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/Ivan-Sergeyev/seymour",
+          "branch": "thesis",
+          "commit": "cd8eea36e3ea843d9bc2b773d63e8c8bbfbd2b4c",
+          "lean_version": "v4.18.0"
+        },
+        "location": {
+          "path": "Seymour/Results/EasyDirection.lean",
+          "start_line": 25,
+          "start_column": 20,
+          "end_line": 25,
+          "end_column": 25
+        },
+        "debug_info": {
+          "goal": "case cographic\nα : Type u_1\ninst✝ : DecidableEq α\nM M✝ : Matroid α\nhM : M✝.IsCographic\n⊢ M✝.IsRegular",
+          "url": "https://github.com/Ivan-Sergeyev/seymour/blob/cd8eea36e3ea843d9bc2b773d63e8c8bbfbd2b4c/Seymour/Results/EasyDirection.lean#L25"
+        },
+        "metadata": {
+          "blame_email_hash": "a853c166ca8e",
+          "blame_date": "2025-05-17T15:49:08+02:00",
+          "inclusion_date": "2026-01-09T06:22:21.121408+00:00"
+        },
+        "id": "d6f78bbb13c86da2537206adae03cc5ebb02b8d06f726f81adea6a55709876fb"
+      }
+    },
+    {
+      "index": 13,
+      "repo": {
+        "remote": "https://github.com/JadAbouHawili/Raymond-Smullyan-KnightsAndKnaves",
+        "branch": "main",
+        "commit": "451c1a35f9e9a9a3bbd940a53b15469cc736653a",
+        "lean_version": "v4.21.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "SmullyanKnightsAndKnaves/knightsknaves_settheory/prob27.lean",
+      "line": 80,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/JadAbouHawili/Raymond-Smullyan-KnightsAndKnaves",
+          "branch": "main",
+          "commit": "451c1a35f9e9a9a3bbd940a53b15469cc736653a",
+          "lean_version": "v4.21.0"
+        },
+        "location": {
+          "path": "SmullyanKnightsAndKnaves/knightsknaves_settheory/prob27.lean",
+          "start_line": 80,
+          "start_column": 2,
+          "end_line": 80,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "case h\ninst✝ : DecidableEq Inhabitant\ninst2 : Fintype Inhabitant\nstB : B ∈ Knight ↔ (A ∈ Knight ↔ Knight.card = 1)\nstC : C ∈ Knight ↔ B ∈ Knave\nstCn : C ∈ Knave ↔ B ∈ Knight\nBKnight : B ∈ Knight\nCKnave : C ∈ Knave\nAKnave : A ∉ Knight\nstA : ¬Knight.card = 1\n⊢ Knight = {B}",
+          "url": "https://github.com/JadAbouHawili/Raymond-Smullyan-KnightsAndKnaves/blob/451c1a35f9e9a9a3bbd940a53b15469cc736653a/SmullyanKnightsAndKnaves/knightsknaves_settheory/prob27.lean#L80"
+        },
+        "metadata": {
+          "blame_email_hash": "ff0f56d7bd6a",
+          "blame_date": "2025-10-12T21:34:07+03:00",
+          "inclusion_date": "2026-01-09T06:31:28.515637+00:00"
+        },
+        "id": "d8dc3bbef5cf9f1c4f84006f44ccade53ddf2c9b843f34ce0bf756aac40a7c10"
+      }
+    },
+    {
+      "index": 14,
+      "repo": {
+        "remote": "https://github.com/MichaelStollBayreuth/EulerProducts",
+        "branch": "main",
+        "commit": "7376f1ab99e936407e76eb1dd13e3f3f482d3acc",
+        "lean_version": "v4.24.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "EulerProducts/Orthogonality.lean",
+      "line": 63,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/MichaelStollBayreuth/EulerProducts",
+          "branch": "main",
+          "commit": "7376f1ab99e936407e76eb1dd13e3f3f482d3acc",
+          "lean_version": "v4.24.0"
+        },
+        "location": {
+          "path": "EulerProducts/Orthogonality.lean",
+          "start_line": 63,
+          "start_column": 4,
+          "end_line": 63,
+          "end_column": 9
+        },
+        "debug_info": {
+          "goal": "n : ℕ\ninst✝ : NeZero n\n⊢ IsCyclic ↥(rootsOfUnity n Circle)",
+          "url": "https://github.com/MichaelStollBayreuth/EulerProducts/blob/7376f1ab99e936407e76eb1dd13e3f3f482d3acc/EulerProducts/Orthogonality.lean#L63"
+        },
+        "metadata": {
+          "blame_email_hash": "822808786636",
+          "blame_date": "2024-11-09T20:18:16+01:00",
+          "inclusion_date": "2026-01-09T06:37:20.474022+00:00"
+        },
+        "id": "06147c7b67cdcb77b97efc4dc8e1409f1fb5c046d160f947847a9687e82519ed"
+      }
+    },
+    {
+      "index": 15,
+      "repo": {
+        "remote": "https://github.com/NyxFoundation/tsl-formal-verification",
+        "branch": "main",
+        "commit": "424267464048d73f8492e7dcf7ceb4fd9806f985",
+        "lean_version": "v4.24.0-rc1"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "TopSingleLayer/Lem06.lean",
+      "line": 40,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/NyxFoundation/tsl-formal-verification",
+          "branch": "main",
+          "commit": "424267464048d73f8492e7dcf7ceb4fd9806f985",
+          "lean_version": "v4.24.0-rc1"
+        },
+        "location": {
+          "path": "TopSingleLayer/Lem06.lean",
+          "start_line": 40,
+          "start_column": 2,
+          "end_line": 40,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "w v : ℕ\nM R X : Type\ninst✝⁴ : Fintype R\ninst✝³ : DecidableEq (M × R)\ninst✝² : DecidableEq X\ninst✝¹ : SelectableType X\ninst✝ : SelectableType R\nψ : X → HcV w v\nμhat : HcV w v → ℝ\nA : VCTCRAdversary M R X\n⊢ let t := A.qChoose + A.qRespond;\n  [=()|TCRGameROM ψ A].toReal ≤ ↑t * ∑ y, μhat y * μhat y",
+          "url": "https://github.com/NyxFoundation/tsl-formal-verification/blob/424267464048d73f8492e7dcf7ceb4fd9806f985/TopSingleLayer/Lem06.lean#L40"
+        },
+        "metadata": {
+          "blame_email_hash": "4eb6490d9e8d",
+          "blame_date": "2025-09-28T15:41:24+09:00",
+          "inclusion_date": "2026-01-09T07:44:38.907638+00:00"
+        },
+        "id": "1a09ac44206b41668a829bda030db77898dae201d2516a67a48ba19dac16a56c"
+      }
+    },
+    {
+      "index": 16,
+      "repo": {
+        "remote": "https://github.com/fpvandoorn/LeanCourse25",
+        "branch": "master",
+        "commit": "cd0f32f5b07311e08a9e89733a1375f54eb790c0",
+        "lean_version": "v4.24.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "LeanCourse25/Assignments/Assignment11.lean",
+      "line": 39,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/fpvandoorn/LeanCourse25",
+          "branch": "master",
+          "commit": "cd0f32f5b07311e08a9e89733a1375f54eb790c0",
+          "lean_version": "v4.24.0"
+        },
+        "location": {
+          "path": "LeanCourse25/Assignments/Assignment11.lean",
+          "start_line": 39,
+          "start_column": 78,
+          "end_line": 39,
+          "end_column": 83
+        },
+        "debug_info": {
+          "goal": "s : Set ℝ\nh : NullMeasurableSet s volume\n⊢ ∃ t ⊆ s, MeasurableSet t ∧ volume t = volume s ∧ volume (s \\ t) = 0",
+          "url": "https://github.com/fpvandoorn/LeanCourse25/blob/cd0f32f5b07311e08a9e89733a1375f54eb790c0/LeanCourse25/Assignments/Assignment11.lean#L39"
+        },
+        "metadata": {
+          "blame_email_hash": "13ebe891461f",
+          "blame_date": "2026-01-08T15:15:11+01:00",
+          "inclusion_date": "2026-01-10T00:19:36.813828+00:00"
+        },
+        "id": "0ffe8d507806bde948dfed1d59a579a2650452acaa68992cca839c14cf2f365f"
+      }
+    },
+    {
+      "index": 17,
+      "repo": {
+        "remote": "https://github.com/PatrickMassot/GlimpseOfLean",
+        "branch": "master",
+        "commit": "38ee6e4afd371b18d831ae09244fcd223a1bc535",
+        "lean_version": "v4.22.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "GlimpseOfLean/Exercises/Topics/Probability.lean",
+      "line": 123,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/PatrickMassot/GlimpseOfLean",
+          "branch": "master",
+          "commit": "38ee6e4afd371b18d831ae09244fcd223a1bc535",
+          "lean_version": "v4.22.0"
+        },
+        "location": {
+          "path": "GlimpseOfLean/Exercises/Topics/Probability.lean",
+          "start_line": 123,
+          "start_column": 4,
+          "end_line": 123,
+          "end_column": 9
+        },
+        "debug_info": {
+          "goal": "case pos\nΩ : Type\ninst✝¹ : MeasureSpace Ω\ninst✝ : IsProbabilityMeasure volume\nA B : Set Ω\nhB : volume B ≠ 0\nh : volume A = 0\n⊢ condProb Ω inst✝¹ A B = volume A * condProb Ω inst✝¹ B A / volume B",
+          "url": "https://github.com/PatrickMassot/GlimpseOfLean/blob/38ee6e4afd371b18d831ae09244fcd223a1bc535/GlimpseOfLean/Exercises/Topics/Probability.lean#L123"
+        },
+        "metadata": {
+          "blame_email_hash": "c28576c1d1dd",
+          "blame_date": "2025-04-20T19:47:14+02:00",
+          "inclusion_date": "2026-01-09T07:53:10.824114+00:00"
+        },
+        "id": "6041848cb798575b5df260a16aeef483567f8f320172ba3e8a4a936754bbc62c"
+      }
+    },
+    {
+      "index": 18,
+      "repo": {
+        "remote": "https://github.com/Paul-Lez/PersistentDecomp",
+        "branch": "master",
+        "commit": "c36471055817ef5332e27b4f99654257f45c68d1",
+        "lean_version": "v4.26.0"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "PersistentDecomp/DirectSumDecomposition.lean",
+      "line": 51,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/Paul-Lez/PersistentDecomp",
+          "branch": "master",
+          "commit": "c36471055817ef5332e27b4f99654257f45c68d1",
+          "lean_version": "v4.26.0"
+        },
+        "location": {
+          "path": "PersistentDecomp/DirectSumDecomposition.lean",
+          "start_line": 51,
+          "start_column": 18,
+          "end_line": 51,
+          "end_column": 23
+        },
+        "debug_info": {
+          "goal": "case left\nC : Type\ninst✝¹ : Category.{0, 0} C\nK : Type\ninst✝ : DivisionRing K\nM : CategoryTheory.Functor C (ModuleCat K)\nI : @DirectSumDecomposition C inst✝¹ K inst✝ M\nc : C\n⊢ iSupIndep fun p => ↑p c",
+          "url": "https://github.com/Paul-Lez/PersistentDecomp/blob/c36471055817ef5332e27b4f99654257f45c68d1/PersistentDecomp/DirectSumDecomposition.lean#L51"
+        },
+        "metadata": {
+          "blame_email_hash": "97e8591fe714",
+          "blame_date": "2025-06-06T09:58:07+00:00",
+          "inclusion_date": "2026-01-09T08:06:31.936431+00:00"
+        },
+        "id": "9cd73ded95a4a260951ba3a1f40d3c9ecb0504a6b11c4a3e43fccb320cdf9842"
+      }
+    },
+    {
+      "index": 19,
+      "repo": {
+        "remote": "https://github.com/RemyDegenne/CLT",
+        "branch": "master",
+        "commit": "07a49e97b1c745d306d301200a97c48eeb299205",
+        "lean_version": "v4.27.0-rc1"
+      },
+      "commit": null,
+      "lean_version": null,
+      "path": "Clt/MultivariateGaussian.lean",
+      "line": 42,
+      "top_level_keys": [
+        "debug_info",
+        "id",
+        "location",
+        "metadata",
+        "repo"
+      ],
+      "raw_item": {
+        "repo": {
+          "remote": "https://github.com/RemyDegenne/CLT",
+          "branch": "master",
+          "commit": "07a49e97b1c745d306d301200a97c48eeb299205",
+          "lean_version": "v4.27.0-rc1"
+        },
+        "location": {
+          "path": "Clt/MultivariateGaussian.lean",
+          "start_line": 42,
+          "start_column": 2,
+          "end_line": 42,
+          "end_column": 7
+        },
+        "debug_info": {
+          "goal": "d : ℕ\ni : Fin d\nμ : Fin d → Measure ℝ\ninst✝ : ∀ (i : Fin d), IsProbabilityMeasure (μ i)\nf : ℝ → ℝ\nhf : Integrable f (μ i)\n⊢ Integrable (fun a => f (a i)) (Measure.pi μ)",
+          "url": "https://github.com/RemyDegenne/CLT/blob/07a49e97b1c745d306d301200a97c48eeb299205/Clt/MultivariateGaussian.lean#L42"
+        },
+        "metadata": {
+          "blame_email_hash": "d765cd676b3d",
+          "blame_date": "2025-05-14T07:02:51+02:00",
+          "inclusion_date": "2026-01-09T08:09:56.800361+00:00"
+        },
+        "id": "58da34e7571d0a6f5680a603356e3942f54e470023d67f875f99e59d2c3ae64d"
+      }
+    }
+  ],
+  "status": "DATASET_SCOUT_COMPLETE"
+}

@@ -1,0 +1,5 @@
+total 18192
+drwxr-xr-x  4 heath  wheel   128B  5 Jul 22:02 .
+drwxr-xr-x  3 heath  wheel    96B  5 Jul 22:02 ..
+-rw-r--r--  1 heath  wheel   1.5M  5 Jul 22:02 SorryDB_2601_1000_evaluation_split.json
+-rw-r--r--  1 heath  wheel   7.4M  5 Jul 22:02 SorryDB_2601.json
