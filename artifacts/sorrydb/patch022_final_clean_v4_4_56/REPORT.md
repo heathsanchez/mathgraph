@@ -64,3 +64,11 @@ Certificate:
 Status:
 
 - Ready for upstream PR when desired.
+
+
+## Upstream PR
+
+- PR: https://github.com/teorth/equational_theories/pull/1461
+- Status: Draft opened
+- Fork branch: `heathsanchez:fix-law43-term-definable-from-swapped-args`
+- Upstream repair commit: `173e39d0`

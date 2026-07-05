@@ -17,5 +17,9 @@
   "no_unused_warning": true,
   "patch": "final_Law43.patch",
   "accepted_file": "accepted_Law43.lean",
-  "report": "REPORT.md"
+  "report": "REPORT.md",
+  "upstream_pr": "https://github.com/teorth/equational_theories/pull/1461",
+  "upstream_pr_status": "DRAFT_OPENED",
+  "upstream_branch": "heathsanchez:fix-law43-term-definable-from-swapped-args",
+  "upstream_commit": "173e39d0"
 }
