@@ -1,0 +1,59 @@
+{
+  "artifact": "multirepo_real_target_filter_v4_5_1",
+  "source_artifact": "multirepo_live_sorry_scout_v4_5_0",
+  "input_candidate_count": 660,
+  "rejected_count": 644,
+  "real_target_count": 16,
+  "best_candidate": {
+    "repo": "digama0/lean4lean",
+    "file": "Lean4Lean/Theory/Typing/InductiveLemmas.lean",
+    "commit": "97addd51fac964f45c595ec2c21b1b60ff0a2cc8",
+    "branch": "master",
+    "repo_clone_ok": true,
+    "repo_has_lake": true,
+    "skip_reason": null,
+    "raw_sorry_count": 1,
+    "active_sorry_count": 1,
+    "line_count": 10,
+    "import_count": 3,
+    "imports": [
+      "import Std",
+      "import Lean4Lean.Theory.Typing.Lemmas",
+      "import Lean4Lean.Theory.Typing.Env"
+    ],
+    "repo_penalty": 16.5,
+    "flags": {
+      "test_file": false,
+      "example_file": false,
+      "generated_file": false,
+      "definability": false,
+      "toFin": false,
+      "satisfies_or_models": false,
+      "category_theory": false,
+      "macro_or_elab": false,
+      "metaprogramming": false,
+      "unsafe": false,
+      "axiom": false,
+      "simp_nearby": false,
+      "aesop_nearby": false,
+      "omega_nearby": false,
+      "linarith_nearby": false,
+      "decide_nearby": false
+    },
+    "theorem_like": [
+      {
+        "line": 8,
+        "text": "theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)"
+      }
+    ],
+    "sorry_windows": [
+      {
+        "line": 10,
+        "window": "0001: import Std\n0002: import Lean4Lean.Theory.Typing.Lemmas\n0003: import Lean4Lean.Theory.Typing.Env\n0004: \n0005: namespace Lean4Lean\n0006: namespace VEnv\n0007: \n0008: theorem addInduct_WF (henv : Ordered env) (hdecl : decl.WF env)\n0009:     (henv' : addInduct env decl = some env') : Ordered env' :=\n0010:   sorry"
+      }
+    ],
+    "score": -22.0,
+    "real_target_score": -62.0
+  },
+  "status": "REAL_TARGET_FOUND"
+}
