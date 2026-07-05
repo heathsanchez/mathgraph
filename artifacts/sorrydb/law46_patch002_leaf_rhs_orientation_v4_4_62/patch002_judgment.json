@@ -1,0 +1,15 @@
+{
+  "artifact": "law46_patch002_leaf_rhs_orientation_v4_4_62",
+  "repo": "teorth/equational_theories",
+  "commit": "b1cc1756202d7f44e07bd4069b5df16901a36938",
+  "file": "equational_theories/Definability/Law46.lean",
+  "target_sorry": "first leaf-case rhs-is-leaf proof",
+  "patch001_obstruction": "Exists witness proof orientation after cases on L.rhs",
+  "cache_get_returncode": 0,
+  "build_returncode": 0,
+  "seconds": 114.0,
+  "build_completed": true,
+  "has_error": false,
+  "has_warning": true,
+  "remaining_sorry_warning": false
+}
