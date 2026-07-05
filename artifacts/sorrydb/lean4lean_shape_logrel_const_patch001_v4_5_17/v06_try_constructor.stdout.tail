@@ -1,0 +1,74 @@
+⚠ [46/48] Replayed Lean4Lean.Experimental.SExpr
+warning: Lean4Lean/Experimental/SExpr.lean:678:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:679:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:681:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:733:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:736:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:759:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:769:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:785:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:793:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:796:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:822:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:884:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:952:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:958:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:964:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:980:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1007:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1059:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1090:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1166:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1181:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1247:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1258:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1293:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1315:8: declaration uses `sorry`
+✖ [48/48] Building Lean4Lean.Experimental.ShapeLogRelAdequacy (6.3s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/Lean4Lean/Experimental/ShapeLogRelAdequacy.lean -o /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/lib/lean/Lean4Lean/Experimental/ShapeLogRelAdequacy.olean -i /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/lib/lean/Lean4Lean/Experimental/ShapeLogRelAdequacy.ilean -c /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/ir/Lean4Lean/Experimental/ShapeLogRelAdequacy.c --setup /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/ir/Lean4Lean/Experimental/ShapeLogRelAdequacy.setup.json --json
+error: Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:154:4: Tactic `constructor` failed: target is not an inductive datatype
+
+case const.const.refl
+inst✝ : Params
+Γ✝ : List SExpr
+M N A : SExpr
+Γ₀ : List SExpr
+c : Name
+ci : VConstant
+Γ : List SExpr
+ls : List SLevel
+u✝ : SLevel
+h1 : Params.env.constants c = some ci
+h2 : ls.length = ci.uvars
+h3 : IsDefEqStrong Γ (instL ls (mk ci.type)) (instL ls (mk ci.type)) (sort u✝)
+F✝ : (cl : CtorBundle.IsCtor c) → CtorBundle c cl
+a✝³ : ∀ (cl : CtorBundle.IsCtor c), IsDefEqStrong Γ (instL ls (mk ci.type)) ((F✝ cl).rhs ls) (sort (F✝ cl).u)
+a_ih✝¹ :
+  ∀ {ρ : Valuation} {n : Nat} {m a : WShape n},
+    LE_Interp ρ m.T (instL ls (mk ci.type)) →
+      LE_Interp ρ a.T (sort u✝) →
+        m.HasType a → Adequate Γ₀ Γ ρ (instL ls (mk ci.type)) (instL ls (mk ci.type)) (sort u✝) m a
+a_ih✝ :
+  ∀ (cl : CtorBundle.IsCtor c) {ρ : Valuation} {n : Nat} {m a : WShape n},
+    LE_Interp ρ m.T (instL ls (mk ci.type)) →
+      LE_Interp ρ a.T (sort (F✝ cl).u) →
+        m.HasType a → Adequate Γ₀ Γ ρ (instL ls (mk ci.type)) ((F✝ cl).rhs ls) (sort (F✝ cl).u) m a
+ρ : Valuation
+n : Nat
+m a : WShape n
+hA : LE_Interp ρ a.T (instL ls (mk ci.type))
+hmem : m.HasType a
+x✝ : Nat
+m'✝ a✝² : TShape
+R✝ : TShape → SExpr → Prop
+a4 : m'✝.HasType a✝²
+a✝¹ : ∀ (m : TShape) (e : SExpr), R✝ m e → LE_Interp ρ m e
+a3 : m.T ≤ m'✝
+a6 : LE_Interp.Const c ls R✝ [] m'✝
+a1 : Params.env.constants c = some ci
+a✝ : ls.length = ci.uvars
+a5 : LE_Interp ρ a✝² (instL ls (mk ci.type))
+⊢ (LR Γ₀).DefEq (const c ls) (const c ls) (instL ls (mk ci.type)) m a
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.ShapeLogRelAdequacy

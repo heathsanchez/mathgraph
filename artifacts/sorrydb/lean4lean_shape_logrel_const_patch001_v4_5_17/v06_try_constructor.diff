@@ -1,0 +1,13 @@
+diff --git a/Lean4Lean/Experimental/ShapeLogRelAdequacy.lean b/Lean4Lean/Experimental/ShapeLogRelAdequacy.lean
+index 1bda204..16d99a1 100644
+--- a/Lean4Lean/Experimental/ShapeLogRelAdequacy.lean
++++ b/Lean4Lean/Experimental/ShapeLogRelAdequacy.lean
+@@ -151,7 +151,7 @@ theorem LR.adequacy (H : Γ ⊢ M ≡ N : A)
+     suffices ∀ {σ}, (LR Γ₀).DefEq (const c ls) (const c ls) (((mk ci.type).instL ls).subst σ) m a
+       from ⟨fun _ _ _ => ⟨this, this⟩, fun _ _ => this⟩
+     intro σ; rw [(Params.henv.closedC h1).mkS.instL.subst_eq .zero]; clear σ
+-    sorry
++    constructor
+   | @appDF Γ A u F F' B X X' v _ Hf Ha HBa _ ihf iha ihBa =>
+     cases hM with | bot => exact .bot hmem.isType | @app _ nf_app f _ _ _ x hif hia le_m
+     suffices ∀ {F F' X X' σ σ'}, SubstWF Γ₀ σ σ' Γ ρ →

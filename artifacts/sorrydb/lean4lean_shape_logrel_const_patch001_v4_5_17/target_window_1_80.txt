@@ -1,0 +1,80 @@
+0001: import Lean4Lean.Experimental.ShapeLogRel
+0002: 
+0003: namespace Lean4Lean
+0004: 
+0005: namespace SExpr
+0006: variable [Params]
+0007: 
+0008: def LR.Adequate (Γ₀ Γ : List SExpr) (ρ : Valuation) (M N A : SExpr) (m a : WShape n) :=
+0009:   (∀ {{σ σ'}}, LR.SubstWF Γ₀ σ σ' Γ ρ →
+0010:     (LR Γ₀).DefEq (M.subst σ) (M.subst σ') (A.subst σ) m a ∧
+0011:     (LR Γ₀).DefEq (N.subst σ) (N.subst σ') (A.subst σ) m a) ∧
+0012:   ∀ {{σ}}, LR.SubstWF Γ₀ σ σ Γ ρ → (LR Γ₀).DefEq (M.subst σ) (N.subst σ) (A.subst σ) m a
+0013: 
+0014: theorem LR.Adequate.bot (ha : a.HasType .type) : Adequate Γ₀ Γ ρ M N A .bot a :=
+0015:   ⟨fun _ _ _ => ⟨(LR _).bot ha, (LR _).bot ha⟩, fun _ _ => (LR _).bot ha⟩
+0016: 
+0017: theorem LR.Adequate.fits
+0018:     (H : ρ.Fits Γ₀ Γ → Adequate Γ₀ Γ ρ M N A m a) : Adequate Γ₀ Γ ρ M N A m a :=
+0019:   ⟨fun _ _ W => (H W.fits).1 W, fun _ W => (H W.fits).2 W⟩
+0020: 
+0021: theorem LR.Adequate.refl
+0022:     (H : ∀ {{σ σ'}}, LR.SubstWF Γ₀ σ σ' Γ ρ →
+0023:       (LR Γ₀).DefEq (M.subst σ) (M.subst σ') (A.subst σ) m a) :
+0024:     Adequate Γ₀ Γ ρ M M A m a := ⟨fun _ _ W => ⟨H W, H W⟩, fun _ W => H W⟩
+0025: 
+0026: theorem LR.Adequate.left : Adequate Γ₀ Γ ρ M N A m a → Adequate Γ₀ Γ ρ M M A m a
+0027:   | ⟨h1, _⟩ => .refl fun _ _ W => (h1 W).1
+0028: 
+0029: theorem LR.Adequate.symm : Adequate Γ₀ Γ ρ M N A m a → Adequate Γ₀ Γ ρ N M A m a
+0030:   | ⟨h1, h2⟩ => ⟨fun _ _ W => (h1 W).symm, fun _ W => (LR _).symm (h2 W)⟩
+0031: 
+0032: theorem LR.Adequate.trans :
+0033:     Adequate Γ₀ Γ ρ M₁ M₂ A m a → Adequate Γ₀ Γ ρ M₂ M₃ A m a → Adequate Γ₀ Γ ρ M₁ M₃ A m a
+0034:   | ⟨a1, a2⟩, ⟨b1, b2⟩ =>
+0035:     ⟨fun _ _ W => ⟨(a1 W).1, (b1 W).2⟩, fun _ W => (LR _).trans (a2 W) (b2 W)⟩
+0036: 
+0037: theorem LR.Adequate.trans' : Adequate Γ₀ Γ ρ A₁ A₂ (.sort u) a s →
+0038:     Adequate Γ₀ Γ ρ A₂ A₃ (.sort v) a (.sort r) → Adequate Γ₀ Γ ρ A₁ A₃ (.sort u) a s
+0039:   | ⟨a1, a2⟩, ⟨b1, b2⟩ => by
+0040:     refine ⟨fun σ σ' W => ⟨(a1 W).1, ?_⟩, fun _ W => (LR _).trans' (a2 W) (b2 W)⟩
+0041:     have h1 := (LR _).trans' (a1 W.left).2 (b2 W.left)
+0042:     have h2 := (LR _).trans' (a1 W.symm.left).2 (b2 W.symm.left)
+0043:     exact (LR _).trans ((LR _).symm h1) <| (LR _).trans (a1 W).2 h2
+0044: 
+0045: theorem LR.Adequate.cons
+0046:     (ihA : ∀ {ρ n} {m a : WShape n}, LE_Interp ρ m.T A → LE_Interp ρ a.T (.sort u) →
+0047:       m.HasType a → Adequate Γ₀ Γ ρ A A' (sort u) m a)
+0048:     (HA : Γ ⊢ A ≡ A' : .sort u)
+0049:     {{k : Nat}} {{a₁ p : WShape k}} {{x x' σ σ' ρ}}
+0050:     (hp : p.HasType a₁) (hA₁ : LE_Interp ρ a₁.T A)
+0051:     (hx : Γ₀ ⊢ x ≡ x' : A.subst σ) (hv : (LR Γ₀).DefEq x x' (A.subst σ) p a₁)
+0052:     (W : SubstWF Γ₀ σ σ' Γ ρ) : SubstWF Γ₀ (σ.cons x) (σ'.cons x') (A :: Γ) (ρ.push p.T) := by
+0053:   refine W.cons (fun hA => ?_) hA₁ hp.T HA.hasType.1 ⟨hx, fun n a' ha' => ?_⟩
+0054:   · have ⟨_, _, le_a, hA', hSort, hmem'⟩ := (LE_Interp.sound HA W.fits).2 hA
+0055:     exact ⟨_, le_a, hA', (TShape.HasType.mono_r hSort.le_sort .sort hmem').toType⟩
+0056:   have ha' := LE_Interp.weak_iff.1 ha'
+0057:   refine ⟨fun ht => ⟨⟨_, HA.hasType.1.subst W.toSubstEq⟩, ?_⟩, fun m' hm' ht => ?_⟩
+0058:   · have ⟨_, _, _, le_n, le_a, hA', hSort, hmem'⟩ := (LE_Interp.sound HA W.fits).2 ha' |>.out
+0059:     refine (TyDefEq.lift le_n ht).1 <| (LR Γ₀).mono_r_2_ty ((TShape.LE.lift_l le_n).1 le_a)
+0060:       (WShape.lift_type ▸ (WShape.HasType.lift le_n).2 ht)
+0061:       (WShape.HasType.mono_r hSort.le_sort' .sort hmem').toType ?_
+0062:     exact (LR Γ₀).toType <| (LR Γ₀).mono_r_1 hSort.le_sort' hmem'
+0063:       (.mono_r hSort.le_sort' .sort hmem') .sort ((ihA hA' hSort hmem').1 W).1
+0064:   · have le_k := Nat.le_max_left k n; have le_n := Nat.le_max_right k n
+0065:     have ht' := (WShape.HasType.lift le_n).2 ht
+0066:     have hp' := (WShape.HasType.lift le_k).2 hp
+0067:     have hle' := (TShape.LE.def le_n le_k).1 (LE_Interp.bvar_iff.1 hm')
+0068:     have hta₁ := WShape.lift_type ▸ (WShape.HasType.lift le_k).2 hp.isType
+0069:     have hta' := WShape.lift_type ▸ (WShape.HasType.lift le_n).2 ht.isType
+0070:     have hc := hA₁.compat ha'
+0071:     have hj := (TShape.Join.def le_k le_n (Nat.le_refl _)).1 (.mk hc)
+0072:     rw [TShape.lift_join le_k le_n] at hj
+0073:     have ⟨hj1, hj2⟩ := hj.le
+0074:     have hJ := hta₁.join' hj hta'
+0075:     have hJ' := hJ.mono_r hj1 hp'
+0076:     refine (DefEq.lift le_n ht).1 <|
+0077:       (LR Γ₀).mono_r_2 hj2 ht' hJ <|
+0078:       (LR Γ₀).mono_l hle' (hJ.mono_r hj2 ht') hJ' <|
+0079:       (LR Γ₀).mono_r_1 hj1 hp' hJ' ?_ <| (DefEq.lift le_k hp).2 hv
+0080:     have valTyA {nd : Nat} {a : WShape nd} (hA : LE_Interp ρ a.T A) (ha : a.HasType .type) :

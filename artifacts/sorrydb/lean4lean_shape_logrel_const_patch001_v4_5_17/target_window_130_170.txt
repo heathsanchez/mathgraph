@@ -1,0 +1,41 @@
+0130:     have ihs2 := LE_Interp.sound H2.defeq W (m := m.T)
+0131:     have ⟨a₂, s₂, b1, b2, b3, b4⟩ := ihs2.2 hM₂
+0132:     replace b4 := TShape.HasType.sort.mono_r b3.le_sort b4
+0133:     have := TShape.HasType.mono_r hA.le_sort .sort hmem.T
+0134:     refine ih2 (ihs1.1.1 hM) (.sort TShape.sort_eqv.1) ?_
+0135:     exact WShape.HasType.T_iff.1 <| .mono_r TShape.sort_eqv.2 .sort_T <| this.retype b4 b1
+0136:   | @sort _ l =>
+0137:     suffices (LR Γ₀).DefEq (.sort l) (.sort l) (.sort l.succ) m a from
+0138:       ⟨fun _ _ _ => ⟨this, this⟩, fun _ _ => this⟩
+0139:     cases hmem.unfold with
+0140:     | bot hm => exact (LR _).bot hm
+0141:     | sort => exact (LR _).sort_iff.2 ⟨_, .rfl, .rfl⟩
+0142:     | _ =>
+0143:       obtain h | h := WShape.le_sort.1 hM.le_sort'
+0144:       · dsimp only at h; rw [h]; exact (LR _).bot hmem.isType
+0145:       · simp [WShape.ext_iff, WShape.forallE, WShape.sort, Shape.sort,
+0146:           WShape.lam', WShape.lam, WShape.bot, WShape.ctor, WShape.indTy,
+0147:           Shape.bot] at h <;> first | split at h <;> simp_all only [reduceCtorEq] | simp_all
+0148:   | @const c ci Γ ls _ h1 h2 h3 =>
+0149:     cases hM with | bot => exact .bot hmem.isType | const a1 _ a3 a4 a5 a6
+0150:     cases h1.symm.trans a1
+0151:     suffices ∀ {σ}, (LR Γ₀).DefEq (const c ls) (const c ls) (((mk ci.type).instL ls).subst σ) m a
+0152:       from ⟨fun _ _ _ => ⟨this, this⟩, fun _ _ => this⟩
+0153:     intro σ; rw [(Params.henv.closedC h1).mkS.instL.subst_eq .zero]; clear σ
+0154:     sorry
+0155:   | @appDF Γ A u F F' B X X' v _ Hf Ha HBa _ ihf iha ihBa =>
+0156:     cases hM with | bot => exact .bot hmem.isType | @app _ nf_app f _ _ _ x hif hia le_m
+0157:     suffices ∀ {F F' X X' σ σ'}, SubstWF Γ₀ σ σ' Γ ρ →
+0158:         Γ ⊢ F ≡ F' : A.forallE B → Γ ⊢ X ≡ X' : A → Γ ⊢ B.inst X ≡ B.inst X' : .sort v →
+0159:         LE_Interp ρ f.T F → LE_Interp ρ x.T X → LE_Interp ρ a.T (B.inst X) →
+0160:         (∀ {n'} {mf af : WShape n'}, LE_Interp ρ mf.T F → LE_Interp ρ af.T (.forallE A B) →
+0161:           mf.HasType af → Adequate Γ₀ Γ ρ F F' (.forallE A B) mf af) →
+0162:         (∀ {n'} {ma aa : WShape n'}, LE_Interp ρ ma.T X → LE_Interp ρ aa.T A →
+0163:           ma.HasType aa → Adequate Γ₀ Γ ρ X X' A ma aa) →
+0164:         (∀ {n'} {mb av : WShape n'}, LE_Interp ρ mb.T (B.inst X) → LE_Interp ρ av.T (.sort v) →
+0165:           mb.HasType av → Adequate Γ₀ Γ ρ (B.inst X) (B.inst X') (.sort v) mb av) →
+0166:         (LR Γ₀).DefEq (.subst (.app F X) σ) (.subst (.app F' X') σ')
+0167:           (.subst (B.inst X) σ) m a by
+0168:       refine ⟨fun σ σ' W => ⟨?_, ?_⟩, fun σ W => this W Hf.defeq Ha.defeq HBa.defeq hif hia hA ihf iha ihBa⟩
+0169:       · refine this W Hf.defeq.hasType.1 Ha.defeq.hasType.1 HBa.defeq.hasType.1 hif hia hA ?_ ?_ ?_
+0170:         · exact fun hf hPi hmf => (ihf hf hPi hmf).left

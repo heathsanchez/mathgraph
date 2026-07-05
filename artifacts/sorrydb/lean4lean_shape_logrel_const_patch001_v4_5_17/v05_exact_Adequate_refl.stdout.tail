@@ -1,0 +1,37 @@
+⚠ [46/48] Replayed Lean4Lean.Experimental.SExpr
+warning: Lean4Lean/Experimental/SExpr.lean:678:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:679:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:681:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:733:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:736:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:759:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:769:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:785:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:793:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:796:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:822:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:884:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:952:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:958:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:964:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:980:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1007:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1059:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1090:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1166:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1181:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1247:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1258:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1293:8: declaration uses `sorry`
+warning: Lean4Lean/Experimental/SExpr.lean:1315:8: declaration uses `sorry`
+✖ [48/48] Building Lean4Lean.Experimental.ShapeLogRelAdequacy (5.1s)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/Lean4Lean/Experimental/ShapeLogRelAdequacy.lean -o /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/lib/lean/Lean4Lean/Experimental/ShapeLogRelAdequacy.olean -i /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/lib/lean/Lean4Lean/Experimental/ShapeLogRelAdequacy.ilean -c /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/ir/Lean4Lean/Experimental/ShapeLogRelAdequacy.c --setup /private/tmp/sorrydb_lean4lean_shape_logrel_v4_5_17/.lake/build/ir/Lean4Lean/Experimental/ShapeLogRelAdequacy.setup.json --json
+error: Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:154:4: Type mismatch
+  Adequate.refl ?m.1669
+has type
+  Adequate ?m.1661 ?m.1662 ?m.1663 ?m.1667 ?m.1667 ?m.1668 ?m.1665 ?m.1666
+but is expected to have type
+  (LR Γ₀).DefEq (const c ls) (const c ls) (instL ls (mk ci.type)) m a
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.ShapeLogRelAdequacy

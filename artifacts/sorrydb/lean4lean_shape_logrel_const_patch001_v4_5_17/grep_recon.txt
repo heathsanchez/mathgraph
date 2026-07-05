@@ -1,0 +1,1303 @@
+====================================================================================================
+PATTERN: inductive .*DefEq
+Lean4Lean/Experimental/SExpr.lean:589: inductive IsDefEq : List SExpr → SExpr → SExpr → SExpr → Prop where
+Lean4Lean/Experimental/SExpr.lean:643: inductive IsDefEqStrong : List SExpr → SExpr → SExpr → SExpr → Prop where
+Lean4Lean/Experimental/SExpr.lean:931: inductive IsDefEqCtx : List SExpr → List SExpr → Prop
+Lean4Lean/Experimental/StratifiedUntyped.lean:33: inductive IsDefEqU1 : List VExpr → VExpr → VExpr → Prop where
+Lean4Lean/Experimental/StratifiedUntyped.lean:170: inductive IsDefEqU1 : List VExpr → VExpr → VExpr → VLevel → Prop
+Lean4Lean/Experimental/Stratified.lean:46: inductive IsDefEq1 : List VExpr → VExpr → VExpr → VExpr → Prop where
+Lean4Lean/Experimental/Stratified.lean:185: inductive IsDefEqU1 : List VExpr → VExpr → VExpr → VLevel → Prop
+Lean4Lean/Experimental/Stronger.lean:57: inductive IsDefEqStrong : VCtx → VExpr → VExpr → VExpr → VLevel → Prop where
+Lean4Lean/Experimental/UniqueTyping.lean:195: inductive IsDefEq' : List SExpr → SExpr → SExpr → SExpr → Prop where
+Lean4Lean/Experimental/NormalEq.lean:11: inductive IsDefEqCtx : List VExpr → List VExpr → Prop
+Lean4Lean/Verify/Typing/Lemmas.lean:174: inductive VLocalDecl.IsDefEq : VLocalDecl → VLocalDecl → Prop
+Lean4Lean/Verify/Typing/Lemmas.lean:670: inductive VLCtx.IsDefEq : VLCtx → VLCtx → Prop
+Lean4Lean/Verify/TypeChecker/Basic.lean:48: inductive IsDefEqE : Expr → Expr → Prop
+Lean4Lean/Theory/Typing/Lemmas.lean:294: inductive IsDefEqCtx : List VExpr → List VExpr → Prop
+Lean4Lean/Theory/Typing/Strong.lean:16: inductive IsDefEqStrong : List VExpr → VExpr → VExpr → VExpr → Prop where
+Lean4Lean/Theory/Typing/Basic.lean:17: inductive IsDefEq : List VExpr → VExpr → VExpr → VExpr → Prop where
+====================================================================================================
+PATTERN: def .*DefEq
+Lean4Lean/TypeChecker.lean:150: def isDefEqCore (t s : Expr) : RecM Bool := fun m => m.isDefEqCore t s
+Lean4Lean/TypeChecker.lean:152: def isDefEq (t s : Expr) : RecM Bool := do
+Lean4Lean/TypeChecker.lean:450: def isDefEqLambda (t s : Expr) (subst : Array Expr := #[]) : RecM Bool :=
+Lean4Lean/TypeChecker.lean:466: def isDefEqForall (t s : Expr) (subst : Array Expr := #[]) : RecM Bool :=
+Lean4Lean/TypeChecker.lean:482: def quickIsDefEq (t s : Expr) (useHash := false) : RecM LBool := do
+Lean4Lean/TypeChecker.lean:496: def isDefEqArgs (t s : Expr) : RecM Bool := do
+Lean4Lean/TypeChecker.lean:528: def isDefEqApp (t s : Expr) : RecM Bool := do
+Lean4Lean/TypeChecker.lean:542: def isDefEqProofIrrel (t s : Expr) : RecM LBool := do
+Lean4Lean/TypeChecker.lean:610: def isDefEqOffset (t s : Expr) : RecM LBool := do
+Lean4Lean/TypeChecker.lean:648: def isDefEqUnitLike (t s : Expr) : RecM Bool := do
+Lean4Lean/TypeChecker.lean:657: def isDefEqCore' (t s : Expr) : RecM Bool := do
+Lean4Lean/TypeChecker.lean:733: def isDefEq (t s : Expr) : M Bool := (Inner.isDefEq t s).run
+Lean4Lean/Experimental/SExpr.lean:840: def IsDefEqLift := WithLift IsDefEq
+Lean4Lean/Experimental/SExpr.lean:1274: def CRDefEq (Γ : List SExpr) (e₁ e₂ A : SExpr) : Prop :=
+Lean4Lean/Experimental/SExpr.lean:1279: def CRDefEqLift := WithLift CRDefEq
+Lean4Lean/Experimental/Thierry2.lean:624: def DefEqPiF (B F F' : Expr) (b : Shape n) (f : ShapeFun n) : Prop :=
+Lean4Lean/Experimental/Thierry2.lean:631: def DefEqLamF (M M' B F : Expr) (m : ShapeFun n) (b : Shape n) (f : ShapeFun n) : Prop :=
+Lean4Lean/Experimental/Thierry2.lean:640: def DefEqF : ∀ {n}, Expr → Expr → Expr → Shape n → Shape n → Prop
+Lean4Lean/Experimental/Stronger.lean:139: def VDefEq.WF (env : VEnv') (df : VDefEq) : Prop :=
+Lean4Lean/Experimental/Stronger.lean:159: def addDefEq (env : VEnv') (df : VDefEq) : VEnv' :=
+Lean4Lean/Experimental/ParallelReduction.lean:795: def Typing.CRDefEq (Γ : List VExpr) (e₁ e₂ : VExpr) : Prop :=
+Lean4Lean/Experimental/LogRel.lean:23: def Classifier.DefEq (cl : Classifier Γ A u) (a b : SExpr) : Prop :=
+Lean4Lean/Experimental/LogRel.lean:104: def LRDefEq {Γ A u} (a b : SExpr) (H : Γ ⊩[u] A) : Prop := H.1.DefEq a b
+Lean4Lean/Experimental/LogRel.lean:345: def LVDefEq {J : ⊩ᵛ Γ} (JA : J ⊩ᵛ[u] A) (a b : SExpr) : Prop :=
+Lean4Lean/Experimental/MoreStepIndexed.lean:46: def CRDefEqN (Γ : List SExpr) (A B : SExpr) (n : Nat) : Prop :=
+Lean4Lean/Experimental/MoreStepIndexed.lean:346: def Classifier.DefEq (C : Classifier Γ A B (n := n) k) (a b : SExpr) (p : Shape n) : Prop :=
+Lean4Lean/Experimental/ShapeLogRel.lean:5288: def LR0.TyDefEq (Γ : List SExpr) (M N : SExpr) : WShape 0 → Prop
+Lean4Lean/Experimental/ShapeLogRel.lean:5292: def LR0.DefEq (Γ : List SExpr) (M N : SExpr) (m a : WShape 0) : Prop :=
+Lean4Lean/Experimental/ShapeLogRel.lean:5366: def LRS.PiDefEq (IH : LogRel Γ n)
+Lean4Lean/Experimental/ShapeLogRel.lean:5384: def LRS.LamDefEq (IH : LogRel Γ n)
+Lean4Lean/Experimental/ShapeLogRel.lean:5421: def LRS.TyDefEq (IH : LogRel Γ n) (M N : SExpr) : WShape (n+1) → Prop
+Lean4Lean/Experimental/ShapeLogRel.lean:5602: def LRS.DefEq (IH : LogRel Γ n) (M N A : SExpr) (m a : WShape (n+1)) : Prop :=
+Lean4Lean/Theory/Quot.lean:11: def quotDefEq := vdefeq(α r β f c a => @Quot.lift α r β f c (Quot.mk r a) ≡ f a)
+Lean4Lean/Theory/VEnv.lean:32: def VEnv.addDefEq (env : VEnv) (df : VDefEq) : VEnv :=
+Lean4Lean/Theory/VDecl.lean:11: def VDefVal.toDefEq (v : VDefVal) : VDefEq :=
+Lean4Lean/Theory/Typing/Basic.lean:65: def IsDefEqU (env : VEnv) (U : Nat) (Γ : List VExpr) (e₁ e₂ : VExpr) :=
+Lean4Lean/Theory/Typing/Basic.lean:70: def VExpr.WF (env : VEnv) (U : Nat) (Γ : List VExpr) (e : VExpr) := env.IsDefEqU U Γ e e
+Lean4Lean/Theory/Typing/Basic.lean:74: def VDefEq.WF (env : VEnv) (df : VDefEq) : Prop :=
+Lean4Lean/Theory/Typing/Env.lean:18:     VDecl.WF env (.def ci) (env'.addDefEq ci.toDefEq)
+Lean4Lean/Theory/Typing/ChurchRosser.lean:1292: def CRDefEq (Γ : List VExpr) (e₁ e₂ : VExpr) : Prop :=
+====================================================================================================
+PATTERN: \.DefEq
+Lean4Lean/Experimental/CoinductiveLogRel.lean:55:     (∀ {ρ Δ} W {a b} (ab : (@RA ρ Δ W).DefEq a b), (RB W ab.left).EqTy ((B.lift' ρ.cons).inst b)) →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:10:     (LR Γ₀).DefEq (M.subst σ) (M.subst σ') (A.subst σ) m a ∧
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:11:     (LR Γ₀).DefEq (N.subst σ) (N.subst σ') (A.subst σ) m a) ∧
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:12:   ∀ {{σ}}, LR.SubstWF Γ₀ σ σ Γ ρ → (LR Γ₀).DefEq (M.subst σ) (N.subst σ) (A.subst σ) m a
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:23:       (LR Γ₀).DefEq (M.subst σ) (M.subst σ') (A.subst σ) m a) :
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:51:     (hx : Γ₀ ⊢ x ≡ x' : A.subst σ) (hv : (LR Γ₀).DefEq x x' (A.subst σ) p a₁)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:96:     (H : (LR Γ₀).DefEq M N (.sort u) m a) : (LR Γ₀).TyDefEq M N b := by
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:137:     suffices (LR Γ₀).DefEq (.sort l) (.sort l) (.sort l.succ) m a from
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:151:     suffices ∀ {σ}, (LR Γ₀).DefEq (const c ls) (const c ls) (((mk ci.type).instL ls).subst σ) m a
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:166:         (LR Γ₀).DefEq (.subst (.app F X) σ) (.subst (.app F' X') σ')
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:216:     refine (LR.DefEq.lift hk.1 hmem).1 <| (LR Γ₀).mono_r_2 hJ1' hmem_k hJ_t' ?_
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:230:       · rw [LRS.DefEq.lam_forallE] at hAf
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:249:         (LR Γ₀).DefEq (.subst (.lam X Y) σ) (.subst (.lam X' Y') σ')
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:258:         (LR Γ₀).DefEq (.subst (.lam X Y) σ) (.subst (.lam X' Y') σ')
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:283:     simp only [LR, LRS, LRS.DefEq.lam_forallE]
+Lean4Lean/Experimental/LogRel.lean:23: def Classifier.DefEq (cl : Classifier Γ A u) (a b : SExpr) : Prop :=
+Lean4Lean/Experimental/LogRel.lean:24:   Γ ⊢ a ≫≪ b :↑ A ∧ cl.HasTy' a ∧ cl.HasTy' b ∧ cl.DefEq' a b
+Lean4Lean/Experimental/LogRel.lean:26: theorem Classifier.DefEq.symm {cl : Classifier Γ A u} : cl.DefEq a b → cl.DefEq b a
+Lean4Lean/Experimental/LogRel.lean:28: theorem Classifier.DefEq.left {cl : Classifier Γ A u} : cl.DefEq a b → cl.HasTy a
+Lean4Lean/Experimental/LogRel.lean:31: theorem Classifier.defEq_self {cl : Classifier Γ A u} : cl.DefEq a a ↔ cl.HasTy a :=
+Lean4Lean/Experimental/LogRel.lean:34: theorem Classifier.DefEq.imp {Γ A u Γ' A' u'} {cl : Classifier Γ A u} {cl' : Classifier Γ' A' u'}
+Lean4Lean/Experimental/LogRel.lean:38:     (H2 : ∀ {a b}, cl.DefEq' a b → cl'.DefEq' (f a) (f b))
+Lean4Lean/Experimental/LogRel.lean:39:     {a b} : cl.DefEq a b → cl'.DefEq (f a) (f b)
+Lean4Lean/Experimental/LogRel.lean:50:   HasTy' f := ∀ {ρ Δ W a b} (ab : (@RA ρ Δ W).DefEq a b),
+Lean4Lean/Experimental/LogRel.lean:51:     (RB W ab.left).DefEq ((f.lift' ρ).app a) ((f.lift' ρ).app b)
+Lean4Lean/Experimental/LogRel.lean:53:     (RB W ha).DefEq ((f.lift' ρ).app a) ((g.lift' ρ).app a)
+Lean4Lean/Experimental/LogRel.lean:84:     (∀ {ρ Δ} W {a b} (ab : (@RA ρ Δ W).DefEq a b), (RB W ab.left).EqTy ((B.lift' ρ.cons).inst b)) →
+Lean4Lean/Experimental/LogRel.lean:104: def LRDefEq {Γ A u} (a b : SExpr) (H : Γ ⊩[u] A) : Prop := H.1.DefEq a b
+Lean4Lean/Experimental/LogRel.lean:203:     (J.cast eq).1.DefEq a b ↔ cl.DefEq a b := and_congr_left' (eq ▸ .rfl)
+Lean4Lean/Experimental/MoreStepIndexed.lean:346: def Classifier.DefEq (C : Classifier Γ A B (n := n) k) (a b : SExpr) (p : Shape n) : Prop :=
+Lean4Lean/Experimental/MoreStepIndexed.lean:347:   CheckType Γ a A ∧ CheckType Γ b B ∧ CRDefEq Γ a b A ∧ C.DefEq' a b p
+Lean4Lean/Experimental/MoreStepIndexed.lean:349: theorem Classifier.DefEq.mono {C : Classifier Γ A B k}
+Lean4Lean/Experimental/MoreStepIndexed.lean:350:     (le : p ≤ p') : C.DefEq a b p' → C.DefEq a b p
+Lean4Lean/Experimental/MoreStepIndexed.lean:354:   mono' : C.DefEq' a b p → C'.DefEq' a b p
+Lean4Lean/Experimental/MoreStepIndexed.lean:355:   mono'_r : C.DefEq' a b p → C'.DefEq' a b p
+Lean4Lean/Experimental/MoreStepIndexed.lean:363:     C.DefEq a b p → C'.DefEq a b p
+Lean4Lean/Experimental/MoreStepIndexed.lean:410:     (∀ a b p, CA.DefEq a b p → (IH (A₁::Γ) A₂ B₂).TypeEq (kB.app p) (CB a b p)) ∧
+Lean4Lean/Experimental/MoreStepIndexed.lean:412:       DefEq' f g p := ∀ a b p', CA.DefEq a b p' → (CB a b p').DefEq (f.app a) (g.app b) (p.app p')
+Lean4Lean/Experimental/MoreStepIndexed.lean:467:   --         --   ∀ u v, CA.DefEq u v → CF.DefEq (.app _ u)
+Lean4Lean/Experimental/MoreStepIndexed.lean:483:   --       --   ∀ u v, CA.DefEq u v → CF.DefEq (.app _ u)
+Lean4Lean/Experimental/ShapeLogRel.lean:5292: def LR0.DefEq (Γ : List SExpr) (M N : SExpr) (m a : WShape 0) : Prop :=
+Lean4Lean/Experimental/ShapeLogRel.lean:5298:   DefEq M N _ := LR0.DefEq Γ M N
+Lean4Lean/Experimental/ShapeLogRel.lean:5300:   sort_iff := by simp [LR0.DefEq, LR0.TyDefEq, WShape.sort]
+Lean4Lean/Experimental/ShapeLogRel.lean:5302:   bot {_ _ _ _} _ := by simp only [LR0.DefEq, LR0.TyDefEq, WShape.bot]; split <;> trivial
+Lean4Lean/Experimental/ShapeLogRel.lean:5305:     dsimp [LR0.DefEq]; split <;> [trivial; skip]
+Lean4Lean/Experimental/ShapeLogRel.lean:5312:     dsimp [LR0.DefEq]; split <;> [trivial; skip]
+Lean4Lean/Experimental/ShapeLogRel.lean:5319:     dsimp [LR0.DefEq]; split <;> [trivial; skip]
+Lean4Lean/Experimental/ShapeLogRel.lean:5324:     dsimp [LR0.DefEq]; split <;> [(intros; trivial); skip]
+Lean4Lean/Experimental/ShapeLogRel.lean:5334:     obtain ⟨⟨⟩, _⟩ := a <;> obtain ⟨⟨⟩, _⟩ := a' <;> simp [LR0.DefEq]; cases le
+Lean4Lean/Experimental/ShapeLogRel.lean:5341:     simp only [LR0.DefEq]; split <;> [trivial; skip]
+Lean4Lean/Experimental/ShapeLogRel.lean:5350:     dsimp [LR0.DefEq]; split <;> [exact .rfl; skip]
+Lean4Lean/Experimental/ShapeLogRel.lean:5368:   (∀ {{a b' p}}, p.HasType b → Γ ⊢ a ≡ b' : B → IH.DefEq a b' B p b →
+Lean4Lean/Experimental/ShapeLogRel.lean:5371:   ∀ {{a p}}, p.HasType b → Γ ⊢ a : B → IH.DefEq a a B p b →
+Lean4Lean/Experimental/ShapeLogRel.lean:5386:   (∀ {{a b p}}, WShape.HasType p a₁ → Γ ⊢ a ≡ b : A₁ → IH.DefEq a b A₁ p a₁ →
+Lean4Lean/Experimental/ShapeLogRel.lean:5387:     IH.DefEq (M.app a) (M.app b) (A₂.inst a) (m.app p) (a₂.app p) ∧
+Lean4Lean/Experimental/ShapeLogRel.lean:5388:     IH.DefEq (N.app a) (N.app b) (A₂.inst a) (m.app p) (a₂.app p)) ∧
+Lean4Lean/Experimental/ShapeLogRel.lean:5389:   (∀ {{a p}}, WShape.HasType p a₁ → Γ ⊢ a : A₁ → IH.DefEq a a A₁ p a₁ →
+Lean4Lean/Experimental/ShapeLogRel.lean:5390:     IH.DefEq (M.app a) (N.app a) (A₂.inst a) (m.app p) (a₂.app p))
+Lean4Lean/Experimental/ShapeLogRel.lean:5589: to transport the inner `IH.DefEq` terms. HasType is preserved trivially (doesn't mention M, N). -/
+Lean4Lean/Experimental/ShapeLogRel.lean:5602: def LRS.DefEq (IH : LogRel Γ n) (M N A : SExpr) (m a : WShape (n+1)) : Prop :=
+Lean4Lean/Experimental/ShapeLogRel.lean:5619: @[simp] theorem LRS.DefEq.bot_a : LRS.DefEq IH M N A m .bot = True := rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5620: @[simp] theorem LRS.DefEq.sort_a : LRS.DefEq IH M N A m (.sort r) = LRS.TyDefEq IH M N m := rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5621: @[simp] theorem LRS.DefEq.bot_m : LRS.DefEq IH M N A .bot (.forallE a₁ a₂) = True := rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5622: @[simp] theorem LRS.DefEq.lam_forallE (IH : LogRel Γ n) :
+Lean4Lean/Experimental/ShapeLogRel.lean:5623:     LRS.DefEq IH M N A (.lam f hf) (.forallE a₁ a₂) ↔
+Lean4Lean/Experimental/ShapeLogRel.lean:5630: @[simp] theorem LRS.DefEq.sort_forallE :
+Lean4Lean/Experimental/ShapeLogRel.lean:5631:     LRS.DefEq IH M N A (.sort r) (.forallE a₁ a₂) ↔ False := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5632: @[simp] theorem LRS.DefEq.forallE_forallE :
+Lean4Lean/Experimental/ShapeLogRel.lean:5633:     LRS.DefEq IH M N A (.forallE b g) (.forallE a₁ a₂) ↔ False := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5634: @[simp] theorem LRS.DefEq.ctor_forallE :
+Lean4Lean/Experimental/ShapeLogRel.lean:5635:     LRS.DefEq IH M N A (.ctor c l h) (.forallE a₁ a₂) ↔ False := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5636: @[simp] theorem LRS.DefEq.indTy_forallE :
+Lean4Lean/Experimental/ShapeLogRel.lean:5637:     LRS.DefEq IH M N A .indTy (.forallE a₁ a₂) ↔ False := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5638: @[simp] theorem LRS.DefEq.lam_a : LRS.DefEq IH M N A m (.lam f hf) ↔ False := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5639: @[simp] theorem LRS.DefEq.ctor_a {c l h} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5640:     LRS.DefEq (n := n) IH M N A m (.ctor c l h) ↔ False := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5645: @[simp] theorem LRS.DefEq.indTy_a : LRS.DefEq (n := n) IH M N A m .indTy ↔ True := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5648:   DefEq := LRS.DefEq IH
+Lean4Lean/Experimental/ShapeLogRel.lean:5655:     dsimp [LRS.DefEq]; split <;> try trivial
+Lean4Lean/Experimental/ShapeLogRel.lean:5662:     dsimp [LRS.DefEq]; split <;> try trivial
+Lean4Lean/Experimental/ShapeLogRel.lean:5669:     dsimp [LRS.DefEq]; split <;> try trivial
+Lean4Lean/Experimental/ShapeLogRel.lean:5676:     dsimp [LRS.DefEq]; split <;> try intros; trivial
+Lean4Lean/Experimental/ShapeLogRel.lean:5681:     dsimp [LRS.TyDefEq]; dsimp [LRS.DefEq]; split <;> (try · simp); dsimp
+Lean4Lean/Experimental/ShapeLogRel.lean:5706:       | bot => simp [LRS.DefEq.bot_m]
+Lean4Lean/Experimental/ShapeLogRel.lean:5708:         simp only [LRS.DefEq.lam_forallE] at h ⊢
+Lean4Lean/Experimental/ShapeLogRel.lean:5723:       | sort => simp [LRS.DefEq.sort_forallE] at h
+Lean4Lean/Experimental/ShapeLogRel.lean:5724:       | forallE => simp [LRS.DefEq.forallE_forallE] at h
+Lean4Lean/Experimental/ShapeLogRel.lean:5725:       | ctor => simp [LRS.DefEq.ctor_forallE] at h
+Lean4Lean/Experimental/ShapeLogRel.lean:5726:       | indTy => simp [LRS.DefEq.indTy_forallE] at h
+Lean4Lean/Experimental/ShapeLogRel.lean:5729:     | indTy => simp [LRS.DefEq.indTy_a] at h ⊢
+Lean4Lean/Experimental/ShapeLogRel.lean:5749:     | bot => simp only [LRS.DefEq.bot_a]
+Lean4Lean/Experimental/ShapeLogRel.lean:5752:       · have := ha.bot_r; subst this; simp only [LRS.DefEq.sort_a, LRS.TyDefEq.bot]
+Lean4Lean/Experimental/ShapeLogRel.lean:5756:       · have := ha.bot_r; subst this; simp only [LRS.DefEq.bot_m]
+Lean4Lean/Experimental/ShapeLogRel.lean:5758:         | bot => simp only [LRS.DefEq.bot_m]
+Lean4Lean/Experimental/ShapeLogRel.lean:5760:           simp only [LRS.DefEq.lam_forallE] at h ⊢
+Lean4Lean/Experimental/ShapeLogRel.lean:5778:         | sort => exact (LRS.DefEq.sort_forallE.1 h).elim
+Lean4Lean/Experimental/ShapeLogRel.lean:5779:         | forallE => exact (LRS.DefEq.forallE_forallE.1 h).elim
+Lean4Lean/Experimental/ShapeLogRel.lean:5780:         | ctor => exact (LRS.DefEq.ctor_forallE.1 h).elim
+Lean4Lean/Experimental/ShapeLogRel.lean:5781:         | indTy => exact (LRS.DefEq.indTy_forallE.1 h).elim
+Lean4Lean/Experimental/ShapeLogRel.lean:5784:     | indTy => simp [LRS.DefEq.indTy_a]
+Lean4Lean/Experimental/ShapeLogRel.lean:5787:     | bot => simp only [LRS.DefEq.bot_a]
+Lean4Lean/Experimental/ShapeLogRel.lean:5789:       simp only [LRS.DefEq.sort_a] at h ⊢
+Lean4Lean/Experimental/ShapeLogRel.lean:5809:       | bot => simp only [LRS.DefEq.bot_m]
+Lean4Lean/Experimental/ShapeLogRel.lean:5820:             simp only [LRS.DefEq.lam_forallE] at h ⊢
+Lean4Lean/Experimental/ShapeLogRel.lean:5829:     | indTy => simp only [LRS.DefEq.indTy_a]
+Lean4Lean/Experimental/ShapeLogRel.lean:5899:       ((LR Γ).DefEq M N A (m.lift n') (a.lift _) ↔ (LR Γ).DefEq M N A m a)) :
+Lean4Lean/Experimental/ShapeLogRel.lean:5942:       ((LR Γ).DefEq M N A (m.lift n') (a.lift _) ↔ (LR Γ).DefEq M N A m a))
+Lean4Lean/Experimental/ShapeLogRel.lean:5986:       have go {M N} (r : (LR Γ).DefEq M N (A₂.inst a') (g.app qg') (a₂.app qg')) :
+Lean4Lean/Experimental/ShapeLogRel.lean:5987:           (LR Γ).DefEq M N (A₂.inst a') (yg.lift n') (ya.lift n') :=
+Lean4Lean/Experimental/ShapeLogRel.lean:5998:       (LRS.DefEq (n := n) (LR Γ) M N A (m.lift _) (a.lift _) ↔ (LR Γ).DefEq M N A m a)) := by
+Lean4Lean/Experimental/ShapeLogRel.lean:6026:       simp only [LRS.DefEq.lam_forallE]
+Lean4Lean/Experimental/ShapeLogRel.lean:6036: theorem LR.DefEq.lift {m a : WShape n} (le : n ≤ n') (hma : WShape.HasType m a) :
+Lean4Lean/Experimental/ShapeLogRel.lean:6037:     (LR Γ).DefEq M N A (m.lift n') (a.lift _) ↔ (LR Γ).DefEq M N A m a := by
+Lean4Lean/Experimental/ShapeLogRel.lean:6054:     ∀ {{m : WShape n}}, LE_Interp ρ m.T (.bvar i) → m.HasType a → (LR Γ₀).DefEq x x' A m a
+====================================================================================================
+PATTERN: theorem .*DefEq
+Lean4Lean/Experimental/SExpr.lean:678: theorem IsDefEq.strong : Γ ⊢ e1 ≡ e2 : A → IsDefEqStrong Γ e1 e2 A := sorry
+Lean4Lean/Experimental/SExpr.lean:679: theorem IsDefEqStrong.defeq : IsDefEqStrong Γ e1 e2 A → Γ ⊢ e1 ≡ e2 : A := sorry
+Lean4Lean/Experimental/SExpr.lean:689: theorem IsDefEq.hasType (H : Γ ⊢ e1 ≡ e2 : A) :
+Lean4Lean/Experimental/SExpr.lean:785: theorem IsDefEq.subst (W : Ctx.SubstEq Γ₀ σ σ' Γ) :
+Lean4Lean/Experimental/SExpr.lean:799: theorem IsDefEq.weak' (W : Ctx.Lift' ρ Γ Γ') (H : Γ ⊢ e1 ≡ e2 : A) :
+Lean4Lean/Experimental/SExpr.lean:822: theorem IsDefEq.defeqDF_l' (h1 : Γ ⊢ A ≡ A' : .sort u)
+Lean4Lean/Experimental/SExpr.lean:826: theorem IsDefEq.defeqDF_l (h1 : Γ ⊢ A ≡ A' : .sort u)
+Lean4Lean/Experimental/SExpr.lean:881: theorem IsDefEqLift.weak' : Ctx.Lift' ρ Γ Δ → Γ ⊢ e1 ≡ e2 :↑ A →
+Lean4Lean/Experimental/SExpr.lean:884: theorem IsDefEqLift.subst : Ctx.Subst HasType Δ σ Γ → Γ ⊢ e1 ≡ e2 :↑ A →
+Lean4Lean/Experimental/SExpr.lean:902: nonrec theorem IsDefEqLift.weak'_inv : Ctx.Lift' ρ Γ Δ →
+Lean4Lean/Experimental/SExpr.lean:912: nonrec theorem IsDefEqLift.symm : Γ ⊢ e1 ≡ e2 :↑ A → Γ ⊢ e2 ≡ e1 :↑ A := .symm .symm
+Lean4Lean/Experimental/SExpr.lean:914: theorem WithLift.left (H : WithLift DefEq Γ e1 e2 A) : WithLift DefEq Γ e1 e1 A :=
+Lean4Lean/Experimental/SExpr.lean:917: theorem WithLift.right (H : WithLift DefEq Γ e1 e2 A) : WithLift DefEq Γ e2 e2 A :=
+Lean4Lean/Experimental/SExpr.lean:920: theorem IsDefEqLift.left (H : Γ ⊢ e1 ≡ e2 :↑ A) : Γ ⊢ e1 :↑ A where
+Lean4Lean/Experimental/SExpr.lean:925: theorem WithLift.defeq (H : WithLift DefEq Γ e1 e2 A) : DefEq Γ e1 e2 A :=
+Lean4Lean/Experimental/SExpr.lean:928: nonrec theorem IsDefEqLift.defeq (H : Γ ⊢ e1 ≡ e2 :↑ A) : Γ ⊢ e1 ≡ e2 : A := H.defeq
+Lean4Lean/Experimental/SExpr.lean:935: theorem IsDefEq.defeqDFC' (h1 : IsDefEqCtx Γ₀ Γ₁ Γ₂)
+Lean4Lean/Experimental/SExpr.lean:942: theorem IsDefEq.defeqDFC (h1 : IsDefEqCtx Γ₀ Γ₁ Γ₂)
+Lean4Lean/Experimental/SExpr.lean:1216: theorem NormalEq.defeqDFC (W : IsDefEqCtx Γ₀ Γ₁ Γ₂)
+Lean4Lean/Experimental/SExpr.lean:1282: theorem CRDefEq.normalEq (H : Γ ⊢ e₁ ≡ₚ e₂ : A) : Γ ⊢ e₁ ≫≪ e₂ : A :=
+Lean4Lean/Experimental/SExpr.lean:1285: theorem CRDefEq.refl (H : Γ ⊢ e : A) : Γ ⊢ e ≫≪ e : A :=
+Lean4Lean/Experimental/SExpr.lean:1288: theorem CRDefEq.defeq : Γ ⊢ e₁ ≫≪ e₂ : A → Γ ⊢ e₁ ≡ e₂ : A := (·.1)
+Lean4Lean/Experimental/SExpr.lean:1290: theorem CRDefEq.symm : Γ ⊢ e₁ ≫≪ e₂ : A → Γ ⊢ e₂ ≫≪ e₁ : A
+Lean4Lean/Experimental/SExpr.lean:1293: theorem CRDefEq.trans : Γ ⊢ e₁ ≫≪ e₂ : A → Γ ⊢ e₂ ≫≪ e₃ : A → Γ ⊢ e₁ ≫≪ e₃ : A
+Lean4Lean/Experimental/SExpr.lean:1296: theorem CRDefEq.defeqDF : Γ ⊢ e₁ ≫≪ e₂ : A → Γ ⊢ A ≡ B : .sort u → Γ ⊢ e₁ ≫≪ e₂ : B
+Lean4Lean/Experimental/SExpr.lean:1299: theorem CRDefEq.weak' (W : Ctx.Lift' ρ Γ Γ') :
+Lean4Lean/Experimental/SExpr.lean:1303: theorem WHRedS.crDefEq (H1 : Γ ⊢ e1 : A) (H2 : Γ ⊢ e1 ⤳* e2) : Γ ⊢ e1 ≫≪ e2 : A :=
+Lean4Lean/Experimental/SExpr.lean:1306: nonrec theorem CRDefEqLift.symm : Γ ⊢ e1 ≫≪ e2 :↑ A → Γ ⊢ e2 ≫≪ e1 :↑ A := .symm .symm
+Lean4Lean/Experimental/SExpr.lean:1308: theorem CRDefEqLift.defeq (H : Γ ⊢ e1 ≫≪ e2 :↑ A) : Γ ⊢ e1 ≡ e2 :↑ A := H.imp (·.1)
+Lean4Lean/Experimental/SExpr.lean:1310: theorem CRDefEqLift.left (H : Γ ⊢ e1 ≫≪ e2 :↑ A) : Γ ⊢ e1 :↑ A := H.defeq.left
+Lean4Lean/Experimental/SExpr.lean:1312: nonrec theorem CRDefEqLift.refl (H : Γ ⊢ e :↑ A) : Γ ⊢ e ≫≪ e :↑ A :=
+Lean4Lean/Experimental/Thierry2.lean:653: theorem DefEqF.U_U : @DefEqF n A A' V .U .U ↔ V ⤳* .U : .U ∧ A ⤳* .U : .U ∧ A' ⤳* .U : .U := by
+Lean4Lean/Experimental/Thierry2.lean:656: theorem DefEqPiF.left : DefEqPiF DefEqF B F F' b f → DefEqPiF DefEqF B F F b f := by
+Lean4Lean/Experimental/Thierry2.lean:661: theorem DefEqLamF.left : DefEqLamF DefEqF M M' B F m b f → DefEqLamF DefEqF M M B F m b f := by
+Lean4Lean/Experimental/Thierry2.lean:666: theorem DefEqF.left {a : Shape n} : DefEqF M M' A u a → DefEqF M M A u a := by
+Lean4Lean/Experimental/Thierry2.lean:684: theorem DefEqF.bot : DefEqF (n := n) A A .U a .U → DefEqF M N A .bot a := by
+Lean4Lean/Experimental/Thierry2.lean:690: theorem DefEqLamF.bot :
+Lean4Lean/Experimental/Thierry2.lean:702: theorem DefEqF.mono {a a' : Shape n} : DefEqF A A .U a .U → a :ᶠ .U → a' ≤ a →
+Lean4Lean/Experimental/Thierry2.lean:742: theorem DefEqLamF.mono :
+Lean4Lean/Experimental/Thierry2.lean:765: theorem DefEqPiF.mono : DefEqF (n := n) B B .U b .U →
+Lean4Lean/Experimental/Thierry2.lean:782: theorem DefEqF.mono_r : DefEqF (n := n) A A .U a .U → a :ᶠ .U → a' ≤ a →
+Lean4Lean/Experimental/Thierry2.lean:814: theorem DefEqLamF.mono_r : DefEqF (n := n) B B .U a .U → DefEqPiF DefEqF B F F a f →
+Lean4Lean/Experimental/StratifiedUntyped.lean:55: theorem IsDefEq.inductionU1
+Lean4Lean/Experimental/StratifiedUntyped.lean:120: theorem IsDefEqU1.induction
+Lean4Lean/Experimental/StratifiedUntyped.lean:149: protected theorem IsDefEqU1.hasType_ind
+Lean4Lean/Experimental/StratifiedUntyped.lean:178: theorem IsDefEqU1.unique_typing1
+Lean4Lean/Experimental/StratifiedUntyped.lean:245: theorem IsDefEq.unique_typing'
+Lean4Lean/Experimental/StratifiedUntyped.lean:275: theorem IsDefEq.weakN_inv (W : Ctx.LiftN n k Γ Γ')
+Lean4Lean/Experimental/Stratified.lean:75: theorem IsDefEq.induction1
+Lean4Lean/Experimental/Stratified.lean:135: theorem IsDefEq1.induction
+Lean4Lean/Experimental/Stratified.lean:164: protected theorem IsDefEq1.hasType_ind
+Lean4Lean/Experimental/Stratified.lean:193: theorem IsDefEq1.unique_typing1
+Lean4Lean/Experimental/Stratified.lean:260: theorem IsDefEq.unique_typing'
+Lean4Lean/Experimental/Stratified.lean:290: theorem IsDefEq.weakN_inv (W : Ctx.LiftN n k Γ Γ')
+Lean4Lean/Experimental/Stronger.lean:162: @[simp] theorem addDefEq_out {env : VEnv'} :
+Lean4Lean/Experimental/Stronger.lean:166: theorem IsDefEqStrong.hasType {env : VEnv'}
+Lean4Lean/Experimental/Stronger.lean:193: theorem IsDefEqStrong.out
+Lean4Lean/Experimental/Stronger.lean:219: theorem VDefEq.WF.out {ci : VDefEq} (H : ci.WF env) : ci.toVDefEq.WF env.out :=
+Lean4Lean/Experimental/Stronger.lean:241: theorem IsDefEqStrong.weakN (W : Ctx.LiftN n k Γ Γ') (H : env.IsDefEqStrong U Γ e1 e2 A u) :
+Lean4Lean/Experimental/Stronger.lean:282: theorem IsDefEqStrong.mono
+Lean4Lean/Experimental/Stronger.lean:303: theorem IsDefEqStrong.weak0 (H : env.IsDefEqStrong U [] e1 e2 A u) :
+Lean4Lean/Experimental/Stronger.lean:316: theorem IsDefEqStrong.instL (H : env.IsDefEqStrong U Γ e1 e2 A u) :
+Lean4Lean/Experimental/Stronger.lean:387: theorem IsDefEqStrong.instN (W : Ctx.InstN' Γ₀ e₀ A₀ u₀ k Γ₁ Γ)
+Lean4Lean/Experimental/Stronger.lean:456: theorem IsDefEqStrong.defeqDF_l (henv : Ordered env) (hΓ : CtxStrong env U Γ)
+Lean4Lean/Experimental/Stronger.lean:475: theorem IsDefEqStrong.forallE_inv' (hΓ : CtxStrong env U Γ)
+Lean4Lean/Experimental/Stronger.lean:525: theorem IsDefEqStrong.isType' (hΓ : CtxStrong env U Γ) (H : env.IsDefEqStrong U Γ e1 e2 A u) :
+Lean4Lean/Experimental/Stronger.lean:545: theorem IsDefEqStrong.sort_invL {env : VEnv'}
+Lean4Lean/Experimental/Stronger.lean:572: theorem IsDefEqStrong.uniqL'
+Lean4Lean/Experimental/UniqueTyping.lean:138: theorem IsDefEq.toHasTypeS {Γ : List SExpr} {e₁ e₂ A : SExpr}
+Lean4Lean/Experimental/UniqueTyping.lean:174: theorem IsDefEq.uniq_sort {Γ : List SExpr} {e₁ e₂ e₃ : SExpr} {u v : SLevel}
+Lean4Lean/Experimental/UniqueTyping.lean:223: theorem IsDefEq'.toIsDefEq {Γ : List SExpr} {e₁ e₂ A : SExpr}
+Lean4Lean/Experimental/UniqueTyping.lean:242: theorem IsDefEq.toIsDefEq' {Γ : List SExpr} {e₁ e₂ A : SExpr}
+Lean4Lean/Experimental/UniqueTyping.lean:261: theorem IsDefEq.iff_isDefEq' {Γ : List SExpr} {e₁ e₂ A : SExpr} :
+Lean4Lean/Experimental/NormalEq.lean:103: theorem Typing.symm_ctx (H : IsDefEqCtx TY.IsDefEqU Γ₀ Γ₁ Γ₂) : IsDefEqCtx TY.IsDefEqU Γ₀ Γ₂ Γ₁ := by
+Lean4Lean/Experimental/NormalEq.lean:108: theorem Typing.IsDefEqU.weakN (W : Ctx.LiftN n k Γ Γ') :
+Lean4Lean/Experimental/NormalEq.lean:110: theorem Typing.IsDefEq.weakN (W : Ctx.LiftN n k Γ Γ') :
+Lean4Lean/Experimental/NormalEq.lean:113: theorem Typing.IsDefEqU.instN : Ctx.InstN Γ₀ e₀ A₀ k Γ₁ Γ → TY.IsDefEqU Γ₁ e1 e2 →
+Lean4Lean/Experimental/NormalEq.lean:115: theorem Typing.IsDefEq.instN : Ctx.InstN Γ₀ e₀ A₀ k Γ₁ Γ → TY.IsDefEq Γ₁ e₁ e₂ A →
+Lean4Lean/Experimental/NormalEq.lean:133: theorem Typing.IsDefEqU.apply_pat
+Lean4Lean/Experimental/NormalEq.lean:201: theorem NormalEq.defeq (H : NormalEq TY Γ e1 e2) : TY.IsDefEqU Γ e1 e2 := by
+Lean4Lean/Experimental/NormalEq.lean:315: theorem NormalEq.defeqDFC (W : IsDefEqCtx TY.IsDefEqU Γ₀ Γ₁ Γ₂)
+Lean4Lean/Experimental/NormalEq.lean:340: theorem NormalEq.defeq_l (W : TY.IsDefEqU Γ A A') (H : NormalEq TY (A::Γ) e1 e2) :
+Lean4Lean/Experimental/NormalEq.lean:343: theorem NormalEq.weakN_inv_DFC (W : Ctx.LiftN n k Γ Γ₂) (W₂ : IsDefEqCtx TY.IsDefEqU Γ₀ Γ₁ Γ₂)
+Lean4Lean/Experimental/ParallelReduction.lean:97: theorem ParRed.defeq (H : ParRed TY Γ e e') (he : TY.HasType Γ e A) : TY.IsDefEqU Γ e e' := by
+Lean4Lean/Experimental/ParallelReduction.lean:123: theorem ParRed.defeqDFC (W : IsDefEqCtx TY.IsDefEqU Γ₀ Γ₁ Γ₂)
+Lean4Lean/Experimental/ParallelReduction.lean:158: -- theorem IsDefEqU.applyL {p : Pattern} (r : p.RHS) {m1 m1' m2}
+Lean4Lean/Experimental/ParallelReduction.lean:446: theorem ParRedS.defeq (H : ParRedS TY Γ e e') (h : TY.HasType Γ e A) : TY.IsDefEqU Γ e e' := by
+Lean4Lean/Experimental/ParallelReduction.lean:451: theorem ParRedS.defeqDFC (W : IsDefEqCtx TY.IsDefEqU Γ₀ Γ₁ Γ₂)
+Lean4Lean/Experimental/ParallelReduction.lean:819: theorem Typing.CRDefEq.normalEq (H : NormalEq TY Γ e₁ e₂) : TY.CRDefEq Γ e₁ e₂ :=
+Lean4Lean/Experimental/ParallelReduction.lean:822: theorem Typing.CRDefEq.refl (H : TY.HasType Γ e A) : TY.CRDefEq Γ e e :=
+Lean4Lean/Experimental/ParallelReduction.lean:825: theorem Typing.CRDefEq.defeq : TY.CRDefEq Γ e₁ e₂ → TY.IsDefEqU Γ e₁ e₂
+Lean4Lean/Experimental/ParallelReduction.lean:829: theorem Typing.CRDefEq.symm : TY.CRDefEq Γ e₁ e₂ → TY.CRDefEq Γ e₂ e₁
+Lean4Lean/Experimental/ParallelReduction.lean:832: theorem Typing.CRDefEq.trans : TY.CRDefEq Γ e₁ e₂ → TY.CRDefEq Γ e₂ e₃ → TY.CRDefEq Γ e₁ e₃
+Lean4Lean/Experimental/ParallelReduction.lean:839: theorem VEnv.IsDefEq.toTyping (H : TY.env.IsDefEq TY.univs Γ e₁ e₂ A) :
+Lean4Lean/Experimental/ParallelReduction.lean:858: theorem VEnv.IsDefEqU.church_rosser
+Lean4Lean/Experimental/LogRel.lean:26: theorem Classifier.DefEq.symm {cl : Classifier Γ A u} : cl.DefEq a b → cl.DefEq b a
+Lean4Lean/Experimental/LogRel.lean:28: theorem Classifier.DefEq.left {cl : Classifier Γ A u} : cl.DefEq a b → cl.HasTy a
+Lean4Lean/Experimental/LogRel.lean:31: theorem Classifier.defEq_self {cl : Classifier Γ A u} : cl.DefEq a a ↔ cl.HasTy a :=
+Lean4Lean/Experimental/LogRel.lean:34: theorem Classifier.DefEq.imp {Γ A u Γ' A' u'} {cl : Classifier Γ A u} {cl' : Classifier Γ' A' u'}
+Lean4Lean/Experimental/LogRel.lean:110: theorem LRDefEq.defeq {J : Γ ⊩[u] A} (H : J ⊩ a ≡ b) : Γ ⊢ a ≡ b :↑ A := H.1.defeq
+Lean4Lean/Experimental/LogRel.lean:111: nonrec theorem LRDefEq.left {Γ A u a b} {J : Γ ⊩[u] A} (H : J ⊩ a ≡ b) : J ⊩ a :=
+Lean4Lean/Experimental/LogRel.lean:117: theorem LRDefEq.cast {J : Γ ⊩[u] A} (eq : A = A') : J.cast eq ⊩ a ≡ b ↔ J ⊩ a ≡ b := by
+Lean4Lean/Experimental/LogRel.lean:186: theorem LRDefEq.irrel {J J' : Γ ⊩[u] A} (H : J ⊩ a ≡ b) : J' ⊩ a ≡ b := by
+Lean4Lean/Experimental/LogRel.lean:232: theorem LRDefEq.weak' (W : Ctx.Lift' ρ Γ Δ) {J : Γ ⊩[u] A} (H : J ⊩ a ≡ b) :
+Lean4Lean/Experimental/LogRel.lean:254: nonrec theorem LRDefEq.symm {J : Γ ⊩[u] A} (H : J ⊩ a ≡ b) : J ⊩ b ≡ a := H.symm
+Lean4Lean/Experimental/LogRel.lean:349: theorem LVDefEq.refl {J : ⊩ᵛ Γ} {JA : J ⊩ᵛ[u] A} (H : JA ⊩ᵛ a) : JA ⊩ᵛ a ≡ a := ⟨H, H, H⟩
+Lean4Lean/Experimental/LogRel.lean:350: theorem LVDefEq.symm {J : ⊩ᵛ Γ} {JA : J ⊩ᵛ[u] A} : JA ⊩ᵛ a ≡ b → JA ⊩ᵛ b ≡ a
+Lean4Lean/Experimental/MoreStepIndexed.lean:49: theorem CRDefEqN.mono : n ≤ n' → CRDefEqN Γ e e' n → CRDefEqN Γ e e' n'
+Lean4Lean/Experimental/MoreStepIndexed.lean:349: theorem Classifier.DefEq.mono {C : Classifier Γ A B k}
+Lean4Lean/Experimental/ShapeLogRel.lean:5283: theorem LogRelBase.TyDefEq.sort {R : LogRel Γ n} : R.TyDefEq (.sort u) (.sort u) (.sort r) :=
+Lean4Lean/Experimental/ShapeLogRel.lean:5374: theorem LRS.PiDefEq.left {IH : LogRel Γ n} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5393: theorem LRS.LamDefEq.mono_r_1 {IH : LogRel Γ n}
+Lean4Lean/Experimental/ShapeLogRel.lean:5426: @[simp] theorem LRS.TyDefEq.bot : LRS.TyDefEq IH M N .bot := trivial
+Lean4Lean/Experimental/ShapeLogRel.lean:5427: @[simp] theorem LRS.TyDefEq.sort_iff :
+Lean4Lean/Experimental/ShapeLogRel.lean:5429: @[simp] theorem LRS.TyDefEq.lam' : LRS.TyDefEq IH M N (.lam' f) := by
+Lean4Lean/Experimental/ShapeLogRel.lean:5431: @[simp] theorem LRS.TyDefEq.ctor' : LRS.TyDefEq IH M N (.ctor' c l) := by
+Lean4Lean/Experimental/ShapeLogRel.lean:5433: @[simp] theorem LRS.TyDefEq.forallE_iff :
+Lean4Lean/Experimental/ShapeLogRel.lean:5436: theorem LRS.TyDefEq.left {IH : LogRel Γ n} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5443: theorem LRS.TyDefEq.symm {IH : LogRel Γ n} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5454: theorem LRS.TyDefEq.trans {IH : LogRel Γ n} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5468: theorem LRS.LamDefEq.left {IH : LogRel Γ n} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5474: theorem LRS.LamDefEq.symm {IH : LogRel Γ n} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5480: theorem LRS.LamDefEq.trans {IH : LogRel Γ n} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5487: theorem LRS.PiDefEq.mono_r_2 {IH : LogRel Γ n}
+Lean4Lean/Experimental/ShapeLogRel.lean:5505: theorem LRS.LamDefEq.mono_r_2 {IH : LogRel Γ n}
+Lean4Lean/Experimental/ShapeLogRel.lean:5525: theorem LRS.LamDefEq.mono_l {IH : LogRel Γ n}
+Lean4Lean/Experimental/ShapeLogRel.lean:5545: theorem LRS.PiDefEq.join {IH : LogRel Γ n}
+Lean4Lean/Experimental/ShapeLogRel.lean:5590: theorem LRS.LamDefEq.whr {IH : LogRel Γ n}
+Lean4Lean/Experimental/ShapeLogRel.lean:5619: @[simp] theorem LRS.DefEq.bot_a : LRS.DefEq IH M N A m .bot = True := rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5620: @[simp] theorem LRS.DefEq.sort_a : LRS.DefEq IH M N A m (.sort r) = LRS.TyDefEq IH M N m := rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5621: @[simp] theorem LRS.DefEq.bot_m : LRS.DefEq IH M N A .bot (.forallE a₁ a₂) = True := rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5622: @[simp] theorem LRS.DefEq.lam_forallE (IH : LogRel Γ n) :
+Lean4Lean/Experimental/ShapeLogRel.lean:5630: @[simp] theorem LRS.DefEq.sort_forallE :
+Lean4Lean/Experimental/ShapeLogRel.lean:5632: @[simp] theorem LRS.DefEq.forallE_forallE :
+Lean4Lean/Experimental/ShapeLogRel.lean:5634: @[simp] theorem LRS.DefEq.ctor_forallE :
+Lean4Lean/Experimental/ShapeLogRel.lean:5636: @[simp] theorem LRS.DefEq.indTy_forallE :
+Lean4Lean/Experimental/ShapeLogRel.lean:5638: @[simp] theorem LRS.DefEq.lam_a : LRS.DefEq IH M N A m (.lam f hf) ↔ False := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5639: @[simp] theorem LRS.DefEq.ctor_a {c l h} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5641: @[simp] theorem LRS.TyDefEq.lam_m : LRS.TyDefEq IH M N (.lam f hf) ↔ True := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5642: @[simp] theorem LRS.TyDefEq.ctor_m {c l h} :
+Lean4Lean/Experimental/ShapeLogRel.lean:5644: @[simp] theorem LRS.TyDefEq.indTy_m : LRS.TyDefEq (n := n) IH M N .indTy ↔ True := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5645: @[simp] theorem LRS.DefEq.indTy_a : LRS.DefEq (n := n) IH M N A m .indTy ↔ True := .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:5894: private theorem LRS.PiDefEq.lift_aux
+Lean4Lean/Experimental/ShapeLogRel.lean:5939: private theorem LRS.LamDefEq.lift_aux
+Lean4Lean/Experimental/ShapeLogRel.lean:6036: theorem LR.DefEq.lift {m a : WShape n} (le : n ≤ n') (hma : WShape.HasType m a) :
+Lean4Lean/Experimental/ShapeLogRel.lean:6042: theorem LR.TyDefEq.lift {m : WShape n} (le : n ≤ n') (hmt : WShape.HasType m .type) :
+Lean4Lean/Verify/EquivManager.lean:70: theorem IsDefEqE.relevant (H : RelevantEq e₁ e₂) : IsDefEqE env us Δ e₁ e₂ := by
+Lean4Lean/Verify/EquivManager.lean:119: theorem IsDefEqE.trExpr
+Lean4Lean/Verify/EquivManager.lean:163: theorem IsDefEqE.uniq (henv : env.WF) (noBV : Δ.NoBV) (hΔ : Δ.WF env Us.length)
+Lean4Lean/Verify/EquivManager.lean:327: theorem isDefEq.WF {c : VContext} {s : VState}
+Lean4Lean/Verify/TypeChecker.lean:84: nonrec theorem isDefEq.WF {c : VContext} {s : VState}
+Lean4Lean/Verify/Typing/Lemmas.lean:641: theorem TrProj.defeqDFC (henv : VEnv.WF env) (hΓ : env.IsDefEqCtx U [] Γ₁ Γ₂)
+Lean4Lean/Verify/Typing/Lemmas.lean:679: theorem VLocalDecl.IsDefEq.refl : ∀ {d}, VLocalDecl.WF env U Γ d → VLocalDecl.IsDefEq env U Γ d d
+Lean4Lean/Verify/Typing/Lemmas.lean:684: theorem VLCtx.IsDefEq.refl : ∀ {Δ}, VLCtx.WF env U Δ → VLCtx.IsDefEq env U Δ Δ
+Lean4Lean/Verify/Typing/Lemmas.lean:688: theorem VLCtx.IsDefEq.defeqCtx : VLCtx.IsDefEq env U Δ₁ Δ₂ → env.IsDefEqCtx U [] Δ₁.toCtx Δ₂.toCtx
+Lean4Lean/Verify/Typing/Lemmas.lean:693: theorem VLCtx.IsDefEq.fvars : VLCtx.IsDefEq env U Δ₁ Δ₂ → Δ₁.fvars = Δ₂.fvars
+Lean4Lean/Verify/Typing/Lemmas.lean:698: theorem VLocalDecl.IsDefEq.wf : VLocalDecl.IsDefEq env U Γ d₁ d₂ → VLocalDecl.WF env U Γ d₁
+Lean4Lean/Verify/Typing/Lemmas.lean:702: theorem VLCtx.IsDefEq.wf : VLCtx.IsDefEq env U Δ₁ Δ₂ → VLCtx.WF env U Δ₁
+Lean4Lean/Verify/Typing/Lemmas.lean:706: theorem VLocalDecl.IsDefEq.symm :
+Lean4Lean/Verify/Typing/Lemmas.lean:711: theorem VLocalDecl.IsDefEq.defeqDFC (henv : Ordered env) (hΓ : IsDefEqCtx env U Γ₀ Γ₁ Γ₂)
+====================================================================================================
+PATTERN: def .*Adequate
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:8: def LR.Adequate (Γ₀ Γ : List SExpr) (ρ : Valuation) (M N A : SExpr) (m a : WShape n) :=
+====================================================================================================
+PATTERN: theorem LR\.Adequate
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:14: theorem LR.Adequate.bot (ha : a.HasType .type) : Adequate Γ₀ Γ ρ M N A .bot a :=
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:17: theorem LR.Adequate.fits
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:21: theorem LR.Adequate.refl
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:26: theorem LR.Adequate.left : Adequate Γ₀ Γ ρ M N A m a → Adequate Γ₀ Γ ρ M M A m a
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:29: theorem LR.Adequate.symm : Adequate Γ₀ Γ ρ M N A m a → Adequate Γ₀ Γ ρ N M A m a
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:32: theorem LR.Adequate.trans :
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:37: theorem LR.Adequate.trans' : Adequate Γ₀ Γ ρ A₁ A₂ (.sort u) a s →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:45: theorem LR.Adequate.cons
+====================================================================================================
+PATTERN: theorem LR\.adequacy
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:106: theorem LR.adequacy (H : Γ ⊢ M ≡ N : A)
+====================================================================================================
+PATTERN: \.const
+Main.lean:227:     match (← get).env.constants.find? ctor, (← read).newConstants[ctor]? with
+Main.lean:238:     match (← get).env.constants.find? ctor, (← read).newConstants[ctor]? with
+Main.lean:293:   for name in mod.constNames, ci in mod.constants do
+Main.lean:303:     let ctx := { newConstants := env.constants.map₁, verbose, compare, checkQuot := false }
+Lean4Lean/Quot.lean:35:         if info.type != ((← read).mkForall #[α, a] <| mkApp3 (.const ``Eq [.param u]) α a a) then
+Lean4Lean/Quot.lean:54:         type := (← read).mkForall #[α, r, a] <| mkApp2 (.const ``Quot [u]) α r
+Lean4Lean/Quot.lean:57:   let quot_r := mkApp2 (.const ``Quot [u]) α r
+Lean4Lean/Quot.lean:64:     let fa_eq_fb := mkApp3 (.const ``Eq [v]) β (.app f a) (.app f b)
+Lean4Lean/Quot.lean:72:   let quotMk_a := mkApp3 (.const ``Quot.mk [u]) α r a
+Lean4Lean/Quot.lean:86:   let .const fn _ := e.getAppFn | return none
+Lean4Lean/EquivManager.lean:46:     | .const c1 l1, .const c2 l2 => pure <| c1 == c2 && l1 == l2
+Lean4Lean/TypeChecker.lean:104:   let e := Expr.const name ls
+Lean4Lean/TypeChecker.lean:198:   let .const I_name I_levels := I | fail
+Lean4Lean/TypeChecker.lean:244:     | .const c ls => inferConstant (← readThe Context) c ls inferOnly
+Lean4Lean/TypeChecker.lean:290:   let .const mkC _ := mk | return none
+Lean4Lean/TypeChecker.lean:300:   | .bvar .. | .sort .. | .mvar .. | .forallE .. | .const .. | .lam .. | .lit .. => return e
+Lean4Lean/TypeChecker.lean:311:   | .bvar .. | .sort .. | .mvar .. | .forallE .. | .const .. | .lam .. | .lit ..
+Lean4Lean/TypeChecker.lean:345:   if let .const c _ := e.getAppFn then
+Lean4Lean/TypeChecker.lean:352:   let .const _ ls := e | return none
+Lean4Lean/TypeChecker.lean:372:   let .app f (.const c _) := e | return none
+Lean4Lean/TypeChecker.lean:373:   if f == .const ``reduceBool [] then
+Lean4Lean/TypeChecker.lean:375:   else if f == .const ``reduceNat [] then
+Lean4Lean/TypeChecker.lean:404:     if f == .const ``Nat.succ [] then
+Lean4Lean/TypeChecker.lean:408:     let .app (.app (.const f _) a) b := e | return none
+Lean4Lean/TypeChecker.lean:433:   | .lam .. | .app .. | .const .. | .letE .. | .proj .. => pure ()
+Lean4Lean/TypeChecker.lean:514:   let .const f _ := s.getAppFn | return false
+Lean4Lean/TypeChecker.lean:596:         if Level.isEquivList tn.getAppFn.constLevels! sn.getAppFn.constLevels! then
+Lean4Lean/TypeChecker.lean:607:   | .app (.const ``Nat.succ _) e => return e
+Lean4Lean/TypeChecker.lean:640:   unless sf == .const ``String.ofList [] do return .undef
+Lean4Lean/TypeChecker.lean:650:   let .const I _ := tType.getAppFn | return false
+Lean4Lean/TypeChecker.lean:680:   | .const tf tl, .const sf sl =>
+Lean4Lean/Level.lean:52:   beq n₁ n₂ := n₁.const == n₂.const && n₁.var == n₂.var
+Lean4Lean/Level.lean:54:   compare n₁ n₂ := compare n₁.const n₂.const |>.then <| compare n₁.var n₂.var
+Lean4Lean/Level.lean:99:   acc.modify path fun n => { n with const := k.max n.const }
+Lean4Lean/Level.lean:140:         if n₁.const = 0 ||
+Lean4Lean/Level.lean:141:           (same || n₁.const > n₂.const) &&
+Lean4Lean/Level.lean:142:           (n₂.var.isEmpty || n₁.const > n₁.var.foldl (·.max ·.offset) 0 + 1)
+Lean4Lean/Level.lean:166:     if n₁.const = 0 && n₁.var.isEmpty then true else
+Lean4Lean/Level.lean:170:       (n₁.const ≤ n₂.const || n₂.var.any (n₁.const ≤ ·.offset + 1)) &&
+Lean4Lean/Level.lean:213:     t.modify n.path fun t => { t with const := n.const, var := n.var }
+Lean4Lean/Expr.lean:71: def natZero : Expr := .const ``Nat.zero []
+Lean4Lean/Expr.lean:72: def natSucc : Expr := .const ``Nat.succ []
+Lean4Lean/Expr.lean:75:   let .const fn _ := e.getAppFn | none
+Lean4Lean/Expr.lean:84:   let char := .const ``Char []
+Lean4Lean/Expr.lean:85:   let listNil := .app (.const ``List.nil [.zero]) char
+Lean4Lean/Expr.lean:86:   let listCons := .app (.const ``List.cons [.zero]) char
+Lean4Lean/Expr.lean:87:   let stringMk := .const ``String.ofList []
+Lean4Lean/Expr.lean:88:   let charOfNat := .const ``Char.ofNat []
+Lean4Lean/Primitive.lean:165:   let .const ``Acc.rec [_, u] := accRec | fail
+Lean4Lean/Primitive.lean:168:   let wfn' := mkApp4 (.const ``Acc.intro [u]) α r n L
+Lean4Lean/Primitive.lean:204:   let .const ``WellFounded.Nat.fix [_, _] := fix | fail
+Lean4Lean/Primitive.lean:219:     unless ← defeq1 (mkApp eager x) (c.ite q(Nat) #[mkApp2 (.const ``Nat.beq []) x x] x x) do fail
+Lean4Lean/Primitive.lean:407:     let .app (.const ``Nat.bitwise []) and := v.value | fail
+Lean4Lean/Primitive.lean:415:     let .app (.const ``Nat.bitwise []) or := v.value | fail
+Lean4Lean/Primitive.lean:423:     let .app (.const ``Nat.bitwise []) xor := v.value | fail
+Lean4Lean/Primitive.lean:473:     let [⟨``Bool.false, .const ``Bool []⟩, ⟨``Bool.true, .const ``Bool []⟩] := type.ctors | fail
+Lean4Lean/Primitive.lean:476:       ⟨``Nat.zero, .const ``Nat []⟩,
+Lean4Lean/Primitive.lean:477:       ⟨``Nat.succ, .forallE _ (.const ``Nat []) (.const ``Nat []) _⟩
+Lean4Lean/Experimental/SExpr.lean:18:   | .const c, top, n => cl c = some (if top then .symb n else .ctor n)
+Lean4Lean/Experimental/SExpr.lean:40:   --   Subpattern (.app p₁' p₂') p' → Arity (.const c) n p₂ → Arity (.const c) n' p₂' → n = n'
+Lean4Lean/Experimental/SExpr.lean:101:   | .const c us, _ => .const c us
+Lean4Lean/Experimental/SExpr.lean:118:   | .sort .., _ | .const .., _ => True
+Lean4Lean/Experimental/SExpr.lean:142:   | .const c us => .const c (us.map (SLevel.inst ls))
+Lean4Lean/Experimental/SExpr.lean:148:   | .bvar .., h | .sort .., h | .const .., h => h
+Lean4Lean/Experimental/SExpr.lean:154:   | .const c us => .const c (us.map .mk)
+Lean4Lean/Experimental/SExpr.lean:160:   | .bvar .., h | .sort .., h | .const .., h => h
+Lean4Lean/Experimental/SExpr.lean:253:   | .const c us, _ => .const c us
+Lean4Lean/Experimental/SExpr.lean:334:   | .sort .., _ | .const .., _ => True
+Lean4Lean/Experimental/SExpr.lean:511:   | const : MatchesS (.const c) (.const c ls) ls nofun
+Lean4Lean/Experimental/SExpr.lean:596:   | const : env.constants c = some ci → ls.length = ci.uvars →
+Lean4Lean/Experimental/SExpr.lean:597:     Γ ⊢ .const c ls : (SExpr.mk ci.type).instL ls
+Lean4Lean/Experimental/SExpr.lean:638:   H.Ts.foldr .forallE (H.args.foldr (fun A acc => acc.app A) (.const H.I ls))
+Lean4Lean/Experimental/SExpr.lean:650:   | const : env.constants c = some ci → ls.length = ci.uvars →
+Lean4Lean/Experimental/SExpr.lean:654:     Γ ⊢ .const c ls : (SExpr.mk ci.type).instL ls
+Lean4Lean/Experimental/SExpr.lean:683:     (hci : env.constants c = some ci) (h_len : ls.length = ci.uvars) :
+Lean4Lean/Experimental/SExpr.lean:687:         Ts.foldr .forallE (args.foldr (fun A acc => acc.app A) (.const I ls)) : .sort u := sorry
+Lean4Lean/Experimental/SExpr.lean:703:     env.constants c = some ci →
+Lean4Lean/Experimental/SExpr.lean:706:     Γ ⊢ .const c ls :! (mk ci.type).instL ls !! n+1
+Lean4Lean/Experimental/SExpr.lean:807:   | const h1 h2 => rw [(henv.closedC h1).mkS.instL.lift'_eq .zero]; exact .const h1 h2
+Lean4Lean/Experimental/SExpr.lean:1050:   | const : Γ ⊢ .const c ls ≫ .const c ls
+Lean4Lean/Experimental/SExpr.lean:1063:   | .const => .const
+Lean4Lean/Experimental/SExpr.lean:1083:   | const : env.constants c = some ci → ls.length = ci.uvars →
+Lean4Lean/Experimental/SExpr.lean:1084:     Γ ⊢ .const c ls ▷ (SExpr.mk ci.type).instL ls
+Lean4Lean/Experimental/SExpr.lean:1108:   | .const h1 h2 => by rw [(henv.closedC h1).mkS.instL.lift'_eq .zero]; exact .const h1 h2
+Lean4Lean/Experimental/SExpr.lean:1120:     let .const .. := e; cases he
+Lean4Lean/Experimental/SExpr.lean:1121:     exact ⟨_, ((henv.closedC h1).mkS.instL.lift'_eq .zero).symm, .const h1 h2⟩
+Lean4Lean/Experimental/SExpr.lean:1154:     exact .const h1 h2
+Lean4Lean/Experimental/StratifiedUntyped.lean:20:     env.constants c = some ci →
+Lean4Lean/Experimental/StratifiedUntyped.lean:23:     Γ ⊢ .const c ls : ci.type.instL ls
+Lean4Lean/Experimental/StratifiedUntyped.lean:37:   | constDF : List.Forall₂ (· ≈ ·) ls ls' → Γ ⊢ .const c ls ≡ .const c ls'
+Lean4Lean/Experimental/StratifiedUntyped.lean:72:     exact ⟨.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5⟩
+Lean4Lean/Experimental/StratifiedUntyped.lean:105:   | const h1 h2 h3 => exact .const h1 h2 h3
+Lean4Lean/Experimental/StratifiedUntyped.lean:211:   case const.const _ _ _ =>
+Lean4Lean/Experimental/StratifiedUntyped.lean:228:   --   exact .const h1 (by simp [h2, VLevel.WF.inst hls]) (by simp [h3])
+Lean4Lean/Experimental/StratifiedUntyped.lean:255:     exact .const h1 (by simp [h2, VLevel.WF.inst hls]) (by simp [h3])
+Lean4Lean/Experimental/StratifiedUntyped.lean:286:     exact eqA ▸ .const h1 h2 h3
+Lean4Lean/Experimental/Stratified.lean:33:     env.constants c = some ci →
+Lean4Lean/Experimental/Stratified.lean:36:     Γ ⊢ .const c ls : ci.type.instL ls
+Lean4Lean/Experimental/Stratified.lean:51:     env.constants c = some ci →
+Lean4Lean/Experimental/Stratified.lean:56:     Γ ⊢ .const c ls ≡ .const c ls' : ci.type.instL ls
+Lean4Lean/Experimental/Stratified.lean:90:     exact ⟨.const h1 h2 h4,
+Lean4Lean/Experimental/Stratified.lean:91:       .defeq (u := u.inst ls₁) sorry <| .const h1 h3 (h5.length_eq.symm.trans h4),
+Lean4Lean/Experimental/Stratified.lean:92:       .constDF h1 h2 h3 h4 h5⟩
+Lean4Lean/Experimental/Stratified.lean:123:   | const h1 h2 h3 => exact .const h1 h2 h3
+Lean4Lean/Experimental/Stratified.lean:141:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/Stratified.lean:226:   case const.const _ _ _ =>
+Lean4Lean/Experimental/Stratified.lean:243:   --   exact .const h1 (by simp [h2, VLevel.WF.inst hls]) (by simp [h3])
+Lean4Lean/Experimental/Stratified.lean:270:     exact .const h1 (by simp [h2, VLevel.WF.inst hls]) (by simp [h3])
+Lean4Lean/Experimental/Stratified.lean:301:     exact eqA ▸ .const h1 h2 h3
+Lean4Lean/Experimental/Stronger.lean:26:   constants c := (env.constants c).map (·.toVConstant)
+Lean4Lean/Experimental/Stronger.lean:33:   constants : env1.constants n = some a → env2.constants n = some a
+Lean4Lean/Experimental/Stronger.lean:65:     env.constants c = some ci →
+Lean4Lean/Experimental/Stronger.lean:75:     Γ ⊢ .const c ls ≡ .const c ls' : ci.type.instL ls : u
+Lean4Lean/Experimental/Stronger.lean:143:   match env.constants name with
+Lean4Lean/Experimental/Stronger.lean:145:   | none => some { env with constants := fun n => if name = n then some ci else env.constants n }
+Lean4Lean/Experimental/Stronger.lean:150:   cases env.constants n <;> simp
+Lean4Lean/Experimental/Stronger.lean:153: theorem constants_out {env : VEnv'} (H : env.constants n = some ci) :
+Lean4Lean/Experimental/Stronger.lean:154:     env.out.constants n = some ci.toVConstant := by simp [VEnv'.out, H]
+Lean4Lean/Experimental/Stronger.lean:200:   | constDF h1 h2 h3 h4 h5 => exact .constDF (constants_out h1) h2 h3 h4 h5
+Lean4Lean/Experimental/Stronger.lean:232:   | const h1 h2 h3 ih => exact .const ih h2.out (addConst_out h3)
+Lean4Lean/Experimental/Stronger.lean:236:   (∀ {n ci}, env.constants n = some ci →
+Lean4Lean/Experimental/Stronger.lean:250:     exact .constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 (ih3 W) (ih4 W)
+Lean4Lean/Experimental/Stronger.lean:290:     exact .constDF (henv.1 h1) h2 h3 h4 h5 h6 h7 ih1 ih2 ih3 ih4
+Lean4Lean/Experimental/Stronger.lean:323:     exact .constDF h1
+Lean4Lean/Experimental/Stronger.lean:411:     exact .constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 (ih3 W hΓ) (ih4 W hΓ)
+Lean4Lean/Experimental/DomainTheory.lean:19:   | .const c ls => .const c ls
+Lean4Lean/Experimental/DomainTheory.lean:30:   | .const c ls, _, _ => .const c ls
+Lean4Lean/Experimental/DomainTheory.lean:229:   -- | .const c ls => .const c ls
+Lean4Lean/Experimental/UniqueTyping.lean:33:     env.constants c = some ci → ls.length = ci.uvars →
+Lean4Lean/Experimental/UniqueTyping.lean:35:     Γ ⊨ .const c ls :! (mk ci.type).instL ls
+Lean4Lean/Experimental/UniqueTyping.lean:61:   | const h1 h2 _ _ => exact .const h1 h2
+Lean4Lean/Experimental/UniqueTyping.lean:107:     let .const h_c' _ _ := H2_s
+Lean4Lean/Experimental/UniqueTyping.lean:152:     exact and_self_iff.2 <| .base <| .const h1 h2 ih_T.1
+Lean4Lean/Experimental/UniqueTyping.lean:200:   | const : env.constants c = some ci → ls.length = ci.uvars →
+Lean4Lean/Experimental/UniqueTyping.lean:201:     Γ ⊢' .const c ls : (SExpr.mk ci.type).instL ls
+Lean4Lean/Experimental/UniqueTyping.lean:230:   | const h1 h2 => exact .const h1 h2
+Lean4Lean/Experimental/UniqueTyping.lean:250:   | const h1 h2 => exact .const h1 h2
+Lean4Lean/Experimental/NormalEq.lean:35:     env.constants c = some ci →
+Lean4Lean/Experimental/NormalEq.lean:38:     Γ ⊢ .const c ls ≡ .const c ls'
+Lean4Lean/Experimental/NormalEq.lean:46:     env.constants c = some ci →
+Lean4Lean/Experimental/NormalEq.lean:48:     Γ ⊢ .const c ls : ci.type.instL ls
+Lean4Lean/Experimental/NormalEq.lean:79:   const_inv : Γ ⊢ .const c ls : V →
+Lean4Lean/Experimental/NormalEq.lean:80:     ∃ ci, env.constants c = some ci ∧ (∀ l ∈ ls, l.WF univs) ∧ ls.length = ci.uvars
+Lean4Lean/Experimental/NormalEq.lean:168:     TY.env.constants c = some ci →
+Lean4Lean/Experimental/NormalEq.lean:173:     Γ ⊢ .const c ls ≡ₚ .const c ls'
+Lean4Lean/Experimental/NormalEq.lean:206:   | constDF h1 h2 h3 h4 h5 => exact TY.constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:229:     exact .constDF h1 h3 h2 (h5.length_eq.symm.trans h4) (h5.flip.imp (fun _ _ h => h.symm))
+Lean4Lean/Experimental/NormalEq.lean:243:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:266:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:298:     let ⟨_, h1, h2, h3⟩ := TY.const_inv H
+Lean4Lean/Experimental/NormalEq.lean:299:     exact .refl (TY.const h1 h2 h3)
+Lean4Lean/Experimental/NormalEq.lean:320:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:359:     exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:442:   | .bvar _ | .const .. | .sort _ => 0
+Lean4Lean/Experimental/NormalEq.lean:452:   | .constDF l1 l2 _ l4 l5, .constDF _ _ r3 r4 r5 =>
+Lean4Lean/Experimental/NormalEq.lean:453:     .constDF l1 l2 r3 l4 (l5.trans (fun _ _ _ h1 => h1.trans) r5)
+Lean4Lean/Experimental/ParallelReduction.lean:21:   | const : Γ ⊢ .const c ls ≫ .const c ls
+Lean4Lean/Experimental/ParallelReduction.lean:36:   | const : ¬NonNeutral TY Γ (.const c ls) → Γ ⊢ .const c ls ⋙ .const c ls
+Lean4Lean/Experimental/ParallelReduction.lean:51:   | .const .. => .const
+Lean4Lean/Experimental/ParallelReduction.lean:128:   | const => exact .const
+====================================================================================================
+PATTERN: constDF
+Lean4Lean/Experimental/StratifiedUntyped.lean:37:   | constDF : List.Forall₂ (· ≈ ·) ls ls' → Γ ⊢ .const c ls ≡ .const c ls'
+Lean4Lean/Experimental/StratifiedUntyped.lean:71:   | @constDF _ _ ls₁ ls₂ _ _ h1 h2 h3 h4 h5 =>
+Lean4Lean/Experimental/StratifiedUntyped.lean:72:     exact ⟨.const h1 h2 h4, .defeq sorry <| .const h1 h3 (h5.length_eq.symm.trans h4), .constDF h5⟩
+Lean4Lean/Experimental/Stratified.lean:50:   | constDF :
+Lean4Lean/Experimental/Stratified.lean:89:   | @constDF _ _ ls₁ ls₂ u _ h1 h2 h3 h4 h5 =>
+Lean4Lean/Experimental/Stratified.lean:92:       .constDF h1 h2 h3 h4 h5⟩
+Lean4Lean/Experimental/Stratified.lean:141:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/Stronger.lean:64:   | constDF :
+Lean4Lean/Experimental/Stronger.lean:200:   | constDF h1 h2 h3 h4 h5 => exact .constDF (constants_out h1) h2 h3 h4 h5
+Lean4Lean/Experimental/Stronger.lean:248:   | constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 _ _ _ _ ih3 ih4 =>
+Lean4Lean/Experimental/Stronger.lean:250:     exact .constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 (ih3 W) (ih4 W)
+Lean4Lean/Experimental/Stronger.lean:289:   | constDF h1 h2 h3 h4 h5 h6 h7 _ _ _ _ ih1 ih2 ih3 ih4 =>
+Lean4Lean/Experimental/Stronger.lean:290:     exact .constDF (henv.1 h1) h2 h3 h4 h5 h6 h7 ih1 ih2 ih3 ih4
+Lean4Lean/Experimental/Stronger.lean:321:   | constDF h1 h2 h3 h4 h5 h6 _ _ _ _ _ ih1 ih2 ih3 ih4 =>
+Lean4Lean/Experimental/Stronger.lean:323:     exact .constDF h1
+Lean4Lean/Experimental/Stronger.lean:409:   | constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 _ _ _ _ ih3 ih4 =>
+Lean4Lean/Experimental/Stronger.lean:411:     exact .constDF h1 h2 h3 h4 h5 h6 h7 h8 h9 (ih3 W hΓ) (ih4 W hΓ)
+Lean4Lean/Experimental/Stronger.lean:532:   | constDF _ _ _ _ _ _ _ _ _ h => exact h
+Lean4Lean/Experimental/Stronger.lean:552:   | constDF _ _ _ _ _ _ _ _ _ _ _ _ _ ih
+Lean4Lean/Experimental/Stronger.lean:596:   | @constDF c ci ls _ _ _ h1 _ _ _ h2 hu _ d1 d2 d3 d4 ih1 ih2 ih3 ih4 =>
+Lean4Lean/Experimental/Stronger.lean:599:     | @constDF c' _ ls' _ _ _ h1' _ _ _ h2' hu' =>
+Lean4Lean/Experimental/NormalEq.lean:34:   constDF :
+Lean4Lean/Experimental/NormalEq.lean:167:   | constDF :
+Lean4Lean/Experimental/NormalEq.lean:206:   | constDF h1 h2 h3 h4 h5 => exact TY.constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:228:   | constDF h1 h2 h3 h4 h5 =>
+Lean4Lean/Experimental/NormalEq.lean:229:     exact .constDF h1 h3 h2 (h5.length_eq.symm.trans h4) (h5.flip.imp (fun _ _ h => h.symm))
+Lean4Lean/Experimental/NormalEq.lean:243:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:266:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:320:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:356:   | constDF h1 h2 h3 h4 h5 =>
+Lean4Lean/Experimental/NormalEq.lean:359:     exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Experimental/NormalEq.lean:452:   | .constDF l1 l2 _ l4 l5, .constDF _ _ r3 r4 r5 =>
+Lean4Lean/Experimental/NormalEq.lean:453:     .constDF l1 l2 r3 l4 (l5.trans (fun _ _ _ h1 => h1.trans) r5)
+Lean4Lean/Experimental/ParallelReduction.lean:695:   | constDF l1 l2 l3 l4 l5 =>
+Lean4Lean/Experimental/ParallelReduction.lean:697:     | const => exact ⟨_, .tail .rfl .const, .constDF l1 l2 l3 l4 l5⟩
+Lean4Lean/Experimental/ParallelReduction.lean:846:   | constDF h1 h2 h3 h4 h5 => exact ⟨TY.constDF h1 h2 h3 h4 h5, TY.const h1 h2 h4⟩
+Lean4Lean/Experimental/ParallelReduction.lean:869:   | constDF h1 h2 h3 h4 h5 => exact .normalEq (.constDF h1 h2 h3 h4 h5)
+Lean4Lean/Verify/Typing/Lemmas.lean:1497:     refine ⟨_, .const h1 a1 (by simp [h3]), _, .constDF h1 (.of_mapM_ofLevel a1) ?_ ?_ a2⟩
+Lean4Lean/Verify/TypeChecker/IsDefEq.lean:384:   have := VEnv.IsDefEq.constDF c1₁
+Lean4Lean/Verify/TypeChecker/IsDefEq.lean:526:       have := VEnv.IsDefEq.constDF c1
+Lean4Lean/Theory/Typing/Lemmas.lean:227:   .constDF h1 h2 h2 h3 (.rfl fun _ _ => rfl)
+Lean4Lean/Theory/Typing/Lemmas.lean:325:   | constDF h1 =>
+Lean4Lean/Theory/Typing/Lemmas.lean:389:   | constDF h1 h2 h3 h4 h5 => exact .constDF (henv.1 h1) h2 h3 h4 h5
+Lean4Lean/Theory/Typing/Lemmas.lean:468:   | constDF _ h2 h3 => exact ⟨h2, h3, .instL h2⟩
+Lean4Lean/Theory/Typing/Lemmas.lean:508:   | constDF h1 h2 h3 h4 h5 =>
+Lean4Lean/Theory/Typing/Lemmas.lean:510:     exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Theory/Typing/Lemmas.lean:603:   | @constDF _ _ ls₁ ls₂ _ h1 h2 h3 h4 h5 =>
+Lean4Lean/Theory/Typing/Lemmas.lean:605:     exact .constDF h1 (by simp [VLevel.WF.inst hls]) (by simp [VLevel.WF.inst hls])
+Lean4Lean/Theory/Typing/Lemmas.lean:651:   | constDF h1 h2 h3 h4 h5 =>
+Lean4Lean/Theory/Typing/Lemmas.lean:653:     exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Theory/Typing/Lemmas.lean:849:   | constDF h1 h2 =>
+Lean4Lean/Theory/Typing/Strong.lean:23:   | constDF :
+Lean4Lean/Theory/Typing/Strong.lean:149:   | constDF h1 h2 h3 h4 h5 h6 h7 _ _ ih2 =>
+Lean4Lean/Theory/Typing/Strong.lean:151:     exact .constDF h1 h2 h3 h4 h5 h6 h7 (ih2 W)
+Lean4Lean/Theory/Typing/Strong.lean:189:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Theory/Typing/Strong.lean:207:   | constDF h1 h2 h3 h4 h5 h6 _ _ ih1 ih2 =>
+Lean4Lean/Theory/Typing/Strong.lean:208:     exact .constDF (henv.1 h1) h2 h3 h4 h5 h6 ih1 ih2
+Lean4Lean/Theory/Typing/Strong.lean:246:   | constDF h1 h2 h3 h4 h5 =>
+Lean4Lean/Theory/Typing/Strong.lean:303:   | constDF h1 h2 h3 h4 h5 _ _ _ ih1 ih2 =>
+Lean4Lean/Theory/Typing/Strong.lean:305:     exact .constDF h1
+Lean4Lean/Theory/Typing/Strong.lean:372:   | constDF h1 h2 h3 h4 h5 h6 h7 _ _ ih2 =>
+Lean4Lean/Theory/Typing/Strong.lean:374:     exact .constDF h1 h2 h3 h4 h5 h6 h7 (ih2 W hΓ)
+Lean4Lean/Theory/Typing/Strong.lean:486:   | constDF h1 h2 =>
+Lean4Lean/Theory/Typing/Strong.lean:535:   | constDF h1 h2 h3 h4 h5 h6 _ _ ih1 ih2 =>
+Lean4Lean/Theory/Typing/Strong.lean:543:       .constDF h1 a2 b2 (a3.length_eq.symm.trans h4) c2 (.inst a2) this (this.weak0 henv)
+Lean4Lean/Theory/Typing/Strong.lean:620:   | @constDF _ _ ls₁ ls₂ _ h1 h2 h3 h4 h5 =>
+Lean4Lean/Theory/Typing/Strong.lean:623:     exact .constDF h1 h2 h3 h4 h5 (.inst h2) this (this.weak0 henv)
+Lean4Lean/Theory/Typing/Strong.lean:714:   | constDF h1 h2 h3 h4 h5 h6 h7 h8 ih1 ih2 =>
+Lean4Lean/Theory/Typing/Strong.lean:752:     exact .constDF h1 h2 h2 h3 (.rfl fun _ _ => rfl) h4 ih1 ih2
+Lean4Lean/Theory/Typing/Basic.lean:24:   | constDF :
+Lean4Lean/Theory/Typing/ChurchRosser.lean:82:   | constDF :
+Lean4Lean/Theory/Typing/ChurchRosser.lean:121:   | constDF h1 h2 h3 h4 h5 => exact ⟨_, .constDF h1 h2 h3 h4 h5⟩
+Lean4Lean/Theory/Typing/ChurchRosser.lean:146:   | constDF h1 h2 h3 h4 h5 =>
+Lean4Lean/Theory/Typing/ChurchRosser.lean:147:     exact .constDF h1 h3 h2 (h5.length_eq.symm.trans h4) (h5.flip.imp (fun _ _ h => h.symm))
+Lean4Lean/Theory/Typing/ChurchRosser.lean:167:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Theory/Typing/ChurchRosser.lean:192:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Theory/Typing/ChurchRosser.lean:251:   | constDF h1 h2 h3 h4 h5 => exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Theory/Typing/ChurchRosser.lean:289:   | constDF h1 h2 h3 h4 h5 =>
+Lean4Lean/Theory/Typing/ChurchRosser.lean:292:     exact .constDF h1 h2 h3 h4 h5
+Lean4Lean/Theory/Typing/ChurchRosser.lean:398:   | .constDF l1 l2 _ l4 l5, .constDF _ _ r3 r4 r5 =>
+Lean4Lean/Theory/Typing/ChurchRosser.lean:399:     .constDF l1 l2 r3 l4 (l5.trans (fun _ _ _ h1 => h1.trans) r5)
+Lean4Lean/Theory/Typing/ChurchRosser.lean:1184:   | constDF l1 l2 l3 l4 l5 =>
+Lean4Lean/Theory/Typing/ChurchRosser.lean:1186:     | const => exact ⟨_, .tail .rfl .const, .constDF l1 l2 l3 l4 l5⟩
+Lean4Lean/Theory/Typing/ChurchRosser.lean:1352:   | constDF h1 h2 h3 h4 h5 => exact .normalEq hΓ (.constDF h1 h2 h3 h4 h5)
+====================================================================================================
+PATTERN: LE_Interp
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:46:     (ihA : ∀ {ρ n} {m a : WShape n}, LE_Interp ρ m.T A → LE_Interp ρ a.T (.sort u) →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:50:     (hp : p.HasType a₁) (hA₁ : LE_Interp ρ a₁.T A)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:54:   · have ⟨_, _, le_a, hA', hSort, hmem'⟩ := (LE_Interp.sound HA W.fits).2 hA
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:56:   have ha' := LE_Interp.weak_iff.1 ha'
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:58:   · have ⟨_, _, _, le_n, le_a, hA', hSort, hmem'⟩ := (LE_Interp.sound HA W.fits).2 ha' |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:67:     have hle' := (TShape.LE.def le_n le_k).1 (LE_Interp.bvar_iff.1 hm')
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:80:     have valTyA {nd : Nat} {a : WShape nd} (hA : LE_Interp ρ a.T A) (ha : a.HasType .type) :
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:82:       have ⟨_, _, _, le_n, le_a, hA', hSort, hmem'⟩ := (LE_Interp.sound HA W.left.fits).2 hA |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:95:     (ht : b.HasType .type) (hSort : LE_Interp ρ a.T (.sort u)) (hmem' : m.HasType a)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:107:     (hM : LE_Interp ρ m.T M) (hA : LE_Interp ρ a.T A) (hmem : m.HasType a) :
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:112:     have hle := LE_Interp.bvar_iff.1 hM; clear hM
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:120:       | succ h' => exact lift_subst ▸ ih h' (LE_Interp.weak_iff.1 hA) hle
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:121:   | symm H ih => exact .fits fun W => (ih ((LE_Interp.sound H.defeq W).1.2 hM) hA hmem).symm
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:123:     exact .fits fun W => (ih1 hM hA hmem).trans (ih2 ((LE_Interp.sound H1.defeq W).1.1 hM) hA hmem)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:129:     refine have ihs1 := LE_Interp.sound H1.defeq W; have hM₂ := ihs1.1.1 hM; ?_
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:130:     have ihs2 := LE_Interp.sound H2.defeq W (m := m.T)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:159:         LE_Interp ρ f.T F → LE_Interp ρ x.T X → LE_Interp ρ a.T (B.inst X) →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:160:         (∀ {n'} {mf af : WShape n'}, LE_Interp ρ mf.T F → LE_Interp ρ af.T (.forallE A B) →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:162:         (∀ {n'} {ma aa : WShape n'}, LE_Interp ρ ma.T X → LE_Interp ρ aa.T A →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:164:         (∀ {n'} {mb av : WShape n'}, LE_Interp ρ mb.T (B.inst X) → LE_Interp ρ av.T (.sort v) →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:175:           ((LE_Interp.sound Hf.defeq W.fits).1.1 hif) ((LE_Interp.sound Ha.defeq W.fits).1.1 hia)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:176:           ((LE_Interp.sound HBa.defeq W.fits).1.1 hA)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:178:         · have ⟨_, _, _, le, le', iB, iv, hmb⟩ := (LE_Interp.sound HBa.defeq W.fits).2 hA |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:180:         · exact (ihf ((LE_Interp.sound Hf.defeq W.left.fits).1.2 hf) hPi hmf).symm.left
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:181:         · exact (iha ((LE_Interp.sound Ha.defeq W.left.fits).1.2 ha) hA hma).symm.left
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:182:         · exact (ihBa ((LE_Interp.sound HBa.defeq W.left.fits).1.2 hB) hv hmb).symm.left
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:184:     have ⟨_, mf, _, le_nf, le_mf, hf', hPi, hmf⟩ := (LE_Interp.sound hF W.left.fits).2 hif |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:203:     have hax' := LE_Interp.forallE' haA hbA hd hiB |>.mono le |>.forallE_inv.2 hia'
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:223:         (LE_Interp.sound hBa W.left.fits).2 (hA.join hJ hax') |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:244:         LE_Interp ρ m.T (.lam X Y) → SubstWF Γ₀ σ σ' Γ ρ →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:247:           LE_Interp (ρ.push p.T) mb.T Y → LE_Interp (ρ.push p.T) ab.T B → mb.HasType ab →
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:254:         · exact (LE_Interp.sound (.lamDF HA.defeq HBody.defeq) W.fits).1.1 hM
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:255:         · exact (ihBody ((LE_Interp.sound HBody.defeq W).1.2 hMb') hBb hmb).symm.left
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:278:       (LE_Interp.sound HA.defeq W.left.fits).2 hA1 |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:293:         (LE_Interp.sound HB.defeq W'.fits).2 (hA.forallE_inv'.2 p) |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:308:         have ⟨n', _, _, le, le', iB, iv, hmb⟩ := (LE_Interp.sound HB.defeq W'.fits).2 hBb_sd |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:334:         (LE_Interp.sound HA.defeq W.left.fits).2 hA1 |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:351:             (LE_Interp.sound HBody.defeq W'.fits).2 hB |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:366:         · have ⟨_, _, _, le, le', iB, iv, hmb⟩ := (LE_Interp.sound HBody.defeq W'.fits).2 hB |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:375:         have ⟨_, _, _, le, le', iB, iv, hmb⟩ := (LE_Interp.sound HBody.defeq W'.fits).2 hB |>.out)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:381:       have hA' := (LE_Interp.sound Hty.defeq W.fits).1.2 hA
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:383:         (LE_Interp.sound Hty.defeq W.fits).2 hA' |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:386:       have hA' := (LE_Interp.sound Hty.defeq W.left.fits).1.2 hA
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:393:     · exact ((ihinst ((LE_Interp.sound (.beta He.defeq Ha.defeq) W.fits).1.1 hM) hA hmem).1 W).2
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:398:     · exact ((ihe ((LE_Interp.sound (.eta He.defeq) W.fits).1.1 hM) hA hmem).1 W).2
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:399:     have hM' := (LE_Interp.sound (.eta He.defeq) W.fits).1.1 hM
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:419:     have ⟨_, _, s, le_n, le_a, _, hSort, hmem'⟩ := (LE_Interp.sound Hp.defeq W).2 hA |>.out
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:427:     · exact ((ihr ((LE_Interp.sound (.extra h1 h2) W.fits).1.1 hM) hA hmem).1 W).2
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:437:   have hPi : LE_Interp .nil (WShape.T (n := 1) (.forallE .bot WShapeFun.bot)) (.forallE B₁ F₁) := by
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:444:   have := (LR.adequacy d ((LE_Interp.sound d .nil).1.2 hPi) (.sort TShape.sort_eqv.1) hmem).2 .id
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:460:   have hM : LE_Interp .nil (WShape.T (n := 1) (.sort (decide (u ≠ .zero)))) (.sort u) :=
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:462:   have ⟨n, mU, mV, h1, h2, h3, hA, h5⟩ := (LE_Interp.sound d .nil).2 hM |>.out
+Lean4Lean/Experimental/ShapeLogRel.lean:3299: inductive LE_Interp.Matches : (p : Pattern) → ∀ {n}, Name → List (WShape n) → (p.Path → TShape) → Prop
+Lean4Lean/Experimental/ShapeLogRel.lean:3307: inductive LE_Interp.RHS : TShape → p.RHS → Prop
+Lean4Lean/Experimental/ShapeLogRel.lean:3314: inductive LE_Interp.Const : List (WShape n) → TShape → Prop
+Lean4Lean/Experimental/ShapeLogRel.lean:3324: inductive LE_Interp : Valuation → TShape → SExpr → Prop
+Lean4Lean/Experimental/ShapeLogRel.lean:3325:   | bot : LE_Interp ρ (WShape.T (n := n) .bot) M
+Lean4Lean/Experimental/ShapeLogRel.lean:3326:   | bvar : m ≤ ρ i → LE_Interp ρ m (.bvar i)
+Lean4Lean/Experimental/ShapeLogRel.lean:3327:   | sort : m ≤ .sort (l ≠ .zero) → LE_Interp ρ m (.sort l)
+Lean4Lean/Experimental/ShapeLogRel.lean:3328:   | app : LE_Interp ρ (WShape.T f) F → LE_Interp ρ a.T A →
+Lean4Lean/Experimental/ShapeLogRel.lean:3329:     m ≤ (f.app a).T → LE_Interp ρ m (.app F A)
+Lean4Lean/Experimental/ShapeLogRel.lean:3330:   | lam : LE_Interp ρ (WShape.T (n := n) a) A →
+Lean4Lean/Experimental/ShapeLogRel.lean:3331:     WShape.HasDom f a → (∀ x, x.HasType a → LE_Interp (ρ.push x.T) (f.app x).T F) →
+Lean4Lean/Experimental/ShapeLogRel.lean:3332:     m ≤ WShape.T (n := _+1) (.lam' f) → LE_Interp ρ m (.lam A F)
+Lean4Lean/Experimental/ShapeLogRel.lean:3333:   | forallE : LE_Interp ρ (WShape.T (n := n) b) B → LE_Interp ρ (WShape.T (n := n) b') B →
+Lean4Lean/Experimental/ShapeLogRel.lean:3334:     WShape.HasDom f b' → (∀ x, x.HasType b' → LE_Interp (ρ.push x.T) (f.app x).T F) →
+Lean4Lean/Experimental/ShapeLogRel.lean:3335:     m ≤ WShape.T (n := n+1) (.forallE b f) → LE_Interp ρ m (.forallE B F)
+Lean4Lean/Experimental/ShapeLogRel.lean:3339:     LE_Interp ρ a ((SExpr.mk ci.type).instL ls) →
+Lean4Lean/Experimental/ShapeLogRel.lean:3340:     LE_Interp.Const c ls R [] m' → (∀ m e, R m e → LE_Interp ρ m e) →
+Lean4Lean/Experimental/ShapeLogRel.lean:3341:     LE_Interp ρ m (.const c ls)
+Lean4Lean/Experimental/ShapeLogRel.lean:3343: theorem LE_Interp.bvar' : LE_Interp ρ (ρ i) (.bvar i) := .bvar .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:3344: theorem LE_Interp.bvar0 : LE_Interp (.push ρ x) x (.bvar 0) := .bvar' (ρ := ρ.push x) (i := 0)
+Lean4Lean/Experimental/ShapeLogRel.lean:3345: theorem LE_Interp.sort' : LE_Interp ρ (.sort (l ≠ .zero)) (.sort l) := .sort .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:3346: theorem LE_Interp.app' (h1 : LE_Interp ρ (WShape.T f) F) (h2 : LE_Interp ρ a.T A) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3347:     LE_Interp ρ (f.app a).T (.app F A) := .app h1 h2 .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:3348: theorem LE_Interp.lam' {f : WShapeFun n} {a : WShape n}
+Lean4Lean/Experimental/ShapeLogRel.lean:3349:     (h1 : LE_Interp ρ (WShape.T a) A) (h2 : WShape.HasDom f a)
+Lean4Lean/Experimental/ShapeLogRel.lean:3350:     (h3 : ∀ x, x.HasType a → LE_Interp (ρ.push x.T) (f.app x).T F) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3351:     LE_Interp ρ (WShape.T (n := n+1) (WShape.lam' f)) (.lam A F) := .lam h1 h2 h3 .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:3352: theorem LE_Interp.forallE' {f : WShapeFun n} {b b' : WShape n}
+Lean4Lean/Experimental/ShapeLogRel.lean:3353:     (h1 : LE_Interp ρ b.T B) (h2 : LE_Interp ρ b'.T B) (h3 : WShape.HasDom f b')
+Lean4Lean/Experimental/ShapeLogRel.lean:3354:     (h4 : ∀ x, x.HasType b' → LE_Interp (ρ.push x.T) (f.app x).T F) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3355:     LE_Interp ρ (WShape.T (n := n+1) (.forallE b f)) (.forallE B F) := .forallE h1 h2 h3 h4 .rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:3357: theorem LE_Interp.bvar_iff : LE_Interp ρ m (.bvar i) ↔ m ≤ ρ i :=
+Lean4Lean/Experimental/ShapeLogRel.lean:3360: theorem LE_Interp.le_sort (H : LE_Interp ρ m (.sort u)) : m ≤ .sort (u ≠ .zero) := by
+Lean4Lean/Experimental/ShapeLogRel.lean:3366: theorem LE_Interp.le_sort' (H : LE_Interp ρ m (.sort u)) : m.2 ≤ .sort (u ≠ .zero) :=
+Lean4Lean/Experimental/ShapeLogRel.lean:3369: theorem LE_Interp.RHS.mono (h : m ≤ m')
+Lean4Lean/Experimental/ShapeLogRel.lean:3378: theorem LE_Interp.Const.mono (h : m ≤ m')
+Lean4Lean/Experimental/ShapeLogRel.lean:3388: theorem LE_Interp.mono (h : m ≤ m') (H : LE_Interp ρ m' M) : LE_Interp ρ m M := by
+Lean4Lean/Experimental/ShapeLogRel.lean:3398: theorem LE_Interp.mono_l (hρ : ρ.LE ρ') (H : LE_Interp ρ m M) : LE_Interp ρ' m M := by
+Lean4Lean/Experimental/ShapeLogRel.lean:3411: theorem LE_Interp.unlift (le : m.1 ≤ n)
+Lean4Lean/Experimental/ShapeLogRel.lean:3412:     (H : LE_Interp ρ (m.2.lift n).T M) : LE_Interp ρ m M := H.mono (TShape.lift_eqv le).2
+Lean4Lean/Experimental/ShapeLogRel.lean:3414: theorem LE_Interp.RHS.mono_l (hm : ∀ p, m2' p ≤ m2 p) (H : RHS m1 m2' R m r) : RHS m1 m2 R m r := by
+Lean4Lean/Experimental/ShapeLogRel.lean:3421: theorem LE_Interp.Matches.varN_const_head
+Lean4Lean/Experimental/ShapeLogRel.lean:3427: theorem LE_Interp.Matches.arity (H : Matches p c rargs m) : Arity (.const c) rargs.length p := by
+Lean4Lean/Experimental/ShapeLogRel.lean:3433: theorem LE_Interp.Matches.head_wf (H : Matches p c rargs m) (wf : p.WF cl top k) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3440: theorem LE_Interp.Matches.head_wf_eq (H : Matches p c rargs m) (wf : p.WF cl top k) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3451: theorem LE_Interp.Matches.mono_l {rargs rargs'} (wfp : p.WF Params.classify b k)
+Lean4Lean/Experimental/ShapeLogRel.lean:3468: theorem LE_Interp.Const.mono_l (h : rargs.Forall₂ (· ≤ ·) rargs')
+Lean4Lean/Experimental/ShapeLogRel.lean:3480: theorem LE_Interp.Matches.matches_inter {rargs rargs'}
+Lean4Lean/Experimental/ShapeLogRel.lean:3506: theorem LE_Interp.Matches.compat_join {rargs rargs'}
+Lean4Lean/Experimental/ShapeLogRel.lean:3534: theorem LE_Interp.Matches.unique {p : Pattern} {c : Name} {n : Nat} {rargs : List (WShape n)}
+Lean4Lean/Experimental/ShapeLogRel.lean:3552: theorem LE_Interp.RHS.compat_join
+Lean4Lean/Experimental/ShapeLogRel.lean:3621: theorem LE_Interp.Matches.lift (le : n ≤ n') (H : Matches (n := n) p c rargs m) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3635: theorem LE_Interp.Const.lift (hn : n₁ ≤ n₂)
+Lean4Lean/Experimental/ShapeLogRel.lean:3657: theorem LE_Interp.lift (le : m.1 ≤ n)
+Lean4Lean/Experimental/ShapeLogRel.lean:3658:     (H : LE_Interp ρ m M) : LE_Interp ρ (m.2.lift n).T M := H.mono (TShape.lift_eqv le).1
+Lean4Lean/Experimental/ShapeLogRel.lean:3660: theorem LE_Interp.RHS.closed
+Lean4Lean/Experimental/ShapeLogRel.lean:3668: theorem LE_Interp.Const.closed
+Lean4Lean/Experimental/ShapeLogRel.lean:3677: theorem LE_Interp.closed (cl : ClosedN M k) (h : ∀ i < k, ρ i = ρ' i)
+Lean4Lean/Experimental/ShapeLogRel.lean:3678:     (H : LE_Interp ρ m M) : LE_Interp ρ' m M := by
+Lean4Lean/Experimental/ShapeLogRel.lean:3696: theorem LE_Interp.closed_iff {M : SExpr} (cl : ClosedN M)
+Lean4Lean/Experimental/ShapeLogRel.lean:3697:     {ρ ρ' : Valuation} {m : TShape} : LE_Interp ρ m M ↔ LE_Interp ρ' m M :=
+Lean4Lean/Experimental/ShapeLogRel.lean:3700: theorem LE_Interp.weak'_iff (l : Lift) (h : ∀ i, ρ i = ρ' (l.liftVar i)) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3701:     LE_Interp ρ' m (M.lift' l) ↔ LE_Interp ρ m M := by
+Lean4Lean/Experimental/ShapeLogRel.lean:3736: theorem LE_Interp.weak_iff : LE_Interp (ρ.push x) m M.lift ↔ LE_Interp ρ m M :=
+Lean4Lean/Experimental/ShapeLogRel.lean:3737:   LE_Interp.weak'_iff (.skip .refl) (fun _ => rfl)
+Lean4Lean/Experimental/ShapeLogRel.lean:3739: theorem LE_Interp.weak (H : LE_Interp ρ m M) : LE_Interp (ρ.push x) m M.lift :=
+Lean4Lean/Experimental/ShapeLogRel.lean:3742: theorem LE_Interp.Const.compat_mismatch {rargs1 rargs2 : List (WShape n)} {m : TShape}
+Lean4Lean/Experimental/ShapeLogRel.lean:3777: theorem LE_Interp.Const.compat_join
+Lean4Lean/Experimental/ShapeLogRel.lean:3927: theorem LE_Interp.compat_join {m₁ m₂ : TShape}
+Lean4Lean/Experimental/ShapeLogRel.lean:3928:     (hρ : ρ'.LE ρ) (H1 : LE_Interp ρ' m₁ M) (H2 : LE_Interp ρ m₂ M) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3929:     m₁.Compat m₂ ∧ LE_Interp ρ (m₁.join m₂) M := by
+Lean4Lean/Experimental/ShapeLogRel.lean:3930:   have mk {m₁ m₂ m ρ M} (H1 : m₁ ≤ m) (H2 : m₂ ≤ m) (H : LE_Interp ρ m M) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3931:       m₁.Compat m₂ ∧ LE_Interp ρ (m₁.join m₂) M :=
+Lean4Lean/Experimental/ShapeLogRel.lean:3934:   have bot_r {m₁ n₂ ρ' ρ M} (hρ : ρ'.LE ρ) (H : LE_Interp ρ' m₁ M) :
+Lean4Lean/Experimental/ShapeLogRel.lean:3935:       m₁.Compat (WShape.bot (n := n₂)).T ∧ LE_Interp ρ (m₁.join (WShape.bot (n := n₂)).T) M :=
+Lean4Lean/Experimental/ShapeLogRel.lean:3959:         y₁.T.Compat y₂.T ∧ LE_Interp (ρ.push (x₁.T.join x₂.T)) (y₁.T.join y₂.T) F := by
+Lean4Lean/Experimental/ShapeLogRel.lean:4003:         y₁.T.Compat y₂.T ∧ LE_Interp (ρ.push (x₁.T.join x₂.T)) (y₁.T.join y₂.T) F := by
+Lean4Lean/Experimental/ShapeLogRel.lean:4050:         (R₃ := LE_Interp ρ) .nil (a6'.lift (Nat.le_max_right ..) mono)
+Lean4Lean/Experimental/ShapeLogRel.lean:4067: theorem LE_Interp.compat (H1 : LE_Interp ρ m₁ M) (H2 : LE_Interp ρ m₂ M) : m₁.Compat m₂ :=
+Lean4Lean/Experimental/ShapeLogRel.lean:4070: theorem LE_Interp.join' (H1 : LE_Interp ρ m₁ M) (H2 : LE_Interp ρ m₂ M) :
+Lean4Lean/Experimental/ShapeLogRel.lean:4071:     LE_Interp ρ (m₁.join m₂) M :=
+Lean4Lean/Experimental/ShapeLogRel.lean:4074: theorem LE_Interp.join (J : m₁.Join m₂ m) (H1 : LE_Interp ρ m₁ M) (H2 : LE_Interp ρ m₂ M) :
+Lean4Lean/Experimental/ShapeLogRel.lean:4075:     LE_Interp ρ m M :=
+Lean4Lean/Experimental/ShapeLogRel.lean:4078: theorem LE_Interp.subst : LE_Interp ρ m (M.subst σ) ↔
+Lean4Lean/Experimental/ShapeLogRel.lean:4079:     ∃ ρ', LE_Interp ρ' m M ∧ ∀ i, LE_Interp ρ (ρ' i) (σ i) := by
+Lean4Lean/Experimental/ShapeLogRel.lean:4081:   · suffices ∀ {ρ m N}, LE_Interp ρ m N → ∀ (M : SExpr) (σ : Subst), M.subst σ = N →
+Lean4Lean/Experimental/ShapeLogRel.lean:4082:         ∃ ρ', LE_Interp ρ' m M ∧ ∀ i, LE_Interp ρ (ρ' i) (σ i) from this H M σ rfl
+Lean4Lean/Experimental/ShapeLogRel.lean:4084:     have bvar {ρ : Valuation} {m N} {σ : Subst} {j} (hσj : σ j = N) (hN : LE_Interp ρ m N) :
+Lean4Lean/Experimental/ShapeLogRel.lean:4085:         ∃ ρ', LE_Interp ρ' m (.bvar j) ∧ ∀ i, LE_Interp ρ (ρ' i) (σ i) := by
+Lean4Lean/Experimental/ShapeLogRel.lean:4108:       suffices ∃ ρ', LE_Interp ρ' a.T A' ∧ (∀ i, LE_Interp ρ (ρ' i) (σ i)) ∧
+Lean4Lean/Experimental/ShapeLogRel.lean:4109:           ∀ x ∈ f, LE_Interp (ρ'.push x.1.T) x.2.T F' by
+Lean4Lean/Experimental/ShapeLogRel.lean:4115:           ∃ ρ', LE_Interp ρ' x.2.T F' ∧ ∀ i, LE_Interp (ρ.push x.1.T) (ρ' i) (σ.lift i) := by
+Lean4Lean/Experimental/ShapeLogRel.lean:4124:             ∃ ρ', LE_Interp ρ' x.2.T F' ∧ ∀ i, LE_Interp (ρ.push x.1.T) (ρ' i) (σ.lift i)) →
+Lean4Lean/Experimental/ShapeLogRel.lean:4125:           ∃ ρ', LE_Interp ρ' a.T A' ∧ (∀ i, LE_Interp ρ (ρ' i) (σ i)) ∧
+Lean4Lean/Experimental/ShapeLogRel.lean:4127:               LE_Interp (ρ'.push x.1.T) x.2.T F' from this f.1 f.2.2 H
+Lean4Lean/Experimental/ShapeLogRel.lean:4135:       have hρ₁' i : LE_Interp ρ (ρ₁' i) (σ i) := weak_iff.1 (hρ₁ (i + 1))
+Lean4Lean/Experimental/ShapeLogRel.lean:4152:       suffices ∃ ρ', LE_Interp ρ' b.T B' ∧ LE_Interp ρ' b'.T B' ∧
+Lean4Lean/Experimental/ShapeLogRel.lean:4153:           (∀ i, LE_Interp ρ (ρ' i) (σ i)) ∧ ∀ x ∈ f, LE_Interp (ρ'.push x.1.T) x.2.T F' by
+Lean4Lean/Experimental/ShapeLogRel.lean:4159:           ∃ ρ', LE_Interp ρ' x.2.T F' ∧ ∀ i, LE_Interp (ρ.push x.1.T) (ρ' i) (σ.lift i) := by
+Lean4Lean/Experimental/ShapeLogRel.lean:4172:             ∃ ρ', LE_Interp ρ' x.2.T F' ∧ ∀ i, LE_Interp (ρ.push x.1.T) (ρ' i) (σ.lift i)) →
+Lean4Lean/Experimental/ShapeLogRel.lean:4173:           ∃ ρ', LE_Interp ρ' b.T B' ∧ LE_Interp ρ' b'.T B' ∧ (∀ i, LE_Interp ρ (ρ' i) (σ i)) ∧
+Lean4Lean/Experimental/ShapeLogRel.lean:4175:               LE_Interp (ρ'.push x.1.T) x.2.T F' from this f.1 f.2.2 H
+Lean4Lean/Experimental/ShapeLogRel.lean:4186:       have hρ₁' i : LE_Interp ρ (ρ₁' i) (σ i) := weak_iff.1 (hρ₁ (i + 1))
+Lean4Lean/Experimental/ShapeLogRel.lean:4224: theorem LE_Interp.inst : LE_Interp ρ f (F.inst A) ↔
+Lean4Lean/Experimental/ShapeLogRel.lean:4225:     ∃ a, LE_Interp (ρ.push a) f F ∧ LE_Interp ρ a A := by
+Lean4Lean/Experimental/ShapeLogRel.lean:4227:   · have ⟨ρ', hF, hσ⟩ := LE_Interp.subst.1 H
+Lean4Lean/Experimental/ShapeLogRel.lean:4230:   · exact (LE_Interp.subst (σ := .one A)).2 ⟨_, hF, fun | 0 => hA | _+1 => .bvar'⟩
+Lean4Lean/Experimental/ShapeLogRel.lean:4232: theorem LE_Interp.forallE_inv {b} {f : WShapeFun n} {B F}
+====================================================================================================
+PATTERN: HasType
+Lean4Lean/Experimental/SExpr.lean:32:   -- pat_wf : Pat p r → p.Matches e m1 m2 → HasType env univs Γ e A →
+Lean4Lean/Experimental/SExpr.lean:694: local notation:65 Γ " ⊢ " e " : " A:36 " !! " n:36 => HasTypeStratifiedS Γ e A true n
+Lean4Lean/Experimental/SExpr.lean:695: local notation:65 Γ " ⊢ " e " :! " A:36 " !! " n:36 => HasTypeStratifiedS Γ e A false n
+Lean4Lean/Experimental/SExpr.lean:697: /-- SExpr-side analog of `HasTypeStratified`: a typing derivation indexed by
+Lean4Lean/Experimental/SExpr.lean:699: inductive HasTypeStratifiedS : List SExpr → SExpr → SExpr → Bool → Nat → Prop where
+Lean4Lean/Experimental/SExpr.lean:730: scoped notation:65 Γ " ⊢ " e " : " A:36 " !! " n:36 => HasTypeStratifiedS Γ e A true n
+Lean4Lean/Experimental/SExpr.lean:731: scoped notation:65 Γ " ⊢ " e " :! " A:36 " !! " n:36 => HasTypeStratifiedS Γ e A false n
+Lean4Lean/Experimental/SExpr.lean:733: theorem HasTypeStratifiedS.to_core (H : Γ ⊢ e : A !! n) :
+Lean4Lean/Experimental/SExpr.lean:736: theorem HasTypeStratifiedS.isType (H : HasTypeStratifiedS Γ e A b n) :
+Lean4Lean/Experimental/SExpr.lean:744: variable (HasType : List SExpr → SExpr → SExpr → Prop)
+Lean4Lean/Experimental/SExpr.lean:747:   | cons : Ctx.Subst Γ σ.tail Δ → HasType Γ σ.head (A.subst σ.tail) → Ctx.Subst Γ σ (A::Δ)
+Lean4Lean/Experimental/SExpr.lean:749: variable {HasType}
+Lean4Lean/Experimental/SExpr.lean:750: theorem Ctx.Subst.head (H : Ctx.Subst HasType Γ σ (A::Δ)) : HasType Γ σ.head (A.subst σ.tail) :=
+Lean4Lean/Experimental/SExpr.lean:753: theorem Ctx.Subst.tail (H : Ctx.Subst HasType Γ σ (A::Δ)) : Ctx.Subst HasType Γ σ.tail Δ :=
+Lean4Lean/Experimental/SExpr.lean:756: theorem Ctx.Subst.cons' (H1 : Ctx.Subst HasType Γ σ Δ) (H2 : HasType Γ e (A.subst σ)) :
+Lean4Lean/Experimental/SExpr.lean:757:     Ctx.Subst HasType Γ (σ.cons e) (A::Δ) := .cons H1 H2
+Lean4Lean/Experimental/SExpr.lean:759: theorem Ctx.Subst.lift_r (H1 : Ctx.Subst HasType Θ σ Γ) (H2 : Ctx.Lift' ρ Θ Δ) :
+Lean4Lean/Experimental/SExpr.lean:760:     Ctx.Subst HasType Δ (σ.lift_r ρ) Γ := sorry
+Lean4Lean/Experimental/SExpr.lean:762: theorem Ctx.Subst.lift (bvar : ∀ {Γ i A}, Lookup Γ i A → HasType Γ (bvar i) A)
+Lean4Lean/Experimental/SExpr.lean:763:     (H : Ctx.Subst HasType Γ σ Δ) : Ctx.Subst HasType (A.subst σ :: Γ) σ.lift (A :: Δ) := by
+Lean4Lean/Experimental/SExpr.lean:769: theorem Ctx.Subst.id : Ctx.Subst HasType Γ .id Γ := sorry
+Lean4Lean/Experimental/SExpr.lean:770: theorem Ctx.Subst.one (H : HasType Γ e A) : Ctx.Subst HasType Γ (.one e) (A::Γ) :=
+Lean4Lean/Experimental/SExpr.lean:830: theorem HasType.defeq_l (h1 : Γ ⊢ A ≡ A' : .sort u)
+Lean4Lean/Experimental/SExpr.lean:884: theorem IsDefEqLift.subst : Ctx.Subst HasType Δ σ Γ → Γ ⊢ e1 ≡ e2 :↑ A →
+Lean4Lean/Experimental/SExpr.lean:952: theorem WHRed.subst (W : Ctx.Subst HasType Δ σ Γ) :
+Lean4Lean/Experimental/SExpr.lean:1001: theorem WHRedS.subst (W : Ctx.Subst HasType Δ σ Γ) (H : Γ ⊢ e1 ⤳* e2) :
+Lean4Lean/Experimental/Thierry2.lean:203: def Shape.HasType : Shape n → Shape n → Prop := (hasType · ·)
+Lean4Lean/Experimental/Thierry2.lean:205: local notation u " :ᶠ " a:36 => Shape.HasType u a
+Lean4Lean/Experimental/Thierry2.lean:207: def Shape.HasTypePi (b : ShapeFun n) (a : Shape n) :=
+Lean4Lean/Experimental/Thierry2.lean:208:   HasType a .U ∧ ∀ x y, (x, y) ∈ b → HasType x a ∧ HasType y .U
+Lean4Lean/Experimental/Thierry2.lean:210: def Shape.HasTypeLam (f : ShapeFun n) (a : Shape n) (b : ShapeFun n) :=
+Lean4Lean/Experimental/Thierry2.lean:211:   ∀ x y, (x, y) ∈ (f : ShapeFun n) → HasType x a ∧ HasType y (ShapeFun.app b x)
+Lean4Lean/Experimental/Thierry2.lean:213: inductive Shape.HasTypeU : ∀ {n}, Shape n → Shape n → Prop
+Lean4Lean/Experimental/Thierry2.lean:214:   | bot : HasTypeU .bot x
+Lean4Lean/Experimental/Thierry2.lean:215:   | U : HasTypeU .U .U
+Lean4Lean/Experimental/Thierry2.lean:216:   | pi : HasTypePi (n := n) b a → HasTypeU (n := n+1) (.pi a b) .U
+Lean4Lean/Experimental/Thierry2.lean:217:   | lam : HasTypeLam (n := n) f a b → HasTypeU (n := n+1) (.lam f) (.pi a b)
+Lean4Lean/Experimental/Thierry2.lean:219: theorem Shape.HasType.unfold {m a : Shape n} : m :ᶠ a → HasTypeU m a := by
+Lean4Lean/Experimental/Thierry2.lean:220:   unfold HasType hasType; split <;> simp <;> intros <;> constructor <;>
+Lean4Lean/Experimental/Thierry2.lean:221:     grind [HasType, HasTypeLam, HasTypePi]
+Lean4Lean/Experimental/Thierry2.lean:223: theorem Shape.HasType.unfold_iff {m a : Shape n} : m :ᶠ a ↔ HasTypeU m a := by
+Lean4Lean/Experimental/Thierry2.lean:225:   unfold HasType hasType
+Lean4Lean/Experimental/Thierry2.lean:228:   | _ => simp <;> grind [HasType, HasTypeLam, HasTypePi]
+Lean4Lean/Experimental/Thierry2.lean:230: theorem Shape.HasType.bot : HasType (n := n) .bot x := unfold_iff.2 .bot
+Lean4Lean/Experimental/Thierry2.lean:231: theorem Shape.HasType.U : HasType (n := n) .U .U := unfold_iff.2 .U
+Lean4Lean/Experimental/Thierry2.lean:232: theorem Shape.HasType.pi : HasTypePi (n := n) b a → HasType (n := n+1) (.pi a b) .U :=
+Lean4Lean/Experimental/Thierry2.lean:234: theorem Shape.HasType.lam : HasTypeLam (n := n) f a b → HasType (n := n+1) (.lam f) (.pi a b) :=
+Lean4Lean/Experimental/Thierry2.lean:237: theorem Shape.HasTypeLam.bot : HasTypeLam .bot a b := by
+Lean4Lean/Experimental/Thierry2.lean:238:   simp [HasTypeLam, ShapeFun.bot]; exact ⟨.bot, .bot⟩
+Lean4Lean/Experimental/Thierry2.lean:240: theorem Shape.HasType.mono {m a a' : Shape n} (ha : a ≤ a') : m :ᶠ a → m :ᶠ a' := sorry
+Lean4Lean/Experimental/Thierry2.lean:242: theorem Shape.HasTypeLam.app (H : HasTypeLam f a b) (ht : HasType x a) :
+Lean4Lean/Experimental/Thierry2.lean:243:     HasType (ShapeFun.app f x) (ShapeFun.app b x) := sorry
+Lean4Lean/Experimental/Thierry2.lean:245: theorem Shape.HasTypePi.app (H : HasTypePi f a)
+Lean4Lean/Experimental/Thierry2.lean:246:     (ht : HasType x a) : HasType (ShapeFun.app f x) .U := sorry
+Lean4Lean/Experimental/Thierry2.lean:248: theorem Shape.HasType.maximal
+Lean4Lean/Experimental/Thierry2.lean:249:     (H : HasTypeLam f a b) (ha : a ≤ a') (ht : HasType x' a') :
+Lean4Lean/Experimental/Thierry2.lean:250:     ∃ x, HasType x a ∧ x ≤ x' ∧ ShapeFun.app f x = ShapeFun.app f x' := sorry
+Lean4Lean/Experimental/Thierry2.lean:744:     Shape.HasTypePi f b → Shape.HasTypeLam m' b' f' →
+Lean4Lean/Experimental/Thierry2.lean:746:     Shape.HasTypeLam m b f → DefEqLamF DefEqF M M' B F m b f →
+Lean4Lean/Experimental/Thierry2.lean:766:     Shape.HasTypePi f' b' → Shape.HasTypePi f b → b' ≤ b → f' ≤≤ f →
+Lean4Lean/Experimental/Thierry2.lean:815:     Shape.HasTypePi f a → Shape.HasTypeLam m a' f' →
+Lean4Lean/Experimental/CoinductiveLogRel.lean:9: local notation:65 Γ " ⊢ " e " : " A:36 => HasType env univs Γ e A
+Lean4Lean/Experimental/Thierry.lean:101: inductive FinHasTypeK : Bool → Type
+Lean4Lean/Experimental/Thierry.lean:102:   | ty : FinElem → FinHasTypeK false
+Lean4Lean/Experimental/Thierry.lean:103:   | pi (a : FinElem) : FinHasTypeK true
+Lean4Lean/Experimental/Thierry.lean:104:   | lam (a : FinElem) (f : FinFun) : FinHasTypeK true
+Lean4Lean/Experimental/Thierry.lean:107: local notation u " :ᶠ " a:36 => FinHasType u (.ty a)
+Lean4Lean/Experimental/Thierry.lean:109: inductive FinHasType : FinMut b → FinHasTypeK b → Prop
+Lean4Lean/Experimental/Thierry.lean:110:   | bot : FinHasType .bot a
+Lean4Lean/Experimental/Thierry.lean:112:   | pi : a :ᶠ .U → FinHasType f (.pi a) → .pi a f :ᶠ .U
+Lean4Lean/Experimental/Thierry.lean:113:   | pi_cons : u :ᶠ a → v :ᶠ .U → FinHasType f (.pi a) → FinHasType (.cons u v f) (.pi a)
+Lean4Lean/Experimental/Thierry.lean:114:   | lam : FinHasType f (.lam a g) → .lam f :ᶠ .pi a g
+Lean4Lean/Experimental/Thierry.lean:116:     FinHasType f (.lam a g) → FinHasType (.cons u v f) (.lam a g)
+Lean4Lean/Experimental/Thierry.lean:118: theorem FinHasType.mono : u :ᶠ a → a ≤ b → u :ᶠ b := sorry
+Lean4Lean/Experimental/Thierry.lean:120: theorem FinHasType.join (H : Join u v w) : u :ᶠ a → v :ᶠ b → w :ᶠ b := sorry
+Lean4Lean/Experimental/Thierry.lean:122: theorem FinHasType.pi_eval : FinHasType f (.pi a) → u :ᶠ a → f u :ᶠ .U := sorry
+Lean4Lean/Experimental/Thierry.lean:123: theorem FinHasType.lam_eval : FinHasType f (.lam a g) → u :ᶠ a → f u :ᶠ g u := sorry
+Lean4Lean/Experimental/Thierry.lean:124: theorem FinHasType.lem5 : .lam w :ᶠ .pi b f → b ≤ a → u :ᶠ a → ∃ v, v :ᶠ b ∧ v ≤ u ∧ w u = w v := sorry
+Lean4Lean/Experimental/Thierry.lean:170: axiom HasType (Γ : List Expr) (M N : Expr) : Prop
+Lean4Lean/Experimental/Thierry.lean:171: axiom HasType.U : HasType Γ .U .U
+Lean4Lean/Experimental/Thierry.lean:176:   | rfl : HasType [] M A → WHRedTS M M A
+Lean4Lean/Experimental/Thierry.lean:194: def HasTypeF : Expr → Expr → FinElem → FinElem → Prop
+Lean4Lean/Experimental/Thierry.lean:199:     HasTypeF B .U b .U ∧ HasType [B] F .U ∧ HasTypeFamF B F b f
+Lean4Lean/Experimental/Thierry.lean:207: def HasTypeFamF (B F : Expr) (b : FinElem) (f : FinFun) : Prop :=
+Lean4Lean/Experimental/Thierry.lean:209:     HasTypeF N B v b → HasTypeF (subst F N) .U (f v) .U
+Lean4Lean/Experimental/Thierry.lean:215:     HasTypeF N B v b → HasTypeF (.app M N) (subst F N) (m v) (f v)
+Lean4Lean/Experimental/Thierry.lean:222: theorem HasTypeFamF.def : HasTypeFamF B F b f ↔
+Lean4Lean/Experimental/Thierry.lean:224:     HasTypeF N B v b → HasTypeF (subst F N) .U (f v) .U := sorry
+Lean4Lean/Experimental/Thierry.lean:228:     HasTypeF N B v b → HasTypeF (.app M N) (subst F N) (m v) (f v) := sorry
+Lean4Lean/Experimental/Thierry.lean:230: theorem HasPiFamF.bot : a :ᶠ .U → FinHasType f (.pi a) →
+Lean4Lean/Experimental/Thierry.lean:231:     HasTypeFamF B F a f → HasPiFamF M B F .bot a f := by
+Lean4Lean/Experimental/Thierry.lean:232:   rw [HasPiFamF, HasTypeFamF.def]
+Lean4Lean/Experimental/Thierry.lean:235:   have := FinHasType.pi_eval h2 h5
+Lean4Lean/Experimental/Thierry.lean:238:   cases this with simp [HasTypeF] at this ⊢
+Lean4Lean/Experimental/Thierry.lean:248: theorem HasTypeF.mono {a a' : FinElem} : HasTypeF A .U a .U → a :ᶠ .U → a' ≤ a →
+Lean4Lean/Experimental/Thierry.lean:249:     u :ᶠ a → HasTypeF M A u a → u' ≤ u → u' :ᶠ a' → HasTypeF M A u' a' := by
+Lean4Lean/Experimental/Thierry.lean:251:   unfold HasTypeF at h4; split at h4
+Lean4Lean/Experimental/Thierry.lean:253:     cases a' with | bot => simp [HasTypeF] | lam => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:254:     simpa [HasTypeF, FinElem.LE_unfold] using h3
+Lean4Lean/Experimental/Thierry.lean:256:     cases a' with | bot => simp [HasTypeF] | lam => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:257:     simp [HasTypeF, FinElem.LE_unfold] at h3 ⊢; exact DF.LE.trans h3 h4
+Lean4Lean/Experimental/Thierry.lean:258:   · cases a' with | bot => simp [HasTypeF] | U => ?_ | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:259:     cases h5 with simp [HasTypeF] | bot => exact h4.1 | U => exact h4 | pi
+Lean4Lean/Experimental/Thierry.lean:261:   · cases a' with | bot => simp [HasTypeF] | U => ?_ | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:262:     cases h5 with simp [HasTypeF] | bot => exact h4.1 | U => cases FinElem.LE.unfold h6 | pi ha hf
+Lean4Lean/Experimental/Thierry.lean:264:     refine ⟨a1, B, F, a2, .mono (by simp [HasTypeF]; exact .rfl .U) .U .rfl b1 a3 h6.1 ha,
+Lean4Lean/Experimental/Thierry.lean:267:     cases a' with | bot => simp [HasTypeF] | U => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:268:     cases h5 with simp [HasTypeF] | bot => exact h4 | _ => cases FinElem.LE.unfold h6
+Lean4Lean/Experimental/Thierry.lean:270:     cases a' with | bot => simp [HasTypeF] | U => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:271:     cases h5 with simp [HasTypeF] | bot => exact h4.1 | _ => cases FinElem.LE.unfold h6
+Lean4Lean/Experimental/Thierry.lean:273:     cases a' with | bot => simp [HasTypeF] | pi a f => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:275:     simp [HasTypeF] at h1
+Lean4Lean/Experimental/Thierry.lean:277:     cases h5 with simp [HasTypeF, FinElem.LE_unfold] at h3 ⊢
+Lean4Lean/Experimental/Thierry.lean:281:     cases a' with | bot => simp [HasTypeF] | pi a f => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:283:     simp [HasTypeF] at h1
+Lean4Lean/Experimental/Thierry.lean:285:     cases h5 with simp [HasTypeF, FinElem.LE_unfold] at h3 ⊢
+Lean4Lean/Experimental/Thierry.lean:292:     HasTypeF B Expr.U b FinMut.U → HasTypeFamF B F b f →
+Lean4Lean/Experimental/Thierry.lean:293:     b :ᶠ .U → FinHasType f (.pi b) → FinHasType m' (.lam b' f') →
+Lean4Lean/Experimental/Thierry.lean:295:     FinHasType m (.lam b f) → HasPiFamF M B F m b f → HasPiFamF M B F m' b' f' := by
+Lean4Lean/Experimental/Thierry.lean:296:   rw [HasPiFamF.def, HasPiFamF.def, HasTypeFamF.def]
+Lean4Lean/Experimental/Thierry.lean:308: theorem HasTypeFamF.mono : HasTypeF B Expr.U b FinMut.U →
+Lean4Lean/Experimental/Thierry.lean:309:     b :ᶠ .U → b' :ᶠ .U → FinHasType f' (.pi b') → FinHasType f (.pi b) → b' ≤ b → f' ≤ f →
+Lean4Lean/Experimental/Thierry.lean:310:     HasTypeFamF B F b f → HasTypeFamF B F b' f' := by
+Lean4Lean/Experimental/Thierry.lean:311:   rw [HasTypeFamF.def, HasTypeFamF.def]
+Lean4Lean/Experimental/Thierry.lean:314:   refine .mono (by simp [HasTypeF]; exact .rfl .U) .U .rfl
+Lean4Lean/Experimental/Thierry.lean:321: theorem HasTypeF.mono_r : HasTypeF A .U a .U → a :ᶠ .U → a' ≤ a →
+Lean4Lean/Experimental/Thierry.lean:322:     HasTypeF M A u' a' → u' :ᶠ a' → HasTypeF M A u' a := by
+Lean4Lean/Experimental/Thierry.lean:324:   unfold HasTypeF at h4; split at h4
+Lean4Lean/Experimental/Thierry.lean:327:     | bot => simp [HasTypeF]
+Lean4Lean/Experimental/Thierry.lean:328:     | U => simp [HasTypeF] at h1 ⊢; exact h1.2
+Lean4Lean/Experimental/Thierry.lean:330:       simp [HasTypeF] at h1 ⊢
+Lean4Lean/Experimental/Thierry.lean:333:   · cases h2 with | bot => simp [HasTypeF] | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:334:   · cases h2 with | U => simp [HasTypeF]; exact h4 | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:335:   · cases h2 with | U => simp [HasTypeF]; exact h4 | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:336:   · cases h2 with | U => simp [HasTypeF]; exact h4 | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:337:   · cases h2 <;> cases FinElem.LE.unfold h3; simpa [HasTypeF]
+Lean4Lean/Experimental/Thierry.lean:338:   · cases h2 <;> cases FinElem.LE.unfold h3; simp [HasTypeF] at h1 h3 ⊢; let .lam h5 := h5
+Lean4Lean/Experimental/Thierry.lean:341:   · cases h2 <;> cases FinElem.LE.unfold h3; simp [HasTypeF] at h1 ⊢
+Lean4Lean/Experimental/Thierry.lean:347: theorem HasPiFamF.mono_r : HasTypeF B .U a .U → HasTypeFamF B F a f →
+Lean4Lean/Experimental/Thierry.lean:348:     a :ᶠ .U → FinHasType f (.pi a) →
+Lean4Lean/Experimental/Thierry.lean:349:     FinHasType m (FinHasTypeK.lam a' f') →
+Lean4Lean/Experimental/Thierry.lean:351:   rw [HasPiFamF.def, HasPiFamF, HasTypeFamF.def]
+Lean4Lean/Experimental/Thierry.lean:353:   have ⟨v', hv', lv, eq⟩ := FinHasType.lem5 (.lam h3) h4 hv
+Lean4Lean/Experimental/StratifiedUntyped.lean:11: local notation:65 Γ " ⊢ " e " : " A:30 => HasTypeU1 Γ e A
+Lean4Lean/Experimental/StratifiedUntyped.lean:17: inductive HasTypeU1 : List VExpr → VExpr → VExpr → Prop where
+Lean4Lean/Experimental/StratifiedUntyped.lean:31:   (HasTypeU1 : List VExpr → VExpr → VExpr → Prop)
+Lean4Lean/Experimental/StratifiedUntyped.lean:58:     (hty : ∀ {Γ e A}, HasTypeU1 env U defEq Γ e A → hasType Γ e A)
+Lean4Lean/Experimental/StratifiedUntyped.lean:60:       HasTypeU1 env U defEq Γ e1 A1 → HasTypeU1 env U defEq Γ e2 A2 →
+Lean4Lean/Experimental/StratifiedUntyped.lean:63:     HasTypeU1 env U defEq Γ e1 A ∧
+Lean4Lean/Experimental/StratifiedUntyped.lean:64:     HasTypeU1 env U defEq Γ e2 A ∧
+Lean4Lean/Experimental/StratifiedUntyped.lean:91:     have := HasTypeU1.app ihe'.1 (.bvar .zero)
+Lean4Lean/Experimental/StratifiedUntyped.lean:101:   (IH : ∀ {Γ e1 e2 A}, env.HasType U Γ e1 A → defEq Γ e1 e2 → env.IsDefEq U Γ e1 e2 A) in
+Lean4Lean/Experimental/StratifiedUntyped.lean:102: theorem HasTypeU1.induction (H : env.HasTypeU1 U defEq Γ e A) : env.HasType U Γ e A := by
+Lean4Lean/Experimental/StratifiedUntyped.lean:118:   (hty : ∀ {Γ e A}, hasType Γ e A → env.HasType U Γ e A)
+Lean4Lean/Experimental/StratifiedUntyped.lean:121:     (H1 : env.HasType U Γ e1 A) (H2 : env.HasType U Γ e2 A)
+Lean4Lean/Experimental/StratifiedUntyped.lean:196: theorem HasType1.unique_typing'
+Lean4Lean/Experimental/StratifiedUntyped.lean:197:     (H1 : env.HasType1 U (IsDefEqU1 env U hasType defEq) Γ e A1)
+Lean4Lean/Experimental/StratifiedUntyped.lean:198:     (H2 : env.HasType1 U (IsDefEqU1 env U hasType defEq) Γ e A2) :
+Lean4Lean/Experimental/StratifiedUntyped.lean:310: theorem HasType.weakN_inv (W : Ctx.LiftN n k Γ Γ')
+Lean4Lean/Experimental/StratifiedUntyped.lean:311:     (H : env.HasType U Γ' (e.liftN n k) (A.liftN n k)) :
+====================================================================================================
+PATTERN: closedC
+Lean4Lean/Experimental/SExpr.lean:807:   | const h1 h2 => rw [(henv.closedC h1).mkS.instL.lift'_eq .zero]; exact .const h1 h2
+Lean4Lean/Experimental/SExpr.lean:1108:   | .const h1 h2 => by rw [(henv.closedC h1).mkS.instL.lift'_eq .zero]; exact .const h1 h2
+Lean4Lean/Experimental/SExpr.lean:1121:     exact ⟨_, ((henv.closedC h1).mkS.instL.lift'_eq .zero).symm, .const h1 h2⟩
+Lean4Lean/Experimental/SExpr.lean:1153:     rw [(henv.closedC h1).mkS.instL.subst_eq .zero]
+Lean4Lean/Experimental/StratifiedUntyped.lean:285:     rw [ClosedN.liftN_eq_rev (eqA ▸ (henv.closedC h1).instL) (Nat.zero_le _)] at eqA
+Lean4Lean/Experimental/Stratified.lean:300:     rw [ClosedN.liftN_eq_rev (eqA ▸ (henv.closedC h1).instL) (Nat.zero_le _)] at eqA
+Lean4Lean/Experimental/Stronger.lean:249:     simp [(henv.out.closedC (constants_out h1)).instL.liftN_eq (Nat.zero_le _)] at ih3 ih4 ⊢
+Lean4Lean/Experimental/Stronger.lean:410:     simp [(henv.out.closedC (constants_out h1)).instL.instN_eq (Nat.zero_le _)] at ih3 ih4 ⊢
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:153:     intro σ; rw [(Params.henv.closedC h1).mkS.instL.subst_eq .zero]; clear σ
+Lean4Lean/Experimental/ShapeLogRel.lean:3693:     · exact (Params.henv.closedC h1).mkS.instL.mono (Nat.zero_le _)
+Lean4Lean/Experimental/ShapeLogRel.lean:3718:       · exact ih1 _ h <| (Params.henv.closedC h1).mkS.instL.lift'_eq .zero
+Lean4Lean/Experimental/ShapeLogRel.lean:3733:       · exact (Params.henv.closedC h1).mkS.instL.lift'_eq .zero ▸ ih1 _ h
+Lean4Lean/Experimental/ShapeLogRel.lean:4205:       · exact (closed_iff (Params.henv.closedC h1).mkS.instL).1 h5
+Lean4Lean/Experimental/ShapeLogRel.lean:4221:       · exact (Params.henv.closedC h1).mkS.instL.subst_eq .zero ▸ ih1 h
+Lean4Lean/Verify/TypeChecker/InferType.lean:79:     rw [(c.Ewf.ordered.closedC h4).instL.liftN_eq (Nat.le_refl _)] at s1
+Lean4Lean/Theory/Typing/Lemmas.lean:365: theorem Ordered.closedC (H : Ordered env)
+Lean4Lean/Theory/Typing/Lemmas.lean:509:     rw [(henv.closedC h1).instL.liftN_eq (Nat.zero_le _)]
+Lean4Lean/Theory/Typing/Lemmas.lean:652:     rw [(henv.closedC h1).instL.instN_eq (Nat.zero_le _)]
+Lean4Lean/Theory/Typing/Strong.lean:150:     simp [(henv.closedC h1).instL.liftN_eq (Nat.zero_le _)] at ih2 ⊢
+Lean4Lean/Theory/Typing/Strong.lean:373:     simp [(henv.closedC h1).instL.instN_eq (Nat.zero_le _)] at ih2 ⊢
+Lean4Lean/Theory/Typing/HeadReduction.lean:548:   | .const h1 h2 h3 => by rw [(henv.ordered.closedC h1).instL.lift'_eq .zero]; exact .const h1 h2 h3
+Lean4Lean/Theory/Typing/HeadReduction.lean:567:     exact ⟨_, ((henv.ordered.closedC h1).instL.lift'_eq .zero).symm, .const h1 h2 h3⟩
+Lean4Lean/Theory/Typing/HeadReduction.lean:613:     rw [(henv.ordered.closedC h1).instL.instN_eq (Nat.zero_le _)]; exact .const h1 h2 h3
+====================================================================================================
+PATTERN: subst_eq
+Lean4Lean/Experimental/SExpr.lean:319: theorem ClosedN.subst_eq {e : SExpr} (self : ClosedN e k) (h : σ.Fixes k) : e.subst σ = e := by
+Lean4Lean/Experimental/SExpr.lean:1153:     rw [(henv.closedC h1).mkS.instL.subst_eq .zero]
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:153:     intro σ; rw [(Params.henv.closedC h1).mkS.instL.subst_eq .zero]; clear σ
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:430:       rw [hA1.mkS.instL.subst_eq .zero, hA2.mkS.instL.subst_eq .zero, hA3.mkS.instL.subst_eq .zero]
+Lean4Lean/Experimental/ShapeLogRel.lean:4221:       · exact (Params.henv.closedC h1).mkS.instL.subst_eq .zero ▸ ih1 h
+Lean4Lean/Experimental/ShapeLogRel.lean:4222:       · exact a1.subst_eq .zero ▸ ih2 _ _ a2 h
+====================================================================================================
+PATTERN: mkS
+Lean4Lean/Experimental/SExpr.lean:159: theorem _root_.Lean4Lean.VExpr.ClosedN.mkS : ∀ {e : VExpr}, e.ClosedN k → ClosedN (.mk e) k
+Lean4Lean/Experimental/SExpr.lean:161:   | .app .., h | .lam .., h | .forallE .., h => ⟨h.1.mkS, h.2.mkS⟩
+Lean4Lean/Experimental/SExpr.lean:529:   | .fixed .., h1, _ => h1.mkS.instL.mono (Nat.zero_le _)
+Lean4Lean/Experimental/SExpr.lean:807:   | const h1 h2 => rw [(henv.closedC h1).mkS.instL.lift'_eq .zero]; exact .const h1 h2
+Lean4Lean/Experimental/SExpr.lean:819:     rw [hA1.mkS.instL.lift'_eq .zero, hA2.mkS.instL.lift'_eq .zero, hA3.mkS.instL.lift'_eq .zero]
+Lean4Lean/Experimental/SExpr.lean:1108:   | .const h1 h2 => by rw [(henv.closedC h1).mkS.instL.lift'_eq .zero]; exact .const h1 h2
+Lean4Lean/Experimental/SExpr.lean:1121:     exact ⟨_, ((henv.closedC h1).mkS.instL.lift'_eq .zero).symm, .const h1 h2⟩
+Lean4Lean/Experimental/SExpr.lean:1153:     rw [(henv.closedC h1).mkS.instL.subst_eq .zero]
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:153:     intro σ; rw [(Params.henv.closedC h1).mkS.instL.subst_eq .zero]; clear σ
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:430:       rw [hA1.mkS.instL.subst_eq .zero, hA2.mkS.instL.subst_eq .zero, hA3.mkS.instL.subst_eq .zero]
+Lean4Lean/Experimental/ShapeLogRel.lean:3664:   | @const _ _ cl h1 => exact .const ⟨cl.mkS.instL, h1⟩
+Lean4Lean/Experimental/ShapeLogRel.lean:3693:     · exact (Params.henv.closedC h1).mkS.instL.mono (Nat.zero_le _)
+Lean4Lean/Experimental/ShapeLogRel.lean:3718:       · exact ih1 _ h <| (Params.henv.closedC h1).mkS.instL.lift'_eq .zero
+Lean4Lean/Experimental/ShapeLogRel.lean:3733:       · exact (Params.henv.closedC h1).mkS.instL.lift'_eq .zero ▸ ih1 _ h
+Lean4Lean/Experimental/ShapeLogRel.lean:4205:       · exact (closed_iff (Params.henv.closedC h1).mkS.instL).1 h5
+Lean4Lean/Experimental/ShapeLogRel.lean:4221:       · exact (Params.henv.closedC h1).mkS.instL.subst_eq .zero ▸ ih1 h
+Lean4Lean/Verify/Expr.lean:224: attribute [simp] mkConst mkBVar mkSort mkFVar mkMVar mkMData mkProj mkApp mkLambda mkForall mkLet
+Lean4Lean/Std/ToExpr.lean:47:           | ofString v => mkApp3 (mkConst ``KVMap.setString) e k (mkStrLit v)
+====================================================================================================
+PATTERN: refl
+Lean4Lean/Primitive.lean:54:   | reflectNatNat (asBool : Expr) (reflect : Reflection) (proof : Expr)
+Lean4Lean/Primitive.lean:64:   impl := .reflectNatNat
+Lean4Lean/Primitive.lean:66:     (reflect := .defn₁)
+Lean4Lean/Primitive.lean:73:   impl := .reflectNatNat
+Lean4Lean/Primitive.lean:75:     (reflect := .defn₂)
+Lean4Lean/Primitive.lean:124:   | .reflectNatNat asBool reflect proof =>
+Lean4Lean/Primitive.lean:126:     reflect.check fail
+Lean4Lean/Primitive.lean:127:     if ite then reflect.checkITE fail
+Lean4Lean/Primitive.lean:128:     if dite then reflect.checkNatDITE fail
+Lean4Lean/Primitive.lean:130:     let e := .lam0 q(Nat) <| .lam0 q(Nat) <| mkApp3 reflect.toDec
+Lean4Lean/Experimental/SExpr.lean:106: abbrev lift e := lift' e (.skip .refl)
+Lean4Lean/Experimental/SExpr.lean:114: @[simp] theorem lift'_refl {e : SExpr} : e.lift' .refl = e := lift'_depth_zero rfl
+Lean4Lean/Experimental/SExpr.lean:209:   | .refl => .id
+Lean4Lean/Experimental/SExpr.lean:214:   | .refl => .id
+Lean4Lean/Experimental/SExpr.lean:224: theorem Subst.tail_eq_lift_l {σ : Subst} : σ.tail = σ.lift_l Lift.refl.skip := rfl
+Lean4Lean/Experimental/SExpr.lean:235:   | refl => rfl
+Lean4Lean/Experimental/SExpr.lean:368:       | refl => simp [Lift.inter]
+Lean4Lean/Experimental/SExpr.lean:371:         | refl => simp [Lift.inter]; cases h; exact ⟨_, rfl⟩
+Lean4Lean/Experimental/SExpr.lean:377:           | refl => simp [Lift.inter]; cases h; exact ⟨0, rfl⟩
+Lean4Lean/Experimental/SExpr.lean:381:           | refl => cases h; exact ⟨_+1, rfl⟩
+Lean4Lean/Experimental/SExpr.lean:425:   | refl : Ctx.Lift' .refl Γ Γ
+Lean4Lean/Experimental/SExpr.lean:429: theorem Ctx.Lift'.one : Ctx.Lift' (.skip .refl) Γ (A::Γ) := .skip .refl
+Lean4Lean/Experimental/SExpr.lean:433:   | refl => exact H1
+Lean4Lean/Experimental/SExpr.lean:437:     | refl => exact .cons H2
+Lean4Lean/Experimental/SExpr.lean:442:   | refl_l : Ctx.Lift' ρ Γ Δ → Ctx.Inter Γ Δ .refl Γ ρ Δ
+Lean4Lean/Experimental/SExpr.lean:443:   | refl_r : Ctx.Lift' ρ Γ Δ → Ctx.Inter Γ Γ ρ Δ .refl Δ
+Lean4Lean/Experimental/SExpr.lean:465:   | refl => exact ⟨_, .refl_l H2⟩
+Lean4Lean/Experimental/SExpr.lean:468:     | refl => exact ⟨_, .refl_r (.skip H1)⟩
+Lean4Lean/Experimental/SExpr.lean:474:     | refl => subst eq; exact ⟨_, .refl_r (.cons H1)⟩
+Lean4Lean/Experimental/SExpr.lean:483:   | refl_l h => exact .refl_r h
+Lean4Lean/Experimental/SExpr.lean:484:   | refl_r h => exact .refl_l h
+Lean4Lean/Experimental/SExpr.lean:492:   | refl_l h => exact .refl
+Lean4Lean/Experimental/SExpr.lean:493:   | refl_r h => simpa
+Lean4Lean/Experimental/SExpr.lean:500:   | refl_l h => exact h
+Lean4Lean/Experimental/SExpr.lean:501:   | refl_r h => exact .refl
+Lean4Lean/Experimental/SExpr.lean:548:   | refl => simp; exact H
+Lean4Lean/Experimental/SExpr.lean:558:   | refl => simpa using H
+Lean4Lean/Experimental/SExpr.lean:764:   have : σ.lift.tail = σ.lift_r (.skip .refl) := by
+Lean4Lean/Experimental/SExpr.lean:851: theorem WithLift.refl
+Lean4Lean/Experimental/SExpr.lean:852:     (refl : ∀ {ρ Δ e' A'}, Ctx.Lift' ρ Δ Γ →
+Lean4Lean/Experimental/SExpr.lean:855:   defeq' _ _ _ _ _ W := by rintro rfl he rfl; cases SExpr.lift'_inj.1 he; exact refl W rfl rfl
+Lean4Lean/Experimental/SExpr.lean:856:   left' _ _ _ _ W := by rintro rfl rfl; exact refl W rfl rfl
+Lean4Lean/Experimental/SExpr.lean:857:   right' _ _ _ _ W := by rintro rfl rfl; exact refl W rfl rfl
+Lean4Lean/Experimental/SExpr.lean:915:   .refl (H.left' ·)
+Lean4Lean/Experimental/SExpr.lean:918:   .refl (H.right' ·)
+Lean4Lean/Experimental/SExpr.lean:926:   H.defeq' .refl SExpr.lift'_refl.symm SExpr.lift'_refl.symm SExpr.lift'_refl.symm
+Lean4Lean/Experimental/SExpr.lean:1201:   | refl : Γ ⊢ e : A → Γ ⊢ e ≡ₚ e : A
+Lean4Lean/Experimental/SExpr.lean:1219:   | refl h => refine .refl (h.defeqDFC W)
+Lean4Lean/Experimental/SExpr.lean:1235:   | refl h => exact h
+Lean4Lean/Experimental/SExpr.lean:1249:   | refl h => exact .refl h
+Lean4Lean/Experimental/SExpr.lean:1261:   | refl h => exact .refl (h.weak' W)
+Lean4Lean/Experimental/SExpr.lean:1285: theorem CRDefEq.refl (H : Γ ⊢ e : A) : Γ ⊢ e ≫≪ e : A :=
+Lean4Lean/Experimental/SExpr.lean:1286:   .normalEq (.refl H)
+Lean4Lean/Experimental/SExpr.lean:1304:   ⟨H2.defeq H1, _, _, H2.parRedS, .rfl, .refl (H2.defeq H1).hasType.2⟩
+Lean4Lean/Experimental/SExpr.lean:1312: nonrec theorem CRDefEqLift.refl (H : Γ ⊢ e :↑ A) : Γ ⊢ e ≫≪ e :↑ A :=
+Lean4Lean/Experimental/SExpr.lean:1313:   .refl (.refl <| H.left' · · ·)
+Lean4Lean/Experimental/StratifiedUntyped.lean:34:   | refl : Γ ⊢ e ≡ e
+Lean4Lean/Experimental/StratifiedUntyped.lean:68:   | bvar h => exact ⟨.bvar h, .bvar h, .refl⟩
+Lean4Lean/Experimental/StratifiedUntyped.lean:124:   | refl => exact H1
+Lean4Lean/Experimental/StratifiedUntyped.lean:143:   (refl : ∀ {Γ e A}, hasType Γ e A → hasType' Γ e A)
+Lean4Lean/Experimental/StratifiedUntyped.lean:153:   | refl h => exact ⟨refl h, refl h⟩
+Lean4Lean/Experimental/StratifiedUntyped.lean:171:   | refl : hasType Γ A (.sort u) → IsDefEqU1 Γ A A u
+Lean4Lean/Experimental/StratifiedUntyped.lean:176:   (refl : ∀ {Γ e A}, hasType Γ e A → defEq' Γ e e A)
+Lean4Lean/Experimental/StratifiedUntyped.lean:182:   | refl h => exact hty h
+Lean4Lean/Experimental/Stratified.lean:47:   | refl : Γ ⊢ e : A → Γ ⊢ e ≡ e : A
+Lean4Lean/Experimental/Stratified.lean:86:   | bvar h => exact ⟨.bvar h, .bvar h, .refl (hty (.bvar h))⟩
+Lean4Lean/Experimental/Stratified.lean:138:   | refl h => exact hty h
+Lean4Lean/Experimental/Stratified.lean:158:   (refl : ∀ {Γ e A}, hasType Γ e A → hasType' Γ e A)
+Lean4Lean/Experimental/Stratified.lean:168:   | refl h => exact ⟨refl h, refl h⟩
+Lean4Lean/Experimental/Stratified.lean:186:   | refl : hasType Γ A (.sort u) → IsDefEqU1 Γ A A u
+Lean4Lean/Experimental/Stratified.lean:191:   (refl : ∀ {Γ e A}, hasType Γ e A → defEq' Γ e e A)
+Lean4Lean/Experimental/Stratified.lean:197:   | refl h => exact hty h
+Lean4Lean/Experimental/Stronger.lean:520:     rw [C1.liftN_eq (Nat.zero_le _), C2.liftN_eq (by exact Nat.le_refl _)] at this
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:21: theorem LR.Adequate.refl
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:27:   | ⟨h1, _⟩ => .refl fun _ _ W => (h1 W).1
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:71:     have hj := (TShape.Join.def le_k le_n (Nat.le_refl _)).1 (.mk hc)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:111:     refine .refl fun _ _ W => ?_; clear h2 ih
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:198:     let k := max n (max n₁ n₂); have hk := Nat.max_le.1 (Nat.le_refl k); rw [Nat.max_le] at hk
+Lean4Lean/Experimental/UniqueTyping.lean:55: `IsDefEq` derivation of reflexivity at the given type. -/
+Lean4Lean/Experimental/NormalEq.lean:28:   refl : Γ ⊢ e : A → Γ ⊢ e ≡ e
+Lean4Lean/Experimental/NormalEq.lean:138:   | fixed c => exact TY.refl he
+Lean4Lean/Experimental/NormalEq.lean:165:   | refl : Γ ⊢ e : A → Γ ⊢ e ≡ₚ e
+Lean4Lean/Experimental/NormalEq.lean:203:   | refl h => exact TY.refl h
+Lean4Lean/Experimental/NormalEq.lean:209:     exact TY.trans (TY.symm <| TY.lamDF hA (TY.symm hA₁) (TY.refl hB))
+Lean4Lean/Experimental/NormalEq.lean:212:     exact TY.trans (TY.symm <| TY.forallEDF hA (TY.symm hA₁) hB₁ (TY.refl hB₁))
+Lean4Lean/Experimental/NormalEq.lean:217:     exact TY.trans (TY.lamDF hA (TY.refl hA) ih) (TY.eta h1)
+Lean4Lean/Experimental/NormalEq.lean:221:     exact TY.trans (TY.symm (TY.eta h1)) (TY.lamDF hA (TY.refl hA) ih)
+Lean4Lean/Experimental/NormalEq.lean:226:   | refl h => exact .refl h
+Lean4Lean/Experimental/NormalEq.lean:241:   | refl h => exact .refl (h.weakN W)
+Lean4Lean/Experimental/NormalEq.lean:264:   | refl h => exact .refl (h.instN W h₀)
+Lean4Lean/Experimental/NormalEq.lean:291:       | succ h => exact .refl (TY.bvar h)
+Lean4Lean/Experimental/NormalEq.lean:294:       | zero => exact .refl (TY.bvar .zero)
+Lean4Lean/Experimental/NormalEq.lean:296:   | sort => exact .refl (TY.sort (TY.sort_inv H))
+Lean4Lean/Experimental/NormalEq.lean:299:     exact .refl (TY.const h1 h2 h3)
+Lean4Lean/Experimental/NormalEq.lean:308:     exact .lamDF hA (TY.refl hA) (ih1 W h1).symm.defeq (ih2 W.succ h2)
+Lean4Lean/Experimental/NormalEq.lean:312:     exact .forallEDF hA (TY.refl hA) (ih1 W h1) (h2.instN W.succ h₀) (ih2 W.succ h2)
+Lean4Lean/Experimental/NormalEq.lean:318:   | refl h => refine .refl (TY.isDefEq_DFC W h)
+Lean4Lean/Experimental/NormalEq.lean:326:       (ih1 (W.succ (TY.refl h1)))
+Lean4Lean/Experimental/NormalEq.lean:329:       (TY.isDefEq_DFC (W.succ (TY.refl h1)) h4) (ih2 (W.succ (TY.refl h1)))
+Lean4Lean/Experimental/NormalEq.lean:332:     refine .etaL (TY.isDefEq_DFC W h1) (ih (W.succ (TY.refl h2)))
+Lean4Lean/Experimental/NormalEq.lean:335:     refine .etaR (TY.isDefEq_DFC W h1) (ih (W.succ (TY.refl h2)))
+Lean4Lean/Experimental/NormalEq.lean:348:   | refl h =>
+Lean4Lean/Experimental/NormalEq.lean:351:     exact .refl h'
+Lean4Lean/Experimental/NormalEq.lean:383:     exact .lamDF this (TY.refl this) h5 (ih1 W.succ (W₂.succ (TY.symm h2)) rfl rfl)
+Lean4Lean/Experimental/NormalEq.lean:391:     exact .forallEDF this (TY.refl this)
+Lean4Lean/Experimental/NormalEq.lean:399:     have hB' := TY.isDefEq_DFC (W₂.succ (TY.refl hA)) hB
+Lean4Lean/Experimental/NormalEq.lean:406:       TY.defeq_r (TY.forallEDF hA' (TY.refl hA') hB' (TY.uniq this (hC.weakN W.succ))) h1'
+Lean4Lean/Experimental/NormalEq.lean:407:     refine .etaL this (ih W.succ (W₂.succ (TY.refl hA)) rfl (by simp [liftN, lift_liftN']))
+Lean4Lean/Experimental/NormalEq.lean:414:     have hB' := TY.isDefEq_DFC (W₂.succ (TY.refl hA)) hB
+Lean4Lean/Experimental/NormalEq.lean:421:       TY.defeq_r (TY.forallEDF hA' (TY.refl hA') hB' (TY.uniq this (hC.weakN W.succ))) h1'
+Lean4Lean/Experimental/NormalEq.lean:422:     refine .etaR this (ih W.succ (W₂.succ (TY.refl hA)) (by simp [liftN, lift_liftN']) rfl)
+Lean4Lean/Experimental/NormalEq.lean:466:     .etaR (TY.defeq_r (TY.forallEDF hA eq hB (TY.refl hB)) l1)
+Lean4Lean/Experimental/NormalEq.lean:471:     .etaL (TY.defeq_r (TY.forallEDF hA eq hB (TY.refl hB)) r1)
+Lean4Lean/Experimental/NormalEq.lean:478:     | refl h => exact .refl r1
+Lean4Lean/Experimental/NormalEq.lean:485:   | .refl h, H2 => H2
+Lean4Lean/Experimental/NormalEq.lean:491:       (.weakN .one H2) (.refl (TY.bvar .zero))
+Lean4Lean/Experimental/NormalEq.lean:492:   | H1, .refl _ => H1
+Lean4Lean/Experimental/NormalEq.lean:497:       (.weakN .one H1) (.refl (TY.bvar .zero))
+Lean4Lean/Experimental/NormalEq.lean:507:   | fixed c => exact .refl he
+Lean4Lean/Experimental/ParallelReduction.lean:99:   | bvar | sort | const => exact TY.refl he
+Lean4Lean/Experimental/ParallelReduction.lean:114:     exact TY.trans (TY.appDF hf' (TY.lamDF hA (TY.refl hA) (ih1 hb)) ha (ih2 ha))
+Lean4Lean/Experimental/ParallelReduction.lean:134:     exact .lam (ih1 W hA) (ih2 (W.succ (TY.refl hA)) he)
+Lean4Lean/Experimental/ParallelReduction.lean:137:     exact .forallE (ih1 W hA) (ih2 (W.succ (TY.refl hA)) hB)
+Lean4Lean/Experimental/ParallelReduction.lean:141:     exact .beta (ih1 (W.succ (TY.refl hA)) hb) (ih2 W ha)
+Lean4Lean/Experimental/ParallelReduction.lean:289:     | bvar => exact ⟨_, .rfl, .refl H1⟩
+Lean4Lean/Experimental/ParallelReduction.lean:293:     | sort => exact ⟨_, .rfl, .refl H1⟩
+Lean4Lean/Experimental/ParallelReduction.lean:297:     | const => exact ⟨_, .rfl, .refl H1⟩
+Lean4Lean/Experimental/ParallelReduction.lean:373:             rintro rfl; cases h1.antisymm (.varL .refl)
+Lean4Lean/Experimental/ParallelReduction.lean:382:             rintro rfl; cases h1.antisymm (.appL .refl)
+Lean4Lean/Experimental/ParallelReduction.lean:387:               rintro rfl; cases h1.antisymm (.appR .refl)
+Lean4Lean/Experimental/ParallelReduction.lean:393:         exact .inr ⟨_, _, _, _, _, .refl, fun _ => ⟨rfl, rfl, .rfl, .rfl⟩,
+Lean4Lean/Experimental/ParallelReduction.lean:448:   | rfl => exact TY.refl h
+Lean4Lean/Experimental/ParallelReduction.lean:545:     have := TY.forallEDF d2 (TY.uniq c2 (TY.bvar .zero)) d3 (TY.refl d3)
+Lean4Lean/Experimental/ParallelReduction.lean:565:     | @refl _ _ B H =>
+Lean4Lean/Experimental/ParallelReduction.lean:567:       exact have h := .beta .rfl .rfl; ⟨_, .tail .rfl h, .refl (h.hasType h2)⟩
+Lean4Lean/Experimental/ParallelReduction.lean:601:   | @refl _ _ B H =>
+Lean4Lean/Experimental/ParallelReduction.lean:608:       simp [instN_bvar0] at h ⊢; exact .refl (h.hasType H)
+Lean4Lean/Experimental/ParallelReduction.lean:619:       refine ⟨_, .app a1 .rfl, .appDF this (TY.defeq_l a2.defeq this) H2 H2 a2 (.refl H2)⟩
+Lean4Lean/Experimental/ParallelReduction.lean:637:       | app l ih => cases eq; exact ⟨_, rfl, .inr ⟨lift _, Nat.le_refl _, rfl, rfl⟩⟩
+Lean4Lean/Experimental/ParallelReduction.lean:690:   | refl l1 => exact ⟨_, .tail .rfl H2, .refl (H2.hasType l1)⟩
+Lean4Lean/Experimental/ParallelReduction.lean:757:           exact ⟨_, h, this.trans (.lamDF c1 (TY.refl c1) (TY.symm (r1.defeq c1)) (.refl a3))⟩
+Lean4Lean/Experimental/ParallelReduction.lean:803:   | rfl => exact ⟨_, _, .rfl, H1, .refl (H1.hasType H)⟩
+Lean4Lean/Experimental/ParallelReduction.lean:810:       | rfl => exact ⟨_, _, H2, .rfl, .refl (H2.hasType H)⟩
+Lean4Lean/Experimental/ParallelReduction.lean:822: theorem Typing.CRDefEq.refl (H : TY.HasType Γ e A) : TY.CRDefEq Γ e e :=
+Lean4Lean/Experimental/ParallelReduction.lean:823:   .normalEq (.refl H)
+Lean4Lean/Experimental/ParallelReduction.lean:842:   | bvar h => exact ⟨TY.refl (TY.bvar h), TY.bvar h⟩
+Lean4Lean/Experimental/ParallelReduction.lean:865:   | bvar h => exact .refl (TY.bvar h)
+Lean4Lean/Experimental/ParallelReduction.lean:895:     exact .refl h.hasType.2.toTyping.2
+Lean4Lean/Experimental/ParallelReduction.lean:898:     exact .normalEq <| .etaL this <| .refl <|
+Lean4Lean/Experimental/ParallelReduction.lean:905:     exact a4 ▸ .refl h.symm.toTyping.2
+Lean4Lean/Experimental/LogRel.lean:32:   ⟨fun h => h.left, fun ⟨h1, h2⟩ => ⟨.refl h1, h2, h2, cl.defEq'_self h2⟩⟩
+Lean4Lean/Experimental/LogRel.lean:91: theorem LogRel.eqTy_refl (H : LogRel Γ A u cl) : cl.EqTy A := by
+Lean4Lean/Experimental/LogRel.lean:175:       cases (this .refl).1
+Lean4Lean/Experimental/LogRel.lean:349: theorem LVDefEq.refl {J : ⊩ᵛ Γ} {JA : J ⊩ᵛ[u] A} (H : JA ⊩ᵛ a) : JA ⊩ᵛ a ≡ a := ⟨H, H, H⟩
+Lean4Lean/Experimental/LogRel.lean:360:       refine ⟨_, ⟨JA.1.weak' .one, fun (Hσ : LVEqSubst ..) => ?_⟩, .refl ?_⟩
+Lean4Lean/Experimental/LogRel.lean:368:       refine ⟨_, JA.lift JB, .refl ?_⟩
+Lean4Lean/Experimental/LogRel.lean:378:     exact ⟨.mk _, .sort, .refl fun _ => Classifier.defEq_self.2 ⟨.sort, ⟨⟩, ⟨⟩⟩⟩
+Lean4Lean/Experimental/MoreStepIndexed.lean:101: --   rank_forall_le.1 (Nat.le_refl _) |>.2 _ _
+Lean4Lean/Experimental/ShapeLogRel.lean:496:   | zero => cases h1; simp [plift_eq_lift (Nat.le_refl _), lift_self] | succ n₁ ih
+Lean4Lean/Experimental/ShapeLogRel.lean:497:   cases n₂ with | zero => cases h2; simp [plift_eq_lift (Nat.le_refl _), lift_self] | succ n₂
+====================================================================================================
+PATTERN: bot
+Main.lean:330: (both imported and defined in that file) into a fresh environment,
+Lean4Lean/Experimental/Thierry2.lean:12:   | bot : Shape0
+Lean4Lean/Experimental/Thierry2.lean:16:   | bot : ShapeS Shape
+Lean4Lean/Experimental/Thierry2.lean:27: @[match_pattern] def Shape.bot : ∀ {n}, Shape n
+Lean4Lean/Experimental/Thierry2.lean:28:   | 0 => Shape0.bot
+Lean4Lean/Experimental/Thierry2.lean:29:   | _+1 => ShapeS.bot
+Lean4Lean/Experimental/Thierry2.lean:39:   | 0, _, _ | _+1, .bot, _ | _+1, _, .bot | _+1, .U, .U => true
+Lean4Lean/Experimental/Thierry2.lean:48:   | 0, .bot, _ | _+1, .bot, _ => true
+Lean4Lean/Experimental/Thierry2.lean:61: @[simp] theorem Shape.bot_le : Shape.bot ≤ (s : Shape n) := by cases n <;> rfl
+Lean4Lean/Experimental/Thierry2.lean:67: def ShapeFun.bot : ShapeFun n := [(.bot, .bot)]
+Lean4Lean/Experimental/Thierry2.lean:71:     | .bot, _ => True
+Lean4Lean/Experimental/Thierry2.lean:94: theorem Shape.le_bot {s : Shape n} : s ≤ .bot ↔ s = .bot :=
+Lean4Lean/Experimental/Thierry2.lean:97: theorem ShapeFun.LE.bot : .bot ≤≤ f := sorry
+Lean4Lean/Experimental/Thierry2.lean:99: theorem Shape.le_U {s : Shape n} : s ≤ .U ↔ s = .bot ∨ s = .U := by
+Lean4Lean/Experimental/Thierry2.lean:100:   cases n <;> simp [U, bot, (· ≤ ·), Shape.LE] <;> cases s <;> simp [ble]
+Lean4Lean/Experimental/Thierry2.lean:121: theorem Shape.Compat.bot_l {x : Shape n} : Shape.bot.Compat x = true := by
+Lean4Lean/Experimental/Thierry2.lean:123: theorem Shape.Compat.bot_r {x : Shape n} : x.Compat Shape.bot = true := by
+Lean4Lean/Experimental/Thierry2.lean:145:   | 0, s, .bot | 0, .bot, s | _+1, .bot, s | _+1, s, .bot => s
+Lean4Lean/Experimental/Thierry2.lean:149:   | _+1, _, _ => .bot
+Lean4Lean/Experimental/Thierry2.lean:151: theorem Shape.join.bot_l {x : Shape n} : Shape.bot.join x = x := by
+Lean4Lean/Experimental/Thierry2.lean:153: theorem Shape.join.bot_r {x : Shape n} : x.join Shape.bot = x := by
+Lean4Lean/Experimental/Thierry2.lean:161:   (s.find? fun (x, _) => s.all fun (x', _) => x' ≤ x).getD (.bot, .bot)
+Lean4Lean/Experimental/Thierry2.lean:178: @[simp] theorem ShapeFun.bot_app : (@ShapeFun.bot n).app x = .bot := sorry
+Lean4Lean/Experimental/Thierry2.lean:182:   | _, _ => .bot
+Lean4Lean/Experimental/Thierry2.lean:190:   · exact bot_le
+Lean4Lean/Experimental/Thierry2.lean:197:   | 0, .bot, _ | _+1, .bot, _
+Lean4Lean/Experimental/Thierry2.lean:214:   | bot : HasTypeU .bot x
+Lean4Lean/Experimental/Thierry2.lean:227:   | bot | U => cases n <;> rfl
+Lean4Lean/Experimental/Thierry2.lean:230: theorem Shape.HasType.bot : HasType (n := n) .bot x := unfold_iff.2 .bot
+Lean4Lean/Experimental/Thierry2.lean:237: theorem Shape.HasTypeLam.bot : HasTypeLam .bot a b := by
+Lean4Lean/Experimental/Thierry2.lean:238:   simp [HasTypeLam, ShapeFun.bot]; exact ⟨.bot, .bot⟩
+Lean4Lean/Experimental/Thierry2.lean:257:   | 0, _, .bot | _+1, _, .bot | _, 0, _ => .bot
+Lean4Lean/Experimental/Thierry2.lean:261: @[simp] theorem Shape.lift_bot : ((Shape.bot : Shape n).lift : Shape m) = Shape.bot := by
+Lean4Lean/Experimental/Thierry2.lean:304:     -- have sif {i} (h : i ≤ n) : (if h : i ≤ m then .sort i h else .bot : Shape (m+1)) =
+Lean4Lean/Experimental/Thierry2.lean:313:       first | exact Shape.LE.rfl | exact Shape.bot_le
+Lean4Lean/Experimental/Thierry2.lean:354:   bot' : above (n := n) .bot
+Lean4Lean/Experimental/Thierry2.lean:381:   bot' := by simp
+Lean4Lean/Experimental/Thierry2.lean:387: def D.bot : D := Shape.bot.embed (n := 0)
+Lean4Lean/Experimental/Thierry2.lean:388: @[simp] theorem D.bot_above : D.bot.above (n := n) s ↔ s ≤ .bot := by
+Lean4Lean/Experimental/Thierry2.lean:389:   simp [D.bot, Shape.embed]
+Lean4Lean/Experimental/Thierry2.lean:390:   simpa using Shape.lift_le_lift (Nat.le_max_right 0 n) (s := s) (t := .bot)
+Lean4Lean/Experimental/Thierry2.lean:392: theorem D.LE.bot {x : D} : .bot ≤ x := fun _ _ h => x.le (by simpa using h) x.bot'
+Lean4Lean/Experimental/Thierry2.lean:408:   bot' := ⟨0, _, x.bot', (f.f _).bot'⟩
+Lean4Lean/Experimental/Thierry2.lean:438:   bot' le := ⟨ShapeFun.bot, by simp; exact fun _ => (f.f _).bot'⟩
+Lean4Lean/Experimental/Thierry2.lean:443:     have H {a : Shape n} (ha : a ≠ .bot)
+Lean4Lean/Experimental/Thierry2.lean:448:       cases n <;> cases a <;> simp [Shape.lift, Shape.LE.def, Shape.bot, Shape.lift] at a1 ha
+Lean4Lean/Experimental/Thierry2.lean:450:     by_cases ha : a = .bot; · simp [ha, Shape.Compat.bot_l, Shape.join.bot_l]; exact h2
+Lean4Lean/Experimental/Thierry2.lean:451:     by_cases hb : b = .bot; · simp [hb, Shape.Compat.bot_r, Shape.join.bot_r]; exact h1
+Lean4Lean/Experimental/Thierry2.lean:478: noncomputable def DF.bot : DF where
+Lean4Lean/Experimental/Thierry2.lean:479:   f _ := .bot
+Lean4Lean/Experimental/Thierry2.lean:483: @[simp] theorem DF.bot_app : DF.bot.app x = .bot := by
+Lean4Lean/Experimental/Thierry2.lean:484:   ext; simp [app, bot]; exact fun _ => ⟨0, _, x.bot'⟩
+Lean4Lean/Experimental/Thierry2.lean:486: theorem D.lam_bot : D.lam .bot = .bot := by
+Lean4Lean/Experimental/Thierry2.lean:487:   refine LE.antisymm (fun _ _ h => D.bot_above.2 ?_) .bot
+Lean4Lean/Experimental/Thierry2.lean:503:     bot' {m} := ⟨_, Nat.le_max_left .., Nat.le_max_right .., _, f.bot', by simp⟩
+Lean4Lean/Experimental/Thierry2.lean:591: def Valuation.nil : Valuation := fun _ => .bot
+Lean4Lean/Experimental/Thierry2.lean:625:   ∀ v, v :ᶠ b → ∀ N, v.embed ≤ N.eval (fun _ => .bot) →
+Lean4Lean/Experimental/Thierry2.lean:626:   (∀ N', v.embed ≤ N'.eval (fun _ => .bot) → DefEqF N N' B v b →
+Lean4Lean/Experimental/Thierry2.lean:632:   ∀ v, v :ᶠ b → ∀ N, v.embed ≤ N.eval (fun _ => .bot) →
+Lean4Lean/Experimental/Thierry2.lean:633:   (∀ N', v.embed ≤ N'.eval (fun _ => .bot) → DefEqF N N' B v b →
+Lean4Lean/Experimental/Thierry2.lean:641:   | 0, _, _, _, _, .bot | _+1, _, _, _, _, .bot => True
+Lean4Lean/Experimental/Thierry2.lean:642:   | _+1, _, _, _, _, .lam f => f ≤≤ .bot
+Lean4Lean/Experimental/Thierry2.lean:647:   | 0, _, _, V, .bot, .U | _+1, _, _, V, .bot, .U => V ⤳* .U : .U
+Lean4Lean/Experimental/Thierry2.lean:648:   | _+1, _, _, V, .lam f, .U => V ⤳* .U : .U ∧ f ≤≤ .bot
+Lean4Lean/Experimental/Thierry2.lean:650:   | _+1, M, M', A, .bot, .pi b f => ∃ B F, A ⤳* .pi B F : .U ∧ DefEqLamF DefEqF M M' B F .bot b f
+Lean4Lean/Experimental/Thierry2.lean:684: theorem DefEqF.bot : DefEqF (n := n) A A .U a .U → DefEqF M N A .bot a := by
+Lean4Lean/Experimental/Thierry2.lean:687:   exact ⟨_, _, h2, .bot h6⟩
+Lean4Lean/Experimental/Thierry2.lean:690: theorem DefEqLamF.bot :
+Lean4Lean/Experimental/Thierry2.lean:691:     DefEqPiF (n := n) DefEqF B F F' a f → DefEqLamF DefEqF M M' B F .bot a f := by
+Lean4Lean/Experimental/Thierry2.lean:694:   refine ⟨fun N' hN' h6 => ?_, fun h6 => .bot (a1 _ hN h6).1⟩
+Lean4Lean/Experimental/Thierry2.lean:695:   · have := (a1 _ hN' h6).1.left; exact ⟨.bot this, .bot this⟩
+Lean4Lean/Experimental/Thierry2.lean:708:   · cases a' with | bot => simp [DefEqF] | lam => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry2.lean:710:   · cases a' with | bot => simp [DefEqF] | U
+Lean4Lean/Experimental/Thierry2.lean:711:     cases u' with | bot => exact h4.1 | U => exact h4
+Lean4Lean/Experimental/Thierry2.lean:712:   · cases a' with | bot => simp [DefEqF] | U => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry2.lean:713:     cases u' with | bot => exact h4.1 | U => exact h4 | _ => cases h6
+Lean4Lean/Experimental/Thierry2.lean:714:   · cases a' with | bot => simp [DefEqF] | U => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry2.lean:715:     cases u' with | bot => exact h4.1 | pi => ?_ | _ => cases h6
+Lean4Lean/Experimental/Thierry2.lean:721:   · cases a' with | bot => simp [DefEqF] | U
+Lean4Lean/Experimental/Thierry2.lean:722:     cases u' with | bot => exact h4 | _ => cases h6
+Lean4Lean/Experimental/Thierry2.lean:723:   · cases a' with | bot => simp [DefEqF] | U => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry2.lean:724:     cases u' with | bot => exact h4 | _ => cases h6
+Lean4Lean/Experimental/Thierry2.lean:725:   · cases a' with | bot => simp [DefEqF] | U => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry2.lean:726:     cases h5.unfold with simp [DefEqF] | bot => exact h4.1 | _ => cases h6
+Lean4Lean/Experimental/Thierry2.lean:727:   · cases a' with | bot => simp [DefEqF] | pi a f => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry2.lean:732:     | bot => exact ⟨B, F, a1, .mono a3 a5 c1 .bot .bot h3.1 h3.2 b1 a2⟩
+Lean4Lean/Experimental/Thierry2.lean:734:   · cases a' with | bot => simp [DefEqF] | pi a f => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry2.lean:735:     let .pi c1 := h2.unfold; cases Shape.le_bot.1 h6; simp [Shape.LE.def] at h3
+Lean4Lean/Experimental/Thierry2.lean:738:     exact ⟨B, F, a1, .mono a3 a5 c1 .bot .rfl h3.1 h3.2 .bot a2⟩
+Lean4Lean/Experimental/Thierry2.lean:788:     | bot => trivial
+Lean4Lean/Experimental/Thierry2.lean:792:     | bot => trivial
+Lean4Lean/Experimental/Thierry2.lean:794:     | pi b1 => let ⟨B, F, _, _, a1, a1', a2, a3, a4⟩ := h1.2; exact ⟨_, _, a1, .bot a4⟩
+Lean4Lean/Experimental/Thierry2.lean:795:   · cases h2.unfold with | bot => trivial | _ => cases h3
+Lean4Lean/Experimental/Thierry2.lean:810:     exact ⟨B, F, a1, .mono_r a3 a5 h6 .bot h3.1 h3.2 a2⟩
+Lean4Lean/Experimental/Thierry.lean:19: axiom D.bot : D
+Lean4Lean/Experimental/Thierry.lean:34: noncomputable def DF.bot : DF := .mk (fun _ => .bot) mySorry
+Lean4Lean/Experimental/Thierry.lean:35: @[simp] theorem DF.bot_val : DF.bot.1 x = .bot := rfl
+Lean4Lean/Experimental/Thierry.lean:37: axiom D.lam_bot : D.lam .bot = .bot
+Lean4Lean/Experimental/Thierry.lean:43: axiom D.LE.bot {x : D} : .bot ≤ x
+Lean4Lean/Experimental/Thierry.lean:44: theorem DF.LE.bot {x : DF} : .bot ≤ x := fun _ => .bot
+Lean4Lean/Experimental/Thierry.lean:49:   | bot : FinMut b
+Lean4Lean/Experimental/Thierry.lean:75: @[simp] axiom FinElem.embed_bot : ((.bot : FinElem) : D) = .bot
+Lean4Lean/Experimental/Thierry.lean:76: @[simp] axiom FinFun.embed_bot : ((.bot : FinFun) : DF) = .bot
+Lean4Lean/Experimental/Thierry.lean:79:   | .bot, _ => True
+Lean4Lean/Experimental/Thierry.lean:83:   | .lam f, .bot => f ≤ .bot
+Lean4Lean/Experimental/Thierry.lean:88: @[simp] theorem FinMut.LE.bot {x : FinMut b} : .bot ≤ x := by
+Lean4Lean/Experimental/Thierry.lean:90:   · show (_:D) ≤ _; simp [FinElem.embed_bot, D.LE.bot]
+Lean4Lean/Experimental/Thierry.lean:91:   · show (_:DF) ≤ _; simp [FinFun.embed_bot, DF.LE.bot]
+Lean4Lean/Experimental/Thierry.lean:99: @[simp] axiom bot_apply : (.bot : FinFun) x = .bot
+Lean4Lean/Experimental/Thierry.lean:110:   | bot : FinHasType .bot a
+Lean4Lean/Experimental/Thierry.lean:184:   | .bot (b := true) | .U => 0
+Lean4Lean/Experimental/Thierry.lean:185:   | .bot (b := false) => 1
+Lean4Lean/Experimental/Thierry.lean:195:   | _, _, _, .bot => True
+Lean4Lean/Experimental/Thierry.lean:196:   | _, _, _, .lam f => f ≤ .bot
+Lean4Lean/Experimental/Thierry.lean:200:   | _, V, .bot, .U => V ⤳* .U : .U
+Lean4Lean/Experimental/Thierry.lean:201:   | _, V, .lam f, .U => V ⤳* .U : .U ∧ f ≤ .bot
+Lean4Lean/Experimental/Thierry.lean:203:   | M, A, .bot, .pi b f => ∃ B F, A ⤳* .pi B F : .U ∧ HasPiFamF M B F .bot b f
+Lean4Lean/Experimental/Thierry.lean:208:   ∀ N v, meas v < meas f → FinElem.embed v ≤ N.eval (fun _ => .bot) → v :ᶠ b →
+Lean4Lean/Experimental/Thierry.lean:214:   ∀ N v, meas v < meas f → FinElem.embed v ≤ N.eval (fun _ => .bot) → v :ᶠ b →
+Lean4Lean/Experimental/Thierry.lean:223:   ∀ N v, FinElem.embed v ≤ N.eval (fun _ => .bot) → v :ᶠ b →
+Lean4Lean/Experimental/Thierry.lean:227:   ∀ N v, FinElem.embed v ≤ N.eval (fun _ => .bot) → v :ᶠ b →
+Lean4Lean/Experimental/Thierry.lean:230: theorem HasPiFamF.bot : a :ᶠ .U → FinHasType f (.pi a) →
+Lean4Lean/Experimental/Thierry.lean:231:     HasTypeFamF B F a f → HasPiFamF M B F .bot a f := by
+Lean4Lean/Experimental/Thierry.lean:242:     exact ⟨B, F, c1, HasPiFamF.bot a1 a2 c4⟩
+Lean4Lean/Experimental/Thierry.lean:253:     cases a' with | bot => simp [HasTypeF] | lam => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:256:     cases a' with | bot => simp [HasTypeF] | lam => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:258:   · cases a' with | bot => simp [HasTypeF] | U => ?_ | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:259:     cases h5 with simp [HasTypeF] | bot => exact h4.1 | U => exact h4 | pi
+Lean4Lean/Experimental/Thierry.lean:261:   · cases a' with | bot => simp [HasTypeF] | U => ?_ | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:262:     cases h5 with simp [HasTypeF] | bot => exact h4.1 | U => cases FinElem.LE.unfold h6 | pi ha hf
+Lean4Lean/Experimental/Thierry.lean:267:     cases a' with | bot => simp [HasTypeF] | U => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:268:     cases h5 with simp [HasTypeF] | bot => exact h4 | _ => cases FinElem.LE.unfold h6
+Lean4Lean/Experimental/Thierry.lean:270:     cases a' with | bot => simp [HasTypeF] | U => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:271:     cases h5 with simp [HasTypeF] | bot => exact h4.1 | _ => cases FinElem.LE.unfold h6
+Lean4Lean/Experimental/Thierry.lean:273:     cases a' with | bot => simp [HasTypeF] | pi a f => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:278:     | bot => exact ⟨B, F, a1, .mono a3 a5 c1 c2 .bot .bot h3.1 h3.2 b1 a2⟩
+Lean4Lean/Experimental/Thierry.lean:281:     cases a' with | bot => simp [HasTypeF] | pi a f => ?_ | _ => cases h3
+Lean4Lean/Experimental/Thierry.lean:286:     | bot => exact ⟨B, F, a1, .mono a3 a5 c1 c2 .bot .rfl h3.1 h3.2 .bot a2⟩
+Lean4Lean/Experimental/Thierry.lean:287:     | lam b1 => exact ⟨B, F, a1, .mono a3 a5 c1 c2 b1 h6 h3.1 h3.2 .bot a2⟩
+Lean4Lean/Experimental/Thierry.lean:327:     | bot => simp [HasTypeF]
+Lean4Lean/Experimental/Thierry.lean:332:       exact ⟨_, _, a1, .bot b1 b2 a4⟩
+Lean4Lean/Experimental/Thierry.lean:333:   · cases h2 with | bot => simp [HasTypeF] | _ => cases FinElem.LE.unfold h3
+Lean4Lean/Experimental/Thierry.lean:343:     exact ⟨B, F, a1, .mono_r a3 a5 ‹_› ‹_› .bot ‹_› ‹_› a2⟩
+Lean4Lean/Experimental/DomainTheory.lean:37:   | bot
+Lean4Lean/Experimental/DomainTheory.lean:41:   | bot
+Lean4Lean/Experimental/DomainTheory.lean:181: def Dom.bot : Dom := ⟨fun | 0 => () | _+1 => none, fun | 0 | _+1 => rfl⟩
+Lean4Lean/Experimental/DomainTheory.lean:204:   refine match x with | none => .bot | some x => ?_
+Lean4Lean/Experimental/DomainTheory.lean:241:   | .bot => .bot
+Lean4Lean/Experimental/DomainTheory.lean:242:   | .val _ => .bot
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:14: theorem LR.Adequate.bot (ha : a.HasType .type) : Adequate Γ₀ Γ ρ M N A .bot a :=
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:15:   ⟨fun _ _ _ => ⟨(LR _).bot ha, (LR _).bot ha⟩, fun _ _ => (LR _).bot ha⟩
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:115:       cases show m = .bot from TShape.le_bot.1 (hle.trans TShape.bot_le)
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:116:       exact (LR _).bot hmem.isType
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:125:     by_cases hm : m ≤ .bot; · exact WShape.le_bot.1 hm ▸ .bot hmem.isType
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:140:     | bot hm => exact (LR _).bot hm
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:144:       · dsimp only at h; rw [h]; exact (LR _).bot hmem.isType
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:146:           WShape.lam', WShape.lam, WShape.bot, WShape.ctor, WShape.indTy,
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:147:           Shape.bot] at h <;> first | split at h <;> simp_all only [reduceCtorEq] | simp_all
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:149:     cases hM with | bot => exact .bot hmem.isType | const a1 _ a3 a4 a5 a6
+Lean4Lean/Experimental/ShapeLogRelAdequacy.lean:156:     cases hM with | bot => exact .bot hmem.isType | @app _ nf_app f _ _ _ x hif hia le_m
