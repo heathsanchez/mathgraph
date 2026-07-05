@@ -1,0 +1,13 @@
+✖ [46/46] Building Lean4Lean.Experimental.Stratified (842ms)
+trace: .> LEAN_PATH=/private/tmp/sorrydb_lean4lean_stratified_v4_5_13/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/sorrydb_lean4lean_stratified_v4_5_13/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.29.0/bin/lean /private/tmp/sorrydb_lean4lean_stratified_v4_5_13/Lean4Lean/Experimental/Stratified.lean -o /private/tmp/sorrydb_lean4lean_stratified_v4_5_13/.lake/build/lib/lean/Lean4Lean/Experimental/Stratified.olean -i /private/tmp/sorrydb_lean4lean_stratified_v4_5_13/.lake/build/lib/lean/Lean4Lean/Experimental/Stratified.ilean -c /private/tmp/sorrydb_lean4lean_stratified_v4_5_13/.lake/build/ir/Lean4Lean/Experimental/Stratified.c --setup /private/tmp/sorrydb_lean4lean_stratified_v4_5_13/.lake/build/ir/Lean4Lean/Experimental/Stratified.setup.json --json
+error: Lean4Lean/Experimental/Stratified.lean:92:45: Application type mismatch: The argument
+  hd
+has type
+  env.IsDefEq1 U hasType defEq Γ✝ (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+but is expected to have type
+  env.IsDefEq1 U hasType defEq Γ✝ (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort (VLevel.inst ls₁ u))
+in the application
+  IsDefEq1.symm hd
+error: Lean exited with code 1
+Some required targets logged failures:
+- Lean4Lean.Experimental.Stratified

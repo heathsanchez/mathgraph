@@ -1,0 +1,68 @@
+⚠ [46/46] Built Lean4Lean.Experimental.Stratified (859ms)
+info: Lean4Lean/Experimental/Stratified.lean:90:4: case constDF
+env : VEnv
+Γ : List VExpr
+U : Nat
+henv : env.Ordered
+e1 e2 A : VExpr
+defEq : List VExpr → VExpr → VExpr → VExpr → Prop
+hasType : List VExpr → VExpr → VExpr → Prop
+hty : ∀ {Γ : List VExpr} {e A : VExpr}, env.HasType1 U defEq Γ e A → hasType Γ e A
+hdf : ∀ {Γ : List VExpr} {e1 e2 A : VExpr}, env.IsDefEq1 U hasType defEq Γ e1 e2 A → defEq Γ e1 e2 A
+c✝ : Name
+ci✝ : VConstant
+ls₁ ls₂ : List VLevel
+u : VLevel
+Γ✝ : List VExpr
+h1 : env.constants c✝ = some ci✝
+h2 : ∀ (l : VLevel), l ∈ ls₁ → VLevel.WF U l
+h3 : ∀ (l : VLevel), l ∈ ls₂ → VLevel.WF U l
+h4 : ls₁.length = ci✝.uvars
+h5 : List.Forall₂ (fun x1 x2 => x1 ≈ x2) ls₁ ls₂
+hwf : VLevel.WF U u
+hstrong0 : env.IsDefEqStrong U [] (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+hstrong : env.IsDefEqStrong U Γ✝ (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+ih0 :
+  env.HasType1 U defEq [] (VExpr.instL ls₁ ci✝.type) (sort u) ∧
+    env.HasType1 U defEq [] (VExpr.instL ls₂ ci✝.type) (sort u) ∧
+      env.IsDefEq1 U hasType defEq [] (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+ih :
+  env.HasType1 U defEq Γ✝ (VExpr.instL ls₁ ci✝.type) (sort u) ∧
+    env.HasType1 U defEq Γ✝ (VExpr.instL ls₂ ci✝.type) (sort u) ∧
+      env.IsDefEq1 U hasType defEq Γ✝ (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+⊢ env.HasType1 U defEq Γ✝ (const c✝ ls₁) (VExpr.instL ls₁ ci✝.type) ∧
+    env.HasType1 U defEq Γ✝ (const c✝ ls₂) (VExpr.instL ls₁ ci✝.type) ∧
+      env.IsDefEq1 U hasType defEq Γ✝ (const c✝ ls₁) (const c✝ ls₂) (VExpr.instL ls₁ ci✝.type)
+info: Lean4Lean/Experimental/Stratified.lean:92:35: env : VEnv
+Γ : List VExpr
+U : Nat
+henv : env.Ordered
+e1 e2 A : VExpr
+defEq : List VExpr → VExpr → VExpr → VExpr → Prop
+hasType : List VExpr → VExpr → VExpr → Prop
+hty : ∀ {Γ : List VExpr} {e A : VExpr}, env.HasType1 U defEq Γ e A → hasType Γ e A
+hdf : ∀ {Γ : List VExpr} {e1 e2 A : VExpr}, env.IsDefEq1 U hasType defEq Γ e1 e2 A → defEq Γ e1 e2 A
+c✝ : Name
+ci✝ : VConstant
+ls₁ ls₂ : List VLevel
+u : VLevel
+Γ✝ : List VExpr
+h1 : env.constants c✝ = some ci✝
+h2 : ∀ (l : VLevel), l ∈ ls₁ → VLevel.WF U l
+h3 : ∀ (l : VLevel), l ∈ ls₂ → VLevel.WF U l
+h4 : ls₁.length = ci✝.uvars
+h5 : List.Forall₂ (fun x1 x2 => x1 ≈ x2) ls₁ ls₂
+hwf : VLevel.WF U u
+hstrong0 : env.IsDefEqStrong U [] (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+hstrong : env.IsDefEqStrong U Γ✝ (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+ih0 :
+  env.HasType1 U defEq [] (VExpr.instL ls₁ ci✝.type) (sort u) ∧
+    env.HasType1 U defEq [] (VExpr.instL ls₂ ci✝.type) (sort u) ∧
+      env.IsDefEq1 U hasType defEq [] (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+ih :
+  env.HasType1 U defEq Γ✝ (VExpr.instL ls₁ ci✝.type) (sort u) ∧
+    env.HasType1 U defEq Γ✝ (VExpr.instL ls₂ ci✝.type) (sort u) ∧
+      env.IsDefEq1 U hasType defEq Γ✝ (VExpr.instL ls₁ ci✝.type) (VExpr.instL ls₂ ci✝.type) (sort u)
+⊢ defEq Γ✝ (VExpr.instL ls₂ ci✝.type) (VExpr.instL ls₁ ci✝.type) (sort (VLevel.inst ls₁ u))
+warning: Lean4Lean/Experimental/Stratified.lean:75:8: declaration uses `sorry`
+Build completed successfully (46 jobs).
