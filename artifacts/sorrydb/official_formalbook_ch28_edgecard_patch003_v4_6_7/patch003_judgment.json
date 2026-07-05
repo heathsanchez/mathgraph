@@ -1,0 +1,101 @@
+{
+  "artifact": "official_formalbook_ch28_edgecard_patch003_v4_6_7",
+  "source": "official SorryDB 1000 evaluation split",
+  "sorrydb_id": "589ac7b645ccf7c434f7686051ee627a04704b3141a80debcd2d2ed4358562b3",
+  "repo": "https://github.com/mo271/FormalBook",
+  "commit": "865934361ca7005e0a874efb39f5809117052e85",
+  "file": "FormalBook/Chapter_28.lean",
+  "module": "FormalBook.Chapter_28",
+  "line": 64,
+  "goal": "e ∈ G.edgeFinset ⊢ {v | v ∈ e}.card = 2",
+  "base_module_build_returncode": 0,
+  "accepted": false,
+  "accepted_variant": null,
+  "status": "PATCH003_REJECTED_OR_DIAGNOSTIC",
+  "results": [
+    {
+      "variant": "v01_by_simpa_using_he",
+      "module_build_returncode": 1,
+      "module_build_seconds": 35.12,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v02_by_simpa",
+      "module_build_returncode": 1,
+      "module_build_seconds": 33.34,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v03_by_exact_comment_lemma",
+      "module_build_returncode": 1,
+      "module_build_seconds": 34.34,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v04_by_simpa_comment_lemma",
+      "module_build_returncode": 1,
+      "module_build_seconds": 34.59,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v05_by_have_comment_lemma",
+      "module_build_returncode": 1,
+      "module_build_seconds": 37.66,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v06_by_convert_comment_lemma",
+      "module_build_returncode": 1,
+      "module_build_seconds": 36.8,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v07_by_aesop",
+      "module_build_returncode": 1,
+      "module_build_seconds": 39.46,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v08_by_simp_all",
+      "module_build_returncode": 1,
+      "module_build_seconds": 35.55,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v09_by_exact_edge_mem_card",
+      "module_build_returncode": 1,
+      "module_build_seconds": 36.92,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v10_by_simpa_edge_mem_card",
+      "module_build_returncode": 1,
+      "module_build_seconds": 34.89,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v11_by_have_edge_mem_card",
+      "module_build_returncode": 1,
+      "module_build_seconds": 38.14,
+      "module_has_error": true,
+      "target_has_sorry_warning": false
+    },
+    {
+      "variant": "v12_by_trace",
+      "module_build_returncode": 0,
+      "module_build_seconds": 53.54,
+      "module_has_error": false,
+      "target_has_sorry_warning": false
+    }
+  ]
+}

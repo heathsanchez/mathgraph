@@ -1,0 +1,6 @@
+{
+  "returncode": 0,
+  "seconds": 46.75,
+  "stdout_tail": "✔ [3074/3075] Built FormalBook.Mathlib.EdgeFinset (7.5s)\n⚠ [3075/3075] Built FormalBook.Chapter_28 (36s)\nwarning: FormalBook/Chapter_28.lean:58:6: declaration uses 'sorry'\nBuild completed successfully (3075 jobs).",
+  "stderr_tail": ""
+}
