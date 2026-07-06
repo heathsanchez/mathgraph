@@ -1,0 +1,13 @@
+specs/LT0513_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0513_specs.lean:23:50: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  d ≥ 0
+  b ≥ 0
+  b - d ≥ 0
+  a ≥ 0
+  a - b + d ≥ 1
+  a + d ≥ 0
+where
+ a := ↑m
+ b := ↑↑i
+ d := ↑(n - m)
