@@ -1,0 +1,6 @@
+variant	rc
+v01_simp	1
+v02_rfl	1
+v03_exact_card_congr	1
+v04_classical_simp	1
+v05_try_congr	1

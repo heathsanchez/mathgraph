@@ -1,0 +1,80 @@
+a b c : ℤ
+hS✝ : (a, b, c) ∈ S k
+hU : ⟨(a, b, c), hS✝⟩ ∈ U k
+hS : 4 * a * b + c ^ 2 = 4 * ↑k + 1 ∧ 0 < a ∧ 0 < b
+a✝ : 4 * a * b + (a - b + c) ^ 2 < 4 * ↑k + 1
+⊢ False
+failed
+error: FormalBook/Chapter_04.lean:197:8: linarith failed to find a contradiction
+case h
+k : ℕ
+a b c : ℤ
+hS : (a, b, c) ∈ S k
+hU : ⟨(a, b, c), hS⟩ ∈ U k
+a✝ : a - b + c ≤ 0
+⊢ False
+failed
+error: FormalBook/Chapter_04.lean:203:8: linarith failed to find a contradiction
+case h
+k : ℕ
+a b c : ℤ
+hS : (a, b, c) ∈ S k
+hT : ⟨(a, b, c), hS⟩ ∈ T k
+a✝ : a - b + c ≤ 0
+⊢ False
+failed
+error: FormalBook/Chapter_04.lean:205:16: unsolved goals
+case a.a.snd.snd
+k : ℕ
+x : ↑(U k)
+⊢ x.1.1.1 - x.1.1.2.1 = 0
+error: FormalBook/Chapter_04.lean:208:17: unsolved goals
+case a.a.snd.snd
+k : ℕ
+x : ↑(T k)
+⊢ x.1.1.1 - x.1.1.2.1 = 0
+warning: FormalBook/Chapter_04.lean:236:82: This simp argument is unused:
+  Prod.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [secondInvo, secondInvo_fun, sub_sub_cancel, id_eq, Subtype.mk.injEq, P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵
+  ̵ ̵ ̵ ̵ ̵and_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:237:4: This simp argument is unused:
+  and_true
+
+Hint: Omit it from the simp argument list.
+  simp only [secondInvo, secondInvo_fun, sub_sub_cancel, id_eq, Subtype.mk.injEq, Prod.mk.injEq,̵
+  ̵ ̵ ̵ ̵ ̵a̵n̵d̵_̵t̵r̵u̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:258:8: declaration uses 'sorry'
+warning: FormalBook/Chapter_04.lean:273:8: declaration uses 'sorry'
+warning: FormalBook/Chapter_04.lean:296:14: This simp argument is unused:
+  Subtype.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [ ̵S̵u̵b̵t̵y̵p̵e̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵ ̵Prod.mk.injEq, true_and] at hf
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:296:32: This simp argument is unused:
+  Prod.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵ ̵S̵u̵b̵t̵y̵p̵e̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵ ̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵[̲S̲u̲b̲t̲y̲p̲e̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ true_and] at hf
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:296:47: This simp argument is unused:
+  true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵ ̵S̵u̵b̵t̵y̵p̵e̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵ ̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵ ̵t̵r̵u̵e̵_̵a̵n̵d̵]̵[̲S̲u̲b̲t̲y̲p̲e̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ ̲P̲r̲o̲d̲.̲m̲k̲.̲i̲n̲j̲E̲q̲]̲ at hf
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:313:8: declaration uses 'sorry'
+info: FormalBook/Chapter_04.lean:346:0: (2, 5, 6)
+error: Lean exited with code 1
+Some required targets logged failures:
+- FormalBook.Chapter_04
+error: build failed
