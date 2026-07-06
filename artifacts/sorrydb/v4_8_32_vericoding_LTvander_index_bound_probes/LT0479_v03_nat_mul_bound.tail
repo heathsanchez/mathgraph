@@ -1,0 +1,20 @@
+specs/LT0479_specs.lean:14:4: warning: declaration uses `sorry`
+specs/LT0479_specs.lean:26:4: warning: declaration uses `sorry`
+specs/LT0479_specs.lean:48:24: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  f ≥ 0
+  e ≥ 0
+  d ≥ 0
+  d + e - f ≥ 0
+  c ≥ 0
+  c - d ≥ 0
+  b ≥ 0
+  a ≥ 0
+  a - b ≥ 0
+where
+ a := ↑xdeg
+ b := ↑↑i
+ c := ↑ydeg
+ d := ↑↑j
+ e := ↑↑i * ↑(ydeg + 1)
+ f := ↑(xdeg + 1) * ↑(ydeg + 1)
