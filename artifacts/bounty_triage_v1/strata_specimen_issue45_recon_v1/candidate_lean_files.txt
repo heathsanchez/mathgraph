@@ -1,0 +1,16 @@
+./Specimen/Scoring.lean
+./Specimen/DeriveSchedules.lean
+./Specimen/SearchTree.lean
+./Specimen/DeriveConstrainedProducer.lean
+./Specimen/MExp.lean
+./.lake/packages/plausible/Plausible/Testable.lean
+./.lake/packages/plausible/Plausible/Tactic.lean
+./.lake/packages/batteries/Batteries/Lean/HashMap.lean
+./.lake/packages/batteries/Batteries/Lean/PersistentHashMap.lean
+./.lake/packages/batteries/Batteries/Data/BinomialHeap/Basic.lean
+./.lake/packages/batteries/Batteries/Data/Array/Basic.lean
+./.lake/packages/batteries/Batteries/Data/HashMap/Basic.lean
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean
+./.lake/packages/batteries/Batteries/Data/String/Legacy.lean
+./.lake/packages/batteries/Batteries/Data/RBMap/Basic.lean
+./Specimen/PatternCoverage.lean

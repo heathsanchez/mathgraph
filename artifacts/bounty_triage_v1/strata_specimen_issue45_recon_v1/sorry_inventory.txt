@@ -1,0 +1,73 @@
+== sorry/admit ==
+./SpecimenTest/DeriveArbitrarySuchThat/Demo.lean:34:theorem cubes_small {n} : Cube n → n <= 27 := sorry
+./SpecimenTest/ArithCompiler/FancyCompilerBuggy.lean:658:--   sorry
+./SpecimenTest/ArithCompiler/ArithCompiler.lean:263:-- theorem preserve_value (stmt : Stmt) (store0 : Store) : execProg (compileStmt stmt) (optStateFromStore store0) = (optStateFromStore (evalStmt store0 stmt)) := by sorry
+./.lake/packages/plausible/Plausible/Tactic.lean:85:If no counter-examples are found, `plausible` behaves like `admit`.
+./.lake/packages/plausible/Plausible/Tactic.lean:139:admit. If it gives up or finds a counter-example, it reports an error.
+./.lake/packages/plausible/Plausible/Tactic.lean:203:  admitGoal g
+./.lake/packages/plausible/PlausibleTest/Tactic.lean:125:warning: declaration uses `sorry`
+./.lake/packages/plausible/PlausibleTest/Tactic.lean:134:warning: declaration uses `sorry`
+./.lake/packages/plausible/PlausibleTest/Tactic.lean:145:warning: declaration uses `sorry`
+./.lake/packages/plausible/PlausibleTest/Tactic.lean:167:warning: declaration uses `sorry`
+./.lake/packages/proofwidgets/ProofWidgets/Demos/Euclidean.lean:310:axiom test_sorry {α} : α
+./.lake/packages/proofwidgets/ProofWidgets/Demos/Euclidean.lean:342:  exact test_sorry
+./.lake/packages/proofwidgets/ProofWidgets/Demos/SelectInsertConv.lean:160:-- Like `sorry` but avoids a warning for demonstration purposes.
+./.lake/packages/proofwidgets/ProofWidgets/Demos/SelectInsertConv.lean:161:axiom test_sorry {α} : α
+./.lake/packages/proofwidgets/ProofWidgets/Demos/SelectInsertConv.lean:166:  all_goals exact test_sorry
+./.lake/packages/batteries/Batteries/Tactic/Lint/Misc.lean:41:We skip all declarations that contain `sorry` in their value. -/
+./.lake/packages/batteries/Batteries/Tactic/Case.lean:74:nor does it admit the goal if `tac` failed.
+./.lake/packages/batteries/Batteries/Tactic/Case.lean:75:Recall that `case` closes the goal using `sorry` when `tac` fails,
+./.lake/packages/batteries/Batteries/Tactic/GeneralizeProofs.lean:22:def List.nthLe {α} (l : List α) (n : ℕ) (_h : n < l.length) : α := sorry
+./.lake/packages/batteries/Batteries/Tactic/GeneralizeProofs.lean:500:def List.nthLe {α} (l : List α) (n : ℕ) (_h : n < l.length) : α := sorry
+./.lake/packages/batteries/Batteries/Util/ProofWanted.lean:39:    -- The helper axiom is used instead of `sorry` to avoid spurious warnings
+./.lake/packages/batteries/Batteries/Linter/UnreachableTactic.lean:22:because `trivial` produces no subgoals; you could put `sorry` or `apply I_don't_exist`
+./.lake/packages/batteries/Batteries/CodeAction/Basic.lean:20:on each occurrence of a hole (`_`, `?_` or `sorry`).
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:33:  | ``Elab.Term.elabSorry, _ => "sorry"
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:293:  | zero => sorry
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:294:  | succ n ih => sorry
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:358:        "sorry"
+./.lake/packages/batteries/Batteries/CodeAction/Misc.lean:408:    -- or if there is only a `done` or `sorry` terminator
+./.lake/packages/batteries/BatteriesTest/linterVisibility.lean:13:@[env_linter] def foo : Linter := sorry
+./.lake/packages/batteries/BatteriesTest/linterVisibility.lean:19:@[env_linter] public def foo' : Linter := sorry
+./.lake/packages/batteries/BatteriesTest/linterVisibility.lean:25:@[env_linter] meta def foo'' : Linter := sorry
+./.lake/packages/batteries/BatteriesTest/simpa.lean:82:theorem thm : (a : Int) ≤ b - c ↔ a + b ≤ c := sorry
+./.lake/packages/batteries/BatteriesTest/simpa.lean:85:theorem thm2 : (b : Int) - c ≤ (a - b) - (a - c) := sorry
+./.lake/packages/batteries/BatteriesTest/exfalso.lean:3:private axiom test_sorry : ∀ {α}, α
+./.lake/packages/batteries/BatteriesTest/exfalso.lean:12:  exact test_sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:13:/-- warning: declaration uses `sorry` -/
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:22:  sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:42:    tactic => sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:43:  sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:45:/-- warning: declaration uses `sorry` -/
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:54:  sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:66:⊢ 12 = sorry
+./.lake/packages/batteries/BatteriesTest/conv_equals.lean:73:  sorry
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:3:private axiom test_sorry : ∀ {α}, α
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:5:noncomputable def List.nthLe (l : List α) (n) (_h : n < l.length) : α := test_sorry
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:14:  exact test_sorry
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:56:  exact test_sorry
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:62:  exact test_sorry
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:69:  exact test_sorry
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:112:theorem t (x : Option Unit) : x.isSome = true := test_sorry
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:113:def p : Unit → Prop := test_sorry
+./.lake/packages/batteries/BatteriesTest/GeneralizeProofs.lean:115:theorem good (x : Option Unit) : p (Option.get x test_sorry) → x.isSome = true := by
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:231:  Due to unsoundness, `#eval` refuses to evaluate expressions that depend on `sorry`, even indirectly,
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:232:  since the presence of `sorry` can lead to runtime instability and crashes.
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:255:  Due to unsoundness, `#eval` refuses to evaluate expressions that depend on `sorry`, even indirectly,
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:256:  since the presence of `sorry` can lead to runtime instability and crashes.
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:289:  Due to unsoundness, `#eval` refuses to evaluate expressions that depend on `sorry`, even indirectly,
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:290:  since the presence of `sorry` can lead to runtime instability and crashes.
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:314:  Due to unsoundness, `#eval` refuses to evaluate expressions that depend on `sorry`, even indirectly,
+./.lake/packages/batteries/BatteriesTest/help_cmd.lean:315:  since the presence of `sorry` can lead to runtime instability and crashes.
+./.lake/packages/batteries/BatteriesTest/lint_unreachableTactic.lean:20:warning: declaration uses `sorry`
+./.lake/packages/batteries/BatteriesTest/lint_unreachableTactic.lean:28:def t : Nat → Nat := sorry
+./.lake/packages/batteries/BatteriesTest/lint_unreachableTactic.lean:32:theorem a : aa = 0 → t aa = 0 := sorry
+./.lake/packages/batteries/BatteriesTest/lintsimp.lean:37:    SemiconjBy (unop a) (unop y) (unop x) ↔ SemiconjBy a x y := sorry
+./.lake/packages/batteries/BatteriesTest/lint_simpNF.lean:43:private axiom test_sorry : ∀ {α}, α
+./.lake/packages/batteries/BatteriesTest/lint_simpNF.lean:47:    ofFn (fun i : Fin l.length => f <| l[(i : Nat)]) = l.map f := test_sorry
+./.lake/packages/batteries/BatteriesTest/lintunused.lean:3:-- should be ignored as the proof contains sorry
+./.lake/packages/batteries/BatteriesTest/lintunused.lean:4:/-- warning: declaration uses `sorry` -/
+./.lake/packages/batteries/BatteriesTest/lintunused.lean:7:  sorry
+
+count lines:
+69

@@ -1,0 +1,197 @@
+== Scorable ==
+./Specimen/Scoring.lean:16:- **`Scorable S`** — typeclass for a concrete score type `S`.  Defines how
+./Specimen/Scoring.lean:21:  built from a concrete `Scorable S` via `mkScorerBundle`.  At runtime only one
+./Specimen/Scoring.lean:56:class Scorable (S : Type) where
+./Specimen/Scoring.lean:130:instance : Scorable DefaultScore where
+./Specimen/Scoring.lean:222:def mkScorerBundle [Inhabited S] [TypeName S] [Repr S] [Scorable S]
+./Specimen/Scoring.lean:233:    isBetter := fun a b => Scorable.isBetter (Score.unwrap S a) (Score.unwrap S b)
+./Specimen/Scoring.lean:234:    combineScores := fun a b => Score.wrap (Scorable.combine (Score.unwrap S a) (Score.unwrap S b))
+./Specimen/Scoring.lean:236:    emptyScore := Score.wrap (Scorable.empty : S)
+./Specimen/Scoring.lean:237:    penaltyScore := Score.wrap (Scorable.uncoveredPenalty : S)
+./Specimen/Scoring.lean:238:    worstScore := Score.wrap (Scorable.worst : S)
+./Specimen/Scoring.lean:239:    scoreBadness := fun s => Scorable.badness (Score.unwrap S s)
+./Specimen/Scoring.lean:324:  Scorable.combine baseScore depCost
+./Specimen/Scoring.lean:327:  stepScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:331:  | [] => Scorable.uncoveredPenalty
+./Specimen/Scoring.lean:332:  | _ => Scorable.bestOf (ctors.map Prod.snd)
+./Specimen/Scoring.lean:335:  leafScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:362:instance : Scorable WorstLeafScore where
+./Specimen/Scoring.lean:387:  | [] => Scorable.uncoveredPenalty
+./Specimen/Scoring.lean:388:  | _ => Scorable.bestOf (ctors.map Prod.snd)
+./Specimen/Scoring.lean:391:  leafScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:447:instance : Scorable DensityScore where
+./Specimen/Scoring.lean:499:  stepScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:503:  | [] => Scorable.uncoveredPenalty
+./Specimen/Scoring.lean:504:  | _ => Scorable.bestOf (ctors.map Prod.snd)
+./Specimen/Scoring.lean:507:  leafScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:534:instance : Scorable UniformDensityScore where
+./Specimen/Scoring.lean:568:  stepScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:572:  | [] => Scorable.uncoveredPenalty
+./Specimen/Scoring.lean:573:  | _ => Scorable.bestOf (ctors.map Prod.snd)
+./Specimen/Scoring.lean:576:  leafScores.foldl Scorable.combine Scorable.empty
+
+== isBetter ==
+./Specimen/DeriveSchedules.lean:1248:    search for the ordering that minimizes (per `bundle.isBetter`) the schedule
+./Specimen/DeriveSchedules.lean:1357:          if bundle.isBetter score bestScore then some (choice, score) else acc) none
+./Specimen/DeriveSchedules.lean:1412:      if bundle.isBetter prevBest score then return bundle.worstScore
+./Specimen/DeriveSchedules.lean:1416:      | some prev => if bundle.isBetter score prev then m.insert envKey score else m
+./Specimen/DeriveSchedules.lean:1437:      bundle.isBetter componentWorst componentDone
+./Specimen/DeriveSchedules.lean:1452:          if bundle.isBetter score prevScore then
+./Specimen/DeriveSchedules.lean:1455:        return if bundle.isBetter score currentBest then score else currentBest
+./Specimen/SearchTree.lean:502:    - `isBetter`: returns true if first arg is strictly better than second
+./Specimen/SearchTree.lean:506:    (tree : LazyRoseTree α) (score : α → m σ) (isBetter : σ → σ → Bool) (bestScore : σ)
+./Specimen/SearchTree.lean:510:  if isBetter bestScore nodeScore then return bestScore
+./Specimen/SearchTree.lean:519:    let sorted := scoredChildren.qsort (fun a b => isBetter a.2 b.2)
+./Specimen/SearchTree.lean:523:      currentBest ← minTreePruningM child score isBetter currentBest done yield
+./Specimen/DeriveConstrainedProducer.lean:642:            if bundle.isBetter score bestScore then
+./Specimen/Scoring.lean:17:  scores combine (additive or max-based), compare (`isBetter`), and map to a
+./Specimen/Scoring.lean:51:    - `isBetter`: strict ordering used by branch-and-bound
+./Specimen/Scoring.lean:59:  isBetter : S → S → Bool
+./Specimen/Scoring.lean:62:  /-- Must be worse than any real schedule under `isBetter`. -/
+./Specimen/Scoring.lean:133:  isBetter a b := a < b
+./Specimen/Scoring.lean:186:    - `usePrimary`: prune with this bundle's own stepScorer/scheduleScorer/isBetter.
+./Specimen/Scoring.lean:207:  isBetter : Score → Score → Bool
+./Specimen/Scoring.lean:233:    isBetter := fun a b => Scorable.isBetter (Score.unwrap S a) (Score.unwrap S b)
+./Specimen/Scoring.lean:249:    isBetter := fun _ _ => false
+./Specimen/Scoring.lean:365:  isBetter a b := a < b
+./Specimen/Scoring.lean:450:  isBetter a b := a < b
+./Specimen/Scoring.lean:537:  isBetter a b := a < b
+
+== combine ==
+./Specimen/MExp.lean:42:      (e.g. combine pattern-matches when we have disjoint patterns
+./Specimen/DeriveSchedules.lean:618:   The snd and third elements combined should equal the set vars(hyp.fst)
+./Specimen/Scoring.lean:17:  scores combine (additive or max-based), compare (`isBetter`), and map to a
+./Specimen/Scoring.lean:47:/-- Typeclass that defines how scores combine and compare.
+./Specimen/Scoring.lean:49:    - `empty`: identity for `combine` (a zero-step schedule)
+./Specimen/Scoring.lean:50:    - `combine`: merge two scores (e.g. sum steps, or take max)
+./Specimen/Scoring.lean:58:  combine : S → S → S
+./Specimen/Scoring.lean:132:  combine a b := { checks := a.checks + b.checks, length := a.length + b.length, unconstrained := a.unconstrained + b.unconstrained }
+./Specimen/Scoring.lean:208:  combineScores : Score → Score → Score
+./Specimen/Scoring.lean:210:  /-- Score of an empty schedule (no steps). Identity for `combineScores`. -/
+./Specimen/Scoring.lean:234:    combineScores := fun a b => Score.wrap (Scorable.combine (Score.unwrap S a) (Score.unwrap S b))
+./Specimen/Scoring.lean:250:    combineScores := fun a _ => a
+./Specimen/Scoring.lean:324:  Scorable.combine baseScore depCost
+./Specimen/Scoring.lean:327:  stepScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:335:  leafScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:364:  combine a b := { checks := max a.checks b.checks, length := max a.length b.length, unconstrained := max a.unconstrained b.unconstrained }
+./Specimen/Scoring.lean:391:  leafScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:449:  combine a b := { density := Density.max a.density b.density, varDeps := a.varDeps + b.varDeps, forChecker := a.forChecker || b.forChecker }
+./Specimen/Scoring.lean:499:  stepScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:507:  leafScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:536:  combine a b := { density := Density.max a.density b.density, varDeps := a.varDeps + b.varDeps }
+./Specimen/Scoring.lean:568:  stepScores.foldl Scorable.combine Scorable.empty
+./Specimen/Scoring.lean:576:  leafScores.foldl Scorable.combine Scorable.empty
+./.lake/packages/plausible/Plausible/Testable.lean:186:def combine {p q : Prop} : Unit ⊕' (p → q) → Unit ⊕' p → Unit ⊕' q
+./.lake/packages/plausible/Plausible/Testable.lean:194:  | success h1, success h2 => success <| combine (combine (PSum.inr And.intro) h1) h2
+./.lake/packages/plausible/Plausible/Testable.lean:207:  | success h, _ => success <| combine (PSum.inr Or.inl) h
+./.lake/packages/plausible/Plausible/Testable.lean:208:  | _, success h => success <| combine (PSum.inr Or.inr) h
+./.lake/packages/plausible/Plausible/Testable.lean:219:  | success h2 => success <| combine p h2
+./.lake/packages/plausible/Plausible/Tactic.lean:183:    \n4. make sure that instances of `Plausible.Testable` exist that, when combined,\
+./.lake/packages/batteries/Batteries/Lean/HashMap.lean:17:The values of keys which appear in both maps are combined using the monadic function `f`.
+./.lake/packages/batteries/Batteries/Lean/HashMap.lean:29:The values of keys which appear in both maps are combined using `f`.
+./.lake/packages/batteries/Batteries/Lean/PersistentHashMap.lean:24:Variant of `ofList` which accepts a function that combines values of duplicated
+./.lake/packages/batteries/Batteries/Lean/PersistentHashMap.lean:42:Variant of `ofArray` which accepts a function that combines values of duplicated
+./.lake/packages/batteries/Batteries/Lean/PersistentHashMap.lean:54:combined using the monadic function `f`.
+./.lake/packages/batteries/Batteries/Lean/PersistentHashMap.lean:66:combined using `f`.
+./.lake/packages/batteries/Batteries/Data/BinomialHeap/Basic.lean:121:`O(1)`. Auxiliary for `Heap.merge`: combines two heap nodes of the same rank
+./.lake/packages/batteries/Batteries/Data/BinomialHeap/Basic.lean:124:@[inline] def combine (le : α → α → Bool) (a₁ a₂ : α) (n₁ n₂ : HeapNode α) : α × HeapNode α :=
+./.lake/packages/batteries/Batteries/Data/BinomialHeap/Basic.lean:138:      let (a, n) := combine le a₁ a₂ n₁ n₂
+./.lake/packages/batteries/Batteries/Data/BinomialHeap/Basic.lean:222:      rw [combine] at eq; split at eq <;> cases eq <;>
+./.lake/packages/batteries/Batteries/Data/BinomialHeap/Basic.lean:391:      unfold combine at eq; split at eq <;> cases eq <;> rename_i h
+./.lake/packages/batteries/Batteries/Data/BinomialHeap/Basic.lean:488:* `merge : BinomialHeap α → BinomialHeap α → BinomialHeap α`: combine two heaps
+./.lake/packages/batteries/Batteries/Data/Array/Basic.lean:177:`init`. The accumulated value is combined with the each element of the list in order, using `f`.
+./.lake/packages/batteries/Batteries/Data/Array/Basic.lean:303:with `init`. The accumulated value is combined with the each element of the list in order using `f`.
+./.lake/packages/batteries/Batteries/Data/HashMap/Basic.lean:33:Variant of `ofList` which accepts a function that combines values of duplicated keys.
+./.lake/packages/batteries/Batteries/Data/HashMap/Basic.lean:230:Combines two hashmaps using a monadic function `f` to combine two values at a key.
+./.lake/packages/batteries/Batteries/Data/HashMap/Basic.lean:248:Combines two hashmaps using function `f` to combine two values at a key.
+./.lake/packages/batteries/Batteries/Data/HashMap/Basic.lean:303:Variant of `ofList` which accepts a function that combines values of duplicated keys.
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:54:@[specialize] def Heap.combine (le : α → α → Bool) : Heap α → Heap α
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:55:  | h₁@(.node _ _ h₂@(.node _ _ s)) => merge le (merge le h₁ h₂) (s.combine le)
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:71:  | .node a c _ => (a, combine le c)
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:99:theorem Heap.noSibling_combine (le) (s : Heap α) :
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:100:    (s.combine le).NoSibling := by
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:101:  unfold combine; split
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:109:  cases s with cases eq | node a c => exact noSibling_combine _ _
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:133:theorem Heap.size_combine (le) (s : Heap α) :
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:134:    (s.combine le).size = s.size := by
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:135:  unfold combine; split
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:137:    rw [size_merge le (noSibling_merge _ _ _) (noSibling_combine _ _),
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:138:      size_merge_node, size_combine le s]
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:144:  cases h with cases eq | node a c => rw [size_combine, size, size]
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:160:  cases s with cases eq | node a c => simp +arith [size_combine, size]
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:250:theorem Heap.WF.combine (h : s.NodeWF le a) : (combine le s).WF le :=
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:254:  | .node _b₁ _c₁ (.node _b₂ _c₂ _s) => merge (merge_node h.2.1 h.2.2.2.1) (combine h.2.2.2.2)
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:258:  cases h with cases eq | node h => exact Heap.WF.combine h
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:288:* `merge : PairingHeap α → PairingHeap α → PairingHeap α`: combine two heaps
+./.lake/packages/batteries/Batteries/Data/String/Legacy.lean:185:accumulated value is combined with each character in order, using `f`.
+./.lake/packages/batteries/Batteries/Data/String/Legacy.lean:376:accumulated value is combined with each character in reverse order, using `f`.
+./.lake/packages/batteries/Batteries/Data/String/Legacy.lean:463:accumulated value is combined with each character in order, using `f`.
+./.lake/packages/batteries/Batteries/Data/String/Legacy.lean:475:accumulated value is combined with each character in reverse order, using `f`.
+./.lake/packages/batteries/Batteries/Data/RBMap/Basic.lean:79:`f` is used to combine results at branching nodes.
+
+== worst ==
+./Specimen/DeriveSchedules.lean:889:-- Initialize worst possible score for branch and bound
+./Specimen/DeriveSchedules.lean:1064:  let worstScc1 := [("H1", [["a"]], []), ("H2", [["b"]], [])]
+./Specimen/DeriveSchedules.lean:1065:  let worstScc2 := [("H3", [["a", "b"], ["c"]], [])]
+./Specimen/DeriveSchedules.lean:1066:  let worstScc3 := [("H4", [["a", "c"], ["d"]], []), ("H5", [["b", "c"], ["e"]], [])]
+./Specimen/DeriveSchedules.lean:1067:  let worstScc4 := [("H6", [["d", "e"], ["f"]], [])]
+./Specimen/DeriveSchedules.lean:1068:  let worstScc5 := [("H7", [["a", "f"]], []), ("H8", [["b", "f"]], []), ("H9", [["c", "f"]], [])]
+./Specimen/DeriveSchedules.lean:1069:  let worstComps := [LazyList.fromList (List.permutations worstScc1), LazyList.fromList (List.permutations worstScc2), LazyList.fromList (List.permutations worstScc3),
+./Specimen/DeriveSchedules.lean:1070:                     LazyList.fromList (List.permutations worstScc4), LazyList.fromList (List.permutations worstScc5)]
+./Specimen/DeriveSchedules.lean:1071:  let worstVars := ["a", "b", "c", "d", "e", "f"]
+./Specimen/DeriveSchedules.lean:1073:  let worstOriginal := enumSchedulesChunked worstVars [] worstComps [] |>.toList.length
+./Specimen/DeriveSchedules.lean:1074:  let worstPruned := enumSchedulesChunkedWithPruning worstVars [] worstComps [] 9 |>.toList.length
+./Specimen/DeriveSchedules.lean:1080:  IO.println s!"Worst Case - Original: {worstOriginal}, Pruned: {worstPruned}, Reduction: {((worstOriginal - worstPruned) * 100) / worstOriginal}%"
+./Specimen/DeriveSchedules.lean:1082:  let totalReduction := ((deepOriginal + branchOriginal + complexOriginal + worstOriginal) -
+./Specimen/DeriveSchedules.lean:1083:                        (deepPruned + branchPruned + complexPruned + worstPruned)) * 100 /
+./Specimen/DeriveSchedules.lean:1084:                       (deepOriginal + branchOriginal + complexOriginal + worstOriginal)
+./Specimen/DeriveSchedules.lean:1387:  -- Dominance: if this env state was reached before with a better score, return worstScore.
+./Specimen/DeriveSchedules.lean:1412:      if bundle.isBetter prevBest score then return bundle.worstScore
+./Specimen/DeriveSchedules.lean:1432:    let componentWorst := bundle.worstScore
+./Specimen/PatternCoverage.lean:298:    Aggregate across leaves by summing the worst components.
+./Specimen/Scoring.lean:35:| `WorstLeafScore` | Max (not sum) across leaves — penalizes worst-case paths |
+./Specimen/Scoring.lean:54:    - `worst`: initial upper bound for branch-and-bound (must lose to any real score)
+./Specimen/Scoring.lean:63:  worst : S
+./Specimen/Scoring.lean:136:  worst := { checks := 1000, length := 1000, unconstrained := 1000 }
+./Specimen/Scoring.lean:214:  /-- Absolute worst score — guaranteed worse than any real schedule.
+./Specimen/Scoring.lean:216:  worstScore : Score
+./Specimen/Scoring.lean:217:  /-- Map score to [0,1] for HSL color display (0 = best, 1 = worst). -/
+./Specimen/Scoring.lean:238:    worstScore := Score.wrap (Scorable.worst : S)
+./Specimen/Scoring.lean:254:    worstScore := default
+./Specimen/Scoring.lean:341:-- Built-in: worst-leaf strategy
+./Specimen/Scoring.lean:368:  worst := { checks := 1000, length := 1000, unconstrained := 1000 }
+./Specimen/Scoring.lean:376:def worstLeafStepScorer : StepScorer WorstLeafScore := fun _key _memo _inputVars step =>
+./Specimen/Scoring.lean:382:def worstLeafScheduleScorer : ScheduleScorer WorstLeafScore := fun stepScores =>
+./Specimen/Scoring.lean:385:def worstLeafLeafAggregator : LeafAggregator WorstLeafScore := fun ctors =>
+./Specimen/Scoring.lean:390:def worstLeafInductiveAggregator : InductiveAggregator WorstLeafScore := fun leafScores =>
+./Specimen/Scoring.lean:394:  worstLeafStepScorer worstLeafScheduleScorer worstLeafLeafAggregator worstLeafInductiveAggregator)
+./Specimen/Scoring.lean:453:  worst := { density := .Checking, varDeps := 1000 }
+./Specimen/Scoring.lean:540:  worst := { density := .Checking, varDeps := 1000 }
+./.lake/packages/batteries/Batteries/Data/PairingHeap.lean:296:persistent priority queue, you should use other data structures with better worst-case time.
+./.lake/packages/batteries/Batteries/Data/RBMap/Basic.lean:139:/-- `O(1)` amortized, `O(log n)` worst case: Get the next element from the stream. -/
+./.lake/packages/batteries/Batteries/Data/RBMap/Basic.lean:992:/-- `O(1)` amortized, `O(log n)` worst case: Get the next element from the stream. -/
+./.lake/packages/batteries/Batteries/Data/RBMap/Basic.lean:1041:/-- `O(1)` amortized, `O(log n)` worst case: Get the next element from the stream. -/
+
+== badness ==
+./Specimen/Scoring.lean:18:  [0,1] badness float for UI coloring.
+./Specimen/Scoring.lean:55:    - `badness`: map to [0,1] for HSL color (0 = green/good, 1 = red/bad) -/
+./Specimen/Scoring.lean:64:  badness : S → Float
+./Specimen/Scoring.lean:137:  badness s :=
+./Specimen/Scoring.lean:239:    scoreBadness := fun s => Scorable.badness (Score.unwrap S s)
+./Specimen/Scoring.lean:369:  badness s :=
+./Specimen/Scoring.lean:454:  badness s :=
+./Specimen/Scoring.lean:541:  badness s :=
+
+== searchBestScheduleM ==
+./Specimen/DeriveSchedules.lean:29:- **SearchTree + branch-and-bound** (`searchBestScheduleM`): explores the
+./Specimen/DeriveSchedules.lean:1273:partial def searchBestScheduleM (ctorName : Name) (vars : List TypedVar)
+./Specimen/DeriveConstrainedProducer.lean:571:      --   • Monadic (bundle.usesMonadicPath): uses searchBestScheduleM with
+./Specimen/DeriveConstrainedProducer.lean:610:          let result ← monadLift <| searchBestScheduleM
+./Specimen/Scoring.lean:183:/-- Pruning strategy for the SearchTree. All options use the monadic `searchBestScheduleM`
+./Specimen/Scoring.lean:259:/-- Whether this bundle uses the monadic searchBestScheduleM path (all except legacy). -/
+
+== GradedUniformDensityScore ==
+
+== BoundedGradedScore ==
+
+== SourceQualityScore ==

@@ -1,0 +1,260 @@
+
+
+===== ./Specimen/Scoring.lean =====
+
+--- around line 16 ---
+0008: defined by the active strategy — some rank lower values as better (fewer checks),
+0009: others prefer higher values (more density).
+0010: 
+0011: The framework is parameterized so that different scoring **strategies** can be
+0012: swapped at runtime (via `set_option specimen.scoreType`).
+0013: 
+0014: ## Key abstractions
+0015: 
+0016: - **`Scorable S`** — typeclass for a concrete score type `S`.  Defines how
+0017:   scores combine (additive or max-based), compare (`isBetter`), and map to a
+0018:   [0,1] badness float for UI coloring.
+0019: 
+0020: - **`ScorerBundle`** — a fully type-erased collection of scoring functions,
+0021:   built from a concrete `Scorable S` via `mkScorerBundle`.  At runtime only one
+0022:   bundle is active; it is resolved by name from the global registry.
+0023: 
+0024: - **Scoring layers** (each a function type):
+0025:   `StepScorer` → `ScheduleScorer` → `LeafAggregator` → `InductiveAggregator`
+0026:   These compose bottom-up: score each schedule step, fold into a per-constructor
+0027:   schedule score, aggregate across coverage-trie leaves, then across all leaves
+0028:   to produce the final inductive score.
+0029: 
+0030: ## Built-in strategies
+0031: 
+0032: | Name | Key idea |
+0033: |------|----------|
+0034: | `DefaultScore` | Sum of (checks, length, unconstrained) — original heuristic |
+
+--- around line 17 ---
+0009: others prefer higher values (more density).
+0010: 
+0011: The framework is parameterized so that different scoring **strategies** can be
+0012: swapped at runtime (via `set_option specimen.scoreType`).
+0013: 
+0014: ## Key abstractions
+0015: 
+0016: - **`Scorable S`** — typeclass for a concrete score type `S`.  Defines how
+0017:   scores combine (additive or max-based), compare (`isBetter`), and map to a
+0018:   [0,1] badness float for UI coloring.
+0019: 
+0020: - **`ScorerBundle`** — a fully type-erased collection of scoring functions,
+0021:   built from a concrete `Scorable S` via `mkScorerBundle`.  At runtime only one
+0022:   bundle is active; it is resolved by name from the global registry.
+0023: 
+0024: - **Scoring layers** (each a function type):
+0025:   `StepScorer` → `ScheduleScorer` → `LeafAggregator` → `InductiveAggregator`
+0026:   These compose bottom-up: score each schedule step, fold into a per-constructor
+0027:   schedule score, aggregate across coverage-trie leaves, then across all leaves
+0028:   to produce the final inductive score.
+0029: 
+0030: ## Built-in strategies
+0031: 
+0032: | Name | Key idea |
+0033: |------|----------|
+0034: | `DefaultScore` | Sum of (checks, length, unconstrained) — original heuristic |
+0035: | `WorstLeafScore` | Max (not sum) across leaves — penalizes worst-case paths |
+
+--- around line 18 ---
+0010: 
+0011: The framework is parameterized so that different scoring **strategies** can be
+0012: swapped at runtime (via `set_option specimen.scoreType`).
+0013: 
+0014: ## Key abstractions
+0015: 
+0016: - **`Scorable S`** — typeclass for a concrete score type `S`.  Defines how
+0017:   scores combine (additive or max-based), compare (`isBetter`), and map to a
+0018:   [0,1] badness float for UI coloring.
+0019: 
+0020: - **`ScorerBundle`** — a fully type-erased collection of scoring functions,
+0021:   built from a concrete `Scorable S` via `mkScorerBundle`.  At runtime only one
+0022:   bundle is active; it is resolved by name from the global registry.
+0023: 
+0024: - **Scoring layers** (each a function type):
+0025:   `StepScorer` → `ScheduleScorer` → `LeafAggregator` → `InductiveAggregator`
+0026:   These compose bottom-up: score each schedule step, fold into a per-constructor
+0027:   schedule score, aggregate across coverage-trie leaves, then across all leaves
+0028:   to produce the final inductive score.
+0029: 
+0030: ## Built-in strategies
+0031: 
+0032: | Name | Key idea |
+0033: |------|----------|
+0034: | `DefaultScore` | Sum of (checks, length, unconstrained) — original heuristic |
+0035: | `WorstLeafScore` | Max (not sum) across leaves — penalizes worst-case paths |
+0036: | `DensityScore` | Categorical density (Total/Partial/Backtracking/Checking) from §4 of "Testing Theorems, Fully Automatically" |
+
+--- around line 21 ---
+0013: 
+0014: ## Key abstractions
+0015: 
+0016: - **`Scorable S`** — typeclass for a concrete score type `S`.  Defines how
+0017:   scores combine (additive or max-based), compare (`isBetter`), and map to a
+0018:   [0,1] badness float for UI coloring.
+0019: 
+0020: - **`ScorerBundle`** — a fully type-erased collection of scoring functions,
+0021:   built from a concrete `Scorable S` via `mkScorerBundle`.  At runtime only one
+0022:   bundle is active; it is resolved by name from the global registry.
+0023: 
+0024: - **Scoring layers** (each a function type):
+0025:   `StepScorer` → `ScheduleScorer` → `LeafAggregator` → `InductiveAggregator`
+0026:   These compose bottom-up: score each schedule step, fold into a per-constructor
+0027:   schedule score, aggregate across coverage-trie leaves, then across all leaves
+0028:   to produce the final inductive score.
+0029: 
+0030: ## Built-in strategies
+0031: 
+0032: | Name | Key idea |
+0033: |------|----------|
+0034: | `DefaultScore` | Sum of (checks, length, unconstrained) — original heuristic |
+0035: | `WorstLeafScore` | Max (not sum) across leaves — penalizes worst-case paths |
+0036: | `DensityScore` | Categorical density (Total/Partial/Backtracking/Checking) from §4 of "Testing Theorems, Fully Automatically" |
+0037: -/
+0038: 
+0039: namespace Scoring
+
+--- around line 35 ---
+0027:   schedule score, aggregate across coverage-trie leaves, then across all leaves
+0028:   to produce the final inductive score.
+0029: 
+0030: ## Built-in strategies
+0031: 
+0032: | Name | Key idea |
+0033: |------|----------|
+0034: | `DefaultScore` | Sum of (checks, length, unconstrained) — original heuristic |
+0035: | `WorstLeafScore` | Max (not sum) across leaves — penalizes worst-case paths |
+0036: | `DensityScore` | Categorical density (Total/Partial/Backtracking/Checking) from §4 of "Testing Theorems, Fully Automatically" |
+0037: -/
+0038: 
+0039: namespace Scoring
+0040: 
+0041: open Lean Meta Schedules
+0042: 
+0043: ----------------------------------------------
+0044: -- Core typeclass
+0045: ----------------------------------------------
+0046: 
+0047: /-- Typeclass that defines how scores combine and compare.
+0048:     The score type is the index — different types enable different strategies.
+0049:     - `empty`: identity for `combine` (a zero-step schedule)
+0050:     - `combine`: merge two scores (e.g. sum steps, or take max)
+0051:     - `isBetter`: strict ordering used by branch-and-bound
+0052:     - `bestOf`: pick the best from a list (for leaf: best covering ctor)
+0053:     - `uncoveredPenalty`: score assigned to a leaf with no covering constructor
+
+--- around line 47 ---
+0039: namespace Scoring
+0040: 
+0041: open Lean Meta Schedules
+0042: 
+0043: ----------------------------------------------
+0044: -- Core typeclass
+0045: ----------------------------------------------
+0046: 
+0047: /-- Typeclass that defines how scores combine and compare.
+0048:     The score type is the index — different types enable different strategies.
+0049:     - `empty`: identity for `combine` (a zero-step schedule)
+0050:     - `combine`: merge two scores (e.g. sum steps, or take max)
+0051:     - `isBetter`: strict ordering used by branch-and-bound
+0052:     - `bestOf`: pick the best from a list (for leaf: best covering ctor)
+0053:     - `uncoveredPenalty`: score assigned to a leaf with no covering constructor
+0054:     - `worst`: initial upper bound for branch-and-bound (must lose to any real score)
+0055:     - `badness`: map to [0,1] for HSL color (0 = green/good, 1 = red/bad) -/
+0056: class Scorable (S : Type) where
+0057:   empty : S
+0058:   combine : S → S → S
+0059:   isBetter : S → S → Bool
+0060:   bestOf : List S → S
+0061:   uncoveredPenalty : S
+0062:   /-- Must be worse than any real schedule under `isBetter`. -/
+0063:   worst : S
+0064:   badness : S → Float
+0065: 
+
+--- around line 49 ---
+0041: open Lean Meta Schedules
+0042: 
+0043: ----------------------------------------------
+0044: -- Core typeclass
+0045: ----------------------------------------------
+0046: 
+0047: /-- Typeclass that defines how scores combine and compare.
+0048:     The score type is the index — different types enable different strategies.
+0049:     - `empty`: identity for `combine` (a zero-step schedule)
+0050:     - `combine`: merge two scores (e.g. sum steps, or take max)
+0051:     - `isBetter`: strict ordering used by branch-and-bound
+0052:     - `bestOf`: pick the best from a list (for leaf: best covering ctor)
+0053:     - `uncoveredPenalty`: score assigned to a leaf with no covering constructor
+0054:     - `worst`: initial upper bound for branch-and-bound (must lose to any real score)
+0055:     - `badness`: map to [0,1] for HSL color (0 = green/good, 1 = red/bad) -/
+0056: class Scorable (S : Type) where
+0057:   empty : S
+0058:   combine : S → S → S
+0059:   isBetter : S → S → Bool
+0060:   bestOf : List S → S
+0061:   uncoveredPenalty : S
+0062:   /-- Must be worse than any real schedule under `isBetter`. -/
+0063:   worst : S
+0064:   badness : S → Float
+0065: 
+0066: ----------------------------------------------
+0067: -- Scorer function types (parameterized by score type)
+
+--- around line 50 ---
+0042: 
+0043: ----------------------------------------------
+0044: -- Core typeclass
+0045: ----------------------------------------------
+0046: 
+0047: /-- Typeclass that defines how scores combine and compare.
+0048:     The score type is the index — different types enable different strategies.
+0049:     - `empty`: identity for `combine` (a zero-step schedule)
+0050:     - `combine`: merge two scores (e.g. sum steps, or take max)
+0051:     - `isBetter`: strict ordering used by branch-and-bound
+0052:     - `bestOf`: pick the best from a list (for leaf: best covering ctor)
+0053:     - `uncoveredPenalty`: score assigned to a leaf with no covering constructor
+0054:     - `worst`: initial upper bound for branch-and-bound (must lose to any real score)
+0055:     - `badness`: map to [0,1] for HSL color (0 = green/good, 1 = red/bad) -/
+0056: class Scorable (S : Type) where
+0057:   empty : S
+0058:   combine : S → S → S
+0059:   isBetter : S → S → Bool
+0060:   bestOf : List S → S
+0061:   uncoveredPenalty : S
+0062:   /-- Must be worse than any real schedule under `isBetter`. -/
+0063:   worst : S
+0064:   badness : S → Float
+0065: 
+0066: ----------------------------------------------
+0067: -- Scorer function types (parameterized by score type)
+0068: ----------------------------------------------
+
+--- around line 51 ---
+0043: ----------------------------------------------
+0044: -- Core typeclass
+0045: ----------------------------------------------
+0046: 
+0047: /-- Typeclass that defines how scores combine and compare.
+0048:     The score type is the index — different types enable different strategies.
+0049:     - `empty`: identity for `combine` (a zero-step schedule)
+0050:     - `combine`: merge two scores (e.g. sum steps, or take max)
+0051:     - `isBetter`: strict ordering used by branch-and-bound
+0052:     - `bestOf`: pick the best from a list (for leaf: best covering ctor)
+0053:     - `uncoveredPenalty`: score assigned to a leaf with no covering constructor
+0054:     - `worst`: initial upper bound for branch-and-bound (must lose to any real score)
+0055:     - `badness`: map to [0,1] for HSL color (0 = green/good, 1 = red/bad) -/
+0056: class Scorable (S : Type) where
+0057:   empty : S
+0058:   combine : S → S → S
+0059:   isBetter : S → S → Bool
+0060:   bestOf : List S → S
+0061:   uncoveredPenalty : S
+0062:   /-- Must be worse than any real schedule under `isBetter`. -/
+0063:   worst : S
+0064:   badness : S → Float
+0065: 
