@@ -1,0 +1,39 @@
+diff --git a/specs/LT0091_specs.lean b/specs/LT0091_specs.lean
+index 0a84458..591424d 100644
+--- a/specs/LT0091_specs.lean
++++ b/specs/LT0091_specs.lean
+@@ -18,7 +18,14 @@ theorem numpy_unpackbits_spec {n : Nat} (a : Vector Nat n)
+     ⦃⌜∀ i : Fin n, a.get i < 256⌝⦄
+     numpy_unpackbits a
+     ⦃⇓result => ⌜∀ i : Fin n, ∀ j : Fin 8,
+-                  result.get ⟨i.val * 8 + j.val, sorry⟩ = 
++                  result.get ⟨i.val * 8 + j.val, by
++                        calc
++                          i.val * 8 + j.val < i.val * 8 + 8 := by
++                            exact Nat.add_lt_add_left j.isLt _
++                          _ = (i.val + 1) * 8 := by
++                            rw [Nat.succ_mul]
++                          _ ≤ n * 8 := by
++                            exact Nat.mul_le_mul_right _ i.isLt⟩ = 
+                   (a.get i / (2 ^ (7 - j.val))) % 2⌝⦄ := by
+   sorry
+ -- </vc-theorems>
+\ No newline at end of file
+diff --git a/specs/LT0156_specs.lean b/specs/LT0156_specs.lean
+index 0c35c30..4cb1800 100644
+--- a/specs/LT0156_specs.lean
++++ b/specs/LT0156_specs.lean
+@@ -16,6 +16,11 @@ def ifftshift {n : Nat} (x : Vector Float n) : Id (Vector Float n) :=
+ theorem ifftshift_spec {n : Nat} (x : Vector Float n) :
+     ⦃⌜True⌝⦄
+     ifftshift x
+-    ⦃⇓result => ⌜∀ i : Fin n, result.get i = x.get ⟨(i.val + n / 2) % n, sorry⟩⌝⦄ := by
++    ⦃⇓result => ⌜∀ i : Fin n, result.get i = x.get ⟨(i.val + n / 2) % n, by
++          have hn_ne : n ≠ 0 := by
++            intro hn
++            cases hn
++            exact Nat.not_lt_zero _ i.isLt
++          exact Nat.mod_lt _ (Nat.pos_of_ne_zero hn_ne)⟩⌝⦄ := by
+   sorry
+ -- </vc-theorems>
+\ No newline at end of file
