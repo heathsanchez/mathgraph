@@ -1,0 +1,8 @@
+variant	rc	new_sorry_delta
+v01_card_pos_from_odd	1	-1
+v02_by_contra_no_fixedpoints	1	-1
+v03_apply_card_pos	1	-1
+v04_use_classical_choice	1	-1
+v05_extract_candidate_k11	1	-1
+v06_extract_candidate_k11_ext	1	-1
+v07_candidate_k11_aesop	1	-1

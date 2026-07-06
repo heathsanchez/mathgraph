@@ -1,0 +1,61 @@
+✔ [3063/3064] Built FormalBook.Widgets.Windmill (1.2s)
+✖ [3064/3064] Building FormalBook.Chapter_04 (74s)
+trace: .> LEAN_PATH=/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/bin/lean /private/tmp/formalbook_ch04_trivialinvo_v4_8_11/FormalBook/Chapter_04.lean -o /private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/build/lib/lean/FormalBook/Chapter_04.olean -i /private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/build/lib/lean/FormalBook/Chapter_04.ilean -c /private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/build/ir/FormalBook/Chapter_04.c --setup /private/tmp/formalbook_ch04_trivialinvo_v4_8_11/.lake/build/ir/FormalBook/Chapter_04.setup.json --json
+warning: FormalBook/Chapter_04.lean:42:6: declaration uses 'sorry'
+warning: FormalBook/Chapter_04.lean:84:8: declaration uses 'sorry'
+warning: FormalBook/Chapter_04.lean:184:8: declaration uses 'sorry'
+warning: FormalBook/Chapter_04.lean:210:82: This simp argument is unused:
+  Prod.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [secondInvo, secondInvo_fun, sub_sub_cancel, id_eq, Subtype.mk.injEq, P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵
+  ̵ ̵ ̵ ̵ ̵and_true]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:211:4: This simp argument is unused:
+  and_true
+
+Hint: Omit it from the simp argument list.
+  simp only [secondInvo, secondInvo_fun, sub_sub_cancel, id_eq, Subtype.mk.injEq, Prod.mk.injEq,̵
+  ̵ ̵ ̵ ̵ ̵a̵n̵d̵_̵t̵r̵u̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:232:8: declaration uses 'sorry'
+warning: FormalBook/Chapter_04.lean:247:8: declaration uses 'sorry'
+warning: FormalBook/Chapter_04.lean:270:14: This simp argument is unused:
+  Subtype.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [ ̵S̵u̵b̵t̵y̵p̵e̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵ ̵Prod.mk.injEq, true_and] at hf
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:270:32: This simp argument is unused:
+  Prod.mk.injEq
+
+Hint: Omit it from the simp argument list.
+  simp only [̵ ̵S̵u̵b̵t̵y̵p̵e̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵ ̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵[̲S̲u̲b̲t̲y̲p̲e̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ true_and] at hf
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_04.lean:270:47: This simp argument is unused:
+  true_and
+
+Hint: Omit it from the simp argument list.
+  simp only [̵ ̵S̵u̵b̵t̵y̵p̵e̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵ ̵P̵r̵o̵d̵.̵m̵k̵.̵i̵n̵j̵E̵q̵,̵ ̵t̵r̵u̵e̵_̵a̵n̵d̵]̵[̲S̲u̲b̲t̲y̲p̲e̲.̲m̲k̲.̲i̲n̲j̲E̲q̲,̲ ̲P̲r̲o̲d̲.̲m̲k̲.̲i̲n̲j̲E̲q̲]̲ at hf
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: FormalBook/Chapter_04.lean:289:2: Tactic `apply` failed: could not unify the conclusion of `Fintype.card_pos_iff.mp`
+  Nonempty ?m.17
+with the goal
+  (fixedPoints (trivialInvo k)).Nonempty
+
+Note: The full type of `Fintype.card_pos_iff.mp` is
+  0 < Fintype.card ?m.17 → Nonempty ?m.17
+
+k : ℕ
+hk : Fact (Nat.Prime (4 * k + 1))
+⊢ (fixedPoints (trivialInvo k)).Nonempty
+info: FormalBook/Chapter_04.lean:327:0: (2, 5, 6)
+error: Lean exited with code 1
+Some required targets logged failures:
+- FormalBook.Chapter_04
+error: build failed
