@@ -1,0 +1,5 @@
+variant	rc	new_sorry_delta
+v01_zagier_exact_shape	1	-1
+v02_zagier_with_fixedpoints_empty	1	-1
+v03_zagier_no_ext	1	-1
+v04_add_import_archive_pattern	1	-1
