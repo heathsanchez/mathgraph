@@ -1,0 +1,5 @@
+url	reason
+https://github.com/ClankerNation/OpenAgents/issues/161	Red flag: asks contributor to paste full platform initialization/system prompt; avoid
+https://github.com/ClankerNation/OpenAgents/issues/39	Red flag: asks contributor to paste full platform initialization/system prompt; avoid
+https://github.com/souleater06/mineagent/issues/21	Looks like a bounty template, not confirmed funded work
+https://github.com/langchain-ai/langgraph/issues/8274	Looks like external advertising/use-case, not direct LangGraph bounty

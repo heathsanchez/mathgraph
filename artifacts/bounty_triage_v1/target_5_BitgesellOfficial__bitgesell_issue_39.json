@@ -1,0 +1,1849 @@
+{
+  "rank": 5,
+  "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39",
+  "why_seeded": "Broad PR bounty, maybe small test-fix opportunities, crowded",
+  "owner": "BitgesellOfficial",
+  "repo": "BitgesellOfficial/bitgesell",
+  "issue": 39,
+  "full": "BitgesellOfficial/bitgesell",
+  "query": "\"Gitcoin\" bounty is:issue is:open",
+  "score": 80,
+  "class": "GOLD",
+  "money": 10000.0,
+  "reasons": [
+    "payout\u224810000",
+    "explicit paid/bounty signal",
+    "MG-fit: lean, ci",
+    "external judge/test signal",
+    "crowded issue"
+  ],
+  "title": "BGL PR bounty hunt ($10000 overall budget)",
+  "updated_at": "2026-07-05T08:00:29Z",
+  "created_at": "2021-07-19T06:47:39Z",
+  "comments": 94,
+  "labels": [],
+  "body_snippet": "To get more people involved and provide motivation, we are announcing Bitgesell Pull Request bounty hunt!\r\n\r\nThe rules are simple:\r\n\r\n- You can create any reasonable pull request that may contain any modifications, including, but not limited to:\r\n  - Refactoring and simplification;\r\n  - Test fixes (1 test group/file fixed by single PR counts!);\r\n  - Cleanup of features that are no longer used (e.g. non-segwit transactions);\r\n  - Documentation and comments (but if no code changes then some reasonable amount of changes should be done to count);\r\n  - Bug fixes;\r\n- Every PR would be paid $500 in USDT upon approval, larger PRs could receive bigger payouts (PRs of lesser significance like comments editing or one-line changes could receive lesser payout).\r\n- Interested people are welcome to becom",
+  "refined_score": 85,
+  "refined_class": "GOLD",
+  "refined_reasons": [
+    "explicit bounty/paid/reward signal",
+    "external judge/test/benchmark signal",
+    "detected money\u224810000",
+    "crowded issue",
+    "bounty appears in title"
+  ],
+  "likely_false_positive": false,
+  "has_real_bounty_language": true,
+  "has_external_judge_signal": true,
+  "risk_terms": [],
+  "issue_fetch_error": null,
+  "repo_fetch_error": null,
+  "issue_live": {
+    "author": {
+      "id": "MDQ6VXNlcjYzMjg2Mzg0",
+      "is_bot": false,
+      "login": "wu-emma",
+      "name": ""
+    },
+    "body": "To get more people involved and provide motivation, we are announcing Bitgesell Pull Request bounty hunt!\r\n\r\nThe rules are simple:\r\n\r\n- You can create any reasonable pull request that may contain any modifications, including, but not limited to:\r\n  - Refactoring and simplification;\r\n  - Test fixes (1 test group/file fixed by single PR counts!);\r\n  - Cleanup of features that are no longer used (e.g. non-segwit transactions);\r\n  - Documentation and comments (but if no code changes then some reasonable amount of changes should be done to count);\r\n  - Bug fixes;\r\n- Every PR would be paid $500 in USDT upon approval, larger PRs could receive bigger payouts (PRs of lesser significance like comments editing or one-line changes could receive lesser payout).\r\n- Interested people are welcome to become maintainers of the project;\r\n",
+    "comments": [
+      {
+        "id": "IC_kwDODx_A7s40lzQe",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "Please tell whether my pr refactoring extract_strings.py would be rewarded or not?",
+        "createdAt": "2021-07-19T07:49:24Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-882324510",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40mEQA",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "I am not getting any reply from one week or more. Please reply ",
+        "createdAt": "2021-07-19T09:23:23Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-882394112",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40mjfv",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "0x6957d999Bbea7771C22beA4Dea4d7c0E39E8Aa1F\r\nPlease note my wallet here too (I also sent it on mail).",
+        "createdAt": "2021-07-19T12:52:56Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-882522095",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40phzG",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "I made a new pr please check it out",
+        "createdAt": "2021-07-20T11:01:37Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-883301574",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40qK0V",
+        "author": {
+          "login": "berbagi12"
+        },
+        "authorAssociation": "NONE",
+        "body": "if it is considered not in use the feature can be deleted and needs cleaning.  \r\nsomething that has no function can be deleted.",
+        "createdAt": "2021-07-20T15:07:12Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-883469589",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40qLTQ",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "There was an issue stating it needed to be deleted so I did if I have not\ncreated any further issues and have solved the bug, then can it be\nconsidered for reward?\n\nOn Tue, 20 Jul, 2021, 8:37 pm berbagi12, ***@***.***> wrote:\n\n> if it is considered not in use the feature can be deleted and needs\n> cleaning.\n> something that has no function can be deleted.\n>\n> \u2014\n> You are receiving this because you commented.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-883469589>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AUULJTPP7YDDY5J7KVLSX33TYWGKVANCNFSM5ATBY7PA>\n> .\n>\n",
+        "createdAt": "2021-07-20T15:09:31Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-883471568",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40qL9l",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "Is this pr eligible for reward?",
+        "createdAt": "2021-07-20T15:12:51Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [
+          {
+            "content": "LAUGH",
+            "users": {
+              "totalCount": 1
+            }
+          },
+          {
+            "content": "ROCKET",
+            "users": {
+              "totalCount": 1
+            }
+          }
+        ],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-883474277",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40qM5f",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "Please reply whether this is eligible or not then I will continue resolving other issues too",
+        "createdAt": "2021-07-20T15:17:54Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-883478111",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40qNGS",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "By eligible I mean for bug bounty of 500 usdt",
+        "createdAt": "2021-07-20T15:19:02Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-883478930",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s40r0Nl",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "Please review my pull request.",
+        "createdAt": "2021-07-21T05:27:31Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-883901285",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s402Z3n",
+        "author": {
+          "login": "Developer-piyush"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "> To get more people involved and provide motivation, we are announcing Bitgesell Pull Request bounty hunt!\r\n> \r\n> The rules are simple:\r\n> \r\n> * You can create any reasonable pull request that may contain any modifications, including, but not limited to:\r\n>   \r\n>   * Refactoring and simplification;\r\n>   * Test fixes (1 test group/file fixed by single PR counts!);\r\n>   * Cleanup of features that are no longer used (e.g. non-segwit transactions);\r\n>   * Documentation and comments (but if no code changes then some reasonable amount of changes should be done to count);\r\n>   * Bug fixes;\r\n> * Every PR would be paid $500 in USDT upon approval, larger PRs could receive bigger payouts (PRs of lesser significance like comments editing or one-line changes could receive lesser payout).\r\n> * Interested people are welcome to become maintainers of the project;\r\n\r\nI request you to please have a look at my PR\ud83d\ude4f\ud83d\ude4f",
+        "createdAt": "2021-07-26T12:54:22Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-886676967",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s41yHw-",
+        "author": {
+          "login": "gitcoinbot"
+        },
+        "authorAssociation": "NONE",
+        "body": "Issue Status: 1. **Open** 2. Started 3. Submitted 4. Done \n\n<hr>\n\n__Work for 500.0 USDT (500.00 USD @ $1.0/USDT) has been submitted by__:\n\n 1. [@setiaj700](https://gitcoin.co/setiaj700)\n 2. [@ayushkumar63123](https://gitcoin.co/ayushkumar63123)\n 3. [@berbagi12](https://gitcoin.co/berbagi12)\n 4. [@antonyip](https://gitcoin.co/antonyip)\n 5. [@developer-piyush](https://gitcoin.co/developer-piyush)\n 6. [@soptq](https://gitcoin.co/soptq)\n\n\n\n@wu-emma please take a look at the submitted work:\n* [PR](https://github.com/BitgesellOfficial/bitgesell/pull/51) by @soptq\n* [PR](https://github.com/BitgesellOfficial/bitgesell/pull/47) by @developer-piyush\n* [PR](https://github.com/BitgesellOfficial/bitgesell/pull/46) by @antonyip\n* [PR](https://github.com/BitgesellOfficial/bitgesell/pull/44) by @berbagi12\n* [PR](https://github.com/BitgesellOfficial/bitgesell/pull/44) by @ayushkumar63123\n* [PR](https://gitcoin.co/setiaj700) by @setiaj700\n\n<hr>\n\n* Learn more [on the Gitcoin Issue Details page](https://gitcoin.co/issue/BitgesellOfficial/bitgesell/39/100026119)\n* Want to chip in? Add your own contribution [here](https://gitcoin.co/issue/BitgesellOfficial/bitgesell/39/100026119).\n* Questions? Checkout <a href='https://gitcoin.co/help'>Gitcoin Help</a> or the <a href='https://discord.gg/gitcoin/'>Gitcoin's Discord</a>\n* $3,459,871.36 more funded OSS Work available on the [Gitcoin Issue Explorer](https://gitcoin.co/explorer)",
+        "createdAt": "2021-08-20T00:04:30Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-902331454",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s41yHyB",
+        "author": {
+          "login": "gitcoinbot"
+        },
+        "authorAssociation": "NONE",
+        "body": "Issue Status: 1. **Open** 2. Started 3. Submitted 4. Done \n\n<hr>\n\n__Work has been started__.\n\n\nThese users each claimed they can complete the work by 265\u00a0years, 3\u00a0months from now.\nPlease review their action plans below:\n\n\n**1) [ranjiths10](https://gitcoin.co/ranjiths10) has started work.**\n\nSubmit valuable and easy-to-understand bugs. \nEarn and show respect. \nGet more comfortable with the basics. \nWrite small, vulnerable programs and challenge others to find the hidden vulnerabilities.\n**2) [ayushkumar63123](https://gitcoin.co/ayushkumar63123) has started work.**\n\nI removed support for p2pk transaction in wallet.py and also the ability to sign for p2pk since its a non-segwit transaction type.\n**3) [tafadzwachikuvire](https://gitcoin.co/tafadzwachikuvire) has started work.**\n\ni will make it work by coding .look i am a boy aged 14 and i was born on 2 may 2007 so i will be doing this task .it may take long but start to expect this done is 4 months thank you\n**4) [gconnect](https://gitcoin.co/gconnect) has started work.**\n\nI would like to create a contribution guide for this project.\n**5) [antonyip](https://gitcoin.co/antonyip) has started work.**\n\nUpdate and fix p2p_* tests......\n**6) [developer-piyush](https://gitcoin.co/developer-piyush) has started work.**\n\nI have updated readme because first impression is last impression for users/funders/developers and visitors!\n**7) [soptq](https://gitcoin.co/soptq) has started work.**\n\nI can set up a build test to improve the general quality of later PR.\n**8) [slowriot](https://gitcoin.co/slowriot) has started work.**\n\nMiscellaneous code quality and documentation improvements\n\nLearn more [on the Gitcoin Issue Details page](https://gitcoin.co/issue/BitgesellOfficial/bitgesell/39/100026119).\n\n",
+        "createdAt": "2021-08-20T00:04:41Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-902331521",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s45QLaO",
+        "author": {
+          "login": "gitcoinbot"
+        },
+        "authorAssociation": "NONE",
+        "body": "Issue Status: 1. **Open** 2. Started 3. Submitted 4. Done \n\n<hr>\n\n__The funding of 500.0 USDT (500.00 USD @ $1.0/USDT)  attached to this issue has been approved & issued to @slowriot.__  \n\n \n* Learn more [on the Gitcoin Issue Details page](https://gitcoin.co/issue/bitgesellofficial/bitgesell/39/100026119)\n* Questions? Checkout <a href='https://gitcoin.co/help'>Gitcoin Help</a> or the <a href='https://discord.gg/gitcoin/'>Gitcoin's Discord</a>\n* $6,951,403.67 more funded OSS Work available on the [Gitcoin Issue Explorer](https://gitcoin.co/explorer)\n",
+        "createdAt": "2021-11-04T08:19:37Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-960542350",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s45QLac",
+        "author": {
+          "login": "gitcoinbot"
+        },
+        "authorAssociation": "NONE",
+        "body": "Issue Status: 1. **Open** 2. Started 3. Submitted 4. Done \n\n<hr>\n\n__The funding of 500.0 USDT (500.00 USD @ $1.0/USDT)  attached to this issue has been approved & issued to @slowriot.__  \n\n \n* Learn more [on the Gitcoin Issue Details page](https://gitcoin.co/issue/bitgesellofficial/bitgesell/39/100026119)\n* Questions? Checkout <a href='https://gitcoin.co/help'>Gitcoin Help</a> or the <a href='https://discord.gg/gitcoin/'>Gitcoin's Discord</a>\n* $6,951,403.67 more funded OSS Work available on the [Gitcoin Issue Explorer](https://gitcoin.co/explorer)\n",
+        "createdAt": "2021-11-04T08:19:38Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-960542364",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s45Zxkz",
+        "author": {
+          "login": "slowriot"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "> Issue Status: 1. **Open** 2. Started 3. Submitted 4. Done\r\n\r\nPlease note I still have the following merge requests open at present, all of which have been [open for several months](https://github.com/BitgesellOfficial/bitgesell/issues/32#issuecomment-913701191):\r\n\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/52 - paid \u2714\ufe0f\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/53 - awaiting proper review\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/54 - awaiting proper review\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/55 - awaiting proper review\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/57 - awaiting proper review\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/58 - awaiting proper review\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/59 - awaiting proper review\r\n\r\nAdditionally, I have a PR to join some of the above changes into Janus branch, where development appears to be ahead of master:\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/56\r\n\r\nI have further contributions already committed locally, and am eager to submit them, but have not yet done so pending resolution of the discussion at https://github.com/BitgesellOfficial/bitgesell/pull/52#issuecomment-911791689\r\n\r\nConsidering the amount of time that has passed, and the low review effort from maintainers, I have little faith that this project is serious about paying its contributors. I would caution other developers to consider carefully before contributing for the bounty.",
+        "createdAt": "2021-11-08T11:26:11Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-963057971",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s46IupE",
+        "author": {
+          "login": "ayushkumar63123"
+        },
+        "authorAssociation": "NONE",
+        "body": "Someone please check my bounty",
+        "createdAt": "2021-11-22T10:16:51Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-975366724",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s5Fg_XZ",
+        "author": {
+          "login": "gitcoinbot"
+        },
+        "authorAssociation": "NONE",
+        "body": "Issue Status: 1. **Open** 2. Started 3. Submitted 4. Done \n\n<hr>\n\n__The funding of 500.0 USDT (500.00 USD @ $1.0/USDT)  attached to this issue has been approved & issued to @slowriot.__  \n\n \n* Learn more [on the Gitcoin Issue Details page](https://gitcoin.co/issue/26119)\n* Questions? Checkout <a href='https://gitcoin.co/help'>Gitcoin Help</a> or the <a href='https://discord.gg/gitcoin/'>Gitcoin's Discord</a>\n* $3,312,497.77 more funded OSS Work available on the [Gitcoin Issue Explorer](https://gitcoin.co/explorer)\n",
+        "createdAt": "2022-06-25T12:42:51Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-1166276057",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s5Fg_Xg",
+        "author": {
+          "login": "gitcoinbot"
+        },
+        "authorAssociation": "NONE",
+        "body": "Issue Status: 1. **Open** 2. Started 3. Submitted 4. Done \n\n<hr>\n\n__The funding of 500.0 USDT (500.00 USD @ $1.0/USDT)  attached to this issue has been approved & issued to @slowriot.__  \n\n \n* Learn more [on the Gitcoin Issue Details page](https://gitcoin.co/issue/26119)\n* Questions? Checkout <a href='https://gitcoin.co/help'>Gitcoin Help</a> or the <a href='https://discord.gg/gitcoin/'>Gitcoin's Discord</a>\n* $3,311,997.77 more funded OSS Work available on the [Gitcoin Issue Explorer](https://gitcoin.co/explorer)\n",
+        "createdAt": "2022-06-25T12:42:54Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-1166276064",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s5Fg_Xj",
+        "author": {
+          "login": "gitcoinbot"
+        },
+        "authorAssociation": "NONE",
+        "body": "Issue Status: 1. **Open** 2. Started 3. Submitted 4. Done \n\n<hr>\n\n__The funding of 500.0 USDT (500.00 USD @ $1.0/USDT)  attached to this issue has been approved & issued to @slowriot.__  \n\n \n* Learn more [on the Gitcoin Issue Details page](https://gitcoin.co/issue/26119)\n* Questions? Checkout <a href='https://gitcoin.co/help'>Gitcoin Help</a> or the <a href='https://discord.gg/gitcoin/'>Gitcoin's Discord</a>\n* $3,311,997.77 more funded OSS Work available on the [Gitcoin Issue Explorer](https://gitcoin.co/explorer)\n",
+        "createdAt": "2022-06-25T12:42:54Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-1166276067",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s5FlPSy",
+        "author": {
+          "login": "slowriot"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "Contrary to the above three notifications, I have not received any further payment.  PRs remain open.\r\n\r\nContributors beware.",
+        "createdAt": "2022-06-27T13:59:53Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-1167389874",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s5FpFyF",
+        "author": {
+          "login": "wu-emma"
+        },
+        "authorAssociation": "COLLABORATOR",
+        "body": "@madnadyka @janus @van-orton \r\nPlease take care of this. @slowriot thanks for your patience and understanding. We would sort this out.",
+        "createdAt": "2022-06-28T08:24:48Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-1168399493",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s5GV9Eu",
+        "author": {
+          "login": "slowriot"
+        },
+        "authorAssociation": "CONTRIBUTOR",
+        "body": "> @madnadyka @janus @van-orton Please take care of this. @slowriot thanks for your patience and understanding. We would sort this out.\r\n\r\nI see that after almost a year, the following two pull requests have finally been merged:\r\n\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/52\r\n- https://github.com/BitgesellOfficial/bitgesell/pull/53\r\n\r\nI'm glad to see my contributions are being used.  However, I have not yet received payment.  I would appreciate it if you could process payment to the addresses given in the PRs as agreed under this bounty.\r\n\r\n## Contributors:\r\n\r\nFor the benefit of other developers considering contributing, and wondering about the legitimacy of this project - I will update this message if payment has been received.",
+        "createdAt": "2022-07-11T09:17:22Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-1180160302",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s5GYimN",
+        "author": {
+          "login": "wu-emma"
+        },
+        "authorAssociation": "COLLABORATOR",
+        "body": "> > @madnadyka @janus @van-orton Please take care of this. @slowriot thanks for your patience and understanding. We would sort this out.\r\n> \r\n> I see that after almost a year, the following two pull requests have finally been merged:\r\n> \r\n>     * [URL fixes, documentation improvements #52](https://github.com/BitgesellOfficial/bitgesell/pull/52)\r\n> \r\n>     * [Base58 fixes #53](https://github.com/BitgesellOfficial/bitgesell/pull/53)\r\n> \r\n> \r\n> I'm glad to see my contributions are being used. However, I have not yet received payment. I would appreciate it if you could process payment to the addresses given in the PRs as agreed under this bounty.\r\n> ## Contributors:\r\n> \r\n> For the benefit of other developers considering contributing, and wondering about the legitimacy of this project - I will update this message if payment has been received.\r\n\r\nWe appreciate the effort done and thanks for participation. However, having considered the PRs opened, after reviewing and extracting what could be merged into main branch, a decision was made to provide compensation in the amount of $300. Sorry for delayed reviews. ",
+        "createdAt": "2022-07-11T20:30:15Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-1180838285",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABCq2xUw",
+        "author": {
+          "login": "JeremyZeng77"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted two documentation cleanup PRs that should fit this bounty's documentation / cleanup category:\n\n| PR | Scope | Verification |\n| --- | --- | --- |\n| https://github.com/BitgesellOfficial/bitgesell/pull/265 | Fix missing README translation link and point active translation docs at the BGL Transifex project/source file | `git diff --check`; checked missing `README-zh.md`; checked `BGL_en.ts`; raw GitHub URL returned HTTP 200 |\n| https://github.com/BitgesellOfficial/bitgesell/pull/266 | Retarget `CONTRIBUTING.md` from libsecp256k1 guidance to Bitgesell Core contributor guidance | `git diff --check`; checked stale wording; checked local markdown links |\n\nPayment if approved: USDT TRC20 `TWupTAoFjxR2VmqUUvzhfmUwXVZR6Kvz1Y`.",
+        "createdAt": "2026-05-18T03:52:31Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4474122579",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABCq46rg",
+        "author": {
+          "login": "JeremyZeng77"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another non-overlapping README cleanup for this bounty:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell/pull/267\n- Scope: replaces a stale libsecp256k1 examples/benchmark section with existing Bitgesell Core developer documentation links.\n- Verification: `git diff --check`; confirmed `examples` is absent; confirmed target docs exist; confirmed stale `examples/*` and libsecp256k1 benchmark references are removed from `README.md`.\n\nPayment if approved: USDT TRC20 `TWupTAoFjxR2VmqUUvzhfmUwXVZR6Kvz1Y`.",
+        "createdAt": "2026-05-18T03:57:33Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4474157742",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABCstv7g",
+        "author": {
+          "login": "Asobu01"
+        },
+        "authorAssociation": "NONE",
+        "body": "Happy to work on BitgesellOfficial/bitgesell#39.\nFor \"BGL PR bounty hunt ($10000 overall budget)\", I will start with reproducing the reported issue first, then applying a focused fix with clear validation.\nI can share a quick checkpoint first, then deliver a draft PR in ~8h.\nPlanned deliverables: repro note with concrete evidence (logs/trace when relevant); focused patch (plus tests/docs if needed); review-ready PR with validation notes.\nI keep changes minimal and aligned with existing style.\nI can post a reproducible checklist/log snippet in ~30 minutes so you can verify execution speed before the full PR.\nIf this direction matches your expectation, I will start immediately. @Asobu01",
+        "createdAt": "2026-05-18T09:04:13Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4476071918",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABCvdayw",
+        "author": {
+          "login": "iamdinhthuan"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted PR for this bounty: https://github.com/BitgesellOfficial/bitgesell/pull/268\n\nScope: adds a focused `deploymentinfo_tests` unit test that asserts each `VersionBitsDeploymentInfo` entry has a non-null, non-empty name and that `DeploymentName()` matches the metadata table. This is regression coverage for the missing deployment-name failure class discussed in #123.\n\nVerification: red check by temporarily setting `taproot_discarded` to `nullptr` failed with `missing deployment name at index 1`; then `make -j2 -C src test/test_BGL`; `LD_LIBRARY_PATH=/home/thuan/miniconda3/envs/py311/lib src/test/test_BGL --run_test=deploymentinfo_tests` returned `No errors detected`; `git diff --cached --check` passed.\n\nPayout if approved: USDT or USDC SPL on Solana `6mL4QQwcwLmb9UX1PjHtRSQ8J3HazCeVSDdZdDVQGXJj`.\n",
+        "createdAt": "2026-05-18T15:01:49Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4478950091",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABCwdMww",
+        "author": {
+          "login": "Asobu01"
+        },
+        "authorAssociation": "NONE",
+        "body": "Quick follow-up on `BitgesellOfficial/bitgesell#39`. I am still ready to start immediately and can post the first repro/checklist note before the draft PR if helpful. If you want me on this one, I can begin now. (@Asobu01)",
+        "createdAt": "2026-05-18T17:06:20Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4479995075",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABC7OUcA",
+        "author": {
+          "login": "Sikkra"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted PR #270 for the PR bounty: https://github.com/BitgesellOfficial/bitgesell/pull/270\n\nSummary: makes `test/functional/test_runner.py --help` work in a fresh checkout before `test/config.ini` exists, reports a clean missing-config error for non-help runs, and avoids creating temporary test directories for help-only exits.\n\nVerification run locally:\n- `python -m py_compile test\\functional\\test_runner.py`\n- `python test\\functional\\test_runner.py --help` exits 0 before configure\n- `python test\\functional\\test_runner.py --jobs 1` exits 2 with a clear missing-config message before configure\n\nUSDT/USDC-compatible EVM payout address: `0xa925FdD65a0f34bb415Bae1c57536Be33AbCfA92`",
+        "createdAt": "2026-05-19T19:27:20Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4491285616",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABC7PO2Q",
+        "author": {
+          "login": "Sikkra"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another PR for the PR bounty: https://github.com/BitgesellOfficial/bitgesell/pull/271\n\nSummary: finishes the Bitgesell utility binary rename in the util test runner and test vectors. The util test data had a remaining block of `./bitcoin-tx` entries, and the runner only supported `BITCOINUTIL` / `BITCOINTX` overrides. The PR switches those paths to `./BGL-tx`, `BGLUTIL`, and `BGLTX`.\n\nVerification run locally:\n- `python -m py_compile test\\util\\test_runner.py`\n- parsed `test/util/data/BGL-util-test.json` and confirmed all 103 test entries now use only `./BGL-util` or `./BGL-tx`\n\nUSDT/USDC-compatible EVM payout address: `0xa925FdD65a0f34bb415Bae1c57536Be33AbCfA92`",
+        "createdAt": "2026-05-19T19:29:19Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4491300569",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABC7voFg",
+        "author": {
+          "login": "JeremyZeng77"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted PR for the bounty hunt: https://github.com/BitgesellOfficial/bitgesell/pull/272\n\nPayout preference: USDT (TRC20) TWupTAoFjxR2VmqUUvzhfmUwXVZR6Kvz1Y.",
+        "createdAt": "2026-05-19T20:37:08Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4491831318",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDENl4Q",
+        "author": {
+          "login": "RYB-404"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted PR #273 for this bounty: https://github.com/BitgesellOfficial/bitgesell/pull/273\n\nIt makes the include-guard lint pass on the current tree by excluding imported/generated headers and fixing BGL-owned guard mismatches. The PR body includes /claim #39 and verification details.",
+        "createdAt": "2026-05-20T17:01:44Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4500710881",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDhEBuA",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR for the bounty program:\n\nPR: https://github.com/BitgesellOfficial/go-bgld/pull/2\n\nScope: fixes `go-bgld` `GetBlockheader` decoding for Core-shaped JSON responses. Bitgesell Core returns `bits` as a compact hex string like `\"1d00ffff\"`, and the previous/next block hash fields use lower-case JSON keys. The PR updates the struct decoding and adds an httptest regression for that response shape.\n\nValidation:\n- RED proof on upstream with the new regression: `go test ./...` fails before the fix because `BlockHeader.Bits` is `uint32` while Core returns a string.\n- GREEN proof after fix: `go test ./...` passes.\n\nPayout address if approved: USDT/EVM-compatible `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`.\n",
+        "createdAt": "2026-05-25T01:56:19Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4530962872",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDhdblw",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Additional bounty/improvement submissions also relevant to this main PR bounty issue, with RED/GREEN proof already posted on #81:\n\n1. https://github.com/BitgesellOfficial/bgld/pull/4\n   - Scope: focused Go test/build reliability fix in official `bgld` repo.\n   - RED: upstream `go test ./mempool` fails on `t.Fatal` with `%d` vet error.\n   - GREEN: PR branch `go test ./mempool` passes.\n\n2. https://github.com/BitgesellOfficial/bitgesell-blockchain-sdk/pull/2\n   - Scope: SDK correctness fix in official TypeScript blockchain SDK.\n   - RED/proof: upstream `getAddressUTXO()` calls the unconfirmed-transactions endpoint and returns the wrong data shape.\n   - GREEN: dedicated endpoint regression test passes; `npx tsc -p tsconfig.json` passes; full Jest suite passes (`6` suites / `23` tests).\n\n3. https://github.com/BitgesellOfficial/gobglbridge/pull/5\n   - Scope: WBGL bridge robustness/security fix.\n   - RED: malformed but valid hex signature `0x00` panics in `validateMsgSignature` because code reads `sigBytes[64]` before checking decoded length.\n   - GREEN: short signatures now return a normal validation error; focused regression test passes; full `go test ./...` passes.\n\nPayout address if approved: USDT/EVM-compatible `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`.\n\nAssisted by Hermes Agent.",
+        "createdAt": "2026-05-25T04:03:01Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4531379095",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDhiKcA",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitting another PR for the Bitgesell improvement bounty:\n\nPR: https://github.com/BitgesellOfficial/bglapiserver/pull/1\nRepo: `BitgesellOfficial/bglapiserver`\n\nFix: transaction API routes were accidentally nested under the `blocks_data` feature flag in `api/routes.py`, so enabling `transaction` without `blocks_data` skipped the core transaction lookup/proof endpoints. This PR dedents those registrations so the `transaction` option controls them independently.\n\nValidation:\n\n```text\nPYTHONDONTWRITEBYTECODE=1 python3 -m pytest tests/test_route_registration.py -q\n1 passed in 0.02s\n\nPython AST syntax OK\ngit diff --check: clean\n```\n\nPayout address for USDT/EVM-compatible rails: 0x4a76c7E64C08cF29B59eFC640b4ada97A270d428\n",
+        "createdAt": "2026-05-25T04:22:20Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4531456624",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDhokKg",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a wbgl-bridge-sdk fix under this bounty/improvement program:\n\n- PR: https://github.com/BitgesellOfficial/wbgl-bridge-sdk/pull/2\n- Scope: fixes BGL -> WBGL bridge submit endpoint construction. The SDK default/config example uses `https://bglswap.com/app/`; the previous code appended `/submit/bgl`, producing `https://bglswap.com/app//submit/bgl`. The PR normalizes trailing slashes so both trailing- and non-trailing-slash bridge endpoints resolve to canonical `/app/submit/bgl`.\n- Validation: focused Jest regression added and passing (`2 passed`), targeted ESLint passing, `git diff --check` clean.\n- Note: full `npm run build` is currently blocked by a repo dependency/toolchain mismatch (`@types/node` disposable symbols vs pinned TypeScript 4.9), unrelated to this change.\n\nPayout address if approved: EVM/BSC USDC `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`.",
+        "createdAt": "2026-05-25T04:36:58Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4531561514",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDhrjBw",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a bitgesell-blockchain-sdk fix under this bounty/improvement program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-blockchain-sdk/pull/3\n- Scope: fixes `getMempoolState()` to call the aggregate `/mempool/state` endpoint instead of the paginated `/mempool/transactions` endpoint, and strengthens the regression test so it awaits the SDK call and asserts state fields (`inputs`, `outputs`, `transactions`).\n- RED proof: strengthened focused Jest test failed before the code fix because the method returned transaction-list fields (`count`, `page`, `list`) instead of state fields.\n- GREEN proof: focused mempool-state test passed, full `mempool.test.ts` passed, full Jest suite passed (`5` suites / `22` tests), `npm run build` passed, and `git diff --check` is clean.\n- Note: targeted ESLint currently reports pre-existing repo config/rule issues unrelated to this change (`functional/no-class` in the existing class-based file and test parser-project inclusion).\n\nPayout address if approved: EVM/BSC USDC `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`.",
+        "createdAt": "2026-05-25T04:49:55Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4531610375",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDhyGhg",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Claim/proof for Bitgesell improvement bounty:\n\nPR: https://github.com/BitgesellOfficial/jsbgl/pull/4\n\nScope: fixes `jsbgl` Bech32/SegWit address validation so mixed-case addresses are rejected before checksum normalization, while all-lowercase and all-uppercase Bech32 remain valid per BIP173. The previous implementation lowercased the HRP/payload for checksum validation and could accept mixed-case BGL Bech32 strings.\n\nValidation evidence:\n- RED: added regression made `npm test` fail in `Address functions: isAddressValid` with `AssertionError: expected true to equal false` for mixed-case `Bgl1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7K0FY5A3`.\n- GREEN: `npm test` passes (`68 passing`).\n- Package/dist proof: package main `require('./')` rejects the mixed-case address and accepts lowercase/uppercase forms.\n- `git diff --check` clean.\n\nPayout address if approved and USDT/EVM-compatible payout is used: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`",
+        "createdAt": "2026-05-25T05:18:16Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4531717766",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDiS2hw",
+        "author": {
+          "login": "MylloVinyllo"
+        },
+        "authorAssociation": "NONE",
+        "body": "Hi, I\u2019m considering a focused PR under this bounty.\n\nBefore I spend implementation time, can you confirm whether this PR bounty is still active for new contributions in May 2026, and whether small focused test/CI/cleanup PRs are still eligible for review and payment if accepted?\n\nIf confirmed, I\u2019ll keep the change narrow, include clear validation, and submit a focused PR rather than a broad rewrite.",
+        "createdAt": "2026-05-25T07:04:16Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4532254343",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDirRvQ",
+        "author": {
+          "login": "TUPM96"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/js-bitgesellcore-rpc/pull/2\n- Scope: fixes the default debug logger namespace in the JS RPC client from `bitcoin-core` to `bitgesell-core`, matching the package/docs and making documented `DEBUG=bitgesell-core` logging work for default clients.\n- Validation: `npx mocha test/default_logger_test.js test/logging/request-obfuscator_test.js --require should`; `npx eslint src/index.js test/default_logger_test.js`; `git diff --check`.\n\nNote: regular `npm install` currently triggers the existing `dependencies` lifecycle script and fails without docker-compose config; I used `npm install --ignore-scripts` for local verification and left that separate issue to PR #1.\n\nPayout details can be provided privately if approved.",
+        "createdAt": "2026-05-25T08:10:11Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4532654525",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDjwvgg",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR for this program:\n\n- PR: https://github.com/BitgesellOfficial/js-bitgesellcore-rpc/pull/3\n- Scope: restores inherited `config.bitcoin*` aliases to the Bitgesell service configs so legacy tests/consumers reference the same Bitgesell objects; adds a no-daemon regression test and normalizes package-lock root metadata.\n- Validation: `./node_modules/.bin/eslint src test --quiet`, `npm test -- --grep 'Configuration aliases'`, and `git diff --check` all passed.\n- Payout address if approved: EVM/USDT-compatible `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`.\n",
+        "createdAt": "2026-05-25T11:12:11Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4533792642",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDj9seQ",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted PR for this bounty/improvement lane:\n\n- PR: https://github.com/BitgesellOfficial/bglutil/pull/4\n- Scope: restores the missing `github.com/bitgesellofficial/bgld` module dependency and refreshed sums so a clean `bglutil` checkout can resolve Bitgesell-specific `bgld/...` imports instead of failing before tests start.\n- Validation: `GOTOOLCHAIN=local go test ./base58 ./bech32 ./gcs ./gcs/builder ./hdkeychain` passed; `git diff --check HEAD~1..HEAD` clean.\n- Payout address if approved: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`\n",
+        "createdAt": "2026-05-25T11:47:34Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4534004857",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDkJBeA",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused Rust RPC client fix under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/rust-bitgesellcore-rpc/pull/2\n- Scope: fixes clean workspace builds by aligning the client dependency/imports with the local `bitgesellcore-rpc-json` crate name instead of the stale `bitcoincore-rpc-json` name.\n- Validation: `cargo test --workspace --lib`, `cargo test --workspace`, and `cargo test --workspace --examples`.",
+        "createdAt": "2026-05-25T12:18:19Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4534190456",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDk6f-Q",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/brotlic/pull/1\n- Scope: improves the git-checkout build failure for brotlic by detecting a missing Brotli C submodule before cc/clang fails, and documents `git submodule update --init --recursive`.\n- Validation: `git submodule update --init --recursive`; `cargo test`.",
+        "createdAt": "2026-05-25T14:26:13Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535001081",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDk-0oA",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted PR for bounty consideration: https://github.com/BitgesellOfficial/bitgesell-arm/pull/1\n\nScope: fixes `docker-entrypoint.sh` so option and `.conf` invocations are rewritten to the repository's actual `bgl_oneshot` command instead of `bgl`, preventing container startup failure for standard option/config-file forms. Adds focused regression coverage for both forms.\n\nVerification: `bash test/tests/entrypoint.sh` passed; `git diff --check origin/main..HEAD` clean.\n\nPayout address if approved: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`",
+        "createdAt": "2026-05-25T14:37:51Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535071904",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDlK5ow",
+        "author": {
+          "login": "1507819106zxzx-crypto"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused jsbgl validation fix: https://github.com/BitgesellOfficial/jsbgl/pull/5\n\nIt makes addressToHash reject checksum-invalid P2PKH, P2SH, and Bech32 addresses before decoding, and keeps addressToScript from building scripts from invalid address hashes. Regression tests were added for the invalid checksum cases.\n\nVerification: npm test and npm run build passed locally.\n\nPayout address if approved: 0x4451dF3D21925eF7a62D20eEdc80B99f7140C5D2",
+        "createdAt": "2026-05-25T15:09:20Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535269795",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDlOXLw",
+        "author": {
+          "login": "1507819106zxzx-crypto"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell library hardening PR for bounty consideration: https://github.com/BitgesellOfficial/bitgesell-bip39/pull/2\n\nScope: rejects malformed entropy hex strings in bitgesell-bip39 before Node's Buffer.from(..., 'hex') can silently truncate odd-length strings or stop at non-hex characters. This prevents malformed input from producing a mnemonic for different entropy than the caller supplied.\n\nRegression coverage: odd-length, non-hex, and empty string entropy now throw the existing Invalid entropy error.\n\nVerification:\n- npx tsc -p tsconfig.json\n- npx prettier ts_src/index.ts --check\n- npm run lint\n- npm run unit (386 passing)\n- git diff --check\n\nPayout address if approved: 0x4451dF3D21925eF7a62D20eEdc80B99f7140C5D2",
+        "createdAt": "2026-05-25T15:19:02Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535326511",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDlRY1Q",
+        "author": {
+          "login": "1507819106zxzx-crypto"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused maintenance PR for the bounty program: https://github.com/BitgesellOfficial/bitgesell-blockchain-sdk/pull/4\n\nChange: removes a committed describe.only from the SDK address test suite so the full Jest suite runs again, including blockchain, mempool, transaction, API, and address tests.\n\nVerification:\n- npm run build:main\n- npm test -- --runInBand (5 suites, 22 tests passing)\n- git diff --check HEAD~1..HEAD\n\nPayout address if accepted: 0x4451dF3D21925eF7a62D20eEdc80B99f7140C5D2",
+        "createdAt": "2026-05-25T15:27:39Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535376085",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDlWPqw",
+        "author": {
+          "login": "1507819106zxzx-crypto"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another bridge SDK maintenance PR for the bounty program: https://github.com/BitgesellOfficial/wbgl-bridge-sdk/pull/3\n\nChange: removes committed focused Jest tests, mocks default WBGLBridgeSDK status/balance/contract reads, and gates real BGL/WBGL swap integration tests behind explicit env flags so normal CI does not require private keys or spend gas.\n\nVerification:\n- npm test -- --runInBand (1 suite passed, 2 integration suites skipped by default; 8 passed, 4 skipped)\n- npx tsc -p tsconfig.json --skipLibCheck\n- git diff --check\n\nPayout address if accepted: 0x4451dF3D21925eF7a62D20eEdc80B99f7140C5D2",
+        "createdAt": "2026-05-25T15:39:02Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535455659",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDlZGbg",
+        "author": {
+          "login": "1507819106zxzx-crypto"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused wallet hardening PR for bounty consideration: https://github.com/BitgesellOfficial/bitgesell-wallet/pull/5\n\nScope: escapes transaction IDs and wallet addresses before rendering them into table HTML attributes/text, and URL-encodes explorer/hash-route path segments generated from those table values. Normal BGL addresses and tx hashes render unchanged, while abnormal local-storage/API values cannot break attributes or inject markup into the wallet tables.\n\nVerification:\n- node --check src/utils.js\n- node --check src/transactions/transactions.js\n- node --check src/my-addresses/my-addresses.js\n- npx eslint --rule 'linebreak-style: 0' src/utils.js src/transactions/transactions.js src/my-addresses/my-addresses.js\n- git diff --check\n\nPayout address if accepted: 0x4451dF3D21925eF7a62D20eEdc80B99f7140C5D2",
+        "createdAt": "2026-05-25T15:47:44Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535502446",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDluBZQ",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-wallet/pull/6\n- Scope: hardens the wallet build script by failing early when the dist folder is omitted and quoting dist-folder path expansions so output paths with spaces do not break the build.\n- Validation: `bash -n build.sh`; missing-argument usage check; stubbed build-tool smoke test against `/tmp/bitgesell wallet dist test`.",
+        "createdAt": "2026-05-25T16:54:33Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535845221",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDl2MOw",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another non-overlapping Bitgesell ecosystem fix for the improvement/PR bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-utxo-dump/pull/2\n- Scope: restores a clean Go module build for `bitgesell-utxo-dump` by adding `go.mod`/`go.sum`, updating stale module imports to `github.com/BitgesellOfficial/bitgesell-utxo-dump`, and fixing a formatting misuse caught by `go test`.\n- RED upstream proof: `go test ./...` fails on `origin/main` with `pattern ./...: directory prefix . does not contain main module or its selected dependencies`.\n- GREEN proof: `go test ./...` passes on the PR branch across all packages; `git diff --check origin/main...HEAD` is clean.\n- Payout address if accepted: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428` (EVM/USDT-compatible).\n",
+        "createdAt": "2026-05-25T17:19:10Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4535979067",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDl5dIg",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused wallet reliability PR for this program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-wallet/pull/7\n- Scope: `fetchQuery` now runs its `callbackAlways` cleanup when `fetch()` rejects, preventing the send form from staying disabled after network/CORS/RPC failures.\n- Validation: `npm test` passed and `git diff --check` is clean.\n- Payout address if accepted: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428` (EVM/USDT-compatible).\n",
+        "createdAt": "2026-05-25T17:29:31Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4536032546",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDmB__Q",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused bgld-docker entrypoint fix for Bitgesell improvement bounty consideration:\n\n- PR: https://github.com/BitgesellOfficial/bgld-docker/pull/2\n- Scope: fixes the stale `btc_oneshot` privilege-drop guard in `docker-entrypoint.sh` so standard option/config startup rewritten to `bgl_oneshot` is re-execed through `gosu BGL` when the container starts as root, rather than running directly as root.\n- Validation: RED against upstream failed the new regression with `entrypoint executed bgl_oneshot directly instead of dropping privileges`; GREEN after fix: `sh -n docker-entrypoint.sh`, `sh -n test/entrypoint.sh`, `sh test/entrypoint.sh`, and `git diff --check` all pass.\n- Payout address if accepted: EVM/USDT-compatible `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`.\n",
+        "createdAt": "2026-05-25T17:55:34Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4536172541",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDmFcMw",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell ecosystem fix for bounty consideration:\n\n- PR: https://github.com/BitgesellOfficial/php-bitgesellcore-rpc/pull/1\n- Scope: restores the PHP RPC client's Composer/package identity and autoloadability by aligning `composer.json`, `Config`, tests, and provider class strings with the repo's `naftalimurgor\\Bitgesell` namespace; also fixes the `BitgeselldResponse` typo/class-string mismatch and replaces the stale duplicated Go README with PHP usage docs.\n- Validation: `python3 -m json.tool composer.json`, static stale-reference scan for old Denpa/Bitcoin and typo symbols, and `git diff --check` all passed. PHP/Composer were unavailable in this runner, so PHPUnit could not be executed here.\n- Payout address if accepted: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428` (EVM/USDT-compatible).\n",
+        "createdAt": "2026-05-25T18:05:53Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4536228915",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDmLN2Q",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bglapiserver/pull/2\n- Scope: hardens bglapi Docker run templates by quoting computed host-volume paths, so checkouts under directories with spaces are passed to Docker as single `-v` arguments.\n- Validation: `/bin/sh -n` on the touched templates; `python3 -m compileall -q api app node test`; stubbed Docker smoke test from `/tmp/bgl api script test/{api,app,postgres}`.",
+        "createdAt": "2026-05-25T18:22:56Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4536323545",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDmOq-g",
+        "author": {
+          "login": "newmattock"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused pybgl Bech32 validation fix under the Bitgesell PR bounty lane:\n\n- PR: https://github.com/BitgesellOfficial/pybgl/pull/4\n- Scope: enforces Bech32/SegWit address case rules by accepting valid all-uppercase addresses, rejecting mixed-case addresses before checksum normalization, and allowing digits in uppercase payloads.\n- Validation: reproduced that a generated lowercase bgl1 address was valid while an uppercase variant was incorrectly rejected and a mixed-case payload variant was incorrectly accepted before the fix; added active regression tests. python3 -m unittest pybgl.test.bech32_address_validation, python3 tests.py, and git diff --check all pass.\n\nPayment/review notes: payout details can be provided if approved or requested.\n",
+        "createdAt": "2026-05-25T18:33:03Z",
+        "includesCreatedEdit": true,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4536380154",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDmTNbA",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused pybgl repository-link cleanup PR for this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/pybgl/pull/5\n- Scope: updates README/install docs/Sphinx metadata/package URL from stale `bitaps-com/pybgl` links to the canonical `BitgesellOfficial/pybgl` repo, including the issue tracker.\n- Validation: `python3 -m compileall -q pybgl`; stale-link scan for `bitaps-com/pybgl` in README/setup/docs returned no matches; `git diff --check` passed.\n- Payout address if accepted: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428` (EVM/USDT-compatible).",
+        "createdAt": "2026-05-25T18:45:50Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4536454508",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDm0u2w",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/go-bitgesell-toolkit/pull/2\n- Scope: fixes `GetAddressUTXO` so it calls `/address/utxo/{address}` instead of the unconfirmed-transactions endpoint, with the unit-test mock path updated to cover the regression.\n- Validation: static endpoint cross-check with `rg` across go-bitgesell-toolkit, bitgesell-wallet, and bglapiserver route usage. Go tests were not run locally because this environment does not have the Go toolchain installed.",
+        "createdAt": "2026-05-25T20:23:27Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4537003739",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDnbvyQ",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/php-bitgesellcore-rpc/pull/2\n- Scope: replaces the stale duplicated Go `bgld` README with PHP-specific setup, usage, async, configuration, and PHPUnit documentation for the Bitgesell Core RPC client.\n- Validation: checked for remaining stale Go/bitcoind references with `rg`; `git diff --check`. Docs-only change, so no PHP suite was run locally.",
+        "createdAt": "2026-05-25T22:24:03Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4537642953",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDnbwYw",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused wallet safety/reliability PR for Bitgesell improvement bounty consideration:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-wallet/pull/8\n- Scope: hardens the send form preflight so submit-time validation rechecks the recipient address, recalculates spend/new-balance state, and refuses to call `sendrawtransaction` when no serialized transaction has been generated. This prevents null/stale transaction RPC submissions if the form is submitted before the earlier field-change validation path runs.\n- Validation: `node --check src/send/send.js`, `npm test`, and `git diff --check` all passed.\n- Payout address if accepted: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428` (EVM/USDT-compatible).\n",
+        "createdAt": "2026-05-25T22:24:06Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4537643107",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDnhMZg",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused bglapiserver README cleanup for Bitgesell bounty consideration:\n\n- PR: https://github.com/BitgesellOfficial/bglapiserver/pull/3\n- Scope: refreshes stale README links from `bitaps-com/pybgl` and `bitaps-com/bglapiserver` to the canonical Bitgesell repositories, replaces Bitcoin-specific API module wording with Bitgesell-specific wording, and fixes nearby README grammar.\n- Validation: `python3` stale-link/wording scan passed; `git diff --check` passed.\n- Payout address if accepted: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428` (EVM/USDT-compatible).\n\nAssisted by Hermes Agent.",
+        "createdAt": "2026-05-25T22:41:13Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4537732198",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDouBEw",
+        "author": {
+          "login": "CharlieLZ"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused js-bitgesellcore-rpc reliability fix for bounty consideration:\n\n- PR: https://github.com/BitgesellOfficial/js-bitgesellcore-rpc/pull/4\n- Scope: response logging no longer throws when a JSON-RPC batch response contains an unmatched id; matched sensitive results are still obfuscated and unmatched response entries are preserved unchanged.\n- Regression coverage: added a batch-response test for an unknown id alongside a matched dumpprivkey response.\n- Verification: `./node_modules/.bin/mocha --timeout 20000 --recursive --require should test/logging/request-obfuscator_test.js` passed with 23 tests; `npm run lint` passed; `git diff --check HEAD~1..HEAD` is clean.\n\nPayment details can be provided if accepted or requested.",
+        "createdAt": "2026-05-26T01:51:38Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4538990867",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDqpdQg",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/php-bitgesellcore-rpc/pull/3\n- Scope: fixes Composer/PSR-4 namespace drift in php-bitgesellcore-rpc by aligning the package autoload roots, Config namespace, response handler class, and response test imports with the Bitgesell namespace used by the source tree.\n- Validation: parsed composer.json with Node; checked for stale Denpa namespace / BitgeselldResponse references with `rg`; `git diff --check`. PHP/Composer tests were not run locally because this environment does not have PHP or Composer installed.",
+        "createdAt": "2026-05-26T06:19:47Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4541013314",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDro5HQ",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-bip39/pull/3\n- Scope: aligns bitgesell-bip39 package metadata with the forked package by correcting the package-lock root name/version, updating the repository URL to BitgesellOfficial, and changing the package description to Bitgesell BIP39.\n- Validation: parsed package.json and package-lock.json with Node; checked stale package metadata references with `rg`; `git diff --check`. npm scripts were not run locally because npm is unavailable in this environment.",
+        "createdAt": "2026-05-26T08:20:42Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4542052637",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDs2NLQ",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bgld-docker/pull/3\n- Scope: fixes bgld-docker startup reliability by making the root privilege-drop guard match the actual `bgl_oneshot` command, and removes stray whitespace after the Dockerfile `ca-certificates` line-continuation.\n- Validation: `/bin/sh -n docker-entrypoint.sh`; `git diff --check`; checked stale patterns with `rg`; smoke-tested the root path with stubbed `id`, `chown`, and `gosu` commands.",
+        "createdAt": "2026-05-26T10:20:18Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4543319341",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDtK_2A",
+        "author": {
+          "login": "newmattock"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/wbgl-bridge-sdk/pull/4\n- Scope: fixes `Transaction.makeTxObject()` so repeated BGL bridge swap transaction builds return a fresh Bitgesell transaction object instead of returning `undefined` after the first SDK initialization.\n- Regression coverage: adds a focused Jest test proving repeated factory calls return distinct transaction objects.\n- Verification: `pnpm exec jest src/__tests__/Transaction.test.ts --runInBand`; `pnpm exec tsc --noEmit --skipLibCheck --module commonjs --target es2019 --esModuleInterop --types jest src/bridge/Transaction.ts src/__tests__/Transaction.test.ts`; `pnpm exec prettier --check src/bridge/Transaction.ts src/__tests__/Transaction.test.ts`; `git diff --check`.\n\nNotes: full project `tsc -p tsconfig.json --skipLibCheck` currently fails on the upstream-visible `@types/node` dependency gap, and focused ESLint did not complete locally after roughly 45 seconds, so the submitted proof uses focused test/typecheck/format/diff gates.\n",
+        "createdAt": "2026-05-26T10:55:10Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4543659992",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDtOOdw",
+        "author": {
+          "login": "newmattock"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/wbgl-bridge-sdk/pull/5\n- Scope: makes `WBGL` honor `config.bridgeEndpoint`, matching the rest of the SDK instead of always submitting WBGL swaps to the production default endpoint.\n- Regression coverage: adds a mocked WBGL swap test proving the submit request goes to the configured bridge endpoint while stubbing the token-send path.\n- Verification: `pnpm exec jest src/__tests__/WBGLEndpoint.test.ts --runInBand`; `pnpm exec tsc --noEmit --skipLibCheck --module commonjs --target es2019 --esModuleInterop --types jest src/bridge/WBGL.ts src/__tests__/WBGLEndpoint.test.ts`; `pnpm exec prettier --check src/__tests__/WBGLEndpoint.test.ts`; `git diff --check`.\n",
+        "createdAt": "2026-05-26T11:02:21Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4543712887",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDtP3Rg",
+        "author": {
+          "login": "newmattock"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-blockchain-sdk/pull/5\n- Scope: updates the source SDK package metadata and README docs link from the old personal namespace to the official BitgesellOfficial repositories.\n- Validation: stale-link scan for `naftalimurgor/bitgesell-blockchain-sdk` and `naftalimurgor.github.io/bitgesell-blockchain-sdk` is clean; package JSON and lockfile parse; both official repositories resolve through `gh repo view`; `git diff --check` passes.\n",
+        "createdAt": "2026-05-26T11:09:24Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4543739718",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDthJfA",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bglutil/pull/5\n- Scope: refreshes the bglutil README so the package title, badges, description, install command, and development instructions point to the Bitgesell module instead of stale btcsuite/btcutil and Conformal release-verification references.\n- Validation: checked stale README references with `rg`; `git diff --check`. Go tests were not run locally because the Go toolchain is not installed in this environment.",
+        "createdAt": "2026-05-26T12:23:32Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4544022908",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDubSqA",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/go-bgld/pull/4\n- Scope: refreshes the go-bgld README by replacing stale upstream go-bitcoind/Godoc references, modernizing the test command to `go test ./...`, and making the usage example valid Go with concrete Bitgesell defaults.\n- Validation: checked stale README references with `rg`; `git diff --check`. Go tests were not run locally because the Go toolchain is not installed in this environment.",
+        "createdAt": "2026-05-26T14:21:05Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4544975528",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDvj5UQ",
+        "author": {
+          "login": "manuelsampedro1"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another PR for the Bitgesell general PR bounty:\n\nhttps://github.com/BitgesellOfficial/tbgl-v2/pull/1\n\nThis one fixes the `tbgl-v2` README workflow badges so they report the Bitgesell repository/`bgl` branch status rather than the upstream `keep-network/tbtc-v2` repo, and corrects the broken Yearn badge query parameter (`vent=push` -> `event=push`).\n\nValidation run:\n- `rg -n \"keep-network/tbtc-v2/actions|[?&]vent=|branch=main\" README.adoc && exit 1 || true`\n- `git diff --check`",
+        "createdAt": "2026-05-26T16:24:38Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4546165073",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABDwb0gA",
+        "author": {
+          "login": "g8rr5dg2p7-svg"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell/pull/279\n- Scope: updates `doc/cjdns.md` so the CJDNS guide uses BGL Core / Bitgesell wording, `BGL-cli` commands, and the local Tor guide link instead of inherited Bitcoin Core / `bitcoin-cli` references.\n- Validation: `git diff --check HEAD~1..HEAD`, stale Bitcoin wording scan, and `python3 test/lint/lint-tests.py` all passed.\n\nPayment details can be provided if accepted or requested.",
+        "createdAt": "2026-05-26T17:48:35Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4547081344",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABD23TuA",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused JS RPC client fix for Bitgesell bounty consideration:\n\n- PR: https://github.com/BitgesellOfficial/js-bitgesellcore-rpc/pull/7\n- Scope: fixes `Client#command()` multiwallet routing for mixed-case RPC method names. Direct calls like `command('getBalance')` were sent as lowercase `getbalance`, but the wallet-support lookup used the original mixed-case key and missed multiwallet support, so requests posted to `/` instead of `/wallet/<wallet>`.\n- Regression coverage: single and batch mixed-case wallet commands now assert the selected wallet URI is used.\n- RED proof on `origin/main`: new tests failed with `AssertionError: expected '/' to be '/wallet/wallet.dat'`.\n- GREEN proof after fix: `./node_modules/.bin/mocha test/command_wallet_routing_test.js --timeout 20000 --require should` passed (`2 passing`); `./node_modules/.bin/eslint src/index.js test/command_wallet_routing_test.js` passed; `git diff --check` clean.\n- Payout address if accepted: EVM/USDT-compatible `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`.\n\nAssisted by Hermes Agent.",
+        "createdAt": "2026-05-27T10:47:10Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4553823160",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABD3IoEg",
+        "author": {
+          "login": "jtc268"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted PR #289 for this bounty: https://github.com/BitgesellOfficial/bitgesell/pull/289\n\nIt aligns the remaining network docs in touched files with BGL naming: BGL Core, BGL-cli, BGL.conf, and BGL node terminology. Validation: git diff --check plus grep for the stale Bitcoin command/config/product strings in the touched docs.",
+        "createdAt": "2026-05-27T11:28:19Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4554106898",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABEgOHAA",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a new Bitgesell API contribution for bounty review:\n\n- PR: https://github.com/BitgesellOfficial/bglapiserver/pull/8\n- Fix: impossible block-header `count` validation (`count < 1 and count > 2000`) changed to a working lower/upper bound guard, with regression coverage for `0` and `5000` count values.\n- Requested liquid payout rail if accepted: USDT / USDC-compatible EVM address `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428`\n\nThank you \u2014 happy to adjust if maintainers prefer a different count handling behavior.\n",
+        "createdAt": "2026-06-01T23:03:57Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4597188352",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABEhu9yA",
+        "author": {
+          "login": "JONASXZB"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted PR #330 for the PR bounty hunt: https://github.com/BitgesellOfficial/bitgesell/pull/330\n\nScope: small test/docs consistency cleanup replacing stale `test_bitcoin` references with the actual Bitgesell `test_BGL` unit-test binary name, fixing a malformed `test_ --run_test` example, and aligning the LCOV docs with `test_BGL.coverage`.\n\nValidation: stale-reference grep is clean for the touched scope, coverage docs match `Makefile.am`, and `git diff --check` passes.\n\nIf this qualifies, public payout addresses are:\n- USDT TRC20: `TU3WsDnY9RbwGFEHx6WoF1C7J592SGrS8F`\n- USDT/ERC20-compatible EVM: `0xc580927355132643ad82b4c12ba94a7a93e63ba2`\n",
+        "createdAt": "2026-06-02T04:41:44Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4598775240",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABEh0WJw",
+        "author": {
+          "login": "Chillzyg"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused bridge service reliability PR for Bitgesell bounty consideration:\n\n- PR: https://github.com/BitgesellOfficial/wbgl-bridge/pull/40\n- Scope: fixes async nonce initialization in the WBGL bridge service so startup does not store unresolved `getTransactionCount()` promises as local nonces, reserves the current nonce before incrementing, and accepts `ETH_NONCE` while preserving the existing `ETH__NONCE` fallback.\n- Validation: `npx mocha src/tests/nonce.js --timeout 10000`, targeted Prettier check, targeted `node --check`, targeted ESLint with ES-module parser options, and `git diff --check` all passed.\n\nPayment details can be provided if accepted or requested.",
+        "createdAt": "2026-06-02T05:02:25Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4598863399",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABEzUddA",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell bounty PR:\n\n- PR: https://github.com/BitgesellOfficial/go-bgld/pull/5\n- Repo: `go-bgld`\n- Fix: `GetBlockTemplate` now returns the `getblocktemplate` RPC result instead of always returning an empty string on success.\n- Validation: added regression test; `go test -run TestGetBlockTemplateReturnsRPCResult -count=1 -v` and `go test ./...` pass locally.\n\nPublic payout address for USDT/USDC if accepted: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428` (EVM/BSC).",
+        "createdAt": "2026-06-03T22:24:07Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4617215348",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABEzyEuA",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell API contribution for bounty review:\n\n- PR: https://github.com/BitgesellOfficial/bglapiserver/pull/9\n- Fix: `GET /blocks/last/{n}` and `GET /blocks/data/last/{n}` now reject zero, negative, and non-numeric counts with `PARAMETER_ERROR` instead of falling through to generic internal-error behavior or the model layer.\n- Validation: `python3 -m py_compile api/views/blocks.py`; synthetic handler check verified `0`, `-1`, and `abc` return HTTP 400 for both affected handlers without calling model functions.\n",
+        "createdAt": "2026-06-03T23:57:23Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4617700536",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABEzzLUQ",
+        "author": {
+          "login": "tolga-tom-nook"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell bounty PR:\n\n- PR: https://github.com/BitgesellOfficial/keep-core/pull/1\n- Repo: `keep-core`\n- Fix: `TransactionBuilder.getScript` now validates the referenced output index and returns a descriptive error instead of panicking when a UTXO points at a missing output.\n- Validation: added regression test; `go test ./pkg/bitcoin -run 'TestTransactionBuilder_AddPublicKeyHashInput_OutOfRangeOutputIndex|TestTransactionBuilder_AddPublicKeyHashInput|TestTransactionBuilder_AddScriptHashInput' -count=1`, `go test ./pkg/bitcoin -count=1`, and `git diff --check` pass locally.\n\nPublic payout address for USDT/USDC if accepted: `0x4a76c7E64C08cF29B59eFC640b4ada97A270d428` (EVM/BSC).",
+        "createdAt": "2026-06-04T00:00:58Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4617718609",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFF_NJg",
+        "author": {
+          "login": "modelsbridgeaicom-ship-it"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a maintenance PR for bounty review:\n\n- PR: https://github.com/BitgesellOfficial/nucypher/pull/1\n- Change: align setup.py `python_requires` with the rest of the project metadata (`pyproject.toml` and requirements markers already require Python >=3.9,<4)\n- Why it matters: prevents package metadata from advertising unsupported Python 3.7/3.8 installs\n- Validation: `python -m py_compile setup.py`; `git diff --check`\n\nPayout details can be provided if maintainers accept the PR and request them.",
+        "createdAt": "2026-06-06T01:19:31Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4636790054",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFMXujw",
+        "author": {
+          "login": "modelsbridgeaicom-ship-it"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/jsbgl/pull/6\n- Scope: validates Shamir split parameters before share generation, rejecting non-integer threshold/total values and requiring both threshold and total to be at least 2.\n- Why it matters: `__restore_secret` already requires at least two unique points, but `__split_secret` accepted degenerate 1-of-N requests and invalid totals before this change.\n- Regression coverage: added invalid-parameter assertions and updated the embedded-index mnemonic test to expect 1-of-N splits to fail fast.\n- Validation: `npm.cmd test` passed with 69 tests; `git diff --check` passed.\n\nPayout details can be provided if maintainers accept the PR and request them.",
+        "createdAt": "2026-06-07T18:02:16Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4643483279",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFNjbFA",
+        "author": {
+          "login": "modelsbridgeaicom-ship-it"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell improvement PR under the bounty program:\n\n- PR: https://github.com/BitgesellOfficial/pybgl/pull/20\n- Scope: makes pybgl Bech32/SegWit decoding helpers accept all-uppercase `BGL1...` addresses consistently, matching the lowercase hash/script/type/network/witness-version results.\n- Why it matters: Bech32 permits all-uppercase addresses, but the current decode helpers only match lowercase `bgl` / `tbgl` prefixes and can return `None` / `UNKNOWN` on otherwise valid uppercase addresses.\n- Validation: `python -m compileall -q pybgl tests.py setup.py setup_tools.py`; focused RED/GREEN regression with local native-extension stubs showed `origin/master` failing uppercase decode paths and this branch passing them; `git diff --check` passed with Windows line-ending warnings only.\n\nPayment details can be provided if maintainers accept the PR and request them.",
+        "createdAt": "2026-06-08T01:15:07Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4644723476",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFNwEhA",
+        "author": {
+          "login": "cedar323"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused js-bitgesellcore-rpc maintenance PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/js-bitgesellcore-rpc/pull/11\n- Scope: makes `npm test` cross-platform by replacing the POSIX-only `NODE_ENV=test mocha $npm_package_options_mocha` script with a small Node runner that preserves the existing Mocha options and forwards extra CLI arguments.\n- Validation: `npm test -- test\\errors\\rpc-error_test.js --reporter spec` passes on Windows; `git diff --check` reports no patch whitespace errors beyond Git's local CRLF warning.\n\nPayout details can be provided after acceptance/request.",
+        "createdAt": "2026-06-08T02:18:47Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4644930692",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFN4XyA",
+        "author": {
+          "login": "cedar323"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused js-bitgesellcore-rpc test-fix PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/js-bitgesellcore-rpc/pull/12\n- Scope: fixes `test/parser_test.js` after the project config was renamed to `bitgesell` / `bitgesellMultiWallet`, and mocks the remaining parser RPC responses so the parser test file runs without a local BGLd/Docker service.\n- Validation: `$env:NODE_ENV='test'; node node_modules\\mocha\\bin\\mocha --timeout 20000 --recursive --require should test\\parser_test.js --reporter spec` passes on Windows; `git diff --check` reports no patch whitespace errors beyond Git's local CRLF warning.\n\nPayout details can be provided after acceptance/request.",
+        "createdAt": "2026-06-08T02:56:11Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4645066696",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFOJVxA",
+        "author": {
+          "login": "cedar323"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell test/build fix under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-bip39/pull/4\n- Scope: makes `npm test` work on Windows by replacing the POSIX-only `rm -rf src` clean command with a Node cleanup script and switching the Prettier TypeScript glob from single quotes to double quotes for Windows npm shells.\n- Validation: reproduced the original Windows failure (`'rm' is not recognized`), then verified `npm test` passes on Windows end-to-end: build, format check, lint, and all 383 tape assertions. `git diff --check` reports no patch whitespace errors beyond Git's local CRLF warning.\n\nPayout details can be provided after acceptance/request.",
+        "createdAt": "2026-06-08T04:07:13Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4645344708",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFOXTnA",
+        "author": {
+          "login": "ManuelSalcedo2770"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted a focused Bitgesell SDK maintenance PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-blockchain-sdk/pull/8\n- Scope: restores normal npm installation by aligning Jest/ts-jest tooling, updates TypeDoc to match the repo's TypeScript range, and removes obsolete TypeDoc CLI flags.\n- Verification: npm ci, npm run build, npm test -- --runInBand --coverage=false, npm run doc:json, git diff --check.\n\nPayout details can be provided after maintainer review/approval.",
+        "createdAt": "2026-06-08T04:52:22Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4645573532",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFOYzvA",
+        "author": {
+          "login": "ManuelSalcedo2770"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused Bitgesell SDK maintenance PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/wbgl-bridge-sdk/pull/7\n- Scope: restores clean npm installation by adding a root lockfile, aligning the ESLint plugin with ESLint 8, pinning Node types to the repo's TypeScript range, and updating the TypeDoc JSON command flags.\n- Verification: npm ci, npm run build, npm run doc:json, git diff --check.\n\nPayout details can be provided after maintainer review/approval.",
+        "createdAt": "2026-06-08T04:58:44Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4645598140",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFObVhQ",
+        "author": {
+          "login": "ManuelSalcedo2770"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another small Bitgesell wallet documentation/metadata PR under this bounty program:\n\n- PR: https://github.com/BitgesellOfficial/bitgesell-wallet/pull/10\n- Scope: points package issue/source metadata and README jsbgl links to the official BitgesellOfficial repositories.\n- Verification: npm test, npm run build, git diff --check, and GitHub API checks for the official repositories.\n\nThis is intentionally scoped as a smaller cleanup. Payout details can be provided after maintainer review/approval.",
+        "createdAt": "2026-06-08T05:09:16Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4645639557",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABFRcJ8A",
+        "author": {
+          "login": "cedar323"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted another focused maintenance PR for the bounty:\n\n- PR: https://github.com/BitgesellOfficial/assets/pull/1\n- Scope: updates `sharp` from `^0.25.4` to `^0.32.6` so the asset test suite can load the native image dependency on current Node/Windows runtimes.\n- Validation on Windows / Node v22.18.0:\n  - `npm ci`\n  - `npm test` (3 suites, 20 tests passed)\n  - `npm run lint`\n\nNo payout or private details included here.",
+        "createdAt": "2026-06-08T12:06:30Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4648798704",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABIkMeDQ",
+        "author": {
+          "login": "Cycle1337"
+        },
+        "authorAssociation": "NONE",
+        "body": "Bounty submission for the PR bounty hunt:\n\nhttps://github.com/BitgesellOfficial/bitgesell/pull/358\n\nScope: fixes the Debian packaging metadata behind #357 by removing obsolete/development packages from runtime dependencies (`perl-modules-5.34`, `libsqlite3-dev`, `libqrencode-dev`) and moving needed dev libraries to `Build-Depends`.\n\nValidation:\n- Parsed `debian.minimal/control` and `debian.qt/control` to confirm binary `Depends` no longer include the obsolete/dev packages.\n- Parsed source `Build-Depends` to confirm build-time dependencies remain available.\n- `git diff --check` passed.\n\nPayment details can be provided after maintainer review/approval.",
+        "createdAt": "2026-07-02T19:34:02Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4869791245",
+        "viewerDidAuthor": false
+      },
+      {
+        "id": "IC_kwDODx_A7s8AAAABIzADRQ",
+        "author": {
+          "login": "nexicturbo"
+        },
+        "authorAssociation": "NONE",
+        "body": "Submitted two focused Bitgesell test/lint fixes for bounty review:\n\n- PR #359: https://github.com/BitgesellOfficial/bitgesell/pull/359\n  - Scope: makes `test/lint/lint-includes.py` pass by removing duplicate `src/span.h` includes, removing obsolete `boost/process.hpp` from the expected Boost include list, and converting lint-reported include syntax.\n  - Validation: `python test\\lint\\lint-includes.py`; `git diff --check`.\n\n- PR #360: https://github.com/BitgesellOfficial/bitgesell/pull/360\n  - Scope: makes `test/lint/lint-format-strings.py` runnable and green by invoking the helper through the active Python interpreter, updating the Bitgesell `BGL-tidy` exclusion, and excluding the generated secp precompute false-positive source.\n  - Validation: `python test\\lint\\lint-format-strings.py`; `python -m py_compile test\\lint\\lint-format-strings.py test\\lint\\run-lint-format-strings.py`; `git diff --check`.\n\nBoth PRs are open, non-draft, and mergeable. Payment details can be provided after maintainer approval.",
+        "createdAt": "2026-07-05T08:00:29Z",
+        "includesCreatedEdit": false,
+        "isMinimized": false,
+        "minimizedReason": "",
+        "reactionGroups": [],
+        "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39#issuecomment-4885316421",
+        "viewerDidAuthor": false
+      }
+    ],
+    "createdAt": "2021-07-19T06:47:39Z",
+    "labels": [],
+    "state": "OPEN",
+    "title": "BGL PR bounty hunt ($10000 overall budget)",
+    "updatedAt": "2026-07-05T08:00:29Z",
+    "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39"
+  },
+  "repo_live": {
+    "defaultBranchRef": {
+      "name": "master"
+    },
+    "description": "Bitgesell (BGL) is a digital currency with built-in scarcity",
+    "forkCount": 71,
+    "homepageUrl": "https://www.bitgesell.ca",
+    "isArchived": false,
+    "isFork": false,
+    "languages": [
+      {
+        "size": 147207,
+        "node": {
+          "name": "Makefile"
+        }
+      },
+      {
+        "size": 203454,
+        "node": {
+          "name": "Shell"
+        }
+      },
+      {
+        "size": 206215,
+        "node": {
+          "name": "M4"
+        }
+      },
+      {
+        "size": 1581660,
+        "node": {
+          "name": "C"
+        }
+      },
+      {
+        "size": 3688815,
+        "node": {
+          "name": "Python"
+        }
+      },
+      {
+        "size": 11964247,
+        "node": {
+          "name": "C++"
+        }
+      },
+      {
+        "size": 1232,
+        "node": {
+          "name": "QMake"
+        }
+      },
+      {
+        "size": 21949,
+        "node": {
+          "name": "Scheme"
+        }
+      },
+      {
+        "size": 13755,
+        "node": {
+          "name": "NSIS"
+        }
+      },
+      {
+        "size": 21833,
+        "node": {
+          "name": "HTML"
+        }
+      },
+      {
+        "size": 5485,
+        "node": {
+          "name": "Objective-C++"
+        }
+      },
+      {
+        "size": 28404,
+        "node": {
+          "name": "Assembly"
+        }
+      },
+      {
+        "size": 59399,
+        "node": {
+          "name": "Sage"
+        }
+      },
+      {
+        "size": 59270,
+        "node": {
+          "name": "CMake"
+        }
+      },
+      {
+        "size": 1867,
+        "node": {
+          "name": "Cap'n Proto"
+        }
+      },
+      {
+        "size": 3283,
+        "node": {
+          "name": "Dockerfile"
+        }
+      },
+      {
+        "size": 15484,
+        "node": {
+          "name": "Rust"
+        }
+      }
+    ],
+    "nameWithOwner": "BitgesellOfficial/bitgesell",
+    "primaryLanguage": {
+      "name": "C++"
+    },
+    "repositoryTopics": null,
+    "stargazerCount": 29,
+    "url": "https://github.com/BitgesellOfficial/bitgesell"
+  },
+  "clone_log": {
+    "dest": "/Users/heath/Documents/mathgraph-lean-work/external/bounty_triage_v1/BitgesellOfficial__bitgesell",
+    "steps": [
+      {
+        "cmd": "git clone --depth 1 --filter=blob:none --sparse https://github.com/BitgesellOfficial/bitgesell.git /Users/heath/Documents/mathgraph-lean-work/external/bounty_triage_v1/BitgesellOfficial__bitgesell",
+        "rc": 0,
+        "err": "Cloning into '/Users/heath/Documents/mathgraph-lean-work/external/bounty_triage_v1/BitgesellOfficial__bitgesell'...\n"
+      },
+      {
+        "cmd": "git sparse-checkout set <common paths>",
+        "rc": 128,
+        "err": "fatal: 'README.md' is not a directory; to treat it as a directory anyway, rerun with --skip-checks\n"
+      }
+    ]
+  },
+  "clone_dest": "/Users/heath/Documents/mathgraph-lean-work/external/bounty_triage_v1/BitgesellOfficial__bitgesell",
+  "files_sample": [
+    ".cirrus.yml",
+    ".editorconfig",
+    ".gitattributes",
+    ".github/ISSUE_TEMPLATE/bug.yml",
+    ".github/ISSUE_TEMPLATE/config.yml",
+    ".github/ISSUE_TEMPLATE/feature_request.yml",
+    ".github/ISSUE_TEMPLATE/good_first_issue.yml",
+    ".github/ISSUE_TEMPLATE/gui_issue.yml",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/actions/install-homebrew-valgrind/action.yml",
+    ".github/actions/run-in-docker-action/action.yml",
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    ".python-version",
+    ".style.yapf",
+    ".tx/config",
+    ".venv/lib/python3.8/site-packages/pip/__pip-runner__.py",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "COPYING",
+    "INSTALL.md",
+    "Makefile.am",
+    "README.md",
+    "SECURITY.md",
+    "autogen.sh",
+    "build-aux/m4/BGL_find_bdb48.m4",
+    "build-aux/m4/BGL_qt.m4",
+    "build-aux/m4/BGL_subdir_to_include.m4",
+    "build-aux/m4/ax_boost_base.m4",
+    "build-aux/m4/ax_check_compile_flag.m4",
+    "build-aux/m4/ax_check_link_flag.m4",
+    "build-aux/m4/ax_check_preproc_flag.m4",
+    "build-aux/m4/ax_cxx_compile_stdcxx.m4",
+    "build-aux/m4/ax_pthread.m4",
+    "build-aux/m4/l_atomic.m4",
+    "build-aux/m4/l_socket.m4",
+    "build_msvc/.gitignore",
+    "build_msvc/BGL-cli/BGL-cli.vcxproj",
+    "build_msvc/BGL-qt/BGL-qt.vcxproj",
+    "build_msvc/BGL-tx/BGL-tx.vcxproj",
+    "build_msvc/BGL-util/BGL-util.vcxproj",
+    "build_msvc/BGL-wallet/BGL-wallet.vcxproj",
+    "build_msvc/BGL.sln",
+    "build_msvc/BGL_config.h",
+    "build_msvc/BGL_config.h.in",
+    "build_msvc/BGLd/BGLd.vcxproj",
+    "build_msvc/README.md",
+    "build_msvc/bench_BGL/bench_BGL.vcxproj.in",
+    "build_msvc/common.init.vcxproj.in",
+    "build_msvc/common.qt.init.vcxproj",
+    "build_msvc/common.vcxproj",
+    "build_msvc/fuzz/fuzz.vcxproj",
+    "build_msvc/libBGL_cli/libBGL_cli.vcxproj.in",
+    "build_msvc/libBGL_common/libBGL_common.vcxproj.in",
+    "build_msvc/libBGL_consensus/libBGL_consensus.vcxproj",
+    "build_msvc/libBGL_crypto/libBGL_crypto.vcxproj.in",
+    "build_msvc/libBGL_node/libBGL_node.vcxproj.in",
+    "build_msvc/libBGL_qt/libBGL_qt.vcxproj",
+    "build_msvc/libBGL_util/libBGL_util.vcxproj.in",
+    "build_msvc/libBGL_wallet/libBGL_wallet.vcxproj.in",
+    "build_msvc/libBGL_wallet_tool/libBGL_wallet_tool.vcxproj.in",
+    "build_msvc/libBGL_zmq/libBGL_zmq.vcxproj.in",
+    "build_msvc/libleveldb/libleveldb.vcxproj",
+    "build_msvc/libminisketch/libminisketch.vcxproj",
+    "build_msvc/libsecp256k1/libsecp256k1.vcxproj",
+    "build_msvc/libtest_util/libtest_util.vcxproj.in",
+    "build_msvc/libunivalue/libunivalue.vcxproj",
+    "build_msvc/msbuild/tasks/hexdump.targets",
+    "build_msvc/msbuild/tasks/replaceinfile.targets",
+    "build_msvc/msvc-autogen.py",
+    "build_msvc/test_BGL-qt/test_BGL-qt.vcxproj",
+    "build_msvc/test_BGL/script_tests.json.gen",
+    "build_msvc/test_BGL/test_BGL.vcxproj",
+    "build_msvc/vcpkg.json",
+    "ci/README.md",
+    "ci/ci.sh",
+    "ci/debian_deploy.sh",
+    "ci/debian_qt_deploy.sh",
+    "ci/lint/04_install.sh",
+    "ci/lint/05_before_script.sh",
+    "ci/lint/06_script.sh",
+    "ci/lint/container-entrypoint.sh",
+    "ci/lint_imagefile",
+    "ci/lint_run_all.sh",
+    "ci/linux-debian.Dockerfile",
+    "ci/retry/README.md",
+    "ci/retry/retry",
+    "ci/test/00_setup_env.sh",
+    "ci/test/00_setup_env_arm.sh",
+    "ci/test/00_setup_env_i686_centos.sh",
+    "ci/test/00_setup_env_i686_multiprocess.sh",
+    "ci/test/00_setup_env_mac_cross.sh",
+    "ci/test/00_setup_env_mac_native.sh",
+    "ci/test/00_setup_env_native_asan.sh",
+    "ci/test/00_setup_env_native_fuzz.sh",
+    "ci/test/00_setup_env_native_fuzz_with_msan.sh",
+    "ci/test/00_setup_env_native_fuzz_with_valgrind.sh",
+    "ci/test/00_setup_env_native_msan.sh",
+    "ci/test/00_setup_env_native_nowallet_libBGLkernel.sh",
+    "ci/test/00_setup_env_native_previous_releases.sh",
+    "ci/test/00_setup_env_native_tidy.sh",
+    "ci/test/00_setup_env_native_tsan.sh",
+    "ci/test/00_setup_env_native_valgrind.sh",
+    "ci/test/00_setup_env_s390x.sh",
+    "ci/test/00_setup_env_win64.sh",
+    "ci/test/01_base_install.sh",
+    "ci/test/02_run_container.sh",
+    "ci/test/03_test_script.sh",
+    "ci/test/07_script.sh",
+    "ci/test/wrap-valgrind.sh",
+    "ci/test/wrap-wine.sh",
+    "ci/test_imagefile",
+    "ci/test_run_all.sh",
+    "configure.ac",
+    "contrib/BGL-qt.pro",
+    "contrib/README.md",
+    "contrib/asmap/README.md",
+    "contrib/asmap/asmap-tool.py",
+    "contrib/asmap/asmap.py",
+    "contrib/completions/bash/BGL-cli.bash",
+    "contrib/completions/bash/BGL-tx.bash",
+    "contrib/completions/bash/BGLd.bash",
+    "contrib/completions/fish/BGL-cli.fish",
+    "contrib/completions/fish/BGL-qt.fish",
+    "contrib/completions/fish/BGL-tx.fish",
+    "contrib/completions/fish/BGL-util.fish",
+    "contrib/completions/fish/BGL-wallet.fish",
+    "contrib/completions/fish/BGLd.fish",
+    "contrib/debian/copyright",
+    "contrib/devtools/BGL-tidy/BGL-tidy.cpp",
+    "contrib/devtools/BGL-tidy/CMakeLists.txt",
+    "contrib/devtools/BGL-tidy/README.md",
+    "contrib/devtools/BGL-tidy/example_logprintf.cpp",
+    "contrib/devtools/BGL-tidy/logprintf.cpp",
+    "contrib/devtools/BGL-tidy/logprintf.h",
+    "contrib/devtools/README.md",
+    "contrib/devtools/circular-dependencies.py",
+    "contrib/devtools/clang-format-diff.py",
+    "contrib/devtools/copyright_header.py",
+    "contrib/devtools/gen-BGL-conf.sh",
+    "contrib/devtools/gen-manpages.py",
+    "contrib/devtools/headerssync-params.py",
+    "contrib/devtools/iwyu/BGL.core.imp",
+    "contrib/devtools/security-check.py",
+    "contrib/devtools/split-debug.sh",
+    "contrib/devtools/split-debug.sh.in",
+    "contrib/devtools/symbol-check.py",
+    "contrib/devtools/test-security-check.py",
+    "contrib/devtools/test-symbol-check.py",
+    "contrib/devtools/test_deterministic_coverage.sh",
+    "contrib/devtools/test_utxo_snapshots.sh",
+    "contrib/devtools/utils.py",
+    "contrib/devtools/utxo_snapshot.sh",
+    "contrib/filter-lcov.py",
+    "contrib/guix/INSTALL.md",
+    "contrib/guix/README.md",
+    "contrib/guix/guix-attest",
+    "contrib/guix/guix-build",
+    "contrib/guix/guix-clean",
+    "contrib/guix/guix-codesign",
+    "contrib/guix/guix-verify",
+    "contrib/guix/libexec/build.sh",
+    "contrib/guix/libexec/codesign.sh",
+    "contrib/guix/libexec/prelude.bash",
+    "contrib/guix/manifest.scm",
+    "contrib/guix/patches/binutils-unaligned-default.patch",
+    "contrib/guix/patches/elfsteem-value-error-python-39.patch",
+    "contrib/guix/patches/gcc-broken-longjmp.patch",
+    "contrib/guix/patches/gcc-remap-guix-store.patch",
+    "contrib/guix/patches/glibc-guix-prefix.patch",
+    "contrib/guix/patches/nsis-disable-installer-reloc.patch",
+    "contrib/guix/patches/oscrypto-hard-code-openssl.patch",
+    "contrib/init/BGLd.conf",
+    "contrib/init/BGLd.init",
+    "contrib/init/BGLd.openrc",
+    "contrib/init/BGLd.openrcconf",
+    "contrib/init/BGLd.service",
+    "contrib/init/README.md",
+    "contrib/linearize/README.md",
+    "contrib/linearize/example-linearize.cfg",
+    "contrib/linearize/linearize-data.py",
+    "contrib/linearize/linearize-hashes.py",
+    "contrib/macdeploy/LICENSE",
+    "contrib/macdeploy/README.md",
+    "contrib/macdeploy/detached-sig-create.sh",
+    "contrib/macdeploy/gen-sdk",
+    "contrib/macdeploy/macdeployqtplus",
+    "contrib/message-capture/message-capture-docs.md",
+    "contrib/message-capture/message-capture-parser.py",
+    "contrib/qos/README.md",
+    "contrib/qos/tc.sh",
+    "contrib/seeds/README.md",
+    "contrib/seeds/generate-seeds.py",
+    "contrib/seeds/makeseeds.py",
+    "contrib/seeds/nodes_main.txt",
+    "contrib/seeds/nodes_main_manual.txt",
+    "contrib/seeds/nodes_test.txt",
+    "contrib/shell/git-utils.bash",
+    "contrib/shell/realpath.bash",
+    "contrib/signet/getcoins.py"
+  ],
+  "project": {
+    "signals": [
+      "GitHub Actions workflows present",
+      "benchmark files present",
+      "test files present"
+    ],
+    "suggested_commands": [],
+    "judge_signals": [
+      "CI workflows available"
+    ]
+  },
+  "assessment": {
+    "score": 98,
+    "verdict": "WORK_FIRST",
+    "money": 10000.0,
+    "reasons": [
+      "explicit bounty/paid/reward language",
+      "detected payout/budget \u2248 10000",
+      "acceptance/test/benchmark language",
+      "repo has detectable local judge signals",
+      "MathGraph-shaped technical terms"
+    ],
+    "risks": [
+      "crowded issue"
+    ],
+    "title": "BGL PR bounty hunt ($10000 overall budget)",
+    "body": "To get more people involved and provide motivation, we are announcing Bitgesell Pull Request bounty hunt!\r\n\r\nThe rules are simple:\r\n\r\n- You can create any reasonable pull request that may contain any modifications, including, but not limited to:\r\n  - Refactoring and simplification;\r\n  - Test fixes (1 test group/file fixed by single PR counts!);\r\n  - Cleanup of features that are no longer used (e.g. non-segwit transactions);\r\n  - Documentation and comments (but if no code changes then some reasonable amount of changes should be done to count);\r\n  - Bug fixes;\r\n- Every PR would be paid $500 in USDT upon approval, larger PRs could receive bigger payouts (PRs of lesser significance like comments editing or one-line changes could receive lesser payout).\r\n- Interested people are welcome to become maintainers of the project;\r\n",
+    "labels": []
+  }
+}
