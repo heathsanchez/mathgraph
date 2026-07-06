@@ -1,0 +1,726 @@
+[
+  {
+    "score": -49,
+    "path": "Compfiles/Bulgaria1998P2.lean",
+    "line": 38,
+    "current_line": "  have : ∠ A B C = x + y := by rw [←H2]; sorry -- need to switch to oangles?",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "    (A B C D E M : EuclideanSpace ℝ (Fin 2))\n    (H1 : dist D A = dist D C)\n    (H2 : ∠ D A B = ∠ A B C)\n    (H3 : M = midpoint ℝ B C) :\n    ∠ B E C = ∠ D A C := by\n  let x := ∠ D A C\n  have : ∠ D A C = ∠ D C A := EuclideanGeometry.angle_eq_angle_of_dist_eq H1\n  let y := ∠ C A B\n  have : ∠ A B C = x + y := by rw [←H2]; sorry -- need to switch to oangles?\n  sorry\n\n\nend Bulgaria1998P2"
+  },
+  {
+    "score": -49,
+    "path": "Compfiles/Bulgaria1998P2.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "    (H1 : dist D A = dist D C)\n    (H2 : ∠ D A B = ∠ A B C)\n    (H3 : M = midpoint ℝ B C) :\n    ∠ B E C = ∠ D A C := by\n  let x := ∠ D A C\n  have : ∠ D A C = ∠ D C A := EuclideanGeometry.angle_eq_angle_of_dist_eq H1\n  let y := ∠ C A B\n  have : ∠ A B C = x + y := by rw [←H2]; sorry -- need to switch to oangles?\n  sorry\n\n\nend Bulgaria1998P2"
+  },
+  {
+    "score": -50,
+    "path": "Compfiles/Imo2016P5.lean",
+    "line": 69,
+    "current_line": "      sorry",
+    "reasons": [
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∃"
+    ],
+    "window": "      intro h\n      have h1 : 2 ∈ Finset.Icc 1 2016 := by decide\n      have h2 := h h1\n      simp only [Finset.mem_Icc, Finset.mem_filter] at h2\n      norm_num at h2\n    · simp_rw [hp]; rw [Finset.filter_not, lemma1]; simp\n    · push Not\n      intro x\n      sorry\n  · rw [mem_lowerBounds]\n    intro j hj\n    by_contra! H\n    rw [Set.mem_setOf_eq] at hj\n    obtain ⟨L, R, hL, hR, hcard, hLR⟩ := hj\n    have h1 : ∃ i, i ∈ Finset.Icc 1 2016 ∧ i ∉ L ∧ i ∉ R := by\n      by_contra! H2\n      have h2 : Finset.card (L ∪ R) ≤ L.card + R.card := Finset.card_union_le L R"
+  },
+  {
+    "score": -57,
+    "path": "Compfiles/Bulgaria1998P6.lean",
+    "line": 36,
+    "current_line": "  have hab : Nat.gcd a b = 1 := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "\nlemma lemma_1'\n    (a b c : ℕ)\n    (ha : 0 < a)\n    (hb : 0 < b)\n    (hc : 0 < c)\n    (h : a^4 = b^4 + c^2) : False := by\n  induction' a using Nat.strongRecOn with a ih\n  have hab : Nat.gcd a b = 1 := sorry\n  obtain c_even | c_odd := Nat.even_or_odd c\n  · have a_odd : Odd a := sorry\n    have b_odd : Odd b := sorry\n    sorry\n  · sorry\n\nlemma lemma_1\n    {s t u : ℤ}"
+  },
+  {
+    "score": -57,
+    "path": "Compfiles/Bulgaria1998P6.lean",
+    "line": 38,
+    "current_line": "  · have a_odd : Odd a := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "    (a b c : ℕ)\n    (ha : 0 < a)\n    (hb : 0 < b)\n    (hc : 0 < c)\n    (h : a^4 = b^4 + c^2) : False := by\n  induction' a using Nat.strongRecOn with a ih\n  have hab : Nat.gcd a b = 1 := sorry\n  obtain c_even | c_odd := Nat.even_or_odd c\n  · have a_odd : Odd a := sorry\n    have b_odd : Odd b := sorry\n    sorry\n  · sorry\n\nlemma lemma_1\n    {s t u : ℤ}\n    (hs : 0 < s)\n    (ht : 0 < t)"
+  },
+  {
+    "score": -57,
+    "path": "Compfiles/Bulgaria1998P6.lean",
+    "line": 39,
+    "current_line": "    have b_odd : Odd b := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "    (ha : 0 < a)\n    (hb : 0 < b)\n    (hc : 0 < c)\n    (h : a^4 = b^4 + c^2) : False := by\n  induction' a using Nat.strongRecOn with a ih\n  have hab : Nat.gcd a b = 1 := sorry\n  obtain c_even | c_odd := Nat.even_or_odd c\n  · have a_odd : Odd a := sorry\n    have b_odd : Odd b := sorry\n    sorry\n  · sorry\n\nlemma lemma_1\n    {s t u : ℤ}\n    (hs : 0 < s)\n    (ht : 0 < t)\n    (hu : 0 < u)"
+  },
+  {
+    "score": -57,
+    "path": "Compfiles/Bulgaria1998P6.lean",
+    "line": 40,
+    "current_line": "    sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "    (hb : 0 < b)\n    (hc : 0 < c)\n    (h : a^4 = b^4 + c^2) : False := by\n  induction' a using Nat.strongRecOn with a ih\n  have hab : Nat.gcd a b = 1 := sorry\n  obtain c_even | c_odd := Nat.even_or_odd c\n  · have a_odd : Odd a := sorry\n    have b_odd : Odd b := sorry\n    sorry\n  · sorry\n\nlemma lemma_1\n    {s t u : ℤ}\n    (hs : 0 < s)\n    (ht : 0 < t)\n    (hu : 0 < u)\n    (h : s^4 - t^4 = u^2) : False := by"
+  },
+  {
+    "score": -57,
+    "path": "Compfiles/Bulgaria1998P6.lean",
+    "line": 41,
+    "current_line": "  · sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "    (hc : 0 < c)\n    (h : a^4 = b^4 + c^2) : False := by\n  induction' a using Nat.strongRecOn with a ih\n  have hab : Nat.gcd a b = 1 := sorry\n  obtain c_even | c_odd := Nat.even_or_odd c\n  · have a_odd : Odd a := sorry\n    have b_odd : Odd b := sorry\n    sorry\n  · sorry\n\nlemma lemma_1\n    {s t u : ℤ}\n    (hs : 0 < s)\n    (ht : 0 < t)\n    (hu : 0 < u)\n    (h : s^4 - t^4 = u^2) : False := by\n  replace h : s^4 = t^4 + u^2 := eq_add_of_sub_eq' h"
+  },
+  {
+    "score": -57,
+    "path": "Compfiles/CIIM2022P6.lean",
+    "line": 29,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "\nnamespace CIIM2022P6\n\ndef d : ℕ → ℕ\n| m => (Nat.divisors m).card\n\nproblem ciim2022_p6 (n : ℕ) (hn : 0 < n) :\n    d (Nat.factorial (n + 1)) ≤ 2 * d (Nat.factorial n) := by\n  sorry\n\n\nend CIIM2022P6"
+  },
+  {
+    "score": -57,
+    "path": "Compfiles/Imo2021P3.lean",
+    "line": 53,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "    (affineIndependent_ADC : AffineIndependent ℝ ![A, D, C])\n    (O₁_eq_circumcenter_ADC :\n      O₁ = (⟨_, affineIndependent_ADC⟩ : Triangle ℝ P).circumcenter)\n    (affineIndependent_EXD : AffineIndependent ℝ ![E, X, D])\n    (O₂_eq_circumcenter_EXD :\n      O₂ = (⟨_, affineIndependent_EXD⟩ : Triangle ℝ P).circumcenter) :\n    E ≠ F ∧ O₁ ≠ O₂ ∧\n    (line[ℝ, B, C] ∩ line[ℝ, E, F] ∩ line[ℝ, O₁, O₂] : Set P).Nonempty := by\n  sorry\n\nend Imo2021P3"
+  },
+  {
+    "score": -57,
+    "path": "Compfiles/Usa1977P1.lean",
+    "line": 40,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "\nnoncomputable def geomSum (m : ℕ+) : ℤ[X] :=\n  ∑ k ∈ Finset.range (m + 1), X ^ k\n\ndetermine solution_set : Set (ℕ+ × ℕ+) := sorry\n\nproblem usa1977_p1 (m n : ℕ+) :\n    (m, n) ∈ solution_set ↔ geomSum m ∣ geomSumStep m n := by\n  sorry\n\nend Usa1977P1"
+  },
+  {
+    "score": -62,
+    "path": "ProblemExtraction.lean",
+    "line": 219,
+    "current_line": "During problem extraction, the proof is replaced by a `sorry`.",
+    "reasons": [
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "  let ext := problemExtractionExtension\n  modifyEnv fun env => ext.addEntry env ⟨mod, EntryVariant.snip_end endPos⟩\n\n  modifyEnv fun env => solutionExtractionExtension.addEntry env\n    ⟨mod, EntryVariant.replace ⟨startPos, endPos, \"\"⟩⟩\n\n/--\nA synonym for `theorem`. Indicates that a declaration is a problem statement.\nDuring problem extraction, the proof is replaced by a `sorry`.\n-/\nsyntax (name := problem) declModifiers \"problem \" declId ppIndent(declSig) declVal : command\n\nelab_rules : command\n| `(command| $dm:declModifiers problem%$pb $di:declId $ds:declSig $dv:declVal) => do\n  let mod := (←getEnv).header.mainModule\n\n  let (.some pStartPos, .some pEndPos) := (pb.getPos?, pb.getTailPos?)"
+  },
+  {
+    "score": -62,
+    "path": "ProblemExtraction.lean",
+    "line": 240,
+    "current_line": "    EntryVariant.replace ⟨vStartPos, vEndPos, \":= sorry\"⟩⟩",
+    "reasons": [
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "\n  modifyEnv fun env => solutionExtractionExtension.addEntry env ⟨mod,\n    EntryVariant.replace ⟨pStartPos, pEndPos, \"theorem\"⟩⟩\n\n  let (.some vStartPos, .some vEndPos) := (dv.raw.getPos?, dv.raw.getTailPos?)\n   | throwError \"failed to get declVal syntax\"\n\n  modifyEnv fun env => problemExtractionExtension.addEntry env ⟨mod,\n    EntryVariant.replace ⟨vStartPos, vEndPos, \":= sorry\"⟩⟩\n\n  let cmd ← `(command | $dm:declModifiers theorem $di $ds $dv)\n  Lean.Elab.Command.elabCommand cmd\n\n/--\nA synonym for `abbrev`. Marks data that is intended to be filled in as part of\na solution. During problem extraction, the body of the decl is replaced by a `sorry`.\nDuring judging, a human will inspect the filled-in body"
+  },
+  {
+    "score": -62,
+    "path": "ProblemExtraction.lean",
+    "line": 247,
+    "current_line": "a solution. During problem extraction, the body of the decl is replaced by a `sorry`.",
+    "reasons": [
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "  modifyEnv fun env => problemExtractionExtension.addEntry env ⟨mod,\n    EntryVariant.replace ⟨vStartPos, vEndPos, \":= sorry\"⟩⟩\n\n  let cmd ← `(command | $dm:declModifiers theorem $di $ds $dv)\n  Lean.Elab.Command.elabCommand cmd\n\n/--\nA synonym for `abbrev`. Marks data that is intended to be filled in as part of\na solution. During problem extraction, the body of the decl is replaced by a `sorry`.\nDuring judging, a human will inspect the filled-in body\nto see whether it is reasonable.\n-/\nsyntax (name := determine)\n  declModifiers \"determine \" declId ppIndent(optDeclSig) declVal : command\n\nelab_rules : command\n| `(command| $dm:declModifiers determine%$dt $di:declId $ds:optDeclSig $dv:declVal) => do"
+  },
+  {
+    "score": -62,
+    "path": "ProblemExtraction.lean",
+    "line": 271,
+    "current_line": "    EntryVariant.replace ⟨vStartPos, vEndPos, \":= sorry\"⟩⟩",
+    "reasons": [
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case"
+    ],
+    "window": "\n  modifyEnv fun env => solutionExtractionExtension.addEntry env ⟨mod,\n    EntryVariant.replace ⟨dStartPos, dEndPos, \"/- determine -/ abbrev\"⟩⟩\n\n  let (.some vStartPos, .some vEndPos) := (dv.raw.getPos?, dv.raw.getTailPos?)\n   | throwError \"failed to get declVal syntax\"\n\n  modifyEnv fun env => problemExtractionExtension.addEntry env ⟨mod,\n    EntryVariant.replace ⟨vStartPos, vEndPos, \":= sorry\"⟩⟩\n\n  let cmd ← `(command | set_option linter.unusedVariables false in $dm:declModifiers abbrev $di:declId $ds:optDeclSig $dv:declVal)\n  Lean.Elab.Command.elabCommand cmd\n\n  match di with\n  | `(Lean.Parser.Command.declId | $i:ident) =>\n    let name ← Lean.resolveGlobalConstNoOverload i\n    modifyEnv fun env => determineDeclsExtension.addEntry env name"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Canada1998P5.lean",
+    "line": 35,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∃"
+    ],
+    "window": "def A (m : ℕ) (hm : 0 < m) : ℕ → ℤ\n| 0 => 0\n| 1 => (↑m)\n| n + 2 => (m : ℤ)^2 * A m hm (n + 1) - A m hm n\n\nproblem canada1998_p5 (m : ℕ) (hm : 0 < m) (a b : ℕ) (hab : a ≤ b) :\n    a^2 + b^2 = m^2 * (a * b + 1) ↔\n     ∃ n : ℕ, (a:ℤ) = A m hm n ∧ (b:ℤ) = A m hm (n + 1) := by\n  sorry\n\n\n\nend Canada1998P5"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Imo2022P6.lean",
+    "line": 63,
+    "current_line": "determine answer : ℕ+ → ℕ := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∃"
+    ],
+    "window": "structure NordicSquare.UphillPath {n : ℕ} (ns : NordicSquare n) where\n  /-- The cells on the path. -/\n  cells : List (Cell n)\n  nonempty : cells ≠ []\n  first_valley : ns.Valley (cells.head nonempty)\n  adjacent : cells.IsChain Adjacent\n  increasing : cells.IsChain fun x y ↦ (ns x : ℕ) < (ns y : ℕ)\n\ndetermine answer : ℕ+ → ℕ := sorry\n\nproblem imo2022_p6 {n : ℕ+} :\n    IsLeast {k : ℕ | ∃ ns : NordicSquare n, #ns.UphillPath = k} (answer n) := by\n  sorry\n\nend Imo2022P6"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Imo2022P6.lean",
+    "line": 67,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∃"
+    ],
+    "window": "  first_valley : ns.Valley (cells.head nonempty)\n  adjacent : cells.IsChain Adjacent\n  increasing : cells.IsChain fun x y ↦ (ns x : ℕ) < (ns y : ℕ)\n\ndetermine answer : ℕ+ → ℕ := sorry\n\nproblem imo2022_p6 {n : ℕ+} :\n    IsLeast {k : ℕ | ∃ ns : NordicSquare n, #ns.UphillPath = k} (answer n) := by\n  sorry\n\nend Imo2022P6"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Imo2023P6.lean",
+    "line": 59,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∃"
+    ],
+    "window": "    (affineIndependent_A₁B₁C₁ : AffineIndependent ℝ ![A₁, B₁, C₁])\n    (scalene_A₁B₁C₁ : (⟨_, affineIndependent_A₁B₁C₁⟩ : Triangle ℝ P).Scalene) :\n    ∃ affineIndependent_AA₁A₂ : AffineIndependent ℝ ![A, A₁, A₂],\n    ∃ affineIndependent_BB₁B₂ : AffineIndependent ℝ ![B, B₁, B₂],\n    ∃ affineIndependent_CC₁C₂ : AffineIndependent ℝ ![C, C₁, C₂],\n    2 ≤ #((⟨_, affineIndependent_AA₁A₂⟩ : Triangle ℝ P).circumsphere ∩\n          (⟨_, affineIndependent_BB₁B₂⟩ : Triangle ℝ P).circumsphere ∩\n          (⟨_, affineIndependent_CC₁C₂⟩ : Triangle ℝ P).circumsphere : Set P) := by\n  sorry\n\nend Imo2023P6"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Imo2025P2.lean",
+    "line": 57,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∃"
+    ],
+    "window": "    (E_mem_inter : E ∈ (line[ℝ, A, P] ∩ Ω : Set Pt)) (E_ne_A : E ≠ A)\n    (F_mem_inter : F ∈ (line[ℝ, A, P] ∩ Γ : Set Pt)) (F_ne_A : F ≠ A)\n    (affineIndependent_PMN : AffineIndependent ℝ ![P, M, N])\n    (H_eq_orthocenter :\n      H = Triangle.orthocenter (⟨_, affineIndependent_PMN⟩ : Triangle ℝ Pt)) :\n    ∃ affineIndependent_BEF : AffineIndependent ℝ ![B, E, F],\n      (⟨_, affineIndependent_BEF⟩ : Triangle ℝ Pt).circumsphere.IsTangent\n        (AffineSubspace.mk' H line[ℝ, A, P].direction) := by\n  sorry\n\nend Imo2025P2"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Usa1977P1.lean",
+    "line": 36,
+    "current_line": "determine solution_set : Set (ℕ+ × ℕ+) := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Polynomial"
+    ],
+    "window": "open Polynomial\n\nnoncomputable def geomSumStep (m n : ℕ+) : ℤ[X] :=\n  ∑ k ∈ Finset.range (m + 1), X ^ (k * n : ℕ)\n\nnoncomputable def geomSum (m : ℕ+) : ℤ[X] :=\n  ∑ k ∈ Finset.range (m + 1), X ^ k\n\ndetermine solution_set : Set (ℕ+ × ℕ+) := sorry\n\nproblem usa1977_p1 (m n : ℕ+) :\n    (m, n) ∈ solution_set ↔ geomSum m ∣ geomSumStep m n := by\n  sorry\n\nend Usa1977P1"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Usa1984P5.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀"
+    ],
+    "window": "\nproblem usa1984_p5 (n : ℕ) (hn : 0 < n) (P : ℝ[X])\n    (hdeg : P.natDegree = 3 * n)\n    (h0 : ∀ k ∈ Finset.range (n + 1), P.eval (((3 * k : ℕ) : ℝ)) = 2)\n    (h1 : ∀ k ∈ Finset.range n, P.eval (((3 * k + 1 : ℕ) : ℝ)) = 1)\n    (h2 : ∀ k ∈ Finset.range n, P.eval (((3 * k + 2 : ℕ) : ℝ)) = 0)\n    (h730 : P.eval (((3 * n + 1 : ℕ) : ℝ)) = 730) :\n    n = solution_value := by\n  sorry\n\nend Usa1984P5"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Usa1988P4.lean",
+    "line": 51,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∃"
+    ],
+    "window": "    (hIBC : AffineIndependent ℝ ![I A B C hABC, B, C])\n    (hICA : AffineIndependent ℝ ![I A B C hABC, C, A]) :\n    ∃ ω : EuclideanGeometry.Sphere P,\n      0 < ω.radius ∧\n        ω.center = O A B C hABC ∧\n        O (I A B C hABC) A B hIAB ∈ ω ∧\n        O (I A B C hABC) B C hIBC ∈ ω ∧\n        O (I A B C hABC) C A hICA ∈ ω := by\n  sorry\n\nend Usa1988P4"
+  },
+  {
+    "score": -67,
+    "path": "Compfiles/Usa2017P5.lean",
+    "line": 26,
+    "current_line": "determine solution_set : Set ℝ := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∃"
+    ],
+    "window": "\n  1. only finitely many distinct labels occur, and\n  2. for each label i, the distance between any two points labeled i\n     is at least cⁱ.\n-/\n\nnamespace Usa2017P5\n\ndetermine solution_set : Set ℝ := sorry\n\nnoncomputable def dist : ℤ × ℤ → ℤ × ℤ → ℝ\n| ⟨x1, y1⟩, ⟨x2, y2⟩ => Real.sqrt ((x2 - x1)^2 + (y2 - y1)^2)\n\nproblem usa2017_p5 (c : ℝ) :\n    c ∈ solution_set ↔\n    (0 < c ∧\n     ∃ l : ℤ × ℤ → ℕ,"
+  },
+  {
+    "score": -69,
+    "path": "Compfiles/Imo2010P3.lean",
+    "line": 37,
+    "current_line": "  · sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "determine SolutionSet : Set (ℤ>0 → ℤ>0) := { f | f = id ∨ ∃ c, ∀ x, f x = x + c }\n\nproblem imo2010_p3 (g : ℤ>0 → ℤ>0) :\n    g ∈ SolutionSet ↔ ∀ m n, IsSquare ((g m + n) * (g n + m)) := by\n  constructor\n  · rintro (rfl | ⟨c, hc⟩) m n\n    · use m + n; rw [id, id, add_comm m n]\n    · use m + n + c; rw [hc m, hc n]; simp only [add_comm, add_left_comm]\n  · sorry\n\n\nend Imo2010P3"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Imo1988P4.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\nproblem imo1988_p4 :\n    ∃ (n : ℕ) (I : Fin n → Set ℝ),\n      (∀ i, (I i).OrdConnected) ∧\n      (Pairwise fun i j ↦ Disjoint (I i) (I j)) ∧\n      (⋃ i, I i) =\n        {x : ℝ | (5 : ℝ) / 4 ≤ ∑ k ∈ Finset.Icc (1 : ℕ) 70, (k : ℝ) / (x - k)} ∧\n      ∑ i, MeasureTheory.volume (I i) = 1988 := by\n  sorry\n\nend Imo1988P4"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Imo1989P3.lean",
+    "line": 36,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "problem imo1989_p3 (n k : ℕ) (hn : 0 < n) (hk : 0 < k)\n    (S : Finset Pt)\n    (hcard : S.card = n)\n    (hcol : ∀ p₁ ∈ S, ∀ p₂ ∈ S, ∀ p₃ ∈ S,\n              p₁ ≠ p₂ → p₁ ≠ p₃ → p₂ ≠ p₃ → ¬ Collinear ℝ {p₁, p₂, p₃})\n    (hequi : ∀ P ∈ S, ∃ (r : ℝ) (T : Finset Pt),\n               T ⊆ S ∧ k ≤ T.card ∧ ∀ Q ∈ T, dist P Q = r) :\n    (k : ℝ) < 1 / 2 + Real.sqrt (2 * n) := by\n  sorry\n\nend Imo1989P3"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Imo2009P3.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\n/-- A sequence `f : ℕ → ℕ` is an arithmetic progression. -/\ndef IsArithProg (f : ℕ → ℕ) : Prop := ∃ d : ℕ, ∀ n, f (n + 1) = f n + d\n\nproblem imo2009_p3 (s : ℕ → ℕ) (hs : StrictMono s) (hpos : ∀ i, 0 < s i)\n    (h1 : IsArithProg (fun n ↦ s (s n)))\n    (h2 : IsArithProg (fun n ↦ s (s n + 1))) :\n    IsArithProg s := by\n  sorry\n\nend Imo2009P3"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Imo2016P2.lean",
+    "line": 72,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "  (∀ k : Fin n, Balanced f (col k)) ∧\n  (∀ s : ℕ, 3 ∣ (diagSum (n := n) s).card → Balanced f (diagSum s)) ∧\n  (∀ d : ℤ, 3 ∣ (diagDiff (n := n) d).card → Balanced f (diagDiff d))\n\ndetermine solution : Set ℕ := { n | 9 ∣ n }\n\nproblem imo2016_p2 (n : ℕ) (hn : 0 < n) :\n    n ∈ solution ↔ ∃ f : Fin n → Fin n → Letter, MODTable f := by\n  sorry\n\nend Imo2016P2"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Imo2017P6.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\n-/\n\nnamespace Imo2017P6\n\nproblem imo2017_p6 (S : Finset (ℤ × ℤ)) (hS : ∀ s ∈ S, gcd s.1 s.2 = 1) :\n    ∃ n : ℕ, 0 < n ∧ ∃ a : ℕ → ℤ,\n      ∀ s ∈ S, ∑ i ∈ Finset.range n, a i * s.1 ^ i * s.2 ^ (n - i) = 1 := by\n  sorry\n\n\nend Imo2017P6"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Imo2018P5.lean",
+    "line": 37,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "    (a : ℕ → ℤ)\n    (apos : ∀ n, 0 < a n)\n    (N : ℕ)\n    (hN : 0 < N)\n    (h : ∀ n, N ≤ n →\n      ∃ z : ℤ,\n        z = ∑ i ∈ Finset.range n, (a i : ℚ) / a ((i + 1) % n))\n    : ∃ M, ∀ m, M ≤ m → a m = a (m + 1) := by\n  sorry\n\n\nend Imo2018P5"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Imo2020P3.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\nnamespace Imo2020P3\n\nopen scoped Finset\n\nproblem imo2020_p3 {n : ℕ} {c : Fin (4 * n) → Fin n} (h : ∀ i, #{j | c j = i} = 4) :\n    ∃ S : Finset (Fin (4 * n)), ∑ i ∈ S, ((i : ℕ) + 1) = ∑ i ∈ Sᶜ, ((i : ℕ) + 1) ∧\n      ∀ i, #{j ∈ S | c j = i} = 2 := by\n  sorry\n\nend Imo2020P3"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Imo2020P5.lean",
+    "line": 27,
+    "current_line": "determine SolutionSet : Set ℕ := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Fintype.card",
+      "hard_term_∀"
+    ],
+    "window": "the numbers on each pair of cards is also the geometric mean of\nthe numbers on some collection of one or more cards.\n\nFor which n does it follow that the numbers on the cards are all equal?\n-/\n\nnamespace Imo2020P5\n\ndetermine SolutionSet : Set ℕ := sorry\n\nnoncomputable def geometric_mean {α : Type} (f : α → ℕ+) (s : Finset α) : ℝ :=\n  (∏ i ∈ s, (f i : ℝ))^((1:ℝ)/s.card)\n\nproblem imo2020_p5 (n : ℕ) :\n    n ∈ SolutionSet ↔\n    (1 < n ∧\n     (∀ α : Type, [Fintype α] → Fintype.card α = n →"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Usa1984P5.lean",
+    "line": 30,
+    "current_line": "determine solution_value : ℕ := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Polynomial",
+      "hard_term_∀"
+    ],
+    "window": "\nDetermine n.\n-/\n\nnamespace Usa1984P5\n\nopen Polynomial\n\ndetermine solution_value : ℕ := sorry\n\nproblem usa1984_p5 (n : ℕ) (hn : 0 < n) (P : ℝ[X])\n    (hdeg : P.natDegree = 3 * n)\n    (h0 : ∀ k ∈ Finset.range (n + 1), P.eval (((3 * k : ℕ) : ℝ)) = 2)\n    (h1 : ∀ k ∈ Finset.range n, P.eval (((3 * k + 1 : ℕ) : ℝ)) = 1)\n    (h2 : ∀ k ∈ Finset.range n, P.eval (((3 * k + 2 : ℕ) : ℝ)) = 0)\n    (h730 : P.eval (((3 * n + 1 : ℕ) : ℝ)) = 730) :\n    n = solution_value := by"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Usa1996P6.lean",
+    "line": 31,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "def UniqueRepresentationSet (X : Set ℤ) : Prop :=\n  ∀ n : ℤ, ∃! p : ℤ × ℤ,\n    p.1 ∈ X ∧ p.2 ∈ X ∧ p.1 + 2 * p.2 = n\n\ndetermine does_exist : Bool := true\n\nproblem usa1996_p6 :\n    does_exist ↔ ∃ X : Set ℤ, UniqueRepresentationSet X := by\n  sorry\n\nend Usa1996P6"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Usa2017P5.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "problem usa2017_p5 (c : ℝ) :\n    c ∈ solution_set ↔\n    (0 < c ∧\n     ∃ l : ℤ × ℤ → ℕ,\n       (Set.range l).Finite ∧\n       (∀ p, 0 < l p) ∧\n       ∀ {p1 p2}, p1 ≠ p2 → (l p1 = l p2) →\n            c ^ (l p1) ≤ dist p1 p2) := by\n  sorry\n\n\nend Usa2017P5"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Usa2023P5.lean",
+    "line": 60,
+    "current_line": "  · sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "problem usa2023_p5 (n : ℕ) (hn : 2 < n) :\n    n ∈ solution_set ↔\n    (∀ a : (Fin n → Fin n → Fin (n^2)),\n      (ha : a.Injective2) → row_valid (Nat.zero_lt_of_lt hn) a ha →\n        ∃ p : Fin n → Fin n → Fin n, ∃ hp : (∀ r, (p r).Injective),\n            col_valid (Nat.zero_lt_of_lt hn) (fun r c ↦ a r (p r c))\n              (injective_of_permuted_rows ha hp)) := by\n  constructor\n  · sorry\n  · sorry\n\n\nend Usa2023P5"
+  },
+  {
+    "score": -77,
+    "path": "Compfiles/Usa2023P5.lean",
+    "line": 61,
+    "current_line": "  · sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "    n ∈ solution_set ↔\n    (∀ a : (Fin n → Fin n → Fin (n^2)),\n      (ha : a.Injective2) → row_valid (Nat.zero_lt_of_lt hn) a ha →\n        ∃ p : Fin n → Fin n → Fin n, ∃ hp : (∀ r, (p r).Injective),\n            col_valid (Nat.zero_lt_of_lt hn) (fun r c ↦ a r (p r c))\n              (injective_of_permuted_rows ha hp)) := by\n  constructor\n  · sorry\n  · sorry\n\n\nend Usa2023P5"
+  },
+  {
+    "score": -79,
+    "path": "Compfiles/Imo2023P5.lean",
+    "line": 45,
+    "current_line": "determine solution_value (n : ℕ) : ℕ := sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Fintype.card",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "  ⟨i.val + 1, by aesop⟩\n\nstructure NinjaPath (n : ℕ) where\n  steps : (i : Finset.Icc 1 n) → Fin i.val\n  steps_valid : ∀ i : Finset.Icc 1 n, (h : i.val + 1 ≤ n) →\n     ((steps i).val = steps (next_row i h) ∨\n      (steps i).val + 1 = steps (next_row i h))\n\ndetermine solution_value (n : ℕ) : ℕ := sorry\n\nproblem imo2023_p5 (n : ℕ) :\n    IsGreatest {k | ∀ j : JapaneseTriangle n,\n                    ∃ p : NinjaPath n,\n                      k ≤ Fintype.card {i // j.red i = p.steps i}}\n               (solution_value n) := by\n  sorry\n"
+  },
+  {
+    "score": -82,
+    "path": "Compfiles/Imo2021P5.lean",
+    "line": 49,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Equiv",
+      "hard_term_∃"
+    ],
+    "window": "  (p.1.trans (Equiv.swap (p.1.swapped p.2).1 (p.1.swapped p.2).2), p.2 + 1)\n\n/-- The position after `n` moves. -/\ndef Position.nth (p : Position) (n : Fin 2021) : Position := (move^[n] (p, 0)).1\n\nproblem imo2021_p5 (p : Position) :\n    ∃ k, (((p.nth k).swapped k).1 < k ∧ k < ((p.nth k).swapped k).2) ∨\n      (((p.nth k).swapped k).2 < k ∧ k < ((p.nth k).swapped k).1) := by\n  sorry\n\nend Imo2021P5"
+  },
+  {
+    "score": -82,
+    "path": "Compfiles/Usa1999P1.lean",
+    "line": 47,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "    (ha : ∀ x : checkerboard n, x ∈ c ∨ (∃ y ∈ c, adjacent x y))\n    (hb : ∀ x ∈ c, ∀ y ∈ c,\n      ∃ p : List (checkerboard n),\n        (∀ z, z ∈ p → z ∈ c) ∧\n        List.IsChain adjacent p ∧\n        List.head? p = x ∧\n        List.getLast? p = y) :\n    n^2 ≤ c.card * 3 + 2 := by\n  sorry\n\n\nend Usa1999P1"
+  },
+  {
+    "score": -87,
+    "path": "Compfiles/Imo1997P4.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Matrix",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "def SilverMatrix (n : ℕ) (M : Fin n → Fin n → ℕ) : Prop :=\n  (∀ i j, M i j ∈ Finset.Icc 1 (2 * n - 1)) ∧\n  (∀ i, (Finset.univ.image (fun j ↦ M i j) ∪ Finset.univ.image (fun j ↦ M j i))\n          = Finset.Icc 1 (2 * n - 1))\n\nproblem imo1997_p4 :\n    (¬ ∃ M : Fin 1997 → Fin 1997 → ℕ, SilverMatrix 1997 M) ∧\n    {n : ℕ | ∃ M : Fin n → Fin n → ℕ, SilverMatrix n M}.Infinite := by\n  sorry\n\nend Imo1997P4"
+  },
+  {
+    "score": -87,
+    "path": "Compfiles/Imo2020P5.lean",
+    "line": 40,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Fintype.card",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "problem imo2020_p5 (n : ℕ) :\n    n ∈ SolutionSet ↔\n    (1 < n ∧\n     (∀ α : Type, [Fintype α] → Fintype.card α = n →\n         ∀ f : α → ℕ+,\n           (Pairwise fun a b ↦ ∃ s : Finset α,\n              s.Nonempty ∧ geometric_mean f s = (((f a):ℝ) + f b) / 2)\n           → ∃ y, ∀ a, f a = y )) := by\n  sorry\n\nend Imo2020P5"
+  },
+  {
+    "score": -87,
+    "path": "Compfiles/Imo2022P3.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Condition",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "def Condition (k : ℕ) (S : Finset ℕ) (p : Fin #S ≃ S) : Prop :=\n  ∀ i, have : NeZero #S := ⟨i.pos.ne'⟩\n  ∃ x : ℕ, 0 < x ∧ ((p i : ℕ) * (p (i + 1) : ℕ)) = x ^ 2 + x + k\n\nproblem imo2023_p3\n    {k : ℕ} (hk : 0 < k) (S : Finset ℕ) (hS : ∀ p ∈ S, Odd p ∧ Nat.Prime p)\n    {p₁ p₂ : Fin #S ≃ S} (hp₁ : Condition k S p₁) (hp₂ : Condition k S p₂) :\n    (∃ i, ∀ j, p₂ j = p₁ (j + i)) ∨ ∃ i, ∀ j, p₂ j = p₁ (Fin.rev j + i) := by\n  sorry\n\nend Imo2022P3"
+  },
+  {
+    "score": -87,
+    "path": "Compfiles/Imo2023P5.lean",
+    "line": 52,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Fintype.card",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\ndetermine solution_value (n : ℕ) : ℕ := sorry\n\nproblem imo2023_p5 (n : ℕ) :\n    IsGreatest {k | ∀ j : JapaneseTriangle n,\n                    ∃ p : NinjaPath n,\n                      k ≤ Fintype.card {i // j.red i = p.steps i}}\n               (solution_value n) := by\n  sorry\n\n\nend Imo2023P5"
+  },
+  {
+    "score": -107,
+    "path": "Compfiles/Imo2023P3.lean",
+    "line": 30,
+    "current_line": "determine SolutionSet {k : ℕ} (hk : 2 ≤ k) : Set (ℕ+ → ℕ+) := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Polynomial",
+      "hard_term_Monic",
+      "hard_term_degree",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\n  P(aₙ) = aₙ₊₁aₙ₊₂⋯aₙ₊ₖ\n\nfor every integer n ≥ 1.\n-/\n\nnamespace Imo2023P3\n\ndetermine SolutionSet {k : ℕ} (hk : 2 ≤ k) : Set (ℕ+ → ℕ+) := sorry\n\nproblem imo2023_p3 {k : ℕ} (hk : 2 ≤ k) (a : ℕ+ → ℕ+) :\n    a ∈ SolutionSet hk ↔\n    (∃ P : Polynomial ℤ, P.Monic ∧ P.degree = k ∧\n     (∀ n, n ≤ k → 0 ≤ P.coeff n) ∧\n      ∀ n : ℕ+,\n        P.eval ((a n) : ℤ) =\n        ∏ i ∈ Finset.range k, a ⟨n + i + 1, Nat.succ_pos _⟩) := by"
+  },
+  {
+    "score": -107,
+    "path": "Compfiles/Imo2023P3.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_calc_or_case",
+      "hard_term_Polynomial",
+      "hard_term_Monic",
+      "hard_term_degree",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\nproblem imo2023_p3 {k : ℕ} (hk : 2 ≤ k) (a : ℕ+ → ℕ+) :\n    a ∈ SolutionSet hk ↔\n    (∃ P : Polynomial ℤ, P.Monic ∧ P.degree = k ∧\n     (∀ n, n ≤ k → 0 ≤ P.coeff n) ∧\n      ∀ n : ℕ+,\n        P.eval ((a n) : ℤ) =\n        ∏ i ∈ Finset.range k, a ⟨n + i + 1, Nat.succ_pos _⟩) := by\n  sorry\n\n\nend Imo2023P3"
+  }
+]
