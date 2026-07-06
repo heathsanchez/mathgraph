@@ -1,0 +1,28 @@
+specs/LA0521_specs.lean:5:37: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:12:40: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:27:4: warning: declaration uses `sorry`
+specs/LA0521_specs.lean:37:41: error: unsolved goals
+queries : List (Int × Int × Int × Int)
+results : List Int
+i : Nat
+k n a b : Int
+h_precond :
+  0 < queries.length ∧
+    ∀ (i : Nat) (a : i < queries.length),
+      ValidQuery queries[i].fst queries[i].2.fst queries[i].2.2.fst queries[i].2.2.snd
+⊢ ValidQuery k n a b
+specs/LA0521_specs.lean:42:41: error: unsolved goals
+queries : List (Int × Int × Int × Int)
+results : List Int
+i : Nat
+k n a b : Int
+h_precond :
+  0 < queries.length ∧
+    ∀ (i : Nat) (a : i < queries.length),
+      ValidQuery queries[i].fst queries[i].2.fst queries[i].2.2.fst queries[i].2.2.snd
+⊢ ValidQuery k n a b
+specs/LA0521_specs.lean:46:8: warning: declaration uses `sorry`

@@ -1,0 +1,22 @@
+specs/LA0521_specs.lean:5:37: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:12:40: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:27:4: warning: declaration uses `sorry`
+specs/LA0521_specs.lean:38:16: error: Function expected at
+  h_precond
+but this term has type
+  solve_precond queries
+
+Note: Expected a function because this term is being applied to the argument
+  i
+specs/LA0521_specs.lean:43:16: error: Function expected at
+  h_precond
+but this term has type
+  solve_precond queries
+
+Note: Expected a function because this term is being applied to the argument
+  i
+specs/LA0521_specs.lean:46:8: warning: declaration uses `sorry`

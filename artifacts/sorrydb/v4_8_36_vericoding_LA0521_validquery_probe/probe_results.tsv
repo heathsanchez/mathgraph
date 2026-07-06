@@ -1,0 +1,5 @@
+variant	rc	new_sorry_delta
+v01_exact_from_precond	1	-2
+v02_cases_h_then_exact	1	-2
+v03_first_assumption_second_length_rw	1	-2
+v04_simp_all	1	-2

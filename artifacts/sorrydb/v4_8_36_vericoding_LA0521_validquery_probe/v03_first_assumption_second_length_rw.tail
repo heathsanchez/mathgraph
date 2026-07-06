@@ -1,0 +1,38 @@
+specs/LA0521_specs.lean:5:37: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:12:40: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:27:4: warning: declaration uses `sorry`
+specs/LA0521_specs.lean:39:28: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  d ≥ 0
+  c ≥ 1
+  c - d ≤ 0
+where
+ c := ↑queries.length
+ d := ↑i
+specs/LA0521_specs.lean:40:16: error: Function expected at
+  h_precond
+but this term has type
+  solve_precond queries
+
+Note: Expected a function because this term is being applied to the argument
+  i
+specs/LA0521_specs.lean:46:28: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  d ≥ 0
+  c ≥ 1
+  c - d ≤ 0
+where
+ c := ↑queries.length
+ d := ↑i
+specs/LA0521_specs.lean:47:16: error: Function expected at
+  h_precond
+but this term has type
+  solve_precond queries
+
+Note: Expected a function because this term is being applied to the argument
+  i
+specs/LA0521_specs.lean:50:8: warning: declaration uses `sorry`
