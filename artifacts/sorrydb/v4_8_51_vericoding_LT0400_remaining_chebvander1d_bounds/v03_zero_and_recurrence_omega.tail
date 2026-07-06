@@ -1,0 +1,25 @@
+specs/LT0400_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0400_specs.lean:27:20: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  a - b ≥ 0
+where
+ a := ↑k
+ b := ↑deg
+specs/LT0400_specs.lean:29:24: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 0
+  a ≥ 0
+  a - b ≥ 1
+where
+ a := ↑k
+ b := ↑deg
+specs/LT0400_specs.lean:31:24: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≥ 1
+  a ≥ 0
+  a - b ≤ -2
+where
+ a := ↑deg
+ b := ↑k

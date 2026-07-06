@@ -1,0 +1,6 @@
+variant	rc	new_sorry_delta
+v01_zero_and_one_omega	1	-2
+v02_zero_and_one_succ_le	1	-2
+v03_zero_and_recurrence_omega	1	-4
+v04_zero_one_recurrence_omega	1	-5
+v05_zero_one_kplus_k	1	-4

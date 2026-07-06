@@ -1,0 +1,9 @@
+specs/LT0400_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0400_specs.lean:23:61: error: Tactic `assumption` failed
+
+n : Nat
+x : Vector Float n
+deg : Nat
+V : Vector (Vector Float (deg + 1)) n
+i : Fin n
+⊢ deg ≥ 1
