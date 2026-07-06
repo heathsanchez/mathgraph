@@ -1,0 +1,647 @@
+[
+  {
+    "score": 100,
+    "path": "specs/LT0049_specs.lean",
+    "line": 24,
+    "current_line": "result.get i = arr.get ⟨i.val + 1, by sorry⟩) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef delete {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) : \n    Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem delete_spec {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) :\n    ⦃⌜True⌝⦄\n    delete arr index\n    ⦃⇓result => ⌜(∀ i : Fin n, \n                   if h : i.val < index.val then \n                     result.get i = arr.get ⟨i.val, by sorry⟩\n                   else \n                     result.get i = arr.get ⟨i.val + 1, by sorry⟩) ∧\n                 (∀ i : Fin (n + 1), i ≠ index → \n                   ∃ j : Fin n, result.get j = arr.get i)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 100,
+    "path": "specs/LT0420_specs.lean",
+    "line": 23,
+    "current_line": "(∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ +",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [],
+    "window": "-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef hermemulx {n : Nat} (c : Vector Float n) : Id (Vector Float (n + 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermemulx_spec {n : Nat} (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermemulx c\n    ⦃⇓result => ⌜\n      -- Coefficient at position 0 is always 0 (no constant term in x*polynomial)\n      result.get ⟨0, by simp⟩ = 0 ∧\n      -- For n > 0: coefficient at position 1 comes from c[0] plus recursive contributions  \n      (∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ + \n        (if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧\n      -- For i ≥ 1: result[i+1] gets c[i] (coefficient shift up)\n      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 100,
+    "path": "specs/LT0420_specs.lean",
+    "line": 24,
+    "current_line": "(if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef hermemulx {n : Nat} (c : Vector Float n) : Id (Vector Float (n + 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermemulx_spec {n : Nat} (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermemulx c\n    ⦃⇓result => ⌜\n      -- Coefficient at position 0 is always 0 (no constant term in x*polynomial)\n      result.get ⟨0, by simp⟩ = 0 ∧\n      -- For n > 0: coefficient at position 1 comes from c[0] plus recursive contributions  \n      (∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ + \n        (if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧\n      -- For i ≥ 1: result[i+1] gets c[i] (coefficient shift up)\n      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 100,
+    "path": "specs/LT0445_specs.lean",
+    "line": 29,
+    "current_line": "(if h1 : k.val > 0 ∧ k.val - 1 < n then c.get ⟨k.val - 1, sorry⟩ / 2 else 0) +",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [],
+    "window": "def hermmulx {n : Nat} (c : Vector Float n) : Id (Vector Float (n + 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermmulx_spec {n : Nat} (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermmulx c\n    ⦃⇓result =>\n      -- The output has exactly n+1 coefficients\n      ⌜result.size = n + 1⌝ ∧\n      -- Mathematical property: each position in result is the sum of contributions\n      -- from the recursion formula $xP_i(x) = (P_{i+1}(x)/2 + i*P_{i-1}(x))$\n      ⌜∀ k : Fin (n + 1),\n        result.get k =\n          -- Base case: position 0 starts at 0\n          (if k.val = 0 then 0 else 0) +\n          -- Contribution from c[k-1]/2 when k > 0 and k-1 < n\n          (if h1 : k.val > 0 ∧ k.val - 1 < n then c.get ⟨k.val - 1, sorry⟩ / 2 else 0) +\n          -- Contribution from c[k+1]*(k+1) when k+1 < n\n          (if h2 : k.val + 1 < n then c.get ⟨k.val + 1, sorry⟩ * Float.ofNat (k.val + 1) else 0)⌝\n    ⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 100,
+    "path": "specs/LT0445_specs.lean",
+    "line": 31,
+    "current_line": "(if h2 : k.val + 1 < n then c.get ⟨k.val + 1, sorry⟩ * Float.ofNat (k.val + 1) else 0)⌝",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [],
+    "window": "-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermmulx_spec {n : Nat} (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermmulx c\n    ⦃⇓result =>\n      -- The output has exactly n+1 coefficients\n      ⌜result.size = n + 1⌝ ∧\n      -- Mathematical property: each position in result is the sum of contributions\n      -- from the recursion formula $xP_i(x) = (P_{i+1}(x)/2 + i*P_{i-1}(x))$\n      ⌜∀ k : Fin (n + 1),\n        result.get k =\n          -- Base case: position 0 starts at 0\n          (if k.val = 0 then 0 else 0) +\n          -- Contribution from c[k-1]/2 when k > 0 and k-1 < n\n          (if h1 : k.val > 0 ∧ k.val - 1 < n then c.get ⟨k.val - 1, sorry⟩ / 2 else 0) +\n          -- Contribution from c[k+1]*(k+1) when k+1 < n\n          (if h2 : k.val + 1 < n then c.get ⟨k.val + 1, sorry⟩ * Float.ofNat (k.val + 1) else 0)⌝\n    ⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LF0093_specs.lean",
+    "line": 19,
+    "current_line": "(result.get ⟨i.val, sorry⟩) ≠ (result.get ⟨i.val + 1, sorry⟩) :=",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef solve_color_array (n : Nat) (t : Nat) (arr : List Nat) : List Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem solve_color_array_equal_values_alternate\n  {n : Nat} {arr : List Nat} (h : arr.length > 0) :\n  let firstVal := arr.get ⟨0, sorry⟩\n  let t := 2 * firstVal\n  let result := solve_color_array n t (List.replicate arr.length firstVal)\n  ∀ i : Fin (result.length - 1),\n    (result.get ⟨i.val, sorry⟩) ≠ (result.get ⟨i.val + 1, sorry⟩) :=\n  sorry\n\ntheorem solve_color_array_length_matches_input\n  {n : Nat} {t : Nat} {arr : List Nat} :\n  (solve_color_array n t arr).length = arr.length :=\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0009_specs.lean",
+    "line": 21,
+    "current_line": "(∀ i : Fin n, result.get ⟨i.val * n + i.val, sorry⟩ = v.get i) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "import Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef diagflat {n : Nat} (v : Vector Float n) : Id (Vector Float (n * n)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem diagflat_spec {n : Nat} (v : Vector Float n) :\n    ⦃⌜True⌝⦄\n    diagflat v\n    ⦃⇓result => ⌜\n      -- Elements on the main diagonal are from the input vector\n      (∀ i : Fin n, result.get ⟨i.val * n + i.val, sorry⟩ = v.get i) ∧\n      -- All other elements are zero\n      (∀ i j : Fin n, i ≠ j → result.get ⟨i.val * n + j.val, sorry⟩ = 0)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0014_specs.lean",
+    "line": 20,
+    "current_line": "⦃⇓result => ⌜∀ i : Fin count, result.get i = buffer.get ⟨offset + i.val, sorry⟩⌝⦄ := by",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "import Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef frombuffer {n : Nat} (buffer : Vector UInt8 n) (count : Nat) (offset : Nat) : Id (Vector UInt8 count) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem frombuffer_spec {n : Nat} (buffer : Vector UInt8 n) (count : Nat) (offset : Nat)\n    (h_bounds : offset + count ≤ n) (h_offset : offset < n ∨ count = 0) :\n    ⦃⌜offset + count ≤ n ∧ (offset < n ∨ count = 0)⌝⦄\n    frombuffer buffer count offset\n    ⦃⇓result => ⌜∀ i : Fin count, result.get i = buffer.get ⟨offset + i.val, sorry⟩⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0056_specs.lean",
+    "line": 24,
+    "current_line": "arr.get ⟨part_idx.val * (n / k) + elem_idx.val, by sorry⟩) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef hsplit {n k : Nat} (arr : Vector Float n) \n    (h_divides : k > 0 ∧ n % k = 0) : \n    Id (Vector (Vector Float (n / k)) k) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hsplit_spec {n k : Nat} (arr : Vector Float n) \n    (h_divides : k > 0 ∧ n % k = 0) :\n    ⦃⌜k > 0 ∧ n % k = 0⌝⦄\n    hsplit arr h_divides\n    ⦃⇓result => ⌜(∀ (part_idx : Fin k) (elem_idx : Fin (n / k)),\n                  (result.get part_idx).get elem_idx = \n                  arr.get ⟨part_idx.val * (n / k) + elem_idx.val, by sorry⟩) ∧\n                 (∀ i : Fin n, ∃ (p : Fin k) (e : Fin (n / k)), \n                  i.val = p.val * (n / k) + e.val ∧\n                  arr.get i = (result.get p).get e)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0091_specs.lean",
+    "line": 21,
+    "current_line": "result.get ⟨i.val * 8 + j.val, sorry⟩ =",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "import Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef numpy_unpackbits {n : Nat} (a : Vector Nat n) : Id (Vector Nat (n * 8)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem numpy_unpackbits_spec {n : Nat} (a : Vector Nat n) \n    (h_uint8 : ∀ i : Fin n, a.get i < 256) :\n    ⦃⌜∀ i : Fin n, a.get i < 256⌝⦄\n    numpy_unpackbits a\n    ⦃⇓result => ⌜∀ i : Fin n, ∀ j : Fin 8,\n                  result.get ⟨i.val * 8 + j.val, sorry⟩ = \n                  (a.get i / (2 ^ (7 - j.val))) % 2⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0151_specs.lean",
+    "line": 19,
+    "current_line": "⦃⇓result => ⌜∀ i : Fin n, result.get i = x.get ⟨(i.val + n - n / 2) % n, sorry⟩ ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\nimport Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef fftshift {n : Nat} (x : Vector Float n) : Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem fftshift_spec {n : Nat} (x : Vector Float n) :\n    ⦃⌜True⌝⦄\n    fftshift x\n    ⦃⇓result => ⌜∀ i : Fin n, result.get i = x.get ⟨(i.val + n - n / 2) % n, sorry⟩ ∧\n                  (∀ j : Fin n, ∃ k : Fin n, result.get k = x.get j) ∧\n                  (∀ val : Float, (∃ j : Fin n, x.get j = val) ↔ (∃ k : Fin n, result.get k = val))⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0156_specs.lean",
+    "line": 19,
+    "current_line": "⦃⇓result => ⌜∀ i : Fin n, result.get i = x.get ⟨(i.val + n / 2) % n, sorry⟩⌝⦄ := by",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\nimport Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef ifftshift {n : Nat} (x : Vector Float n) : Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem ifftshift_spec {n : Nat} (x : Vector Float n) :\n    ⦃⌜True⌝⦄\n    ifftshift x\n    ⦃⇓result => ⌜∀ i : Fin n, result.get i = x.get ⟨(i.val + n / 2) % n, sorry⟩⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0171_specs.lean",
+    "line": 14,
+    "current_line": "∀ i : Fin n, (diag matrix).get i = matrix.get ⟨i.val * n + i.val, by sorry⟩ := by",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef diag {n : Nat} (matrix : Vector Float (n * n)) : Vector Float n :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem diag_spec {n : Nat} (matrix : Vector Float (n * n)) : \n    ∀ i : Fin n, (diag matrix).get i = matrix.get ⟨i.val * n + i.val, by sorry⟩ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0173_specs.lean",
+    "line": 28,
+    "current_line": "result.get i = (a.get ⟨i.val, by sorry⟩).get ⟨i.val + offset.natAbs, by sorry⟩",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "-- <vc-definitions>\ndef diagonal {rows cols : Nat} (a : Vector (Vector Float cols) rows) (offset : Int := 0) : \n  Id (Vector Float (if offset ≥ 0 then min rows (cols - offset.natAbs) else min (rows - offset.natAbs) cols)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem diagonal_spec {rows cols : Nat} (a : Vector (Vector Float cols) rows) (offset : Int := 0) \n    (h_valid : if offset ≥ 0 then offset.natAbs ≤ cols else offset.natAbs ≤ rows) :\n    ⦃⌜if offset ≥ 0 then offset.natAbs ≤ cols else offset.natAbs ≤ rows⌝⦄\n    diagonal a offset\n    ⦃⇓result => ⌜\n      -- Result size matches the diagonal size\n      result.size = (if offset ≥ 0 then min rows (cols - offset.natAbs) else min (rows - offset.natAbs) cols) ∧\n      -- Each element is from the correct diagonal position\n      (∀ i : Fin result.size, \n        if offset ≥ 0 then\n          -- For non-negative offset: a[i, i+offset]\n          result.get i = (a.get ⟨i.val, by sorry⟩).get ⟨i.val + offset.natAbs, by sorry⟩\n        else\n          -- For negative offset: a[i+|offset|, i]\n          result.get i = (a.get ⟨i.val + offset.natAbs, by sorry⟩).get ⟨i.val, by sorry⟩) ∧\n      -- Sanity check: result is non-empty when matrix is non-empty and offset is valid\n      (rows > 0 ∧ cols > 0 → result.size > 0)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0173_specs.lean",
+    "line": 31,
+    "current_line": "result.get i = (a.get ⟨i.val + offset.natAbs, by sorry⟩).get ⟨i.val, by sorry⟩) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem diagonal_spec {rows cols : Nat} (a : Vector (Vector Float cols) rows) (offset : Int := 0) \n    (h_valid : if offset ≥ 0 then offset.natAbs ≤ cols else offset.natAbs ≤ rows) :\n    ⦃⌜if offset ≥ 0 then offset.natAbs ≤ cols else offset.natAbs ≤ rows⌝⦄\n    diagonal a offset\n    ⦃⇓result => ⌜\n      -- Result size matches the diagonal size\n      result.size = (if offset ≥ 0 then min rows (cols - offset.natAbs) else min (rows - offset.natAbs) cols) ∧\n      -- Each element is from the correct diagonal position\n      (∀ i : Fin result.size, \n        if offset ≥ 0 then\n          -- For non-negative offset: a[i, i+offset]\n          result.get i = (a.get ⟨i.val, by sorry⟩).get ⟨i.val + offset.natAbs, by sorry⟩\n        else\n          -- For negative offset: a[i+|offset|, i]\n          result.get i = (a.get ⟨i.val + offset.natAbs, by sorry⟩).get ⟨i.val, by sorry⟩) ∧\n      -- Sanity check: result is non-empty when matrix is non-empty and offset is valid\n      (rows > 0 ∧ cols > 0 → result.size > 0)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0579_specs.lean",
+    "line": 28,
+    "current_line": "result.get k = (Vector.ofFn (fun i : Fin n => a.get ⟨k.val + i.val, by sorry⟩ * v.get i)).toList.sum) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "-- <vc-definitions>\ndef correlate {m n : Nat} (a : Vector Float m) (v : Vector Float n) (h : n ≤ m) (h_pos : 0 < n) : Id (Vector Float (m + 1 - n)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem correlate_spec {m n : Nat} (a : Vector Float m) (v : Vector Float n) (h : n ≤ m) (h_pos : 0 < n) :\n    ⦃⌜n ≤ m ∧ 0 < n⌝⦄\n    correlate a v h h_pos\n    ⦃⇓result => ⌜-- Cross-correlation computation property: each output element is the sum of products\n                 (∀ k : Fin (m + 1 - n), \n                   ∃ products : Fin n → Float,\n                   (∀ i : Fin n, products i = a.get ⟨k.val + i.val, by sorry⟩ * v.get i) ∧\n                   result.get k = (Vector.ofFn products).toList.sum) ∧\n                 -- Boundary condition: all indices are valid for the computation\n                 (∀ k : Fin (m + 1 - n), ∀ i : Fin n, k.val + i.val < m) ∧\n                 -- Mathematical property: correlation is bilinear in its arguments\n                 (∀ k : Fin (m + 1 - n), \n                   result.get k = (Vector.ofFn (fun i : Fin n => a.get ⟨k.val + i.val, by sorry⟩ * v.get i)).toList.sum) ∧\n                 -- Non-negativity when both sequences are non-negative\n                 ((∀ i : Fin m, 0 ≤ a.get i) ∧ (∀ i : Fin n, 0 ≤ v.get i) →\n                   ∀ k : Fin (m + 1 - n), 0 ≤ result.get k)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 85,
+    "path": "specs/LT0049_specs.lean",
+    "line": 22,
+    "current_line": "result.get i = arr.get ⟨i.val, by sorry⟩",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "successor_bound_shape"
+    ],
+    "penalties": [],
+    "window": "open Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef delete {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) : \n    Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem delete_spec {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) :\n    ⦃⌜True⌝⦄\n    delete arr index\n    ⦃⇓result => ⌜(∀ i : Fin n, \n                   if h : i.val < index.val then \n                     result.get i = arr.get ⟨i.val, by sorry⟩\n                   else \n                     result.get i = arr.get ⟨i.val + 1, by sorry⟩) ∧\n                 (∀ i : Fin (n + 1), i ≠ index → \n                   ∃ j : Fin n, result.get j = arr.get i)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0583_specs.lean",
+    "line": 30,
+    "current_line": "(∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [],
+    "window": "    (h_bins_pos : bins > 0) (h_nbins_eq : nbins = bins) : Id (Vector (Vector Nat nbins) nbins × Vector Float (nbins + 1) × Vector Float (nbins + 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem histogram2d_spec {n : Nat} {nbins : Nat} (x y : Vector Float n) (bins : Nat) \n    (h_bins_pos : bins > 0) (h_nbins_eq : nbins = bins) :\n    ⦃⌜bins > 0⌝⦄\n    histogram2d x y bins h_bins_pos h_nbins_eq\n    ⦃⇓result => ⌜-- Destructure the result tuple\n                 let (hist, x_edges, y_edges) := result\n                 -- 1. All histogram values are non-negative\n                 (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≥ 0) ∧\n                 -- 2. Total count conservation: sum of all bins equals input length\n                 (∃ total : Nat, \n                   (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≤ n) ∧\n                   total = n) ∧\n                 -- 3. Bin edges are monotonically increasing\n                 (∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧\n                 (∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧\n                 -- 4. Bin edges span the data range appropriately\n                 (∃ x_min x_max y_min y_max : Float,\n                   (∀ i : Fin n, x_min ≤ x.get i ∧ x.get i ≤ x_max) ∧\n                   (∀ i : Fin n, y_min ≤ y.get i ∧ y.get i ≤ y_max) ∧\n                   x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧\n                   y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧\n                 -- 5. Histogram correctly partitions the data space\n                 (∀ i : Fin nbins, ∀ j : Fin nbins,\n                   ∀ k : Fin n,\n                   let x_val := x.get k\n                   let y_val := y.get k\n                   let x_left := x_edges.get ⟨i, sorry⟩\n                   let x_right := x_edges.get ⟨i + 1, sorry⟩  \n                   let y_left := y_edges.get ⟨j, sorry⟩\n                   let y_right := y_edges.get ⟨j + 1, sorry⟩\n                   (x_left ≤ x_val ∧ x_val < x_right ∧ y_left ≤ y_val ∧ y_val < y_right) ∨",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LF0093_specs.lean",
+    "line": 15,
+    "current_line": "let firstVal := arr.get ⟨0, sorry⟩",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef solve_color_array (n : Nat) (t : Nat) (arr : List Nat) : List Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem solve_color_array_equal_values_alternate\n  {n : Nat} {arr : List Nat} (h : arr.length > 0) :\n  let firstVal := arr.get ⟨0, sorry⟩\n  let t := 2 * firstVal\n  let result := solve_color_array n t (List.replicate arr.length firstVal)\n  ∀ i : Fin (result.length - 1),\n    (result.get ⟨i.val, sorry⟩) ≠ (result.get ⟨i.val + 1, sorry⟩) :=\n  sorry\n\ntheorem solve_color_array_length_matches_input\n  {n : Nat} {t : Nat} {arr : List Nat} :\n  (solve_color_array n t arr).length = arr.length :=\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LF3983_specs.lean",
+    "line": 17,
+    "current_line": "(ulamSequence u0 u1 n).get ⟨0, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef ulamSequence (u0 u1 n : Nat) : List Nat := sorry\n\ntheorem ulam_sequence_length (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) :\n  List.length (ulamSequence u0 u1 n) = n := sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem ulam_sequence_first_elements (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ulamSequence u0 u1 n ≠ [] ∧\n  (ulamSequence u0 u1 n).get ⟨0, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 ∧\n  (ulamSequence u0 u1 n).get ⟨1, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u1 := sorry\n\ntheorem ulam_sequence_strictly_increasing (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ∀ i : Fin n, i.val + 1 < n →\n    let seq := ulamSequence u0 u1 n\n    let h_length := ulam_sequence_length u0 u1 n h1 h2\n    (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) <\n    (seq.get ⟨i.val + 1, by {rw [h_length]; sorry}⟩) := sorry\n\ntheorem ulam_sequence_third_element (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  (ulamSequence u0 u1 n).get ⟨2, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 + u1 := sorry\n\ntheorem ulam_sequence_unique_sum (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ∀ i : Fin n, 2 ≤ i.val → \n  ∃ (p : Nat × Nat), (∀ q : Nat × Nat,\n    let seq := ulamSequence u0 u1 n\n    let h_length := ulam_sequence_length u0 u1 n h1 h2",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LF3983_specs.lean",
+    "line": 18,
+    "current_line": "(ulamSequence u0 u1 n).get ⟨1, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u1 := sorry",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef ulamSequence (u0 u1 n : Nat) : List Nat := sorry\n\ntheorem ulam_sequence_length (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) :\n  List.length (ulamSequence u0 u1 n) = n := sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem ulam_sequence_first_elements (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ulamSequence u0 u1 n ≠ [] ∧\n  (ulamSequence u0 u1 n).get ⟨0, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 ∧\n  (ulamSequence u0 u1 n).get ⟨1, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u1 := sorry\n\ntheorem ulam_sequence_strictly_increasing (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ∀ i : Fin n, i.val + 1 < n →\n    let seq := ulamSequence u0 u1 n\n    let h_length := ulam_sequence_length u0 u1 n h1 h2\n    (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) <\n    (seq.get ⟨i.val + 1, by {rw [h_length]; sorry}⟩) := sorry\n\ntheorem ulam_sequence_third_element (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  (ulamSequence u0 u1 n).get ⟨2, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 + u1 := sorry\n\ntheorem ulam_sequence_unique_sum (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ∀ i : Fin n, 2 ≤ i.val → \n  ∃ (p : Nat × Nat), (∀ q : Nat × Nat,\n    let seq := ulamSequence u0 u1 n\n    let h_length := ulam_sequence_length u0 u1 n h1 h2\n    p.1 < p.2 ∧ ",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0179_specs.lean",
+    "line": 36,
+    "current_line": "(∀ j : Fin cols, (result.1.get ⟨0, by sorry⟩).get j = start_r) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val"
+    ],
+    "penalties": [],
+    "window": "theorem mgrid_spec {rows cols : Nat} (start_r stop_r start_c stop_c : Float) \n    (h_rows : rows > 0) (h_cols : cols > 0) :\n    ⦃⌜rows > 0 ∧ cols > 0⌝⦄\n    mgrid start_r stop_r start_c stop_c h_rows h_cols\n    ⦃⇓result => ⌜-- Both arrays have the same shape  \n                  (result.1.size = rows) ∧ (result.2.size = rows) ∧\n                  (∀ i : Fin rows, (result.1.get i).size = cols ∧ (result.2.get i).size = cols) ∧\n                  -- Row coordinates: same value across each row\n                  (∀ i : Fin rows, ∀ j k : Fin cols, (result.1.get i).get j = (result.1.get i).get k) ∧\n                  -- Column coordinates: same value down each column  \n                  (∀ j : Fin cols, ∀ i k : Fin rows, (result.2.get i).get j = (result.2.get k).get j) ∧\n                  -- Row coordinates are evenly spaced\n                  (∀ i : Fin rows, ∀ j : Fin cols, \n                    (result.1.get i).get j = start_r + (Float.ofNat i.val) * (stop_r - start_r) / (Float.ofNat rows)) ∧\n                  -- Column coordinates are evenly spaced\n                  (∀ i : Fin rows, ∀ j : Fin cols,\n                    (result.2.get i).get j = start_c + (Float.ofNat j.val) * (stop_c - start_c) / (Float.ofNat cols)) ∧\n                  -- Boundary conditions: first/last coordinates match start/stop points\n                  (∀ j : Fin cols, (result.1.get ⟨0, by sorry⟩).get j = start_r) ∧\n                  (∀ i : Fin rows, (result.2.get i).get ⟨0, by sorry⟩ = start_c) ∧\n                  -- Mathematical property: coordinates form a complete grid\n                  (∀ i : Fin rows, ∀ j : Fin cols, \n                    start_r ≤ (result.1.get i).get j ∧ (result.1.get i).get j < stop_r) ∧\n                  (∀ i : Fin rows, ∀ j : Fin cols, \n                    start_c ≤ (result.2.get i).get j ∧ (result.2.get i).get j < stop_c)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0179_specs.lean",
+    "line": 37,
+    "current_line": "(∀ i : Fin rows, (result.2.get i).get ⟨0, by sorry⟩ = start_c) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val"
+    ],
+    "penalties": [],
+    "window": "    (h_rows : rows > 0) (h_cols : cols > 0) :\n    ⦃⌜rows > 0 ∧ cols > 0⌝⦄\n    mgrid start_r stop_r start_c stop_c h_rows h_cols\n    ⦃⇓result => ⌜-- Both arrays have the same shape  \n                  (result.1.size = rows) ∧ (result.2.size = rows) ∧\n                  (∀ i : Fin rows, (result.1.get i).size = cols ∧ (result.2.get i).size = cols) ∧\n                  -- Row coordinates: same value across each row\n                  (∀ i : Fin rows, ∀ j k : Fin cols, (result.1.get i).get j = (result.1.get i).get k) ∧\n                  -- Column coordinates: same value down each column  \n                  (∀ j : Fin cols, ∀ i k : Fin rows, (result.2.get i).get j = (result.2.get k).get j) ∧\n                  -- Row coordinates are evenly spaced\n                  (∀ i : Fin rows, ∀ j : Fin cols, \n                    (result.1.get i).get j = start_r + (Float.ofNat i.val) * (stop_r - start_r) / (Float.ofNat rows)) ∧\n                  -- Column coordinates are evenly spaced\n                  (∀ i : Fin rows, ∀ j : Fin cols,\n                    (result.2.get i).get j = start_c + (Float.ofNat j.val) * (stop_c - start_c) / (Float.ofNat cols)) ∧\n                  -- Boundary conditions: first/last coordinates match start/stop points\n                  (∀ j : Fin cols, (result.1.get ⟨0, by sorry⟩).get j = start_r) ∧\n                  (∀ i : Fin rows, (result.2.get i).get ⟨0, by sorry⟩ = start_c) ∧\n                  -- Mathematical property: coordinates form a complete grid\n                  (∀ i : Fin rows, ∀ j : Fin cols, \n                    start_r ≤ (result.1.get i).get j ∧ (result.1.get i).get j < stop_r) ∧\n                  (∀ i : Fin rows, ∀ j : Fin cols, \n                    start_c ≤ (result.2.get i).get j ∧ (result.2.get i).get j < stop_c)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0326_specs.lean",
+    "line": 32,
+    "current_line": "xp.get ⟨i.val, sorry⟩ ≤ x.get k ∧ x.get k ≤ xp.get ⟨i.val + 1, sorry⟩ →",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem interp_spec {n m : Nat} (x : Vector Float n) (xp : Vector Float (m + 1)) (fp : Vector Float (m + 1)) \n    (h_increasing : ∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j) :\n    ⦃⌜∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j⌝⦄\n    interp x xp fp h_increasing\n    ⦃⇓result => ⌜\n      -- Each interpolated value is computed correctly\n      ∀ k : Fin n, \n        -- For points outside the left range, use left boundary value\n        (x.get k ≤ xp.get ⟨0, sorry⟩ → result.get k = fp.get ⟨0, sorry⟩) ∧\n        -- For points outside the right range, use right boundary value\n        (x.get k ≥ xp.get ⟨m, sorry⟩ → result.get k = fp.get ⟨m, sorry⟩) ∧\n        -- For points exactly at data points, return exact values\n        (∀ i : Fin (m + 1), x.get k = xp.get i → result.get k = fp.get i) ∧\n        -- For points within the range, value is between adjacent data points\n        (∀ i : Fin m, \n          xp.get ⟨i.val, sorry⟩ ≤ x.get k ∧ x.get k ≤ xp.get ⟨i.val + 1, sorry⟩ →\n          ∃ t : Float, 0 ≤ t ∧ t ≤ 1 ∧ \n          result.get k = fp.get ⟨i.val, sorry⟩ + t * (fp.get ⟨i.val + 1, sorry⟩ - fp.get ⟨i.val, sorry⟩))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0326_specs.lean",
+    "line": 34,
+    "current_line": "result.get k = fp.get ⟨i.val, sorry⟩ + t * (fp.get ⟨i.val + 1, sorry⟩ - fp.get ⟨i.val, sorry⟩))",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "-- <vc-theorems>\ntheorem interp_spec {n m : Nat} (x : Vector Float n) (xp : Vector Float (m + 1)) (fp : Vector Float (m + 1)) \n    (h_increasing : ∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j) :\n    ⦃⌜∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j⌝⦄\n    interp x xp fp h_increasing\n    ⦃⇓result => ⌜\n      -- Each interpolated value is computed correctly\n      ∀ k : Fin n, \n        -- For points outside the left range, use left boundary value\n        (x.get k ≤ xp.get ⟨0, sorry⟩ → result.get k = fp.get ⟨0, sorry⟩) ∧\n        -- For points outside the right range, use right boundary value\n        (x.get k ≥ xp.get ⟨m, sorry⟩ → result.get k = fp.get ⟨m, sorry⟩) ∧\n        -- For points exactly at data points, return exact values\n        (∀ i : Fin (m + 1), x.get k = xp.get i → result.get k = fp.get i) ∧\n        -- For points within the range, value is between adjacent data points\n        (∀ i : Fin m, \n          xp.get ⟨i.val, sorry⟩ ≤ x.get k ∧ x.get k ≤ xp.get ⟨i.val + 1, sorry⟩ →\n          ∃ t : Float, 0 ≤ t ∧ t ≤ 1 ∧ \n          result.get k = fp.get ⟨i.val, sorry⟩ + t * (fp.get ⟨i.val + 1, sorry⟩ - fp.get ⟨i.val, sorry⟩))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0420_specs.lean",
+    "line": 26,
+    "current_line": "(∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "-- </vc-helpers>\n\n-- <vc-definitions>\ndef hermemulx {n : Nat} (c : Vector Float n) : Id (Vector Float (n + 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermemulx_spec {n : Nat} (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermemulx c\n    ⦃⇓result => ⌜\n      -- Coefficient at position 0 is always 0 (no constant term in x*polynomial)\n      result.get ⟨0, by simp⟩ = 0 ∧\n      -- For n > 0: coefficient at position 1 comes from c[0] plus recursive contributions  \n      (∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ + \n        (if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧\n      -- For i ≥ 1: result[i+1] gets c[i] (coefficient shift up)\n      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0425_specs.lean",
+    "line": 75,
+    "current_line": "(const_coeff.get ⟨0, sorry⟩).get ⟨0, sorry⟩ = 1 ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val"
+    ],
+    "penalties": [],
+    "window": "                     (∀ i : Fin n, x_combined.get i = α * x1.get i + β * x2.get i) ∧\n                     hermeval2d x_combined y1 c = pure result_combined_x ∧\n                     ∀ k : Fin n, result_combined_x.get k = α * result_x1y1.get k + β * result_x2y1.get k) ∧\n                   -- Linear combination in y direction\n                   (∃ y_combined : Vector Float n,\n                     (∀ i : Fin n, y_combined.get i = α * y1.get i + β * y2.get i) ∧\n                     hermeval2d x1 y_combined c = pure result_combined_y ∧\n                     ∀ k : Fin n, result_combined_y.get k = α * result_x1y1.get k + β * result_x1y2.get k)) ∧\n                 -- Special case properties for verification\n                 (m > 0 ∧ n > 0 → \n                   -- Zero coefficient matrix gives zero polynomial\n                   (∃ zero_coeff : Vector (Vector Float m) n,\n                     (∀ i : Fin n, ∀ j : Fin m, (zero_coeff.get i).get j = 0) ∧\n                     ∃ zero_result : Vector Float n,\n                     hermeval2d x y zero_coeff = pure zero_result ∧\n                     ∀ k : Fin n, zero_result.get k = 0) ∧\n                   -- Constant polynomial (c₀₀ = 1, all others = 0)\n                   (∃ const_coeff : Vector (Vector Float m) n,\n                     (const_coeff.get ⟨0, sorry⟩).get ⟨0, sorry⟩ = 1 ∧\n                     (∀ i : Fin n, ∀ j : Fin m, (i.val ≠ 0 ∨ j.val ≠ 0) → (const_coeff.get i).get j = 0) ∧\n                     ∃ const_result : Vector Float n,\n                     hermeval2d x y const_coeff = pure const_result ∧\n                     ∀ k : Fin n, const_result.get k = 1))⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0450_specs.lean",
+    "line": 65,
+    "current_line": "(fun j : Fin cols => (c.get ⟨0, sorry⟩).get j * H_y j.val)",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "                         a * (c1.get i).get j + b * (c2.get i).get j))\n                     -- Evaluates to linear combination of results\n                     ∃ (res1 res2 res_combined : Vector Float n),\n                       (⦃⌜True⌝⦄ hermval2d x y c1 ⦃⇓r => ⌜r = res1⌝⦄) ∧\n                       (⦃⌜True⌝⦄ hermval2d x y c2 ⦃⇓r => ⌜r = res2⌝⦄) ∧\n                       (⦃⌜True⌝⦄ hermval2d x y c_combined ⦃⇓r => ⌜r = res_combined⌝⦄) ∧\n                       res_combined.get k = a * res1.get k + b * res2.get k) ∧\n                 -- Separability property: 2D evaluation is product of 1D evaluations\n                 (rows = 1 ∧ cols > 0 → \n                   ∀ k : Fin n,\n                     ∃ H_y : Nat → Float,\n                       -- H_y satisfies Hermite recurrence\n                       H_y 0 = 1 ∧\n                       H_y 1 = 2 * (y.get k) ∧\n                       (∀ j : Nat, j + 2 < cols → \n                         H_y (j + 2) = 2 * (y.get k) * H_y (j + 1) - 2 * Float.ofNat (j + 1) * H_y j) ∧\n                       -- Result is c[0,j] * H_0(x) * H_j(y) = c[0,j] * 1 * H_j(y)\n                       result.get k = List.sum (List.map \n                         (fun j : Fin cols => (c.get ⟨0, sorry⟩).get j * H_y j.val) \n                         (List.finRange cols))) ∧\n                 (cols = 1 ∧ rows > 0 → \n                   ∀ k : Fin n,\n                     ∃ H_x : Nat → Float,\n                       -- H_x satisfies Hermite recurrence\n                       H_x 0 = 1 ∧\n                       H_x 1 = 2 * (x.get k) ∧\n                       (∀ i : Nat, i + 2 < rows → \n                         H_x (i + 2) = 2 * (x.get k) * H_x (i + 1) - 2 * Float.ofNat (i + 1) * H_x i) ∧\n                       -- Result is c[i,0] * H_i(x) * H_0(y) = c[i,0] * H_i(x) * 1\n                       result.get k = List.sum (List.map \n                         (fun i : Fin rows => (c.get i).get ⟨0, sorry⟩ * H_x i.val) \n                         (List.finRange rows)))⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0450_specs.lean",
+    "line": 77,
+    "current_line": "(fun i : Fin rows => (c.get i).get ⟨0, sorry⟩ * H_x i.val)",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index",
+      "successor_bound_shape"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "                       H_y 0 = 1 ∧\n                       H_y 1 = 2 * (y.get k) ∧\n                       (∀ j : Nat, j + 2 < cols → \n                         H_y (j + 2) = 2 * (y.get k) * H_y (j + 1) - 2 * Float.ofNat (j + 1) * H_y j) ∧\n                       -- Result is c[0,j] * H_0(x) * H_j(y) = c[0,j] * 1 * H_j(y)\n                       result.get k = List.sum (List.map \n                         (fun j : Fin cols => (c.get ⟨0, sorry⟩).get j * H_y j.val) \n                         (List.finRange cols))) ∧\n                 (cols = 1 ∧ rows > 0 → \n                   ∀ k : Fin n,\n                     ∃ H_x : Nat → Float,\n                       -- H_x satisfies Hermite recurrence\n                       H_x 0 = 1 ∧\n                       H_x 1 = 2 * (x.get k) ∧\n                       (∀ i : Nat, i + 2 < rows → \n                         H_x (i + 2) = 2 * (x.get k) * H_x (i + 1) - 2 * Float.ofNat (i + 1) * H_x i) ∧\n                       -- Result is c[i,0] * H_i(x) * H_0(y) = c[i,0] * H_i(x) * 1\n                       result.get k = List.sum (List.map \n                         (fun i : Fin rows => (c.get i).get ⟨0, sorry⟩ * H_x i.val) \n                         (List.finRange rows)))⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0583_specs.lean",
+    "line": 31,
+    "current_line": "(∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem histogram2d_spec {n : Nat} {nbins : Nat} (x y : Vector Float n) (bins : Nat) \n    (h_bins_pos : bins > 0) (h_nbins_eq : nbins = bins) :\n    ⦃⌜bins > 0⌝⦄\n    histogram2d x y bins h_bins_pos h_nbins_eq\n    ⦃⇓result => ⌜-- Destructure the result tuple\n                 let (hist, x_edges, y_edges) := result\n                 -- 1. All histogram values are non-negative\n                 (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≥ 0) ∧\n                 -- 2. Total count conservation: sum of all bins equals input length\n                 (∃ total : Nat, \n                   (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≤ n) ∧\n                   total = n) ∧\n                 -- 3. Bin edges are monotonically increasing\n                 (∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧\n                 (∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧\n                 -- 4. Bin edges span the data range appropriately\n                 (∃ x_min x_max y_min y_max : Float,\n                   (∀ i : Fin n, x_min ≤ x.get i ∧ x.get i ≤ x_max) ∧\n                   (∀ i : Fin n, y_min ≤ y.get i ∧ y.get i ≤ y_max) ∧\n                   x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧\n                   y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧\n                 -- 5. Histogram correctly partitions the data space\n                 (∀ i : Fin nbins, ∀ j : Fin nbins,\n                   ∀ k : Fin n,\n                   let x_val := x.get k\n                   let y_val := y.get k\n                   let x_left := x_edges.get ⟨i, sorry⟩\n                   let x_right := x_edges.get ⟨i + 1, sorry⟩  \n                   let y_left := y_edges.get ⟨j, sorry⟩\n                   let y_right := y_edges.get ⟨j + 1, sorry⟩\n                   (x_left ≤ x_val ∧ x_val < x_right ∧ y_left ≤ y_val ∧ y_val < y_right) ∨\n                   (i = nbins - 1 ∧ j = nbins - 1 ∧ x_val = x_right ∧ y_val = y_right) →",
+    "baseline_rc": 0
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0583_specs.lean",
+    "line": 44,
+    "current_line": "let x_right := x_edges.get ⟨i + 1, sorry⟩",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "                 (∃ total : Nat, \n                   (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≤ n) ∧\n                   total = n) ∧\n                 -- 3. Bin edges are monotonically increasing\n                 (∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧\n                 (∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧\n                 -- 4. Bin edges span the data range appropriately\n                 (∃ x_min x_max y_min y_max : Float,\n                   (∀ i : Fin n, x_min ≤ x.get i ∧ x.get i ≤ x_max) ∧\n                   (∀ i : Fin n, y_min ≤ y.get i ∧ y.get i ≤ y_max) ∧\n                   x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧\n                   y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧\n                 -- 5. Histogram correctly partitions the data space\n                 (∀ i : Fin nbins, ∀ j : Fin nbins,\n                   ∀ k : Fin n,\n                   let x_val := x.get k\n                   let y_val := y.get k\n                   let x_left := x_edges.get ⟨i, sorry⟩\n                   let x_right := x_edges.get ⟨i + 1, sorry⟩  \n                   let y_left := y_edges.get ⟨j, sorry⟩\n                   let y_right := y_edges.get ⟨j + 1, sorry⟩\n                   (x_left ≤ x_val ∧ x_val < x_right ∧ y_left ≤ y_val ∧ y_val < y_right) ∨\n                   (i = nbins - 1 ∧ j = nbins - 1 ∧ x_val = x_right ∧ y_val = y_right) →\n                   (hist.get i).get j ≥ 1)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0583_specs.lean",
+    "line": 46,
+    "current_line": "let y_right := y_edges.get ⟨j + 1, sorry⟩",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "arithmetic_index"
+    ],
+    "penalties": [],
+    "window": "                   total = n) ∧\n                 -- 3. Bin edges are monotonically increasing\n                 (∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧\n                 (∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧\n                 -- 4. Bin edges span the data range appropriately\n                 (∃ x_min x_max y_min y_max : Float,\n                   (∀ i : Fin n, x_min ≤ x.get i ∧ x.get i ≤ x_max) ∧\n                   (∀ i : Fin n, y_min ≤ y.get i ∧ y.get i ≤ y_max) ∧\n                   x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧\n                   y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧\n                 -- 5. Histogram correctly partitions the data space\n                 (∀ i : Fin nbins, ∀ j : Fin nbins,\n                   ∀ k : Fin n,\n                   let x_val := x.get k\n                   let y_val := y.get k\n                   let x_left := x_edges.get ⟨i, sorry⟩\n                   let x_right := x_edges.get ⟨i + 1, sorry⟩  \n                   let y_left := y_edges.get ⟨j, sorry⟩\n                   let y_right := y_edges.get ⟨j + 1, sorry⟩\n                   (x_left ≤ x_val ∧ x_val < x_right ∧ y_left ≤ y_val ∧ y_val < y_right) ∨\n                   (i = nbins - 1 ∧ j = nbins - 1 ∧ x_val = x_right ∧ y_val = y_right) →\n                   (hist.get i).get j ≥ 1)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 65,
+    "path": "specs/LF3983_specs.lean",
+    "line": 25,
+    "current_line": "(seq.get ⟨i.val + 1, by {rw [h_length]; sorry}⟩) := sorry",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "-- <vc-definitions>\ndef ulamSequence (u0 u1 n : Nat) : List Nat := sorry\n\ntheorem ulam_sequence_length (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) :\n  List.length (ulamSequence u0 u1 n) = n := sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem ulam_sequence_first_elements (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ulamSequence u0 u1 n ≠ [] ∧\n  (ulamSequence u0 u1 n).get ⟨0, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 ∧\n  (ulamSequence u0 u1 n).get ⟨1, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u1 := sorry\n\ntheorem ulam_sequence_strictly_increasing (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ∀ i : Fin n, i.val + 1 < n →\n    let seq := ulamSequence u0 u1 n\n    let h_length := ulam_sequence_length u0 u1 n h1 h2\n    (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) <\n    (seq.get ⟨i.val + 1, by {rw [h_length]; sorry}⟩) := sorry\n\ntheorem ulam_sequence_third_element (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  (ulamSequence u0 u1 n).get ⟨2, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 + u1 := sorry\n\ntheorem ulam_sequence_unique_sum (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ∀ i : Fin n, 2 ≤ i.val → \n  ∃ (p : Nat × Nat), (∀ q : Nat × Nat,\n    let seq := ulamSequence u0 u1 n\n    let h_length := ulam_sequence_length u0 u1 n h1 h2\n    p.1 < p.2 ∧ \n    p.2 < (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) ∧\n    p.1 ∈ (List.take i.val seq) ∧ \n    p.2 ∈ (List.take i.val seq) ∧\n    p.1 + p.2 = (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) ∧\n    (q.1 < q.2 ∧ \n     q.2 < (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) ∧\n     q.1 ∈ (List.take i.val seq) ∧ ",
+    "baseline_rc": 0
+  },
+  {
+    "score": 65,
+    "path": "specs/LF3983_specs.lean",
+    "line": 28,
+    "current_line": "(ulamSequence u0 u1 n).get ⟨2, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 + u1 := sorry",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "theorem ulam_sequence_length (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) :\n  List.length (ulamSequence u0 u1 n) = n := sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem ulam_sequence_first_elements (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ulamSequence u0 u1 n ≠ [] ∧\n  (ulamSequence u0 u1 n).get ⟨0, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 ∧\n  (ulamSequence u0 u1 n).get ⟨1, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u1 := sorry\n\ntheorem ulam_sequence_strictly_increasing (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ∀ i : Fin n, i.val + 1 < n →\n    let seq := ulamSequence u0 u1 n\n    let h_length := ulam_sequence_length u0 u1 n h1 h2\n    (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) <\n    (seq.get ⟨i.val + 1, by {rw [h_length]; sorry}⟩) := sorry\n\ntheorem ulam_sequence_third_element (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  (ulamSequence u0 u1 n).get ⟨2, by {rw [ulam_sequence_length u0 u1 n h1 h2]; sorry}⟩ = u0 + u1 := sorry\n\ntheorem ulam_sequence_unique_sum (u0 u1 n : Nat) (h1: u0 > 0) (h2: u1 > u0) (h3: n ≥ 3) :\n  ∀ i : Fin n, 2 ≤ i.val → \n  ∃ (p : Nat × Nat), (∀ q : Nat × Nat,\n    let seq := ulamSequence u0 u1 n\n    let h_length := ulam_sequence_length u0 u1 n h1 h2\n    p.1 < p.2 ∧ \n    p.2 < (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) ∧\n    p.1 ∈ (List.take i.val seq) ∧ \n    p.2 ∈ (List.take i.val seq) ∧\n    p.1 + p.2 = (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) ∧\n    (q.1 < q.2 ∧ \n     q.2 < (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) ∧\n     q.1 ∈ (List.take i.val seq) ∧ \n     q.2 ∈ (List.take i.val seq) ∧\n     q.1 + q.2 = (seq.get ⟨i.val, by {rw [h_length]; exact i.isLt}⟩) → \n     q = p)) := sorry",
+    "baseline_rc": 0
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0009_specs.lean",
+    "line": 23,
+    "current_line": "(∀ i j : Fin n, i ≠ j → result.get ⟨i.val * n + j.val, sorry⟩ = 0)",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef diagflat {n : Nat} (v : Vector Float n) : Id (Vector Float (n * n)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem diagflat_spec {n : Nat} (v : Vector Float n) :\n    ⦃⌜True⌝⦄\n    diagflat v\n    ⦃⇓result => ⌜\n      -- Elements on the main diagonal are from the input vector\n      (∀ i : Fin n, result.get ⟨i.val * n + i.val, sorry⟩ = v.get i) ∧\n      -- All other elements are zero\n      (∀ i j : Fin n, i ≠ j → result.get ⟨i.val * n + j.val, sorry⟩ = 0)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0579_specs.lean",
+    "line": 22,
+    "current_line": "(∀ i : Fin n, products i = a.get ⟨k.val + i.val, by sorry⟩ * v.get i) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "arithmetic_index"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "open Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef correlate {m n : Nat} (a : Vector Float m) (v : Vector Float n) (h : n ≤ m) (h_pos : 0 < n) : Id (Vector Float (m + 1 - n)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem correlate_spec {m n : Nat} (a : Vector Float m) (v : Vector Float n) (h : n ≤ m) (h_pos : 0 < n) :\n    ⦃⌜n ≤ m ∧ 0 < n⌝⦄\n    correlate a v h h_pos\n    ⦃⇓result => ⌜-- Cross-correlation computation property: each output element is the sum of products\n                 (∀ k : Fin (m + 1 - n), \n                   ∃ products : Fin n → Float,\n                   (∀ i : Fin n, products i = a.get ⟨k.val + i.val, by sorry⟩ * v.get i) ∧\n                   result.get k = (Vector.ofFn products).toList.sum) ∧\n                 -- Boundary condition: all indices are valid for the computation\n                 (∀ k : Fin (m + 1 - n), ∀ i : Fin n, k.val + i.val < m) ∧\n                 -- Mathematical property: correlation is bilinear in its arguments\n                 (∀ k : Fin (m + 1 - n), \n                   result.get k = (Vector.ofFn (fun i : Fin n => a.get ⟨k.val + i.val, by sorry⟩ * v.get i)).toList.sum) ∧\n                 -- Non-negativity when both sequences are non-negative\n                 ((∀ i : Fin m, 0 ≤ a.get i) ∧ (∀ i : Fin n, 0 ≤ v.get i) →\n                   ∀ k : Fin (m + 1 - n), 0 ≤ result.get k)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 60,
+    "path": "specs/LT0326_specs.lean",
+    "line": 25,
+    "current_line": "(x.get k ≤ xp.get ⟨0, sorry⟩ → result.get k = fp.get ⟨0, sorry⟩) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "successor_bound_shape"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef interp {n m : Nat} (x : Vector Float n) (xp : Vector Float (m + 1)) (fp : Vector Float (m + 1)) \n    (h_increasing : ∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j) : Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem interp_spec {n m : Nat} (x : Vector Float n) (xp : Vector Float (m + 1)) (fp : Vector Float (m + 1)) \n    (h_increasing : ∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j) :\n    ⦃⌜∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j⌝⦄\n    interp x xp fp h_increasing\n    ⦃⇓result => ⌜\n      -- Each interpolated value is computed correctly\n      ∀ k : Fin n, \n        -- For points outside the left range, use left boundary value\n        (x.get k ≤ xp.get ⟨0, sorry⟩ → result.get k = fp.get ⟨0, sorry⟩) ∧\n        -- For points outside the right range, use right boundary value\n        (x.get k ≥ xp.get ⟨m, sorry⟩ → result.get k = fp.get ⟨m, sorry⟩) ∧\n        -- For points exactly at data points, return exact values\n        (∀ i : Fin (m + 1), x.get k = xp.get i → result.get k = fp.get i) ∧\n        -- For points within the range, value is between adjacent data points\n        (∀ i : Fin m, \n          xp.get ⟨i.val, sorry⟩ ≤ x.get k ∧ x.get k ≤ xp.get ⟨i.val + 1, sorry⟩ →\n          ∃ t : Float, 0 ≤ t ∧ t ≤ 1 ∧ \n          result.get k = fp.get ⟨i.val, sorry⟩ + t * (fp.get ⟨i.val + 1, sorry⟩ - fp.get ⟨i.val, sorry⟩))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 60,
+    "path": "specs/LT0326_specs.lean",
+    "line": 27,
+    "current_line": "(x.get k ≥ xp.get ⟨m, sorry⟩ → result.get k = fp.get ⟨m, sorry⟩) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder",
+      "uses_Fin_val",
+      "successor_bound_shape"
+    ],
+    "penalties": [
+      "recent_implication_guard_may_not_be_visible"
+    ],
+    "window": "\n-- <vc-definitions>\ndef interp {n m : Nat} (x : Vector Float n) (xp : Vector Float (m + 1)) (fp : Vector Float (m + 1)) \n    (h_increasing : ∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j) : Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem interp_spec {n m : Nat} (x : Vector Float n) (xp : Vector Float (m + 1)) (fp : Vector Float (m + 1)) \n    (h_increasing : ∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j) :\n    ⦃⌜∀ i j : Fin (m + 1), i < j → xp.get i < xp.get j⌝⦄\n    interp x xp fp h_increasing\n    ⦃⇓result => ⌜\n      -- Each interpolated value is computed correctly\n      ∀ k : Fin n, \n        -- For points outside the left range, use left boundary value\n        (x.get k ≤ xp.get ⟨0, sorry⟩ → result.get k = fp.get ⟨0, sorry⟩) ∧\n        -- For points outside the right range, use right boundary value\n        (x.get k ≥ xp.get ⟨m, sorry⟩ → result.get k = fp.get ⟨m, sorry⟩) ∧\n        -- For points exactly at data points, return exact values\n        (∀ i : Fin (m + 1), x.get k = xp.get i → result.get k = fp.get i) ∧\n        -- For points within the range, value is between adjacent data points\n        (∀ i : Fin m, \n          xp.get ⟨i.val, sorry⟩ ≤ x.get k ∧ x.get k ≤ xp.get ⟨i.val + 1, sorry⟩ →\n          ∃ t : Float, 0 ≤ t ∧ t ≤ 1 ∧ \n          result.get k = fp.get ⟨i.val, sorry⟩ + t * (fp.get ⟨i.val + 1, sorry⟩ - fp.get ⟨i.val, sorry⟩))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0583_specs.lean",
+    "line": 36,
+    "current_line": "x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder"
+    ],
+    "penalties": [],
+    "window": "    (h_bins_pos : bins > 0) (h_nbins_eq : nbins = bins) :\n    ⦃⌜bins > 0⌝⦄\n    histogram2d x y bins h_bins_pos h_nbins_eq\n    ⦃⇓result => ⌜-- Destructure the result tuple\n                 let (hist, x_edges, y_edges) := result\n                 -- 1. All histogram values are non-negative\n                 (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≥ 0) ∧\n                 -- 2. Total count conservation: sum of all bins equals input length\n                 (∃ total : Nat, \n                   (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≤ n) ∧\n                   total = n) ∧\n                 -- 3. Bin edges are monotonically increasing\n                 (∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧\n                 (∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧\n                 -- 4. Bin edges span the data range appropriately\n                 (∃ x_min x_max y_min y_max : Float,\n                   (∀ i : Fin n, x_min ≤ x.get i ∧ x.get i ≤ x_max) ∧\n                   (∀ i : Fin n, y_min ≤ y.get i ∧ y.get i ≤ y_max) ∧\n                   x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧\n                   y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧\n                 -- 5. Histogram correctly partitions the data space\n                 (∀ i : Fin nbins, ∀ j : Fin nbins,\n                   ∀ k : Fin n,\n                   let x_val := x.get k\n                   let y_val := y.get k\n                   let x_left := x_edges.get ⟨i, sorry⟩\n                   let x_right := x_edges.get ⟨i + 1, sorry⟩  \n                   let y_left := y_edges.get ⟨j, sorry⟩\n                   let y_right := y_edges.get ⟨j + 1, sorry⟩\n                   (x_left ≤ x_val ∧ x_val < x_right ∧ y_left ≤ y_val ∧ y_val < y_right) ∨\n                   (i = nbins - 1 ∧ j = nbins - 1 ∧ x_val = x_right ∧ y_val = y_right) →\n                   (hist.get i).get j ≥ 1)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0583_specs.lean",
+    "line": 37,
+    "current_line": "y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder"
+    ],
+    "penalties": [],
+    "window": "    ⦃⌜bins > 0⌝⦄\n    histogram2d x y bins h_bins_pos h_nbins_eq\n    ⦃⇓result => ⌜-- Destructure the result tuple\n                 let (hist, x_edges, y_edges) := result\n                 -- 1. All histogram values are non-negative\n                 (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≥ 0) ∧\n                 -- 2. Total count conservation: sum of all bins equals input length\n                 (∃ total : Nat, \n                   (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≤ n) ∧\n                   total = n) ∧\n                 -- 3. Bin edges are monotonically increasing\n                 (∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧\n                 (∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧\n                 -- 4. Bin edges span the data range appropriately\n                 (∃ x_min x_max y_min y_max : Float,\n                   (∀ i : Fin n, x_min ≤ x.get i ∧ x.get i ≤ x_max) ∧\n                   (∀ i : Fin n, y_min ≤ y.get i ∧ y.get i ≤ y_max) ∧\n                   x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧\n                   y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧\n                 -- 5. Histogram correctly partitions the data space\n                 (∀ i : Fin nbins, ∀ j : Fin nbins,\n                   ∀ k : Fin n,\n                   let x_val := x.get k\n                   let y_val := y.get k\n                   let x_left := x_edges.get ⟨i, sorry⟩\n                   let x_right := x_edges.get ⟨i + 1, sorry⟩  \n                   let y_left := y_edges.get ⟨j, sorry⟩\n                   let y_right := y_edges.get ⟨j + 1, sorry⟩\n                   (x_left ≤ x_val ∧ x_val < x_right ∧ y_left ≤ y_val ∧ y_val < y_right) ∨\n                   (i = nbins - 1 ∧ j = nbins - 1 ∧ x_val = x_right ∧ y_val = y_right) →\n                   (hist.get i).get j ≥ 1)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0583_specs.lean",
+    "line": 43,
+    "current_line": "let x_left := x_edges.get ⟨i, sorry⟩",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder"
+    ],
+    "penalties": [],
+    "window": "                 -- 2. Total count conservation: sum of all bins equals input length\n                 (∃ total : Nat, \n                   (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≤ n) ∧\n                   total = n) ∧\n                 -- 3. Bin edges are monotonically increasing\n                 (∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧\n                 (∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧\n                 -- 4. Bin edges span the data range appropriately\n                 (∃ x_min x_max y_min y_max : Float,\n                   (∀ i : Fin n, x_min ≤ x.get i ∧ x.get i ≤ x_max) ∧\n                   (∀ i : Fin n, y_min ≤ y.get i ∧ y.get i ≤ y_max) ∧\n                   x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧\n                   y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧\n                 -- 5. Histogram correctly partitions the data space\n                 (∀ i : Fin nbins, ∀ j : Fin nbins,\n                   ∀ k : Fin n,\n                   let x_val := x.get k\n                   let y_val := y.get k\n                   let x_left := x_edges.get ⟨i, sorry⟩\n                   let x_right := x_edges.get ⟨i + 1, sorry⟩  \n                   let y_left := y_edges.get ⟨j, sorry⟩\n                   let y_right := y_edges.get ⟨j + 1, sorry⟩\n                   (x_left ≤ x_val ∧ x_val < x_right ∧ y_left ≤ y_val ∧ y_val < y_right) ∨\n                   (i = nbins - 1 ∧ j = nbins - 1 ∧ x_val = x_right ∧ y_val = y_right) →\n                   (hist.get i).get j ≥ 1)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0583_specs.lean",
+    "line": 45,
+    "current_line": "let y_left := y_edges.get ⟨j, sorry⟩",
+    "reasons": [
+      "embedded_Vector_get_Fin_bound",
+      "nearby_Fin_binder"
+    ],
+    "penalties": [],
+    "window": "                   (∀ i : Fin nbins, ∀ j : Fin nbins, (hist.get i).get j ≤ n) ∧\n                   total = n) ∧\n                 -- 3. Bin edges are monotonically increasing\n                 (∀ i : Fin nbins, x_edges.get ⟨i, sorry⟩ < x_edges.get ⟨i + 1, sorry⟩) ∧\n                 (∀ i : Fin nbins, y_edges.get ⟨i, sorry⟩ < y_edges.get ⟨i + 1, sorry⟩) ∧\n                 -- 4. Bin edges span the data range appropriately\n                 (∃ x_min x_max y_min y_max : Float,\n                   (∀ i : Fin n, x_min ≤ x.get i ∧ x.get i ≤ x_max) ∧\n                   (∀ i : Fin n, y_min ≤ y.get i ∧ y.get i ≤ y_max) ∧\n                   x_edges.get ⟨0, sorry⟩ ≤ x_min ∧ x_max ≤ x_edges.get ⟨nbins, sorry⟩ ∧\n                   y_edges.get ⟨0, sorry⟩ ≤ y_min ∧ y_max ≤ y_edges.get ⟨nbins, sorry⟩) ∧\n                 -- 5. Histogram correctly partitions the data space\n                 (∀ i : Fin nbins, ∀ j : Fin nbins,\n                   ∀ k : Fin n,\n                   let x_val := x.get k\n                   let y_val := y.get k\n                   let x_left := x_edges.get ⟨i, sorry⟩\n                   let x_right := x_edges.get ⟨i + 1, sorry⟩  \n                   let y_left := y_edges.get ⟨j, sorry⟩\n                   let y_right := y_edges.get ⟨j + 1, sorry⟩\n                   (x_left ≤ x_val ∧ x_val < x_right ∧ y_left ≤ y_val ∧ y_val < y_right) ∨\n                   (i = nbins - 1 ∧ j = nbins - 1 ∧ x_val = x_right ∧ y_val = y_right) →\n                   (hist.get i).get j ≥ 1)⌝⦄ := by\n  sorry\n-- </vc-theorems>",
+    "baseline_rc": 0
+  }
+]

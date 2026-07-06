@@ -1,0 +1,82 @@
+{
+  "specs/LT0049_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0049_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0049_specs.lean:17:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0420_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0420_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0420_specs.lean:16:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0445_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0445_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0445_specs.lean:16:8: warning: declaration uses `sorry`"
+  },
+  "specs/LF0093_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LF0093_specs.lean:8:4: warning: declaration uses `sorry`\nspecs/LF0093_specs.lean:13:8: warning: declaration uses `sorry`\nspecs/LF0093_specs.lean:22:8: warning: declaration uses `sorry`"
+  },
+  "specs/LF3312_specs.lean": {
+    "rc": 1,
+    "tail": "specs/LF3312_specs.lean:8:4: warning: declaration uses `sorry`\nspecs/LF3312_specs.lean:10:8: warning: declaration uses `sorry`\nspecs/LF3312_specs.lean:20:10: error(lean.invalidField): Invalid field `get?`: The environment does not contain `List.get?`, so it is not possible to project the field `get?` from an expression\n  result\nof type `List Int`\nspecs/LF3312_specs.lean:26:8: warning: declaration uses `sorry`\nspecs/LF3312_specs.lean:32:8: warning: declaration uses `sorry`\nspecs/LF3312_specs.lean:36:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0009_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0009_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0009_specs.lean:16:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0014_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0014_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0014_specs.lean:16:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0056_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0056_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0056_specs.lean:18:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0091_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0091_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0091_specs.lean:16:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0151_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0151_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0151_specs.lean:16:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0156_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0156_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0156_specs.lean:16:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0171_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0171_specs.lean:8:4: warning: declaration uses `sorry`\nspecs/LT0171_specs.lean:13:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0173_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0173_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0173_specs.lean:17:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0579_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0579_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0579_specs.lean:16:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0583_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0583_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0583_specs.lean:17:8: warning: declaration uses `sorry`"
+  },
+  "specs/LF3983_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LF3983_specs.lean:8:4: warning: declaration uses `sorry`\nspecs/LF3983_specs.lean:10:8: warning: declaration uses `sorry`\nspecs/LF3983_specs.lean:15:8: warning: declaration uses `sorry`\nspecs/LF3983_specs.lean:20:8: warning: declaration uses `sorry`\nspecs/LF3983_specs.lean:27:8: warning: declaration uses `sorry`\nspecs/LF3983_specs.lean:30:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0179_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0179_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0179_specs.lean:18:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0326_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0326_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0326_specs.lean:17:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0425_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0425_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0425_specs.lean:17:8: warning: declaration uses `sorry`"
+  },
+  "specs/LT0450_specs.lean": {
+    "rc": 0,
+    "tail": "specs/LT0450_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0450_specs.lean:16:8: warning: declaration uses `sorry`"
+  }
+}
