@@ -1,0 +1,24 @@
+./lake-manifest.json
+./lakefile.toml
+./Lean Code/Lecture 9 - lists, arrays, indexing, IO/GetFactorial.lean
+./Lean Code/Lecture 9 - lists, arrays, indexing, IO/Hello.lean
+./Lean Code/Lecture 9 - lists, arrays, indexing, IO/HelloName.lean
+./Lean Code/Lecture 9 - lists, arrays, indexing, IO/Lecture9.lean
+./Lean Code/Lecture 9 - lists, arrays, indexing, IO/Option.lean
+./Lean Code/Lecture 9 - lists, arrays, indexing, IO/StringExamples.lean
+./Lean Code/Lecture1.lean
+./Lean Code/Lecture2_post_lecture.lean
+./Lean Code/Lecture2.lean
+./Lean Code/Lecture3.lean
+./Lean Code/Lecture4_post_lecture.lean
+./Lean Code/Lecture4.lean
+./Lean Code/Lecture5.lean
+./Lean Code/Lecture6_post_lecture.lean
+./Lean Code/Lecture6.lean
+./Lean Code/Lecture7.lean
+./Lean Code/Lecture8_post_lecture.lean
+./Lean Code/Lecture8.lean
+./Lean Code/Lecture9.lean
+./lean-toolchain
+./LFSE2024.lean
+./LFSE2024/Basic.lean
