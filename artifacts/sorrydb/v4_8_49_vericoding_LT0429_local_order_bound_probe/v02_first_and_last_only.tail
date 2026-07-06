@@ -1,0 +1,31 @@
+specs/LT0429_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0429_specs.lean:45:42: error: Tactic `assumption` failed
+
+n : Nat
+x y z : Vector Float n
+deg : Vector Nat 3
+result : Vector (Vector Float ((deg.get ⟨0, ⋯⟩ + 1) * (deg.get ⟨1, ⋯⟩ + 1) * (deg.get ⟨2, ⋯⟩ + 1))) n
+x_deg : Nat := deg.get ⟨0, ⋯⟩
+y_deg : Nat := deg.get ⟨1, ⋯⟩
+z_deg : Nat := deg.get ⟨2, ⋯⟩
+order : Nat := (x_deg + 1) * (y_deg + 1) * (z_deg + 1)
+hermite_poly : Nat → Float → Float
+p : Fin n
+i j k : Nat
+col_idx : Nat := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k
+⊢ col_idx < (deg.get ⟨0, ⋯⟩ + 1) * (deg.get ⟨1, ⋯⟩ + 1) * (deg.get ⟨2, ⋯⟩ + 1)
+specs/LT0429_specs.lean:76:42: error: Tactic `assumption` failed
+
+n : Nat
+x y z : Vector Float n
+deg : Vector Nat 3
+result : Vector (Vector Float ((deg.get ⟨0, ⋯⟩ + 1) * (deg.get ⟨1, ⋯⟩ + 1) * (deg.get ⟨2, ⋯⟩ + 1))) n
+x_deg : Nat := deg.get ⟨0, ⋯⟩
+y_deg : Nat := deg.get ⟨1, ⋯⟩
+z_deg : Nat := deg.get ⟨2, ⋯⟩
+order : Nat := (x_deg + 1) * (y_deg + 1) * (z_deg + 1)
+hermite_poly : Nat → Float → Float
+p : Fin n
+i j k : Nat
+col_idx : Nat := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k
+⊢ col_idx < (deg.get ⟨0, ⋯⟩ + 1) * (deg.get ⟨1, ⋯⟩ + 1) * (deg.get ⟨2, ⋯⟩ + 1)

@@ -1,0 +1,5 @@
+specs/LT0429_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0429_specs.lean:58:14: error: too many variable names provided
+specs/LT0429_specs.lean:59:20: error(lean.unknownIdentifier): Unknown identifier `h1`
+specs/LT0429_specs.lean:60:14: error: too many variable names provided
+specs/LT0429_specs.lean:61:20: error(lean.unknownIdentifier): Unknown identifier `h2`
