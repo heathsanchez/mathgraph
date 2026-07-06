@@ -1,0 +1,14 @@
+target	variant_index	rc
+line80_complex_re_expand	1	1
+line80_complex_re_expand	2	1
+line80_complex_re_expand	3	1
+line80_complex_re_expand	4	1
+line81_norm_decompose	1	1
+line81_norm_decompose	2	1
+line81_norm_decompose	3	1
+line81_norm_decompose	4	1
+line82_real_expand	1	1
+line82_real_expand	2	1
+line82_real_expand	3	1
+line87_sqrt_sq	1	1
+line87_sqrt_sq	2	1

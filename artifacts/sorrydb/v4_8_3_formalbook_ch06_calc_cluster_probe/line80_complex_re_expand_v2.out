@@ -1,0 +1,123 @@
+✖ [2498/2498] Building FormalBook.Chapter_06 (48s)
+trace: .> LEAN_PATH=/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/Cli/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/proofwidgets/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/packages/checkdecls/.lake/build/lib/lean:/private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/build/lib/lean /Users/heath/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/bin/lean /private/tmp/formalbook_ch06_clusterprobe_v4_8_3/FormalBook/Chapter_06.lean -o /private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/build/lib/lean/FormalBook/Chapter_06.olean -i /private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/build/lib/lean/FormalBook/Chapter_06.ilean -c /private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/build/ir/FormalBook/Chapter_06.c --setup /private/tmp/formalbook_ch06_clusterprobe_v4_8_3/.lake/build/ir/FormalBook/Chapter_06.setup.json --json
+error: FormalBook/Chapter_06.lean:80:35: unsolved goals
+q n : ℕ
+lamb : ℂ
+a : ℝ := lamb.re
+b : ℝ := lamb.im
+h : lamb ∈ primitiveRoots n ℂ
+h_lamb : lamb ≠ 1
+h_a_lt_one : ‖a‖ < 1
+⊢ ‖↑q - lamb‖ = ‖↑q - ↑lamb.re - I * ↑lamb.im‖
+warning: FormalBook/Chapter_06.lean:80:50: This simp argument is unused:
+  Complex.ext_iff
+
+Hint: Omit it from the simp argument list.
+  simp [a, b,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵e̵x̵t̵_̵i̵f̵f̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:121:17: This simp argument is unused:
+  ge_iff_le
+
+Hint: Omit it from the simp argument list.
+  simp only [g̵e̵_̵i̵f̵f̵_̵l̵e̵,̵ ̵add_right_inj]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:203:26: `let_fun` has been deprecated in favor of `have`
+
+Note: This linter can be disabled with `set_option linter.deprecated false`
+warning: FormalBook/Chapter_06.lean:208:18: `let_fun` has been deprecated in favor of `have`
+
+Note: This linter can be disabled with `set_option linter.deprecated false`
+warning: FormalBook/Chapter_06.lean:173:8: declaration uses 'sorry'
+warning: FormalBook/Chapter_06.lean:221:15: This simp argument is unused:
+  ge_iff_le
+
+Hint: Omit it from the simp argument list.
+  simp only [g̵e̵_̵i̵f̵f̵_̵l̵e̵,̵ ̵add_le_iff_nonpos_left, nonpos_iff_eq_zero, Fintype.card_ne_zero,
+       ̲ ̲add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:221:26: This simp argument is unused:
+  add_le_iff_nonpos_left
+
+Hint: Omit it from the simp argument list.
+  simp only [ge_iff_le, a̵d̵d̵_̵l̵e̵_̵i̵f̵f̵_̵n̵o̵n̵p̵o̵s̵_̵l̵e̵f̵t̵,̵ ̵nonpos_iff_eq_zero, Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:221:50: This simp argument is unused:
+  nonpos_iff_eq_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [ge_iff_le, add_le_iff_nonpos_left, n̵o̵n̵p̵o̵s̵_̵i̵f̵f̵_̵e̵q̵_̵z̵e̵r̵o̵,̵ ̵Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:221:70: This simp argument is unused:
+  Fintype.card_ne_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [ge_iff_le, add_le_iff_nonpos_left, nonpos_iff_eq_zero, F̵i̵n̵t̵y̵p̵e̵.̵c̵a̵r̵d̵_̵n̵e̵_̵z̵e̵r̵o̵,̵add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:228:15: This simp argument is unused:
+  center_toSubsemiring
+
+Hint: Omit it from the simp argument list.
+  simp only [̵c̵e̵n̵t̵e̵r̵_̵t̵o̵S̵u̵b̵s̵e̵m̵i̵r̵i̵n̵g̵,̵ ̵S̵u̵b̵s̵e̵m̵i̵r̵i̵n̵g̵.̵c̵e̵n̵t̵e̵r̵_̵t̵o̵S̵u̵b̵m̵o̵n̵o̵i̵d̵,̵[̲S̲u̲b̲s̲e̲m̲i̲r̲i̲n̲g̲.̲c̲e̲n̲t̲e̲r̲_̲t̲o̲S̲u̲b̲m̲o̲n̲o̲i̲d̲,̲ ge_iff_le, add_le_iff_nonpos_left,
+  ̲  ̲ ̲ ̲ ̲ ̲nonpos_iff_eq_zero, Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:228:37: This simp argument is unused:
+  Subsemiring.center_toSubmonoid
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, S̵u̵b̵s̵e̵m̵i̵r̵i̵n̵g̵.̵c̵e̵n̵t̵e̵r̵_̵t̵o̵S̵u̵b̵m̵o̵n̵o̵i̵d̵,̵ ̵ge_iff_le, add_le_iff_nonpos_left, nonpos_iff_eq_zero,
+  ̲  ̲ ̲ ̲ ̲ ̲Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:228:69: This simp argument is unused:
+  ge_iff_le
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, Subsemiring.center_toSubmonoid, g̵e̵_̵i̵f̵f̵_̵l̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵add_le_iff_nonpos_left,
+  ̲  ̲ ̲ ̲ ̲ ̲nonpos_iff_eq_zero, Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:229:6: This simp argument is unused:
+  add_le_iff_nonpos_left
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, Subsemiring.center_toSubmonoid, ge_iff_le, a̵d̵d̵_̵l̵e̵_̵i̵f̵f̵_̵n̵o̵n̵p̵o̵s̵_̵l̵e̵f̵t̵,̵ ̵nonpos_iff_eq_zero,
+  ̲  ̲ ̲ ̲ ̲ ̲Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:229:30: This simp argument is unused:
+  nonpos_iff_eq_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, Subsemiring.center_toSubmonoid, ge_iff_le,
+        add_le_iff_nonpos_left, n̵o̵n̵p̵o̵s̵_̵i̵f̵f̵_̵e̵q̵_̵z̵e̵r̵o̵,̵ ̵Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:229:50: This simp argument is unused:
+  Fintype.card_ne_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, Subsemiring.center_toSubmonoid, ge_iff_le,
+        add_le_iff_nonpos_left, nonpos_iff_eq_zero, F̵i̵n̵t̵y̵p̵e̵.̵c̵ar̵d_̵n̵e̵_̵z̵e̵r̵o̵,̵ ̵a̵dd̵_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:264:65: This simp argument is unused:
+  IsUnit.mul_iff
+
+Hint: Omit it from the simp argument list.
+  simp only [eval_mul, eval_sub, eval_pow, eval_X, eval_one,̵ ̵I̵s̵U̵n̵i̵t̵.̵m̵u̵l̵_̵i̵f̵f̵] at this
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+error: Lean exited with code 1
+Some required targets logged failures:
+- FormalBook.Chapter_06
+
+STDERR:
+error: build failed
