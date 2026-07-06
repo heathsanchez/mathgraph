@@ -1,0 +1,14 @@
+DefaultScore worst beats beyond-worst score:
+true
+WorstLeafScore worst beats beyond-worst score:
+true
+UniformDensityScore worst beats beyond-worst score:
+true
+DefaultScore combine improves left:
+false
+WorstLeafScore combine improves left:
+false
+DensityScore combined value:
+{ density := Scoring.Density.Checking, varDeps := 0, forChecker := true }
+DensityScore combine improves left:
+true
