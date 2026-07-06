@@ -1,0 +1,5 @@
+target	variant	rc	new_sorry_delta
+LT0479	v01_calc_nat_succ_mul	0	-1
+LT0480	v01_nlinarith	1	-1
+LT0480	v02_omega_with_abstractions	1	-1
+LT0480	v03_calc_partial_then_omega	1	-1

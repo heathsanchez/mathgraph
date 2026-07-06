@@ -1,0 +1,17 @@
+specs/LT0480_specs.lean:14:4: warning: declaration uses `sorry`
+specs/LT0480_specs.lean:27:4: warning: declaration uses `sorry`
+specs/LT0480_specs.lean:50:25: error: unknown tactic
+specs/LT0480_specs.lean:46:79: error: unsolved goals
+n : Nat
+x y z : Vector Float n
+xdeg ydeg zdeg : Nat
+result : Vector (Vector Float ((xdeg + 1) * (ydeg + 1) * (zdeg + 1))) n
+p : Fin n
+i : Fin (xdeg + 1)
+j : Fin (ydeg + 1)
+k : Fin (zdeg + 1)
+idx : Nat := ↑i * (ydeg + 1) * (zdeg + 1) + ↑j * (zdeg + 1) + ↑k
+hi : ↑i < xdeg + 1
+hj : ↑j < ydeg + 1
+hk : ↑k < zdeg + 1
+⊢ idx < (xdeg + 1) * (ydeg + 1) * (zdeg + 1)
