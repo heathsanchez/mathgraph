@@ -1,0 +1,18 @@
+diff --git a/specs/LT0420_specs.lean b/specs/LT0420_specs.lean
+index 70452ed..14d36e3 100644
+--- a/specs/LT0420_specs.lean
++++ b/specs/LT0420_specs.lean
+@@ -20,10 +20,10 @@ theorem hermemulx_spec {n : Nat} (c : Vector Float n) :
+       -- Coefficient at position 0 is always 0 (no constant term in x*polynomial)
+       result.get ⟨0, by simp⟩ = 0 ∧
+       -- For n > 0: coefficient at position 1 comes from c[0] plus recursive contributions  
+-      (∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ + 
++      (∀ (h : n > 0), result.get ⟨1, by exact Nat.succ_lt_succ h⟩ = c.get ⟨0, h⟩ + 
+         (if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧
+       -- For i ≥ 1: result[i+1] gets c[i] (coefficient shift up)
+-      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)
++      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, by exact Nat.succ_lt_succ i.isLt⟩ = c.get i)
+     ⌝⦄ := by
+   sorry
+ -- </vc-theorems>
+\ No newline at end of file
