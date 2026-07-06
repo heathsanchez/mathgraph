@@ -1,0 +1,224 @@
+[
+  {
+    "score": 95,
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 158,
+    "current_line": "      sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "bare_sorry",
+      "nearby_basic_tactic",
+      "decomposed_comment",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [],
+    "window": "    -- STEP (4) : l ≥ 3 by Contradiction\n    -- case l ≥ 3\n    · have h_3lel : 3 ≤ l := by\n        sorry\n      -- main work : n < k³\n      have h₄ : n < k^3 := by\n        sorry\n\n      sorry\n\n  rcases em (n ≥ 2*k) with h_2k | h\n  · exact h_wlog k h_4lek h_klen4 h_2k\n  · -- transform ¬(n ≥ 2 * k) into (n < 2 * k)\n    simp only [not_le] at h\n    -- transform (n.choose k) into (n.choose (n - k))\n    have h_klen : k ≤ n := le_trans h_klen4 (Nat.sub_le n 4)\n    rw [← choose_symm h_klen]"
+  },
+  {
+    "score": 95,
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 173,
+    "current_line": "      sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "bare_sorry",
+      "nearby_basic_tactic",
+      "decomposed_comment",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [],
+    "window": "    have h_klen : k ≤ n := le_trans h_klen4 (Nat.sub_le n 4)\n    rw [← choose_symm h_klen]\n    -- define k' as n - k, such that k' can be used for h_wlog as k'\n    -- satisfies all required features\n    let k' := n - k\n    have h_k'_def : k' = n - k := by rfl\n    -- third requirement: 2 * k' ≤ n\n    have h_2k'len : 2 * k' ≤ n := by\n      sorry\n    -- second requirement: k ≤ n - 4\n    have h_k'len4 : k' ≤ n - 4 := by\n      simp only [h_k'_def, tsub_le_iff_right]\n      have help : k + k ≤ n - 4 + k := add_le_add_left h_klen4 k\n      rw [← (two_mul k)] at help\n      exact le_trans (le_of_lt h) help\n    -- first requirement: 4 ≤ k\n    have h_4lek' : 4 ≤ k' := Iff.mp (le_tsub_iff_le_tsub h_klen (le_trans (le_trans h_4lek h_klen4)"
+  },
+  {
+    "score": 89,
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 153,
+    "current_line": "        sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "bare_sorry",
+      "nearby_basic_tactic",
+      "decomposed_comment",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [],
+    "window": "    --have h₃ : a_values l n k = s_1tok k := by\n    -- divide in two cases\n    cases em (l = 2)\n    -- Special Case l = 2 by Contradiction\n    ·  sorry\n    -- STEP (4) : l ≥ 3 by Contradiction\n    -- case l ≥ 3\n    · have h_3lel : 3 ≤ l := by\n        sorry\n      -- main work : n < k³\n      have h₄ : n < k^3 := by\n        sorry\n\n      sorry\n\n  rcases em (n ≥ 2*k) with h_2k | h\n  · exact h_wlog k h_4lek h_klen4 h_2k"
+  },
+  {
+    "score": 89,
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 156,
+    "current_line": "        sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "bare_sorry",
+      "nearby_basic_tactic",
+      "decomposed_comment",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [],
+    "window": "    -- Special Case l = 2 by Contradiction\n    ·  sorry\n    -- STEP (4) : l ≥ 3 by Contradiction\n    -- case l ≥ 3\n    · have h_3lel : 3 ≤ l := by\n        sorry\n      -- main work : n < k³\n      have h₄ : n < k^3 := by\n        sorry\n\n      sorry\n\n  rcases em (n ≥ 2*k) with h_2k | h\n  · exact h_wlog k h_4lek h_klen4 h_2k\n  · -- transform ¬(n ≥ 2 * k) into (n < 2 * k)\n    simp only [not_le] at h\n    -- transform (n.choose k) into (n.choose (n - k))"
+  },
+  {
+    "score": 89,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 296,
+    "current_line": "      sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "bare_sorry",
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [
+      "hard_term_Polynomial"
+    ],
+    "window": "    simp only [map_cyclotomic]\n    have := isPrimitiveRoot_exp n h_n\n    rw [cyclotomic_eq_prod_X_sub_primitiveRoots this]\n\n  have : 2 ≤ q := Fintype.one_lt_card_iff.mpr (exists_pair_ne { x // x ∈ Z })\n  -- here the book uses h_lamb_gt_q_sub_one from above\n  have h_gt : ((cyclotomic n ℤ).eval ↑q).natAbs > q - 1 := by\n    have hn : 1 < n := by\n      sorry\n    have hq : q ≠ 1 := by exact Nat.ne_of_gt this\n    exact Polynomial.sub_one_lt_natAbs_cyclotomic_eval hn hq\n\n  have h_q_sub_one : 0 ≠ (q : ℤ) - 1 := by\n    have h1 : (q : ℤ) - 1 = (q - 1 : ℕ) := by\n      rw [Int.ofNat_sub $ le_of_lt this]\n      norm_num\n    rw [h1]"
+  },
+  {
+    "score": 82,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 87,
+    "current_line": "  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [],
+    "window": "        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)\n  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry\n  rw [this, Real.sqrt_sq] at g\n  · exact g\n  · sorry\n\nlemma div_of_qpoly_div (k n q : ℕ) (hq : 1 < q) (hk : 0 < k) (hn : 0 < n)\n    (H : q ^ k - 1 ∣ q ^ n - 1) : k ∣ n := by\n  revert H\n  revert hn"
+  },
+  {
+    "score": 76,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 78,
+    "current_line": "      _ = ‖q - lamb‖^2 := by sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [],
+    "window": "  let a := lamb.re\n  let b := lamb.im\n  intro h\n  have h_lamb: lamb ≠ 1 := by sorry\n  have h_a_lt_one: ‖a‖ < 1 := by sorry\n  have h_ineq :\n      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)"
+  },
+  {
+    "score": 72,
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 149,
+    "current_line": "    ·  sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "decomposed_comment",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [
+      "hard_term_∀"
+    ],
+    "window": "    --have h₂ : ∀ j, (j ≤ k - 1) ∧ (∀ (q : ℕ), q ∣ (aFct l n j) ∧ prime q → q ≤ k) ∧\n    --    (∀ i ≤ k - 1, i ≠ j → (aFct l n i) ≠ (aFct l n j)) := by\n    -- sorry\n    -- Step (3) : a_i are integers 1..k\n    --have h₃ : a_values l n k = s_1tok k := by\n    -- divide in two cases\n    cases em (l = 2)\n    -- Special Case l = 2 by Contradiction\n    ·  sorry\n    -- STEP (4) : l ≥ 3 by Contradiction\n    -- case l ≥ 3\n    · have h_3lel : 3 ≤ l := by\n        sorry\n      -- main work : n < k³\n      have h₄ : n < k^3 := by\n        sorry\n"
+  },
+  {
+    "score": 72,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 74,
+    "current_line": "  have h_a_lt_one: ‖a‖ < 1 := by sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [
+      "hard_term_Polynomial"
+    ],
+    "window": "-- this is currently not needed, because we use Polynomial.sub_one_lt_natAbs_cyclotomic_eval,\n-- TODO: add it later to stay close to the proof in the book.\ntheorem h_lamb_gt_q_sub_one (q n : ℕ) (lamb : ℂ):\n  lamb ∈ (primitiveRoots n ℂ) → ‖(X - (C lamb)).eval (q : ℂ)‖ > (q - 1) := by\n  let a := lamb.re\n  let b := lamb.im\n  intro h\n  have h_lamb: lamb ≠ 1 := by sorry\n  have h_a_lt_one: ‖a‖ < 1 := by sorry\n  have h_ineq :\n      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry"
+  },
+  {
+    "score": 72,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 90,
+    "current_line": "  · sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [
+      "hard_term_∀"
+    ],
+    "window": "      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)\n  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry\n  rw [this, Real.sqrt_sq] at g\n  · exact g\n  · sorry\n\nlemma div_of_qpoly_div (k n q : ℕ) (hq : 1 < q) (hk : 0 < k) (hn : 0 < n)\n    (H : q ^ k - 1 ∣ q ^ n - 1) : k ∣ n := by\n  revert H\n  revert hn\n  have : ∀ (n : ℕ), (∀ m < n, 0 < m → q ^ k - 1 ∣ q ^ m - 1 → k ∣ m) →\n      0 < n → q ^ k - 1 ∣ q ^ n - 1 → k ∣ n := by\n    intro m h hm H"
+  },
+  {
+    "score": 72,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 260,
+    "current_line": "      have h_one_neq: 1 ≠ n_k A := by sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [
+      "hard_term_Fintype.card"
+    ],
+    "window": "  --rest of proof\n  have h_phi_dvd_q_sub_one : (phi n).eval (q : ℤ) ∣ (((q - (1 : ℕ)) : ℕ ) : ℤ) := by\n    have hq : q = (Fintype.card { x // x ∈ center R }) := by rfl\n    have h₁_dvd : (phi n).eval (q : ℤ) ∣ ((X : ℤ[X])  ^ n - 1).eval (q : ℤ)  := by\n      exact eval_dvd <| phi_dvd n\n    have h₂_dvd :\n        (phi n).eval (q : ℤ) ∣ ∑ A : S', (((q ^ n - 1) : ℕ):ℤ) / ((q ^ (n_k A) - 1) : ℕ):= by\n      refine Finset.dvd_sum fun A hs ↦ (Int.dvd_div_of_mul_dvd ?_)\n      have h_one_neq: 1 ≠ n_k A := by sorry\n      have h_k_n_lt_n: n_k A < n := by sorry\n      have h_noneval := phi_div_2 n (n_k A) (h_n_k_A_dvd A) h_k_n_lt_n\n      have := @eval_dvd ℤ _ _ _ q h_noneval\n      simp only [eval_mul, eval_sub, eval_pow, eval_X, eval_one, IsUnit.mul_iff] at this\n      rw [← hq] at *\n      convert this\n      · simp [hq_pow_pos <| n_k A]\n      · simp [hq_pow_pos n]"
+  },
+  {
+    "score": 72,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 261,
+    "current_line": "      have h_k_n_lt_n: n_k A < n := by sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [
+      "hard_term_Fintype.card"
+    ],
+    "window": "  have h_phi_dvd_q_sub_one : (phi n).eval (q : ℤ) ∣ (((q - (1 : ℕ)) : ℕ ) : ℤ) := by\n    have hq : q = (Fintype.card { x // x ∈ center R }) := by rfl\n    have h₁_dvd : (phi n).eval (q : ℤ) ∣ ((X : ℤ[X])  ^ n - 1).eval (q : ℤ)  := by\n      exact eval_dvd <| phi_dvd n\n    have h₂_dvd :\n        (phi n).eval (q : ℤ) ∣ ∑ A : S', (((q ^ n - 1) : ℕ):ℤ) / ((q ^ (n_k A) - 1) : ℕ):= by\n      refine Finset.dvd_sum fun A hs ↦ (Int.dvd_div_of_mul_dvd ?_)\n      have h_one_neq: 1 ≠ n_k A := by sorry\n      have h_k_n_lt_n: n_k A < n := by sorry\n      have h_noneval := phi_div_2 n (n_k A) (h_n_k_A_dvd A) h_k_n_lt_n\n      have := @eval_dvd ℤ _ _ _ q h_noneval\n      simp only [eval_mul, eval_sub, eval_pow, eval_X, eval_one, IsUnit.mul_iff] at this\n      rw [← hq] at *\n      convert this\n      · simp [hq_pow_pos <| n_k A]\n      · simp [hq_pow_pos n]\n    simp only [eval_sub, eval_pow, eval_X, eval_one] at h₁_dvd"
+  },
+  {
+    "score": 67,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 247,
+    "current_line": "    sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "bare_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [
+      "hard_term_Fintype.card",
+      "hard_term_∀"
+    ],
+    "window": "\n  -- Orbit stabilizer formula for non-singleton conjugacy classes\n  have : ∀ A : S', (Fintype.card <| ConjClasses.carrier (A : ConjClasses Rˣ)) * (q ^ (n_k A) - 1)\n      = q ^ n - 1 := by\n    sorry\n\n  have h1 : (q ^ n - 1) = q - 1  + ∑ A : S', (q ^ n - 1) / (q ^ (n_k A) - 1) := by\n    convert H1\n    sorry\n  have hZ : Nonempty <| @Subtype R fun x => x ∈ Z := Zero.instNonempty\n  have hq_pow_pos : ∀ m,  1 ≤ q ^ m := fun m ↦ one_le_pow m q Fintype.card_pos\n\n  have h_n_k_A_dvd: ∀ A : S', (n_k A ∣ n) := by sorry\n  --rest of proof\n  have h_phi_dvd_q_sub_one : (phi n).eval (q : ℤ) ∣ (((q - (1 : ℕ)) : ℕ ) : ℤ) := by\n    have hq : q = (Fintype.card { x // x ∈ center R }) := by rfl\n    have h₁_dvd : (phi n).eval (q : ℤ) ∣ ((X : ℤ[X])  ^ n - 1).eval (q : ℤ)  := by"
+  },
+  {
+    "score": 62,
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 251,
+    "current_line": "  have h_n_k_A_dvd: ∀ A : S', (n_k A ∣ n) := by sorry",
+    "reasons": [
+      "nearby_local_have_by",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "nat_int_context"
+    ],
+    "penalties": [
+      "hard_term_Fintype.card",
+      "hard_term_∀"
+    ],
+    "window": "    sorry\n\n  have h1 : (q ^ n - 1) = q - 1  + ∑ A : S', (q ^ n - 1) / (q ^ (n_k A) - 1) := by\n    convert H1\n    sorry\n  have hZ : Nonempty <| @Subtype R fun x => x ∈ Z := Zero.instNonempty\n  have hq_pow_pos : ∀ m,  1 ≤ q ^ m := fun m ↦ one_le_pow m q Fintype.card_pos\n\n  have h_n_k_A_dvd: ∀ A : S', (n_k A ∣ n) := by sorry\n  --rest of proof\n  have h_phi_dvd_q_sub_one : (phi n).eval (q : ℤ) ∣ (((q - (1 : ℕ)) : ℕ ) : ℤ) := by\n    have hq : q = (Fintype.card { x // x ∈ center R }) := by rfl\n    have h₁_dvd : (phi n).eval (q : ℤ) ∣ ((X : ℤ[X])  ^ n - 1).eval (q : ℤ)  := by\n      exact eval_dvd <| phi_dvd n\n    have h₂_dvd :\n        (phi n).eval (q : ℤ) ∣ ∑ A : S', (((q ^ n - 1) : ℕ):ℤ) / ((q ^ (n_k A) - 1) : ℕ):= by\n      refine Finset.dvd_sum fun A hs ↦ (Int.dvd_div_of_mul_dvd ?_)"
+  }
+]
