@@ -1,0 +1,7 @@
+specs/LT0156_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0156_specs.lean:21:17: error: unsolved goals
+case zero.mk
+x result : Vector Float 0
+val✝ : Nat
+isLt✝ : val✝ < 0
+⊢ (↑⟨val✝, isLt✝⟩ + 0 / 2) % 0 < 0
