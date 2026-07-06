@@ -1,0 +1,26 @@
+diff --git a/specs/LT0380_specs.lean b/specs/LT0380_specs.lean
+index 784496e..94cc138 100644
+--- a/specs/LT0380_specs.lean
++++ b/specs/LT0380_specs.lean
+@@ -24,7 +24,7 @@ theorem chebder_spec {n : Nat} (c : Vector Float (n + 1)) (scl : Float := 1) :
+               (n > 1 → result.get ⟨1, by sorry⟩ = scl * 4 * c.get ⟨2, by sorry⟩) ∧
+               -- General recurrence for j ≥ 2
+               (∀ j : Fin n, j.val ≥ 2 →
+-                result.get j = scl * (2 * Float.ofNat (j.val + 1)) * c.get ⟨j.val + 1, by sorry⟩) ∧
++                result.get j = scl * (2 * Float.ofNat (j.val + 1)) * c.get ⟨j.val + 1, by omega⟩) ∧
+               -- Mathematical property: result represents the derivative
+               -- For formal verification, we'd need to define what it means for
+               -- a vector to represent a Chebyshev series and its derivative
+diff --git a/specs/LT0513_specs.lean b/specs/LT0513_specs.lean
+index db275d2..e6cb4db 100644
+--- a/specs/LT0513_specs.lean
++++ b/specs/LT0513_specs.lean
+@@ -32,7 +32,7 @@ theorem polyder_spec {n : Nat} (c : Vector Float n) (m : Nat) (scl : Float)
+             (fun acc k => acc * (original_idx - k).toFloat) 1.0
+           let scale_factor := (List.range m).foldl 
+             (fun acc _ => acc * scl) 1.0
+-          result.get i = c.get ⟨original_idx, sorry⟩ * factorial_factor * scale_factor
++          result.get i = c.get ⟨original_idx, by omega⟩ * factorial_factor * scale_factor
+       )
+     ⌝⦄ := by
+   sorry
