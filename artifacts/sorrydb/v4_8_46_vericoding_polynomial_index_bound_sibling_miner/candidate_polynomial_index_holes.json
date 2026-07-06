@@ -1,0 +1,1212 @@
+[
+  {
+    "score": 130,
+    "path": "specs/LT0429_specs.lean",
+    "line": 30,
+    "current_line": "      (∀ p : Fin n, order > 0 → (result.get p).get ⟨0, by sorry⟩ = 1) ∧",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander3d,polynomial,hermite",
+      "local_flattened_index_name",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "3d_shape",
+      "degree_successor_product",
+      "explicit_bound_statement_nearby"
+    ],
+    "penalties": [
+      "existential_context",
+      "abstract_order_may_need_definition"
+    ],
+    "window": "-- <vc-theorems>\ntheorem hermevander3d_spec {n : Nat} (x y z : Vector Float n) (deg : Vector Nat 3) :\n    ⦃⌜True⌝⦄\n    hermevander3d x y z deg\n    ⦃⇓result => ⌜\n      let x_deg := deg.get ⟨0, by simp⟩\n      let y_deg := deg.get ⟨1, by simp⟩\n      let z_deg := deg.get ⟨2, by simp⟩\n      let order := (x_deg + 1) * (y_deg + 1) * (z_deg + 1)\n\n      -- Shape property: result has n rows, each with order elements (enforced by types)\n      True ∧\n\n      -- Base case: first column is all ones (He_0(x)*He_0(y)*He_0(z) = 1*1*1 = 1)\n      (∀ p : Fin n, order > 0 → (result.get p).get ⟨0, by sorry⟩ = 1) ∧\n\n      -- Mathematical consistency: tensor product structure\n      (∃ hermite_poly : Nat → Float → Float,\n        -- HermiteE polynomial base cases\n        (∀ t : Float, hermite_poly 0 t = 1) ∧\n        (∀ t : Float, hermite_poly 1 t = t) ∧\n        -- HermiteE polynomial recurrence relation\n        (∀ k : Nat, k ≥ 2 → ∀ t : Float, \n          hermite_poly k t = t * hermite_poly (k-1) t - Float.ofNat (k-1) * hermite_poly (k-2) t) ∧\n        -- Each matrix element follows the 3D product formula\n        (∀ p : Fin n, ∀ i : Nat, ∀ j : Nat, ∀ k : Nat,\n          i ≤ x_deg → j ≤ y_deg → k ≤ z_deg →\n          let col_idx := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k\n          col_idx < order →"
+  },
+  {
+    "score": 130,
+    "path": "specs/LT0429_specs.lean",
+    "line": 45,
+    "current_line": "          (result.get p).get ⟨col_idx, by sorry⟩ = ",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander3d,polynomial,hermite",
+      "local_flattened_index_name",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "3d_shape",
+      "degree_successor_product",
+      "explicit_bound_statement_nearby"
+    ],
+    "penalties": [
+      "existential_context",
+      "abstract_order_may_need_definition"
+    ],
+    "window": "\n      -- Mathematical consistency: tensor product structure\n      (∃ hermite_poly : Nat → Float → Float,\n        -- HermiteE polynomial base cases\n        (∀ t : Float, hermite_poly 0 t = 1) ∧\n        (∀ t : Float, hermite_poly 1 t = t) ∧\n        -- HermiteE polynomial recurrence relation\n        (∀ k : Nat, k ≥ 2 → ∀ t : Float, \n          hermite_poly k t = t * hermite_poly (k-1) t - Float.ofNat (k-1) * hermite_poly (k-2) t) ∧\n        -- Each matrix element follows the 3D product formula\n        (∀ p : Fin n, ∀ i : Nat, ∀ j : Nat, ∀ k : Nat,\n          i ≤ x_deg → j ≤ y_deg → k ≤ z_deg →\n          let col_idx := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k\n          col_idx < order →\n          (result.get p).get ⟨col_idx, by sorry⟩ = \n            hermite_poly i (x.get p) * hermite_poly j (y.get p) * hermite_poly k (z.get p))) ∧\n\n      -- Orthogonality property: HermiteE polynomials are orthogonal with respect to Gaussian weight\n      (∀ p : Fin n, ∀ i₁ j₁ k₁ i₂ j₂ k₂ : Nat,\n        i₁ ≤ x_deg → j₁ ≤ y_deg → k₁ ≤ z_deg →\n        i₂ ≤ x_deg → j₂ ≤ y_deg → k₂ ≤ z_deg →\n        (i₁ ≠ i₂ ∨ j₁ ≠ j₂ ∨ k₁ ≠ k₂) →\n        let col_idx₁ := (y_deg + 1) * (z_deg + 1) * i₁ + (z_deg + 1) * j₁ + k₁\n        let col_idx₂ := (y_deg + 1) * (z_deg + 1) * i₂ + (z_deg + 1) * j₂ + k₂\n        col_idx₁ < order → col_idx₂ < order →\n        -- Different polynomial products are linearly independent\n        (result.get p).get ⟨col_idx₁, by sorry⟩ ≠ (result.get p).get ⟨col_idx₂, by sorry⟩ ∨ \n        x.get p = 0 ∧ y.get p = 0 ∧ z.get p = 0) ∧\n"
+  },
+  {
+    "score": 130,
+    "path": "specs/LT0429_specs.lean",
+    "line": 57,
+    "current_line": "        (result.get p).get ⟨col_idx₁, by sorry⟩ ≠ (result.get p).get ⟨col_idx₂, by sorry⟩ ∨ ",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander3d,polynomial,hermite",
+      "local_flattened_index_name",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "3d_shape",
+      "degree_successor_product",
+      "explicit_bound_statement_nearby"
+    ],
+    "penalties": [
+      "existential_context",
+      "abstract_order_may_need_definition"
+    ],
+    "window": "          let col_idx := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k\n          col_idx < order →\n          (result.get p).get ⟨col_idx, by sorry⟩ = \n            hermite_poly i (x.get p) * hermite_poly j (y.get p) * hermite_poly k (z.get p))) ∧\n\n      -- Orthogonality property: HermiteE polynomials are orthogonal with respect to Gaussian weight\n      (∀ p : Fin n, ∀ i₁ j₁ k₁ i₂ j₂ k₂ : Nat,\n        i₁ ≤ x_deg → j₁ ≤ y_deg → k₁ ≤ z_deg →\n        i₂ ≤ x_deg → j₂ ≤ y_deg → k₂ ≤ z_deg →\n        (i₁ ≠ i₂ ∨ j₁ ≠ j₂ ∨ k₁ ≠ k₂) →\n        let col_idx₁ := (y_deg + 1) * (z_deg + 1) * i₁ + (z_deg + 1) * j₁ + k₁\n        let col_idx₂ := (y_deg + 1) * (z_deg + 1) * i₂ + (z_deg + 1) * j₂ + k₂\n        col_idx₁ < order → col_idx₂ < order →\n        -- Different polynomial products are linearly independent\n        (result.get p).get ⟨col_idx₁, by sorry⟩ ≠ (result.get p).get ⟨col_idx₂, by sorry⟩ ∨ \n        x.get p = 0 ∧ y.get p = 0 ∧ z.get p = 0) ∧\n\n      -- Consistency with evaluation: dot product with coefficients equals 3D polynomial evaluation\n      (∀ p : Fin n, ∀ coeff : Vector Float order,\n        ∃ polynomial_value : Float,\n          -- The dot product of the Vandermonde row with coefficients\n          -- equals the evaluation of the 3D HermiteE polynomial expansion\n          polynomial_value = (List.sum (List.ofFn (fun i : Fin order => (result.get p).get i * coeff.get i)))) ∧\n\n      -- Parity property: HermiteE polynomials satisfy He_n(-x) = (-1)^n * He_n(x)\n      (∃ hermite_poly : Nat → Float → Float,\n        (∀ k : Nat, k ≤ max (max x_deg y_deg) z_deg → ∀ t : Float,\n          hermite_poly k (-t) = (if k % 2 = 0 then 1 else -1) * hermite_poly k t) ∧\n        -- This parity property is reflected in the matrix structure"
+  },
+  {
+    "score": 130,
+    "path": "specs/LT0429_specs.lean",
+    "line": 76,
+    "current_line": "          (result.get p).get ⟨col_idx, by sorry⟩ = ",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander3d,polynomial,hermite",
+      "local_flattened_index_name",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "3d_shape",
+      "degree_successor_product",
+      "explicit_bound_statement_nearby"
+    ],
+    "penalties": [
+      "existential_context",
+      "abstract_order_may_need_definition"
+    ],
+    "window": "        ∃ polynomial_value : Float,\n          -- The dot product of the Vandermonde row with coefficients\n          -- equals the evaluation of the 3D HermiteE polynomial expansion\n          polynomial_value = (List.sum (List.ofFn (fun i : Fin order => (result.get p).get i * coeff.get i)))) ∧\n\n      -- Parity property: HermiteE polynomials satisfy He_n(-x) = (-1)^n * He_n(x)\n      (∃ hermite_poly : Nat → Float → Float,\n        (∀ k : Nat, k ≤ max (max x_deg y_deg) z_deg → ∀ t : Float,\n          hermite_poly k (-t) = (if k % 2 = 0 then 1 else -1) * hermite_poly k t) ∧\n        -- This parity property is reflected in the matrix structure\n        (∀ p : Fin n, ∀ i j k : Nat,\n          i ≤ x_deg → j ≤ y_deg → k ≤ z_deg →\n          let col_idx := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k\n          col_idx < order →\n          (result.get p).get ⟨col_idx, by sorry⟩ = \n            hermite_poly i (x.get p) * hermite_poly j (y.get p) * hermite_poly k (z.get p)))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 110,
+    "path": "specs/LT0513_specs.lean",
+    "line": 23,
+    "current_line": "      (m = 0 → ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "local_flattened_index_name",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-definitions>\ndef polyder {n : Nat} (c : Vector Float n) (m : Nat := 1) (scl : Float := 1) \n    (h : m ≤ n) : Id (Vector Float (n - m)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem polyder_spec {n : Nat} (c : Vector Float n) (m : Nat) (scl : Float) \n    (h : m ≤ n) :\n    ⦃⌜m ≤ n⌝⦄\n    polyder c m scl h\n    ⦃⇓result => ⌜\n      -- Special case: m = 0 returns original polynomial\n      (m = 0 → ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧\n      -- General case: m > 0\n      (m > 0 → \n        ∀ i : Fin (n - m), \n          -- The coefficient at position i comes from original position i+m\n          -- It's multiplied by m consecutive factors: (i+m) * (i+m-1) * ... * (i+1)\n          -- and scaled by scl^m\n          let original_idx := i.val + m\n          let factorial_factor := (List.range m).foldl \n            (fun acc k => acc * (original_idx - k).toFloat) 1.0\n          let scale_factor := (List.range m).foldl \n            (fun acc _ => acc * scl) 1.0\n          result.get i = c.get ⟨original_idx, sorry⟩ * factorial_factor * scale_factor\n      )\n    ⌝⦄ := by"
+  },
+  {
+    "score": 110,
+    "path": "specs/LT0513_specs.lean",
+    "line": 35,
+    "current_line": "          result.get i = c.get ⟨original_idx, sorry⟩ * factorial_factor * scale_factor",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "local_flattened_index_name",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    ⦃⇓result => ⌜\n      -- Special case: m = 0 returns original polynomial\n      (m = 0 → ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧\n      -- General case: m > 0\n      (m > 0 → \n        ∀ i : Fin (n - m), \n          -- The coefficient at position i comes from original position i+m\n          -- It's multiplied by m consecutive factors: (i+m) * (i+m-1) * ... * (i+1)\n          -- and scaled by scl^m\n          let original_idx := i.val + m\n          let factorial_factor := (List.range m).foldl \n            (fun acc k => acc * (original_idx - k).toFloat) 1.0\n          let scale_factor := (List.range m).foldl \n            (fun acc _ => acc * scl) 1.0\n          result.get i = c.get ⟨original_idx, sorry⟩ * factorial_factor * scale_factor\n      )\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 100,
+    "path": "specs/LT0429_specs.lean",
+    "line": 79,
+    "current_line": "  sorry",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander3d,polynomial,hermite",
+      "local_flattened_index_name",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "degree_successor_product",
+      "explicit_bound_statement_nearby"
+    ],
+    "penalties": [
+      "bare_theorem_or_def_sorry",
+      "existential_context",
+      "abstract_order_may_need_definition"
+    ],
+    "window": "          polynomial_value = (List.sum (List.ofFn (fun i : Fin order => (result.get p).get i * coeff.get i)))) ∧\n\n      -- Parity property: HermiteE polynomials satisfy He_n(-x) = (-1)^n * He_n(x)\n      (∃ hermite_poly : Nat → Float → Float,\n        (∀ k : Nat, k ≤ max (max x_deg y_deg) z_deg → ∀ t : Float,\n          hermite_poly k (-t) = (if k % 2 = 0 then 1 else -1) * hermite_poly k t) ∧\n        -- This parity property is reflected in the matrix structure\n        (∀ p : Fin n, ∀ i j k : Nat,\n          i ≤ x_deg → j ≤ y_deg → k ≤ z_deg →\n          let col_idx := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k\n          col_idx < order →\n          (result.get p).get ⟨col_idx, by sorry⟩ = \n            hermite_poly i (x.get p) * hermite_poly j (y.get p) * hermite_poly k (z.get p)))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 95,
+    "path": "specs/LT0428_specs.lean",
+    "line": 45,
+    "current_line": "                     flattened_coeff.get ⟨(y_deg + 1) * i.val + j.val, sorry⟩ = ",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander2d,polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "2d_shape",
+      "degree_successor_product"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "                     hermite_basis (k + 1) t = t * hermite_basis k t - Float.ofNat k * hermite_basis (k - 1) t) ∧\n                   -- Matrix entries computed correctly using basis functions\n                   (∀ point_idx : Fin n, ∀ basis_idx : Fin ((x_deg + 1) * (y_deg + 1)),\n                     -- Extract degree indices from basis index\n                     ∃ i j : Nat, i ≤ x_deg ∧ j ≤ y_deg ∧ \n                     basis_idx.val = (y_deg + 1) * i + j ∧\n                     -- Matrix entry is the product of HermiteE basis functions\n                     (result.get point_idx).get basis_idx = \n                       hermite_basis i (x.get point_idx) * hermite_basis j (y.get point_idx))) ∧\n                 -- Polynomial evaluation equivalence property exists\n                 (∀ coeff_matrix : Vector (Vector Float (y_deg + 1)) (x_deg + 1),\n                   ∃ flattened_coeff : Vector Float ((x_deg + 1) * (y_deg + 1)),\n                   -- Coefficient flattening follows row-major order\n                   (∀ i : Fin (x_deg + 1), ∀ j : Fin (y_deg + 1),\n                     flattened_coeff.get ⟨(y_deg + 1) * i.val + j.val, sorry⟩ = \n                     (coeff_matrix.get i).get j) ∧\n                   -- Matrix-vector multiplication gives polynomial evaluation\n                   ∀ point_idx : Fin n,\n                   (List.range ((x_deg + 1) * (y_deg + 1))).foldl (fun acc k =>\n                     acc + (result.get point_idx).get ⟨k, sorry⟩ * flattened_coeff.get ⟨k, sorry⟩\n                   ) 0 = \n                   -- Equivalent to direct 2D polynomial evaluation  \n                   (List.range (x_deg + 1)).foldl (fun acc_i i =>\n                     acc_i + (List.range (y_deg + 1)).foldl (fun acc_j j =>\n                       acc_j + (coeff_matrix.get ⟨i, sorry⟩).get ⟨j, sorry⟩ * \n                       -- Note: hermite_basis exists from above, this is evaluation at point\n                       1.0  -- Placeholder for correct hermite evaluation\n                     ) 0\n                   ) 0) ∧"
+  },
+  {
+    "score": 95,
+    "path": "specs/LT0428_specs.lean",
+    "line": 50,
+    "current_line": "                     acc + (result.get point_idx).get ⟨k, sorry⟩ * flattened_coeff.get ⟨k, sorry⟩",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander2d,polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "2d_shape",
+      "degree_successor_product"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "                     basis_idx.val = (y_deg + 1) * i + j ∧\n                     -- Matrix entry is the product of HermiteE basis functions\n                     (result.get point_idx).get basis_idx = \n                       hermite_basis i (x.get point_idx) * hermite_basis j (y.get point_idx))) ∧\n                 -- Polynomial evaluation equivalence property exists\n                 (∀ coeff_matrix : Vector (Vector Float (y_deg + 1)) (x_deg + 1),\n                   ∃ flattened_coeff : Vector Float ((x_deg + 1) * (y_deg + 1)),\n                   -- Coefficient flattening follows row-major order\n                   (∀ i : Fin (x_deg + 1), ∀ j : Fin (y_deg + 1),\n                     flattened_coeff.get ⟨(y_deg + 1) * i.val + j.val, sorry⟩ = \n                     (coeff_matrix.get i).get j) ∧\n                   -- Matrix-vector multiplication gives polynomial evaluation\n                   ∀ point_idx : Fin n,\n                   (List.range ((x_deg + 1) * (y_deg + 1))).foldl (fun acc k =>\n                     acc + (result.get point_idx).get ⟨k, sorry⟩ * flattened_coeff.get ⟨k, sorry⟩\n                   ) 0 = \n                   -- Equivalent to direct 2D polynomial evaluation  \n                   (List.range (x_deg + 1)).foldl (fun acc_i i =>\n                     acc_i + (List.range (y_deg + 1)).foldl (fun acc_j j =>\n                       acc_j + (coeff_matrix.get ⟨i, sorry⟩).get ⟨j, sorry⟩ * \n                       -- Note: hermite_basis exists from above, this is evaluation at point\n                       1.0  -- Placeholder for correct hermite evaluation\n                     ) 0\n                   ) 0) ∧\n                 -- Vandermonde matrix properties for polynomial fitting\n                 (n ≥ (x_deg + 1) * (y_deg + 1) → \n                   -- Full rank condition for overdetermined systems\n                   ∃ rank_val : Nat, rank_val = (x_deg + 1) * (y_deg + 1) ∧\n                   -- Matrix has full column rank for unique least squares solution"
+  },
+  {
+    "score": 95,
+    "path": "specs/LT0428_specs.lean",
+    "line": 55,
+    "current_line": "                       acc_j + (coeff_matrix.get ⟨i, sorry⟩).get ⟨j, sorry⟩ * ",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander2d,polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "2d_shape",
+      "degree_successor_product"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "                 (∀ coeff_matrix : Vector (Vector Float (y_deg + 1)) (x_deg + 1),\n                   ∃ flattened_coeff : Vector Float ((x_deg + 1) * (y_deg + 1)),\n                   -- Coefficient flattening follows row-major order\n                   (∀ i : Fin (x_deg + 1), ∀ j : Fin (y_deg + 1),\n                     flattened_coeff.get ⟨(y_deg + 1) * i.val + j.val, sorry⟩ = \n                     (coeff_matrix.get i).get j) ∧\n                   -- Matrix-vector multiplication gives polynomial evaluation\n                   ∀ point_idx : Fin n,\n                   (List.range ((x_deg + 1) * (y_deg + 1))).foldl (fun acc k =>\n                     acc + (result.get point_idx).get ⟨k, sorry⟩ * flattened_coeff.get ⟨k, sorry⟩\n                   ) 0 = \n                   -- Equivalent to direct 2D polynomial evaluation  \n                   (List.range (x_deg + 1)).foldl (fun acc_i i =>\n                     acc_i + (List.range (y_deg + 1)).foldl (fun acc_j j =>\n                       acc_j + (coeff_matrix.get ⟨i, sorry⟩).get ⟨j, sorry⟩ * \n                       -- Note: hermite_basis exists from above, this is evaluation at point\n                       1.0  -- Placeholder for correct hermite evaluation\n                     ) 0\n                   ) 0) ∧\n                 -- Vandermonde matrix properties for polynomial fitting\n                 (n ≥ (x_deg + 1) * (y_deg + 1) → \n                   -- Full rank condition for overdetermined systems\n                   ∃ rank_val : Nat, rank_val = (x_deg + 1) * (y_deg + 1) ∧\n                   -- Matrix has full column rank for unique least squares solution\n                   True) ∧\n                 -- Basic symmetry when degrees are equal\n                 (x_deg = y_deg → \n                   ∀ point_idx : Fin n, ∀ i j : Nat, i ≤ x_deg → j ≤ y_deg →\n                   ∃ basis_idx1 basis_idx2 : Fin ((x_deg + 1) * (y_deg + 1)),"
+  },
+  {
+    "score": 90,
+    "path": "specs/LT0513_specs.lean",
+    "line": 38,
+    "current_line": "  sorry",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "local_flattened_index_name",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "bare_theorem_or_def_sorry"
+    ],
+    "window": "      -- General case: m > 0\n      (m > 0 → \n        ∀ i : Fin (n - m), \n          -- The coefficient at position i comes from original position i+m\n          -- It's multiplied by m consecutive factors: (i+m) * (i+m-1) * ... * (i+1)\n          -- and scaled by scl^m\n          let original_idx := i.val + m\n          let factorial_factor := (List.range m).foldl \n            (fun acc k => acc * (original_idx - k).toFloat) 1.0\n          let scale_factor := (List.range m).foldl \n            (fun acc _ => acc * scl) 1.0\n          result.get i = c.get ⟨original_idx, sorry⟩ * factorial_factor * scale_factor\n      )\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0380_specs.lean",
+    "line": 23,
+    "current_line": "              (n > 0 → result.get ⟨0, by sorry⟩ = scl * c.get ⟨1, by sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-- </vc-helpers>\n\n-- <vc-definitions>\ndef chebder {n : Nat} (c : Vector Float (n + 1)) (scl : Float := 1) :\n    Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebder_spec {n : Nat} (c : Vector Float (n + 1)) (scl : Float := 1) :\n    ⦃⌜True⌝⦄\n    chebder c scl\n    ⦃⇓result => ⌜result.size = n ∧\n              -- Base cases for the derivative\n              (n > 0 → result.get ⟨0, by sorry⟩ = scl * c.get ⟨1, by sorry⟩) ∧\n              (n > 1 → result.get ⟨1, by sorry⟩ = scl * 4 * c.get ⟨2, by sorry⟩) ∧\n              -- General recurrence for j ≥ 2\n              (∀ j : Fin n, j.val ≥ 2 →\n                result.get j = scl * (2 * Float.ofNat (j.val + 1)) * c.get ⟨j.val + 1, by sorry⟩) ∧\n              -- Mathematical property: result represents the derivative\n              -- For formal verification, we'd need to define what it means for\n              -- a vector to represent a Chebyshev series and its derivative\n              -- This is captured by the recurrence relations above\n              True⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0380_specs.lean",
+    "line": 24,
+    "current_line": "              (n > 1 → result.get ⟨1, by sorry⟩ = scl * 4 * c.get ⟨2, by sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-definitions>\ndef chebder {n : Nat} (c : Vector Float (n + 1)) (scl : Float := 1) :\n    Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebder_spec {n : Nat} (c : Vector Float (n + 1)) (scl : Float := 1) :\n    ⦃⌜True⌝⦄\n    chebder c scl\n    ⦃⇓result => ⌜result.size = n ∧\n              -- Base cases for the derivative\n              (n > 0 → result.get ⟨0, by sorry⟩ = scl * c.get ⟨1, by sorry⟩) ∧\n              (n > 1 → result.get ⟨1, by sorry⟩ = scl * 4 * c.get ⟨2, by sorry⟩) ∧\n              -- General recurrence for j ≥ 2\n              (∀ j : Fin n, j.val ≥ 2 →\n                result.get j = scl * (2 * Float.ofNat (j.val + 1)) * c.get ⟨j.val + 1, by sorry⟩) ∧\n              -- Mathematical property: result represents the derivative\n              -- For formal verification, we'd need to define what it means for\n              -- a vector to represent a Chebyshev series and its derivative\n              -- This is captured by the recurrence relations above\n              True⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0380_specs.lean",
+    "line": 27,
+    "current_line": "                result.get j = scl * (2 * Float.ofNat (j.val + 1)) * c.get ⟨j.val + 1, by sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebder_spec {n : Nat} (c : Vector Float (n + 1)) (scl : Float := 1) :\n    ⦃⌜True⌝⦄\n    chebder c scl\n    ⦃⇓result => ⌜result.size = n ∧\n              -- Base cases for the derivative\n              (n > 0 → result.get ⟨0, by sorry⟩ = scl * c.get ⟨1, by sorry⟩) ∧\n              (n > 1 → result.get ⟨1, by sorry⟩ = scl * 4 * c.get ⟨2, by sorry⟩) ∧\n              -- General recurrence for j ≥ 2\n              (∀ j : Fin n, j.val ≥ 2 →\n                result.get j = scl * (2 * Float.ofNat (j.val + 1)) * c.get ⟨j.val + 1, by sorry⟩) ∧\n              -- Mathematical property: result represents the derivative\n              -- For formal verification, we'd need to define what it means for\n              -- a vector to represent a Chebyshev series and its derivative\n              -- This is captured by the recurrence relations above\n              True⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 24,
+    "current_line": "                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-- <vc-definitions>\ndef chebmul {m n : Nat} (c1 : Vector Float m) (c2 : Vector Float n) \n    (hm : m > 0) (hn : n > 0) : Id (Vector Float (m + n - 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebmul_spec {m n : Nat} (c1 : Vector Float m) (c2 : Vector Float n) \n    (hm : m > 0) (hn : n > 0) :\n    ⦃⌜m > 0 ∧ n > 0⌝⦄\n    chebmul c1 c2 hm hn\n    ⦃⇓result => ⌜-- The result vector has the correct length\n                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 25,
+    "current_line": "                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "def chebmul {m n : Nat} (c1 : Vector Float m) (c2 : Vector Float n) \n    (hm : m > 0) (hn : n > 0) : Id (Vector Float (m + n - 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebmul_spec {m n : Nat} (c1 : Vector Float m) (c2 : Vector Float n) \n    (hm : m > 0) (hn : n > 0) :\n    ⦃⌜m > 0 ∧ n > 0⌝⦄\n    chebmul c1 c2 hm hn\n    ⦃⇓result => ⌜-- The result vector has the correct length\n                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 27,
+    "current_line": "                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebmul_spec {m n : Nat} (c1 : Vector Float m) (c2 : Vector Float n) \n    (hm : m > 0) (hn : n > 0) :\n    ⦃⌜m > 0 ∧ n > 0⌝⦄\n    chebmul c1 c2 hm hn\n    ⦃⇓result => ⌜-- The result vector has the correct length\n                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 28,
+    "current_line": "                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebmul_spec {m n : Nat} (c1 : Vector Float m) (c2 : Vector Float n) \n    (hm : m > 0) (hn : n > 0) :\n    ⦃⌜m > 0 ∧ n > 0⌝⦄\n    chebmul c1 c2 hm hn\n    ⦃⇓result => ⌜-- The result vector has the correct length\n                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 32,
+    "current_line": "                  let a := c1.get ⟨0, sorry⟩",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    (hm : m > 0) (hn : n > 0) :\n    ⦃⌜m > 0 ∧ n > 0⌝⦄\n    chebmul c1 c2 hm hn\n    ⦃⇓result => ⌜-- The result vector has the correct length\n                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 33,
+    "current_line": "                  let b := c1.get ⟨1, sorry⟩",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    ⦃⌜m > 0 ∧ n > 0⌝⦄\n    chebmul c1 c2 hm hn\n    ⦃⇓result => ⌜-- The result vector has the correct length\n                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧\n                  result.get ⟨4, sorry⟩ = 1.5)⌝⦄ := by"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 34,
+    "current_line": "                  let c := c2.get ⟨0, sorry⟩",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    chebmul c1 c2 hm hn\n    ⦃⇓result => ⌜-- The result vector has the correct length\n                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧\n                  result.get ⟨4, sorry⟩ = 1.5)⌝⦄ := by\n  sorry"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 35,
+    "current_line": "                  let d := c2.get ⟨1, sorry⟩",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    ⦃⇓result => ⌜-- The result vector has the correct length\n                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧\n                  result.get ⟨4, sorry⟩ = 1.5)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 36,
+    "current_line": "                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "                result.toList.length = m + n - 1 ∧\n                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧\n                  result.get ⟨4, sorry⟩ = 1.5)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 37,
+    "current_line": "                  result.get ⟨1, sorry⟩ = a * d + b * c ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "                -- Example property: multiplying by the constant polynomial [a] scales all coefficients\n                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧\n                  result.get ⟨4, sorry⟩ = 1.5)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 38,
+    "current_line": "                  result.get ⟨2, sorry⟩ = b * d / 2) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "                (∀ a : Float, n = 1 → c2.get ⟨0, sorry⟩ = a → \n                  ∀ i : Fin m, result.get ⟨i.val, sorry⟩ = a * c1.get i) ∧\n                -- Another example: multiplying [1,0,...] (T_0) by any polynomial preserves it\n                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧\n                  result.get ⟨4, sorry⟩ = 1.5)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 41,
+    "current_line": "                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "                (m = 1 → c1.get ⟨0, sorry⟩ = 1 → \n                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧\n                  result.get ⟨4, sorry⟩ = 1.5)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0390_specs.lean",
+    "line": 42,
+    "current_line": "                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "                  ∀ j : Fin n, result.get ⟨j.val, sorry⟩ = c2.get j) ∧\n                -- Special case: multiplying two linear polynomials [a,b] * [c,d]\n                -- Result should be [ac + bd/2, ad + bc, bd/2]\n                (m = 2 ∧ n = 2 → \n                  let a := c1.get ⟨0, sorry⟩\n                  let b := c1.get ⟨1, sorry⟩\n                  let c := c2.get ⟨0, sorry⟩\n                  let d := c2.get ⟨1, sorry⟩\n                  result.get ⟨0, sorry⟩ = a * c + b * d / 2 ∧\n                  result.get ⟨1, sorry⟩ = a * d + b * c ∧\n                  result.get ⟨2, sorry⟩ = b * d / 2) ∧\n                -- Verify the example from documentation: [1,2,3] * [3,2,1]\n                (m = 3 ∧ n = 3 → \n                  c1.get ⟨0, sorry⟩ = 1 ∧ c1.get ⟨1, sorry⟩ = 2 ∧ c1.get ⟨2, sorry⟩ = 3 →\n                  c2.get ⟨0, sorry⟩ = 3 ∧ c2.get ⟨1, sorry⟩ = 2 ∧ c2.get ⟨2, sorry⟩ = 1 →\n                  result.get ⟨0, sorry⟩ = 6.5 ∧\n                  result.get ⟨1, sorry⟩ = 12 ∧\n                  result.get ⟨2, sorry⟩ = 12 ∧\n                  result.get ⟨3, sorry⟩ = 4 ∧\n                  result.get ⟨4, sorry⟩ = 1.5)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0397_specs.lean",
+    "line": 59,
+    "current_line": "                (n = 1 → ∀ i : Fin m, result.get i = c.get ⟨0, sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "/-- Specification: chebval evaluates the Chebyshev series correctly.\n    The result at each point x[i] equals the sum of c[k] * T_k(x[i])\n    for k from 0 to n-1, where T_k is the k-th Chebyshev polynomial.\n    \n    Special cases for numerical stability:\n    - When n = 0, the result is the zero vector\n    - When n = 1, the result is c[0] at each point (constant polynomial)\n    - When n = 2, the result is c[0] + c[1] * x[i] (linear polynomial)\n    \n    The implementation uses Clenshaw recursion for efficient and stable evaluation. -/\ntheorem chebval_spec {m n : Nat} (x : Vector Float m) (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    chebval x c\n    ⦃⇓result => ⌜(n = 0 → ∀ i : Fin m, result.get i = 0) ∧\n                (n = 1 → ∀ i : Fin m, result.get i = c.get ⟨0, sorry⟩) ∧\n                (n = 2 → ∀ i : Fin m, result.get i = c.get ⟨0, sorry⟩ + c.get ⟨1, sorry⟩ * x.get i) ∧\n                (∀ i : Fin m, result.get i = chebyshevSeriesSum c (x.get i))⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0397_specs.lean",
+    "line": 60,
+    "current_line": "                (n = 2 → ∀ i : Fin m, result.get i = c.get ⟨0, sorry⟩ + c.get ⟨1, sorry⟩ * x.get i) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    The result at each point x[i] equals the sum of c[k] * T_k(x[i])\n    for k from 0 to n-1, where T_k is the k-th Chebyshev polynomial.\n    \n    Special cases for numerical stability:\n    - When n = 0, the result is the zero vector\n    - When n = 1, the result is c[0] at each point (constant polynomial)\n    - When n = 2, the result is c[0] + c[1] * x[i] (linear polynomial)\n    \n    The implementation uses Clenshaw recursion for efficient and stable evaluation. -/\ntheorem chebval_spec {m n : Nat} (x : Vector Float m) (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    chebval x c\n    ⦃⇓result => ⌜(n = 0 → ∀ i : Fin m, result.get i = 0) ∧\n                (n = 1 → ∀ i : Fin m, result.get i = c.get ⟨0, sorry⟩) ∧\n                (n = 2 → ∀ i : Fin m, result.get i = c.get ⟨0, sorry⟩ + c.get ⟨1, sorry⟩ * x.get i) ∧\n                (∀ i : Fin m, result.get i = chebyshevSeriesSum c (x.get i))⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0400_specs.lean",
+    "line": 20,
+    "current_line": "            (∀ i : Fin n, (V.get i).get ⟨0, sorry⟩ = 1) ∧",
+    "reasons": [
+      "polynomial_file_keywords:vander,chebvander,polynomial,chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef chebvander {n : Nat} (x : Vector Float n) (deg : Nat) : Id (Vector (Vector Float (deg + 1)) n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebvander_spec {n : Nat} (x : Vector Float n) (deg : Nat) :\n    ⦃⌜True⌝⦄\n    chebvander x deg\n    ⦃⇓V => ⌜-- T_0(x) = 1 for all x\n            (∀ i : Fin n, (V.get i).get ⟨0, sorry⟩ = 1) ∧\n            -- T_1(x) = x when deg ≥ 1\n            (deg ≥ 1 → ∀ i : Fin n, (V.get i).get ⟨1, sorry⟩ = x.get i) ∧\n            -- Recurrence relation: T_{k+1}(x) = 2x*T_k(x) - T_{k-1}(x) for k ≥ 1\n            (∀ k : Nat, 1 ≤ k ∧ k < deg → \n              ∀ i : Fin n, \n                (V.get i).get ⟨k + 1, sorry⟩ = \n                  2 * (x.get i) * (V.get i).get ⟨k, sorry⟩ - \n                  (V.get i).get ⟨k - 1, sorry⟩) ∧\n            -- Mathematical property: Chebyshev polynomials are bounded by 1 on [-1,1]\n            (∀ i : Fin n, -1 ≤ x.get i ∧ x.get i ≤ 1 → \n              ∀ j : Fin (deg + 1), -1 ≤ (V.get i).get j ∧ (V.get i).get j ≤ 1) ∧\n            -- Symmetry property: T_n(-x) = (-1)^n * T_n(x)\n            (∀ i j : Fin n, x.get i = -(x.get j) → \n              ∀ k : Fin (deg + 1), "
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0400_specs.lean",
+    "line": 22,
+    "current_line": "            (deg ≥ 1 → ∀ i : Fin n, (V.get i).get ⟨1, sorry⟩ = x.get i) ∧",
+    "reasons": [
+      "polynomial_file_keywords:vander,chebvander,polynomial,chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-- </vc-helpers>\n\n-- <vc-definitions>\ndef chebvander {n : Nat} (x : Vector Float n) (deg : Nat) : Id (Vector (Vector Float (deg + 1)) n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebvander_spec {n : Nat} (x : Vector Float n) (deg : Nat) :\n    ⦃⌜True⌝⦄\n    chebvander x deg\n    ⦃⇓V => ⌜-- T_0(x) = 1 for all x\n            (∀ i : Fin n, (V.get i).get ⟨0, sorry⟩ = 1) ∧\n            -- T_1(x) = x when deg ≥ 1\n            (deg ≥ 1 → ∀ i : Fin n, (V.get i).get ⟨1, sorry⟩ = x.get i) ∧\n            -- Recurrence relation: T_{k+1}(x) = 2x*T_k(x) - T_{k-1}(x) for k ≥ 1\n            (∀ k : Nat, 1 ≤ k ∧ k < deg → \n              ∀ i : Fin n, \n                (V.get i).get ⟨k + 1, sorry⟩ = \n                  2 * (x.get i) * (V.get i).get ⟨k, sorry⟩ - \n                  (V.get i).get ⟨k - 1, sorry⟩) ∧\n            -- Mathematical property: Chebyshev polynomials are bounded by 1 on [-1,1]\n            (∀ i : Fin n, -1 ≤ x.get i ∧ x.get i ≤ 1 → \n              ∀ j : Fin (deg + 1), -1 ≤ (V.get i).get j ∧ (V.get i).get j ≤ 1) ∧\n            -- Symmetry property: T_n(-x) = (-1)^n * T_n(x)\n            (∀ i j : Fin n, x.get i = -(x.get j) → \n              ∀ k : Fin (deg + 1), \n                (V.get i).get k = (if k.val % 2 = 0 then 1 else -1) * (V.get j).get k)⌝⦄ := by\n  sorry"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0400_specs.lean",
+    "line": 26,
+    "current_line": "                (V.get i).get ⟨k + 1, sorry⟩ = ",
+    "reasons": [
+      "polynomial_file_keywords:vander,chebvander,polynomial,chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebvander_spec {n : Nat} (x : Vector Float n) (deg : Nat) :\n    ⦃⌜True⌝⦄\n    chebvander x deg\n    ⦃⇓V => ⌜-- T_0(x) = 1 for all x\n            (∀ i : Fin n, (V.get i).get ⟨0, sorry⟩ = 1) ∧\n            -- T_1(x) = x when deg ≥ 1\n            (deg ≥ 1 → ∀ i : Fin n, (V.get i).get ⟨1, sorry⟩ = x.get i) ∧\n            -- Recurrence relation: T_{k+1}(x) = 2x*T_k(x) - T_{k-1}(x) for k ≥ 1\n            (∀ k : Nat, 1 ≤ k ∧ k < deg → \n              ∀ i : Fin n, \n                (V.get i).get ⟨k + 1, sorry⟩ = \n                  2 * (x.get i) * (V.get i).get ⟨k, sorry⟩ - \n                  (V.get i).get ⟨k - 1, sorry⟩) ∧\n            -- Mathematical property: Chebyshev polynomials are bounded by 1 on [-1,1]\n            (∀ i : Fin n, -1 ≤ x.get i ∧ x.get i ≤ 1 → \n              ∀ j : Fin (deg + 1), -1 ≤ (V.get i).get j ∧ (V.get i).get j ≤ 1) ∧\n            -- Symmetry property: T_n(-x) = (-1)^n * T_n(x)\n            (∀ i j : Fin n, x.get i = -(x.get j) → \n              ∀ k : Fin (deg + 1), \n                (V.get i).get k = (if k.val % 2 = 0 then 1 else -1) * (V.get j).get k)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0400_specs.lean",
+    "line": 27,
+    "current_line": "                  2 * (x.get i) * (V.get i).get ⟨k, sorry⟩ - ",
+    "reasons": [
+      "polynomial_file_keywords:vander,chebvander,polynomial,chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebvander_spec {n : Nat} (x : Vector Float n) (deg : Nat) :\n    ⦃⌜True⌝⦄\n    chebvander x deg\n    ⦃⇓V => ⌜-- T_0(x) = 1 for all x\n            (∀ i : Fin n, (V.get i).get ⟨0, sorry⟩ = 1) ∧\n            -- T_1(x) = x when deg ≥ 1\n            (deg ≥ 1 → ∀ i : Fin n, (V.get i).get ⟨1, sorry⟩ = x.get i) ∧\n            -- Recurrence relation: T_{k+1}(x) = 2x*T_k(x) - T_{k-1}(x) for k ≥ 1\n            (∀ k : Nat, 1 ≤ k ∧ k < deg → \n              ∀ i : Fin n, \n                (V.get i).get ⟨k + 1, sorry⟩ = \n                  2 * (x.get i) * (V.get i).get ⟨k, sorry⟩ - \n                  (V.get i).get ⟨k - 1, sorry⟩) ∧\n            -- Mathematical property: Chebyshev polynomials are bounded by 1 on [-1,1]\n            (∀ i : Fin n, -1 ≤ x.get i ∧ x.get i ≤ 1 → \n              ∀ j : Fin (deg + 1), -1 ≤ (V.get i).get j ∧ (V.get i).get j ≤ 1) ∧\n            -- Symmetry property: T_n(-x) = (-1)^n * T_n(x)\n            (∀ i j : Fin n, x.get i = -(x.get j) → \n              ∀ k : Fin (deg + 1), \n                (V.get i).get k = (if k.val % 2 = 0 then 1 else -1) * (V.get j).get k)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0400_specs.lean",
+    "line": 28,
+    "current_line": "                  (V.get i).get ⟨k - 1, sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:vander,chebvander,polynomial,chebyshev",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-theorems>\ntheorem chebvander_spec {n : Nat} (x : Vector Float n) (deg : Nat) :\n    ⦃⌜True⌝⦄\n    chebvander x deg\n    ⦃⇓V => ⌜-- T_0(x) = 1 for all x\n            (∀ i : Fin n, (V.get i).get ⟨0, sorry⟩ = 1) ∧\n            -- T_1(x) = x when deg ≥ 1\n            (deg ≥ 1 → ∀ i : Fin n, (V.get i).get ⟨1, sorry⟩ = x.get i) ∧\n            -- Recurrence relation: T_{k+1}(x) = 2x*T_k(x) - T_{k-1}(x) for k ≥ 1\n            (∀ k : Nat, 1 ≤ k ∧ k < deg → \n              ∀ i : Fin n, \n                (V.get i).get ⟨k + 1, sorry⟩ = \n                  2 * (x.get i) * (V.get i).get ⟨k, sorry⟩ - \n                  (V.get i).get ⟨k - 1, sorry⟩) ∧\n            -- Mathematical property: Chebyshev polynomials are bounded by 1 on [-1,1]\n            (∀ i : Fin n, -1 ≤ x.get i ∧ x.get i ≤ 1 → \n              ∀ j : Fin (deg + 1), -1 ≤ (V.get i).get j ∧ (V.get i).get j ≤ 1) ∧\n            -- Symmetry property: T_n(-x) = (-1)^n * T_n(x)\n            (∀ i j : Fin n, x.get i = -(x.get j) → \n              ∀ k : Fin (deg + 1), \n                (V.get i).get k = (if k.val % 2 = 0 then 1 else -1) * (V.get j).get k)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0402_specs.lean",
+    "line": 48,
+    "current_line": "              ⟨(ydeg + 1) * (zdeg + 1) * i.val + (zdeg + 1) * j.val + k.val, sorry⟩",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander3d,chebvander,polynomial,chebyshev",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "3d_shape",
+      "degree_successor_product"
+    ],
+    "penalties": [],
+    "window": "\n/-- Specification: chebvander3d constructs a 3D pseudo-Vandermonde matrix where\n    each entry V[p, idx] equals the product of Chebyshev polynomials evaluated\n    at the p-th sample point, with the column index encoding the polynomial degrees.\n\n    The key mathematical properties are:\n    1. Column ordering follows the pattern (i,j,k) lexicographically\n    2. Each matrix entry equals T_i(x[p]) * T_j(y[p]) * T_k(z[p])\n    3. The matrix enables efficient evaluation of 3D Chebyshev series -/\ntheorem chebvander3d_spec {n : Nat} (x y z : Vector Float n) (xdeg ydeg zdeg : Nat) :\n    ⦃⌜True⌝⦄\n    chebvander3d x y z xdeg ydeg zdeg\n    ⦃⇓V => ⌜∀ (p : Fin n) (i : Fin (xdeg + 1)) (j : Fin (ydeg + 1)) (k : Fin (zdeg + 1)),\n            let col_idx : Fin ((xdeg + 1) * (ydeg + 1) * (zdeg + 1)) :=\n              ⟨(ydeg + 1) * (zdeg + 1) * i.val + (zdeg + 1) * j.val + k.val, sorry⟩\n            (V.get p).get col_idx =\n              chebyshevT i.val (x.get p) * chebyshevT j.val (y.get p) * chebyshevT k.val (z.get p)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0415_specs.lean",
+    "line": 41,
+    "current_line": "                acc_y + (c.get ⟨k_x, sorry⟩).get ⟨k_y, sorry⟩ * ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "2d_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "      (∀ i : Fin nx, (result.get i).size = ny) ∧\n      -- Each result[i,j] represents the polynomial evaluation at point (x[i], y[j])\n      (∀ i : Fin nx, ∀ j : Fin ny, \n        -- If coefficient matrix is empty in either dimension, result is zero\n        (deg_x = 0 ∨ deg_y = 0 → (result.get i).get j = 0) ∧\n        -- Otherwise, result represents the 2D HermiteE polynomial evaluation\n        -- at the Cartesian product point (x[i], y[j])\n        (deg_x > 0 ∧ deg_y > 0 → \n          -- The result is the sum of all coefficient terms multiplied by \n          -- the corresponding HermiteE polynomial values\n          ∃ (hermite_e : Float → Nat → Float), \n            (result.get i).get j = \n            (List.range deg_x).foldl (fun acc k_x => \n              acc + (List.range deg_y).foldl (fun acc_y k_y => \n                acc_y + (c.get ⟨k_x, sorry⟩).get ⟨k_y, sorry⟩ * \n                        hermite_e (x.get i) k_x * hermite_e (y.get j) k_y\n              ) 0\n            ) 0))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0420_specs.lean",
+    "line": 23,
+    "current_line": "      (∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ + ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-definitions>\ndef hermemulx {n : Nat} (c : Vector Float n) : Id (Vector Float (n + 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermemulx_spec {n : Nat} (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermemulx c\n    ⦃⇓result => ⌜\n      -- Coefficient at position 0 is always 0 (no constant term in x*polynomial)\n      result.get ⟨0, by simp⟩ = 0 ∧\n      -- For n > 0: coefficient at position 1 comes from c[0] plus recursive contributions  \n      (∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ + \n        (if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧\n      -- For i ≥ 1: result[i+1] gets c[i] (coefficient shift up)\n      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0420_specs.lean",
+    "line": 24,
+    "current_line": "        (if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-- <vc-definitions>\ndef hermemulx {n : Nat} (c : Vector Float n) : Id (Vector Float (n + 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermemulx_spec {n : Nat} (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermemulx c\n    ⦃⇓result => ⌜\n      -- Coefficient at position 0 is always 0 (no constant term in x*polynomial)\n      result.get ⟨0, by simp⟩ = 0 ∧\n      -- For n > 0: coefficient at position 1 comes from c[0] plus recursive contributions  \n      (∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ + \n        (if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧\n      -- For i ≥ 1: result[i+1] gets c[i] (coefficient shift up)\n      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0420_specs.lean",
+    "line": 26,
+    "current_line": "      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermemulx_spec {n : Nat} (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermemulx c\n    ⦃⇓result => ⌜\n      -- Coefficient at position 0 is always 0 (no constant term in x*polynomial)\n      result.get ⟨0, by simp⟩ = 0 ∧\n      -- For n > 0: coefficient at position 1 comes from c[0] plus recursive contributions  \n      (∀ (h : n > 0), result.get ⟨1, sorry⟩ = c.get ⟨0, h⟩ + \n        (if n > 1 then (c.get ⟨1, sorry⟩) * (1 : Float) else 0)) ∧\n      -- For i ≥ 1: result[i+1] gets c[i] (coefficient shift up)\n      (∀ i : Fin n, i.val ≥ 1 → result.get ⟨i.val + 1, sorry⟩ = c.get i)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0425_specs.lean",
+    "line": 33,
+    "current_line": "                         acc_inner + (c.get ⟨i, sorry⟩).get ⟨j, sorry⟩ * ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "2d_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "    hermeval2d x y c\n    ⦃⇓result => ⌜-- Mathematical correctness: Each result point follows bivariate HermiteE evaluation\n                 (∀ k : Fin n, \n                   ∃ hermite_basis : Nat → Float → Float,\n                   -- Base cases for HermiteE polynomials\n                   (∀ t : Float, hermite_basis 0 t = 1) ∧\n                   (m > 0 → ∀ t : Float, hermite_basis 1 t = t) ∧\n                   -- Recurrence relation: He_{n+1}(x) = x * He_n(x) - n * He_{n-1}(x)\n                   (∀ i : Nat, i + 1 < m → ∀ t : Float, \n                     hermite_basis (i + 2) t = t * hermite_basis (i + 1) t - Float.ofNat (i + 1) * hermite_basis i t) ∧\n                   -- The result is the bivariate polynomial evaluation  \n                   result.get k = \n                     (List.range n).foldl (fun acc i =>\n                       acc + (List.range m).foldl (fun acc_inner j =>\n                         acc_inner + (c.get ⟨i, sorry⟩).get ⟨j, sorry⟩ * \n                         hermite_basis i (x.get k) * hermite_basis j (y.get k)\n                       ) 0\n                     ) 0) ∧\n                 -- Linearity in coefficients: Evaluating αc₁ + βc₂ = α·eval(c₁) + β·eval(c₂)\n                 (∀ α β : Float, ∀ c1 c2 : Vector (Vector Float m) n,\n                   ∃ result1 result2 result_combined : Vector Float n,\n                   -- Individual evaluations\n                   hermeval2d x y c1 = pure result1 ∧\n                   hermeval2d x y c2 = pure result2 ∧\n                   -- Combined coefficient matrix\n                   (∃ c_combined : Vector (Vector Float m) n,\n                     (∀ i : Fin n, ∀ j : Fin m, (c_combined.get i).get j = α * (c1.get i).get j + β * (c2.get i).get j) ∧\n                     hermeval2d x y c_combined = pure result_combined ∧\n                     ∀ k : Fin n, result_combined.get k = α * result1.get k + β * result2.get k)) ∧"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0425_specs.lean",
+    "line": 75,
+    "current_line": "                     (const_coeff.get ⟨0, sorry⟩).get ⟨0, sorry⟩ = 1 ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "2d_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "                   (∃ y_combined : Vector Float n,\n                     (∀ i : Fin n, y_combined.get i = α * y1.get i + β * y2.get i) ∧\n                     hermeval2d x1 y_combined c = pure result_combined_y ∧\n                     ∀ k : Fin n, result_combined_y.get k = α * result_x1y1.get k + β * result_x1y2.get k)) ∧\n                 -- Special case properties for verification\n                 (m > 0 ∧ n > 0 → \n                   -- Zero coefficient matrix gives zero polynomial\n                   (∃ zero_coeff : Vector (Vector Float m) n,\n                     (∀ i : Fin n, ∀ j : Fin m, (zero_coeff.get i).get j = 0) ∧\n                     ∃ zero_result : Vector Float n,\n                     hermeval2d x y zero_coeff = pure zero_result ∧\n                     ∀ k : Fin n, zero_result.get k = 0) ∧\n                   -- Constant polynomial (c₀₀ = 1, all others = 0)\n                   (∃ const_coeff : Vector (Vector Float m) n,\n                     (const_coeff.get ⟨0, sorry⟩).get ⟨0, sorry⟩ = 1 ∧\n                     (∀ i : Fin n, ∀ j : Fin m, (i.val ≠ 0 ∨ j.val ≠ 0) → (const_coeff.get i).get j = 0) ∧\n                     ∃ const_result : Vector Float n,\n                     hermeval2d x y const_coeff = pure const_result ∧\n                     ∀ k : Fin n, const_result.get k = 1))⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0435_specs.lean",
+    "line": 29,
+    "current_line": "          result.get ⟨i.val, sorry⟩ = scl * (2.0 * (i.val + 1 : Nat).toFloat) * c.get ⟨i.val + 1, sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-theorems>\ntheorem hermder_spec {n : Nat} (c : Vector Float n) (m : Nat) (scl : Float) :\n    ⦃⌜True⌝⦄\n    hermder c m scl\n    ⦃⇓result => ⌜\n      -- Basic size property: output size is n - min(m, n)\n      result.size = n - min m n ∧\n      -- Case 1: Single differentiation (m = 1)\n      (m = 1 ∧ n > 0 → \n        ∀ i : Fin (n - 1), \n          -- For Hermite polynomials: d/dx H_j(x) = 2j * H_{j-1}(x)\n          -- So the i-th coefficient (degree i) comes from the (i+1)-th coefficient\n          -- multiplied by 2*(i+1) and the scaling factor\n          result.get ⟨i.val, sorry⟩ = scl * (2.0 * (i.val + 1 : Nat).toFloat) * c.get ⟨i.val + 1, sorry⟩) ∧\n      -- Case 2: Over-differentiation (m ≥ n) gives empty vector\n      (m ≥ n → result.size = 0) ∧\n      -- Mathematical property: The operation reduces the degree by exactly m\n      (m < n → result.size = n - m) ∧\n      -- Mathematical property: Each differentiation applies the Hermite derivative rule\n      -- For multiple differentiations, the pattern compounds\n      (m = 2 ∧ n > 1 → \n        ∀ i : Fin (n - 2),\n          -- Second derivative: apply the rule twice\n          -- d²/dx² H_j(x) = d/dx (2j * H_{j-1}(x)) = 2j * 2(j-1) * H_{j-2}(x)\n          result.get ⟨i.val, sorry⟩ = \n            scl * scl * (2.0 * (i.val + 2 : Nat).toFloat) * (2.0 * (i.val + 1 : Nat).toFloat) * \n            c.get ⟨i.val + 2, sorry⟩)\n    ⌝⦄ := by"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0435_specs.lean",
+    "line": 40,
+    "current_line": "          result.get ⟨i.val, sorry⟩ = ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "          -- For Hermite polynomials: d/dx H_j(x) = 2j * H_{j-1}(x)\n          -- So the i-th coefficient (degree i) comes from the (i+1)-th coefficient\n          -- multiplied by 2*(i+1) and the scaling factor\n          result.get ⟨i.val, sorry⟩ = scl * (2.0 * (i.val + 1 : Nat).toFloat) * c.get ⟨i.val + 1, sorry⟩) ∧\n      -- Case 2: Over-differentiation (m ≥ n) gives empty vector\n      (m ≥ n → result.size = 0) ∧\n      -- Mathematical property: The operation reduces the degree by exactly m\n      (m < n → result.size = n - m) ∧\n      -- Mathematical property: Each differentiation applies the Hermite derivative rule\n      -- For multiple differentiations, the pattern compounds\n      (m = 2 ∧ n > 1 → \n        ∀ i : Fin (n - 2),\n          -- Second derivative: apply the rule twice\n          -- d²/dx² H_j(x) = d/dx (2j * H_{j-1}(x)) = 2j * 2(j-1) * H_{j-2}(x)\n          result.get ⟨i.val, sorry⟩ = \n            scl * scl * (2.0 * (i.val + 2 : Nat).toFloat) * (2.0 * (i.val + 1 : Nat).toFloat) * \n            c.get ⟨i.val + 2, sorry⟩)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0435_specs.lean",
+    "line": 42,
+    "current_line": "            c.get ⟨i.val + 2, sorry⟩)",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "          -- multiplied by 2*(i+1) and the scaling factor\n          result.get ⟨i.val, sorry⟩ = scl * (2.0 * (i.val + 1 : Nat).toFloat) * c.get ⟨i.val + 1, sorry⟩) ∧\n      -- Case 2: Over-differentiation (m ≥ n) gives empty vector\n      (m ≥ n → result.size = 0) ∧\n      -- Mathematical property: The operation reduces the degree by exactly m\n      (m < n → result.size = n - m) ∧\n      -- Mathematical property: Each differentiation applies the Hermite derivative rule\n      -- For multiple differentiations, the pattern compounds\n      (m = 2 ∧ n > 1 → \n        ∀ i : Fin (n - 2),\n          -- Second derivative: apply the rule twice\n          -- d²/dx² H_j(x) = d/dx (2j * H_{j-1}(x)) = 2j * 2(j-1) * H_{j-2}(x)\n          result.get ⟨i.val, sorry⟩ = \n            scl * scl * (2.0 * (i.val + 2 : Nat).toFloat) * (2.0 * (i.val + 1 : Nat).toFloat) * \n            c.get ⟨i.val + 2, sorry⟩)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0444_specs.lean",
+    "line": 22,
+    "current_line": "      ((m = 0 ∨ n = 0) → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 0) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-- </vc-helpers>\n\n-- <vc-definitions>\ndef hermmul (m n : Nat) (c1 : Vector Float m) (c2 : Vector Float n) : \n    Id (Vector Float (if m = 0 ∨ n = 0 then 1 else m + n - 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermmul_spec (m n : Nat) (c1 : Vector Float m) (c2 : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermmul m n c1 c2\n    ⦃⇓result => ⌜\n      -- Empty input handling\n      ((m = 0 ∨ n = 0) → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 0) ∧\n      -- Non-empty inputs have correct output size\n      (m > 0 ∧ n > 0 → result.size = m + n - 1) ∧\n      -- Multiplication by constant polynomial (degree 0)\n      (n = 1 ∧ m > 0 → ∀ i : Fin m, \n        result.get ⟨i.val, sorry⟩ = c1.get i * c2.get ⟨0, sorry⟩) ∧\n      (m = 1 ∧ n > 0 → ∀ i : Fin n, \n        result.get ⟨i.val, sorry⟩ = c2.get i * c1.get ⟨0, sorry⟩) ∧\n      -- Zero polynomial property\n      ((∀ i : Fin m, c1.get i = 0) ∨ (∀ j : Fin n, c2.get j = 0) → \n        ∀ k : Fin result.size, result.get k = 0)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0444_specs.lean",
+    "line": 27,
+    "current_line": "        result.get ⟨i.val, sorry⟩ = c1.get i * c2.get ⟨0, sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermmul_spec (m n : Nat) (c1 : Vector Float m) (c2 : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermmul m n c1 c2\n    ⦃⇓result => ⌜\n      -- Empty input handling\n      ((m = 0 ∨ n = 0) → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 0) ∧\n      -- Non-empty inputs have correct output size\n      (m > 0 ∧ n > 0 → result.size = m + n - 1) ∧\n      -- Multiplication by constant polynomial (degree 0)\n      (n = 1 ∧ m > 0 → ∀ i : Fin m, \n        result.get ⟨i.val, sorry⟩ = c1.get i * c2.get ⟨0, sorry⟩) ∧\n      (m = 1 ∧ n > 0 → ∀ i : Fin n, \n        result.get ⟨i.val, sorry⟩ = c2.get i * c1.get ⟨0, sorry⟩) ∧\n      -- Zero polynomial property\n      ((∀ i : Fin m, c1.get i = 0) ∨ (∀ j : Fin n, c2.get j = 0) → \n        ∀ k : Fin result.size, result.get k = 0)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0444_specs.lean",
+    "line": 29,
+    "current_line": "        result.get ⟨i.val, sorry⟩ = c2.get i * c1.get ⟨0, sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-theorems>\ntheorem hermmul_spec (m n : Nat) (c1 : Vector Float m) (c2 : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermmul m n c1 c2\n    ⦃⇓result => ⌜\n      -- Empty input handling\n      ((m = 0 ∨ n = 0) → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 0) ∧\n      -- Non-empty inputs have correct output size\n      (m > 0 ∧ n > 0 → result.size = m + n - 1) ∧\n      -- Multiplication by constant polynomial (degree 0)\n      (n = 1 ∧ m > 0 → ∀ i : Fin m, \n        result.get ⟨i.val, sorry⟩ = c1.get i * c2.get ⟨0, sorry⟩) ∧\n      (m = 1 ∧ n > 0 → ∀ i : Fin n, \n        result.get ⟨i.val, sorry⟩ = c2.get i * c1.get ⟨0, sorry⟩) ∧\n      -- Zero polynomial property\n      ((∀ i : Fin m, c1.get i = 0) ∨ (∀ j : Fin n, c2.get j = 0) → \n        ∀ k : Fin result.size, result.get k = 0)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0449_specs.lean",
+    "line": 89,
+    "current_line": "    a * c1.get ⟨j, sorry⟩ + b * c2.get ⟨j, sorry⟩)) sorry",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    ⦃⇓result => ⌜∀ i : Fin m, result.get i = 0⌝⦄ := by\n  sorry\n\n/-- Additional specification for single coefficient (constant polynomial) -/\ntheorem hermval_single_coeff {m : Nat} (x : Vector Float m) (c0 : Float) :\n    ⦃⌜True⌝⦄\n    hermval x (Vector.mk #[c0] rfl)\n    ⦃⇓result => ⌜∀ i : Fin m, result.get i = c0⌝⦄ := by\n  sorry\n\n/-- Helper function to create a linear combination of two coefficient vectors -/\ndef linearCombCoeffs {n : Nat} (a : Float) (c1 : Vector Float n) \n                     (b : Float) (c2 : Vector Float n) : Vector Float n :=\n  Vector.mk (Array.mk (List.range n |>.map fun j => \n    a * c1.get ⟨j, sorry⟩ + b * c2.get ⟨j, sorry⟩)) sorry\n\n/-- Additional specification verifying linearity property:\n    hermval(x, a*c1 + b*c2) = a*hermval(x, c1) + b*hermval(x, c2) -/\ntheorem hermval_linearity {m n : Nat} (x : Vector Float m) \n    (c1 c2 : Vector Float n) (a b : Float) :\n    ⦃⌜True⌝⦄\n    hermval x (linearCombCoeffs a c1 b c2)\n    ⦃⇓result => ⌜∀ i : Fin m,\n      result.get i = a * (hermval x c1).get i + b * (hermval x c2).get i⌝⦄ := by\n  sorry\n\n/-- Specification for the example from documentation:\n    hermval(1, [1, 2, 3]) = 11.0\n    This verifies H_0(1) + 2*H_1(1) + 3*H_2(1) = 1 + 2*2 + 3*2 = 11 -/"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0450_specs.lean",
+    "line": 65,
+    "current_line": "                         (fun j : Fin cols => (c.get ⟨0, sorry⟩).get j * H_y j.val) ",
+    "reasons": [
+      "polynomial_file_keywords:hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "2d_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "                       (⦃⌜True⌝⦄ hermval2d x y c2 ⦃⇓r => ⌜r = res2⌝⦄) ∧\n                       (⦃⌜True⌝⦄ hermval2d x y c_combined ⦃⇓r => ⌜r = res_combined⌝⦄) ∧\n                       res_combined.get k = a * res1.get k + b * res2.get k) ∧\n                 -- Separability property: 2D evaluation is product of 1D evaluations\n                 (rows = 1 ∧ cols > 0 → \n                   ∀ k : Fin n,\n                     ∃ H_y : Nat → Float,\n                       -- H_y satisfies Hermite recurrence\n                       H_y 0 = 1 ∧\n                       H_y 1 = 2 * (y.get k) ∧\n                       (∀ j : Nat, j + 2 < cols → \n                         H_y (j + 2) = 2 * (y.get k) * H_y (j + 1) - 2 * Float.ofNat (j + 1) * H_y j) ∧\n                       -- Result is c[0,j] * H_0(x) * H_j(y) = c[0,j] * 1 * H_j(y)\n                       result.get k = List.sum (List.map \n                         (fun j : Fin cols => (c.get ⟨0, sorry⟩).get j * H_y j.val) \n                         (List.finRange cols))) ∧\n                 (cols = 1 ∧ rows > 0 → \n                   ∀ k : Fin n,\n                     ∃ H_x : Nat → Float,\n                       -- H_x satisfies Hermite recurrence\n                       H_x 0 = 1 ∧\n                       H_x 1 = 2 * (x.get k) ∧\n                       (∀ i : Nat, i + 2 < rows → \n                         H_x (i + 2) = 2 * (x.get k) * H_x (i + 1) - 2 * Float.ofNat (i + 1) * H_x i) ∧\n                       -- Result is c[i,0] * H_i(x) * H_0(y) = c[i,0] * H_i(x) * 1\n                       result.get k = List.sum (List.map \n                         (fun i : Fin rows => (c.get i).get ⟨0, sorry⟩ * H_x i.val) \n                         (List.finRange rows)))⌝⦄ := by\n  sorry"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0454_specs.lean",
+    "line": 50,
+    "current_line": "             ⟨(ydeg + 1) * (zdeg + 1) * i_deg.val + (zdeg + 1) * j_deg.val + k_deg.val, sorry⟩",
+    "reasons": [
+      "polynomial_file_keywords:vander,vander3d,hermvander,polynomial,hermite",
+      "fin_context",
+      "mul_plus_flatten_shape",
+      "3d_shape",
+      "degree_successor_product"
+    ],
+    "penalties": [],
+    "window": "    point (x[i], y[i], z[i]), and the columns contain products of Hermite polynomials\n    evaluated at those points in the order specified by the index formula.\n    \n    The element at position [i, (ydeg+1)*(zdeg+1)*i_deg + (zdeg+1)*j_deg + k_deg] equals\n    H_{i_deg}(x[i]) * H_{j_deg}(y[i]) * H_{k_deg}(z[i])\n    \n    This ensures that np.dot(V, c.flat) and hermval3d(x, y, z, c) produce the same\n    result for coefficient array c of shape (xdeg+1, ydeg+1, zdeg+1).\n-/\ntheorem hermvander3d_spec {p : Nat} (x y z : Vector Float p) (xdeg ydeg zdeg : Nat) :\n    ⦃⌜True⌝⦄\n    hermvander3d x y z xdeg ydeg zdeg\n    ⦃⇓V => ⌜∀ (i : Fin p) (i_deg : Fin (xdeg + 1)) (j_deg : Fin (ydeg + 1)) (k_deg : Fin (zdeg + 1)),\n           let col_idx : Fin ((xdeg + 1) * (ydeg + 1) * (zdeg + 1)) := \n             ⟨(ydeg + 1) * (zdeg + 1) * i_deg.val + (zdeg + 1) * j_deg.val + k_deg.val, sorry⟩\n           (V.get i).get col_idx = \n             hermitePolynomial i_deg.val (x.get i) * \n             hermitePolynomial j_deg.val (y.get i) * \n             hermitePolynomial k_deg.val (z.get i)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0489_specs.lean",
+    "line": 38,
+    "current_line": "                       acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "/-- Specification: legfit computes coefficients that minimize least squares error\n    \n    The returned coefficients define a Legendre polynomial that minimizes the\n    sum of squared errors between the fitted polynomial and the data points.\n    The degree of the resulting polynomial is exactly `deg`.\n-/\ntheorem legfit_spec {m : Nat} (x : Vector Float m) (y : Vector Float m) (deg : Nat) \n    (h_nonempty : m > 0) (h_deg_bound : deg < m) :\n    ⦃⌜m > 0 ∧ deg < m⌝⦄\n    legfit x y deg h_nonempty h_deg_bound\n    ⦃⇓coeff => ⌜coeff.toArray.size = deg + 1 ∧ \n                 (∀ other_coeff : Vector Float (deg + 1), \n                   let fitted_vals := fun i : Fin m => \n                     (List.range (deg + 1)).foldl (fun acc j => \n                       acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0\n                   let other_vals := fun i : Fin m => \n                     (List.range (deg + 1)).foldl (fun acc j => \n                       acc + other_coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0\n                   let error_fitted := (List.range m).foldl (fun acc i => \n                     acc + (y.get ⟨i, by sorry⟩ - fitted_vals ⟨i, by sorry⟩)^2) 0\n                   let error_other := (List.range m).foldl (fun acc i => \n                     acc + (y.get ⟨i, by sorry⟩ - other_vals ⟨i, by sorry⟩)^2) 0\n                   error_fitted ≤ error_other)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0489_specs.lean",
+    "line": 41,
+    "current_line": "                       acc + other_coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    sum of squared errors between the fitted polynomial and the data points.\n    The degree of the resulting polynomial is exactly `deg`.\n-/\ntheorem legfit_spec {m : Nat} (x : Vector Float m) (y : Vector Float m) (deg : Nat) \n    (h_nonempty : m > 0) (h_deg_bound : deg < m) :\n    ⦃⌜m > 0 ∧ deg < m⌝⦄\n    legfit x y deg h_nonempty h_deg_bound\n    ⦃⇓coeff => ⌜coeff.toArray.size = deg + 1 ∧ \n                 (∀ other_coeff : Vector Float (deg + 1), \n                   let fitted_vals := fun i : Fin m => \n                     (List.range (deg + 1)).foldl (fun acc j => \n                       acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0\n                   let other_vals := fun i : Fin m => \n                     (List.range (deg + 1)).foldl (fun acc j => \n                       acc + other_coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0\n                   let error_fitted := (List.range m).foldl (fun acc i => \n                     acc + (y.get ⟨i, by sorry⟩ - fitted_vals ⟨i, by sorry⟩)^2) 0\n                   let error_other := (List.range m).foldl (fun acc i => \n                     acc + (y.get ⟨i, by sorry⟩ - other_vals ⟨i, by sorry⟩)^2) 0\n                   error_fitted ≤ error_other)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0489_specs.lean",
+    "line": 43,
+    "current_line": "                     acc + (y.get ⟨i, by sorry⟩ - fitted_vals ⟨i, by sorry⟩)^2) 0",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-/\ntheorem legfit_spec {m : Nat} (x : Vector Float m) (y : Vector Float m) (deg : Nat) \n    (h_nonempty : m > 0) (h_deg_bound : deg < m) :\n    ⦃⌜m > 0 ∧ deg < m⌝⦄\n    legfit x y deg h_nonempty h_deg_bound\n    ⦃⇓coeff => ⌜coeff.toArray.size = deg + 1 ∧ \n                 (∀ other_coeff : Vector Float (deg + 1), \n                   let fitted_vals := fun i : Fin m => \n                     (List.range (deg + 1)).foldl (fun acc j => \n                       acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0\n                   let other_vals := fun i : Fin m => \n                     (List.range (deg + 1)).foldl (fun acc j => \n                       acc + other_coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0\n                   let error_fitted := (List.range m).foldl (fun acc i => \n                     acc + (y.get ⟨i, by sorry⟩ - fitted_vals ⟨i, by sorry⟩)^2) 0\n                   let error_other := (List.range m).foldl (fun acc i => \n                     acc + (y.get ⟨i, by sorry⟩ - other_vals ⟨i, by sorry⟩)^2) 0\n                   error_fitted ≤ error_other)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0489_specs.lean",
+    "line": 45,
+    "current_line": "                     acc + (y.get ⟨i, by sorry⟩ - other_vals ⟨i, by sorry⟩)^2) 0",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    (h_nonempty : m > 0) (h_deg_bound : deg < m) :\n    ⦃⌜m > 0 ∧ deg < m⌝⦄\n    legfit x y deg h_nonempty h_deg_bound\n    ⦃⇓coeff => ⌜coeff.toArray.size = deg + 1 ∧ \n                 (∀ other_coeff : Vector Float (deg + 1), \n                   let fitted_vals := fun i : Fin m => \n                     (List.range (deg + 1)).foldl (fun acc j => \n                       acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0\n                   let other_vals := fun i : Fin m => \n                     (List.range (deg + 1)).foldl (fun acc j => \n                       acc + other_coeff.get ⟨j, by sorry⟩ * (legendre_poly j (x.get i))) 0\n                   let error_fitted := (List.range m).foldl (fun acc i => \n                     acc + (y.get ⟨i, by sorry⟩ - fitted_vals ⟨i, by sorry⟩)^2) 0\n                   let error_other := (List.range m).foldl (fun acc i => \n                     acc + (y.get ⟨i, by sorry⟩ - other_vals ⟨i, by sorry⟩)^2) 0\n                   error_fitted ≤ error_other)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0490_specs.lean",
+    "line": 32,
+    "current_line": "                     acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (roots.get i))) 0",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "  sorry\n\n/-- Specification: legfromroots generates Legendre coefficients for polynomial with given roots\n    \n    The returned coefficients define a Legendre polynomial that has exactly the\n    specified roots (with their multiplicities). The polynomial evaluates to\n    zero at each root and has degree equal to the number of roots.\n-/\ntheorem legfromroots_spec {n : Nat} (roots : Vector Float n) :\n    ⦃⌜True⌝⦄\n    legfromroots roots\n    ⦃⇓coeff => ⌜coeff.toArray.size = n + 1 ∧ \n                 (∀ i : Fin n, \n                   let poly_val := (List.range (n + 1)).foldl (fun acc j => \n                     acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (roots.get i))) 0\n                   Float.abs poly_val < 1e-12) ∧\n                 (if n > 0 then coeff.get ⟨n, by sorry⟩ ≠ 0 else True) ∧\n                 (let standard_poly := fun x => \n                   (List.range n).foldl (fun acc i => \n                     acc * (x - roots.get ⟨i, by sorry⟩)) 1\n                  let legendre_poly_val := fun x => \n                    (List.range (n + 1)).foldl (fun acc j => \n                      acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j x)) 0\n                  ∀ x : Float, Float.abs (legendre_poly_val x - standard_poly x) < 1e-10)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0490_specs.lean",
+    "line": 34,
+    "current_line": "                 (if n > 0 then coeff.get ⟨n, by sorry⟩ ≠ 0 else True) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "/-- Specification: legfromroots generates Legendre coefficients for polynomial with given roots\n    \n    The returned coefficients define a Legendre polynomial that has exactly the\n    specified roots (with their multiplicities). The polynomial evaluates to\n    zero at each root and has degree equal to the number of roots.\n-/\ntheorem legfromroots_spec {n : Nat} (roots : Vector Float n) :\n    ⦃⌜True⌝⦄\n    legfromroots roots\n    ⦃⇓coeff => ⌜coeff.toArray.size = n + 1 ∧ \n                 (∀ i : Fin n, \n                   let poly_val := (List.range (n + 1)).foldl (fun acc j => \n                     acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (roots.get i))) 0\n                   Float.abs poly_val < 1e-12) ∧\n                 (if n > 0 then coeff.get ⟨n, by sorry⟩ ≠ 0 else True) ∧\n                 (let standard_poly := fun x => \n                   (List.range n).foldl (fun acc i => \n                     acc * (x - roots.get ⟨i, by sorry⟩)) 1\n                  let legendre_poly_val := fun x => \n                    (List.range (n + 1)).foldl (fun acc j => \n                      acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j x)) 0\n                  ∀ x : Float, Float.abs (legendre_poly_val x - standard_poly x) < 1e-10)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0490_specs.lean",
+    "line": 37,
+    "current_line": "                     acc * (x - roots.get ⟨i, by sorry⟩)) 1",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    specified roots (with their multiplicities). The polynomial evaluates to\n    zero at each root and has degree equal to the number of roots.\n-/\ntheorem legfromroots_spec {n : Nat} (roots : Vector Float n) :\n    ⦃⌜True⌝⦄\n    legfromroots roots\n    ⦃⇓coeff => ⌜coeff.toArray.size = n + 1 ∧ \n                 (∀ i : Fin n, \n                   let poly_val := (List.range (n + 1)).foldl (fun acc j => \n                     acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (roots.get i))) 0\n                   Float.abs poly_val < 1e-12) ∧\n                 (if n > 0 then coeff.get ⟨n, by sorry⟩ ≠ 0 else True) ∧\n                 (let standard_poly := fun x => \n                   (List.range n).foldl (fun acc i => \n                     acc * (x - roots.get ⟨i, by sorry⟩)) 1\n                  let legendre_poly_val := fun x => \n                    (List.range (n + 1)).foldl (fun acc j => \n                      acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j x)) 0\n                  ∀ x : Float, Float.abs (legendre_poly_val x - standard_poly x) < 1e-10)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0490_specs.lean",
+    "line": 40,
+    "current_line": "                      acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j x)) 0",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "theorem legfromroots_spec {n : Nat} (roots : Vector Float n) :\n    ⦃⌜True⌝⦄\n    legfromroots roots\n    ⦃⇓coeff => ⌜coeff.toArray.size = n + 1 ∧ \n                 (∀ i : Fin n, \n                   let poly_val := (List.range (n + 1)).foldl (fun acc j => \n                     acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j (roots.get i))) 0\n                   Float.abs poly_val < 1e-12) ∧\n                 (if n > 0 then coeff.get ⟨n, by sorry⟩ ≠ 0 else True) ∧\n                 (let standard_poly := fun x => \n                   (List.range n).foldl (fun acc i => \n                     acc * (x - roots.get ⟨i, by sorry⟩)) 1\n                  let legendre_poly_val := fun x => \n                    (List.range (n + 1)).foldl (fun acc j => \n                      acc + coeff.get ⟨j, by sorry⟩ * (legendre_poly j x)) 0\n                  ∀ x : Float, Float.abs (legendre_poly_val x - standard_poly x) < 1e-10)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0491_specs.lean",
+    "line": 43,
+    "current_line": "                     acc + result.2.get ⟨i, by sorry⟩) 0 - 2) < 1e-12) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    2. The weights are computed such that the quadrature exactly integrates \n       polynomials of degree up to 2*deg - 1 over [-1, 1]\n    3. The sum of weights equals 2 (the integral of 1 over [-1, 1])\n-/\ntheorem leggauss_spec (deg : Nat) (h_pos : deg > 0) :\n    ⦃⌜deg > 0⌝⦄\n    leggauss deg h_pos\n    ⦃⇓result => ⌜(result.1.toArray.size = deg ∧ result.2.toArray.size = deg) ∧\n                   -- All points are in [-1, 1]\n                   (∀ i : Fin deg, -1 ≤ result.1.get i ∧ result.1.get i ≤ 1) ∧\n                   -- All weights are positive\n                   (∀ i : Fin deg, result.2.get i > 0) ∧\n                   -- Sum of weights equals 2\n                   (Float.abs ((List.range deg).foldl (fun acc i => \n                     acc + result.2.get ⟨i, by sorry⟩) 0 - 2) < 1e-12) ∧\n                   -- Points are roots of deg-th Legendre polynomial\n                   (∀ i : Fin deg, Float.abs (legendre_poly deg (result.1.get i)) < 1e-12) ∧\n                   -- Points are distinct and ordered\n                   (∀ i j : Fin deg, i < j → result.1.get i < result.1.get j) ∧\n                   -- Quadrature is exact for polynomials of degree ≤ 2*deg - 1\n                   (∀ poly_deg : Nat, poly_deg ≤ 2 * deg - 1 → \n                     ∀ poly_coeffs : Vector Float (poly_deg + 1),\n                       let exact_integral := integral_legendre_poly poly_coeffs\n                       let quad_approx := (List.range deg).foldl (fun acc i => \n                         acc + result.2.get ⟨i, by sorry⟩ * \n                         (eval_poly poly_coeffs (result.1.get ⟨i, by sorry⟩))) 0\n                       Float.abs (exact_integral - quad_approx) < 1e-12)⌝⦄ := by\n  sorry\n-- </vc-preamble>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0491_specs.lean",
+    "line": 53,
+    "current_line": "                         acc + result.2.get ⟨i, by sorry⟩ * ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "                   -- All weights are positive\n                   (∀ i : Fin deg, result.2.get i > 0) ∧\n                   -- Sum of weights equals 2\n                   (Float.abs ((List.range deg).foldl (fun acc i => \n                     acc + result.2.get ⟨i, by sorry⟩) 0 - 2) < 1e-12) ∧\n                   -- Points are roots of deg-th Legendre polynomial\n                   (∀ i : Fin deg, Float.abs (legendre_poly deg (result.1.get i)) < 1e-12) ∧\n                   -- Points are distinct and ordered\n                   (∀ i j : Fin deg, i < j → result.1.get i < result.1.get j) ∧\n                   -- Quadrature is exact for polynomials of degree ≤ 2*deg - 1\n                   (∀ poly_deg : Nat, poly_deg ≤ 2 * deg - 1 → \n                     ∀ poly_coeffs : Vector Float (poly_deg + 1),\n                       let exact_integral := integral_legendre_poly poly_coeffs\n                       let quad_approx := (List.range deg).foldl (fun acc i => \n                         acc + result.2.get ⟨i, by sorry⟩ * \n                         (eval_poly poly_coeffs (result.1.get ⟨i, by sorry⟩))) 0\n                       Float.abs (exact_integral - quad_approx) < 1e-12)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0491_specs.lean",
+    "line": 54,
+    "current_line": "                         (eval_poly poly_coeffs (result.1.get ⟨i, by sorry⟩))) 0",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,legendre",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "                   (∀ i : Fin deg, result.2.get i > 0) ∧\n                   -- Sum of weights equals 2\n                   (Float.abs ((List.range deg).foldl (fun acc i => \n                     acc + result.2.get ⟨i, by sorry⟩) 0 - 2) < 1e-12) ∧\n                   -- Points are roots of deg-th Legendre polynomial\n                   (∀ i : Fin deg, Float.abs (legendre_poly deg (result.1.get i)) < 1e-12) ∧\n                   -- Points are distinct and ordered\n                   (∀ i j : Fin deg, i < j → result.1.get i < result.1.get j) ∧\n                   -- Quadrature is exact for polynomials of degree ≤ 2*deg - 1\n                   (∀ poly_deg : Nat, poly_deg ≤ 2 * deg - 1 → \n                     ∀ poly_coeffs : Vector Float (poly_deg + 1),\n                       let exact_integral := integral_legendre_poly poly_coeffs\n                       let quad_approx := (List.range deg).foldl (fun acc i => \n                         acc + result.2.get ⟨i, by sorry⟩ * \n                         (eval_poly poly_coeffs (result.1.get ⟨i, by sorry⟩))) 0\n                       Float.abs (exact_integral - quad_approx) < 1e-12)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0519_specs.lean",
+    "line": 30,
+    "current_line": "        (n = 0 → result.get ⟨0, by sorry⟩ = k.get ⟨0, by sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem polyint_spec {n : Nat} (c : Vector Float n) (m : Nat) \n    (k : Vector Float m) (lbnd : Float) (scl : Float) :\n    ⦃⌜m > 0 → scl ≠ 0⌝⦄\n    polyint c m k lbnd scl\n    ⦃⇓result => \n      -- Size constraint: output has m more coefficients than input\n      ⌜result.toList.length = n + m⌝ ∧\n\n      -- For single integration (m = 1), verify the integration formula\n      ⌜m = 1 → \n        -- When input is empty polynomial (zero), result is just the constant\n        (n = 0 → result.get ⟨0, by sorry⟩ = k.get ⟨0, by sorry⟩) ∧\n        -- For non-empty input, apply integration rules\n        (n > 0 → \n          -- Each coefficient c[i] at degree i becomes scl*c[i]/(i+1) at degree i+1\n          (∀ i : Fin n, \n            result.get ⟨i.val + 1, by sorry⟩ = scl * c.get i / (i.val.toFloat + 1)))⌝ ∧\n\n      -- Property about integration constants and lower bound\n      -- The integration constant is adjusted so that the integral evaluated at lbnd equals k\n      ⌜m = 1 ∧ n > 0 → \n        -- If we had k = [0] and lbnd = 0, then result[0] = 0\n        (k.get ⟨0, by sorry⟩ = 0 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 0) ∧\n        -- Example: integrating [1,2,3] with k=3 gives result[0] = 3 when lbnd = 0\n        (k.get ⟨0, by sorry⟩ = 3 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 3)⌝ ∧\n"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0519_specs.lean",
+    "line": 35,
+    "current_line": "            result.get ⟨i.val + 1, by sorry⟩ = scl * c.get i / (i.val.toFloat + 1)))⌝ ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "    ⦃⌜m > 0 → scl ≠ 0⌝⦄\n    polyint c m k lbnd scl\n    ⦃⇓result => \n      -- Size constraint: output has m more coefficients than input\n      ⌜result.toList.length = n + m⌝ ∧\n\n      -- For single integration (m = 1), verify the integration formula\n      ⌜m = 1 → \n        -- When input is empty polynomial (zero), result is just the constant\n        (n = 0 → result.get ⟨0, by sorry⟩ = k.get ⟨0, by sorry⟩) ∧\n        -- For non-empty input, apply integration rules\n        (n > 0 → \n          -- Each coefficient c[i] at degree i becomes scl*c[i]/(i+1) at degree i+1\n          (∀ i : Fin n, \n            result.get ⟨i.val + 1, by sorry⟩ = scl * c.get i / (i.val.toFloat + 1)))⌝ ∧\n\n      -- Property about integration constants and lower bound\n      -- The integration constant is adjusted so that the integral evaluated at lbnd equals k\n      ⌜m = 1 ∧ n > 0 → \n        -- If we had k = [0] and lbnd = 0, then result[0] = 0\n        (k.get ⟨0, by sorry⟩ = 0 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 0) ∧\n        -- Example: integrating [1,2,3] with k=3 gives result[0] = 3 when lbnd = 0\n        (k.get ⟨0, by sorry⟩ = 3 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 3)⌝ ∧\n\n      -- Mathematical property: The integration operation is the inverse of differentiation\n      -- If we integrate m times then differentiate m times, we get back c scaled by scl^m\n      ⌜m > 0 → scl ≠ 0 → \n        -- This property ensures mathematical consistency of the integration\n        True⌝ ∧"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0519_specs.lean",
+    "line": 41,
+    "current_line": "        (k.get ⟨0, by sorry⟩ = 0 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 0) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "      -- For single integration (m = 1), verify the integration formula\n      ⌜m = 1 → \n        -- When input is empty polynomial (zero), result is just the constant\n        (n = 0 → result.get ⟨0, by sorry⟩ = k.get ⟨0, by sorry⟩) ∧\n        -- For non-empty input, apply integration rules\n        (n > 0 → \n          -- Each coefficient c[i] at degree i becomes scl*c[i]/(i+1) at degree i+1\n          (∀ i : Fin n, \n            result.get ⟨i.val + 1, by sorry⟩ = scl * c.get i / (i.val.toFloat + 1)))⌝ ∧\n\n      -- Property about integration constants and lower bound\n      -- The integration constant is adjusted so that the integral evaluated at lbnd equals k\n      ⌜m = 1 ∧ n > 0 → \n        -- If we had k = [0] and lbnd = 0, then result[0] = 0\n        (k.get ⟨0, by sorry⟩ = 0 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 0) ∧\n        -- Example: integrating [1,2,3] with k=3 gives result[0] = 3 when lbnd = 0\n        (k.get ⟨0, by sorry⟩ = 3 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 3)⌝ ∧\n\n      -- Mathematical property: The integration operation is the inverse of differentiation\n      -- If we integrate m times then differentiate m times, we get back c scaled by scl^m\n      ⌜m > 0 → scl ≠ 0 → \n        -- This property ensures mathematical consistency of the integration\n        True⌝ ∧\n\n      -- Sanity check: When scl = 0, all non-constant coefficients become 0\n      ⌜scl = 0 → ∀ i : Fin (n + m), i.val ≥ m → result.get i = 0⌝\n    ⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 80,
+    "path": "specs/LT0519_specs.lean",
+    "line": 43,
+    "current_line": "        (k.get ⟨0, by sorry⟩ = 3 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 3)⌝ ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [],
+    "window": "        -- When input is empty polynomial (zero), result is just the constant\n        (n = 0 → result.get ⟨0, by sorry⟩ = k.get ⟨0, by sorry⟩) ∧\n        -- For non-empty input, apply integration rules\n        (n > 0 → \n          -- Each coefficient c[i] at degree i becomes scl*c[i]/(i+1) at degree i+1\n          (∀ i : Fin n, \n            result.get ⟨i.val + 1, by sorry⟩ = scl * c.get i / (i.val.toFloat + 1)))⌝ ∧\n\n      -- Property about integration constants and lower bound\n      -- The integration constant is adjusted so that the integral evaluated at lbnd equals k\n      ⌜m = 1 ∧ n > 0 → \n        -- If we had k = [0] and lbnd = 0, then result[0] = 0\n        (k.get ⟨0, by sorry⟩ = 0 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 0) ∧\n        -- Example: integrating [1,2,3] with k=3 gives result[0] = 3 when lbnd = 0\n        (k.get ⟨0, by sorry⟩ = 3 ∧ lbnd = 0 → result.get ⟨0, by sorry⟩ = 3)⌝ ∧\n\n      -- Mathematical property: The integration operation is the inverse of differentiation\n      -- If we integrate m times then differentiate m times, we get back c scaled by scl^m\n      ⌜m > 0 → scl ≠ 0 → \n        -- This property ensures mathematical consistency of the integration\n        True⌝ ∧\n\n      -- Sanity check: When scl = 0, all non-constant coefficients become 0\n      ⌜scl = 0 → ∀ i : Fin (n + m), i.val ≥ m → result.get i = 0⌝\n    ⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0440_specs.lean",
+    "line": 71,
+    "current_line": "          (c.get ⟨0, sorry⟩).get ⟨0, sorry⟩ * ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "2d_shape"
+    ],
+    "penalties": [],
+    "window": "    (c : Vector (Vector Float cols) rows) :\n    ⦃⌜True⌝⦄\n    hermgrid2d x y c\n    ⦃⇓result => ⌜\n      -- Main property: each element is the 2D Hermite series evaluation\n      (∀ (i : Fin nx) (j : Fin ny), \n        (result.get i).get j = hermiteSeriesSum rows cols c (x.get i) (y.get j)) ∧\n      -- Sanity check: when c is zero matrix, result is zero\n      ((∀ (p : Fin rows) (q : Fin cols), (c.get p).get q = 0) →\n       (∀ (i : Fin nx) (j : Fin ny), (result.get i).get j = 0)) ∧\n      -- Separability property: the 2D evaluation factors into 1D evaluations\n      (rows = 1 ∧ cols = 1 → \n        ∀ (i : Fin nx) (j : Fin ny),\n          (result.get i).get j = \n          (c.get ⟨0, sorry⟩).get ⟨0, sorry⟩ * \n          hermitePolynomial 0 (x.get i) * \n          hermitePolynomial 0 (y.get j)) ∧\n      -- Identity property: when c[0,0] = 1 and all others are 0, result is constant 1\n      -- (since H_0(x) = 1 for any x)\n      ((rows > 0 ∧ cols > 0 ∧ \n        (c.get ⟨0, sorry⟩).get ⟨0, sorry⟩ = 1 ∧\n        (∀ (p : Fin rows) (q : Fin cols), (p ≠ ⟨0, sorry⟩ ∨ q ≠ ⟨0, sorry⟩) → \n          (c.get p).get q = 0)) →\n       (∀ (i : Fin nx) (j : Fin ny), (result.get i).get j = 1))\n    ⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>"
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0440_specs.lean",
+    "line": 77,
+    "current_line": "        (c.get ⟨0, sorry⟩).get ⟨0, sorry⟩ = 1 ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "2d_shape"
+    ],
+    "penalties": [],
+    "window": "        (result.get i).get j = hermiteSeriesSum rows cols c (x.get i) (y.get j)) ∧\n      -- Sanity check: when c is zero matrix, result is zero\n      ((∀ (p : Fin rows) (q : Fin cols), (c.get p).get q = 0) →\n       (∀ (i : Fin nx) (j : Fin ny), (result.get i).get j = 0)) ∧\n      -- Separability property: the 2D evaluation factors into 1D evaluations\n      (rows = 1 ∧ cols = 1 → \n        ∀ (i : Fin nx) (j : Fin ny),\n          (result.get i).get j = \n          (c.get ⟨0, sorry⟩).get ⟨0, sorry⟩ * \n          hermitePolynomial 0 (x.get i) * \n          hermitePolynomial 0 (y.get j)) ∧\n      -- Identity property: when c[0,0] = 1 and all others are 0, result is constant 1\n      -- (since H_0(x) = 1 for any x)\n      ((rows > 0 ∧ cols > 0 ∧ \n        (c.get ⟨0, sorry⟩).get ⟨0, sorry⟩ = 1 ∧\n        (∀ (p : Fin rows) (q : Fin cols), (p ≠ ⟨0, sorry⟩ ∨ q ≠ ⟨0, sorry⟩) → \n          (c.get p).get q = 0)) →\n       (∀ (i : Fin nx) (j : Fin ny), (result.get i).get j = 1))\n    ⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>"
+  },
+  {
+    "score": 75,
+    "path": "specs/LT0440_specs.lean",
+    "line": 78,
+    "current_line": "        (∀ (p : Fin rows) (q : Fin cols), (p ≠ ⟨0, sorry⟩ ∨ q ≠ ⟨0, sorry⟩) → ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "2d_shape"
+    ],
+    "penalties": [],
+    "window": "      -- Sanity check: when c is zero matrix, result is zero\n      ((∀ (p : Fin rows) (q : Fin cols), (c.get p).get q = 0) →\n       (∀ (i : Fin nx) (j : Fin ny), (result.get i).get j = 0)) ∧\n      -- Separability property: the 2D evaluation factors into 1D evaluations\n      (rows = 1 ∧ cols = 1 → \n        ∀ (i : Fin nx) (j : Fin ny),\n          (result.get i).get j = \n          (c.get ⟨0, sorry⟩).get ⟨0, sorry⟩ * \n          hermitePolynomial 0 (x.get i) * \n          hermitePolynomial 0 (y.get j)) ∧\n      -- Identity property: when c[0,0] = 1 and all others are 0, result is constant 1\n      -- (since H_0(x) = 1 for any x)\n      ((rows > 0 ∧ cols > 0 ∧ \n        (c.get ⟨0, sorry⟩).get ⟨0, sorry⟩ = 1 ∧\n        (∀ (p : Fin rows) (q : Fin cols), (p ≠ ⟨0, sorry⟩ ∨ q ≠ ⟨0, sorry⟩) → \n          (c.get p).get q = 0)) →\n       (∀ (i : Fin nx) (j : Fin ny), (result.get i).get j = 1))\n    ⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0405_specs.lean",
+    "line": 21,
+    "current_line": "                 (n = 1 → result = coef.get ⟨0, sorry⟩) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef hermiteEval {n : Nat} (coef : Vector Float n) (x : Float) : Id Float :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermiteEval_spec {n : Nat} (coef : Vector Float n) (x : Float) :\n    ⦃⌜True⌝⦄\n    hermiteEval coef x\n    ⦃⇓result => ⌜-- Base cases for small n\n                 (n = 0 → result = 0) ∧\n                 (n = 1 → result = coef.get ⟨0, sorry⟩) ∧\n                 (n = 2 → result = coef.get ⟨0, sorry⟩ + coef.get ⟨1, sorry⟩ * 2 * x) ∧\n                 -- General case: result is the sum of coefficients times Hermite polynomials\n                 (∃ H : Nat → Float,\n                   -- Hermite polynomial recurrence relation\n                   H 0 = 1 ∧\n                   H 1 = 2 * x ∧\n                   (∀ k : Nat, k + 2 < n → H (k + 2) = 2 * x * H (k + 1) - 2 * Float.ofNat (k + 1) * H k) ∧\n                   -- Result is the weighted sum\n                   result = List.sum (List.map (fun i : Fin n => coef.get i * H i.val) (List.finRange n))) ∧\n                 -- Additional mathematical properties\n                 -- Symmetry property: H_n(-x) = (-1)^n * H_n(x)\n                 (∀ H : Nat → Float,\n                   (H 0 = 1 ∧ H 1 = 2 * x ∧\n                    (∀ k : Nat, H (k + 2) = 2 * x * H (k + 1) - 2 * Float.ofNat (k + 1) * H k)) →"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0405_specs.lean",
+    "line": 22,
+    "current_line": "                 (n = 2 → result = coef.get ⟨0, sorry⟩ + coef.get ⟨1, sorry⟩ * 2 * x) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "-- </vc-helpers>\n\n-- <vc-definitions>\ndef hermiteEval {n : Nat} (coef : Vector Float n) (x : Float) : Id Float :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermiteEval_spec {n : Nat} (coef : Vector Float n) (x : Float) :\n    ⦃⌜True⌝⦄\n    hermiteEval coef x\n    ⦃⇓result => ⌜-- Base cases for small n\n                 (n = 0 → result = 0) ∧\n                 (n = 1 → result = coef.get ⟨0, sorry⟩) ∧\n                 (n = 2 → result = coef.get ⟨0, sorry⟩ + coef.get ⟨1, sorry⟩ * 2 * x) ∧\n                 -- General case: result is the sum of coefficients times Hermite polynomials\n                 (∃ H : Nat → Float,\n                   -- Hermite polynomial recurrence relation\n                   H 0 = 1 ∧\n                   H 1 = 2 * x ∧\n                   (∀ k : Nat, k + 2 < n → H (k + 2) = 2 * x * H (k + 1) - 2 * Float.ofNat (k + 1) * H k) ∧\n                   -- Result is the weighted sum\n                   result = List.sum (List.map (fun i : Fin n => coef.get i * H i.val) (List.finRange n))) ∧\n                 -- Additional mathematical properties\n                 -- Symmetry property: H_n(-x) = (-1)^n * H_n(x)\n                 (∀ H : Nat → Float,\n                   (H 0 = 1 ∧ H 1 = 2 * x ∧\n                    (∀ k : Nat, H (k + 2) = 2 * x * H (k + 1) - 2 * Float.ofNat (k + 1) * H k)) →\n                   (∀ k : Nat, k < n → "
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0416_specs.lean",
+    "line": 50,
+    "current_line": "                  acc_z + ((c.get ⟨k_x, sorry⟩).get ⟨k_y, sorry⟩).get ⟨k_z, sorry⟩ * ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "          -- The result is the sum of all coefficient terms multiplied by \n          -- the corresponding HermiteE polynomial values\n          ∃ (hermite_e : Float → Nat → Float), \n            -- HermiteE polynomial properties\n            (hermite_e 0 0 = 1) ∧  -- He_0(x) = 1\n            (∀ x_val : Float, hermite_e x_val 1 = x_val) ∧  -- He_1(x) = x\n            -- Recurrence relation: He_{n+1}(x) = x * He_n(x) - n * He_{n-1}(x)\n            (∀ x_val : Float, ∀ n : Nat, n > 0 → \n              hermite_e x_val (n + 1) = x_val * hermite_e x_val n - Float.ofNat n * hermite_e x_val (n - 1)) ∧\n            -- The actual evaluation formula\n            ((result.get i).get j).get k = \n            (List.range deg_x).foldl (fun acc k_x => \n              acc + (List.range deg_y).foldl (fun acc_y k_y => \n                acc_y + (List.range deg_z).foldl (fun acc_z k_z => \n                  acc_z + ((c.get ⟨k_x, sorry⟩).get ⟨k_y, sorry⟩).get ⟨k_z, sorry⟩ * \n                          hermite_e (x.get i) k_x * hermite_e (y.get j) k_y * hermite_e (z.get k) k_z\n                ) 0\n              ) 0\n            ) 0) ∧\n      -- Mathematical properties of the result\n      -- Symmetry: The evaluation is symmetric with respect to reordering of like terms\n      (∀ i : Fin nx, ∀ j : Fin ny, ∀ k : Fin nz,\n        -- If coefficients are symmetric, result preserves symmetry\n        (∀ p q r : Nat, p < deg_x → q < deg_y → r < deg_z → \n          ((c.get ⟨p, sorry⟩).get ⟨q, sorry⟩).get ⟨r, sorry⟩ = \n          ((c.get ⟨p, sorry⟩).get ⟨q, sorry⟩).get ⟨r, sorry⟩) → \n        -- Then evaluation is well-defined\n        ∃ val : Float, ((result.get i).get j).get k = val) ∧\n      -- Linearity: The evaluation is linear in the coefficients"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0416_specs.lean",
+    "line": 60,
+    "current_line": "          ((c.get ⟨p, sorry⟩).get ⟨q, sorry⟩).get ⟨r, sorry⟩ = ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "            ((result.get i).get j).get k = \n            (List.range deg_x).foldl (fun acc k_x => \n              acc + (List.range deg_y).foldl (fun acc_y k_y => \n                acc_y + (List.range deg_z).foldl (fun acc_z k_z => \n                  acc_z + ((c.get ⟨k_x, sorry⟩).get ⟨k_y, sorry⟩).get ⟨k_z, sorry⟩ * \n                          hermite_e (x.get i) k_x * hermite_e (y.get j) k_y * hermite_e (z.get k) k_z\n                ) 0\n              ) 0\n            ) 0) ∧\n      -- Mathematical properties of the result\n      -- Symmetry: The evaluation is symmetric with respect to reordering of like terms\n      (∀ i : Fin nx, ∀ j : Fin ny, ∀ k : Fin nz,\n        -- If coefficients are symmetric, result preserves symmetry\n        (∀ p q r : Nat, p < deg_x → q < deg_y → r < deg_z → \n          ((c.get ⟨p, sorry⟩).get ⟨q, sorry⟩).get ⟨r, sorry⟩ = \n          ((c.get ⟨p, sorry⟩).get ⟨q, sorry⟩).get ⟨r, sorry⟩) → \n        -- Then evaluation is well-defined\n        ∃ val : Float, ((result.get i).get j).get k = val) ∧\n      -- Linearity: The evaluation is linear in the coefficients\n      (∀ i : Fin nx, ∀ j : Fin ny, ∀ k : Fin nz,\n        -- If we scale all coefficients by a constant, result scales by same constant\n        ∀ (c_scaled : Vector (Vector (Vector Float deg_z) deg_y) deg_x) (scale : Float),\n        (∀ p : Fin deg_x, ∀ q : Fin deg_y, ∀ r : Fin deg_z,\n          ((c_scaled.get p).get q).get r = scale * ((c.get p).get q).get r) →\n        -- Then result scales proportionally (this would require separate evaluation)\n        True) ∧\n      -- Grid property: Result corresponds to Cartesian product structure\n      (∀ i₁ i₂ : Fin nx, ∀ j₁ j₂ : Fin ny, ∀ k₁ k₂ : Fin nz,\n        -- If coordinate values are equal, polynomial values are equal"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0416_specs.lean",
+    "line": 61,
+    "current_line": "          ((c.get ⟨p, sorry⟩).get ⟨q, sorry⟩).get ⟨r, sorry⟩) → ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "            (List.range deg_x).foldl (fun acc k_x => \n              acc + (List.range deg_y).foldl (fun acc_y k_y => \n                acc_y + (List.range deg_z).foldl (fun acc_z k_z => \n                  acc_z + ((c.get ⟨k_x, sorry⟩).get ⟨k_y, sorry⟩).get ⟨k_z, sorry⟩ * \n                          hermite_e (x.get i) k_x * hermite_e (y.get j) k_y * hermite_e (z.get k) k_z\n                ) 0\n              ) 0\n            ) 0) ∧\n      -- Mathematical properties of the result\n      -- Symmetry: The evaluation is symmetric with respect to reordering of like terms\n      (∀ i : Fin nx, ∀ j : Fin ny, ∀ k : Fin nz,\n        -- If coefficients are symmetric, result preserves symmetry\n        (∀ p q r : Nat, p < deg_x → q < deg_y → r < deg_z → \n          ((c.get ⟨p, sorry⟩).get ⟨q, sorry⟩).get ⟨r, sorry⟩ = \n          ((c.get ⟨p, sorry⟩).get ⟨q, sorry⟩).get ⟨r, sorry⟩) → \n        -- Then evaluation is well-defined\n        ∃ val : Float, ((result.get i).get j).get k = val) ∧\n      -- Linearity: The evaluation is linear in the coefficients\n      (∀ i : Fin nx, ∀ j : Fin ny, ∀ k : Fin nz,\n        -- If we scale all coefficients by a constant, result scales by same constant\n        ∀ (c_scaled : Vector (Vector (Vector Float deg_z) deg_y) deg_x) (scale : Float),\n        (∀ p : Fin deg_x, ∀ q : Fin deg_y, ∀ r : Fin deg_z,\n          ((c_scaled.get p).get q).get r = scale * ((c.get p).get q).get r) →\n        -- Then result scales proportionally (this would require separate evaluation)\n        True) ∧\n      -- Grid property: Result corresponds to Cartesian product structure\n      (∀ i₁ i₂ : Fin nx, ∀ j₁ j₂ : Fin ny, ∀ k₁ k₂ : Fin nz,\n        -- If coordinate values are equal, polynomial values are equal\n        (x.get i₁ = x.get i₂ ∧ y.get j₁ = y.get j₂ ∧ z.get k₁ = z.get k₂) →"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0421_specs.lean",
+    "line": 21,
+    "current_line": "                 (pow = 0 → result.get ⟨0, by sorry⟩ = 1.0 ∧ ",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef hermepow {n : Nat} (c : Vector Float n) (pow : Nat) (maxpower : Nat) : Id (Vector Float (1 + (n - 1) * pow)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermepow_spec {n : Nat} (c : Vector Float n) (pow : Nat) (maxpower : Nat)\n    (h_pow_bound : pow ≤ maxpower) (h_maxpower_reasonable : maxpower ≤ 16) :\n    ⦃⌜pow ≤ maxpower ∧ maxpower ≤ 16⌝⦄\n    hermepow c pow maxpower\n    ⦃⇓result => ⌜-- Base cases for polynomial exponentiation\n                 (pow = 0 → result.get ⟨0, by sorry⟩ = 1.0 ∧ \n                    (∀ i : Fin (1 + (n - 1) * pow), i.val > 0 → result.get i = 0.0)) ∧\n                 (pow = 1 ∧ n > 0 → ∀ i : Fin n, result.get ⟨i.val, by sorry⟩ = c.get i) ∧\n                 -- General case: polynomial raised to power follows degree multiplication\n                 (pow ≥ 1 → (1 + (n - 1) * pow) = result.toList.length) ∧\n                 -- For non-empty input, the highest degree coefficient has the expected form\n                 (pow ≥ 1 ∧ n > 0 → ∃ highest_coeff : Float,\n                   result.get ⟨1 + (n - 1) * pow - 1, by sorry⟩ = highest_coeff ∧\n                   -- Mathematical property: this preserves polynomial multiplication structure\n                   True)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0421_specs.lean",
+    "line": 23,
+    "current_line": "                 (pow = 1 ∧ n > 0 → ∀ i : Fin n, result.get ⟨i.val, by sorry⟩ = c.get i) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "\n-- <vc-definitions>\ndef hermepow {n : Nat} (c : Vector Float n) (pow : Nat) (maxpower : Nat) : Id (Vector Float (1 + (n - 1) * pow)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermepow_spec {n : Nat} (c : Vector Float n) (pow : Nat) (maxpower : Nat)\n    (h_pow_bound : pow ≤ maxpower) (h_maxpower_reasonable : maxpower ≤ 16) :\n    ⦃⌜pow ≤ maxpower ∧ maxpower ≤ 16⌝⦄\n    hermepow c pow maxpower\n    ⦃⇓result => ⌜-- Base cases for polynomial exponentiation\n                 (pow = 0 → result.get ⟨0, by sorry⟩ = 1.0 ∧ \n                    (∀ i : Fin (1 + (n - 1) * pow), i.val > 0 → result.get i = 0.0)) ∧\n                 (pow = 1 ∧ n > 0 → ∀ i : Fin n, result.get ⟨i.val, by sorry⟩ = c.get i) ∧\n                 -- General case: polynomial raised to power follows degree multiplication\n                 (pow ≥ 1 → (1 + (n - 1) * pow) = result.toList.length) ∧\n                 -- For non-empty input, the highest degree coefficient has the expected form\n                 (pow ≥ 1 ∧ n > 0 → ∃ highest_coeff : Float,\n                   result.get ⟨1 + (n - 1) * pow - 1, by sorry⟩ = highest_coeff ∧\n                   -- Mathematical property: this preserves polynomial multiplication structure\n                   True)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0421_specs.lean",
+    "line": 28,
+    "current_line": "                   result.get ⟨1 + (n - 1) * pow - 1, by sorry⟩ = highest_coeff ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "\n-- <vc-theorems>\ntheorem hermepow_spec {n : Nat} (c : Vector Float n) (pow : Nat) (maxpower : Nat)\n    (h_pow_bound : pow ≤ maxpower) (h_maxpower_reasonable : maxpower ≤ 16) :\n    ⦃⌜pow ≤ maxpower ∧ maxpower ≤ 16⌝⦄\n    hermepow c pow maxpower\n    ⦃⇓result => ⌜-- Base cases for polynomial exponentiation\n                 (pow = 0 → result.get ⟨0, by sorry⟩ = 1.0 ∧ \n                    (∀ i : Fin (1 + (n - 1) * pow), i.val > 0 → result.get i = 0.0)) ∧\n                 (pow = 1 ∧ n > 0 → ∀ i : Fin n, result.get ⟨i.val, by sorry⟩ = c.get i) ∧\n                 -- General case: polynomial raised to power follows degree multiplication\n                 (pow ≥ 1 → (1 + (n - 1) * pow) = result.toList.length) ∧\n                 -- For non-empty input, the highest degree coefficient has the expected form\n                 (pow ≥ 1 ∧ n > 0 → ∃ highest_coeff : Float,\n                   result.get ⟨1 + (n - 1) * pow - 1, by sorry⟩ = highest_coeff ∧\n                   -- Mathematical property: this preserves polynomial multiplication structure\n                   True)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0431_specs.lean",
+    "line": 41,
+    "current_line": "                        (List.range n).foldl (fun acc i => acc + pol.get ⟨i, sorry⟩ * (Float.pow x (Float.ofNat i))) 0) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "                    -- This represents that scaling input scales output proportionally\n                    (∀ pol' : Vector Float n, (∀ k : Fin n, pol'.get k = α * pol.get k) → \n                      ∃ result' : Vector Float n, (∀ k : Fin n, result'.get k = α * result.get k))) ∧\n                  -- Mathematical soundness: conversion preserves polynomial evaluation structure\n                  -- This property ensures the Hermite series represents the same mathematical function\n                  (∀ hermite_basis : Nat → Float → Float,\n                    -- Given the standard Hermite basis functions\n                    (∀ x : Float, hermite_basis 0 x = 1) ∧\n                    (n > 0 → ∀ x : Float, hermite_basis 1 x = x) ∧\n                    (∀ k : Nat, k + 1 < n → ∀ x : Float, \n                      hermite_basis (k + 2) x = x * hermite_basis (k + 1) x - Float.ofNat (k + 1) * hermite_basis k x) →\n                    -- The transformed coefficients define the same polynomial function\n                    ∃ evaluation_equivalence : Float → Float,\n                      (∀ x : Float, evaluation_equivalence x = \n                        (List.range n).foldl (fun acc i => acc + pol.get ⟨i, sorry⟩ * (Float.pow x (Float.ofNat i))) 0) ∧\n                      (∀ x : Float, evaluation_equivalence x = \n                        (List.range n).foldl (fun acc i => acc + result.get ⟨i, sorry⟩ * hermite_basis i x) 0)) ∧\n                  -- Horner's method structural property: algorithm applies operations in correct order\n                  (∀ intermediate_results : List (Vector Float n), \n                    -- The algorithm builds result iteratively through hermeadd and hermemulx operations\n                    intermediate_results.length = n →\n                    ∃ construction_valid : Bool, construction_valid = true)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0431_specs.lean",
+    "line": 43,
+    "current_line": "                        (List.range n).foldl (fun acc i => acc + result.get ⟨i, sorry⟩ * hermite_basis i x) 0)) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "                      ∃ result' : Vector Float n, (∀ k : Fin n, result'.get k = α * result.get k))) ∧\n                  -- Mathematical soundness: conversion preserves polynomial evaluation structure\n                  -- This property ensures the Hermite series represents the same mathematical function\n                  (∀ hermite_basis : Nat → Float → Float,\n                    -- Given the standard Hermite basis functions\n                    (∀ x : Float, hermite_basis 0 x = 1) ∧\n                    (n > 0 → ∀ x : Float, hermite_basis 1 x = x) ∧\n                    (∀ k : Nat, k + 1 < n → ∀ x : Float, \n                      hermite_basis (k + 2) x = x * hermite_basis (k + 1) x - Float.ofNat (k + 1) * hermite_basis k x) →\n                    -- The transformed coefficients define the same polynomial function\n                    ∃ evaluation_equivalence : Float → Float,\n                      (∀ x : Float, evaluation_equivalence x = \n                        (List.range n).foldl (fun acc i => acc + pol.get ⟨i, sorry⟩ * (Float.pow x (Float.ofNat i))) 0) ∧\n                      (∀ x : Float, evaluation_equivalence x = \n                        (List.range n).foldl (fun acc i => acc + result.get ⟨i, sorry⟩ * hermite_basis i x) 0)) ∧\n                  -- Horner's method structural property: algorithm applies operations in correct order\n                  (∀ intermediate_results : List (Vector Float n), \n                    -- The algorithm builds result iteratively through hermeadd and hermemulx operations\n                    intermediate_results.length = n →\n                    ∃ construction_valid : Bool, construction_valid = true)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0446_specs.lean",
+    "line": 26,
+    "current_line": "      (pow = 0 → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 1) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "    Id (Vector Float (min (n + (n - 1) * pow) (maxpower + 1))) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hermpow_spec {n : Nat} (c : Vector Float n) (pow : Nat) (maxpower : Nat := 16) :\n    ⦃⌜n > 0 ∧ maxpower ≥ 0⌝⦄\n    hermpow c pow maxpower\n    ⦃⇓result => ⌜\n      -- Sanity check: result has bounded size\n      result.size ≤ maxpower + 1 ∧\n      result.size = min (n + (n - 1) * pow) (maxpower + 1) ∧\n\n      -- Property 1: Power of 0 gives constant polynomial [1]\n      (pow = 0 → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 1) ∧\n\n      -- Property 2: Power of 1 preserves the polynomial (up to size constraints)\n      (pow = 1 ∧ n ≤ maxpower + 1 → \n        result.size = n ∧ ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧\n\n      -- Property 3: The result represents c^pow in the Hermite polynomial basis\n      -- This is the core mathematical property but requires Hermite multiplication definition\n      -- For now, we express that the result is non-trivial for non-zero inputs\n      ((∃ i : Fin n, c.get i ≠ 0) ∧ pow > 0 → ∃ j : Fin result.size, result.get j ≠ 0) ∧\n\n      -- Property 4: Degree bound property\n      -- The degree of c^pow is at most (deg(c) * pow) where deg(c) ≤ n-1\n      -- This ensures the result size calculation is reasonable\n      (∀ i : Fin result.size, i.val ≥ min (n + (n - 1) * pow) (maxpower + 1) → "
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0446_specs.lean",
+    "line": 30,
+    "current_line": "        result.size = n ∧ ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧",
+    "reasons": [
+      "polynomial_file_keywords:polynomial,hermite",
+      "fin_get_sorry",
+      "fin_context",
+      "mul_plus_flatten_shape"
+    ],
+    "penalties": [
+      "existential_context"
+    ],
+    "window": "-- <vc-theorems>\ntheorem hermpow_spec {n : Nat} (c : Vector Float n) (pow : Nat) (maxpower : Nat := 16) :\n    ⦃⌜n > 0 ∧ maxpower ≥ 0⌝⦄\n    hermpow c pow maxpower\n    ⦃⇓result => ⌜\n      -- Sanity check: result has bounded size\n      result.size ≤ maxpower + 1 ∧\n      result.size = min (n + (n - 1) * pow) (maxpower + 1) ∧\n\n      -- Property 1: Power of 0 gives constant polynomial [1]\n      (pow = 0 → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 1) ∧\n\n      -- Property 2: Power of 1 preserves the polynomial (up to size constraints)\n      (pow = 1 ∧ n ≤ maxpower + 1 → \n        result.size = n ∧ ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧\n\n      -- Property 3: The result represents c^pow in the Hermite polynomial basis\n      -- This is the core mathematical property but requires Hermite multiplication definition\n      -- For now, we express that the result is non-trivial for non-zero inputs\n      ((∃ i : Fin n, c.get i ≠ 0) ∧ pow > 0 → ∃ j : Fin result.size, result.get j ≠ 0) ∧\n\n      -- Property 4: Degree bound property\n      -- The degree of c^pow is at most (deg(c) * pow) where deg(c) ≤ n-1\n      -- This ensures the result size calculation is reasonable\n      (∀ i : Fin result.size, i.val ≥ min (n + (n - 1) * pow) (maxpower + 1) → \n        result.get i = 0) ∧\n\n      -- Property 5: Consistency with repeated multiplication\n      -- For small powers, we can express this concretely"
+  }
+]
