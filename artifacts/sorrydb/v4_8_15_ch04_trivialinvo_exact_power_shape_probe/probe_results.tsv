@@ -1,0 +1,5 @@
+variant	rc	new_sorry_delta
+v01_power_shape_trivial_apply	1	-1
+v02_power_shape_ext_all	1	-1
+v03_power_shape_funext_cases	1	-1
+v04_power_shape_with_modEq_only	1	-1
