@@ -1,0 +1,4 @@
+Lean Code/Lecture2.lean:1:0: error: unknown module prefix 'Mathlib'
+
+No directory 'Mathlib' or file 'Mathlib.olean' in the search path entries:
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.16.0-rc1/lib/lean
