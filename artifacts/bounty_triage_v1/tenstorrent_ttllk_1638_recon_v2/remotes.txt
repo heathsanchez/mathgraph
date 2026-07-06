@@ -1,0 +1,2 @@
+origin	https://github.com/tenstorrent/tt-llk.git (fetch) [blob:none]
+origin	https://github.com/tenstorrent/tt-llk.git (push)

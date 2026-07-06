@@ -1,0 +1,24 @@
+{
+  "suggested_commands": [
+    "python3 -m pytest",
+    "python3 -m pytest tests"
+  ],
+  "notes": [
+    "pyproject.toml present",
+    "tests directory present",
+    "GitHub Actions workflows present"
+  ],
+  "workflow_notes": [
+    ".github/workflows/build-quasar.yml: contains pytest",
+    ".github/workflows/build-quasar.yml: contains python",
+    ".github/workflows/collect-test-durations.yml: contains pytest",
+    ".github/workflows/collect-test-durations.yml: contains python",
+    ".github/workflows/nightly.yml: contains pytest",
+    ".github/workflows/on-pr.yml: contains pytest",
+    ".github/workflows/on-pr.yml: contains python",
+    ".github/workflows/pre-commit.yml: contains python",
+    ".github/workflows/run-perf-tests.yml: contains pytest",
+    ".github/workflows/setup-and-test.yml: contains pytest",
+    ".github/workflows/setup-and-test.yml: contains python"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "pytest_collect_tests": {
+    "rc": 2,
+    "cmd": [
+      "python3",
+      "-m",
+      "pytest",
+      "--collect-only",
+      "-q",
+      "tests"
+    ]
+  }
+}

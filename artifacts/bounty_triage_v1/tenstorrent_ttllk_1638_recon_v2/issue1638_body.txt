@@ -1,0 +1,16 @@
+TITLE: [Bounty $1000] Reduce RISCV instructions used to pass on tensix instructions using AI/Optimizer.
+STATE: OPEN
+UPDATED: 2026-07-06T19:43:37Z
+LABELS: P2, bounty, bounty_difficulty/medium, LLK
+COMMENTS: 18
+
+The number of tensix instructions to do a particular task can be easily optimized with human thinking, as the main task would have an algorithm and the proper instructions and sequence can often be easily chosen. But to pass on the tensix insturctions to the tensix engine, we often use MOPs and Replay buffers to pass them so that the number of RISCV instructions are rerduced. That part has too many ways of accomplishing and is not too easy to find out what is the most optimal way all the time. 
+
+This is where we can use AI to reduce the number of RISV instructions used, by varying the possibilities of writing the MOP and arrangement of the replay buffer. Overall the task is 
+
+Objective : Minimize the number of RISCV instructions to issue instructions to tensix engine 
+Constraints : Sequence of tensix instructions passed remains the same
+                       Only specified amount of replay buffer is used (for example if Math thread uses whole of the buffer, it may clash with SFPU algorithms when they are run from a separate thread on WH/BH for the buffer being shared. 
+                        Take into account two ways of writing mops and their constraints. 
+
+An AI agent may be asked to do it for all the ops we have and then we filter out the good suggestions and apply them. 

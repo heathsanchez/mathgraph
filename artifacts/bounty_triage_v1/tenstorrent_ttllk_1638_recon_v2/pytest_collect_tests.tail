@@ -1,0 +1,25 @@
+
+==================================== ERRORS ====================================
+_ ERROR collecting external/bounty_triage_v1/tenstorrent__tt-llk/tests/python_tests _
+/opt/homebrew/Cellar/python@3.11/3.11.14_3/Frameworks/Python.framework/Versions/3.11/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/Users/heath/Desktop/Aristotle/venv/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:197: in exec_module
+    exec(co, module.__dict__)
+tests/python_tests/conftest.py:14: in <module>
+    import helpers.order_processing as order_processing
+tests/python_tests/helpers/__init__.py:4: in <module>
+    from ttexalens import Verbosity
+E   ModuleNotFoundError: No module named 'ttexalens'
+=========================== short test summary info ============================
+ERROR tests/python_tests - ModuleNotFoundError: No module named 'ttexalens'
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+no tests collected, 1 error in 0.10s

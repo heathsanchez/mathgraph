@@ -1,0 +1,2382 @@
+== top-level ==
+.clang-format
+.clangd
+.codespellignore
+.cursor/mcp.json
+.git-blame-ignore-revs
+.git/config
+.git/config.worktree
+.git/description
+.git/FETCH_HEAD
+.git/HEAD
+.git/index
+.git/ORIG_HEAD
+.git/packed-refs
+.git/shallow
+.github/.dockerignore
+.github/Dockerfile.base
+.github/Dockerfile.ci
+.github/Dockerfile.ird
+.github/Dockerfile.ird.slim
+.github/pull_request_template.md
+.github/spdx_ignore.yaml
+.gitignore
+.pre-commit-config.yaml
+.yamllint
+CLAUDE.md
+CODE_OF_CONDUCT.md
+CODEOWNERS
+common/llk_assert.h
+common/tensor_shape.h
+CONTRIBUTING.md
+docs/Introduction_to_asserts.md
+docs/migration_guide.md
+infra/fix_cstdint.py
+infra/run_order_processing.py
+LICENSE
+LICENSE_understanding.txt
+package.json
+pyproject.toml
+README.md
+setup_clangd.sh
+tests/.gitignore
+tests/generate_coverage_report.sh
+tests/LOGGING.md
+tests/README.md
+tests/requirements.txt
+tests/run_quasar_regression.sh
+tests/setup_external_testing_env.sh
+tests/setup_testing_env.sh
+tests/sfpi-info.sh
+tests/sfpi-version
+
+== README/docs/project files ==
+
+===== README.md =====
+<div align="center">
+<h1>
+
+[Bounties](https://github.com/tenstorrent/tt-llk/issues?q=is%3Aissue%20state%3Aopen%20label%3Abounty) | [Buy](https://tenstorrent.com/hardware/blackhole) | [Discord](https://discord.gg/tvhGzHQwaj) | [Join Us](https://job-boards.greenhouse.io/tenstorrent)
+
+</h1>
+
+<img src="./docs/common/_static/tt_llk_refresh_llk_logo.png" alt="llk logo" height="180"/>
+
+<br><br>
+**TT-LLK** is Tenstorrent's Low Level Kernel library.
+
+[![STATUS](https://img.shields.io/badge/status-frozen-red)](#)
+[![MOVED TO](https://img.shields.io/badge/moved%20to-tt--metal-blue)](https://github.com/tenstorrent/tt-metal)
+
+[![C++](https://img.shields.io/badge/C++-17-green.svg)](#)
+[![Python](https://img.shields.io/badge/python-3.10-green.svg)](#)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/tenstorrent/tt-llk)
+</div>
+
+---
+
+> 🚧 **Repository Status Update**
+>
+> This repository is now **frozen** and no longer accepts new pull requests.
+>
+> All ongoing development of **TT-LLK** has moved to the [`tt-metal`](https://github.com/tenstorrent/tt-metal) repository.
+>
+> 📘 [**Migration guide**](https://github.com/tenstorrent/tt-llk/blob/main/docs/migration_guide.md) - for existing branches and active pull requests
+>
+> 📁 The LLK source code is now located at:
+> ```
+> tt-metal/tt_metal/tt-llk
+> ```
+>
+> 🔒 The `main` branch in this repository is **locked**.
+>
+> 👉 **To contribute, please submit all new pull requests to `tt-metal`.**
+>
+> This repository will remain available for historical reference.
+
+---
+
+## Overview ##
+
+This repository contains header-only low-level kernels (LLK) for Tenstorrent AI chips, including Wormhole, and Blackhole.
+
+These kernels serve as foundational compute primitives, acting as building blocks for higher-level software stacks that implement machine learning (ML) operations.
+
+Additionally, the repository includes a test environment designed to validate LLK APIs.
+
+## Install ##
+
+1. **Clone the repository**
+
+    Clone this repository to your local computer.
+
+2. **Set up the test environment**
+
+    Follow the instructions in the [testing README](https://github.com/tenstorrent/tt-llk/blob/main/tests/README.md) to set up the test environment. This will also automatically configure pre-commit hooks for code quality checks.
+
+## Software dependencies ##
+
+Test environment requires SFPI compiler for building, which is automatically ingested from <https://github.com/tenstorrent/sfpi>
+
+## Documentation ##
+
+The following documentation is available to help you understand and use low-level kernels:
+
+1. **[Intro](docs/llk/l1/intro.md)**
+   A concise introduction to LLKs, designed for both technical and non-technical audiences. This document outlines the scope of the LLK software stack and its relationship to other Tenstorrent software components.
+
+2. **[Top-level Overview](docs/llk/l2/top_level_overview.md)**
+   Provides a high-level look at the Tensix Core and Tensix Engine architecture, including data organization for efficient LLK usage and operations supported by LLKs. This document is not tied to any specific chip generation (such as Wormhole) and is aimed at engineers and technical readers who want to understand the general architecture and capabilities.
+
+3. **[LLK Programming Model](docs/llk/l3/programming_model.md)**
+   This document dives into architectural details to best explain the usage of the LLK API. It is intended for op writers and advanced users, and connects LLK concepts with our runtime stack, [tt-metal](https://github.com/tenstorrent/tt-metal), providing practical guidance on how to leverage LLKs for efficient kernel development.
+
+## Contributing ##
+
+⚠️ **Note:** This repository is **frozen** and does not accept new pull requests.
+
+We welcome contributions to TT-LLK in its new home! Please contribute via the [`tt-metal`](https://github.com/tenstorrent/tt-metal) repository instead.
+
+If you are looking for historical contribution guidelines, you can still refer to the documents below:
+
+1. **Read the Guidelines**
+
+    Familiarize yourself with our [CONTRIBUTING](https://github.com/tenstorrent/tt-llk/blob/main/CONTRIBUTING.md) guide and [CODE OF CONDUCT](https://github.com/tenstorrent/tt-llk/blob/main/CODE_OF_CONDUCT.md).
+
+## Tenstorrent Bounty Program Terms and Conditions ##
+
+This repo is a part of Tenstorrent’s bounty program. If you are interested in helping to improve tt-llk, please make sure to read the [Tenstorrent Bounty Program Terms and Conditions](https://docs.tenstorrent.com/bounty_terms.html) before heading to the issues tab. Look for the issues that are tagged with both 'bounty' and difficulty level labels!
+
+### Note ###
+
+Old LLK repositories:
+
+- <https://github.com/tenstorrent/tt-llk-gs>
+- <https://github.com/tenstorrent/tt-llk-wh-b0>
+- <https://github.com/tenstorrent/tt-llk-bh>
+
+have been archived. This repository remains available for historical reference, and all ongoing development has moved to [`tt-metal`](https://github.com/tenstorrent/tt-metal).
+
+===== readme.md =====
+<div align="center">
+<h1>
+
+[Bounties](https://github.com/tenstorrent/tt-llk/issues?q=is%3Aissue%20state%3Aopen%20label%3Abounty) | [Buy](https://tenstorrent.com/hardware/blackhole) | [Discord](https://discord.gg/tvhGzHQwaj) | [Join Us](https://job-boards.greenhouse.io/tenstorrent)
+
+</h1>
+
+<img src="./docs/common/_static/tt_llk_refresh_llk_logo.png" alt="llk logo" height="180"/>
+
+<br><br>
+**TT-LLK** is Tenstorrent's Low Level Kernel library.
+
+[![STATUS](https://img.shields.io/badge/status-frozen-red)](#)
+[![MOVED TO](https://img.shields.io/badge/moved%20to-tt--metal-blue)](https://github.com/tenstorrent/tt-metal)
+
+[![C++](https://img.shields.io/badge/C++-17-green.svg)](#)
+[![Python](https://img.shields.io/badge/python-3.10-green.svg)](#)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/tenstorrent/tt-llk)
+</div>
+
+---
+
+> 🚧 **Repository Status Update**
+>
+> This repository is now **frozen** and no longer accepts new pull requests.
+>
+> All ongoing development of **TT-LLK** has moved to the [`tt-metal`](https://github.com/tenstorrent/tt-metal) repository.
+>
+> 📘 [**Migration guide**](https://github.com/tenstorrent/tt-llk/blob/main/docs/migration_guide.md) - for existing branches and active pull requests
+>
+> 📁 The LLK source code is now located at:
+> ```
+> tt-metal/tt_metal/tt-llk
+> ```
+>
+> 🔒 The `main` branch in this repository is **locked**.
+>
+> 👉 **To contribute, please submit all new pull requests to `tt-metal`.**
+>
+> This repository will remain available for historical reference.
+
+---
+
+## Overview ##
+
+This repository contains header-only low-level kernels (LLK) for Tenstorrent AI chips, including Wormhole, and Blackhole.
+
+These kernels serve as foundational compute primitives, acting as building blocks for higher-level software stacks that implement machine learning (ML) operations.
+
+Additionally, the repository includes a test environment designed to validate LLK APIs.
+
+## Install ##
+
+1. **Clone the repository**
+
+    Clone this repository to your local computer.
+
+2. **Set up the test environment**
+
+    Follow the instructions in the [testing README](https://github.com/tenstorrent/tt-llk/blob/main/tests/README.md) to set up the test environment. This will also automatically configure pre-commit hooks for code quality checks.
+
+## Software dependencies ##
+
+Test environment requires SFPI compiler for building, which is automatically ingested from <https://github.com/tenstorrent/sfpi>
+
+## Documentation ##
+
+The following documentation is available to help you understand and use low-level kernels:
+
+1. **[Intro](docs/llk/l1/intro.md)**
+   A concise introduction to LLKs, designed for both technical and non-technical audiences. This document outlines the scope of the LLK software stack and its relationship to other Tenstorrent software components.
+
+2. **[Top-level Overview](docs/llk/l2/top_level_overview.md)**
+   Provides a high-level look at the Tensix Core and Tensix Engine architecture, including data organization for efficient LLK usage and operations supported by LLKs. This document is not tied to any specific chip generation (such as Wormhole) and is aimed at engineers and technical readers who want to understand the general architecture and capabilities.
+
+3. **[LLK Programming Model](docs/llk/l3/programming_model.md)**
+   This document dives into architectural details to best explain the usage of the LLK API. It is intended for op writers and advanced users, and connects LLK concepts with our runtime stack, [tt-metal](https://github.com/tenstorrent/tt-metal), providing practical guidance on how to leverage LLKs for efficient kernel development.
+
+## Contributing ##
+
+⚠️ **Note:** This repository is **frozen** and does not accept new pull requests.
+
+We welcome contributions to TT-LLK in its new home! Please contribute via the [`tt-metal`](https://github.com/tenstorrent/tt-metal) repository instead.
+
+If you are looking for historical contribution guidelines, you can still refer to the documents below:
+
+1. **Read the Guidelines**
+
+    Familiarize yourself with our [CONTRIBUTING](https://github.com/tenstorrent/tt-llk/blob/main/CONTRIBUTING.md) guide and [CODE OF CONDUCT](https://github.com/tenstorrent/tt-llk/blob/main/CODE_OF_CONDUCT.md).
+
+## Tenstorrent Bounty Program Terms and Conditions ##
+
+This repo is a part of Tenstorrent’s bounty program. If you are interested in helping to improve tt-llk, please make sure to read the [Tenstorrent Bounty Program Terms and Conditions](https://docs.tenstorrent.com/bounty_terms.html) before heading to the issues tab. Look for the issues that are tagged with both 'bounty' and difficulty level labels!
+
+### Note ###
+
+Old LLK repositories:
+
+- <https://github.com/tenstorrent/tt-llk-gs>
+- <https://github.com/tenstorrent/tt-llk-wh-b0>
+- <https://github.com/tenstorrent/tt-llk-bh>
+
+have been archived. This repository remains available for historical reference, and all ongoing development has moved to [`tt-metal`](https://github.com/tenstorrent/tt-metal).
+
+===== Readme.md =====
+<div align="center">
+<h1>
+
+[Bounties](https://github.com/tenstorrent/tt-llk/issues?q=is%3Aissue%20state%3Aopen%20label%3Abounty) | [Buy](https://tenstorrent.com/hardware/blackhole) | [Discord](https://discord.gg/tvhGzHQwaj) | [Join Us](https://job-boards.greenhouse.io/tenstorrent)
+
+</h1>
+
+<img src="./docs/common/_static/tt_llk_refresh_llk_logo.png" alt="llk logo" height="180"/>
+
+<br><br>
+**TT-LLK** is Tenstorrent's Low Level Kernel library.
+
+[![STATUS](https://img.shields.io/badge/status-frozen-red)](#)
+[![MOVED TO](https://img.shields.io/badge/moved%20to-tt--metal-blue)](https://github.com/tenstorrent/tt-metal)
+
+[![C++](https://img.shields.io/badge/C++-17-green.svg)](#)
+[![Python](https://img.shields.io/badge/python-3.10-green.svg)](#)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/tenstorrent/tt-llk)
+</div>
+
+---
+
+> 🚧 **Repository Status Update**
+>
+> This repository is now **frozen** and no longer accepts new pull requests.
+>
+> All ongoing development of **TT-LLK** has moved to the [`tt-metal`](https://github.com/tenstorrent/tt-metal) repository.
+>
+> 📘 [**Migration guide**](https://github.com/tenstorrent/tt-llk/blob/main/docs/migration_guide.md) - for existing branches and active pull requests
+>
+> 📁 The LLK source code is now located at:
+> ```
+> tt-metal/tt_metal/tt-llk
+> ```
+>
+> 🔒 The `main` branch in this repository is **locked**.
+>
+> 👉 **To contribute, please submit all new pull requests to `tt-metal`.**
+>
+> This repository will remain available for historical reference.
+
+---
+
+## Overview ##
+
+This repository contains header-only low-level kernels (LLK) for Tenstorrent AI chips, including Wormhole, and Blackhole.
+
+These kernels serve as foundational compute primitives, acting as building blocks for higher-level software stacks that implement machine learning (ML) operations.
+
+Additionally, the repository includes a test environment designed to validate LLK APIs.
+
+## Install ##
+
+1. **Clone the repository**
+
+    Clone this repository to your local computer.
+
+2. **Set up the test environment**
+
+    Follow the instructions in the [testing README](https://github.com/tenstorrent/tt-llk/blob/main/tests/README.md) to set up the test environment. This will also automatically configure pre-commit hooks for code quality checks.
+
+## Software dependencies ##
+
+Test environment requires SFPI compiler for building, which is automatically ingested from <https://github.com/tenstorrent/sfpi>
+
+## Documentation ##
+
+The following documentation is available to help you understand and use low-level kernels:
+
+1. **[Intro](docs/llk/l1/intro.md)**
+   A concise introduction to LLKs, designed for both technical and non-technical audiences. This document outlines the scope of the LLK software stack and its relationship to other Tenstorrent software components.
+
+2. **[Top-level Overview](docs/llk/l2/top_level_overview.md)**
+   Provides a high-level look at the Tensix Core and Tensix Engine architecture, including data organization for efficient LLK usage and operations supported by LLKs. This document is not tied to any specific chip generation (such as Wormhole) and is aimed at engineers and technical readers who want to understand the general architecture and capabilities.
+
+3. **[LLK Programming Model](docs/llk/l3/programming_model.md)**
+   This document dives into architectural details to best explain the usage of the LLK API. It is intended for op writers and advanced users, and connects LLK concepts with our runtime stack, [tt-metal](https://github.com/tenstorrent/tt-metal), providing practical guidance on how to leverage LLKs for efficient kernel development.
+
+## Contributing ##
+
+⚠️ **Note:** This repository is **frozen** and does not accept new pull requests.
+
+We welcome contributions to TT-LLK in its new home! Please contribute via the [`tt-metal`](https://github.com/tenstorrent/tt-metal) repository instead.
+
+If you are looking for historical contribution guidelines, you can still refer to the documents below:
+
+1. **Read the Guidelines**
+
+    Familiarize yourself with our [CONTRIBUTING](https://github.com/tenstorrent/tt-llk/blob/main/CONTRIBUTING.md) guide and [CODE OF CONDUCT](https://github.com/tenstorrent/tt-llk/blob/main/CODE_OF_CONDUCT.md).
+
+## Tenstorrent Bounty Program Terms and Conditions ##
+
+This repo is a part of Tenstorrent’s bounty program. If you are interested in helping to improve tt-llk, please make sure to read the [Tenstorrent Bounty Program Terms and Conditions](https://docs.tenstorrent.com/bounty_terms.html) before heading to the issues tab. Look for the issues that are tagged with both 'bounty' and difficulty level labels!
+
+### Note ###
+
+Old LLK repositories:
+
+- <https://github.com/tenstorrent/tt-llk-gs>
+- <https://github.com/tenstorrent/tt-llk-wh-b0>
+- <https://github.com/tenstorrent/tt-llk-bh>
+
+have been archived. This repository remains available for historical reference, and all ongoing development has moved to [`tt-metal`](https://github.com/tenstorrent/tt-metal).
+
+===== package.json =====
+{
+    "name": "github-issue-sorter",
+    "version": "1.0.0",
+    "description": "Script to sort and report GitHub issues by priority and age.",
+    "main": "scripts/sort-issues.js",
+    "scripts": {
+        "generate-report": "node scripts/sort-issues.js"
+    },
+    "type": "module",
+    "dependencies": {
+        "@octokit/rest": "^21.1.1"
+    }
+}
+
+===== pyproject.toml =====
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+== workflows ==
+
+===== .github/workflows/build-images.yml =====
+name: 🐳️ Docker setup and build
+
+on:
+  workflow_call:
+    outputs:
+      docker-image:
+        description: "The built Docker image"
+        value: ${{ jobs.build-images.outputs.docker-image }}
+
+jobs:
+  build-images:
+    name: "🏗️ Build images"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      docker-image: ${{ steps.build.outputs.docker-image }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 200
+
+      - name: Log in to Docker registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker images and output the image name
+        id: build
+        shell: bash
+        run: |
+          # Output the image name
+          set pipefail
+          .github/scripts/build-docker-images.sh | tee docker.log
+          DOCKER_CI_IMAGE=$(tail -n 1 docker.log)
+          echo "DOCKER_CI_IMAGE $DOCKER_CI_IMAGE"
+          echo "docker-image=$DOCKER_CI_IMAGE" >> "$GITHUB_OUTPUT"
+
+===== .github/workflows/build-quasar.yml =====
+name: "⚙️ Compile for Quasar"
+
+on:
+  workflow_call:
+    inputs:
+      docker_image:
+        description: "The Docker image to use for the container"
+        required: true
+        type: string
+      runs_on:
+        description: "The runner to use for the job"
+        required: true
+        type: string
+      test_splits:
+        description: "Number of test groups to split tests into (e.g., 4)"
+        required: true
+        type: number
+      pytest_markers:
+        description: "Pytest mark expression to select which tests to compile (e.g., 'not perf', 'nightly or not perf')"
+        required: false
+        default: "quasar"
+        type: string
+      timeout_minutes:
+        description: "Timeout in minutes for the build job"
+        required: false
+        default: 80
+        type: number
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          matrix=$(echo "[$(seq -s, 1 ${{ inputs.test_splits }})]")
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  compile-quasar:
+    needs: generate-matrix
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    strategy:
+      fail-fast: false
+      matrix:
+        test_group: ${{ fromJSON(needs.generate-matrix.outputs.matrix) }}
+    container:
+      image: ${{ inputs.docker_image }}
+
+    name: "🦄 Compile for Quasar (group ${{ matrix.test_group }}/${{ inputs.test_splits }})"
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # Step 2: Install SFPI
+      - name: Install SFPI
+        shell: bash
+        run: |
+          cd tests
+          CHIP_ARCH=quasar ./setup_testing_env.sh
+          cd ..
+
+      # Step 3: Compile for Quasar
+      - name: Compile for Quasar
+        shell: bash
+        env:
+          TEST_SPLITS: ${{ inputs.test_splits }}
+        run: |
+          CHIP_ARCH=quasar
+          export CHIP_ARCH
+          echo "CHIP_ARCH=$CHIP_ARCH" >> $GITHUB_ENV
+          cd tests/python_tests/
+
+          echo "Compiling Quasar..."
+          pytest -q --compile-producer -n 40 \
+                -m "${{ inputs.pytest_markers }}" \
+                --splits $TEST_SPLITS --group ${{ matrix.test_group }} \
+                --override-ini="addopts=-v" --tb=short --timeout=60 \
+                --junitxml=pytest-report-${CHIP_ARCH}-compile.xml .
+
+      # Step 4: Upload JUnit report for compiling elfs
+      - name: Upload JUnit report for compiling elfs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: >-
+            ${{ (contains(inputs.pytest_markers, 'perf') && !contains(inputs.pytest_markers, 'not perf'))
+                && 'perf-' || '' }}junit-report-quasar-${{ matrix.test_group }}-compile
+          path: tests/python_tests/pytest-report-quasar-compile.xml
+
+      # Step 5: Publish Test Results
+      - name: Publish Test Results
+        if: always()
+        uses: mikepenz/action-junit-report@v5
+        with:
+          report_paths: tests/python_tests/pytest-report-quasar-compile.xml
+          check_name: Quasar Compile Tests
+          detailed_summary: true
+          include_passed: true
+          fail_on_failure: false
+
+===== .github/workflows/check-stale.yml =====
+name: Close stale issues and PRs
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Runs daily at 3:00 UTC
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v9
+        with:
+          # Issue settings
+          days-before-stale: 360
+          days-before-close: 20
+          stale-issue-message: >
+            This issue has been automatically marked as stale due to inactivity for 360 days.
+            It will be closed in 20 days if no further activity occurs.
+          close-issue-message: >
+            This issue was closed due to prolonged inactivity. Feel free to reopen if needed.
+
+          # PR settings
+          days-before-pr-stale: 90
+          days-before-pr-close: 10
+          stale-pr-message: >
+            This pull request has been automatically marked as stale due to 90 days of inactivity.
+            It will be closed in 10 days if no further activity occurs.
+          close-pr-message: >
+            This pull request was closed due to inactivity. Please reopen or create a new one if still relevant.
+
+          # Labels
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+
+          # Misc
+          exempt-issue-labels: 'pinned,security'
+          exempt-pr-labels: 'work-in-progress'
+
+===== .github/workflows/collect-test-durations.yml =====
+name: 📊 Collect Test Durations
+
+on:
+  schedule:
+    # Run every Sunday at 2AM UTC to collect fresh duration data
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+permissions:
+  checks: write
+  contents: read
+  packages: write
+
+jobs:
+  build-images:
+    name: "🐳️ Docker setup"
+    uses: ./.github/workflows/build-images.yml
+    secrets: inherit
+
+  collect-wormhole-durations:
+    name: "🌀 Collect Wormhole test durations (all tests)"
+    runs-on: tt-ubuntu-2204-xlarge-stable
+    needs: build-images
+    timeout-minutes: 360
+    container:
+      image: harbor.ci.tenstorrent.net/${{ needs.build-images.outputs.docker-image }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Install SFPI
+        shell: bash
+        run: |
+          cd tests
+          CHIP_ARCH=wormhole ./setup_testing_env.sh
+          cd ..
+
+      - name: Compile all tests and collect durations
+        shell: bash
+        run: |
+          export CHIP_ARCH=wormhole
+          cd tests/python_tests/
+
+          echo "Compiling all tests (regular, perf, nightly) to collect durations"
+          pytest --compile-producer -n 40 \
+                -m "not quasar" \
+                --store-durations \
+                --no-debug-symbols \
+                --override-ini="addopts=-v --tb=short" --timeout=60 \
+                --junitxml=pytest-duration-wormhole-all.xml .
+
+      - name: Upload duration data
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-durations-wormhole
+          path: tests/python_tests/.test_durations
+          retention-days: 90
+          include-hidden-files: true
+
+  collect-blackhole-durations:
+    name: "🕳️ Collect Blackhole test durations (all tests)"
+    runs-on: tt-ubuntu-2204-xlarge-stable
+    needs: build-images
+    timeout-minutes: 360
+    container:
+      image: harbor.ci.tenstorrent.net/${{ needs.build-images.outputs.docker-image }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Install SFPI
+        shell: bash
+        run: |
+          cd tests
+          CHIP_ARCH=blackhole ./setup_testing_env.sh
+          cd ..
+
+      - name: Compile all tests and collect durations
+        shell: bash
+        run: |
+          export CHIP_ARCH=blackhole
+          cd tests/python_tests/
+
+          echo "Compiling all tests (regular, perf, nightly) to collect durations"
+          pytest --compile-producer -n 40 \
+                -m "not quasar" \
+                --store-durations \
+                --no-debug-symbols \
+                --override-ini="addopts=-v --tb=short" --timeout=60 \
+                --junitxml=pytest-duration-blackhole-all.xml .
+
+      - name: Upload duration data
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-durations-blackhole
+          path: tests/python_tests/.test_durations
+          retention-days: 90
+          include-hidden-files: true
+
+  summary:
+    name: "📊 Collection Summary"
+    if: always()
+    needs:
+      - collect-wormhole-durations
+      - collect-blackhole-durations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check collection results
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+
+  report-status:
+    name: "🔔 Report status"
+    runs-on: ubuntu-latest
+    if: always()
+    needs: summary
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - name: Report status
+        uses: ./.github/actions/report-failure
+        with:
+          test_name: "Test Duration Collection"
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          slack_channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          status: ${{ needs.summary.result }}
+
+===== .github/workflows/community-issue-tagging.yml =====
+name: "Community Issue / PR Labeling Workflow"
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  call-central-workflow:
+    uses: tenstorrent/tt-github-actions/.github/workflows/on-community-issue.yml@main
+
+===== .github/workflows/mirror-fork-branches.yml =====
+name: 🪞 Mirror Fork Branch to Origin
+
+on:
+  workflow_call:
+    inputs:
+      source:
+        description: 'Source in format <fork_owner>:<branch>'
+        required: true
+        type: string
+      target_branch:
+        description: >
+          Optional. Target branch name in origin. If not provided, the branch will be named
+          `mirror/<fork_owner>/<branch>`.
+        required: false
+        type: string
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Source in format <fork_owner>:<branch>'
+        required: true
+      target_branch:
+        description: >
+          Optional. Target branch name in origin. If not provided, the branch will be named
+          `mirror/<fork_owner>/<branch>`.
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  mirror-fork-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse input
+        id: parse_input
+        shell: bash
+        run: |
+          # Expect input format: <fork_owner>:<branch>
+          source="${{ github.event.inputs.source }}"
+          FORK_OWNER="${source%%:*}"
+          SRC_BRANCH="${source#*:}"
+          if [ -z "$FORK_OWNER" ] || [ -z "$SRC_BRANCH" ]; then
+            echo "Error: Input must be in the format <fork_owner>:<branch>"
+            exit 1
+          fi
+          # Derive the fork repository name from the current repository.
+          ORIGIN_REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          FORK_REPO="${FORK_OWNER}/${ORIGIN_REPO_NAME}"
+          echo "FORK_OWNER: $FORK_OWNER"
+          echo "Source branch: $SRC_BRANCH"
+          echo "Fork repository: $FORK_REPO"
+          echo "fork_owner=$FORK_OWNER" >> $GITHUB_OUTPUT
+          echo "src_branch=$SRC_BRANCH" >> $GITHUB_OUTPUT
+          echo "fork_repo=$FORK_REPO" >> $GITHUB_OUTPUT
+
+      - name: Checkout base repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add fork remote and fetch branch
+        run: |
+          FORK_OWNER="${{ steps.parse_input.outputs.fork_owner }}"
+          REMOTE_NAME="fork-${FORK_OWNER}"
+          echo "Adding remote for fork: ${{ steps.parse_input.outputs.fork_repo }}"
+          git remote add "$REMOTE_NAME" https://github.com/${{ steps.parse_input.outputs.fork_repo }}.git \
+            || echo "Remote '$REMOTE_NAME' already exists"
+          echo "Fetching branch: ${{ steps.parse_input.outputs.src_branch }}"
+          git fetch "$REMOTE_NAME" ${{ steps.parse_input.outputs.src_branch }}
+
+      - name: Create or update local branch from fork branch
+        id: create_branch
+        shell: bash
+        run: |
+          FORK_OWNER="${{ steps.parse_input.outputs.fork_owner }}"
+          SRC_BRANCH="${{ steps.parse_input.outputs.src_branch }}"
+          REMOTE_NAME="fork-${FORK_OWNER}"
+          # Determine the target branch name.
+          if [ -n "${{ github.event.inputs.target_branch }}" ]; then
+            TARGET_BRANCH="${{ github.event.inputs.target_branch }}"
+          else
+            TARGET_BRANCH="mirror/${FORK_OWNER}/${SRC_BRANCH}"
+          fi
+          echo "Using target branch: $TARGET_BRANCH"
+          # If the branch exists locally, update it; if not, create it.
+          if git show-ref --verify --quiet "refs/heads/$TARGET_BRANCH"; then
+            echo "Branch '$TARGET_BRANCH' exists. Updating with latest commits from fork."
+            git checkout "$TARGET_BRANCH"
+            git reset --hard "$REMOTE_NAME/$SRC_BRANCH"
+          else
+            echo "Branch '$TARGET_BRANCH' does not exist. Creating it from fork branch."
+            git checkout -b "$TARGET_BRANCH" "$REMOTE_NAME/$SRC_BRANCH"
+          fi
+          echo "target_branch=$TARGET_BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Push branch to origin
+        run: |
+          TARGET_BRANCH="${{ steps.create_branch.outputs.target_branch }}"
+          echo "Pushing branch '$TARGET_BRANCH' to origin"
+          git push origin "$TARGET_BRANCH" --force-with-lease
+
+      - name: Find PR
+        id: pr
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Look for a PR with head "fork_owner:src_branch"
+          HEAD_QUERY="${{ steps.parse_input.outputs.fork_owner }}:${{ steps.parse_input.outputs.src_branch }}"
+          echo "HEAD_QUERY: $HEAD_QUERY"
+          echo "Searching for PR with head: ${HEAD_QUERY}"
+          PR_JSON=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls?head=${HEAD_QUERY}")
+          PR_NUMBER=$(echo "$PR_JSON" | jq '.[0].number // empty')
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No PR found"
+            echo "issue=" >> $GITHUB_OUTPUT
+          else
+            echo "Found PR #$PR_NUMBER"
+            echo "issue=$PR_NUMBER" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post comment on PR
+        if: steps.pr.outputs.issue != ''
+        uses: mshick/add-pr-comment@v2
+        with:
+          issue: ${{ steps.pr.outputs.issue }}
+          message: >
+            ✨ A mirror branch has been created/updated for this PR:
+            [`${{ steps.create_branch.outputs.target_branch }}`](
+              https://github.com/${{ github.repository }}/tree/${{ steps.create_branch.outputs.target_branch }}
+            )
+
+===== .github/workflows/nightly-perf-tests.yml =====
+name: 🌙 Nightly Performance Tests
+
+on:
+  schedule:
+    # Run every night at 3AM UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  checks: write
+  contents: read
+  packages: write
+  pull-requests: write
+
+jobs:
+  nightly-performance-tests:
+    name: "🚀 Nightly Performance Tests"
+    uses: ./.github/workflows/run-perf-tests.yml
+    secrets: inherit
+
+  report-status:
+    name: "🔔 Report status"
+    runs-on: ubuntu-latest
+    if: always()
+    needs: nightly-performance-tests
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - name: Report status
+        uses: ./.github/actions/report-failure
+        with:
+          test_name: "Nightly Performance Tests"
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          slack_channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          status: ${{ needs.nightly-performance-tests.result }}
+
+===== .github/workflows/nightly.yml =====
+name: 🌙 Nightly Tests
+
+on:
+  schedule:
+    # Run every night at 1AM UTC
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    inputs:
+      pytest_markers:
+        description: "Pytest mark expression for testing (e.g., 'nightly', 'perf')"
+        required: false
+        default: "not perf"
+        type: string
+
+permissions:
+  checks: write
+  contents: read
+  packages: write
+
+jobs:
+  build-images:
+    name: "🐳️ Docker setup"
+    uses: ./.github/workflows/build-images.yml
+
+  nightly-test-wormhole:
+    name: "🌀 Nightly Tests (Wormhole)"
+    uses: ./.github/workflows/setup-and-test.yml
+    secrets: inherit
+    needs: build-images
+    with:
+      docker_image: ${{ needs.build-images.outputs.docker-image }}
+      runs_on: tt-ubuntu-2204-n150-stable
+      test_splits: 5
+      pytest_markers: ${{ inputs.pytest_markers || 'not perf and not quasar' }}
+      random_order: false
+      timeout_minutes: 360
+      coverage: true
+      use_durations: false
+
+  nightly-test-blackhole:
+    name: "🕳️ Nightly Tests (Blackhole)"
+    uses: ./.github/workflows/setup-and-test.yml
+    secrets: inherit
+    needs: build-images
+    with:
+      docker_image: ${{ needs.build-images.outputs.docker-image }}
+      runs_on: tt-ubuntu-2204-p150b-stable
+      test_splits: 5
+      pytest_markers: ${{ inputs.pytest_markers || 'not perf and not quasar' }}
+      random_order: false
+      timeout_minutes: 360
+      coverage: true
+      use_durations: false
+
+  nightly-summary:
+    name: "📊 Nightly Summary"
+    if: always()
+    needs:
+      - nightly-test-wormhole
+      - nightly-test-blackhole
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check nightly test results
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+
+  report-status:
+    name: "🔔 Report status"
+    runs-on: ubuntu-latest
+    if: always()
+    needs: nightly-summary
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - name: Report status
+        uses: ./.github/actions/report-failure
+        with:
+          test_name: "Nightly Tests"
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          slack_channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          status: ${{ needs.nightly-summary.result }}
+
+===== .github/workflows/on-pr.yml =====
+name: 🛠️ PR Pipeline
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: ["main"]
+  merge_group:
+
+permissions:
+  checks: write
+  contents: read
+  packages: write
+  pull-requests: write
+
+concurrency:
+  # Use github.run_id on main branch (or any protected branch)
+  # This ensures that no runs get cancelled on main.
+  # Use github.event.pull_request.number on pull requests, so it's unique per pull request
+  # and will cancel obsolete runs.
+  # Use github.ref on other branches, so it's unique per branch.
+  group: ${{ github.workflow }}-${{ github.ref_protected && github.run_id ||
+    github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit:
+    name: "🔍 Static checks"
+    uses: ./.github/workflows/pre-commit.yml
+
+  detect-changes:
+    name: "🔍 Detect changes"
+    runs-on: ubuntu-latest
+    needs: pre-commit
+    outputs:
+      blackhole: ${{ steps.filter.outputs.blackhole_any_changed }}
+      common: ${{ steps.filter.outputs.common_any_changed }}
+      documentation: ${{ steps.filter.outputs.documentation_any_changed }}
+      github: ${{ steps.filter.outputs.github_any_changed }}
+      performance: ${{ steps.filter.outputs.performance_any_changed }}
+      quasar: ${{ steps.filter.outputs.quasar_any_changed }}
+      tests: ${{ steps.filter.outputs.tests_any_changed }}
+      wormhole: ${{ steps.filter.outputs.wormhole_any_changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 200
+
+      - name: Detect which directories changed
+        uses: tj-actions/changed-files@v47
+        id: filter
+        with:
+          files_yaml: |
+            common:
+              - 'common/**'
+            wormhole:
+              - 'tt_llk_wormhole_b0/**'
+            blackhole:
+              - 'tt_llk_blackhole/**'
+            quasar:
+              - 'tt_llk_quasar/**'
+              - 'tests/sources/quasar/**'
+              - 'tests/python_tests/quasar/**'
+            tests:
+              - 'tests/**'
+              - '!tests/sources/quasar/**'
+              - '!tests/python_tests/quasar/**'
+            github:
+              - '.github/**'
+            documentation:
+              - 'docs/**'
+              - '**/*.md'
+              - '**/*.rst'
+            performance:
+              - '**/*perf**'
+              - '**/*profiler**'
+
+  label-pr:
+    name: "🏷️ Label PR"
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: |
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Sync labels based on changes
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const expectedLabels = new Set();
+            if ("${{ needs.detect-changes.outputs.blackhole }}" === "true") expectedLabels.add("blackhole");
+            if ("${{ needs.detect-changes.outputs.wormhole }}" === "true") expectedLabels.add("wormhole");
+            if ("${{ needs.detect-changes.outputs.tests }}" === "true") expectedLabels.add("test-infra");
+            if ("${{ needs.detect-changes.outputs.github }}" === "true") expectedLabels.add("ci");
+            if ("${{ needs.detect-changes.outputs.documentation }}" === "true") expectedLabels.add("documentation");
+            if ("${{ needs.detect-changes.outputs.performance }}" === "true") expectedLabels.add("performance");
+            if ("${{ needs.detect-changes.outputs.quasar }}" === "true") expectedLabels.add("quasar");
+            if ("${{ needs.detect-changes.outputs.common }}" === "true") expectedLabels.add("common");
+
+            // Get current labels
+            const {data: currentLabels} = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+
+            // Create sets for comparison
+            const managedLabels = new Set(["blackhole", "ci", "common", "documentation", "quasar",
+                                           "performance", "test-infra", "wormhole"]);
+            const currentLabelSet = new Set(currentLabels.map(label => label.name));
+
+            // Calculate labels to add and remove
+            const labelsToAdd = [...expectedLabels].filter(label => !currentLabelSet.has(label));
+            const labelsToRemove = [...currentLabelSet]
+              .filter(label => managedLabels.has(label) && !expectedLabels.has(label));
+
+            // Add new labels if needed
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: labelsToAdd
+              });
+            }
+
+            // Remove outdated labels in parallel
+            if (labelsToRemove.length > 0) {
+              await Promise.all(labelsToRemove.map(label =>
+                github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  name: label
+                })
+              ));
+            }
+
+  build-images:
+    name: "🐳️ Docker setup"
+    uses: ./.github/workflows/build-images.yml
+    needs: pre-commit
+    secrets: inherit
+
+  setup-and-test-wormhole:
+    name: "🌀 Perform checks (Wormhole)"
+    uses: ./.github/workflows/setup-and-test.yml
+    needs: [build-images, detect-changes]
+    if: ${{ github.event_name != 'push' &&
+            (needs.detect-changes.outputs.wormhole == 'true' ||
+             needs.detect-changes.outputs.tests == 'true' ||
+             needs.detect-changes.outputs.github == 'true' ||
+             needs.detect-changes.outputs.common == 'true') }}
+    with:
+      docker_image: ${{ needs.build-images.outputs.docker-image }}
+      runs_on: tt-ubuntu-2204-n150-stable
+      test_splits: 2
+      pytest_markers: "not perf and not nightly and not quasar"
+      use_durations: false
+
+  setup-and-test-blackhole:
+    name: "🕳️ Perform checks (Blackhole)"
+    uses: ./.github/workflows/setup-and-test.yml
+    needs: [build-images, detect-changes]
+    if: ${{ github.event_name != 'push' &&
+            (needs.detect-changes.outputs.blackhole == 'true' ||
+             needs.detect-changes.outputs.tests == 'true' ||
+             needs.detect-changes.outputs.github == 'true' ||
+             needs.detect-changes.outputs.common == 'true') }}
+    with:
+      docker_image: ${{ needs.build-images.outputs.docker-image }}
+      runs_on: tt-ubuntu-2204-p150b-stable
+      test_splits: 2
+      pytest_markers: "not perf and not nightly and not quasar"
+      use_durations: false
+
+  build-quasar:
+    name: "🌟 Build Quasar tests"
+    uses: ./.github/workflows/build-quasar.yml
+    needs: [build-images, detect-changes]
+    if: ${{ github.event_name != 'push' &&
+            (needs.detect-changes.outputs.quasar == 'true' ||
+             needs.detect-changes.outputs.common == 'true') }}
+    with:
+      docker_image: ${{ needs.build-images.outputs.docker-image }}
+      runs_on: tt-ubuntu-2204-xlarge-stable
+      test_splits: 1
+      pytest_markers: "quasar"
+
+  perf-tests:
+    name: "⚡ Performance tests (${{ matrix.target }})"
+    uses: ./.github/workflows/setup-and-test.yml
+    needs: [build-images, detect-changes]
+    if: ${{ github.event_name != 'push' && needs.detect-changes.outputs.performance == 'true'}}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Wormhole
+            runs_on: tt-ubuntu-2204-n150-stable
+          - target: Blackhole
+            runs_on: tt-ubuntu-2204-p150b-stable
+    with:
+      docker_image: ${{ needs.build-images.outputs.docker-image }}
+      runs_on: ${{ matrix.runs_on }}
+      test_splits: 1
+      pytest_markers: "perf"
+      timeout_minutes: 240
+      use_durations: false
+      multi_core_execution: true
+
+  check-all-green:
+    name: "✅ Check all green"
+    if: always()
+    needs:
+      - pre-commit
+      - build-images
+      - setup-and-test-wormhole
+      - setup-and-test-blackhole
+      - build-quasar
+      - perf-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the required jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+          allowed-skips: setup-and-test-wormhole, setup-and-test-blackhole, build-quasar, perf-tests
+
+===== .github/workflows/pre-commit.yml =====
+name: 🔍 Static checks
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        description: "Python version to use for pre-commit"
+        required: false
+        type: string
+        default: "3.10"
+
+jobs:
+  pre-commit:
+    name: Pre-commit checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python_version }}
+
+      - name: Run pre-commit and fix issues
+        uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: "--from-ref origin/main --to-ref HEAD"
+
+  check-spdx-licenses:
+    name: SPDX license headers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Check SPDX licenses
+        uses: tenstorrent/tt-github-actions/.github/actions/spdx-checker@main
+        with:
+          ignore_config_file: '.github/spdx_ignore.yaml'
+          verbose: 'true'
+
+  pr-comment:
+    name: Post comment on PR
+    runs-on: ubuntu-latest
+    # This job will only run if the PR is not from a fork (can't post comments to forks)
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Check if comment already exists
+        id: check-comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+            });
+
+            const existingComment = comments.find(comment =>
+              comment.body.includes("Thank you for your contribution!")
+            );
+
+            return existingComment ? true : false;
+          result-encoding: string
+
+      - name: Post comment on PR
+        if: steps.check-comment.outputs.result == 'false'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: >
+            Thank you for your contribution! 🚀
+
+            If you want to run metal post-commit tests, you can add the `metal-post-commit-tests`
+            label to this pull request.
+
+            📖 For more information, please refer to our
+            [CONTRIBUTING](https://github.com/tenstorrent/tt-llk/blob/main/CONTRIBUTING.md) guide.
+
+===== .github/workflows/revert-commit.yml =====
+name: 🔄 Revert Commit
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_hash:
+        description: 'Commit hash to revert (full SHA)'
+        required: true
+        type: string
+      base_branch:
+        description: 'Base branch to create revert PR against'
+        required: false
+        type: string
+        default: 'main'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  revert-commit:
+    name: "Revert commit and create PR"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.base_branch }}
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch all commits
+        run: |
+          git fetch --all --tags
+
+      - name: Verify commit exists
+        id: verify-commit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMIT_HASH="${{ inputs.commit_hash }}"
+          if ! git cat-file -e "$COMMIT_HASH^{commit}" 2>/dev/null; then
+            echo "❌ Commit $COMMIT_HASH does not exist in this repository"
+            exit 1
+          fi
+
+          COMMIT_MESSAGE=$(git log -1 --format="%s" "$COMMIT_HASH")
+          COMMIT_AUTHOR=$(git log -1 --format="%an" "$COMMIT_HASH")
+          COMMIT_DATE=$(git log -1 --format="%ad" --date=short "$COMMIT_HASH")
+
+          echo "✅ Found commit: $COMMIT_HASH"
+          echo "   Message: $COMMIT_MESSAGE"
+          echo "   Author: $COMMIT_AUTHOR"
+          echo "   Date: $COMMIT_DATE"
+          echo "commit-message=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+          echo "commit-author=$COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+          echo "commit-date=$COMMIT_DATE" >> $GITHUB_OUTPUT
+
+      - name: Check if branch already exists
+        id: check-branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMIT_HASH="${{ inputs.commit_hash }}"
+          BRANCH_NAME="revert-commit/$COMMIT_HASH"
+
+          if gh api "repos/${{ github.repository }}/git/ref/heads/$BRANCH_NAME" &>/dev/null; then
+            echo "⚠️ Branch $BRANCH_NAME already exists"
+            echo "branch-exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Branch $BRANCH_NAME does not exist, will create it"
+            echo "branch-exists=false" >> $GITHUB_OUTPUT
+          fi
+          echo "branch-name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Checkout existing branch or create new one
+        run: |
+          BRANCH_NAME="${{ steps.check-branch.outputs.branch-name }}"
+          if [ "${{ steps.check-branch.outputs.branch-exists }}" = "true" ]; then
+            echo "📥 Checking out existing branch: $BRANCH_NAME"
+            git fetch origin "$BRANCH_NAME"
+            git checkout "$BRANCH_NAME"
+            git reset --hard "origin/${{ inputs.base_branch }}"
+          else
+            echo "🆕 Creating new branch: $BRANCH_NAME"
+            git checkout -b "$BRANCH_NAME"
+          fi
+
+      - name: Revert commit
+        id: revert
+        run: |
+          COMMIT_HASH="${{ inputs.commit_hash }}"
+          if ! git revert --no-edit "$COMMIT_HASH"; then
+            echo "❌ Failed to revert commit $COMMIT_HASH"
+            echo "   Common causes:"
+            echo "     - The revert introduced merge conflicts that must be resolved manually."
+            echo "     - The commit (or its changes) may already have been reverted."
+            echo ""
+            echo "🔎 Suggested next steps:"
+            echo "  1) Reproduce locally:"
+            echo "       git fetch origin \"${{ inputs.base_branch }}\""
+            echo "       git checkout \"${{ inputs.base_branch }}\""
+            echo "       git revert $COMMIT_HASH"
+            echo "       # Resolve any conflicts, then:"
+            echo "       git commit"
+            echo "       git push origin \"${{ inputs.base_branch }}\""
+            echo ""
+            echo "  2) Check if the commit was already reverted:"
+            echo "       git log --oneline | grep \"$COMMIT_HASH\" || true"
+            echo "       # or search for a prior \"Revert\" commit that references this change."
+            echo ""
+            echo "   After resolving the issue, you can re-run this workflow if needed."
+            exit 1
+          fi
+          echo "✅ Successfully reverted commit $COMMIT_HASH"
+
+      - name: Push branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ steps.check-branch.outputs.branch-name }}"
+          git push --force-with-lease origin "$BRANCH_NAME"
+          echo "✅ Pushed branch: $BRANCH_NAME"
+
+      - name: Check if PR already exists
+        id: check-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ steps.check-branch.outputs.branch-name }}"
+          BASE_BRANCH="${{ inputs.base_branch }}"
+
+          EXISTING_PR=$(gh pr list \
+            --head "$BRANCH_NAME" \
+            --base "$BASE_BRANCH" \
+            --repo "${{ github.repository }}" \
+            --json number,url,state \
+            --jq '.[0]' 2>/dev/null || echo "")
+
+          if [ -n "$EXISTING_PR" ] && [ "$EXISTING_PR" != "null" ]; then
+            PR_NUMBER=$(echo "$EXISTING_PR" | jq -r '.number')
+            PR_URL=$(echo "$EXISTING_PR" | jq -r '.url')
+            PR_STATE=$(echo "$EXISTING_PR" | jq -r '.state')
+            echo "⚠️ PR already exists: #$PR_NUMBER ($PR_STATE)"
+            echo "pr-exists=true" >> $GITHUB_OUTPUT
+            echo "pr-url=$PR_URL" >> $GITHUB_OUTPUT
+            echo "pr-number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            echo "pr-state=$PR_STATE" >> $GITHUB_OUTPUT
+          else
+            echo "✅ No existing PR found, will create new one"
+            echo "pr-exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        id: create-pr
+        if: steps.check-pr.outputs.pr-exists != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMIT_HASH="${{ inputs.commit_hash }}"
+          COMMIT_MESSAGE="${{ steps.verify-commit.outputs.commit-message }}"
+          COMMIT_AUTHOR="${{ steps.verify-commit.outputs.commit-author }}"
+          COMMIT_DATE="${{ steps.verify-commit.outputs.commit-date }}"
+          BRANCH_NAME="${{ steps.check-branch.outputs.branch-name }}"
+          BASE_BRANCH="${{ inputs.base_branch }}"
+
+          PR_TITLE="Revert \"$COMMIT_MESSAGE\""
+          COMMIT_URL="${{ github.server_url }}/${{ github.repository }}/commit/$COMMIT_HASH"
+          WORKFLOW_RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          PR_BODY=$(printf '%s\n\n%s\n%s\n%s\n%s\n\n%s\n- %s\n- %s\n- %s\n\n%s' \
+            "This PR reverts commit [\`$COMMIT_HASH\`]($COMMIT_URL)." \
+            "**Original commit message:**" \
+            "\`\`\`" \
+            "$COMMIT_MESSAGE" \
+            "\`\`\`" \
+            "**Original commit details:**" \
+            "**Commit:** \`$COMMIT_HASH\`" \
+            "**Author:** $COMMIT_AUTHOR" \
+            "**Date:** $COMMIT_DATE" \
+            "Created automatically by workflow run: $WORKFLOW_RUN_URL")
+
+          PR_URL=$(gh pr create \
+            --title "$PR_TITLE" \
+            --body "$PR_BODY" \
+            --base "$BASE_BRANCH" \
+            --head "$BRANCH_NAME" \
+            --repo "${{ github.repository }}")
+
+          echo "✅ Created PR: $PR_URL"
+          echo "pr-url=$PR_URL" >> $GITHUB_OUTPUT
+
+      - name: Output PR information
+        run: |
+          if [ "${{ steps.check-pr.outputs.pr-exists }}" = "true" ]; then
+            echo "📋 Existing PR: ${{ steps.check-pr.outputs.pr-url }}"
+            echo "   State: ${{ steps.check-pr.outputs.pr-state }}"
+          else
+            echo "📋 New PR created: ${{ steps.create-pr.outputs.pr-url }}"
+          fi
+
+  check-all-green:
+    name: "✅ Check all green"
+    if: always()
+    needs:
+      - revert-commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the required jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+
+===== .github/workflows/run-perf-tests.yml =====
+name: 🚀 Run Performance Tests
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+    types: [labeled, synchronize]
+
+permissions:
+  checks: write
+  contents: read
+  packages: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_protected && github.run_id ||
+    github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  detect-changes:
+    name: "🔍 Detect changes"
+    runs-on: ubuntu-latest
+    if: |
+      contains(fromJSON('["workflow_dispatch","workflow_call","schedule"]'), github.event_name) ||
+      (github.event_name == 'pull_request' &&
+       contains(github.event.pull_request.labels.*.name, 'performance-tests'))
+    outputs:
+      wormhole: ${{ steps.set.outputs.wormhole }}
+      blackhole: ${{ steps.set.outputs.blackhole }}
+      performance: ${{ steps.set.outputs.performance }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 200
+
+      - name: Detect which directories changed
+        uses: dorny/paths-filter@v4
+        id: filter
+        if: github.event_name != 'schedule'
+        with:
+          filters: |
+              wormhole:
+                - 'tt_llk_wormhole_b0/**'
+              blackhole:
+                - 'tt_llk_blackhole/**'
+              performance:
+                - '**/*perf**'
+                - '**/*profiler**'
+
+      - name: Resolve test triggers (nightly vs changes)
+        id: set
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "wormhole=true" >> $GITHUB_OUTPUT
+            echo "blackhole=true" >> $GITHUB_OUTPUT
+            echo "performance=true" >> $GITHUB_OUTPUT
+          else
+            echo "wormhole=${{ steps.filter.outputs.wormhole }}" >> $GITHUB_OUTPUT
+            echo "blackhole=${{ steps.filter.outputs.blackhole }}" >> $GITHUB_OUTPUT
+            echo "performance=${{ steps.filter.outputs.performance }}" >> $GITHUB_OUTPUT
+          fi
+
+  build-images:
+    name: "🐳️ Docker setup"
+    uses: ./.github/workflows/build-images.yml
+    needs: detect-changes
+    secrets: inherit
+
+  setup-and-test-wormhole:
+    name: "🌀 Performance tests (Wormhole)"
+    uses: ./.github/workflows/setup-and-test.yml
+    needs: [build-images, detect-changes]
+    if: ${{ needs.detect-changes.outputs.wormhole == 'true' ||
+            needs.detect-changes.outputs.performance == 'true' ||
+            github.event_name == 'workflow_dispatch' ||
+            github.event_name == 'workflow_call' }}
+    with:
+      docker_image: ${{ needs.build-images.outputs.docker-image }}
+      runs_on: tt-ubuntu-2204-n150-stable
+      test_splits: 5
+      pytest_markers: "perf"
+      timeout_minutes: 240
+      compile_time_args: true
+      multi_core_execution: true
+
+  setup-and-test-blackhole:
+    name: "🕳️ Performance tests (Blackhole)"
+    uses: ./.github/workflows/setup-and-test.yml
+    needs: [build-images, detect-changes]
+    if: ${{ needs.detect-changes.outputs.blackhole == 'true' ||
+            needs.detect-changes.outputs.performance == 'true' ||
+            github.event_name == 'workflow_dispatch' ||
+            github.event_name == 'workflow_call' }}
+    with:
+      docker_image: ${{ needs.build-images.outputs.docker-image }}
+      runs_on: tt-ubuntu-2204-p150b-stable
+      test_splits: 5
+      pytest_markers: "perf"
+      timeout_minutes: 240
+      compile_time_args: true
+      multi_core_execution: true
+
+  check-all-green:
+    name: "✅ Check all green"
+    if: |
+      always() && (
+      contains(fromJSON('["workflow_dispatch","workflow_call","schedule"]'), github.event_name) ||
+      (github.event_name == 'pull_request' &&
+       contains(github.event.pull_request.labels.*.name, 'performance-tests'))
+      )
+    needs:
+      - build-images
+      - setup-and-test-wormhole
+      - setup-and-test-blackhole
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the required jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+          allowed-skips: setup-and-test-wormhole, setup-and-test-blackhole
+
+===== .github/workflows/setup-and-test.yml =====
+name: "⚙️ Setup and Test"
+
+on:
+  workflow_call:
+    inputs:
+      docker_image:
+        description: "The Docker image to use for the container"
+        required: true
+        type: string
+      runs_on:
+        description: "The runner to use for the job"
+        required: true
+        type: string
+      test_splits:
+        description: "Number of test groups to split tests into (e.g., 4)"
+        required: true
+        type: number
+      pytest_markers:
+        description: "Pytest mark expression to select/deselect tests (e.g., 'not perf', 'nightly or not perf')"
+        required: false
+        default: "not perf and not quasar"
+        type: string
+      timeout_minutes:
+        description: "Timeout in minutes for the test job"
+        required: false
+        default: 80
+        type: number
+      random_order:
+        description: "Enable randomized test order"
+        required: false
+        default: false
+        type: boolean
+      coverage:
+        description: "Enable code coverage testing for entire test suite"
+        required: false
+        default: false
+        type: boolean
+      use_durations:
+        description: "Use previously collected test durations for balanced splitting"
+        required: false
+        default: false
+        type: boolean
+      compile_time_args:
+        description: "Convert every runtime argument into compile time argument and compile all variants like that"
+        required: false
+        default: false
+        type: boolean
+      log_level:
+        description: "Loguru log level for test output (TRACE, DEBUG, INFO, WARNING, ERROR)"
+        required: false
+        default: "WARNING"
+        type: string
+      multi_core_execution:
+        description: "Convert every runtime argument into compile time argument and compile all variants like that"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          matrix=$(echo "[$(seq -s, 1 ${{ inputs.test_splits }})]")
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  setup-and-test:
+    needs: generate-matrix
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    strategy:
+      fail-fast: false
+      matrix:
+        test_group: ${{ fromJSON(needs.generate-matrix.outputs.matrix) }}
+    container:
+      image: ${{ inputs.docker_image }}
+      options: "--rm --device /dev/tenstorrent --ulimit nofile=4096:4096"
+    name: "🦄 Run tests (group ${{ matrix.test_group }}/${{ inputs.test_splits }})"
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # Step 2: Install SFPI
+      - name: Install SFPI
+        shell: bash
+        run: |
+          cd tests
+          ./setup_testing_env.sh
+          cd ..
+
+      # Step 2.5: Download test duration data for balanced splitting
+      # Downloads the latest available artifact from main branch only
+      - name: Download test duration data
+        if: ${{ inputs.use_durations }}
+        uses: dawidd6/action-download-artifact@v12
+        continue-on-error: true
+        with:
+          workflow: collect-test-durations.yml
+          workflow_conclusion: success
+          branch: main
+          name: test-durations-${{ contains(inputs.runs_on, 'n150') && 'wormhole' || 'blackhole' }}
+          path: tests/python_tests/
+          if_no_artifact_found: warn
+          search_artifacts: true
+          check_artifacts: true
+
+      # Step 3: Run the tests
+      - name: Run tests
+        shell: bash
+        env:
+          TEST_SPLITS: ${{ inputs.test_splits }}
+          LOGURU_LEVEL: ${{ inputs.log_level }}
+        run: |
+          CHIP_ARCH=unknown
+          if [[ "${{ inputs.runs_on }}" =~ n150 ]]; then
+            CHIP_ARCH=wormhole
+          elif [[ "${{ inputs.runs_on }}" =~ p150 ]]; then
+            CHIP_ARCH=blackhole
+          fi
+          export CHIP_ARCH
+          echo "CHIP_ARCH=$CHIP_ARCH" >> $GITHUB_ENV
+          SPLITS=$TEST_SPLITS
+          cd tests/python_tests/
+
+          COVERAGE_FLAG=""
+          if [[ "${{ inputs.coverage }}" == "true" ]]; then
+            COVERAGE_FLAG="--coverage"
+          fi
+
+          SPEED_OF_LIGHT_FLAG=""
+          if [[ "${{ inputs.compile_time_args }}" == "true" ]]; then
+            SPEED_OF_LIGHT_FLAG="--speed-of-light"
+          fi
+
+          DURATIONS_FLAG=""
+          if [[ "${{ inputs.use_durations }}" == "true" ]] && [[ -f ".test_durations" ]]; then
+            DURATIONS_FLAG="--durations-path=.test_durations"
+            echo "Using duration-based test splitting from .test_durations"
+          else
+            echo "Duration file not found or not enabled, using default splitting"
+          fi
+
+          echo "Compiling artefacts"
+          pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-producer -n 10 \
+                -m "${{ inputs.pytest_markers }}" \
+                ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+                --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+                --timeout=60 \
+                --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml .
+
+          MULTI_CORE_EXEC=""
+          if [[ "${{ inputs.multi_core_execution }}" == "true" ]]; then
+            MULTI_CORE_EXEC="-n 15"
+          fi
+
+          echo "Running tests"
+          pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+                -m "${{ inputs.pytest_markers }}" \
+                ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+                --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+                --override-ini="addopts=-v" --timeout=60 \
+                --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+
+          junitparser merge pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml \
+                   pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml \
+                   pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}.xml
+
+          if [[ "${{ inputs.coverage }}" == "true" ]]; then
+            if [ ! -f "/tmp/tt-llk-build/merged_coverage.info" ]; then
+              echo "Error: Coverage file /tmp/tt-llk-build/merged_coverage.info not found." >&2
+              echo "Ensure coverage artefcats was generated!" >&2
+              exit 1
+            fi
+            cd ../../
+            cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+          fi
+
+      # Step 4: Zip performance data if perf tests were run
+      - name: Zip performance data
+        if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+        shell: bash
+        run: |
+          zip -r perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip perf_data/
+          echo "Performance data zipped successfully"
+
+      # Step 4.1: Upload generated info file per runner
+      - name: Upload code coverage for this runner
+        uses: actions/upload-artifact@v4
+        if: ${{ inputs.coverage }}
+        with:
+          name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+          path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+
+      # Step 5: Upload performance data
+      - name: Upload performance data
+        uses: actions/upload-artifact@v4
+        if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+        with:
+          name: perf-data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+          path: perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip
+
+      - name: Upload test logs on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-logs-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+          path: |
+            tests/python_tests/test_run*.log
+            tests/python_tests/test_errors*.log
+
+      - name: Upload JUnit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: >-
+            ${{ (contains(inputs.pytest_markers, 'perf') && !contains(inputs.pytest_markers, 'not perf'))
+                && 'perf-' || '' }}junit-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+          path: tests/python_tests/pytest-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.xml
+
+      # Step 7: Publish the test results
+      - name: Publish Test Results
+        uses: mikepenz/action-junit-report@v5
+        if: always()
+        with:
+          report_paths: tests/python_tests/pytest-report-*-${{ matrix.test_group }}.xml
+          include_passed: true
+          annotate_only: true
+
+  merge-coverage:
+    name: "Merge coverage files"
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ inputs.docker_image }}
+    needs: setup-and-test
+    if: inputs.coverage == true
+    permissions:
+      contents: read
+    steps:
+      - name: Set CHIP_ARCH
+        shell: bash
+        run: |
+          CHIP_ARCH=unknown
+          if [[ "${{ inputs.runs_on }}" =~ n150 ]]; then
+            CHIP_ARCH=wormhole
+          elif [[ "${{ inputs.runs_on }}" =~ p150 ]]; then
+            CHIP_ARCH=blackhole
+          fi
+          echo "CHIP_ARCH=$CHIP_ARCH" >> $GITHUB_ENV
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Download all coverage artifacts
+        uses: actions/download-artifact@v4
+
+===== .github/workflows/sort-issues.yml =====
+name: 📋 List Open Issues and Pull Requests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  generate_reports:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run information collection scripts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          node .github/scripts/sort-issues.js
+          node .github/scripts/list-pending-prs.js
+
+      - name: Organize files for deployment
+        run: |
+          # Create reports directory structure
+          mkdir -p reports
+
+          # Move generated reports to reports directory
+          mv sorted-issues.html reports/
+          mv pending-prs.html reports/
+
+          # Create dashboard in reports directory
+          TIMESTAMP=$(date '+%B %d, %Y at %H:%M UTC')
+          cat > reports/index.html << EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <meta charset="UTF-8">
+              <title>LLK GitHub Reports</title>
+              <style>
+                  body {
+                      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                      background-color: #f4f6f9;
+                      color: #333;
+                      padding: 40px;
+                      text-align: center;
+                  }
+                  h1 {
+                      color: #007bff;
+                      margin-bottom: 30px;
+                  }
+                  .report-links {
+                      display: flex;
+                      justify-content: center;
+                      gap: 30px;
+                      margin-top: 30px;
+                  }
+                  .report-card {
+                      background: white;
+                      border-radius: 8px;
+                      padding: 30px;
+                      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                      text-decoration: none;
+                      color: #333;
+                      transition: transform 0.2s;
+                      min-width: 250px;
+                  }
+                  .report-card:hover {
+                      transform: translateY(-2px);
+                      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+                  }
+                  .report-card h2 {
+                      color: #007bff;
+                      margin-bottom: 15px;
+                  }
+                  .report-card p {
+                      margin: 0;
+                      color: #666;
+                  }
+                  .last-updated {
+                      margin-top: 40px;
+                      color: #666;
+                      font-size: 14px;
+                  }
+              </style>
+          </head>
+          <body>
+              <h1>LLK GitHub Reports Dashboard</h1>
+              <p>Automatically generated reports for repository insights</p>
+
+              <div class="report-links">
+                  <a href="sorted-issues.html" class="report-card">
+                      <h2>📝 Issues Report</h2>
+                      <p>Browse and filter open issues by priority, labels, and assignees</p>
+                  </a>
+
+                  <a href="pending-prs.html" class="report-card">
+                      <h2>🚀 Pull Requests Report</h2>
+                      <p>Track pending PRs with LLK team reviewers and sort by various criteria</p>
+                  </a>
+              </div>
+
+              <div class="last-updated">
+                  Last updated: $TIMESTAMP
+              </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+===== .github/workflows/trigger-tt-metal-bump.yml =====
+name: Trigger tt-metal CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'common/**'
+      - 'tt_llk_blackhole/**'
+      - 'tt_llk_quasar/**'
+      - 'tt_llk_wormhole_b0/**'
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  trigger-ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ !startsWith(github.event.head_commit.message, '[skip uplift]') }}
+    steps:
+      - name: Send dispatch event to tt-metal
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.LLK_UPLIFT_PAT }}
+          retries: 3
+          retry-exempt-status-codes: 400,401,403,404,422
+          script: |
+            const payload = {
+              event_type: 'trigger-llk-update',
+              client_payload: {
+                source: 'tt-llk',
+                ref: context.ref,
+                sha: context.sha,
+                workflow: context.workflow,
+                actor: context.actor
+              }
+            };
+            console.log('🚀 Triggering CI for tenstorrent/tt-metal...');
+            try {
+              await github.rest.repos.createDispatchEvent({
+                owner: 'tenstorrent',
+                repo: 'tt-metal',
+                ...payload
+              });
+              console.log('✅ Successfully triggered CI for tenstorrent/tt-metal');
+            } catch (error) {
+              console.error('❌ Failed to trigger dispatch:', error.message);
+              throw error;
+            }
+
+===== .github/workflows/trigger-tt-metal-post-commit.yml =====
+name: 🚀 Run tt-metal post-commit tests
+
+on:
+  pull_request:
+    types: [labeled, synchronize]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to test with'
+        required: true
+        type: number
+
+concurrency:
+  group: post-commit-tests-${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  issues: write
+  checks: read
+
+jobs:
+  setup-branch:
+    name: "🔧 Setup branch for testing"
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request && github.event.pull_request.head.repo.fork == false)
+    outputs:
+      branch-to-run: ${{
+        steps.check-fork.outputs.is-fork == 'true' &&
+        steps.mirror-branch.outputs.branch-to-run ||
+        steps.set-internal-branch.outputs.branch-to-run }}
+      is-fork: ${{ steps.check-fork.outputs.is-fork }}
+    steps:
+      - name: Get PR information
+        id: get-pr-info
+        env:
+          GH_TOKEN: ${{ secrets.LLK_UPLIFT_PAT }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual dispatch - get PR info from API
+            PR_NUMBER="${{ github.event.inputs.pr_number }}"
+            PR_DATA=$(gh api repos/${{ github.repository }}/pulls/$PR_NUMBER)
+            HEAD_REPO=$(echo "$PR_DATA" | jq -r '.head.repo.full_name')
+            HEAD_REF=$(echo "$PR_DATA" | jq -r '.head.ref')
+            echo "pr-number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            echo "head-repo=$HEAD_REPO" >> $GITHUB_OUTPUT
+            echo "head-ref=$HEAD_REF" >> $GITHUB_OUTPUT
+          else
+            # PR event - use event data
+            echo "pr-number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+            echo "head-repo=${{ github.event.pull_request.head.repo.full_name }}" >> $GITHUB_OUTPUT
+            echo "head-ref=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check if this is a fork PR
+        id: check-fork
+        run: |
+          if [ "${{ steps.get-pr-info.outputs.head-repo }}" != "${{ github.repository }}" ]; then
+            echo "is-fork=true" >> $GITHUB_OUTPUT
+            echo "🍴 This is a fork PR from: ${{ steps.get-pr-info.outputs.head-repo }}"
+          else
+            echo "is-fork=false" >> $GITHUB_OUTPUT
+            echo "🏠 This is an internal PR"
+          fi
+
+      - name: Mirror fork branch if needed
+        id: mirror-branch
+        if: steps.check-fork.outputs.is-fork == 'true'
+        run: |
+          FORK_OWNER=$(echo "${{ steps.get-pr-info.outputs.head-repo }}" | cut -d'/' -f1)
+          SOURCE_BRANCH="${{ steps.get-pr-info.outputs.head-ref }}"
+          MIRRORED_BRANCH="mirror/$FORK_OWNER/$SOURCE_BRANCH"
+
+          echo "🪞 Triggering mirror workflow for fork branch"
+          echo "  - Source: $FORK_OWNER:$SOURCE_BRANCH"
+          echo "  - Target: $MIRRORED_BRANCH"
+
+          # Trigger the mirror workflow
+          gh workflow run "mirror-fork-branches.yml" \
+            --repo "${{ github.repository }}" \
+            --field source="$FORK_OWNER:$SOURCE_BRANCH" \
+            --field target_branch="$MIRRORED_BRANCH"
+
+          echo "branch-to-run=$MIRRORED_BRANCH" >> $GITHUB_OUTPUT
+          echo "✅ Mirror workflow triggered"
+        env:
+          GH_TOKEN: ${{ secrets.LLK_UPLIFT_PAT }}
+
+      - name: Set branch name for internal PRs
+        id: set-internal-branch
+        if: steps.check-fork.outputs.is-fork == 'false'
+        run: |
+          BRANCH_NAME="${{ steps.get-pr-info.outputs.head-ref }}"
+          echo "branch-to-run=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "📝 Using internal branch: $BRANCH_NAME"
+
+  wait-for-mirror:
+    name: "⏳ Wait for mirror completion"
+    needs: setup-branch
+    if: |
+      (contains(github.event.pull_request.labels.*.name, 'metal-post-commit-tests') ||
+       github.event_name == 'workflow_dispatch') &&
+      needs.setup-branch.outputs.is-fork == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for mirror workflow completion
+        run: |
+          echo "⏳ Waiting for mirror workflow to complete..."
+          sleep 60  # Give time for the mirror workflow to start
+
+          MAX_WAIT=600  # 10 minutes
+          WAIT_INTERVAL=30
+          elapsed=0
+
+          while [ $elapsed -lt $MAX_WAIT ]; do
+            # Check if mirror workflow is running
+            RUNNING_WORKFLOWS=$(gh run list --workflow "mirror-fork-branches.yml" \
+              --repo "${{ github.repository }}" \
+              --status "in_progress" \
+              --limit 5 \
+              --json status)
+
+            if [ "$(echo "$RUNNING_WORKFLOWS" | jq length)" -eq 0 ]; then
+              echo "✅ Mirror workflow appears to be complete"
+              break
+            fi
+
+            echo "⏳ Mirror workflow still running... (elapsed: ${elapsed}s)"
+            sleep $WAIT_INTERVAL
+            elapsed=$((elapsed + WAIT_INTERVAL))
+          done
+
+          if [ $elapsed -ge $MAX_WAIT ]; then
+            echo "⚠️ Timeout waiting for mirror workflow, proceeding anyway"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.LLK_UPLIFT_PAT }}
+
+  detect-changes:
+    name: "📁 Detect file changes and determine tests"
+    needs: [setup-branch, wait-for-mirror]
+    if: |
+      always() &&
+      (contains(github.event.pull_request.labels.*.name, 'metal-post-commit-tests') ||
+       github.event_name == 'workflow_dispatch') &&
+      (needs.setup-branch.outputs.is-fork == 'false' || needs.wait-for-mirror.result != 'failure')
+    runs-on: ubuntu-latest
+    outputs:
+      run-blackhole: ${{ steps.determine-tests.outputs.run-blackhole }}
+      run-wormhole: ${{ steps.determine-tests.outputs.run-wormhole }}
+      should-skip: ${{ steps.determine-tests.outputs.should-skip }}
+    steps:
+      - name: Checkout the appropriate branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.setup-branch.outputs.branch-to-run }}
+          fetch-depth: 0
+
+      - name: Determine which tests to run
+        id: determine-tests
+        env:
+          GH_TOKEN: ${{ secrets.LLK_UPLIFT_PAT }}
+        run: |
+          # Get the base branch - always use main for simplicity
+          BASE_REF="main"
+          echo "Base branch: $BASE_REF"
+
+          # Get the list of changed files by comparing the current branch with main
+          git fetch origin "$BASE_REF"
+          CHANGED_FILES=$(git diff --name-only origin/"$BASE_REF"...HEAD)
+
+          echo "📁 Changed files:"
+          echo "$CHANGED_FILES"
+
+          # Check if any files in tt_llk_blackhole directory are changed
+          BLACKHOLE_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^tt_llk_blackhole/" || true)
+
+          # Check if any files in tt_llk_wormhole_b0 directory are changed
+          WORMHOLE_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^tt_llk_wormhole_b0/" || true)
+
+          # Determine which tests to run
+          RUN_BLACKHOLE="false"
+          RUN_WORMHOLE="false"
+
+          if [ -n "$BLACKHOLE_CHANGES" ]; then
+            echo "🕳️ Blackhole files changed:"
+            echo "$BLACKHOLE_CHANGES"
+            RUN_BLACKHOLE="true"
+          fi
+
+          if [ -n "$WORMHOLE_CHANGES" ]; then
+            echo "🌀 Wormhole files changed:"
+            echo "$WORMHOLE_CHANGES"
+            RUN_WORMHOLE="true"
+          fi
+
+          echo "run-blackhole=$RUN_BLACKHOLE" >> $GITHUB_OUTPUT
+          echo "run-wormhole=$RUN_WORMHOLE" >> $GITHUB_OUTPUT
+
+          echo "📊 Test Configuration:"
+          echo "  - Blackhole tests: $RUN_BLACKHOLE"
+          echo "  - Wormhole tests: $RUN_WORMHOLE"
+
+          # Check if we should run any tests at all
+          if [ "$RUN_BLACKHOLE" = "false" ] && [ "$RUN_WORMHOLE" = "false" ]; then
+            echo "⚠️ No relevant changes detected in tt_llk_blackhole/ or tt_llk_wormhole_b0/"
+            echo "⏭️ Skipping tt-metal post-commit tests"
+            echo "should-skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Relevant changes detected, will run post-commit tests"
+            echo "should-skip=false" >> $GITHUB_OUTPUT
+          fi
+
+  notify-dispatch:
+    name: "📢 Notify workflow dispatch"
+    needs: [setup-branch, wait-for-mirror, detect-changes]
+    if: |
+      always() &&
+      (contains(github.event.pull_request.labels.*.name, 'metal-post-commit-tests') ||
+       github.event_name == 'workflow_dispatch') &&
+      needs.detect-changes.result == 'success' &&
+      needs.detect-changes.outputs.should-skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR number
+        id: get-pr-number
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "pr-number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+          else
+            echo "pr-number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Prepare dispatch notification
+        id: prepare-notification
+        run: |
+          # Determine which test suites will be dispatched
+          DISPATCHED_TESTS=""
+
+          if [ "${{ needs.detect-changes.outputs.run-wormhole }}" = "true" ]; then
+            DISPATCHED_TESTS="${DISPATCHED_TESTS}- 🌀 **All post-commit tests**"$'\n'
+          fi
+
+          if [ "${{ needs.detect-changes.outputs.run-blackhole }}" = "true" ]; then
+            DISPATCHED_TESTS="${DISPATCHED_TESTS}- 🕳️ **Blackhole post-commit tests**"$'\n'
+          fi
+
+          # Both Wormhole and Blackhole trigger L2 and Perf tests
+          if [ "${{ needs.detect-changes.outputs.run-wormhole }}" = "true" ] || \
+             [ "${{ needs.detect-changes.outputs.run-blackhole }}" = "true" ]; then
+            DISPATCHED_TESTS="${DISPATCHED_TESTS}- ⚙️ **C++ post-commit tests**"$'\n'
+            DISPATCHED_TESTS="${DISPATCHED_TESTS}- 📊 **Device perf regression tests**"$'\n'
+          fi
+
+          echo "dispatched-tests<<EOF" >> $GITHUB_OUTPUT
+          echo "$DISPATCHED_TESTS" >> $GITHUB_OUTPUT
