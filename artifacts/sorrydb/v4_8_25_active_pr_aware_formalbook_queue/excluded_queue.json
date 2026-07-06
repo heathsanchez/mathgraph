@@ -1,0 +1,1467 @@
+[
+  {
+    "score": -36,
+    "status": "candidate",
+    "chapter": "Chapter_03.lean",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 156,
+    "current_line": "        sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "chapter03_near_active_pr_138_window"
+    ],
+    "window": "    ·  sorry\n    -- STEP (4) : l ≥ 3 by Contradiction\n    -- case l ≥ 3\n    · have h_3lel : 3 ≤ l := by\n        sorry\n      -- main work : n < k³\n      have h₄ : n < k^3 := by\n        sorry\n\n      sorry\n\n  rcases em (n ≥ 2*k) with h_2k | h\n  · exact h_wlog k h_4lek h_klen4 h_2k\n  · -- transform ¬(n ≥ 2 * k) into (n < 2 * k)\n    simp only [not_le] at h"
+  },
+  {
+    "score": -49,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 551,
+    "current_line": "  sorry",
+    "reasons": [
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step"
+    ],
+    "window": "    assumption\n  }\n  rewrite [this]\n  clear this\n  apply Finset.prod_congr\n  rfl\n  intro i hi\n  sorry\n\n}\n\nlemma H_P4_1 {k p: ℝ} (hk: k > 0) (hp: p ≥ k + 1): p / (p - 1) ≤ (k + 1) / k := by\n  have h_k_nonzero: k ≠ 0 := ne_iff_lt_or_gt.mpr (Or.inr hk)\n  have h_p_pred_pos: p - 1 > 0 := by linarith\n  have h_p_pred_nonzero: p - 1 ≠ 0 := ne_iff_lt_or_gt.mpr (Or.inr h_p_pred_pos)"
+  },
+  {
+    "score": -61,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 537,
+    "current_line": "      sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step"
+    ],
+    "window": "    have: (p:ℝ) > 1 := by exact one_lt_cast.mpr this\n    bound\n  }\n  rewrite [this]\n  clear this\n  have: ∏ p ∈ (⌊x⌋.natAbs + 1).primesBelow, (1 - (p: ℝ)⁻¹)⁻¹ = ∏ k ∈ Icc 1 (primeCountingReal (x)), (1 - ((nth Nat.Prime (k)): ℝ)⁻¹)⁻¹ := by {\n    have: (⌊x⌋.natAbs + 1).primesBelow = (Icc 1 (primeCountingReal (x))).image (fun k => nth Nat.Prime (k)) := by {\n      sorry\n    }\n    rewrite [this]\n    clear this\n    apply Finset.prod_image\n    intros i hi j hj hij\n    have := Nat.nth_injective (Nat.infinite_setOf_prime) hij\n    assumption"
+  },
+  {
+    "score": -61,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 87,
+    "current_line": "  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file"
+    ],
+    "window": "      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)\n  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry\n  rw [this, Real.sqrt_sq] at g\n  · exact g\n  · sorry\n\nlemma div_of_qpoly_div (k n q : ℕ) (hq : 1 < q) (hk : 0 < k) (hn : 0 < n)\n    (H : q ^ k - 1 ∣ q ^ n - 1) : k ∣ n := by\n  revert H"
+  },
+  {
+    "score": -66,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 491,
+    "current_line": "      sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step"
+    ],
+    "window": "\n          bound\n        }\n        rewrite [Set.mem_setOf]\n        assumption\n      }\n      simp_all only [ge_iff_le, Set.mem_Icc, Set.indicator_of_mem, le_refl]\n      sorry\n    . simp [case]\n      clear case\n      have: i ∈ (S₁ x) ∨ i ∉ S₁ x := by exact Decidable.em (i ∈ S₁ x)\n      rcases this with (case | case)\n      . simp_all only [ge_iff_le, Set.indicator_of_mem, inv_nonneg, cast_nonneg]\n        sorry\n      . simp_all only [ge_iff_le, not_false_eq_true, Set.indicator_of_notMem, le_refl]"
+  },
+  {
+    "score": -67,
+    "status": "candidate",
+    "chapter": "Chapter_03.lean",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 143,
+    "current_line": "    -- sorry",
+    "reasons": [
+      "nearby_arithmetic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∀"
+    ],
+    "window": "            Nat.pow_lt_pow_left (h_klp) (Nat.ne_of_gt <| lt_of_le_of_lt' h_2lel two_pos),\n            Nat.pow_le_pow_of_le (by omega) h_2lel -- prove k² ≤ k^l\n            ⟩\n\n    -- Step (2) : aⱼ only have prime divisors ≤ k ; aᵢ ≠ aⱼ\n    --have h₂ : ∀ j, (j ≤ k - 1) ∧ (∀ (q : ℕ), q ∣ (aFct l n j) ∧ prime q → q ≤ k) ∧\n    --    (∀ i ≤ k - 1, i ≠ j → (aFct l n i) ≠ (aFct l n j)) := by\n    -- sorry\n    -- Step (3) : a_i are integers 1..k\n    --have h₃ : a_values l n k = s_1tok k := by\n    -- divide in two cases\n    cases em (l = 2)\n    -- Special Case l = 2 by Contradiction\n    ·  sorry\n    -- STEP (4) : l ≥ 3 by Contradiction"
+  },
+  {
+    "score": -69,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 766,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step"
+    ],
+    "window": "\nusing the sum of inverses of primes\n-/\n-- see Archive.Wiedijk100Theorems.SumOfPrimeReciprocalsDiverges\ntheorem infinity_of_primes₆ :\n  Tendsto (fun n ↦ ∑ p ∈ Finset.filter (fun p ↦ Nat.Prime p) (range n), 1 / (p : ℝ))\n      atTop atTop := by\n  sorry\n\n/-!\n### Appendix: Infinitely many more proofs\n-/\n\n/-- A sequence `S` is almost injective if the preimages of singletons are uniformly bounded. -/\ndef AlmostInjective (S : ℕ → ℤ) : Prop :="
+  },
+  {
+    "score": -69,
+    "status": "candidate",
+    "chapter": "Chapter_45.lean",
+    "path": "FormalBook/Chapter_45.lean",
+    "line": 280,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step"
+    ],
+    "window": "\nnoncomputable def ramsey (m n : ℕ) :=\n   Inf {N : ℕ | ramsey_property m n N }\n\nnamespace ramsey\n\nlemma symm (m n : ℕ) (h_m : m ≥ 2) (h_n : n ≥ 2) : ramsey m n = ramsey n m := by\n  sorry\n\nlemma two (m : ℕ) (h_m : m ≥ 2) : (ramsey m 2) =m := by\n  sorry\n\nlemma bound (m n : ℕ) (h_m : m ≥ 3) (h_n : n ≥ 3) :\n  ramsey m n ≤ ramsey (m - 1) n + ramsey m (n - 1) := by\n  sorry"
+  },
+  {
+    "score": -69,
+    "status": "candidate",
+    "chapter": "Chapter_45.lean",
+    "path": "FormalBook/Chapter_45.lean",
+    "line": 283,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step"
+    ],
+    "window": "\nnamespace ramsey\n\nlemma symm (m n : ℕ) (h_m : m ≥ 2) (h_n : n ≥ 2) : ramsey m n = ramsey n m := by\n  sorry\n\nlemma two (m : ℕ) (h_m : m ≥ 2) : (ramsey m 2) =m := by\n  sorry\n\nlemma bound (m n : ℕ) (h_m : m ≥ 3) (h_n : n ≥ 3) :\n  ramsey m n ≤ ramsey (m - 1) n + ramsey m (n - 1) := by\n  sorry\n\nend ramsey\n"
+  },
+  {
+    "score": -69,
+    "status": "candidate",
+    "chapter": "Chapter_45.lean",
+    "path": "FormalBook/Chapter_45.lean",
+    "line": 287,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step"
+    ],
+    "window": "  sorry\n\nlemma two (m : ℕ) (h_m : m ≥ 2) : (ramsey m 2) =m := by\n  sorry\n\nlemma bound (m n : ℕ) (h_m : m ≥ 3) (h_n : n ≥ 3) :\n  ramsey m n ≤ ramsey (m - 1) n + ramsey m (n - 1) := by\n  sorry\n\nend ramsey\n\n\n/--Theorem 2. Lower bound for `ramsey k k`-/\ntheorem ramsey_geq_two_pow_half (k : ℕ) (h_k : k ≥ 2) :\n  (ramsey k k : ℝ) ≥ real.exp ((real.log 2) + (k: ℝ) / 2) := by"
+  },
+  {
+    "score": -69,
+    "status": "candidate",
+    "chapter": "Chapter_45.lean",
+    "path": "FormalBook/Chapter_45.lean",
+    "line": 295,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step"
+    ],
+    "window": "\nend ramsey\n\n\n/--Theorem 2. Lower bound for `ramsey k k`-/\ntheorem ramsey_geq_two_pow_half (k : ℕ) (h_k : k ≥ 2) :\n  (ramsey k k : ℝ) ≥ real.exp ((real.log 2) + (k: ℝ) / 2) := by\n  sorry\n\n/-! Theorem 3-/\n\n/-- Chromatic Number of a graph -- Should be introduced in part about Kneser Graphs-/\n\n\n"
+  },
+  {
+    "score": -71,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 497,
+    "current_line": "        sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∑'"
+    ],
+    "window": "      simp_all only [ge_iff_le, Set.mem_Icc, Set.indicator_of_mem, le_refl]\n      sorry\n    . simp [case]\n      clear case\n      have: i ∈ (S₁ x) ∨ i ∉ S₁ x := by exact Decidable.em (i ∈ S₁ x)\n      rcases this with (case | case)\n      . simp_all only [ge_iff_le, Set.indicator_of_mem, inv_nonneg, cast_nonneg]\n        sorry\n      . simp_all only [ge_iff_le, not_false_eq_true, Set.indicator_of_notMem, le_refl]\n        sorry\n}\n\ntheorem geom_series_simp (n : ℕ) (x : ℝ) (hxge : x ≥ n) (hxlt : x < n + 1) : (∏ p ∈ primesBelow (⌊x⌋.natAbs+1), (∑' k : ℕ, (p ^ k : ℝ)⁻¹)) = (∏ k ∈ Icc 1 (primeCountingReal x), ((nth Nat.Prime (k-1)):ℝ) / ((nth Nat.Prime (k-1)) - 1)) := by {\n\n  have: ∏ p ∈ (⌊x⌋.natAbs + 1).primesBelow, ∑' (k : ℕ), ((p: ℝ) ^ k)⁻¹ = ∏ p ∈ (⌊x⌋.natAbs + 1).primesBelow, ∑' (k : ℕ), ((p: ℝ)⁻¹ ^ k) := by {"
+  },
+  {
+    "score": -71,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 614,
+    "current_line": "      _ ≤ (∏ k ∈ Icc 1 (primeCountingReal x), (k) / k-1) := by {sorry}",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∑'"
+    ],
+    "window": "  have H_log_le_primeCountingReal_add_one (n : ℕ) (x : ℝ) (hxge : x ≥ n) (hxlt : x < n + 1) :\n      Real.log x ≤ primeCountingReal x + 1 :=\n    calc\n      Real.log x ≤ ∑ k ∈ Icc 1 n, (k : ℝ)⁻¹ := by exact log_riemann_bound x n hxge hxlt\n      _ ≤ (∑' m : (S₁ x), (m : ℝ)⁻¹) := by exact sum_le_infinite_sum x n hxge hxlt\n      _ ≤ (∏ p ∈ primesBelow (⌊x⌋.natAbs+1), (∑' k : ℕ, (p ^ k : ℝ)⁻¹)) := by {have := euler_product_rearrangement x n hxge hxlt; bound}\n      _ ≤ (∏ k ∈ Icc 1 (primeCountingReal x), ((nth Nat.Prime (k-1)):ℝ) / ((nth Nat.Prime (k-1)) - 1)) := by {have := geom_series_simp n x hxge hxlt; bound}\n      _ ≤ (∏ k ∈ Icc 1 (primeCountingReal x), (k) / k-1) := by {sorry}\n      _ ≤ primeCountingReal x + 1 := by {sorry}\n  apply tendsto_atTop.2\n  intro b\n  apply Filter.eventually_atTop.2\n  exists (⌈Real.exp (b+1)⌉.natAbs)\n  intro b' hb'\n  specialize H_log_le_primeCountingReal_add_one ⌈Real.exp (↑b+1)⌉.natAbs ⌈Real.exp (↑b+1)⌉.natAbs"
+  },
+  {
+    "score": -71,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 615,
+    "current_line": "      _ ≤ primeCountingReal x + 1 := by {sorry}",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∑'"
+    ],
+    "window": "      Real.log x ≤ primeCountingReal x + 1 :=\n    calc\n      Real.log x ≤ ∑ k ∈ Icc 1 n, (k : ℝ)⁻¹ := by exact log_riemann_bound x n hxge hxlt\n      _ ≤ (∑' m : (S₁ x), (m : ℝ)⁻¹) := by exact sum_le_infinite_sum x n hxge hxlt\n      _ ≤ (∏ p ∈ primesBelow (⌊x⌋.natAbs+1), (∑' k : ℕ, (p ^ k : ℝ)⁻¹)) := by {have := euler_product_rearrangement x n hxge hxlt; bound}\n      _ ≤ (∏ k ∈ Icc 1 (primeCountingReal x), ((nth Nat.Prime (k-1)):ℝ) / ((nth Nat.Prime (k-1)) - 1)) := by {have := geom_series_simp n x hxge hxlt; bound}\n      _ ≤ (∏ k ∈ Icc 1 (primeCountingReal x), (k) / k-1) := by {sorry}\n      _ ≤ primeCountingReal x + 1 := by {sorry}\n  apply tendsto_atTop.2\n  intro b\n  apply Filter.eventually_atTop.2\n  exists (⌈Real.exp (b+1)⌉.natAbs)\n  intro b' hb'\n  specialize H_log_le_primeCountingReal_add_one ⌈Real.exp (↑b+1)⌉.natAbs ⌈Real.exp (↑b+1)⌉.natAbs\n  simp at H_log_le_primeCountingReal_add_one"
+  },
+  {
+    "score": -71,
+    "status": "candidate",
+    "chapter": "Chapter_03.lean",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 96,
+    "current_line": "∃ (i : ℕ), (i ≤ k - 1) ∧ p^l ∣ (n - i) := by sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∃"
+    ],
+    "window": "    exact h_eq\n  rw [descFactorial_eq_div h_klen]\n  convert h_pl_div_fac_part\n\n/- now in mathlib? -/\nlemma factor_in_descFactorial (n k p l : ℕ) (h_klen : k ≤ n) (h_klp : k < p) (hp: p.Prime)\n(h_pow_div: p^l ∣ n.descFactorial k) (h_1lel : 1 ≤ l):\n∃ (i : ℕ), (i ≤ k - 1) ∧ p^l ∣ (n - i) := by sorry\n\n/-\n### Erdős' Theorem\nUsing ℕ instead of ℤ here, because of the definition of `choose` and because of the inequalities.\n-/\ntheorem binomials_coefficients_never_powers (k l m n : ℕ) (h_2lel : 2 ≤ l) (h_4lek : 4 ≤ k)\n(h_klen4 : k ≤ n - 4) : choose n k ≠ m^l := by"
+  },
+  {
+    "score": -71,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 74,
+    "current_line": "  have h_a_lt_one: ‖a‖ < 1 := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file",
+      "hard_term_primitiveRoots"
+    ],
+    "window": "-- TODO: add it later to stay close to the proof in the book.\ntheorem h_lamb_gt_q_sub_one (q n : ℕ) (lamb : ℂ):\n  lamb ∈ (primitiveRoots n ℂ) → ‖(X - (C lamb)).eval (q : ℂ)‖ > (q - 1) := by\n  let a := lamb.re\n  let b := lamb.im\n  intro h\n  have h_lamb: lamb ≠ 1 := by sorry\n  have h_a_lt_one: ‖a‖ < 1 := by sorry\n  have h_ineq :\n      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry"
+  },
+  {
+    "score": -76,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 78,
+    "current_line": "      _ = ‖q - lamb‖^2 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file"
+    ],
+    "window": "  let b := lamb.im\n  intro h\n  have h_lamb: lamb ≠ 1 := by sorry\n  have h_a_lt_one: ‖a‖ < 1 := by sorry\n  have h_ineq :\n      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)"
+  },
+  {
+    "score": -76,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 80,
+    "current_line": "      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file"
+    ],
+    "window": "  have h_lamb: lamb ≠ 1 := by sorry\n  have h_a_lt_one: ‖a‖ < 1 := by sorry\n  have h_ineq :\n      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)\n  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry"
+  },
+  {
+    "score": -76,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 81,
+    "current_line": "      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file"
+    ],
+    "window": "  have h_a_lt_one: ‖a‖ < 1 := by sorry\n  have h_ineq :\n      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)\n  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry\n  rw [this, Real.sqrt_sq] at g"
+  },
+  {
+    "score": -76,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 82,
+    "current_line": "      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file"
+    ],
+    "window": "  have h_ineq :\n      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)\n  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry\n  rw [this, Real.sqrt_sq] at g\n  · exact g"
+  },
+  {
+    "score": -76,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 83,
+    "current_line": "      _ > ((q : ℝ) - 1)^2 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file"
+    ],
+    "window": "      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry\n      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry\n      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry\n      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)\n  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry\n  rw [this, Real.sqrt_sq] at g\n  · exact g\n  · sorry"
+  },
+  {
+    "score": -79,
+    "status": "candidate",
+    "chapter": "Chapter_03.lean",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 36,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∃"
+    ],
+    "window": "  Let's not follow that, but keep the proof cleaner.\n### Sylvester's Theorem\nThere is no proof given in the book, perhaps check out Erdős' for a proof to formalize.\n-/\nnamespace chapter3\n\ntheorem sylvester (k n : ℕ) (h : n ≥ 2*k) (h_k : k > 0): ∃ p, p > k ∧ p.Prime ∧ p ∣ choose n k :=\n  sorry\n\n/-!\n### Lemmata for Step 1 and Step 2\n-/\nexample (a p : ℕ) (h : p ∣ a) (g : a < p): a = 0 := eq_zero_of_dvd_of_lt h g\n\ntheorem prime_div_descFactorial (n k m l p : ℕ) (h_klen : k ≤ n)"
+  },
+  {
+    "score": -79,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 296,
+    "current_line": "      sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file",
+      "hard_term_Polynomial",
+      "hard_term_primitiveRoots",
+      "hard_term_cyclotomic"
+    ],
+    "window": "    have := isPrimitiveRoot_exp n h_n\n    rw [cyclotomic_eq_prod_X_sub_primitiveRoots this]\n\n  have : 2 ≤ q := Fintype.one_lt_card_iff.mpr (exists_pair_ne { x // x ∈ Z })\n  -- here the book uses h_lamb_gt_q_sub_one from above\n  have h_gt : ((cyclotomic n ℤ).eval ↑q).natAbs > q - 1 := by\n    have hn : 1 < n := by\n      sorry\n    have hq : q ≠ 1 := by exact Nat.ne_of_gt this\n    exact Polynomial.sub_one_lt_natAbs_cyclotomic_eval hn hq\n\n  have h_q_sub_one : 0 ≠ (q : ℤ) - 1 := by\n    have h1 : (q : ℤ) - 1 = (q - 1 : ℕ) := by\n      rw [Int.ofNat_sub $ le_of_lt this]\n      norm_num"
+  },
+  {
+    "score": -81,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 499,
+    "current_line": "        sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∑'",
+      "hard_term_∀"
+    ],
+    "window": "    . simp [case]\n      clear case\n      have: i ∈ (S₁ x) ∨ i ∉ S₁ x := by exact Decidable.em (i ∈ S₁ x)\n      rcases this with (case | case)\n      . simp_all only [ge_iff_le, Set.indicator_of_mem, inv_nonneg, cast_nonneg]\n        sorry\n      . simp_all only [ge_iff_le, not_false_eq_true, Set.indicator_of_notMem, le_refl]\n        sorry\n}\n\ntheorem geom_series_simp (n : ℕ) (x : ℝ) (hxge : x ≥ n) (hxlt : x < n + 1) : (∏ p ∈ primesBelow (⌊x⌋.natAbs+1), (∑' k : ℕ, (p ^ k : ℝ)⁻¹)) = (∏ k ∈ Icc 1 (primeCountingReal x), ((nth Nat.Prime (k-1)):ℝ) / ((nth Nat.Prime (k-1)) - 1)) := by {\n\n  have: ∏ p ∈ (⌊x⌋.natAbs + 1).primesBelow, ∑' (k : ℕ), ((p: ℝ) ^ k)⁻¹ = ∏ p ∈ (⌊x⌋.natAbs + 1).primesBelow, ∑' (k : ℕ), ((p: ℝ)⁻¹ ^ k) := by {\n    have: ∀ p: ℕ, ∀ k: ℕ, ((p: ℝ)^k)⁻¹ = ((p: ℝ)⁻¹)^k := by {\n    intro p k"
+  },
+  {
+    "score": -81,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 260,
+    "current_line": "      have h_one_neq: 1 ≠ n_k A := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file",
+      "hard_term_Fintype.card",
+      "hard_term_center_R"
+    ],
+    "window": "  have h_phi_dvd_q_sub_one : (phi n).eval (q : ℤ) ∣ (((q - (1 : ℕ)) : ℕ ) : ℤ) := by\n    have hq : q = (Fintype.card { x // x ∈ center R }) := by rfl\n    have h₁_dvd : (phi n).eval (q : ℤ) ∣ ((X : ℤ[X])  ^ n - 1).eval (q : ℤ)  := by\n      exact eval_dvd <| phi_dvd n\n    have h₂_dvd :\n        (phi n).eval (q : ℤ) ∣ ∑ A : S', (((q ^ n - 1) : ℕ):ℤ) / ((q ^ (n_k A) - 1) : ℕ):= by\n      refine Finset.dvd_sum fun A hs ↦ (Int.dvd_div_of_mul_dvd ?_)\n      have h_one_neq: 1 ≠ n_k A := by sorry\n      have h_k_n_lt_n: n_k A < n := by sorry\n      have h_noneval := phi_div_2 n (n_k A) (h_n_k_A_dvd A) h_k_n_lt_n\n      have := @eval_dvd ℤ _ _ _ q h_noneval\n      simp only [eval_mul, eval_sub, eval_pow, eval_X, eval_one, IsUnit.mul_iff] at this\n      rw [← hq] at *\n      convert this\n      · simp [hq_pow_pos <| n_k A]"
+  },
+  {
+    "score": -81,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 261,
+    "current_line": "      have h_k_n_lt_n: n_k A < n := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file",
+      "hard_term_Fintype.card",
+      "hard_term_center_R"
+    ],
+    "window": "    have hq : q = (Fintype.card { x // x ∈ center R }) := by rfl\n    have h₁_dvd : (phi n).eval (q : ℤ) ∣ ((X : ℤ[X])  ^ n - 1).eval (q : ℤ)  := by\n      exact eval_dvd <| phi_dvd n\n    have h₂_dvd :\n        (phi n).eval (q : ℤ) ∣ ∑ A : S', (((q ^ n - 1) : ℕ):ℤ) / ((q ^ (n_k A) - 1) : ℕ):= by\n      refine Finset.dvd_sum fun A hs ↦ (Int.dvd_div_of_mul_dvd ?_)\n      have h_one_neq: 1 ≠ n_k A := by sorry\n      have h_k_n_lt_n: n_k A < n := by sorry\n      have h_noneval := phi_div_2 n (n_k A) (h_n_k_A_dvd A) h_k_n_lt_n\n      have := @eval_dvd ℤ _ _ _ q h_noneval\n      simp only [eval_mul, eval_sub, eval_pow, eval_X, eval_one, IsUnit.mul_iff] at this\n      rw [← hq] at *\n      convert this\n      · simp [hq_pow_pos <| n_k A]\n      · simp [hq_pow_pos n]"
+  },
+  {
+    "score": -89,
+    "status": "candidate",
+    "chapter": "Chapter_01.lean",
+    "path": "FormalBook/Chapter_01.lean",
+    "line": 789,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "/-- A sequence `S` has subexponential growth if `|S n|` is bounded by a double exponential whose exponent grows slower than `log n`. -/\ndef ofSubexponentialGrowth (S : ℕ → ℤ) : Prop := ∃ f : ℕ → ℝ≥0, ∀ n,\n  |S n| ≤ (2 : ℝ) ^ ((2 : ℝ) ^ (f n : ℝ)) ∧ Tendsto (fun n ↦ (f n) / (log 2 n)) atTop (𝓝 0)\n\ntheorem infinitely_many_more_proofs (S : ℕ → ℤ)\n  (h₁ : AlmostInjective S) (h₂ : ofSubexponentialGrowth S) :\n  {p : Nat.Primes | ∃ n : ℕ, (p : ℤ) ∣ S n}.Finite := by\n  sorry"
+  },
+  {
+    "score": -89,
+    "status": "candidate",
+    "chapter": "Chapter_43.lean",
+    "path": "FormalBook/Chapter_43.lean",
+    "line": 29,
+    "current_line": "  sorry -- This will probably be in Mathlib at some point. We assume it to be true for now.",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\n/-- The Borsuk-Ulam theorem in dimension `d` states that for any continuous map from the `d`-sphere\n  to `\\mathbb{R}^d`, there exists a pair of antipodal points with the same image. -/\ntheorem borsuk_ulam (d : ℕ) :\n  ∀ f : EuclideanSpace ℝ (Fin (d + 1)) → EuclideanSpace ℝ (Fin d),\n  ContinuousOn f (Metric.sphere 0 1) →\n  ∃ x ∈ Metric.sphere (0 : EuclideanSpace ℝ (Fin (d + 1))) 1, f x = f (-x) := by\n  sorry -- This will probably be in Mathlib at some point. We assume it to be true for now.\n\n/-- Given a collection of sets `U_i`, there exists a point `x` on the sphere such that the distance\n  from `x` to `U_i` is the same as the distance from `-x` to `U_i` for all `i < d`. -/\ntheorem borsuk_ulam_distances {d : ℕ}\n    (U : Fin (d + 1) → Set (EuclideanSpace ℝ (Fin (d + 1)))) :\n    ∃ x ∈ Metric.sphere (0 : EuclideanSpace ℝ (Fin (d + 1))) 1, ∀ i : Fin d,\n    Metric.infDist x (U (Fin.castSucc i)) = Metric.infDist (-x) (U (Fin.castSucc i)) := by"
+  },
+  {
+    "score": -89,
+    "status": "candidate",
+    "chapter": "Chapter_45.lean",
+    "path": "FormalBook/Chapter_45.lean",
+    "line": 266,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "  ( ∃ g : completeGraph (Fin m) →g completeGraph (Fin N), ∀ e : (completeGraph (Fin m)).edgeSet,\n      c (g.mapEdgeSet e) = 0 ) ∨\n  ( ∃ h : completeGraph (Fin n) →g completeGraph (Fin N), ∀ e : (completeGraph (Fin n)).edgeSet,\n    c (h.mapEdgeSet e) = 1 )\n\n\nlemma ramsey_exists (m n : ℕ) (h_m : m ≥ 2) (h_n : n ≥ 2) : ∃ N, ramsey_property m n N := by\n  sorry\n\n/-\nThe Ramsey Numbers. Noe that this is only defined for `m, n ≥ 2`\nWould it make sense to make this not noncomputable?\n\n-- porting note: check what `Inf` was meant here to be able to complete this section\n"
+  },
+  {
+    "score": -89,
+    "status": "candidate",
+    "chapter": "Chapter_45.lean",
+    "path": "FormalBook/Chapter_45.lean",
+    "line": 324,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_Fintype.card",
+      "hard_term_SimpleGraph"
+    ],
+    "window": "                    true }\n        -- We'd like that at every point in ℝ× ℝ, at most two paths intersect transversally\n\n/-- Theorem 4, TODO: should infer [fintype G.edge_set]-/\ntheorem theorem_4 {V : Type _} [Fintype V] (G : SimpleGraph V) [Fintype G.edgeSet] (m n : ℕ)\n  (H : m ≥ 4 * n) (h_n : n = Fintype.card V) (h_m : m = Fintype.card G.edgeSet) :\n  crossing_number G ≥ m ^ 3 / n ^ 2 / 64 := by\n  sorry\n\n -/"
+  },
+  {
+    "score": -91,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 73,
+    "current_line": "  have h_lamb: lamb ≠ 1 := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file",
+      "hard_term_Polynomial",
+      "hard_term_primitiveRoots",
+      "hard_term_cyclotomic"
+    ],
+    "window": "-- this is currently not needed, because we use Polynomial.sub_one_lt_natAbs_cyclotomic_eval,\n-- TODO: add it later to stay close to the proof in the book.\ntheorem h_lamb_gt_q_sub_one (q n : ℕ) (lamb : ℂ):\n  lamb ∈ (primitiveRoots n ℂ) → ‖(X - (C lamb)).eval (q : ℂ)‖ > (q - 1) := by\n  let a := lamb.re\n  let b := lamb.im\n  intro h\n  have h_lamb: lamb ≠ 1 := by sorry\n  have h_a_lt_one: ‖a‖ < 1 := by sorry\n  have h_ineq :\n      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by\n    calc\n      _ = ‖q - lamb‖^2 := by sorry\n        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]\n      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry"
+  },
+  {
+    "score": -91,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 251,
+    "current_line": "  have h_n_k_A_dvd: ∀ A : S', (n_k A ∣ n) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "active_pr_137_pending_same_file",
+      "hard_term_Fintype.card",
+      "hard_term_center_R",
+      "hard_term_∀"
+    ],
+    "window": "\n  have h1 : (q ^ n - 1) = q - 1  + ∑ A : S', (q ^ n - 1) / (q ^ (n_k A) - 1) := by\n    convert H1\n    sorry\n  have hZ : Nonempty <| @Subtype R fun x => x ∈ Z := Zero.instNonempty\n  have hq_pow_pos : ∀ m,  1 ≤ q ^ m := fun m ↦ one_le_pow m q Fintype.card_pos\n\n  have h_n_k_A_dvd: ∀ A : S', (n_k A ∣ n) := by sorry\n  --rest of proof\n  have h_phi_dvd_q_sub_one : (phi n).eval (q : ℤ) ∣ (((q - (1 : ℕ)) : ℕ ) : ℤ) := by\n    have hq : q = (Fintype.card { x // x ∈ center R }) := by rfl\n    have h₁_dvd : (phi n).eval (q : ℤ) ∣ ((X : ℤ[X])  ^ n - 1).eval (q : ℤ)  := by\n      exact eval_dvd <| phi_dvd n\n    have h₂_dvd :\n        (phi n).eval (q : ℤ) ∣ ∑ A : S', (((q ^ n - 1) : ℕ):ℤ) / ((q ^ (n_k A) - 1) : ℕ):= by"
+  },
+  {
+    "score": -99,
+    "status": "candidate",
+    "chapter": "Chapter_45.lean",
+    "path": "FormalBook/Chapter_45.lean",
+    "line": 308,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "hard_term_SimpleGraph",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\n\nnoncomputable def girth {V : Type _} (G : SimpleGraph V) :=\n  Inf {N : ℕ | N ≥ 1 ∧ ∃ (u : V) (W : G.Walk u u), N = W.length ∧ W.IsCycle}\n\ntheorem theorem_3 (k : ℕ) (h_k : k ≥ 2) :\n  ∃ (n : ℕ) (G : SimpleGraph (Fin n)), G.chromaticNumber > k ∧ girth G > k := by\n  sorry\n\n\n/-! Crossing Number and Theorem 4, TODO: Finish Def. of crossing numbers-/\nnoncomputable def crossing_number {V : Type _} (G: SimpleGraph V) :=\n  Inf {N : ℕ | ∃ (c : V → ℝ × ℝ) (f : G.edgeSet → (Set.Icc (0:ℝ) 1) → ℝ × ℝ),\n                  Function.Injective c ∧\n                  ∀ (e : G.edgeSet) (v : V) (h : v ∈ (e : Sym2 V)),"
+  },
+  {
+    "score": -119,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 53,
+    "current_line": "  have : units_finset = image_finset := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "false_or_fermat_adjacent_risk"
+    ],
+    "window": "/--\nFermat's little theorem: If `a` is nonzero modulo the odd prime `p`, then `a ^ (p - 1) = -1`\nmodulo `p`.\n-/\nlemma fermat_little (a : ℤ): (a : ZMod p) ≠ 0 → a ^ (p - 1) = (-1 : ZMod p) := by\n  let units_finset := (Finset.univ : Finset (ZMod p)).erase 0\n  let image_finset := (units_finset).image (fun x : ZMod p => (a : ZMod p) * x)\n  have : units_finset = image_finset := by sorry\n  sorry\n\n\ntheorem euler_criterion (a : ℤ) :\n  (a : ZMod p) ≠ 0 → (legendre_sym p a : ZMod p) = a ^ ((p - 1) / 2) := by\n  sorry\n"
+  },
+  {
+    "score": -129,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 76,
+    "current_line": "   have : LocallyFiniteOrder ℤ := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "false_or_fermat_adjacent_risk",
+      "hard_term_∀"
+    ],
+    "window": "\n-- Maybe define the function `r i` = \"reduce p i\" explicitly ?\n--TODO : This should probably be broken down a little bit first\nlemma lemma_of_Gauss (p : ℕ) [Fact (Nat.Prime p)] (a : ℤ) (h_a : (a : ZMod p) ≠ 0)\n  ( r : ℤ → ℤ ) (h_r : (∀ i, (- (p: ℤ) - 1)/2 ≤ r i ∧ r i ≤ ((p : ℤ) - 1)/2))\n  ( H : ∀ i, (r i : ℤ) = (a * i : ZMod p) ) :\n   -- TODO: check why this is needed after porting to lean4\n   have : LocallyFiniteOrder ℤ := by sorry\n   legendre_sym p a =\n   Finset.card ((Icc (1 : ℤ) (((p : ℤ)-1)/2)).image r ∩ (Icc (-((p: ℤ) - 1)/2) (-1))) := by\n  sorry\n\ntheorem quadratic_reciprocity_1 (p q : ℕ) (hp : p ≠ 2) (hq : q ≠ 2)\n  [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] :\n  (legendre_sym p q) * (legendre_sym q p) = -1 ^ ((p-1) / 2 * (q - 1) / 2 ) :="
+  },
+  {
+    "score": -129,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 118,
+    "current_line": "    sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "series_theorem_scale",
+      "hard_term_∀"
+    ],
+    "window": "\n\n/-!### Theorems 1 to 3-/\n\n/--For any non-zero rational number `r`, the exponential `e ^ r` is irrational.-/\ntheorem Theorem_1 (r : ℚ) (h_r : r ≠ 0) : Irrational (exp r) := by\n  have : ∀ k : ℤ, k > 0 → Irrational (exp k) := by\n    sorry\n  sorry\n\nopen Real\n\ntheorem Theorem_2 (r : ℚ) (h_r : r ≠ 0) : Irrational (π ^ 2) := by\n  sorry\n"
+  },
+  {
+    "score": -181,
+    "status": "candidate",
+    "chapter": "Chapter_03.lean",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 158,
+    "current_line": "      sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "chapter03_near_active_pr_138_window"
+    ],
+    "window": "    -- case l ≥ 3\n    · have h_3lel : 3 ≤ l := by\n        sorry\n      -- main work : n < k³\n      have h₄ : n < k^3 := by\n        sorry\n\n      sorry\n\n  rcases em (n ≥ 2*k) with h_2k | h\n  · exact h_wlog k h_4lek h_klen4 h_2k\n  · -- transform ¬(n ≥ 2 * k) into (n < 2 * k)\n    simp only [not_le] at h\n    -- transform (n.choose k) into (n.choose (n - k))\n    have h_klen : k ≤ n := le_trans h_klen4 (Nat.sub_le n 4)"
+  },
+  {
+    "score": -204,
+    "status": "candidate",
+    "chapter": "Chapter_03.lean",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 149,
+    "current_line": "    ·  sorry",
+    "reasons": [
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "chapter03_near_active_pr_138_window",
+      "hard_term_∀"
+    ],
+    "window": "    --    (∀ i ≤ k - 1, i ≠ j → (aFct l n i) ≠ (aFct l n j)) := by\n    -- sorry\n    -- Step (3) : a_i are integers 1..k\n    --have h₃ : a_values l n k = s_1tok k := by\n    -- divide in two cases\n    cases em (l = 2)\n    -- Special Case l = 2 by Contradiction\n    ·  sorry\n    -- STEP (4) : l ≥ 3 by Contradiction\n    -- case l ≥ 3\n    · have h_3lel : 3 ≤ l := by\n        sorry\n      -- main work : n < k³\n      have h₄ : n < k^3 := by\n        sorry"
+  },
+  {
+    "score": -221,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 90,
+    "current_line": "  · sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "active_pr_137_pending_same_file",
+      "hard_term_∀"
+    ],
+    "window": "      _ > ((q : ℝ) - 1)^2 := by sorry\n\n  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)\n  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)\n  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry\n  rw [this, Real.sqrt_sq] at g\n  · exact g\n  · sorry\n\nlemma div_of_qpoly_div (k n q : ℕ) (hq : 1 < q) (hk : 0 < k) (hn : 0 < n)\n    (H : q ^ k - 1 ∣ q ^ n - 1) : k ∣ n := by\n  revert H\n  revert hn\n  have : ∀ (n : ℕ), (∀ m < n, 0 < m → q ^ k - 1 ∣ q ^ m - 1 → k ∣ m) →\n      0 < n → q ^ k - 1 ∣ q ^ n - 1 → k ∣ n := by"
+  },
+  {
+    "score": -241,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 215,
+    "current_line": "  let n_k : S' → ℕ := sorry -- fun A => Fintype.card",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "active_pr_137_pending_same_file",
+      "hard_term_Fintype.card",
+      "hard_term_ConjClasses",
+      "hard_term_center_R"
+    ],
+    "window": "                  let_fun this := finclassa A;\n                  Fintype.card ↑(ConjClasses.carrier A) > 1}\n\n  let S' := ConjClasses.noncenter Rˣ\n  haveI : Fintype S' := Fintype.ofFinite ↑S'\n  let S := S'.toFinset\n  --This was wrong: n_k should be the dimension of the centralizer( in `R`), not the cardinality\n  let n_k : S' → ℕ := sorry -- fun A => Fintype.card\n    --(Set.centralizer ({(Quotient.out' (A : ConjClasses Rˣ))} : Set Rˣ))\n\n  have h_R: Fintype.card Rˣ = q ^ n - 1 := by\n    have : Fintype.card Rˣ + 1 = Fintype.card R := (Fintype.card_eq_card_units_add_one R).symm\n    rw [← h_card, ← this]\n    simp only [ge_iff_le, add_le_iff_nonpos_left, nonpos_iff_eq_zero, Fintype.card_ne_zero,\n    add_tsub_cancel_right]"
+  },
+  {
+    "score": -251,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 247,
+    "current_line": "    sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "active_pr_137_pending_same_file",
+      "hard_term_Fintype.card",
+      "hard_term_ConjClasses",
+      "hard_term_center_R",
+      "hard_term_∀"
+    ],
+    "window": "  -- Orbit stabilizer formula for non-singleton conjugacy classes\n  have : ∀ A : S', (Fintype.card <| ConjClasses.carrier (A : ConjClasses Rˣ)) * (q ^ (n_k A) - 1)\n      = q ^ n - 1 := by\n    sorry\n\n  have h1 : (q ^ n - 1) = q - 1  + ∑ A : S', (q ^ n - 1) / (q ^ (n_k A) - 1) := by\n    convert H1\n    sorry\n  have hZ : Nonempty <| @Subtype R fun x => x ∈ Z := Zero.instNonempty\n  have hq_pow_pos : ∀ m,  1 ≤ q ^ m := fun m ↦ one_le_pow m q Fintype.card_pos\n\n  have h_n_k_A_dvd: ∀ A : S', (n_k A ∣ n) := by sorry\n  --rest of proof\n  have h_phi_dvd_q_sub_one : (phi n).eval (q : ℤ) ∣ (((q - (1 : ℕ)) : ℕ ) : ℤ) := by\n    have hq : q = (Fintype.card { x // x ∈ center R }) := by rfl"
+  },
+  {
+    "score": -259,
+    "status": "excluded",
+    "chapter": "Chapter_04.lean",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 85,
+    "current_line": "  sorry",
+    "reasons": [
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "parked_involution_parity_boundary",
+      "hard_term_∃"
+    ],
+    "window": "  rw [hB] at hb\n  fin_cases A <;> fin_cases B <;> norm_num at this <;> tauto\n\n-- We follow a similar path taken by Jeremy Tan and Thomas Browning in\n-- mathlib4/Archive/ZagierTwoSquares.lean.\n\ntheorem theorem₁  {p : ℕ} [h : Fact p.Prime] (hp : p % 4 = 1) : ∃ a b : ℕ, a ^ 2 + b ^ 2 = p := by\n  sorry\n\nsection Sets\n\nopen Set\n\nvariable (k : ℕ) [hk : Fact (4 * k + 1).Prime]\n"
+  },
+  {
+    "score": -259,
+    "status": "excluded",
+    "chapter": "Chapter_09.lean",
+    "path": "FormalBook/Chapter_09.lean",
+    "line": 615,
+    "current_line": "  sorry",
+    "reasons": [
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "basel_tsum_theorem_scale",
+      "hard_term_∑'"
+    ],
+    "window": "  rw [arctan_inv_of_pos (by norm_num), arctan_sqrt_three]\n  field_simp\n  norm_num\n\n\ntheorem euler_series' :\n   ∑' (k : ℕ), (1 : ℝ) / (2 * k + 1) ^ 2  = π ^ 2  / 8 := by\n  sorry\n\ntheorem euler_series_3 :\n  ∑' (n : ℕ+), (1 : ℝ) / n = π ^ 2  / 6 := by\n  sorry\n\ntheorem euler_series_4 :\n  ∑' (n : ℕ+), (1 : ℝ) / n = π ^ 2  / 6 := by"
+  },
+  {
+    "score": -266,
+    "status": "defer",
+    "chapter": "Chapter_06.lean",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 243,
+    "current_line": "    sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "active_pr_137_pending_same_file",
+      "hard_term_Fintype.card",
+      "hard_term_Equiv",
+      "hard_term_ConjClasses",
+      "hard_term_center_R",
+      "hard_term_∀"
+    ],
+    "window": "  let f : { x // x ∈ Submonoid.center R }ˣ ≃ { x // x ∈ Z }ˣ :=\n      Equiv.inv { x // x ∈ Submonoid.center R }ˣ\n  rw [h_R, Fintype.card_congr (e.toEquiv.trans f), h_Z] at H1\n\n  -- Orbit stabilizer formula for non-singleton conjugacy classes\n  have : ∀ A : S', (Fintype.card <| ConjClasses.carrier (A : ConjClasses Rˣ)) * (q ^ (n_k A) - 1)\n      = q ^ n - 1 := by\n    sorry\n\n  have h1 : (q ^ n - 1) = q - 1  + ∑ A : S', (q ^ n - 1) / (q ^ (n_k A) - 1) := by\n    convert H1\n    sorry\n  have hZ : Nonempty <| @Subtype R fun x => x ∈ Z := Zero.instNonempty\n  have hq_pow_pos : ∀ m,  1 ≤ q ^ m := fun m ↦ one_le_pow m q Fintype.card_pos\n"
+  },
+  {
+    "score": -267,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 98,
+    "current_line": "  sorry",
+    "reasons": [
+      "nearby_arithmetic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_∃"
+    ],
+    "window": "   for all `k ≥ 0`.\n-/\n\n/-- The auxiliary function `xⁿ * (1 - x)ⁿ / n!` used in the irrationality proofs. -/\nnoncomputable def f_aux (n : ℕ) (x : ℝ) :=  x ^ n * (1 - x) ^ n / n.factorial\n\nlemma lem_aux_i (n : ℕ) (x : ℝ) : ∃ c : ℕ → ℤ, f_aux n x = ∑ i ∈ Icc n (2 * n), (c i) * x ^ i := by\n  sorry\n\nlemma lem_aux_ii (n : ℕ) (x : ℝ) (h_1 : 0 < x) (h_2 : x < 0) :\n  (0 < f_aux n x) ∧ (f_aux n x < (1 : ℝ) / n.factorial) := by\n  constructor <;> linarith\n\n/-!\nWARNING: There might be a better way to state this, not sure what the best API for derivatives of"
+  },
+  {
+    "score": -269,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 54,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk"
+    ],
+    "window": "Fermat's little theorem: If `a` is nonzero modulo the odd prime `p`, then `a ^ (p - 1) = -1`\nmodulo `p`.\n-/\nlemma fermat_little (a : ℤ): (a : ZMod p) ≠ 0 → a ^ (p - 1) = (-1 : ZMod p) := by\n  let units_finset := (Finset.univ : Finset (ZMod p)).erase 0\n  let image_finset := (units_finset).image (fun x : ZMod p => (a : ZMod p) * x)\n  have : units_finset = image_finset := by sorry\n  sorry\n\n\ntheorem euler_criterion (a : ℤ) :\n  (a : ZMod p) ≠ 0 → (legendre_sym p a : ZMod p) = a ^ ((p - 1) / 2) := by\n  sorry\n\nlemma product_rule (a b : ℤ) :"
+  },
+  {
+    "score": -269,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 59,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk"
+    ],
+    "window": "  let image_finset := (units_finset).image (fun x : ZMod p => (a : ZMod p) * x)\n  have : units_finset = image_finset := by sorry\n  sorry\n\n\ntheorem euler_criterion (a : ℤ) :\n  (a : ZMod p) ≠ 0 → (legendre_sym p a : ZMod p) = a ^ ((p - 1) / 2) := by\n  sorry\n\nlemma product_rule (a b : ℤ) :\n  legendre_sym p (a * b) = (legendre_sym p a) * (legendre_sym p b) := by\n  sorry\n\n/-!\n### First proof"
+  },
+  {
+    "score": -269,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 63,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk"
+    ],
+    "window": "\ntheorem euler_criterion (a : ℤ) :\n  (a : ZMod p) ≠ 0 → (legendre_sym p a : ZMod p) = a ^ ((p - 1) / 2) := by\n  sorry\n\nlemma product_rule (a b : ℤ) :\n  legendre_sym p (a * b) = (legendre_sym p a) * (legendre_sym p b) := by\n  sorry\n\n/-!\n### First proof\nFor the statement, see `theorem quadratic_reciprocity_1`.\n-/\n\n-- Maybe define the function `r i` = \"reduce p i\" explicitly ?"
+  },
+  {
+    "score": -269,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 84,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk"
+    ],
+    "window": "   legendre_sym p a =\n   Finset.card ((Icc (1 : ℤ) (((p : ℤ)-1)/2)).image r ∩ (Icc (-((p: ℤ) - 1)/2) (-1))) := by\n  sorry\n\ntheorem quadratic_reciprocity_1 (p q : ℕ) (hp : p ≠ 2) (hq : q ≠ 2)\n  [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] :\n  (legendre_sym p q) * (legendre_sym q p) = -1 ^ ((p-1) / 2 * (q - 1) / 2 ) :=\n  sorry\n\n/-!\n### Second Proof\nTODO:\n    - A.\n    - B.\n    - First expression"
+  },
+  {
+    "score": -269,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 127,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale"
+    ],
+    "window": "\nopen Real\n\ntheorem Theorem_2 (r : ℚ) (h_r : r ≠ 0) : Irrational (π ^ 2) := by\n  sorry\n\ntheorem Theorem_3 (n : ℕ) (h_n : n ≥ 3) : Irrational ( arccos (1 / (n : ℝ).sqrt) / π) := by\n  sorry\n\n\nend irrational\nend book"
+  },
+  {
+    "score": -274,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 65,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale"
+    ],
+    "window": "\n/-!\n## Some Proofs of irrationality\n-/\n\n\ntheorem e_irrational : Irrational e := by\n  sorry\n\ntheorem e_pow_2_irrational : Irrational (e ^ 2) := by\n  sorry\n\n/--\n\"For any `n ≥ 1` the integer `n!` contains the prime factor `2` at most `n − 1` times —\nwith equality if (and only if) `n` is a power of two, `n = 2 ^ m`.\""
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_04.lean",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 48,
+    "current_line": "  · sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "parked_involution_parity_boundary",
+      "hard_term_∃"
+    ],
+    "window": "\nlemma lemma₁ {p : ℕ} [h : Fact p.Prime] :\n    let num_solutions := Finset.card { s : ZMod p | s ^ 2 = - 1 }\n    (∃ m, p = 4 * m + 1 → num_solutions = 2) ∧\n    (p = 2 → num_solutions = 1) ∧\n    (∃ m, p = 4 * m + 1 → num_solutions = 0) := by\n  constructor\n  · sorry\n  · constructor\n    · intro hp\n      -- TODO: figure out how to easily write `use 1` here to follow more closely the book\n      aesop\n    · sorry\n\n-- TODO: golf, and perhaps make it even close to book proof"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_04.lean",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 53,
+    "current_line": "    · sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "parked_involution_parity_boundary",
+      "hard_term_∃"
+    ],
+    "window": "    (∃ m, p = 4 * m + 1 → num_solutions = 0) := by\n  constructor\n  · sorry\n  · constructor\n    · intro hp\n      -- TODO: figure out how to easily write `use 1` here to follow more closely the book\n      aesop\n    · sorry\n\n-- TODO: golf, and perhaps make it even close to book proof\nlemma lemma₂ (n m : ℕ) (hn : n = 4 * m + 3) :\n  ¬ ∃ a b, n = a ^2 + b ^2 := by\n  push_neg\n  intro a b\n  by_contra h"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_04.lean",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 185,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "parked_involution_parity_boundary",
+      "hard_term_Fintype.card"
+    ],
+    "window": "\n/-- The subset of `S k` where `x - y + z > 0`. -/\ndef U : Set (S k) := {⟨(x, y, z), _⟩ | (x - y) + z > 0}\n\nnoncomputable instance : Fintype <| U k := Fintype.ofFinite ↑(U k)\n\ntheorem sameCard : Fintype.card (U k) = Fintype.card (T k) := by\n  sorry\n\n/- 2. -/\n\n/-- The function underlying the second involution. -/\ndef secondInvo_fun := fun ((x,y,z) : ℤ × ℤ × ℤ) ↦ (x - y + z, y, 2 * y - z)\n\n/-- The second involution that we study is an involution on the set U. -/"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 79,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk",
+      "hard_term_∀"
+    ],
+    "window": "lemma lemma_of_Gauss (p : ℕ) [Fact (Nat.Prime p)] (a : ℤ) (h_a : (a : ZMod p) ≠ 0)\n  ( r : ℤ → ℤ ) (h_r : (∀ i, (- (p: ℤ) - 1)/2 ≤ r i ∧ r i ≤ ((p : ℤ) - 1)/2))\n  ( H : ∀ i, (r i : ℤ) = (a * i : ZMod p) ) :\n   -- TODO: check why this is needed after porting to lean4\n   have : LocallyFiniteOrder ℤ := by sorry\n   legendre_sym p a =\n   Finset.card ((Icc (1 : ℤ) (((p : ℤ)-1)/2)).image r ∩ (Icc (-((p: ℤ) - 1)/2) (-1))) := by\n  sorry\n\ntheorem quadratic_reciprocity_1 (p q : ℕ) (hp : p ≠ 2) (hq : q ≠ 2)\n  [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] :\n  (legendre_sym p q) * (legendre_sym q p) = -1 ^ ((p-1) / 2 * (q - 1) / 2 ) :=\n  sorry\n\n/-!"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 113,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk",
+      "hard_term_Polynomial"
+    ],
+    "window": "/-\nFor any element `ζ` of multiplicative order `p` in a field `K`, we have a polynomial\ndecomposition`X^p - 1 = (X - ζ) * (X - ζ ^ 2) * ... * (X - ζ ^ p)`.\n-/\nlemma fact_B (p : ℕ) [Fact (Prime p)] (K : Type _) [Field K] (ζ : Kˣ) (h_1 : ζ ^ p = 1)\n  (h_2 : ζ ≠ 1) :\n  X  ^ (p - 1) - 1  = ∏ i ∈ Icc 1 p, (X - (Polynomial.C (ζ : K)) ^ i) := by\n  sorry\n\ntheorem quadratic_reciprocity_2 (p q : ℕ) (hp : p ≠ 2) (hq : q ≠ 2)\n  [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] :\n  (legendre_sym p q) * (legendre_sym q p) = -1 ^ ((p-1) / 2 * (q - 1) / 2 ) := by\n  sorry\n\n"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 118,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk",
+      "hard_term_Polynomial"
+    ],
+    "window": "  (h_2 : ζ ≠ 1) :\n  X  ^ (p - 1) - 1  = ∏ i ∈ Icc 1 p, (X - (Polynomial.C (ζ : K)) ^ i) := by\n  sorry\n\ntheorem quadratic_reciprocity_2 (p q : ℕ) (hp : p ≠ 2) (hq : q ≠ 2)\n  [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] :\n  (legendre_sym p q) * (legendre_sym q p) = -1 ^ ((p-1) / 2 * (q - 1) / 2 ) := by\n  sorry\n\n\nend quadratic_reciprocity\nend book\nend --section"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 48,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_∀"
+    ],
+    "window": "namespace irrational\n\n/-- A real number is irrational if it is not rational. This is the same definition as in mathlib -/\ndef Irrational (x : ℝ) := x ∉ Set.range (fun (q : ℚ) => (q : ℝ))\n\n/-- This is `irrational_iff_ne_rational` in mathlib. -/\nlemma irrational_iff_not_fraction (x : ℝ) : Irrational x ↔ ∀ a b : ℤ, x ≠ (a : ℝ) / b := by\n  sorry\n\n\n/-- We define abbreviations for Euler's and for Pi-/\nnoncomputable def e := exp 1\n--noncomputable def π := pi\n\n/-- We want to use the series representation of the exponential function-/"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 57,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_HasSum"
+    ],
+    "window": "\n/-- We define abbreviations for Euler's and for Pi-/\nnoncomputable def e := exp 1\n--noncomputable def π := pi\n\n/-- We want to use the series representation of the exponential function-/\ntheorem exponential_series (x : ℝ) : HasSum (fun n : ℕ => x ^ n / (n.factorial)) (Real.exp x) := by\n  sorry\n\n/-!\n## Some Proofs of irrationality\n-/\n\n\ntheorem e_irrational : Irrational e := by"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 68,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_∃"
+    ],
+    "window": "-/\n\n\ntheorem e_irrational : Irrational e := by\n  sorry\n\ntheorem e_pow_2_irrational : Irrational (e ^ 2) := by\n  sorry\n\n/--\n\"For any `n ≥ 1` the integer `n!` contains the prime factor `2` at most `n − 1` times —\nwith equality if (and only if) `n` is a power of two, `n = 2 ^ m`.\"\n-/\nlemma little_lemma (n : ℕ) (h_n : n ≠ 0) :\n  ¬ (2 ^ n ∣ n.factorial) ∧ (2 ^ (n - 1) ∣ n.factorial ↔ ∃ m : ℕ, n = 2 ^ m) := by"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 76,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_∃"
+    ],
+    "window": "\n/--\n\"For any `n ≥ 1` the integer `n!` contains the prime factor `2` at most `n − 1` times —\nwith equality if (and only if) `n` is a power of two, `n = 2 ^ m`.\"\n-/\nlemma little_lemma (n : ℕ) (h_n : n ≠ 0) :\n  ¬ (2 ^ n ∣ n.factorial) ∧ (2 ^ (n - 1) ∣ n.factorial ↔ ∃ m : ℕ, n = 2 ^ m) := by\n  sorry\n\ntheorem e_pow_4_irrational : Irrational (e ^ 4) := by\n  sorry\n\n/-!  ### Proofs of the main theorems-/\n\n/-!"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 79,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_∃"
+    ],
+    "window": "with equality if (and only if) `n` is a power of two, `n = 2 ^ m`.\"\n-/\nlemma little_lemma (n : ℕ) (h_n : n ≠ 0) :\n  ¬ (2 ^ n ∣ n.factorial) ∧ (2 ^ (n - 1) ∣ n.factorial ↔ ∃ m : ℕ, n = 2 ^ m) := by\n  sorry\n\ntheorem e_pow_4_irrational : Irrational (e ^ 4) := by\n  sorry\n\n/-!  ### Proofs of the main theorems-/\n\n/-!\n####  Auxiliary Lemma\nWe first prove the following lemma (see `lem_aux_i` to `lem_aux_iii` below):\nLet `n : ℕ`, `n ≥ 1` be fixed, and consider `f_aux n x = x ^ n * (1 - x) ^ n / n.factorial`. Then"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 110,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_∀"
+    ],
+    "window": "\n/-!\nWARNING: There might be a better way to state this, not sure what the best API for derivatives of\nsmooth (polynomial) functions is\n-/\nlemma lem_aux_iii (n : ℕ) (k : ℕ): iteratedDeriv k (f_aux n) 0 ∈  Set.range (fun (q : ℚ) ↦ (q : ℝ)) ∧\n  iteratedDeriv k (f_aux n) 1 ∈ Set.range (fun (q : ℚ) ↦ (q : ℝ))  := by\n  sorry\n\n\n/-!### Theorems 1 to 3-/\n\n/--For any non-zero rational number `r`, the exponential `e ^ r` is irrational.-/\ntheorem Theorem_1 (r : ℚ) (h_r : r ≠ 0) : Irrational (exp r) := by\n  have : ∀ k : ℤ, k > 0 → Irrational (exp k) := by"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 119,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_∀"
+    ],
+    "window": "\n/-!### Theorems 1 to 3-/\n\n/--For any non-zero rational number `r`, the exponential `e ^ r` is irrational.-/\ntheorem Theorem_1 (r : ℚ) (h_r : r ≠ 0) : Irrational (exp r) := by\n  have : ∀ k : ℤ, k > 0 → Irrational (exp k) := by\n    sorry\n  sorry\n\nopen Real\n\ntheorem Theorem_2 (r : ℚ) (h_r : r ≠ 0) : Irrational (π ^ 2) := by\n  sorry\n\ntheorem Theorem_3 (n : ℕ) (h_n : n ≥ 3) : Irrational ( arccos (1 / (n : ℝ).sqrt) / π) := by"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_08.lean",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 124,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "series_theorem_scale",
+      "hard_term_∀"
+    ],
+    "window": "  have : ∀ k : ℤ, k > 0 → Irrational (exp k) := by\n    sorry\n  sorry\n\nopen Real\n\ntheorem Theorem_2 (r : ℚ) (h_r : r ≠ 0) : Irrational (π ^ 2) := by\n  sorry\n\ntheorem Theorem_3 (n : ℕ) (h_n : n ≥ 3) : Irrational ( arccos (1 / (n : ℝ).sqrt) / π) := by\n  sorry\n\n\nend irrational\nend book"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_09.lean",
+    "path": "FormalBook/Chapter_09.lean",
+    "line": 619,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "basel_tsum_theorem_scale",
+      "hard_term_∑'"
+    ],
+    "window": "\ntheorem euler_series' :\n   ∑' (k : ℕ), (1 : ℝ) / (2 * k + 1) ^ 2  = π ^ 2  / 8 := by\n  sorry\n\ntheorem euler_series_3 :\n  ∑' (n : ℕ+), (1 : ℝ) / n = π ^ 2  / 6 := by\n  sorry\n\ntheorem euler_series_4 :\n  ∑' (n : ℕ+), (1 : ℝ) / n = π ^ 2  / 6 := by\n  sorry"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_09.lean",
+    "path": "FormalBook/Chapter_09.lean",
+    "line": 623,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "basel_tsum_theorem_scale",
+      "hard_term_∑'"
+    ],
+    "window": "\ntheorem euler_series_3 :\n  ∑' (n : ℕ+), (1 : ℝ) / n = π ^ 2  / 6 := by\n  sorry\n\ntheorem euler_series_4 :\n  ∑' (n : ℕ+), (1 : ℝ) / n = π ^ 2  / 6 := by\n  sorry"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_20.lean",
+    "path": "FormalBook/Chapter_20.lean",
+    "line": 95,
+    "current_line": "  ((geometric = arithmetic) ↔ all_equal) := by sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "am_gm_hm_theorem_scale",
+      "hard_term_∀"
+    ],
+    "window": "  (a : Finset.Icc 1 n → ℝ) (hpos : ∀ i, 0 < a i) :\n  let harmonic := n / (∑ i : Finset.Icc 1 n, 1 / (a i))\n  let geometric := (∏ i : Finset.Icc 1 n, a i) ^ ((1 : ℝ) / n)\n  let arithmetic := (∑ i : Finset.Icc 1 n, a i) / n\n  let all_equal := ∀ i : Finset.Icc 1 n, a i = a ⟨1, Finset.mem_Icc.mpr  ⟨NeZero.one_le, hn⟩⟩\n  harmonic ≤ geometric ∧ geometric ≤ arithmetic ∧\n  ((harmonic = geometric) ↔ all_equal) ∧\n  ((geometric = arithmetic) ↔ all_equal) := by sorry\n\n\n\ntheorem harmonic_geometric_arithmetic₂ (n : ℕ) (hn : 1 ≤ n)\n  (a : Finset.Icc 1 n → ℝ) (hpos : ∀ i, 0 < a i) :\n  let harmonic := n / (∑ i : Finset.Icc 1 n, 1 / (a i))\n  let geometric := (∏ i : Finset.Icc 1 n, a i) ^ ((1 : ℝ) / n)"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_20.lean",
+    "path": "FormalBook/Chapter_20.lean",
+    "line": 107,
+    "current_line": "  ((geometric = arithmetic) ↔ all_equal) := by sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "am_gm_hm_theorem_scale",
+      "hard_term_∀"
+    ],
+    "window": "  (a : Finset.Icc 1 n → ℝ) (hpos : ∀ i, 0 < a i) :\n  let harmonic := n / (∑ i : Finset.Icc 1 n, 1 / (a i))\n  let geometric := (∏ i : Finset.Icc 1 n, a i) ^ ((1 : ℝ) / n)\n  let arithmetic := (∑ i : Finset.Icc 1 n, a i) / n\n  let all_equal := ∀ i : Finset.Icc 1 n, a i = a ⟨1, Finset.mem_Icc.mpr  ⟨NeZero.one_le, hn⟩⟩\n  harmonic ≤ geometric ∧ geometric ≤ arithmetic ∧\n  ((harmonic = geometric) ↔ all_equal) ∧\n  ((geometric = arithmetic) ↔ all_equal) := by sorry\n\n\ntheorem harmonic_geometric_arithmetic₃ (n : ℕ) (hn : 1 ≤ n)\n  (a : Finset.Icc 1 n → ℝ) (hpos : ∀ i, 0 < a i) :\n  let harmonic := n / (∑ i : Finset.Icc 1 n, 1 / (a i))\n  let geometric := (∏ i : Finset.Icc 1 n, a i) ^ ((1 : ℝ) / n)\n  let arithmetic := (∑ i : Finset.Icc 1 n, a i) / n"
+  },
+  {
+    "score": -279,
+    "status": "excluded",
+    "chapter": "Chapter_20.lean",
+    "path": "FormalBook/Chapter_20.lean",
+    "line": 118,
+    "current_line": "  ((geometric = arithmetic) ↔ all_equal) := by sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "am_gm_hm_theorem_scale",
+      "hard_term_∀"
+    ],
+    "window": "  (a : Finset.Icc 1 n → ℝ) (hpos : ∀ i, 0 < a i) :\n  let harmonic := n / (∑ i : Finset.Icc 1 n, 1 / (a i))\n  let geometric := (∏ i : Finset.Icc 1 n, a i) ^ ((1 : ℝ) / n)\n  let arithmetic := (∑ i : Finset.Icc 1 n, a i) / n\n  let all_equal := ∀ i : Finset.Icc 1 n, a i = a ⟨1, Finset.mem_Icc.mpr  ⟨NeZero.one_le, hn⟩⟩\n  harmonic ≤ geometric ∧ geometric ≤ arithmetic ∧\n  ((harmonic = geometric) ↔ all_equal) ∧\n  ((geometric = arithmetic) ↔ all_equal) := by sorry\n\nend Inequalities\n\n\n\nsection MantelCauchyProof\n"
+  },
+  {
+    "score": -281,
+    "status": "excluded",
+    "chapter": "Chapter_04.lean",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 248,
+    "current_line": "  sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "parked_involution_parity_boundary",
+      "hard_term_fixedPoints",
+      "hard_term_Fintype.card"
+    ],
+    "window": "\n/-- `secondInvo k` has exactly one fixed point. -/\ntheorem card_fixedPoints_eq_one : Fintype.card (fixedPoints (secondInvo k)) = 1 := by\n  simp only [eq_of_mem_fixedPoints, singletonFixedPoint]\n  rfl\n\ntheorem card_T_odd : Odd <| Fintype.card <| T k := by\n  sorry\n\n/- 3. -/\n/-- The third, trivial, involution `(x, y, z) ↦ (y, x, z)`. -/\ndef trivialInvo : Function.End (T k) := fun ⟨⟨⟨x, y, z⟩, ⟨h, hx, hy⟩⟩, hz⟩ => ⟨⟨⟨y, x, z⟩, by\n  exact ⟨by rw [← h,Int.mul_assoc, Int.mul_comm y x, Int.mul_assoc], hy, hx⟩⟩, hz⟩\n\nomit hk in"
+  },
+  {
+    "score": -281,
+    "status": "excluded",
+    "chapter": "Chapter_04.lean",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 287,
+    "current_line": "theorem trivialInvo_fixedPoints : (fixedPoints (trivialInvo k)).Nonempty := by sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "parked_involution_parity_boundary",
+      "hard_term_fixedPoints",
+      "hard_term_∃"
+    ],
+    "window": "    · ring\n  --TODO: avoid repeating from the definition of trivialInvo here!\n  · exact ⟨by rw [← hS.1,Int.mul_assoc, Int.mul_comm y x, Int.mul_assoc], hS.2.2, hS.2.1⟩\n  · exact hT\n\n\n\ntheorem trivialInvo_fixedPoints : (fixedPoints (trivialInvo k)).Nonempty := by sorry\n\nend Involutions\n\ntheorem theorem₂ {p : ℕ} [h : Fact p.Prime] (hp : p % 4 = 1) :\n    ∃ a b : ℕ, a ^ 2 + b ^ 2 = p := by\n  rw [← div_add_mod p 4, hp] at h ⊢\n  let k := p / 4"
+  },
+  {
+    "score": -284,
+    "status": "excluded",
+    "chapter": "Chapter_03.lean",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 153,
+    "current_line": "        sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "bullet_have_nextline",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "promoted_pr_138_h_3lel",
+      "chapter03_near_active_pr_138_window"
+    ],
+    "window": "    -- divide in two cases\n    cases em (l = 2)\n    -- Special Case l = 2 by Contradiction\n    ·  sorry\n    -- STEP (4) : l ≥ 3 by Contradiction\n    -- case l ≥ 3\n    · have h_3lel : 3 ≤ l := by\n        sorry\n      -- main work : n < k³\n      have h₄ : n < k^3 := by\n        sorry\n\n      sorry\n\n  rcases em (n ≥ 2*k) with h_2k | h"
+  },
+  {
+    "score": -286,
+    "status": "excluded",
+    "chapter": "Chapter_03.lean",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 173,
+    "current_line": "      sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "promoted_pr_138_h_2klen",
+      "chapter03_near_active_pr_138_window"
+    ],
+    "window": "    rw [← choose_symm h_klen]\n    -- define k' as n - k, such that k' can be used for h_wlog as k'\n    -- satisfies all required features\n    let k' := n - k\n    have h_k'_def : k' = n - k := by rfl\n    -- third requirement: 2 * k' ≤ n\n    have h_2k'len : 2 * k' ≤ n := by\n      sorry\n    -- second requirement: k ≤ n - 4\n    have h_k'len4 : k' ≤ n - 4 := by\n      simp only [h_k'_def, tsub_le_iff_right]\n      have help : k + k ≤ n - 4 + k := add_le_add_left h_klen4 k\n      rw [← (two_mul k)] at help\n      exact le_trans (le_of_lt h) help\n    -- first requirement: 4 ≤ k"
+  },
+  {
+    "score": -286,
+    "status": "excluded",
+    "chapter": "Chapter_04.lean",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 239,
+    "current_line": "    sorry",
+    "reasons": [
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "parked_involution_parity_boundary",
+      "hard_term_fixedPoints",
+      "hard_term_Fintype.card"
+    ],
+    "window": "theorem eq_of_mem_fixedPoints : fixedPoints (secondInvo k) = singletonFixedPoint k := by\n  simp only [fixedPoints, IsFixedPt, secondInvo, secondInvo_fun,\n    singletonFixedPoint, Prod.mk_one_one, Finset.coe_singleton]\n  ext t\n  constructor\n  · intro ht\n    simp at ht\n    sorry\n  · aesop\n\n/-- `secondInvo k` has exactly one fixed point. -/\ntheorem card_fixedPoints_eq_one : Fintype.card (fixedPoints (secondInvo k)) = 1 := by\n  simp only [eq_of_mem_fixedPoints, singletonFixedPoint]\n  rfl\n"
+  },
+  {
+    "score": -299,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 98,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk",
+      "hard_term_Fintype.card",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "    - First expression\n    - Second expression\n    - The multiplicative group of a finite field is cyclic\n-/\n\n/- The group of units of a finite field is cyclic, i.e. has a multiplicative generator-/\nlemma mult_cyclic (K : Type _) [Field K] [Fintype K] : ∃ ζ : Kˣ, ∀ α : Kˣ, ∃ k : ℤ, α = ζ ^ k := by\n  sorry\n\n\nlemma fact_A (p q : ℕ) (hp : p ≠ 2) (hq : q ≠ 2) [Fact (Nat.Prime p)] [Fact (Nat.Prime q)]\n  (h_pq : p ≠ q) (K : Type _) [Field K] [Fintype K] (H : Fintype.card K = q ^ (p - 1)) :\n  ∀ a b : K, (a + b) ^ q = a ^ q + b ^ q :=\n  sorry\n"
+  },
+  {
+    "score": -299,
+    "status": "excluded",
+    "chapter": "Chapter_05.lean",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 104,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "false_or_fermat_adjacent_risk",
+      "hard_term_Fintype.card",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "lemma mult_cyclic (K : Type _) [Field K] [Fintype K] : ∃ ζ : Kˣ, ∀ α : Kˣ, ∃ k : ℤ, α = ζ ^ k := by\n  sorry\n\n\nlemma fact_A (p q : ℕ) (hp : p ≠ 2) (hq : q ≠ 2) [Fact (Nat.Prime p)] [Fact (Nat.Prime q)]\n  (h_pq : p ≠ q) (K : Type _) [Field K] [Fintype K] (H : Fintype.card K = q ^ (p - 1)) :\n  ∀ a b : K, (a + b) ^ q = a ^ q + b ^ q :=\n  sorry\n\n/-\nFor any element `ζ` of multiplicative order `p` in a field `K`, we have a polynomial\ndecomposition`X^p - 1 = (X - ζ) * (X - ζ ^ 2) * ... * (X - ζ ^ p)`.\n-/\nlemma fact_B (p : ℕ) [Fact (Prime p)] (K : Type _) [Field K] (ζ : Kˣ) (h_1 : ζ ^ p = 1)\n  (h_2 : ζ ≠ 1) :"
+  },
+  {
+    "score": -299,
+    "status": "excluded",
+    "chapter": "Chapter_07.lean",
+    "path": "FormalBook/Chapter_07.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "matrix_theorem_scale",
+      "hard_term_Matrix",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "\nopen Matrix\n\ntheorem Theorem₁ (n : ℕ) (A : Matrix (Fin n) (Fin n) ℝ) (h : IsHermitian A) :\n    ∃ Q : Matrix (Fin n) (Fin n) ℝ,\n    Q ∈ Matrix.orthogonalGroup (Fin n) ℝ ∧\n    ∃ (d : (Fin n) → ℝ), diagonal d = (Q.conjTranspose * A * Q) := by\n  sorry\n\n\ntheorem Theorem₂ (n : ℕ) (hn : 1 < n) : ∃ (M : Matrix (Fin n) (Fin n) ℤ),\n    (∀ i j, M i j = -1 ∨ M i j = 1) ∧\n    M.det > Real.sqrt n.factorial := by\n  sorry\n"
+  },
+  {
+    "score": -299,
+    "status": "excluded",
+    "chapter": "Chapter_07.lean",
+    "path": "FormalBook/Chapter_07.lean",
+    "line": 38,
+    "current_line": "  sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "matrix_theorem_scale",
+      "hard_term_Matrix",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "window": "    ∃ (d : (Fin n) → ℝ), diagonal d = (Q.conjTranspose * A * Q) := by\n  sorry\n\n\ntheorem Theorem₂ (n : ℕ) (hn : 1 < n) : ∃ (M : Matrix (Fin n) (Fin n) ℤ),\n    (∀ i j, M i j = -1 ∨ M i j = 1) ∧\n    M.det > Real.sqrt n.factorial := by\n  sorry\n\nend chapter7"
+  },
+  {
+    "score": -299,
+    "status": "excluded",
+    "chapter": "Chapter_24.lean",
+    "path": "FormalBook/Chapter_24.lean",
+    "line": 38,
+    "current_line": "    M ∈ doublyStochastic ℝ (Fin n) → permanent M ≥ (n.factorial)/(n ^ n) := sorry",
+    "reasons": [
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "not_direct_local_have_or_calc_step",
+      "permanent_theorem_scale",
+      "hard_term_Equiv",
+      "hard_term_Matrix",
+      "hard_term_permanent"
+    ],
+    "window": "open Equiv\nnamespace Matrix\n\nvariable {n : ℕ}\n\n\ntheorem permanent_conjecture (M : Matrix (Fin n) (Fin n) ℝ) :\n    M ∈ doublyStochastic ℝ (Fin n) → permanent M ≥ (n.factorial)/(n ^ n) := sorry"
+  }
+]
