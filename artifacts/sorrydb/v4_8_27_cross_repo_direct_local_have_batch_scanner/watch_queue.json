@@ -1,0 +1,867 @@
+[
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 59,
+    "path": "FloatSpec/src/Prop/Double_rounding.lean",
+    "line": 715,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_arithmetic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  (choice1 choice2 : Int → Bool)\n  (Hexp : round_round_div_hyp fexp1 fexp2)\n  (x y : ℝ)\n  (hx_pos : 0 < x) (hy_pos : 0 < y)\n  (Fx : generic_format beta fexp1 x) (Fy : generic_format beta fexp1 y)\n  (hplace : fexp1 ((FloatSpec.Core.Raux.mag beta (x / y)))\n            = (FloatSpec.Core.Raux.mag beta (x / y)) + 1) :\n  ¬ ((beta : ℝ) ^ ((FloatSpec.Core.Raux.mag beta (x / y)))\n        - (1/2) * (ulp beta fexp2 (x / y)) ≤ x / y) := by\n  sorry\n\n/-- Coq: `round_round_div_aux1`\n    In the division setting, under `round_round_div_hyp` and assuming\n    positivity and genericity hypotheses, the mid-interval above `x/y`\n    cannot occur when `fexp1 (mag (x / y)) ≤ mag (x / y)`.\n    This is used as a case in the all-mid-cases analysis. -/\nlemma round_round_div_aux1\n  (fexp1 fexp2 : Int → Int)\n  [FloatSpec.Core.Generic_fmt.Valid_exp beta fexp1]"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 53,
+    "path": "specs/LJ0094_specs.lean",
+    "line": 23,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "@[reducible, simp]\ndef countUppercase_precond (text : Array Char) : Prop := True\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef countUppercase (text : Array Char) (h_precond : countUppercase_precond text) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\n@[reducible, simp]\ndef countUppercase_postcond (text : Array Char) (count : Nat) (h_precond : countUppercase_precond text) : Prop :=\n  count ≤ text.size ∧ countUppercaseRecursively text.toList = count\n\ntheorem countUppercase_spec_satisfied (text : Array Char) (h_precond : countUppercase_precond text) :\n    countUppercase_postcond text (countUppercase text h_precond) h_precond := by"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 48,
+    "path": "specs/LA0551_specs.lean",
+    "line": 21,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [],
+    "window": "def solve_precond (input : String) : Prop :=\n  True\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef solve (input : String) (_ : solve_precond input) : String :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\n@[reducible, simp]\ndef solve_postcond (input : String) (result : String) (_ : solve_precond input) : Prop :=\n  ValidOutput result ∧ \n  (AllLowercase input → result = \"a\") ∧\n  ((input.length = 0 ∨ ¬AllLowercase input) → result = \"A\")\n"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 48,
+    "path": "specs/LF4697_specs.lean",
+    "line": 29,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-theorems>\ntheorem valid_output_range (town: List String)\n  (h1: town.length > 0)\n  (h2: listSum (town.map (fun row => countChar row 'P')) = 1)\n  : let total_rats := listSum (town.map (fun row =>\n      listSum ((DIRS.map Prod.fst).map (fun c => countChar row c))))\n    let result := count_deaf_rats town\n    0 ≤ result ∧ result ≤ total_rats :=\nsorry\n\ntheorem empty_town :\n  count_deaf_rats [\" P \"] = 0 :=\nsorry\n\ntheorem simple_case :\n  count_deaf_rats [\"P →\", \"← ←\"] = 2 :=\nsorry\n"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 48,
+    "path": "specs/LF4697_specs.lean",
+    "line": 44,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [],
+    "window": "theorem simple_case :\n  count_deaf_rats [\"P →\", \"← ←\"] = 2 :=\nsorry\n\ntheorem all_directions :\n  let dirChars := DIRS.map Prod.fst\n  let town := [\"P \" ++ String.mk dirChars]\n  let result := count_deaf_rats town\n  0 ≤ result ∧ result ≤ DIRS.length :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 47,
+    "path": "specs/LJ0098_specs.lean",
+    "line": 19,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "def shift32Spec (c : Char) : Char :=\n  Char.ofNat ((c.toNat) + 32)\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef toLowercase (str1 : Array Char) (h_precond : toLowercase_precond (str1)) : Array Char :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\n@[reducible, simp]\ndef toLowercase_postcond (str1 : Array Char) (result: Array Char) (h_precond : toLowercase_precond (str1)) :=\n  str1.size = result.size ∧ \n  (∀ i, i < str1.size → result[i]! = (if isUpperCase (str1[i]!) then shift32Spec (str1[i]!) else str1[i]!))\n\ntheorem toLowercase_spec_satisfied (str1: Array Char) (h_precond : toLowercase_precond (str1)) :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 47,
+    "path": "specs/LJ0114_specs.lean",
+    "line": 29,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "def toUppercase_precond (str1 : Array Char) : Prop :=\n  True\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef toUppercase (str1 : Array Char) (h_precond : toUppercase_precond str1) : Array Char :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\n@[reducible, simp]\ndef toUppercase_postcond (str1 : Array Char) (result : Array Char) (h_precond : toUppercase_precond str1) : Prop :=\n  str1.size = result.size ∧ \n  (∀ i : Nat, i < str1.size → result[i]! = innerExprToUppercase str1 i)\n\ntheorem toUppercase_spec_satisfied (str1 : Array Char) (h_precond : toUppercase_precond str1) :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 47,
+    "path": "specs/LT0449_specs.lean",
+    "line": 69,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "    where H_j is the j-th Hermite polynomial.\n    \n    Additionally, we verify the Clenshaw recursion implementation matches\n    the mathematical definition. -/\ntheorem hermval_spec {m n : Nat} (x : Vector Float m) (c : Vector Float n) :\n    ⦃⌜True⌝⦄\n    hermval x c\n    ⦃⇓result => ⌜∀ i : Fin m,\n      result.get i = hermiteSeriesSum c (x.get i)⌝⦄ := by\n  sorry\n\n/-- Additional specification for the empty coefficient case -/\ntheorem hermval_empty_coeff {m : Nat} (x : Vector Float m) :\n    ⦃⌜True⌝⦄\n    hermval x (Vector.mk #[] rfl)\n    ⦃⇓result => ⌜∀ i : Fin m, result.get i = 0⌝⦄ := by\n  sorry\n\n/-- Additional specification for single coefficient (constant polynomial) -/"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 47,
+    "path": "specs/LT0449_specs.lean",
+    "line": 76,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "    ⦃⇓result => ⌜∀ i : Fin m,\n      result.get i = hermiteSeriesSum c (x.get i)⌝⦄ := by\n  sorry\n\n/-- Additional specification for the empty coefficient case -/\ntheorem hermval_empty_coeff {m : Nat} (x : Vector Float m) :\n    ⦃⌜True⌝⦄\n    hermval x (Vector.mk #[] rfl)\n    ⦃⇓result => ⌜∀ i : Fin m, result.get i = 0⌝⦄ := by\n  sorry\n\n/-- Additional specification for single coefficient (constant polynomial) -/\ntheorem hermval_single_coeff {m : Nat} (x : Vector Float m) (c0 : Float) :\n    ⦃⌜True⌝⦄\n    hermval x (Vector.mk #[c0] rfl)\n    ⦃⇓result => ⌜∀ i : Fin m, result.get i = c0⌝⦄ := by\n  sorry\n\n/-- Helper function to create a linear combination of two coefficient vectors -/"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 47,
+    "path": "specs/LV0097_specs.lean",
+    "line": 17,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "def isUpperCase (c : Char) : Bool :=\n  'A' ≤ c ∧ c ≤ 'Z'\n\ndef shift32 (c : Char) : Char :=\n  Char.ofNat (c.toNat + 32)\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef toLowercase (s : String) (h_precond : toLowercase_precond (s)) : String :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\n@[reducible, simp]\ndef toLowercase_postcond (s : String) (result: String) (h_precond : toLowercase_precond (s)) :=\n  let cs := s.toList\n  let cs' := result.toList\n  (result.length = s.length) ∧\n  (∀ i : Nat, i < s.length →"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 47,
+    "path": "specs/LV0111_specs.lean",
+    "line": 17,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "def isLowerCase (c : Char) : Bool :=\n  'a' ≤ c ∧ c ≤ 'z'\n\ndef shiftMinus32 (c : Char) : Char :=\n  Char.ofNat ((c.toNat - 32) % 128)\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef toUppercase (s : String) (h_precond : toUppercase_precond (s)) : String :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\n@[reducible, simp]\ndef toUppercase_postcond (s : String) (result: String) (h_precond : toUppercase_precond (s)) :=\n  let cs := s.toList\n  let cs' := result.toList\n  (result.length = s.length) ∧\n  (∀ i, i < s.length →"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 47,
+    "path": "specs/LV0147_specs.lean",
+    "line": 19,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "    match x[i]?, x[j]? with\n    | some ci, some cj =>\n      if ci ≠ cj then false else isPalindromeHelper x (i + 1) (j - 1)\n    | _, _ => false  -- This case should not occur due to valid indices\n  else true\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef IsPalindrome (x : List Char) (h_precond : IsPalindrome_precond (x)) : Bool :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\n@[reducible, simp]\ndef IsPalindrome_postcond (x : List Char) (result: Bool) (h_precond : IsPalindrome_precond (x)) :=\n  result ↔ ∀ i : Nat, i < x.length → (x[i]! = x[x.length - i - 1]!)\n\ntheorem IsPalindrome_spec_satisfied (x: List Char) (h_precond : IsPalindrome_precond (x)) :\n    IsPalindrome_postcond (x) (IsPalindrome (x) h_precond) h_precond := by"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 46,
+    "path": "specs/LT0215_specs.lean",
+    "line": 20,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "nearby_refine_apply_exact",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [
+      "large_window"
+    ],
+    "window": "  \"description\": \"Save an array to a text file\",\n  \"url\": \"https://numpy.org/doc/stable/reference/generated/numpy.savetxt.html\",\n  \"doc\": \"Save an array to a text file\",\n  \"code\": \"@array_function_dispatch(_savetxt_dispatcher)\\ndef savetxt(fname, X, fmt='%.18e', delimiter=' ', newline='\\\\n', header='',\\n            footer='', comments='# ', encoding=None):\\n    \\\"\\\"\\\"\\n    Save an array to a text file.\\n\\n    Parameters\\n    ----------\\n    fname : filename, file handle or pathlib.Path\\n        If the filename ends in \\`\\`.gz\\`\\`, the file is automatically saved in\\n        compressed gzip format.  \\`loadtxt\\` understands gzipped files\\n        transparently.\\n    X : 1D or 2D array_like\\n        Data to be saved to a text file.\\n    fmt : str or sequence of strs, optional\\n        A single format (%10.5f), a sequence of formats, or a\\n        multi-format string, e.g. 'Iteration %d -- %10.5f', in which\\n        case \\`delimiter\\` is ignored. For complex \\`X\\`, the legal options\\n        for \\`fmt\\` are:\\n\\n        * a single specifier, \\`\\`fmt='%.4e'\\`\\`, resulting in numbers formatted\\n          like \\`\\`' (%s+%sj)' % (fmt, fmt)\\`\\`\\n        * a full string specifying every real and imaginary part, e.g.\\n          \\`\\`' %.4e %+.4ej %.4e %+.4ej %.4e %+.4ej'\\`\\` for 3 columns\\n        * a list of specifiers, one per column - in this case, the real\\n          and imaginary part must have separate specifiers,\\n          e.g. \\`\\`['%.3e + %.3ej', '(%.15e%+.15ej)']\\`\\` for 2 columns\\n    delimiter : str, optional\\n        String or character separating columns.\\n    newline : str, optional\\n        String or character separating lines.\\n    header : str, optional\\n        String that will be written at the beginning of the file.\\n    footer : str, optional\\n        String that will be written at the end of the file.\\n    comments : str, optional\\n        String that will be prepended to the \\`\\`header\\`\\` and \\`\\`footer\\`\\` strings,\\n        to mark them as comments. Default: '# ',  as expected by e.g.\\n        \\`\\`numpy.loadtxt\\`\\`.\\n    encoding : {None, str}, optional\\n        Encoding used to encode the outputfile. Does not apply to output\\n        streams. If the encoding is something other than 'bytes' or 'latin1'\\n        you will not be able to load the file in NumPy versions < 1.14. Default\\n        is 'latin1'.\\n\\n    See Also\\n    --------\\n    save : Save an array to a binary file in NumPy \\`\\`.npy\\`\\` format\\n    savez : Save several arrays into an uncompressed \\`\\`.npz\\`\\` archive\\n    savez_compressed : Save several arrays into a compressed \\`\\`.npz\\`\\` archive\\n\\n    Notes\\n    -----\\n    Further explanation of the \\`fmt\\` parameter\\n    (\\`\\`%[flag]width[.precision]specifier\\`\\`):\\n\\n    flags:\\n        \\`\\`-\\`\\` : left justify\\n\\n        \\`\\`+\\`\\` : Forces to precede result with + or -.\\n\\n        \\`\\`0\\`\\` : Left pad the number with zeros instead of space (see width).\\n\\n    width:\\n        Minimum number of characters to be printed. The value is not truncated\\n        if it has more characters.\\n\\n    precision:\\n        - For integer specifiers (eg. \\`\\`d,i,o,x\\`\\`), the minimum number of\\n          digits.\\n        - For \\`\\`e, E\\`\\` and \\`\\`f\\`\\` specifiers, the number of digits to print\\n          after the decimal point.\\n        - For \\`\\`g\\`\\` and \\`\\`G\\`\\`, the maximum number of significant digits.\\n        - For \\`\\`s\\`\\`, the maximum number of characters.\\n\\n    specifiers:\\n        \\`\\`c\\`\\` : character\\n\\n        \\`\\`d\\`\\` or \\`\\`i\\`\\` : signed decimal integer\\n\\n        \\`\\`e\\`\\` or \\`\\`E\\`\\` : scientific notation with \\`\\`e\\`\\` or \\`\\`E\\`\\`.\\n\\n        \\`\\`f\\`\\` : decimal floating point\\n\\n        \\`\\`g,G\\`\\` : use the shorter of \\`\\`e,E\\`\\` or \\`\\`f\\`\\`\\n\\n        \\`\\`o\\`\\` : signed octal\\n\\n        \\`\\`s\\`\\` : string of characters\\n\\n        \\`\\`u\\`\\` : unsigned decimal integer\\n\\n        \\`\\`x,X\\`\\` : unsigned hexadecimal integer\\n\\n    This explanation of \\`\\`fmt\\`\\` is not complete, for an exhaustive\\n    specification see [1]_.\\n\\n    References\\n    ----------\\n    .. [1] \\`Format Specification Mini-Language\\n           <https://docs.python.org/library/string.html#format-specification-mini-language>\\`_,\\n           Python Documentation.\\n\\n    Examples\\n    --------\\n    >>> import numpy as np\\n    >>> x = y = z = np.arange(0.0,5.0,1.0)\\n    >>> np.savetxt('test.out', x, delimiter=',')   # X is an array\\n    >>> np.savetxt('test.out', (x,y,z))   # x,y,z equal sized 1D arrays\\n    >>> np.savetxt('test.out', x, fmt='%1.4e')   # use exponential notation\"\n}\n-/\n\n/-- Helper function to format a float according to a format string -/\ndef formatFloat (val : Float) (fmt : String) : String :=\n  sorry\n\n/-- Helper function to join a list of strings with a delimiter -/\ndef joinStrings (strings : List String) (delimiter : String) : String :=\n  sorry\n\n/-- Save an array to a text file with specified formatting options.\n    This function converts the vector data into a formatted string representation\n    that can be written to a file. The delimiter separates elements, and the\n    format string controls the numeric representation of each element. -/"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 43,
+    "path": "FloatSpec/src/Core/Ulp.lean",
+    "line": 2754,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  -- pred x = -(succ(-x))\n  -- succ x = x + ulp x (for x ≥ 0) or -(pred_pos(-x)) (for x < 0)\n  -- The key identity pred(succ x) = x follows from the inverse relationship\n  -- between succ and pred on format points.\n  --\n  -- NOTE: The proof requires careful case analysis with ulp_succ_pos_theorem\n  -- for x > 0, handling of x = 0 with negligible_exp, and the negative case\n  -- which requires succ_pred_pos. These edge cases involve complex interactions\n  -- with pred_pos boundary detection. Full proof pending.\n  sorry\n\n/-- Coq (Ulp.v):\nLemma {coq}`pred_succ_pos`:\n  {lit}`forall x, F x -> 0 < x -> pred (succ x) = x`.\n-/\ntheorem pred_succ_pos\n    (x : ℝ)\n    (Fx : (FloatSpec.Core.Generic_fmt.generic_format beta fexp x))\n    (hx : 0 < x) :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 43,
+    "path": "FloatSpec/src/Pff/Pff.lean",
+    "line": 11169,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\n-- Coq: `digitMore` — |q| < Zpower_nat n (digit q)\nnoncomputable def digitMore_check (n : Int) (q : Int) : Unit :=\n  ()\n\ntheorem digitMore (n : Int) (q : Int) :\n    ⦃⌜True⌝⦄\n    (pure (digitMore_check n q) : Id Unit)\n    ⦃⇓_ => ⌜|q| < Zpower_nat n (digit n q)⌝⦄ := by\n  sorry\n\n-- Coq: `digitAuxMore` — complementary case for digit auxiliary\nnoncomputable def digitAuxMore_check (n : Int) (v r : Int) (p : Positive) : Unit :=\n  ()\n\ntheorem digitAuxMore (n : Int) (v r : Int) (p : Positive) :\n    ⦃⌜True⌝⦄\n    (pure (digitAuxMore_check n v r p) : Id Unit)\n    ⦃⇓_ => ⌜match digitAux n v r p with"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 43,
+    "path": "FloatSpec/src/Prop/Double_rounding.lean",
+    "line": 160,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  (rnd : ℝ → Int)\n  [FloatSpec.Core.Generic_fmt.Valid_rnd rnd]\n  (x y : ℝ)\n  (Hemin : emin' + prec' ≤ 2 * emin + prec) (Hprec : 2 * prec ≤ prec')\n  (Fx : generic_format beta (FTZ_exp emin prec) x)\n  (Fy : generic_format beta (FTZ_exp emin prec) y) :\n  FloatSpec.Calc.Round.round beta (FTZ_exp emin prec) rnd\n    (FloatSpec.Calc.Round.round beta (FTZ_exp emin' prec') rnd (x * y))\n  = FloatSpec.Calc.Round.round beta (FTZ_exp emin prec) rnd (x * y) := by\n  sorry\n\n\n/-- Coq: `round_round_mid_cases`\n    Midpoint case splitter: assuming `0 < x`, a place relation\n    `fexp2 (mag x) ≤ fexp1 (mag x) - 1`, and `fexp1 (mag x) ≤ mag x`,\n    if the absolute gap to the `fexp1`-midpoint is at most\n    `1/2 * ulp fexp2 x`, then double rounding (nearest-on-nearest)\n    from `fexp2` to `fexp1` equals a single rounding at `fexp1`. -/\nlemma round_round_mid_cases"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 43,
+    "path": "FloatSpec/src/Prop/Double_rounding.lean",
+    "line": 188,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "                ≤ (FloatSpec.Core.Raux.mag beta x))\n  (Cmid : |x - midp (beta := beta) fexp1 x|\n            ≤ (1/2) * (ulp beta fexp2 x) →\n          FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1)\n            (FloatSpec.Calc.Round.round beta fexp2 (Znearest choice2) x)\n          = FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1) x) :\n  FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1)\n    (FloatSpec.Calc.Round.round beta fexp2 (Znearest choice2) x)\n  = FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1) x := by\n  sorry\n\n/-- Coq: `round_round_eq_mid_beta_even`\n    Midpoint equality case under an even-base assumption on `beta`.\n    If `x` equals the `fexp1`-midpoint, with `fexp2 (mag x) ≤ fexp1 (mag x) - 1`\n    and `fexp1 (mag x) ≤ mag x`, then nearest-on-nearest double rounding\n    from `fexp2` to `fexp1` is innocuous. -/\nlemma round_round_eq_mid_beta_even\n  (fexp1 fexp2 : Int → Int)\n  [FloatSpec.Core.Generic_fmt.Valid_exp beta fexp1]"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 43,
+    "path": "FloatSpec/src/Prop/Double_rounding.lean",
+    "line": 229,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  [FloatSpec.Core.Generic_fmt.Valid_exp beta fexp2]\n  (choice1 choice2 : Int → Bool)\n  (x : ℝ)\n  (hx_pos : 0 < x)\n  (h_f1 : (FloatSpec.Core.Raux.mag beta x)\n            ≤ fexp1 ((FloatSpec.Core.Raux.mag beta x)) - 2) :\n  FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1)\n    (FloatSpec.Calc.Round.round beta fexp2 (Znearest choice2) x)\n  = FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1) x := by\n  sorry\n\n/-- Coq: `round_round_zero`\n    Special case where `fexp1 (mag x) = mag x + 1` and `x` lies strictly\n    below `bpow (mag x) - 1/2 * ulp fexp2 x`; double rounding is innocuous. -/\nlemma round_round_zero\n  (fexp1 fexp2 : Int → Int)\n  [FloatSpec.Core.Generic_fmt.Valid_exp beta fexp1]\n  [FloatSpec.Core.Generic_fmt.Valid_exp beta fexp2]\n  (choice1 choice2 : Int → Bool)"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 43,
+    "path": "FloatSpec/src/Prop/Double_rounding.lean",
+    "line": 248,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  (x : ℝ)\n  (hx_pos : 0 < x)\n  (h_f1 : fexp1 ((FloatSpec.Core.Raux.mag beta x))\n            = (FloatSpec.Core.Raux.mag beta x) + 1)\n  (hx_lt : x < (beta : ℝ) ^ ((FloatSpec.Core.Raux.mag beta x))\n              - (1/2) * (ulp beta fexp2 x)) :\n  FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1)\n    (FloatSpec.Calc.Round.round beta fexp2 (Znearest choice2) x)\n  = FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1) x := by\n  sorry\n\n/-- Coq: `round_round_all_mid_cases`\n    All-mid-cases splitter used by the division lemmas later: under\n    `fexp2 (mag x) ≤ fexp1 (mag x) - 1`, reduce to near-midpoint cases\n    or to the equality midpoint case guarded by an even `beta` premise. -/\nlemma round_round_all_mid_cases\n  (fexp1 fexp2 : Int → Int)\n  [FloatSpec.Core.Generic_fmt.Valid_exp beta fexp1]\n  [FloatSpec.Core.Generic_fmt.Valid_exp beta fexp2]"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 43,
+    "path": "FloatSpec/src/Prop/Double_rounding.lean",
+    "line": 1336,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  (x y : ℝ)\n  (hy_pos : 0 < y) (hyx : y < x)\n  (Hly : (FloatSpec.Core.Raux.mag beta y) ≤ fexp1 ((FloatSpec.Core.Raux.mag beta x)) - 1)\n  (Hly' : (FloatSpec.Core.Raux.mag beta y) ≤ fexp1 ((FloatSpec.Core.Raux.mag beta (x - y))) - 1)\n  (Fx : generic_format beta fexp1 x)\n  (Fy : generic_format beta fexp1 y) :\n  FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1)\n    (FloatSpec.Calc.Round.round beta fexp2 (Znearest choice2) (x - y))\n  = FloatSpec.Calc.Round.round beta fexp1 (Znearest choice1) (x - y) := by\n  sorry\n\n/-- Coq: `round_round_minus_radix_ge_3_aux3`\n    Combination lemma for the subtraction case under radix-≥3: for\n    `0 < y ≤ x` with both operands `fexp1`-generic, nearest-on-nearest\n    double rounding of `x - y` collapses to a single rounding at `fexp1`. -/\nlemma round_round_minus_radix_ge_3_aux3\n  (Hbeta : 3 ≤ beta)\n  (fexp1 fexp2 : Int → Int)\n  [FloatSpec.Core.Generic_fmt.Valid_exp beta fexp1]"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "score": 43,
+    "path": "FloatSpec/src/Prop/Double_rounding.lean",
+    "line": 1573,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "    `fexp1 (mag x)` and `fexp1 (mag y)`, then the difference of two\n    `fexp1`-generic numbers is `fexp2`-generic. -/\nlemma round_round_minus_aux0_aux\n  (fexp1 fexp2 : Int → Int)\n  (x y : ℝ)\n  (Hlnx : fexp2 ((FloatSpec.Core.Raux.mag beta (x - y))) ≤ fexp1 ((FloatSpec.Core.Raux.mag beta x)))\n  (Hlny : fexp2 ((FloatSpec.Core.Raux.mag beta (x - y))) ≤ fexp1 ((FloatSpec.Core.Raux.mag beta y)))\n  (Fx : generic_format beta fexp1 x) (Fy : generic_format beta fexp1 y) :\n  generic_format beta fexp2 (x - y) := by\n  sorry\n\n/-- Coq: `round_round_minus_aux0`\n    Exact-subtraction case in the largest precision captured by\n    `round_round_plus_hyp`. -/\nlemma round_round_minus_aux0\n  (fexp1 fexp2 : Int → Int)\n  (Hexp : round_round_plus_hyp fexp1 fexp2)\n  (x y : ℝ)\n  (hy_pos : 0 < y) (hyx : y < x)"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LD0733_specs.lean",
+    "line": 11,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "def IsUpperCase (c : Char) : Bool :=\n65 ≤ c.toNat ∧ c.toNat ≤ 90\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef CountUppercase (s : String) : Int :=\nsorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem CountUppercase_spec (s : String) :\nlet count := CountUppercase s\ncount ≥ 0 ∧\ncount = (s.toList.filterMap (fun c => if IsUpperCase c then some c else none)).length\n:=\nsorry"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0051_specs.lean",
+    "line": 17,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "def can_have_no_winner (n k d1 d2 : Nat) : Bool := \n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem no_winner_properties (n k d1 d2 : Nat) :\n  (n % 3 ≠ 0 → ¬(can_have_no_winner n k d1 d2 = true)) ∧ \n  (k > n ∨ d1 > n ∨ d2 > n → ¬(can_have_no_winner n k d1 d2 = true)) ∧\n  (d1 = 0 ∧ d2 = 0 ∧ k % 3 = 0 ∧ k ≤ n → can_have_no_winner n k d1 d2 = true) :=\n  sorry\n\ntheorem no_winner_trivial_case (n : Nat) :\n  can_have_no_winner n 0 0 0 = true :=\n  sorry\n\ntheorem no_winner_board_size_multiple_three (n k d1 d2 : Nat) :\n  n % 3 ≠ 0 → can_have_no_winner n k d1 d2 = false :=\n  sorry\n"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0104_specs.lean",
+    "line": 9,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef solve_magic_candies (n : Nat) (k : Nat) (candies : List Nat) : Nat :=\n  sorry\n\ndef list_minimum (l : List Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem solve_magic_candies_minimum_case\n  (k : Nat)\n  (h1 : k ≥ 1) (h2 : k ≤ 1000) :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0104_specs.lean",
+    "line": 12,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef solve_magic_candies (n : Nat) (k : Nat) (candies : List Nat) : Nat :=\n  sorry\n\ndef list_minimum (l : List Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem solve_magic_candies_minimum_case\n  (k : Nat)\n  (h1 : k ≥ 1) (h2 : k ≤ 1000) :\n  solve_magic_candies 2 k [1, 1] = k - 1 :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0104_specs.lean",
+    "line": 20,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "def list_minimum (l : List Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem solve_magic_candies_minimum_case\n  (k : Nat)\n  (h1 : k ≥ 1) (h2 : k ≤ 1000) :\n  solve_magic_candies 2 k [1, 1] = k - 1 :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0127_specs.lean",
+    "line": 9,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef max_score_sightseeing_pair (values: List Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem max_score_basic_case (values: List Nat) :\n  values = [8,1,5,2,6] → max_score_sightseeing_pair values = 11 :=\n  sorry\n\ntheorem max_score_min_case (values: List Nat) :\n  values = [1,2] → max_score_sightseeing_pair values = 2 :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0263_specs.lean",
+    "line": 35,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\n  (s.length = n ∨ s.length = 0) ∧\n\n  all_chars_abc s ∧\n\n  (s.length > 1 → no_adjacent_same s) ∧\n\n  ((k > max_possible → s.length = 0) ∧\n   (k ≤ max_possible → s.length = n)) :=\nsorry\n\ntheorem n1_special_case (k : Nat)\n  (h1 : 0 < k) (h2 : k ≤ 10) :\n  let s := get_happy_string 1 k\n  (k ≤ 3 → (s = \"a\" ∨ s = \"b\" ∨ s = \"c\")) ∧\n  (k > 3 → s = \"\") :=\nsorry\n\ntheorem k1_special_case (n : Nat)"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0263_specs.lean",
+    "line": 42,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  ((k > max_possible → s.length = 0) ∧\n   (k ≤ max_possible → s.length = n)) :=\nsorry\n\ntheorem n1_special_case (k : Nat)\n  (h1 : 0 < k) (h2 : k ≤ 10) :\n  let s := get_happy_string 1 k\n  (k ≤ 3 → (s = \"a\" ∨ s = \"b\" ∨ s = \"c\")) ∧\n  (k > 3 → s = \"\") :=\nsorry\n\ntheorem k1_special_case (n : Nat)\n  (h1 : 0 < n) (h2 : n ≤ 5) :\n  let s := get_happy_string n 1\n  s.length = n ∧\n  starts_with_a s :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0263_specs.lean",
+    "line": 49,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  (k ≤ 3 → (s = \"a\" ∨ s = \"b\" ∨ s = \"c\")) ∧\n  (k > 3 → s = \"\") :=\nsorry\n\ntheorem k1_special_case (n : Nat)\n  (h1 : 0 < n) (h2 : n ≤ 5) :\n  let s := get_happy_string n 1\n  s.length = n ∧\n  starts_with_a s :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0292_specs.lean",
+    "line": 11,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef Grid := List (List Nat)\n\ndef min_cost_to_valid_path (grid: Grid) : Int :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem output_constraints (grid: Grid) :\n  let result := min_cost_to_valid_path grid\n  result = -1 ∨ result ≥ 0 :=\nsorry\n\ntheorem single_cell_case (grid: Grid) :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0292_specs.lean",
+    "line": 18,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\ndef min_cost_to_valid_path (grid: Grid) : Int :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem output_constraints (grid: Grid) :\n  let result := min_cost_to_valid_path grid\n  result = -1 ∨ result ≥ 0 :=\nsorry\n\ntheorem single_cell_case (grid: Grid) :\n  grid.length = 1 → \n  (grid.head?.map List.head?).isSome →\n  min_cost_to_valid_path grid = 0 :=\nsorry\n\ntheorem size_bound (grid: Grid) (h: grid.length ≥ 2) :\n  let result := min_cost_to_valid_path grid"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0417_specs.lean",
+    "line": 11,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef M := 10^9 + 7\n\ndef count_valid_delivery_orders (n : Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem count_valid_delivery_orders_positive (n : Nat) \n  (h : n > 0) : \n  count_valid_delivery_orders n > 0 :=\n  sorry\n\ntheorem count_valid_delivery_orders_base_case :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0417_specs.lean",
+    "line": 18,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\ndef count_valid_delivery_orders (n : Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem count_valid_delivery_orders_positive (n : Nat) \n  (h : n > 0) : \n  count_valid_delivery_orders n > 0 :=\n  sorry\n\ntheorem count_valid_delivery_orders_base_case :\n  count_valid_delivery_orders 1 = 1 :=\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0470_specs.lean",
+    "line": 27,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  1 ≤ numWays steps arrLen ∧ numWays steps arrLen ≤ 10^9 + 7 :=\n  sorry\n\n-- Array length truncation property \n\ntheorem numWays_max_length\n  (steps: Nat) (arrLen: Nat) (h1: steps ≥ 1) (h2: arrLen ≥ 1) :\n  let maxPos := min arrLen (steps/2 + 1)\n  numWays steps arrLen = numWays steps maxPos :=\n  sorry\n\n-- Small case properties\n\ntheorem numWays_small_cases\n  (steps: Nat) (arrLen: Nat) (h1: steps ≥ 1) (h2: steps ≤ 10)\n  (h3: arrLen ≥ 2) (h4: arrLen ≤ 10) :\n  numWays steps arrLen = numWays steps arrLen ∧ \n  numWays steps arrLen ≥ 1 := \n  sorry"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0470_specs.lean",
+    "line": 36,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  sorry\n\n-- Small case properties\n\ntheorem numWays_small_cases\n  (steps: Nat) (arrLen: Nat) (h1: steps ≥ 1) (h2: steps ≤ 10)\n  (h3: arrLen ≥ 2) (h4: arrLen ≤ 10) :\n  numWays steps arrLen = numWays steps arrLen ∧ \n  numWays steps arrLen ≥ 1 := \n  sorry\n\n-- Edge cases\n\ntheorem numWays_single_step :\n  numWays 1 1 = 1 :=\n  sorry\n\ntheorem numWays_two_steps_min_array :\n  numWays 2 1 = 1 :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0586_specs.lean",
+    "line": 18,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  | [_] => 0 \n  | x::y::xs => (if x > y then 1 else 0) + countDescendingPairs (y::xs)\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef findKDescendingPairs (k : Nat) : List Char :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem count_is_k (k : Nat) (k_pos : k > 0) :\n  let result := findKDescendingPairs k\n  countDescendingPairs result = k :=\nsorry\n\ntheorem all_lowercase (k : Nat) (k_pos : k > 0) :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0645_specs.lean",
+    "line": 18,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\ndef solve_ipl_rooms (p q r : Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem output_in_valid_range (p q r : Nat) (h1 : p > 0) (h2 : q > 0) (h3 : r > 0) :\n  let result := solve_ipl_rooms p q r\n  0 ≤ result ∧ result < MOD :=\nsorry\n\ntheorem empty_when_insufficient_rooms (p q r : Nat) (h1 : p > 0) (h2 : q > 0) (h3 : r > 0) :\n  p + q/2 < r → solve_ipl_rooms p q r = 0 :=\nsorry\n\ntheorem symmetric_case (n : Nat) (h : n > 0) :\n  solve_ipl_rooms n n 1 = solve_ipl_rooms n n 1 :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0693_specs.lean",
+    "line": 27,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "sorry\n\ntheorem single_number_case (x : Int) :\n  can_find_odd_multiple 1 [x] = (!isEven x) :=\nsorry\n\ntheorem gcd_property {n : Nat} {arr : List Int} :\n  n = arr.length →\n  can_find_odd_multiple n arr = true ∨ can_find_odd_multiple n arr = false :=\nsorry\n\ntheorem parity_preservation {n : Nat} {arr : List Int} :\n  can_find_odd_multiple n arr = can_find_odd_multiple n arr :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0769_specs.lean",
+    "line": 9,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef solve_n_cube (m r : Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem solve_n_cube_output_bounds {m r : Nat} (hm : m ≥ 2) (hm2 : m ≤ 5) (hr : r ≥ 2) (hr2 : r ≤ 3) :\n  solve_n_cube m r < 1000000007 :=\nsorry\n\ntheorem solve_n_cube_base_case {m : Nat} (hm : m ≥ 2) (hm2 : m ≤ 5) :\n  solve_n_cube m 2 = 1 :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0795_specs.lean",
+    "line": 9,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef solve_prime_grid_puzzle (grid : List Nat) : Int :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem identity_case (target : List Nat) :\n  target = [1,2,3,4,5,6,7,8,9] →\n  solve_prime_grid_puzzle target = 0 :=\nsorry\n\ntheorem six_moves (grid : List Nat) :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0795_specs.lean",
+    "line": 16,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-definitions>\ndef solve_prime_grid_puzzle (grid : List Nat) : Int :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem identity_case (target : List Nat) :\n  target = [1,2,3,4,5,6,7,8,9] →\n  solve_prime_grid_puzzle target = 0 :=\nsorry\n\ntheorem six_moves (grid : List Nat) :\n  grid = [7,3,2,4,1,5,6,8,9] →\n  solve_prime_grid_puzzle grid = 6 :=\nsorry\n\ntheorem impossible (grid : List Nat) :\n  grid = [9,8,5,2,4,1,3,7,6] →\n  solve_prime_grid_puzzle grid = -1 :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0795_specs.lean",
+    "line": 21,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-theorems>\ntheorem identity_case (target : List Nat) :\n  target = [1,2,3,4,5,6,7,8,9] →\n  solve_prime_grid_puzzle target = 0 :=\nsorry\n\ntheorem six_moves (grid : List Nat) :\n  grid = [7,3,2,4,1,5,6,8,9] →\n  solve_prime_grid_puzzle grid = 6 :=\nsorry\n\ntheorem impossible (grid : List Nat) :\n  grid = [9,8,5,2,4,1,3,7,6] →\n  solve_prime_grid_puzzle grid = -1 :=\nsorry\n\ntheorem invalid_short (grid : List Nat) :\n  grid = [1,2,3] →\n  solve_prime_grid_puzzle grid = -1 :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0806_specs.lean",
+    "line": 11,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef MOD : Nat := 1000000000\n\ndef compute_steady_tables (n m : Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem steady_tables_in_range (n m : Nat) (h1 : n > 0) (h2 : m > 0) :\n  compute_steady_tables n m < MOD :=\n  sorry\n\ntheorem steady_tables_base_case :\n  compute_steady_tables 1 1 = 2 :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0842_specs.lean",
+    "line": 13,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  | 0 => 1\n  | n + 1 => x * pow x n\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef calculate_special_sum (n: Int) (k: Int) : Int :=\n  sorry\n\ndef solve_case (n: Int) (k: Int) : String :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem calculate_special_sum_nonnegative\n  (n: Int) (k: Int)\n  (hn: n ≥ 0) (hk: k ≥ 2) (hk2: k ≤ 100) :"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0842_specs.lean",
+    "line": 16,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef calculate_special_sum (n: Int) (k: Int) : Int :=\n  sorry\n\ndef solve_case (n: Int) (k: Int) : String :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem calculate_special_sum_nonnegative\n  (n: Int) (k: Int)\n  (hn: n ≥ 0) (hk: k ≥ 2) (hk2: k ≤ 100) :\n  calculate_special_sum n k ≥ 0 :=\nsorry\n"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0842_specs.lean",
+    "line": 24,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "def solve_case (n: Int) (k: Int) : String :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem calculate_special_sum_nonnegative\n  (n: Int) (k: Int)\n  (hn: n ≥ 0) (hk: k ≥ 2) (hk2: k ≤ 100) :\n  calculate_special_sum n k ≥ 0 :=\nsorry\n\ntheorem calculate_special_sum_upper_bound\n  (n: Int) (k: Int) (power: Nat)\n  (hn: n ≥ 0) (hk: k ≥ 2) (hk2: k ≤ 100)\n  (hp: pow k power ≤ n) :\n  calculate_special_sum n k ≤ (n * (n+1))/2 :=\nsorry\n\ntheorem calculate_special_sum_negative_input"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0842_specs.lean",
+    "line": 37,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  (hn: n ≥ 0) (hk: k ≥ 2) (hk2: k ≤ 100)\n  (hp: pow k power ≤ n) :\n  calculate_special_sum n k ≤ (n * (n+1))/2 :=\nsorry\n\ntheorem calculate_special_sum_negative_input\n  (n: Int) (k: Int)\n  (hn: n < 0) (hk: k ≥ 2) (hk2: k ≤ 100) :\n  calculate_special_sum n k = 0 :=\nsorry\n\ntheorem solve_case_format\n  (n: Int) (k: Int)\n  (hn: n ≥ 0) (hk: k ≥ 2) (hk2: k ≤ 100) :\n  solve_case n k = \"Case #1: \" ++ toString (calculate_special_sum n k) :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0842_specs.lean",
+    "line": 43,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  (n: Int) (k: Int)\n  (hn: n < 0) (hk: k ≥ 2) (hk2: k ≤ 100) :\n  calculate_special_sum n k = 0 :=\nsorry\n\ntheorem solve_case_format\n  (n: Int) (k: Int)\n  (hn: n ≥ 0) (hk: k ≥ 2) (hk2: k ≤ 100) :\n  solve_case n k = \"Case #1: \" ++ toString (calculate_special_sum n k) :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0844_specs.lean",
+    "line": 38,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  1 ≤ k ∧ k ≤ 10 →\n  n ≤ count_beautiful_subarrays n k (List.replicate n 1) :=\nsorry\n\ntheorem sorted_vs_unsorted (n k : Nat) (arr : List Nat) :\n  1 ≤ n ∧ n ≤ 10 ∧\n  1 ≤ k ∧ k ≤ 10 ∧\n  is_valid_array arr n →\n  count_beautiful_subarrays n k (list_sorted arr) = count_beautiful_subarrays n k arr :=\nsorry\n\ntheorem minimal_case (k : Nat) :\n  1 ≤ k ∧ k ≤ 10 →\n  count_beautiful_subarrays 1 k [1] = 1 :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0844_specs.lean",
+    "line": 43,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  1 ≤ n ∧ n ≤ 10 ∧\n  1 ≤ k ∧ k ≤ 10 ∧\n  is_valid_array arr n →\n  count_beautiful_subarrays n k (list_sorted arr) = count_beautiful_subarrays n k arr :=\nsorry\n\ntheorem minimal_case (k : Nat) :\n  1 ≤ k ∧ k ≤ 10 →\n  count_beautiful_subarrays 1 k [1] = 1 :=\nsorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0947_specs.lean",
+    "line": 21,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  -- Basic type properties (implied by return type)\n  depth ≥ 0 ∧ depth1 ≥ 0 ∧ depth3 ≥ 0 :=\nsorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem depth_bounds (n : Nat) (brackets : List Nat) :\n  let (depth, depth1, depth3) := solve_brackets n brackets\n  depth ≤ n ∧ depth1 ≤ n ∧ depth3 ≤ n :=\nsorry\n\ntheorem non_empty_depth (n : Nat) (brackets : List Nat) :\n  n > 0 →\n  let (depth, depth1, depth3) := solve_brackets n brackets\n  max depth (max depth1 depth3) > 0 :=\nsorry\n\ntheorem empty_case :\n  solve_brackets 0 [] = (0, 0, 0) :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0947_specs.lean",
+    "line": 27,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "theorem depth_bounds (n : Nat) (brackets : List Nat) :\n  let (depth, depth1, depth3) := solve_brackets n brackets\n  depth ≤ n ∧ depth1 ≤ n ∧ depth3 ≤ n :=\nsorry\n\ntheorem non_empty_depth (n : Nat) (brackets : List Nat) :\n  n > 0 →\n  let (depth, depth1, depth3) := solve_brackets n brackets\n  max depth (max depth1 depth3) > 0 :=\nsorry\n\ntheorem empty_case :\n  solve_brackets 0 [] = (0, 0, 0) :=\nsorry\n\ntheorem type1_pair :\n  let (depth, depth1, depth3) := solve_brackets 2 [1, 2]\n  depth1 > 0 :=\nsorry"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0951_specs.lean",
+    "line": 9,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef solve_jem_laziness (n b m : Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem jem_laziness_positive (n b m : Nat) \n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b m > 0 :=\n  sorry\n\ntheorem single_problem_case (b m : Nat)"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0951_specs.lean",
+    "line": 16,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-definitions>\ndef solve_jem_laziness (n b m : Nat) : Nat :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem jem_laziness_positive (n b m : Nat) \n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b m > 0 :=\n  sorry\n\ntheorem single_problem_case (b m : Nat)\n    (h1 : b > 0) (h2 : m > 0) :\n  solve_jem_laziness 1 b m = m :=\n  sorry\n\ntheorem increases_with_problems (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b m ≥ solve_jem_laziness (n-1) b m :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0951_specs.lean",
+    "line": 21,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-theorems>\ntheorem jem_laziness_positive (n b m : Nat) \n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b m > 0 :=\n  sorry\n\ntheorem single_problem_case (b m : Nat)\n    (h1 : b > 0) (h2 : m > 0) :\n  solve_jem_laziness 1 b m = m :=\n  sorry\n\ntheorem increases_with_problems (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b m ≥ solve_jem_laziness (n-1) b m :=\n  sorry\n\ntheorem increases_with_breaks (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n (b+1) m ≥ solve_jem_laziness n b m :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0951_specs.lean",
+    "line": 26,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\ntheorem single_problem_case (b m : Nat)\n    (h1 : b > 0) (h2 : m > 0) :\n  solve_jem_laziness 1 b m = m :=\n  sorry\n\ntheorem increases_with_problems (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b m ≥ solve_jem_laziness (n-1) b m :=\n  sorry\n\ntheorem increases_with_breaks (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n (b+1) m ≥ solve_jem_laziness n b m :=\n  sorry\n\ntheorem increases_with_initial_time (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b (m+1) ≥ solve_jem_laziness n b m :="
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0951_specs.lean",
+    "line": 31,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\ntheorem increases_with_problems (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b m ≥ solve_jem_laziness (n-1) b m :=\n  sorry\n\ntheorem increases_with_breaks (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n (b+1) m ≥ solve_jem_laziness n b m :=\n  sorry\n\ntheorem increases_with_initial_time (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b (m+1) ≥ solve_jem_laziness n b m :=\n  sorry\n\ntheorem single_problem_edge_case :\n  solve_jem_laziness 1 1 1 = 1 :=\n  sorry"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF0951_specs.lean",
+    "line": 36,
+    "current_line": "  sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\ntheorem increases_with_breaks (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n (b+1) m ≥ solve_jem_laziness n b m :=\n  sorry\n\ntheorem increases_with_initial_time (n b m : Nat)\n    (h1 : n > 0) (h2 : b > 0) (h3 : m > 0) :\n  solve_jem_laziness n b (m+1) ≥ solve_jem_laziness n b m :=\n  sorry\n\ntheorem single_problem_edge_case :\n  solve_jem_laziness 1 1 1 = 1 :=\n  sorry\n\ntheorem two_problems_case :\n  solve_jem_laziness 2 5 1 = 8 :=\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 43,
+    "path": "specs/LF1016_specs.lean",
+    "line": 45,
+    "current_line": "sorry",
+    "reasons": [
+      "case_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\ntheorem two_points_special_case {points : List Point}\n  (h1 : points.length = 2)\n  (h2 : points.Nodup)\n  (h3 : points.get ⟨0, h1.symm ▸ Nat.zero_lt_succ 1⟩ = ⟨x₁, y₁⟩)\n  (h4 : points.get ⟨1, h1.symm ▸ Nat.succ_lt_succ (Nat.zero_lt_succ 0)⟩ = ⟨x₂, y₂⟩)\n  (h5 : x₁ = x₂ ∨ y₁ = y₂) :\n  (solve_min_distance 2 points - (manhattan_distance ⟨x₁, y₁⟩ ⟨x₂, y₂⟩).toFloat / 2) ≤ 0.000001 ∧\n  ((manhattan_distance ⟨x₁, y₁⟩ ⟨x₂, y₂⟩).toFloat / 2 - solve_min_distance 2 points) ≤ 0.000001 :=\nsorry\n-- </vc-theorems>"
+  }
+]

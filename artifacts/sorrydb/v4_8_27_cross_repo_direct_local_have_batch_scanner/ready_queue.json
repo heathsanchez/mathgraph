@@ -1,0 +1,484 @@
+[
+  {
+    "repo": "Verified-zkEVM/ArkLib",
+    "score": 137,
+    "path": "ArkLib/ProofSystem/Binius/BinaryBasefold/QueryPhase.lean",
+    "line": 271,
+    "current_line": "          sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "nearby_refine_apply_exact",
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "            rw [h] at fiber_point_num_repr\n            exact fiber_point_num_repr\n          let x_point := finToSDomain 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) ⟨i, by omega⟩ (by\n              apply Nat.lt_add_of_pos_right_of_le; simp only; omega) x\n          queryCodeword 𝔽q β (ϑ:=ϑ) (h_ℓ_add_R_rate := h_ℓ_add_R_rate)\n            (j := k_th_oracleIdx) (point := x_point)\n        )\n\n        have h_f_i_on_fiber_length: f_i_on_fiber.length = 2 ^ ϑ := by\n          sorry\n\n        if i > 0 then\n          -- cᵢ ?= f^(i)(vᵢ, ..., v_{ℓ+R-1})\n          let oracle_point_idx := extractMiddleFinMask 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate)\n            (v:=v) (i:=⟨i, by exact h_i_lt_ℓ⟩) (steps:=ϑ)\n\n          let f_i_val := f_i_on_fiber.get ⟨oracle_point_idx.val, by\n            rw [h_f_i_on_fiber_length]; exact oracle_point_idx.isLt⟩\n          unless c_cur = f_i_val do"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 104,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 63,
+    "current_line": "    _ = -1 - 2 * s := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "  calc\n    (a + b) ^ 2 = (a - b) ^ 2 + 4 * (a * b) := by sorry -- algebraic rearrangement\n    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution\n    _ = 20 := by sorry -- simplification\n\n-- Example 1.2.2 from MoP\nexample {r s : ℝ} (h1 : s = 3) (h2 : r + 2 * s = -1) : r = -7 :=\n  calc\n    r = r + 2 * s - 2 * s := by sorry\n    _ = -1 - 2 * s := by sorry\n    _ = -1 - 2 * 3 := by sorry\n    _ = -7 := by sorry\n\n-- rw is \"rewrite\" - useful for substitution\n-- \"algebraic rearrangement\" can be accomplished by tactics like simp, ring, linarith, norm_num\n\n\n-- Example 1.2.3 from MoP\nexample {a b m n : ℤ} (h1 : a * m + b * n = 1) (h2 : b ^ 2 = 2 * a ^ 2) :"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 104,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 64,
+    "current_line": "    _ = -1 - 2 * 3 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "    (a + b) ^ 2 = (a - b) ^ 2 + 4 * (a * b) := by sorry -- algebraic rearrangement\n    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution\n    _ = 20 := by sorry -- simplification\n\n-- Example 1.2.2 from MoP\nexample {r s : ℝ} (h1 : s = 3) (h2 : r + 2 * s = -1) : r = -7 :=\n  calc\n    r = r + 2 * s - 2 * s := by sorry\n    _ = -1 - 2 * s := by sorry\n    _ = -1 - 2 * 3 := by sorry\n    _ = -7 := by sorry\n\n-- rw is \"rewrite\" - useful for substitution\n-- \"algebraic rearrangement\" can be accomplished by tactics like simp, ring, linarith, norm_num\n\n\n-- Example 1.2.3 from MoP\nexample {a b m n : ℤ} (h1 : a * m + b * n = 1) (h2 : b ^ 2 = 2 * a ^ 2) :\n    (2 * a * n + b * m) ^ 2 = 2 :="
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 104,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 65,
+    "current_line": "    _ = -7 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution\n    _ = 20 := by sorry -- simplification\n\n-- Example 1.2.2 from MoP\nexample {r s : ℝ} (h1 : s = 3) (h2 : r + 2 * s = -1) : r = -7 :=\n  calc\n    r = r + 2 * s - 2 * s := by sorry\n    _ = -1 - 2 * s := by sorry\n    _ = -1 - 2 * 3 := by sorry\n    _ = -7 := by sorry\n\n-- rw is \"rewrite\" - useful for substitution\n-- \"algebraic rearrangement\" can be accomplished by tactics like simp, ring, linarith, norm_num\n\n\n-- Example 1.2.3 from MoP\nexample {a b m n : ℤ} (h1 : a * m + b * n = 1) (h2 : b ^ 2 = 2 * a ^ 2) :\n    (2 * a * n + b * m) ^ 2 = 2 :=\n  calc"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 104,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 77,
+    "current_line": "    _ = 2 * 1 ^ 2 + (m ^ 2 - 2 * n ^ 2) * (2 * a ^ 2 - 2 * a ^ 2) := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_arithmetic_tactic",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- \"algebraic rearrangement\" can be accomplished by tactics like simp, ring, linarith, norm_num\n\n\n-- Example 1.2.3 from MoP\nexample {a b m n : ℤ} (h1 : a * m + b * n = 1) (h2 : b ^ 2 = 2 * a ^ 2) :\n    (2 * a * n + b * m) ^ 2 = 2 :=\n  calc\n    (2 * a * n + b * m) ^ 2\n      = 2 * (a * m + b * n) ^ 2 + (m ^ 2 - 2 * n ^ 2) * (b ^ 2 - 2 * a ^ 2) := by sorry\n    _ = 2 * 1 ^ 2 + (m ^ 2 - 2 * n ^ 2) * (2 * a ^ 2 - 2 * a ^ 2) := by sorry\n    _ = 2 := by sorry\n\n-- Example 1.2.4 from MoP\n-- No roadmap for you! Can you figure out how to start?\nexample {a b c d e f : ℤ} (h1 : a * d = b * c) (h2 : c * f = d * e) :\n    d * (a * f - b * e) = 0 :=\n  sorry\n\n-- Inequalities"
+  },
+  {
+    "repo": "Verified-zkEVM/ArkLib",
+    "score": 98,
+    "path": "ArkLib/ProofSystem/Binius/BinaryBasefold/Steps.lean",
+    "line": 392,
+    "current_line": "    have h_oStmt : oStmtLast = oStmtOut := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby"
+    ],
+    "penalties": [],
+    "window": "    rcases h_relOut with ⟨stmtOut, ⟨oStmtOut, h_conj⟩⟩\n    have h_simulateQ := h_conj.1\n    have h_foldStepRelOut := h_conj.2\n    set witLast := (foldRbrExtractor (mp:=mp) 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) i).extractOut\n      ⟨stmtLast, oStmtLast⟩ tr witOut\n    simp only [Fin.reduceLast, Fin.isValue]\n    -- ⊢ foldKStateProp 𝔽q β 2 tr stmtLast witLast oStmtLast\n    -- TODO : prove this via the relations between stmtLast & stmtOut,\n      -- witLast & witOut, oStmtLast & oStmtOut\n    have h_oStmt : oStmtLast = oStmtOut := by sorry\n    sorry\n\n/-- RBR knowledge soundness for a single round oracle verifier -/\ntheorem foldOracleVerifier_rbrKnowledgeSoundness (i : Fin ℓ) :\n    (foldOracleVerifier (mp := mp) 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) i).rbrKnowledgeSoundness\n      init impl\n      (relIn := roundRelation (mp := mp) 𝔽q β (ϑ := ϑ) (h_ℓ_add_R_rate := h_ℓ_add_R_rate)\n         i.castSucc)\n      (relOut := foldStepRelOut (mp := mp) 𝔽q β (ϑ := ϑ) (h_ℓ_add_R_rate := h_ℓ_add_R_rate)"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 97,
+    "path": "specs/LA0521_specs.lean",
+    "line": 37,
+    "current_line": "    have h_valid : ValidQuery k n a b := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\n@[reducible, simp]\ndef solve_postcond (queries : List (Int × Int × Int × Int)) (results : List Int) (h_precond : solve_precond queries) : Prop :=\n  results.length = queries.length ∧\n  (∀ i, 0 ≤ i ∧ i < queries.length → \n    let (k, n, a, b) := queries[i]!\n    have h_valid : ValidQuery k n a b := by sorry\n    results[i]! = MaxActionATurns k n a b h_valid) ∧\n  (∀ i, 0 ≤ i ∧ i < results.length → \n    let (k, n, a, b) := queries[i]!\n    have h_valid : ValidQuery k n a b := by sorry\n    ValidResult results[i]! k n a b h_valid)\n\ntheorem solve_spec_satisfied (queries : List (Int × Int × Int × Int)) (h_precond : solve_precond queries) :\n    solve_postcond queries (solve queries h_precond) h_precond := by\n  sorry"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 97,
+    "path": "specs/LA0521_specs.lean",
+    "line": 41,
+    "current_line": "    have h_valid : ValidQuery k n a b := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "@[reducible, simp]\ndef solve_postcond (queries : List (Int × Int × Int × Int)) (results : List Int) (h_precond : solve_precond queries) : Prop :=\n  results.length = queries.length ∧\n  (∀ i, 0 ≤ i ∧ i < queries.length → \n    let (k, n, a, b) := queries[i]!\n    have h_valid : ValidQuery k n a b := by sorry\n    results[i]! = MaxActionATurns k n a b h_valid) ∧\n  (∀ i, 0 ≤ i ∧ i < results.length → \n    let (k, n, a, b) := queries[i]!\n    have h_valid : ValidQuery k n a b := by sorry\n    ValidResult results[i]! k n a b h_valid)\n\ntheorem solve_spec_satisfied (queries : List (Int × Int × Int × Int)) (h_precond : solve_precond queries) :\n    solve_postcond queries (solve queries h_precond) h_precond := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 94,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 126,
+    "current_line": "    _ ≤ (3 + (s + 3) - s) / 2 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_arithmetic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-- Note that the powerful linarith tactic proves this in one shot\nexample {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 :=\n  calc\n    y > 3 := by linarith\n\n-- Example 1.4.2 from MoP\nexample {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 :=\n  calc\n    r = (s + r + r - s) / 2 := by sorry\n    _ ≤ (3 + (s + 3) - s) / 2 := by sorry\n    _ = 3 := by sorry\n\n-- Example 1.4.3 from MoP\n-- No \"roadmap\" for this one - can you figure out how to start?\nexample {x y : ℝ} (h1 : y ≤ x + 5) (h2 : x ≤ -2) : x + y < 2 :=\n  sorry\n\n\n-- MoP Ch 1 has many more practice problems"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 94,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 127,
+    "current_line": "    _ = 3 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_arithmetic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 :=\n  calc\n    y > 3 := by linarith\n\n-- Example 1.4.2 from MoP\nexample {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 :=\n  calc\n    r = (s + r + r - s) / 2 := by sorry\n    _ ≤ (3 + (s + 3) - s) / 2 := by sorry\n    _ = 3 := by sorry\n\n-- Example 1.4.3 from MoP\n-- No \"roadmap\" for this one - can you figure out how to start?\nexample {x y : ℝ} (h1 : y ≤ x + 5) (h2 : x ≤ -2) : x + y < 2 :=\n  sorry\n\n\n-- MoP Ch 1 has many more practice problems\n"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 88,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 48,
+    "current_line": "_ = 3 * R := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "A resistor has a resistance of 4 Ohms and a current of 3 Amps flows through it.\nProve that the voltage across the resistor is 12 Volts.\n-/\nexample {v I R : ℝ}\n(h1 : I = 3)\n(h2 : R = 4)\n(h3 : v = I * R) : v = 12 :=\ncalc\nv = I * R := by sorry\n_ = 3 * R := by sorry\n_ = 3 * 4 := by sorry\n_ = 12 := by sorry\n\n-- Example 1.2.1 from MoP\nexample {a b : ℚ} (h1 : a - b = 4) (h2 : a * b = 1) : (a + b) ^ 2 = 20 :=\n  calc\n    (a + b) ^ 2 = (a - b) ^ 2 + 4 * (a * b) := by sorry -- algebraic rearrangement\n    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution\n    _ = 20 := by sorry -- simplification"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 88,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 49,
+    "current_line": "_ = 3 * 4 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "Prove that the voltage across the resistor is 12 Volts.\n-/\nexample {v I R : ℝ}\n(h1 : I = 3)\n(h2 : R = 4)\n(h3 : v = I * R) : v = 12 :=\ncalc\nv = I * R := by sorry\n_ = 3 * R := by sorry\n_ = 3 * 4 := by sorry\n_ = 12 := by sorry\n\n-- Example 1.2.1 from MoP\nexample {a b : ℚ} (h1 : a - b = 4) (h2 : a * b = 1) : (a + b) ^ 2 = 20 :=\n  calc\n    (a + b) ^ 2 = (a - b) ^ 2 + 4 * (a * b) := by sorry -- algebraic rearrangement\n    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution\n    _ = 20 := by sorry -- simplification\n"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 88,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 50,
+    "current_line": "_ = 12 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "-/\nexample {v I R : ℝ}\n(h1 : I = 3)\n(h2 : R = 4)\n(h3 : v = I * R) : v = 12 :=\ncalc\nv = I * R := by sorry\n_ = 3 * R := by sorry\n_ = 3 * 4 := by sorry\n_ = 12 := by sorry\n\n-- Example 1.2.1 from MoP\nexample {a b : ℚ} (h1 : a - b = 4) (h2 : a * b = 1) : (a + b) ^ 2 = 20 :=\n  calc\n    (a + b) ^ 2 = (a - b) ^ 2 + 4 * (a * b) := by sorry -- algebraic rearrangement\n    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution\n    _ = 20 := by sorry -- simplification\n\n-- Example 1.2.2 from MoP"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 88,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 56,
+    "current_line": "    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "v = I * R := by sorry\n_ = 3 * R := by sorry\n_ = 3 * 4 := by sorry\n_ = 12 := by sorry\n\n-- Example 1.2.1 from MoP\nexample {a b : ℚ} (h1 : a - b = 4) (h2 : a * b = 1) : (a + b) ^ 2 = 20 :=\n  calc\n    (a + b) ^ 2 = (a - b) ^ 2 + 4 * (a * b) := by sorry -- algebraic rearrangement\n    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution\n    _ = 20 := by sorry -- simplification\n\n-- Example 1.2.2 from MoP\nexample {r s : ℝ} (h1 : s = 3) (h2 : r + 2 * s = -1) : r = -7 :=\n  calc\n    r = r + 2 * s - 2 * s := by sorry\n    _ = -1 - 2 * s := by sorry\n    _ = -1 - 2 * 3 := by sorry\n    _ = -7 := by sorry"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 88,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 57,
+    "current_line": "    _ = 20 := by sorry -- simplification",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "_ = 3 * R := by sorry\n_ = 3 * 4 := by sorry\n_ = 12 := by sorry\n\n-- Example 1.2.1 from MoP\nexample {a b : ℚ} (h1 : a - b = 4) (h2 : a * b = 1) : (a + b) ^ 2 = 20 :=\n  calc\n    (a + b) ^ 2 = (a - b) ^ 2 + 4 * (a * b) := by sorry -- algebraic rearrangement\n    _ = 4 ^ 2 + 4 * 1 := by sorry -- substitution\n    _ = 20 := by sorry -- simplification\n\n-- Example 1.2.2 from MoP\nexample {r s : ℝ} (h1 : s = 3) (h2 : r + 2 * s = -1) : r = -7 :=\n  calc\n    r = r + 2 * s - 2 * s := by sorry\n    _ = -1 - 2 * s := by sorry\n    _ = -1 - 2 * 3 := by sorry\n    _ = -7 := by sorry\n"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 88,
+    "path": "Lean Code/Lecture6.lean",
+    "line": 30,
+    "current_line": "example : deriv (fun _ => c) x = 0 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\n\n/-\nThanks to Colin Jones for all these examples!\nhttps://github.com/Colin166/Lean4/blob/main/DerivEx.lean\n-/\nvariable (x y c : ℝ)\n\n/-! Simple goals like these can be solved using `simp?` or `aesop?`. -/\nexample : deriv (fun _ => c) x = 0 := by sorry\n\nexample : deriv (fun x => x ^ 2) x = 2 * x := by sorry\n\nexample : deriv (fun x => log x) x = 1 / x := by sorry\n\nexample : deriv (fun x => exp x) x = exp x := by sorry\n\nexample : deriv (fun x => sin x) x = cos x := by sorry\n"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 87,
+    "path": "specs/LT0032_specs.lean",
+    "line": 26,
+    "current_line": "                    have hi : i < rows := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "theorem tril_spec {rows cols : Nat} (m : Vector (Vector Float cols) rows) (k : Int := 0) :\n    ⦃⌜True⌝⦄\n    tril m k\n    ⦃⇓result => ⌜-- Element-wise specification (core property)\n                  (∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = \n                      if (i : Int) ≥ (j : Int) - k then (m.get i).get j else 0) ∧\n                  -- Sanity check: diagonal elements are preserved when k = 0\n                  (k = 0 → ∀ i : Fin (min rows cols), \n                    have hi : i < rows := by sorry\n                    have hj : i < cols := by sorry\n                    (result.get ⟨i, hi⟩).get ⟨i, hj⟩ = (m.get ⟨i, hi⟩).get ⟨i, hj⟩) ∧\n                  -- Sanity check: all elements preserved when k is very large\n                  (k ≥ (cols : Int) → ∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = (m.get i).get j) ∧\n                  -- Sanity check: all elements zeroed when k is very negative\n                  (k ≤ -(rows : Int) → ∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = 0) ∧\n                  -- Idempotency property: tril(tril(m, k), k) = tril(m, k)"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 87,
+    "path": "specs/LT0032_specs.lean",
+    "line": 27,
+    "current_line": "                    have hj : i < cols := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "window": "    ⦃⌜True⌝⦄\n    tril m k\n    ⦃⇓result => ⌜-- Element-wise specification (core property)\n                  (∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = \n                      if (i : Int) ≥ (j : Int) - k then (m.get i).get j else 0) ∧\n                  -- Sanity check: diagonal elements are preserved when k = 0\n                  (k = 0 → ∀ i : Fin (min rows cols), \n                    have hi : i < rows := by sorry\n                    have hj : i < cols := by sorry\n                    (result.get ⟨i, hi⟩).get ⟨i, hj⟩ = (m.get ⟨i, hi⟩).get ⟨i, hj⟩) ∧\n                  -- Sanity check: all elements preserved when k is very large\n                  (k ≥ (cols : Int) → ∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = (m.get i).get j) ∧\n                  -- Sanity check: all elements zeroed when k is very negative\n                  (k ≤ -(rows : Int) → ∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = 0) ∧\n                  -- Idempotency property: tril(tril(m, k), k) = tril(m, k)\n                  (∀ (i : Fin rows) (j : Fin cols),"
+  },
+  {
+    "repo": "Brkhu/lean",
+    "score": 85,
+    "path": "P6011/not_used/P6011_old.lean",
+    "line": 163,
+    "current_line": "    sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Equiv",
+      "soft_hard_term_∃"
+    ],
+    "window": "  -- let P2 : Ideal ℤ := Ideal.span {2}\n  -- have h_ramify_2 : ¬ IsUnramifiedAt ℤ (𝓞 F) _ _ _ P2 P2_prime := sorry\n\n  -- 通过 (7) 分歧说明 p = 7 整除 Δ_F：\n  -- have h_ramify_7 : ¬ ∃ (k : ℤ), f.discr = (7 * k)^2 * NumberField.discr F := sorry\n\n  -- 结合以上两点，-588 中不存在使得指数大于 1 的平方因子。\n  -- 也就是说 ℤ[y] 已经是极大阶，即 𝓞_F = ℤ[y]\n  have h_maximal_order : 𝓞 F = Algebra.adjoin ℤ { (⟨y, hy_integral⟩ : 𝓞 F) } := by\n    sorry\n\n\n  -- 7. 因为 𝓞_F = ℤ[y] 是极大极大阶，数域 F 的判别式等于多项式 f 的判别式\n  have h_discr_eq : NumberField.discr F = f.discr := by\n\n    -- 第一种思路: 去到 ℚ 上工作\n\n    have h := @IntermediateField.topEquiv ℚ _ F _ _\n    rw [NumberField.discr_eq_discr_of_algEquiv F h.symm, ← hy_gen_top]"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 78,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 78,
+    "current_line": "    _ = 2 := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "\n\n-- Example 1.2.3 from MoP\nexample {a b m n : ℤ} (h1 : a * m + b * n = 1) (h2 : b ^ 2 = 2 * a ^ 2) :\n    (2 * a * n + b * m) ^ 2 = 2 :=\n  calc\n    (2 * a * n + b * m) ^ 2\n      = 2 * (a * m + b * n) ^ 2 + (m ^ 2 - 2 * n ^ 2) * (b ^ 2 - 2 * a ^ 2) := by sorry\n    _ = 2 * 1 ^ 2 + (m ^ 2 - 2 * n ^ 2) * (2 * a ^ 2 - 2 * a ^ 2) := by sorry\n    _ = 2 := by sorry\n\n-- Example 1.2.4 from MoP\n-- No roadmap for you! Can you figure out how to start?\nexample {a b c d e f : ℤ} (h1 : a * d = b * c) (h2 : c * f = d * e) :\n    d * (a * f - b * e) = 0 :=\n  sorry\n\n-- Inequalities\n"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 78,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 102,
+    "current_line": "_=m*((v₁ - v₀) / t ):= by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "theorem toy_mouse_force_limit {f :ℝ }\n(h1:v₀=2)\n(h2:v₁=0)\n(h3:m=0.1)\n(h4:t=2)\n(h5:a=(v₁ - v₀) / t)\n(h6:f= m *a) :f < 2 := by\ncalc\nf=m * a := by sorry\n_=m*((v₁ - v₀) / t ):= by sorry\n_= 0.1*((0  - 2) / 2 ) := by sorry\n_ < 2 :=by sorry\n\n\n-- Example 1.4.1 from MoP\n-- Introduces the tactic 'rel' for relational substitution\nexample {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 :=\n  calc\n    y = y + 2 * x - 2 * x := by ring"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 78,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 103,
+    "current_line": "_= 0.1*((0  - 2) / 2 ) := by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "(h1:v₀=2)\n(h2:v₁=0)\n(h3:m=0.1)\n(h4:t=2)\n(h5:a=(v₁ - v₀) / t)\n(h6:f= m *a) :f < 2 := by\ncalc\nf=m * a := by sorry\n_=m*((v₁ - v₀) / t ):= by sorry\n_= 0.1*((0  - 2) / 2 ) := by sorry\n_ < 2 :=by sorry\n\n\n-- Example 1.4.1 from MoP\n-- Introduces the tactic 'rel' for relational substitution\nexample {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 :=\n  calc\n    y = y + 2 * x - 2 * x := by ring\n    _ ≥ 3 - 2 * x := by rel [hy]"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "score": 78,
+    "path": "Lean Code/Lecture2.lean",
+    "line": 104,
+    "current_line": "_ < 2 :=by sorry",
+    "reasons": [
+      "calc_step_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [],
+    "window": "(h2:v₁=0)\n(h3:m=0.1)\n(h4:t=2)\n(h5:a=(v₁ - v₀) / t)\n(h6:f= m *a) :f < 2 := by\ncalc\nf=m * a := by sorry\n_=m*((v₁ - v₀) / t ):= by sorry\n_= 0.1*((0  - 2) / 2 ) := by sorry\n_ < 2 :=by sorry\n\n\n-- Example 1.4.1 from MoP\n-- Introduces the tactic 'rel' for relational substitution\nexample {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 :=\n  calc\n    y = y + 2 * x - 2 * x := by ring\n    _ ≥ 3 - 2 * x := by rel [hy]\n    _ = 9 - 2 * (x + 3) := by ring"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 75,
+    "path": "specs/LT0479_specs.lean",
+    "line": 45,
+    "current_line": "                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "soft_hard_term_∀"
+    ],
+    "window": "    2. Each element V[k, (ydeg + 1)*i + j] = L_i(x[k]) * L_j(y[k])\n    3. The ordering follows the pattern: (0,0), (0,1), ..., (0,ydeg), (1,0), (1,1), ..., (xdeg,ydeg)\n    4. For the first column (i=0, j=0), all values are 1 since L_0(x) * L_0(y) = 1\n-/\ntheorem lagvander2d_spec {n : Nat} (x y : Vector Float n) (xdeg ydeg : Nat) :\n    ⦃⌜True⌝⦄\n    lagvander2d x y xdeg ydeg\n    ⦃⇓result => ⌜(∀ k : Fin n, ∀ i : Fin (xdeg + 1), ∀ j : Fin (ydeg + 1),\n                    let idx := i.val * (ydeg + 1) + j.val\n                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) := by sorry\n                    (result.get k).get ⟨idx, h_idx⟩ = \n                      laguerrePolynomial i.val (x.get k) * laguerrePolynomial j.val (y.get k))⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "score": 75,
+    "path": "specs/LT0480_specs.lean",
+    "line": 46,
+    "current_line": "                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) * (zdeg + 1) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "soft_hard_term_∀"
+    ],
+    "window": "    2. Each element V[p, (ydeg+1)*(zdeg+1)*i + (zdeg+1)*j + k] = L_i(x[p]) * L_j(y[p]) * L_k(z[p])\n    3. The ordering follows: (0,0,0), (0,0,1), ..., (0,0,zdeg), (0,1,0), ..., (xdeg,ydeg,zdeg)\n    4. For the first column (i=0, j=0, k=0), all values are 1 since L_0(x) * L_0(y) * L_0(z) = 1\n-/\ntheorem lagvander3d_spec {n : Nat} (x y z : Vector Float n) (xdeg ydeg zdeg : Nat) :\n    ⦃⌜True⌝⦄\n    lagvander3d x y z xdeg ydeg zdeg\n    ⦃⇓result => ⌜(∀ p : Fin n, ∀ i : Fin (xdeg + 1), ∀ j : Fin (ydeg + 1), ∀ k : Fin (zdeg + 1),\n                    let idx := i.val * (ydeg + 1) * (zdeg + 1) + j.val * (zdeg + 1) + k.val\n                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) * (zdeg + 1) := by sorry\n                    (result.get p).get ⟨idx, h_idx⟩ = \n                      laguerrePolynomial i.val (x.get p) * \n                      laguerrePolynomial j.val (y.get p) * \n                      laguerrePolynomial k.val (z.get p))⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>"
+  },
+  {
+    "repo": "Brkhu/lean",
+    "score": 75,
+    "path": "P6011/not_used/P6011_old_check.lean",
+    "line": 207,
+    "current_line": "    sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Equiv",
+      "soft_hard_term_∃"
+    ],
+    "window": "  -- let P2 : Ideal ℤ := Ideal.span {2}\n  -- have h_ramify_2 : ¬ IsUnramifiedAt ℤ (𝓞 F) _ _ _ P2 P2_prime := sorry\n\n  -- 通过 (7) 分歧说明 p = 7 整除 Δ_F：\n  -- have h_ramify_7 : ¬ ∃ (k : ℤ), f.discr = (7 * k)^2 * NumberField.discr F := sorry\n\n  -- 结合以上两点，-588 中不存在使得指数大于 1 的平方因子。\n  -- 也就是说 ℤ[y] 已经是极大阶，即 𝓞_F = ℤ[y]\n  have h_maximal_order : 𝓞 F = Algebra.adjoin ℤ { (⟨y, hy_integral⟩ : 𝓞 F) } := by\n    sorry\n\n\n  -- 7. 因为 𝓞_F = ℤ[y] 是极大极大阶，数域 F 的判别式等于多项式 f 的判别式\n  have h_discr_eq : NumberField.discr F = f.discr := by\n\n    -- 第一种思路: 去到 ℚ 上工作\n\n    -- #check @IntermediateField.topEquiv ℚ _ F _ _\n    have h := @IntermediateField.topEquiv ℚ _ F _ _"
+  },
+  {
+    "repo": "Brkhu/lean",
+    "score": 73,
+    "path": "P6011/not_used/P6011_old.lean",
+    "line": 180,
+    "current_line": "    have h1 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix b pb.basis i j) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Matrix",
+      "hard_term_Equiv",
+      "soft_hard_term_∀"
+    ],
+    "window": "    have h := @IntermediateField.topEquiv ℚ _ F _ _\n    rw [NumberField.discr_eq_discr_of_algEquiv F h.symm, ← hy_gen_top]\n\n    qify\n    rw [NumberField.coe_discr]\n\n    let pb := IntermediateField.adjoin.powerBasis hy_integral'\n    let b := integralBasis ℚ⟮y⟯\n\n    have h1 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix b pb.basis i j) := by sorry\n    have h2 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix pb.basis b i j) := by sorry\n\n    rw [Algebra.discr_eq_discr_of_toMatrix_coeff_isIntegral ℚ⟮y⟯ h1 h2]\n\n\n\n    sorry\n\n  have h_discr_eq' : NumberField.discr F = f.discr := by"
+  },
+  {
+    "repo": "Brkhu/lean",
+    "score": 73,
+    "path": "P6011/not_used/P6011_old.lean",
+    "line": 181,
+    "current_line": "    have h2 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix pb.basis b i j) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Matrix",
+      "hard_term_Equiv",
+      "soft_hard_term_∀"
+    ],
+    "window": "    rw [NumberField.discr_eq_discr_of_algEquiv F h.symm, ← hy_gen_top]\n\n    qify\n    rw [NumberField.coe_discr]\n\n    let pb := IntermediateField.adjoin.powerBasis hy_integral'\n    let b := integralBasis ℚ⟮y⟯\n\n    have h1 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix b pb.basis i j) := by sorry\n    have h2 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix pb.basis b i j) := by sorry\n\n    rw [Algebra.discr_eq_discr_of_toMatrix_coeff_isIntegral ℚ⟮y⟯ h1 h2]\n\n\n\n    sorry\n\n  have h_discr_eq' : NumberField.discr F = f.discr := by\n"
+  },
+  {
+    "repo": "Brkhu/lean",
+    "score": 73,
+    "path": "P6011/not_used/P6011_old_check.lean",
+    "line": 232,
+    "current_line": "    have h1 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix b pb.basis i j) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Matrix",
+      "hard_term_Monic",
+      "soft_hard_term_∀"
+    ],
+    "window": "    let pb := IntermediateField.adjoin.powerBasis hy_integral'\n    let b := integralBasis ℚ⟮y⟯\n\n    -- #check Algebra.discr_powerBasis_eq_norm ℚ pb\n    -- #check Algebra.adjoin.powerBasis\n    -- #check Algebra.adjoin.powerBasis hy_integral\n    -- #check IsAdjoinRootMonic.basis\n    -- #check @PowerBasis.ofAdjoinEqTop' ℤ (𝓞 F) _ _ _ _ _ _ _ yO hyO_integral\n    -- #check Algebra.discr\n    have h1 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix b pb.basis i j) := by sorry\n    have h2 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix pb.basis b i j) := by sorry\n    -- #check @Algebra.discr_eq_discr_of_toMatrix_coeff_isIntegral (Module.Free.ChooseBasisIndex ℤ (𝓞 ↥ℚ⟮y⟯)) (Fin pb.dim) ℚ⟮y⟯ _ _ _ _ _ _ b pb.basis h1 h2\n    -- #check IntermediateField.adjoin.powerBasis hy_integral\n\n    rw [Algebra.discr_eq_discr_of_toMatrix_coeff_isIntegral ℚ⟮y⟯ h1 h2]\n\n\n\n    sorry"
+  },
+  {
+    "repo": "Brkhu/lean",
+    "score": 73,
+    "path": "P6011/not_used/P6011_old_check.lean",
+    "line": 233,
+    "current_line": "    have h2 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix pb.basis b i j) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Matrix",
+      "hard_term_Monic",
+      "soft_hard_term_∀"
+    ],
+    "window": "    let b := integralBasis ℚ⟮y⟯\n\n    -- #check Algebra.discr_powerBasis_eq_norm ℚ pb\n    -- #check Algebra.adjoin.powerBasis\n    -- #check Algebra.adjoin.powerBasis hy_integral\n    -- #check IsAdjoinRootMonic.basis\n    -- #check @PowerBasis.ofAdjoinEqTop' ℤ (𝓞 F) _ _ _ _ _ _ _ yO hyO_integral\n    -- #check Algebra.discr\n    have h1 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix b pb.basis i j) := by sorry\n    have h2 : ∀ i j, IsIntegral ℤ (Module.Basis.toMatrix pb.basis b i j) := by sorry\n    -- #check @Algebra.discr_eq_discr_of_toMatrix_coeff_isIntegral (Module.Free.ChooseBasisIndex ℤ (𝓞 ↥ℚ⟮y⟯)) (Fin pb.dim) ℚ⟮y⟯ _ _ _ _ _ _ b pb.basis h1 h2\n    -- #check IntermediateField.adjoin.powerBasis hy_integral\n\n    rw [Algebra.discr_eq_discr_of_toMatrix_coeff_isIntegral ℚ⟮y⟯ h1 h2]\n\n\n\n    sorry\n"
+  }
+]

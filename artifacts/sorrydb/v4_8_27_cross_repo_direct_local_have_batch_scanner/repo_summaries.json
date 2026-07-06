@@ -1,0 +1,98 @@
+[
+  {
+    "repo": "google-deepmind/formal-imo",
+    "status": "scanned",
+    "lean_sorry_rows": 310,
+    "ready": 0,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/google-deepmind__formal-imo"
+  },
+  {
+    "repo": "jsm28/IMOLean",
+    "status": "scanned",
+    "lean_sorry_rows": 50,
+    "ready": 0,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/jsm28__IMOLean"
+  },
+  {
+    "repo": "yangky11/miniF2F-lean4",
+    "status": "scanned",
+    "lean_sorry_rows": 488,
+    "ready": 0,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/yangky11__miniF2F-lean4"
+  },
+  {
+    "repo": "djvelleman/HTPILeanPackage",
+    "status": "scanned",
+    "lean_sorry_rows": 306,
+    "ready": 0,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/djvelleman__HTPILeanPackage"
+  },
+  {
+    "repo": "Verified-zkEVM/ArkLib",
+    "status": "scanned",
+    "lean_sorry_rows": 277,
+    "ready": 2,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/Verified-zkEVM__ArkLib"
+  },
+  {
+    "repo": "ATOMSLab/LFSE2024",
+    "status": "scanned",
+    "lean_sorry_rows": 57,
+    "ready": 16,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/ATOMSLab__LFSE2024"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/FloatSpec",
+    "status": "scanned",
+    "lean_sorry_rows": 406,
+    "ready": 0,
+    "watch": 9,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/Beneficial-AI-Foundation__FloatSpec"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/deductive-vericoding",
+    "status": "scanned",
+    "lean_sorry_rows": 4,
+    "ready": 0,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/Beneficial-AI-Foundation__deductive-vericoding"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "status": "scanned",
+    "lean_sorry_rows": 30863,
+    "ready": 6,
+    "watch": 135,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/Beneficial-AI-Foundation__vericoding-benchmark"
+  },
+  {
+    "repo": "Brkhu/lean",
+    "status": "scanned",
+    "lean_sorry_rows": 56,
+    "ready": 6,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/Brkhu__lean"
+  },
+  {
+    "repo": "ByteDance-Seed/Seed-Prover",
+    "status": "scanned",
+    "lean_sorry_rows": 258,
+    "ready": 0,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/ByteDance-Seed__Seed-Prover"
+  },
+  {
+    "repo": "GaloisInc/lean-protocol-support",
+    "status": "scanned",
+    "lean_sorry_rows": 16,
+    "ready": 0,
+    "watch": 0,
+    "path": "/Users/heath/Documents/mathgraph-lean-work/external/GaloisInc__lean-protocol-support"
+  }
+]

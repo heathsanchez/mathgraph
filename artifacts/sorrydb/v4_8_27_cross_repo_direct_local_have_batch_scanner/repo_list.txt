@@ -1,0 +1,12 @@
+google-deepmind/formal-imo
+jsm28/IMOLean
+yangky11/miniF2F-lean4
+djvelleman/HTPILeanPackage
+Verified-zkEVM/ArkLib
+ATOMSLab/LFSE2024
+Beneficial-AI-Foundation/FloatSpec
+Beneficial-AI-Foundation/deductive-vericoding
+Beneficial-AI-Foundation/vericoding-benchmark
+Brkhu/lean
+ByteDance-Seed/Seed-Prover
+GaloisInc/lean-protocol-support
