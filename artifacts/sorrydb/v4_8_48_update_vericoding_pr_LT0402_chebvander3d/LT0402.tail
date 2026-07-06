@@ -1,0 +1,3 @@
+specs/LT0402_specs.lean:20:4: warning: declaration uses `sorry`
+specs/LT0402_specs.lean:31:4: warning: declaration uses `sorry`
+specs/LT0402_specs.lean:43:8: warning: declaration uses `sorry`
