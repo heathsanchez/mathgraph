@@ -43,3 +43,4 @@ lakefile.olean
 *.c
 *.o
 *.so
+external/

@@ -1,0 +1,5 @@
+⚠ [1550/1550] Built FormalBook.Chapter_03 (23s)
+warning: FormalBook/Chapter_03.lean:35:8: declaration uses 'sorry'
+warning: FormalBook/Chapter_03.lean:94:6: declaration uses 'sorry'
+warning: FormalBook/Chapter_03.lean:102:8: declaration uses 'sorry'
+Build completed successfully (1550 jobs).
