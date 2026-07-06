@@ -1,0 +1,13 @@
+diff --git a/specs/LT0505_specs.lean b/specs/LT0505_specs.lean
+index a7c15ea..a4f2c8f 100644
+--- a/specs/LT0505_specs.lean
++++ b/specs/LT0505_specs.lean
+@@ -20,7 +20,7 @@ theorem legvander2d_spec {n : Nat} (x y : Vector Float n) (deg_x deg_y : Nat) :
+       -- Matrix has correct dimensions
+       (∀ i : Fin n, ∀ j : Fin ((deg_x + 1) * (deg_y + 1)), ∃ val : Float, (result.get i).get j = val) ∧
+       -- First column corresponds to L_0(x) * L_0(y) = 1 * 1 = 1
+-      (∀ i : Fin n, (result.get i).get ⟨0, sorry⟩ = 1) ∧
++      (∀ i : Fin n, (result.get i).get ⟨0, by exact Nat.mul_pos (Nat.succ_pos _) (Nat.succ_pos _)⟩ = 1) ∧
+       -- Entries are products of Legendre polynomial evaluations
+       (∀ i : Fin n, ∀ p : Fin (deg_x + 1), ∀ q : Fin (deg_y + 1), 
+         let col_idx := (deg_y + 1) * p.val + q.val
