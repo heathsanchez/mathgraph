@@ -1,0 +1,1 @@
+b93d259 Specimen delegated producer for equalities on function calls (#36)

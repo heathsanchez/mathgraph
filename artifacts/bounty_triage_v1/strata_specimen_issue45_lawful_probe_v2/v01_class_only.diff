@@ -1,0 +1,30 @@
+diff --git a/Specimen/Scoring.lean b/Specimen/Scoring.lean
+index 70ec708..8477cf7 100644
+--- a/Specimen/Scoring.lean
++++ b/Specimen/Scoring.lean
+@@ -63,6 +63,25 @@ class Scorable (S : Type) where
+   worst : S
+   badness : S → Float
+ 
++
++/-- Laws expected from scoring strategies used by branch-and-bound search.
++
++These laws are packaged separately from `Scorable` so existing scoring strategies
++can keep their executable data while proof-carrying uses can request the lawful
++interface explicitly. -/
++class LawfulScorable (S : Type) [Scorable S] : Prop where
++  /-- Adding work to a score should never strictly improve it. -/
++  not_isBetter_combine_left : ∀ a b : S, ¬ Scorable.isBetter (Scorable.combine a b) a
++  /-- Strict score comparison should be transitive. -/
++  isBetter_trans : ∀ a b c : S,
++    Scorable.isBetter a b → Scorable.isBetter b c → Scorable.isBetter a c
++  /-- `empty` is a left identity for `combine`. -/
++  empty_combine : ∀ a : S, Scorable.combine Scorable.empty a = a
++  /-- `empty` is a right identity for `combine`. -/
++  combine_empty : ∀ a : S, Scorable.combine a Scorable.empty = a
++  /-- `worst` should not beat any real score. -/
++  not_worst_isBetter : ∀ a : S, ¬ Scorable.isBetter Scorable.worst a
++
+ ----------------------------------------------
+ -- Scorer function types (parameterized by score type)
+ ----------------------------------------------

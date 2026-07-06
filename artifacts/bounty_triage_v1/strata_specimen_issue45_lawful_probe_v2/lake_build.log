@@ -1,0 +1,7 @@
+✔ [41/47] Built Specimen.Scoring (1.3s)
+✔ [42/47] Built Specimen.PatternCoverage (1.3s)
+✔ [43/47] Built Specimen.DeriveSchedules (4.2s)
+✔ [44/47] Built Specimen.DeriveConstrainedProducer (12s)
+✔ [45/47] Built Specimen.DeriveChecker (3.0s)
+✔ [46/47] Built Specimen (743ms)
+Build completed successfully (47 jobs).
