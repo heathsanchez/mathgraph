@@ -1,0 +1,7 @@
+Specimen/LawfulScorableObstructionProbe.lean:62:50: error: invalid {...} notation, expected type is not known
+Specimen/LawfulScorableObstructionProbe.lean:63:52: error: invalid {...} notation, expected type is not known
+DefaultScore: isBetter (combine a b) a = false
+WorstLeafScore: isBetter (combine a b) a = false
+DensityScore combine example = { density := Scoring.Density.Checking, varDeps := 0, forChecker := true }
+DensityScore: isBetter (combine a b) a = true
+Specimen/LawfulScorableObstructionProbe.lean:68:57: error: invalid {...} notation, expected type is not known
