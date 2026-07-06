@@ -1,0 +1,6 @@
+target	variant	rc	new_sorry_delta
+LT0505	v01_zero_only	1	-1
+LT0505	v02_col_only	0	-1
+LT0506	v01_zero_only	1	-1
+LT0506	v02_col_only	1	-1
+LT0506	v03_zero_and_col	1	-2

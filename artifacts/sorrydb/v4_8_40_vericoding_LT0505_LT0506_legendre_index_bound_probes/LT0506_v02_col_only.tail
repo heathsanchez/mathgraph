@@ -1,0 +1,46 @@
+specs/LT0506_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0506_specs.lean:36:25: error: unknown tactic
+specs/LT0506_specs.lean:31:10: error: Type mismatch
+  (result.get i).get ⟨col_idx, ?m.147⟩
+has type
+  Float
+but is expected to have type
+  Prop
+specs/LT0506_specs.lean:35:85: error: unsolved goals
+n : Nat
+x y z : Vector Float n
+deg_x deg_y deg_z : Nat
+result : Vector (Vector Float ((deg_x + 1) * (deg_y + 1) * (deg_z + 1))) n
+i : Fin n
+p : Fin (deg_x + 1)
+q : Fin (deg_y + 1)
+r : Fin (deg_z + 1)
+col_idx : Nat := (deg_y + 1) * (deg_z + 1) * ↑p + (deg_z + 1) * ↑q + ↑r
+L_p_x L_q_y L_r_z : Float
+⊢ (deg_y + 1) * (deg_z + 1) * ↑p + (deg_z + 1) * ↑q = ↑p * ((deg_y + 1) * (deg_z + 1)) + ↑q * (deg_z + 1)
+specs/LT0506_specs.lean:32:130: error: unsolved goals
+case calc.step
+n : Nat
+x y z : Vector Float n
+deg_x deg_y deg_z : Nat
+result : Vector (Vector Float ((deg_x + 1) * (deg_y + 1) * (deg_z + 1))) n
+i : Fin n
+p : Fin (deg_x + 1)
+q : Fin (deg_y + 1)
+r : Fin (deg_z + 1)
+col_idx : Nat := (deg_y + 1) * (deg_z + 1) * ↑p + (deg_z + 1) * ↑q + ↑r
+L_p_x L_q_y L_r_z : Float
+⊢ ↑p * ((deg_y + 1) * (deg_z + 1)) + ↑q * (deg_z + 1) < (↑p + 1) * ((deg_y + 1) * (deg_z + 1))
+specs/LT0506_specs.lean:31:39: error: unsolved goals
+n : Nat
+x y z : Vector Float n
+deg_x deg_y deg_z : Nat
+result : Vector (Vector Float ((deg_x + 1) * (deg_y + 1) * (deg_z + 1))) n
+i : Fin n
+p : Fin (deg_x + 1)
+q : Fin (deg_y + 1)
+r : Fin (deg_z + 1)
+col_idx : Nat := (deg_y + 1) * (deg_z + 1) * ↑p + (deg_z + 1) * ↑q + ↑r
+L_p_x L_q_y L_r_z : Float
+h_row : (deg_y + 1) * (deg_z + 1) * ↑p + (deg_z + 1) * ↑q < (↑p + 1) * ((deg_y + 1) * (deg_z + 1))
+⊢ col_idx < (deg_x + 1) * (deg_y + 1) * (deg_z + 1)
