@@ -1,0 +1,13 @@
+diff --git a/FormalBook/Chapter_03.lean b/FormalBook/Chapter_03.lean
+index fa35bc1..c786921 100644
+--- a/FormalBook/Chapter_03.lean
++++ b/FormalBook/Chapter_03.lean
+@@ -150,7 +150,7 @@ theorem binomials_coefficients_never_powers (k l m n : ℕ) (h_2lel : 2 ≤ l) (
+     -- STEP (4) : l ≥ 3 by Contradiction
+     -- case l ≥ 3
+     · have h_3lel : 3 ≤ l := by
+-        sorry
++        omega
+       -- main work : n < k³
+       have h₄ : n < k^3 := by
+         sorry

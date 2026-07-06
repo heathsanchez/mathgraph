@@ -1,0 +1,36 @@
+   145	    --have h₃ : a_values l n k = s_1tok k := by
+   146	    -- divide in two cases
+   147	    cases em (l = 2)
+   148	    -- Special Case l = 2 by Contradiction
+   149	    ·  sorry
+   150	    -- STEP (4) : l ≥ 3 by Contradiction
+   151	    -- case l ≥ 3
+   152	    · have h_3lel : 3 ≤ l := by
+   153	        sorry
+   154	      -- main work : n < k³
+   155	      have h₄ : n < k^3 := by
+   156	        sorry
+   157	
+   158	      sorry
+   159	
+   160	  rcases em (n ≥ 2*k) with h_2k | h
+   161	  · exact h_wlog k h_4lek h_klen4 h_2k
+   162	  · -- transform ¬(n ≥ 2 * k) into (n < 2 * k)
+   163	    simp only [not_le] at h
+   164	    -- transform (n.choose k) into (n.choose (n - k))
+   165	    have h_klen : k ≤ n := le_trans h_klen4 (Nat.sub_le n 4)
+   166	    rw [← choose_symm h_klen]
+   167	    -- define k' as n - k, such that k' can be used for h_wlog as k'
+   168	    -- satisfies all required features
+   169	    let k' := n - k
+   170	    have h_k'_def : k' = n - k := by rfl
+   171	    -- third requirement: 2 * k' ≤ n
+   172	    have h_2k'len : 2 * k' ≤ n := by
+   173	      sorry
+   174	    -- second requirement: k ≤ n - 4
+   175	    have h_k'len4 : k' ≤ n - 4 := by
+   176	      simp only [h_k'_def, tsub_le_iff_right]
+   177	      have help : k + k ≤ n - 4 + k := add_le_add_left h_klen4 k
+   178	      rw [← (two_mul k)] at help
+   179	      exact le_trans (le_of_lt h) help
+   180	    -- first requirement: 4 ≤ k
