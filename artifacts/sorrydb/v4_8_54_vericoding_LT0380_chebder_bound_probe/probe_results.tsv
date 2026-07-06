@@ -1,0 +1,5 @@
+variant	rc	new_sorry_delta
+v01_result_zero_only_omega	1	0
+v02_first_equation_omega	1	-1
+v03_second_equation_omega	1	-1
+v04_recurrence_c_j_succ_omega	0	-1

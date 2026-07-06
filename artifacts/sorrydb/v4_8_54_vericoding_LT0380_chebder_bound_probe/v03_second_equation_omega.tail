@@ -1,0 +1,11 @@
+specs/LT0380_specs.lean:12:4: warning: declaration uses `sorry`
+specs/LT0380_specs.lean:24:41: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  0 ≤ a ≤ 1
+where
+ a := ↑n
+specs/LT0380_specs.lean:24:73: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  0 ≤ a ≤ 1
+where
+ a := ↑n

@@ -1,0 +1,5 @@
+specs/LT0380_specs.lean:12:4: warning: declaration uses `sorry`
+specs/LT0380_specs.lean:23:41: error: omega could not prove the goal:
+No usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.
+specs/LT0380_specs.lean:23:69: error: omega could not prove the goal:
+No usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.
