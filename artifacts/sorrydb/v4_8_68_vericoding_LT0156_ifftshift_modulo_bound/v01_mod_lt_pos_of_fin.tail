@@ -1,0 +1,2 @@
+specs/LT0156_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0156_specs.lean:19:96: error(lean.unknownIdentifier): Unknown constant `Nat.pos_of_gt`
