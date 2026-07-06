@@ -1,0 +1,14 @@
+specs/LT0506_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0506_specs.lean:32:21: error: Tactic `assumption` failed
+
+n : Nat
+x y z : Vector Float n
+deg_x deg_y deg_z : Nat
+result : Vector (Vector Float ((deg_x + 1) * (deg_y + 1) * (deg_z + 1))) n
+i : Fin n
+p : Fin (deg_x + 1)
+q : Fin (deg_y + 1)
+r : Fin (deg_z + 1)
+col_idx : Nat := (deg_y + 1) * (deg_z + 1) * ↑p + (deg_z + 1) * ↑q + ↑r
+L_p_x L_q_y L_r_z : Float
+⊢ col_idx < (deg_x + 1) * (deg_y + 1) * (deg_z + 1)

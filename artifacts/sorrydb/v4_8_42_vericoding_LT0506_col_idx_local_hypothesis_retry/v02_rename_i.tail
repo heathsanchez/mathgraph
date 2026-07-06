@@ -1,0 +1,3 @@
+specs/LT0506_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0506_specs.lean:32:12: error: too many variable names provided
+specs/LT0506_specs.lean:33:18: error(lean.unknownIdentifier): Unknown identifier `h_col`
