@@ -1,0 +1,7 @@
+specs/LT0420_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0420_specs.lean:24:37: error: Type mismatch
+  Nat.succ_lt_succ h
+has type
+  Nat.succ 0 < n.succ
+but is expected to have type
+  1 < n

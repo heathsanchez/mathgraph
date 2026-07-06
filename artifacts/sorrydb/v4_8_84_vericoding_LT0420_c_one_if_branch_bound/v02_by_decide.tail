@@ -1,0 +1,5 @@
+specs/LT0420_specs.lean:11:4: warning: declaration uses `sorry`
+specs/LT0420_specs.lean:24:37: error: Expected type must not contain free variables
+  1 < n
+
+Hint: Use the `+revert` option to automatically clean up and revert free variables
