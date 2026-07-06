@@ -1,0 +1,31 @@
+    60	    (X ^ k - 1) * (phi n)∣ (X ^ n - 1) :=
+    61	  X_pow_sub_one_mul_cyclotomic_dvd_X_pow_sub_one_of_dvd ℤ (Nat.mem_properDivisors.mpr ⟨h₂, h₃⟩)
+    62	
+    63	
+    64	variable {R : Type _}  [DecidableEq R] [DivisionRing R]
+    65	
+    66	-- this is currently not needed, because we use Polynomial.sub_one_lt_natAbs_cyclotomic_eval,
+    67	-- TODO: add it later to stay close to the proof in the book.
+    68	theorem h_lamb_gt_q_sub_one (q n : ℕ) (lamb : ℂ):
+    69	  lamb ∈ (primitiveRoots n ℂ) → ‖(X - (C lamb)).eval (q : ℂ)‖ > (q - 1) := by
+    70	  let a := lamb.re
+    71	  let b := lamb.im
+    72	  intro h
+    73	  have h_lamb: lamb ≠ 1 := by sorry
+    74	  have h_a_lt_one: ‖a‖ < 1 := by sorry
+    75	  have h_ineq :
+    76	      ‖((X - C lamb).eval (q : ℂ))‖^2 > ((q : ℝ) - 1)^2  := by
+    77	    calc
+    78	      _ = ‖q - lamb‖^2 := by sorry
+    79	        --simp only [eval_sub, eval_X, eval_C, norm_eq_abs]
+    80	      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry
+    81	      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry
+    82	      _ = (q : ℝ)^2 - 2*‖a‖*q + ‖a‖^2 + ‖b‖^2 := by sorry
+    83	      _ > ((q : ℝ) - 1)^2 := by sorry
+    84	
+    85	  have : 0 ≤ ((q : ℝ) - 1)^2 := sq_nonneg ((q : ℝ) - 1)
+    86	  have g := (Real.sqrt_lt_sqrt_iff (sq_nonneg ((q : ℝ) - 1))).mpr (h_ineq)
+    87	  have : Real.sqrt (((q:ℝ) - 1) ^ 2) = ((q : ℝ) - 1) := by sorry
+    88	  rw [this, Real.sqrt_sq] at g
+    89	  · exact g
+    90	  · sorry

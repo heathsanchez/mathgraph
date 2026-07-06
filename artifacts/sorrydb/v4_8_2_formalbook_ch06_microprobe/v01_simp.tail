@@ -1,0 +1,40 @@
+  ge_iff_le
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, Subsemiring.center_toSubmonoid, g̵e̵_̵i̵f̵f̵_̵l̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵ ̵ ̵add_le_iff_nonpos_left,
+  ̲  ̲ ̲ ̲ ̲ ̲nonpos_iff_eq_zero, Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:230:6: This simp argument is unused:
+  add_le_iff_nonpos_left
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, Subsemiring.center_toSubmonoid, ge_iff_le, a̵d̵d̵_̵l̵e̵_̵i̵f̵f̵_̵n̵o̵n̵p̵o̵s̵_̵l̵e̵f̵t̵,̵ ̵nonpos_iff_eq_zero,
+  ̲  ̲ ̲ ̲ ̲ ̲Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:230:30: This simp argument is unused:
+  nonpos_iff_eq_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, Subsemiring.center_toSubmonoid, ge_iff_le,
+        add_le_iff_nonpos_left, n̵o̵n̵p̵o̵s̵_̵i̵f̵f̵_̵e̵q̵_̵z̵e̵r̵o̵,̵ ̵Fintype.card_ne_zero, add_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:230:50: This simp argument is unused:
+  Fintype.card_ne_zero
+
+Hint: Omit it from the simp argument list.
+  simp only [center_toSubsemiring, Subsemiring.center_toSubmonoid, ge_iff_le,
+        add_le_iff_nonpos_left, nonpos_iff_eq_zero, F̵i̵n̵t̵y̵p̵e̵.̵c̵ar̵d_̵n̵e̵_̵z̵e̵r̵o̵,̵ ̵a̵dd̵_tsub_cancel_right]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: FormalBook/Chapter_06.lean:265:65: This simp argument is unused:
+  IsUnit.mul_iff
+
+Hint: Omit it from the simp argument list.
+  simp only [eval_mul, eval_sub, eval_pow, eval_X, eval_one,̵ ̵I̵s̵U̵n̵i̵t̵.̵m̵u̵l̵_̵i̵f̵f̵] at this
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Build completed successfully (2498 jobs).
