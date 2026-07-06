@@ -1,0 +1,6 @@
+variant	rc
+v01_exact_nonempty_of_odd_card	1
+v02_aesop	1
+v03_classical_simpa	1
+v04_by_contra_simp	1
+v05_use_card_odd	0

@@ -1,0 +1,66 @@
+   230	
+   231	/-- Any fixed point of `secondInvo k` must be `(k, 1, 1)`. -/
+   232	theorem eq_of_mem_fixedPoints : fixedPoints (secondInvo k) = singletonFixedPoint k := by
+   233	  simp only [fixedPoints, IsFixedPt, secondInvo, secondInvo_fun,
+   234	    singletonFixedPoint, Prod.mk_one_one, Finset.coe_singleton]
+   235	  ext t
+   236	  constructor
+   237	  · intro ht
+   238	    simp at ht
+   239	    sorry
+   240	  · aesop
+   241	
+   242	/-- `secondInvo k` has exactly one fixed point. -/
+   243	theorem card_fixedPoints_eq_one : Fintype.card (fixedPoints (secondInvo k)) = 1 := by
+   244	  simp only [eq_of_mem_fixedPoints, singletonFixedPoint]
+   245	  rfl
+   246	
+   247	theorem card_T_odd : Odd <| Fintype.card <| T k := by
+   248	  sorry
+   249	
+   250	/- 3. -/
+   251	/-- The third, trivial, involution `(x, y, z) ↦ (y, x, z)`. -/
+   252	def trivialInvo : Function.End (T k) := fun ⟨⟨⟨x, y, z⟩, ⟨h, hx, hy⟩⟩, hz⟩ => ⟨⟨⟨y, x, z⟩, by
+   253	  exact ⟨by rw [← h,Int.mul_assoc, Int.mul_comm y x, Int.mul_assoc], hy, hx⟩⟩, hz⟩
+   254	
+   255	omit hk in
+   256	theorem trivialInvo_apply (x y z : ℤ) (hS : ⟨x, y, z⟩ ∈ S k) (hT : ⟨⟨x, y, z⟩ , hS⟩ ∈ T k)
+   257	  (hS' : ⟨y, x, z⟩ ∈ S k) (hT' : ⟨⟨y, x, z⟩ , hS'⟩ ∈ T k) :
+   258	  trivialInvo k ⟨⟨⟨x, y, z⟩, hS⟩, hT⟩ = ⟨⟨⟨y,x,z⟩, hS'⟩, hT'⟩ := by
+   259	    simp [trivialInvo]
+   260	    aesop
+   261	
+   262	omit hk in
+   263	/-- If `trivialInvo k` has a fixed point, a representation of `4 * k + 1` as a sum of two squares
+   264	can be extracted from it. -/
+   265	theorem sq_add_sq_of_nonempty_fixedPoints (hn : (fixedPoints (trivialInvo k)).Nonempty) :
+   266	    ∃ a b : ℤ, a ^ 2 + b ^ 2 = 4 * k + 1 := by
+   267	  simp only [sq]
+   268	  obtain ⟨⟨⟨⟨x, y, z⟩, hS⟩, hT⟩, hf⟩ := hn
+   269	  have hf := mem_fixedPoints_iff.mp hf
+   270	  simp only [ Subtype.mk.injEq, Prod.mk.injEq, true_and] at hf
+   271	  have : (trivialInvo k ⟨⟨(x, y, z), hS⟩, hT⟩).1.1 = (⟨⟨(x, y, z), hS⟩, hT⟩ : T k).1.1 := by
+   272	    rw [hf]
+   273	  simp at this
+   274	  rw [trivialInvo_apply] at this
+   275	  · simp at this
+   276	    use (2 * y), z
+   277	    rw [show 2 * y * (2 * y) = 4 * y * y by linarith, ← hS.1]
+   278	    congr
+   279	    · exact this.1
+   280	    · ring
+   281	  --TODO: avoid repeating from the definition of trivialInvo here!
+   282	  · exact ⟨by rw [← hS.1,Int.mul_assoc, Int.mul_comm y x, Int.mul_assoc], hS.2.2, hS.2.1⟩
+   283	  · exact hT
+   284	
+   285	
+   286	
+   287	theorem trivialInvo_fixedPoints : (fixedPoints (trivialInvo k)).Nonempty := by sorry
+   288	
+   289	end Involutions
+   290	
+   291	theorem theorem₂ {p : ℕ} [h : Fact p.Prime] (hp : p % 4 = 1) :
+   292	    ∃ a b : ℕ, a ^ 2 + b ^ 2 = p := by
+   293	  rw [← div_add_mod p 4, hp] at h ⊢
+   294	  let k := p / 4
+   295	  have ⟨a, b, h⟩ := sq_add_sq_of_nonempty_fixedPoints k <| trivialInvo_fixedPoints k
