@@ -1,0 +1,6 @@
+variant	rc	new_sorry_delta
+v01_rcases_rename_simpa	1	-1
+v02_rcases_rename_simp_at	1	-1
+v03_cases_precond_rename	1	-1
+v04_simp_all_after_rcases	1	-1
+v05_exact_precond_second	1	-1

@@ -1,0 +1,18 @@
+specs/LA0521_specs.lean:5:37: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:12:40: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:27:4: warning: declaration uses `sorry`
+specs/LA0521_specs.lean:40:22: error: Invalid projection: Projection operates on structure-like types with fields. The expression
+  h_i
+has type `(Nat.succ 0).le queries.length` which does not have fields.
+specs/LA0521_specs.lean:41:6: error: Type mismatch: After simplification, term
+  hv
+ has type
+  ValidQuery (queries[i]?.getD default).fst (queries[i]?.getD default).2.fst (queries[i]?.getD default).2.2.fst
+    (queries[i]?.getD default).2.2.snd
+but is expected to have type
+  ValidQuery k n a b
+specs/LA0521_specs.lean:48:8: warning: declaration uses `sorry`
