@@ -1,0 +1,4 @@
+variant	rc	new_sorry_delta
+v01_right_mul_monotone	1	-1
+v02_left_mul_monotone	1	-1
+v03_named_p_bound	1	-1
