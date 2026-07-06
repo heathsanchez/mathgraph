@@ -1,0 +1,113 @@
+[
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LA0521_specs.lean",
+    "best_score": 97,
+    "line": 37,
+    "current_line": "    have h_valid : ValidQuery k n a b := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "status": "baseline_ready",
+    "repo_root": "/Users/heath/Documents/mathgraph-lean-work/external/Beneficial-AI-Foundation__vericoding-benchmark",
+    "has_lake": false,
+    "command": [
+      "lean",
+      "specs/LA0521_specs.lean"
+    ],
+    "rc": 0,
+    "tail_file": "artifacts/sorrydb/v4_8_30_baseline_verifier_triage_remaining_ready/Beneficial-AI-Foundation__vericoding-benchmark__specs__LA0521_specs.lean__lean_specs_LA0521_specs.lean.tail",
+    "tail_excerpt": "specs/LA0521_specs.lean:5:37: warning: unused variable `h`\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nspecs/LA0521_specs.lean:12:40: warning: unused variable `h`\n\nNote: This linter can be disabled with `set_option linter.unusedVariables false`\nspecs/LA0521_specs.lean:27:4: warning: declaration uses `sorry`\nspecs/LA0521_specs.lean:33:4: warning: declaration uses `sorry`\nspecs/LA0521_specs.lean:33:4: warning: declaration uses `sorry`\nspecs/LA0521_specs.lean:44:8: warning: declaration uses `sorry`",
+    "cleanup_removed": [],
+    "cleanup_rc": 0
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LT0032_specs.lean",
+    "best_score": 87,
+    "line": 26,
+    "current_line": "                    have hi : i < rows := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ],
+    "status": "baseline_ready",
+    "repo_root": "/Users/heath/Documents/mathgraph-lean-work/external/Beneficial-AI-Foundation__vericoding-benchmark",
+    "has_lake": false,
+    "command": [
+      "lean",
+      "specs/LT0032_specs.lean"
+    ],
+    "rc": 0,
+    "tail_file": "artifacts/sorrydb/v4_8_30_baseline_verifier_triage_remaining_ready/Beneficial-AI-Foundation__vericoding-benchmark__specs__LT0032_specs.lean__lean_specs_LT0032_specs.lean.tail",
+    "tail_excerpt": "specs/LT0032_specs.lean:11:4: warning: declaration uses `sorry`\nspecs/LT0032_specs.lean:17:8: warning: declaration uses `sorry`",
+    "cleanup_removed": [],
+    "cleanup_rc": 0
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LT0479_specs.lean",
+    "best_score": 75,
+    "line": 45,
+    "current_line": "                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "soft_hard_term_∀"
+    ],
+    "status": "baseline_ready",
+    "repo_root": "/Users/heath/Documents/mathgraph-lean-work/external/Beneficial-AI-Foundation__vericoding-benchmark",
+    "has_lake": false,
+    "command": [
+      "lean",
+      "specs/LT0479_specs.lean"
+    ],
+    "rc": 0,
+    "tail_file": "artifacts/sorrydb/v4_8_30_baseline_verifier_triage_remaining_ready/Beneficial-AI-Foundation__vericoding-benchmark__specs__LT0479_specs.lean__lean_specs_LT0479_specs.lean.tail",
+    "tail_excerpt": "specs/LT0479_specs.lean:14:4: warning: declaration uses `sorry`\nspecs/LT0479_specs.lean:26:4: warning: declaration uses `sorry`\nspecs/LT0479_specs.lean:40:8: warning: declaration uses `sorry`",
+    "cleanup_removed": [],
+    "cleanup_rc": 0
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LT0480_specs.lean",
+    "best_score": 75,
+    "line": 46,
+    "current_line": "                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) * (zdeg + 1) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "soft_hard_term_∀"
+    ],
+    "status": "baseline_ready",
+    "repo_root": "/Users/heath/Documents/mathgraph-lean-work/external/Beneficial-AI-Foundation__vericoding-benchmark",
+    "has_lake": false,
+    "command": [
+      "lean",
+      "specs/LT0480_specs.lean"
+    ],
+    "rc": 0,
+    "tail_file": "artifacts/sorrydb/v4_8_30_baseline_verifier_triage_remaining_ready/Beneficial-AI-Foundation__vericoding-benchmark__specs__LT0480_specs.lean__lean_specs_LT0480_specs.lean.tail",
+    "tail_excerpt": "specs/LT0480_specs.lean:14:4: warning: declaration uses `sorry`\nspecs/LT0480_specs.lean:27:4: warning: declaration uses `sorry`\nspecs/LT0480_specs.lean:41:8: warning: declaration uses `sorry`",
+    "cleanup_removed": [],
+    "cleanup_rc": 0
+  }
+]

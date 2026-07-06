@@ -1,0 +1,4 @@
+P6011/not_used/P6011_old.lean:1:0: error: unknown module prefix 'Mathlib'
+
+No directory 'Mathlib' or file 'Mathlib.olean' in the search path entries:
+/Users/heath/.elan/toolchains/leanprover--lean4---v4.28.0/lib/lean

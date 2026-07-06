@@ -1,0 +1,59 @@
+[
+  {
+    "repo": "Brkhu/lean",
+    "path": "P6011/not_used/P6011_old.lean",
+    "best_score": 85,
+    "line": 163,
+    "current_line": "    sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Equiv",
+      "soft_hard_term_∃"
+    ],
+    "status": "baseline_obstructed",
+    "repo_root": "/Users/heath/Documents/mathgraph-lean-work/external/Brkhu__lean",
+    "has_lake": false,
+    "command": [
+      "lean",
+      "P6011/not_used/P6011_old.lean"
+    ],
+    "rc": 1,
+    "tail_file": "artifacts/sorrydb/v4_8_30_baseline_verifier_triage_remaining_ready/Brkhu__lean__P6011__not_used__P6011_old.lean__lean_P6011_not_used_P6011_old.lean.tail",
+    "tail_excerpt": "P6011/not_used/P6011_old.lean:1:0: error: unknown module prefix 'Mathlib'\n\nNo directory 'Mathlib' or file 'Mathlib.olean' in the search path entries:\n/Users/heath/.elan/toolchains/leanprover--lean4---v4.28.0/lib/lean",
+    "cleanup_removed": [],
+    "cleanup_rc": 0
+  },
+  {
+    "repo": "Brkhu/lean",
+    "path": "P6011/not_used/P6011_old_check.lean",
+    "best_score": 75,
+    "line": 207,
+    "current_line": "    sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Equiv",
+      "soft_hard_term_∃"
+    ],
+    "status": "baseline_obstructed",
+    "repo_root": "/Users/heath/Documents/mathgraph-lean-work/external/Brkhu__lean",
+    "has_lake": false,
+    "command": [
+      "lean",
+      "P6011/not_used/P6011_old_check.lean"
+    ],
+    "rc": 1,
+    "tail_file": "artifacts/sorrydb/v4_8_30_baseline_verifier_triage_remaining_ready/Brkhu__lean__P6011__not_used__P6011_old_check.lean__lean_P6011_not_used_P6011_old_check.lean.tail",
+    "tail_excerpt": "P6011/not_used/P6011_old_check.lean:1:0: error: unknown module prefix 'Mathlib'\n\nNo directory 'Mathlib' or file 'Mathlib.olean' in the search path entries:\n/Users/heath/.elan/toolchains/leanprover--lean4---v4.28.0/lib/lean",
+    "cleanup_removed": [],
+    "cleanup_rc": 0
+  }
+]

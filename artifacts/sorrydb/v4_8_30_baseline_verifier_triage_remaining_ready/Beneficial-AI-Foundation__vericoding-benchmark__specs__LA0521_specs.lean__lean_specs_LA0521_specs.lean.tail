@@ -1,0 +1,10 @@
+specs/LA0521_specs.lean:5:37: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:12:40: warning: unused variable `h`
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+specs/LA0521_specs.lean:27:4: warning: declaration uses `sorry`
+specs/LA0521_specs.lean:33:4: warning: declaration uses `sorry`
+specs/LA0521_specs.lean:33:4: warning: declaration uses `sorry`
+specs/LA0521_specs.lean:44:8: warning: declaration uses `sorry`

@@ -1,0 +1,98 @@
+[
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LA0521_specs.lean",
+    "best_score": 97,
+    "line": 37,
+    "current_line": "    have h_valid : ValidQuery k n a b := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ]
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LT0032_specs.lean",
+    "best_score": 87,
+    "line": 26,
+    "current_line": "                    have hi : i < rows := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "soft_hard_term_∀"
+    ]
+  },
+  {
+    "repo": "Brkhu/lean",
+    "path": "P6011/not_used/P6011_old.lean",
+    "best_score": 85,
+    "line": 163,
+    "current_line": "    sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "nearby_basic_tactic",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Equiv",
+      "soft_hard_term_∃"
+    ]
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LT0479_specs.lean",
+    "best_score": 75,
+    "line": 45,
+    "current_line": "                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "soft_hard_term_∀"
+    ]
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "path": "specs/LT0480_specs.lean",
+    "best_score": 75,
+    "line": 46,
+    "current_line": "                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) * (zdeg + 1) := by sorry",
+    "reasons": [
+      "direct_have_inline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "soft_hard_term_∀"
+    ]
+  },
+  {
+    "repo": "Brkhu/lean",
+    "path": "P6011/not_used/P6011_old_check.lean",
+    "best_score": 75,
+    "line": 207,
+    "current_line": "    sorry",
+    "reasons": [
+      "direct_have_nextline_sorry",
+      "relation_symbols_nearby",
+      "numeric_context"
+    ],
+    "penalties": [
+      "hard_term_Equiv",
+      "soft_hard_term_∃"
+    ]
+  }
+]
