@@ -1,0 +1,573 @@
+[
+  {
+    "score": 55,
+    "path": "specs/LS0024_specs.lean",
+    "line": 9,
+    "current_line": "sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "-- <vc-preamble>\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef histogram {n m : Nat} (data : Vector Float n) (bins : Vector Float m) : Vector Int (m - 1) :=\nsorry\n\ndef histogram_helper {n m : Nat} (data : Vector Float n) (bins : Vector Float m) (hist : Vector Int (m - 1)) (index : Int) : Vector Int (m - 1) :=\nsorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem histogram_spec {n m : Nat} (data : Vector Float n) (bins : Vector Float m)\n  (h1 : m ≥ 2)\n  (h2 : ∀ i : Fin (m - 1), bins[i.succ] > bins[i]) :\n  let hist := histogram data bins"
+  },
+  {
+    "score": 55,
+    "path": "specs/LS0024_specs.lean",
+    "line": 12,
+    "current_line": "sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef histogram {n m : Nat} (data : Vector Float n) (bins : Vector Float m) : Vector Int (m - 1) :=\nsorry\n\ndef histogram_helper {n m : Nat} (data : Vector Float n) (bins : Vector Float m) (hist : Vector Int (m - 1)) (index : Int) : Vector Int (m - 1) :=\nsorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem histogram_spec {n m : Nat} (data : Vector Float n) (bins : Vector Float m)\n  (h1 : m ≥ 2)\n  (h2 : ∀ i : Fin (m - 1), bins[i.succ] > bins[i]) :\n  let hist := histogram data bins\n  (hist.toList.length = m - 1) ∧\n  (n ≥ 0) :=\nsorry"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0038_specs.lean",
+    "line": 36,
+    "current_line": "            v.get ⟨start_indices.get i + j.val, by sorry⟩))",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "      (∃ (start_indices : Vector Nat k),\n        -- First sub-vector starts at index 0\n        start_indices.get ⟨0, by omega⟩ = 0 ∧\n        -- Each subsequent sub-vector starts where the previous one ended\n        (∀ i : Fin k, i.val > 0 → \n          start_indices.get i = start_indices.get ⟨i.val - 1, by omega⟩ + \n            (result.get ⟨i.val - 1, by omega⟩).1) ∧\n        -- Elements match the original vector\n        (∀ i : Fin k, ∀ j : Fin (result.get i).1,\n          (result.get i).2.get j = \n            v.get ⟨start_indices.get i + j.val, by sorry⟩))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0049_specs.lean",
+    "line": 13,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "import Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef delete {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) : \n    Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem delete_spec {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) :\n    ⦃⌜True⌝⦄\n    delete arr index\n    ⦃⇓result => ⌜(∀ i : Fin n, \n                   if h : i.val < index.val then \n                     result.get i = arr.get ⟨i.val, by sorry⟩\n                   else "
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0049_specs.lean",
+    "line": 22,
+    "current_line": "                     result.get i = arr.get ⟨i.val, by sorry⟩",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    Id (Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem delete_spec {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) :\n    ⦃⌜True⌝⦄\n    delete arr index\n    ⦃⇓result => ⌜(∀ i : Fin n, \n                   if h : i.val < index.val then \n                     result.get i = arr.get ⟨i.val, by sorry⟩\n                   else \n                     result.get i = arr.get ⟨i.val + 1, by sorry⟩) ∧\n                 (∀ i : Fin (n + 1), i ≠ index → \n                   ∃ j : Fin n, result.get j = arr.get i)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0049_specs.lean",
+    "line": 24,
+    "current_line": "                     result.get i = arr.get ⟨i.val + 1, by sorry⟩) ∧",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem delete_spec {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) :\n    ⦃⌜True⌝⦄\n    delete arr index\n    ⦃⇓result => ⌜(∀ i : Fin n, \n                   if h : i.val < index.val then \n                     result.get i = arr.get ⟨i.val, by sorry⟩\n                   else \n                     result.get i = arr.get ⟨i.val + 1, by sorry⟩) ∧\n                 (∀ i : Fin (n + 1), i ≠ index → \n                   ∃ j : Fin n, result.get j = arr.get i)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0049_specs.lean",
+    "line": 27,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "theorem delete_spec {n : Nat} (arr : Vector Float (n + 1)) (index : Fin (n + 1)) :\n    ⦃⌜True⌝⦄\n    delete arr index\n    ⦃⇓result => ⌜(∀ i : Fin n, \n                   if h : i.val < index.val then \n                     result.get i = arr.get ⟨i.val, by sorry⟩\n                   else \n                     result.get i = arr.get ⟨i.val + 1, by sorry⟩) ∧\n                 (∀ i : Fin (n + 1), i ≠ index → \n                   ∃ j : Fin n, result.get j = arr.get i)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0051_specs.lean",
+    "line": 31,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "      -- The outer dimension has size 1\n      result.toList.length = 1 ∧\n      -- For the single element at index 0, it has n rows\n      (result.get ⟨0, by simp⟩).toList.length = n ∧\n      -- Each row has k+1 elements (depth dimension)\n      (∀ i : Fin n, ((result.get ⟨0, by simp⟩).get i).toList.length = k + 1) ∧\n      -- Elements are correctly positioned: result[0][i][j] = arrays[j][i]\n      (∀ i : Fin n, ∀ j : Fin (k + 1), \n        ((result.get ⟨0, by simp⟩).get i).get j = (arrays.get j).get i)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0058_specs.lean",
+    "line": 12,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "import Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef numpy_insert {n : Nat} (arr : Vector α n) (idx : Fin (n + 1)) (value : α) : Id (Vector α (n + 1)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem numpy_insert_spec {n : Nat} (arr : Vector α n) (idx : Fin (n + 1)) (value : α) :\n    ⦃⌜True⌝⦄\n    numpy_insert arr idx value\n    ⦃⇓result => ⌜-- Elements before insertion point are preserved\n                 (∀ i : Fin (n + 1), i < idx → \n                   ∃ (h : i.val < n), result.get i = arr.get ⟨i.val, h⟩) ∧ \n                 -- The new value is at the specified index"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0058_specs.lean",
+    "line": 31,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "                   ∃ (h : i.val < n), result.get i = arr.get ⟨i.val, h⟩) ∧ \n                 -- The new value is at the specified index\n                 (result.get idx = value) ∧\n                 -- Elements after insertion point are shifted\n                 (∀ i : Fin (n + 1), idx < i → \n                   ∃ (h : i.val - 1 < n), result.get i = arr.get ⟨i.val - 1, h⟩) ∧\n                 -- Sanity check: the result contains all original elements plus the new value\n                 (∀ j : Fin n, ∃ i : Fin (n + 1), \n                   (i < idx ∧ i.val = j.val ∧ result.get i = arr.get j) ∨ \n                   (idx < i ∧ i.val = j.val + 1 ∧ result.get i = arr.get j))⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0185_specs.lean",
+    "line": 23,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "/-- numpy.nonzero: Return the indices of the elements that are non-zero.\n    \n    For a 1D array, returns a list containing the indices of all non-zero elements.\n    The indices are returned in ascending order and correspond to positions where\n    the input array has non-zero values.\n    \n    This function is commonly used for boolean indexing and finding positions\n    of elements that satisfy certain conditions.\n-/\ndef nonzero {n : Nat} (a : Vector Float n) : List (Fin n) :=\n  sorry\n\n/-- Helper: Check if a vector is the zero vector -/\ndef is_zero_vector {n : Nat} (a : Vector Float n) : Prop :=\n  ∀ i : Fin n, a.get i = 0\n\n/-- Helper: Count non-zero elements in a vector -/\ndef count_nonzero {n : Nat} (a : Vector Float n) : Nat :=\n  sorry\n\n/-- Specification: nonzero returns exactly the indices of non-zero elements."
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0185_specs.lean",
+    "line": 31,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "-/\ndef nonzero {n : Nat} (a : Vector Float n) : List (Fin n) :=\n  sorry\n\n/-- Helper: Check if a vector is the zero vector -/\ndef is_zero_vector {n : Nat} (a : Vector Float n) : Prop :=\n  ∀ i : Fin n, a.get i = 0\n\n/-- Helper: Count non-zero elements in a vector -/\ndef count_nonzero {n : Nat} (a : Vector Float n) : Nat :=\n  sorry\n\n/-- Specification: nonzero returns exactly the indices of non-zero elements.\n    \n    The returned list contains all and only the indices where the input array\n    has non-zero values. The indices are returned in ascending order.\n    \n    Key properties:\n    1. Correctness: Every index in result points to a non-zero element\n    2. Completeness: Every non-zero element is represented in the result\n    3. Ordering: Results are sorted in ascending order"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0581_specs.lean",
+    "line": 58,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    digitize x bins false\n    ⦃⇓indices => ⌜\n      -- Each index is bounded by the number of bins\n      (∀ i : Fin n, indices.get i ≤ m + 1) ∧\n      -- Values below the first bin get index 0\n      (∀ i : Fin n, x.get i < bins.get ⟨0, by simp⟩ → indices.get i = 0) ∧\n      -- Values at or above the last bin get index m+1\n      (∀ i : Fin n, x.get i ≥ bins.get ⟨m, by simp⟩ → indices.get i = m + 1) ∧\n      -- Monotonicity property: if x[i] ≤ x[j], then indices[i] ≤ indices[j]\n      (∀ i j : Fin n, x.get i ≤ x.get j → indices.get i ≤ indices.get j)⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0588_specs.lean",
+    "line": 31,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "            -- sorted is a permutation of a\n            (∀ i : Fin (n + 1), ∃ j : Fin (n + 1), sorted.get i = a.get j) ∧\n            (∀ j : Fin (n + 1), ∃ i : Fin (n + 1), sorted.get i = a.get j) ∧\n            -- sorted is in non-decreasing order\n            (∀ i j : Fin (n + 1), i < j → sorted.get i ≤ sorted.get j) ∧\n            -- m is the median of sorted based on odd/even length\n            (if h : (n + 1) % 2 = 1 then\n              -- odd case: middle element at index n/2\n              m = sorted.get ⟨n / 2, by\n                have : n / 2 < n + 1 :=\n  sorry\n                exact this⟩\n            else\n              -- even case: average of two middle elements  \n              m = (sorted.get ⟨n / 2, by\n                have : n / 2 < n + 1 :=\n  sorry\n                exact this⟩ + \n                   sorted.get ⟨(n + 1) / 2, by\n                have : (n + 1) / 2 < n + 1 :=\n  sorry"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0614_specs.lean",
+    "line": 12,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "import Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef index {n : Nat} (a : Vector String n) (sub : Vector String n) (start : Vector Int n) (endPos : Vector Int n) : Id (Vector Int n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem index_spec {n : Nat} (a : Vector String n) (sub : Vector String n) (start : Vector Int n) (endPos : Vector Int n) :\n    ⦃⌜∀ i : Fin n, \n      -- Valid range bounds\n      0 ≤ start.get i ∧ start.get i ≤ endPos.get i ∧\n      endPos.get i ≤ (a.get i).length ∧\n      -- Substring must exist in each string within the range\n      ∃ j : Nat, (start.get i).toNat ≤ j ∧ "
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0636_specs.lean",
+    "line": 12,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "import Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef rindex {n : Nat} (a : Vector String n) (sub : Vector String n) (start : Vector Int n) (endPos : Vector Int n) : Id (Vector Int n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem rindex_spec {n : Nat} (a : Vector String n) (sub : Vector String n) (start : Vector Int n) (endPos : Vector Int n) :\n    ⦃⌜∀ i : Fin n, \n      -- Valid range bounds\n      0 ≤ start.get i ∧ start.get i ≤ endPos.get i ∧\n      endPos.get i ≤ (a.get i).length ∧\n      -- Substring must exist in each string within the range (precondition for rindex)\n      ∃ j : Nat, (start.get i).toNat ≤ j ∧ "
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0656_specs.lean",
+    "line": 29,
+    "current_line": "          let end_idx := indices.get ⟨i.val + 1, sorry⟩",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    ⦃⌜n > 0 ∧ m > 0⌝⦄\n    reduceat op arr indices\n    ⦃⇓result => ⌜\n      -- Result has same length as indices\n      result.toList.length = m ∧\n      -- For each index position, the result is computed according to reduceat rules\n      (∀ i : Fin m, \n        -- For non-last indices: handle slice [indices[i], indices[i+1])\n        (i.val < m - 1 → \n          let start_idx := indices.get i\n          let end_idx := indices.get ⟨i.val + 1, sorry⟩\n          -- Case 1: Normal forward slice (start < end)\n          (start_idx.val < end_idx.val → \n            ∃ (slice_elements : List Float),\n            -- Extract elements from start to end-1\n            slice_elements = (List.range (end_idx.val - start_idx.val)).map \n              (fun offset => arr.get ⟨start_idx.val + offset, sorry⟩) ∧\n            slice_elements.length > 0 ∧\n            -- Apply left-associative reduction\n            result.get i = slice_elements.foldl op slice_elements.head!) ∧\n          -- Case 2: Backward or equal indices (start >= end)"
+  },
+  {
+    "score": 55,
+    "path": "specs/LT0656_specs.lean",
+    "line": 35,
+    "current_line": "              (fun offset => arr.get ⟨start_idx.val + offset, sorry⟩) ∧",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "      (∀ i : Fin m, \n        -- For non-last indices: handle slice [indices[i], indices[i+1])\n        (i.val < m - 1 → \n          let start_idx := indices.get i\n          let end_idx := indices.get ⟨i.val + 1, sorry⟩\n          -- Case 1: Normal forward slice (start < end)\n          (start_idx.val < end_idx.val → \n            ∃ (slice_elements : List Float),\n            -- Extract elements from start to end-1\n            slice_elements = (List.range (end_idx.val - start_idx.val)).map \n              (fun offset => arr.get ⟨start_idx.val + offset, sorry⟩) ∧\n            slice_elements.length > 0 ∧\n            -- Apply left-associative reduction\n            result.get i = slice_elements.foldl op slice_elements.head!) ∧\n          -- Case 2: Backward or equal indices (start >= end)\n          (start_idx.val ≥ end_idx.val → \n            result.get i = arr.get start_idx)) ∧\n        -- For the last index: reduce from indices[i] to end of array\n        (i.val = m - 1 → \n          let start_idx := indices.get i\n          let slice_elements := (List.range (n - start_idx.val)).map "
+  },
+  {
+    "score": 50,
+    "path": "specs/LF1634_specs.lean",
+    "line": 28,
+    "current_line": "sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "min_bound_context"
+    ],
+    "penalties": [],
+    "window": "def find_max_index (lst : List Int) : Int :=\nsorry\n\ndef find_second_max (lst : List Int) : Option Int :=\nsorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem min_index_empty (lst : List Int) :\n  lst = [] → find_min_index lst = -1 :=\nsorry\n\ntheorem min_index_valid (lst : List Int) (result : Int) :\n  result = find_min_index lst →\n  result ≠ -1 →\n  (∃ min : Int, minimum lst = some min ∧\n   0 ≤ result ∧ result < lst.length ∧\n   lst.get ⟨result.toNat, sorry⟩ = min ∧\n   lst.count min = 1) :=\nsorry\n"
+  },
+  {
+    "score": 50,
+    "path": "specs/LF1634_specs.lean",
+    "line": 35,
+    "current_line": "   lst.get ⟨result.toNat, sorry⟩ = min ∧",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "min_bound_context"
+    ],
+    "penalties": [],
+    "window": "-- <vc-theorems>\ntheorem min_index_empty (lst : List Int) :\n  lst = [] → find_min_index lst = -1 :=\nsorry\n\ntheorem min_index_valid (lst : List Int) (result : Int) :\n  result = find_min_index lst →\n  result ≠ -1 →\n  (∃ min : Int, minimum lst = some min ∧\n   0 ≤ result ∧ result < lst.length ∧\n   lst.get ⟨result.toNat, sorry⟩ = min ∧\n   lst.count min = 1) :=\nsorry\n\ntheorem min_index_duplicate (lst : List Int) :\n  find_min_index lst = -1 →\n  lst ≠ [] →\n  (∃ min : Int, minimum lst = some min ∧ lst.count min > 1) :=\nsorry\n\ntheorem max_index_empty (lst : List Int) :"
+  },
+  {
+    "score": 50,
+    "path": "specs/LF1634_specs.lean",
+    "line": 37,
+    "current_line": "sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "min_bound_context"
+    ],
+    "penalties": [],
+    "window": "  lst = [] → find_min_index lst = -1 :=\nsorry\n\ntheorem min_index_valid (lst : List Int) (result : Int) :\n  result = find_min_index lst →\n  result ≠ -1 →\n  (∃ min : Int, minimum lst = some min ∧\n   0 ≤ result ∧ result < lst.length ∧\n   lst.get ⟨result.toNat, sorry⟩ = min ∧\n   lst.count min = 1) :=\nsorry\n\ntheorem min_index_duplicate (lst : List Int) :\n  find_min_index lst = -1 →\n  lst ≠ [] →\n  (∃ min : Int, minimum lst = some min ∧ lst.count min > 1) :=\nsorry\n\ntheorem max_index_empty (lst : List Int) :\n  lst = [] → find_max_index lst = -1 :=\nsorry"
+  },
+  {
+    "score": 50,
+    "path": "specs/LF1634_specs.lean",
+    "line": 43,
+    "current_line": "sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "min_bound_context"
+    ],
+    "penalties": [],
+    "window": "  (∃ min : Int, minimum lst = some min ∧\n   0 ≤ result ∧ result < lst.length ∧\n   lst.get ⟨result.toNat, sorry⟩ = min ∧\n   lst.count min = 1) :=\nsorry\n\ntheorem min_index_duplicate (lst : List Int) :\n  find_min_index lst = -1 →\n  lst ≠ [] →\n  (∃ min : Int, minimum lst = some min ∧ lst.count min > 1) :=\nsorry\n\ntheorem max_index_empty (lst : List Int) :\n  lst = [] → find_max_index lst = -1 :=\nsorry\n\ntheorem max_index_valid (lst : List Int) (result : Int) :\n  result = find_max_index lst →\n  result ≠ -1 →\n  (∃ max : Int, maximum lst = some max ∧\n   0 ≤ result ∧ result < lst.length ∧"
+  },
+  {
+    "score": 50,
+    "path": "specs/LF1634_specs.lean",
+    "line": 47,
+    "current_line": "sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "min_bound_context"
+    ],
+    "penalties": [],
+    "window": "sorry\n\ntheorem min_index_duplicate (lst : List Int) :\n  find_min_index lst = -1 →\n  lst ≠ [] →\n  (∃ min : Int, minimum lst = some min ∧ lst.count min > 1) :=\nsorry\n\ntheorem max_index_empty (lst : List Int) :\n  lst = [] → find_max_index lst = -1 :=\nsorry\n\ntheorem max_index_valid (lst : List Int) (result : Int) :\n  result = find_max_index lst →\n  result ≠ -1 →\n  (∃ max : Int, maximum lst = some max ∧\n   0 ≤ result ∧ result < lst.length ∧\n   lst.get ⟨result.toNat, sorry⟩ = max ∧\n   lst.count max = 1) :=\nsorry\n"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0183_specs.lean",
+    "line": 28,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    ndindex shape\n    ⦃⇓indices => ⌜indices.size = m * n ∧\n                   (∀ k : Fin (m * n), \n                      let (i, j) := indices.get k\n                      i.val < m ∧ j.val < n) ∧\n                   (∀ i : Fin m, ∀ j : Fin n,\n                      ∃ k : Fin (m * n), indices.get k = (i, j)) ∧\n                   (∀ k : Fin (m * n), \n                      let (i, j) := indices.get k\n                      k.val = i.val * n + j.val)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0198_specs.lean",
+    "line": 28,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    (h_indices_valid : ∀ i : Fin n, indices.get i < (shape.toList.foldl (· * ·) 1)) :\n    ⦃⌜(∀ i : Fin d, shape.get i > 0) ∧ (∀ i : Fin n, indices.get i < (shape.toList.foldl (· * ·) 1))⌝⦄\n    unravel_index indices shape\n    ⦃⇓coords => ⌜\n      -- Each result has the same size as the number of dimensions\n      (∀ i : Fin n, (coords.get i).size = d) ∧\n      -- Each coordinate is within bounds for its dimension\n      (∀ i : Fin n, ∀ j : Fin d, (coords.get i).get j < shape.get j) ∧\n      -- Uniqueness: different flat indices produce different coordinates\n      (∀ i j : Fin n, i ≠ j → indices.get i ≠ indices.get j → coords.get i ≠ coords.get j)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0243_specs.lean",
+    "line": 45,
+    "current_line": "  sorry",
+    "reasons": [
+      "fin_context",
+      "vector_get_context",
+      "min_bound_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "                   List.sum (List.map (fun k : Fin n =>\n                     (vh.get i).get k * (vh.get j).get k) \n                     (List.finRange n)) = \n                   if i = j then 1.0 else 0.0) ∧\n                 -- Property 4: Singular values are non-negative and sorted descending\n                 (∀ i : Fin (min m n), s.get i ≥ 0) ∧\n                 (∀ i : Fin (min m n), \n                   ∀ h : i.val + 1 < min m n,\n                   s.get i ≥ s.get ⟨i.val + 1, h⟩)\n                 ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0384_specs.lean",
+    "line": 12,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "import Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef chebgauss (n : Nat) (h : n > 0) : Id (Vector Float n × Vector Float n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem chebgauss_spec (n : Nat) (h : n > 0) :\n    ⦃⌜n > 0⌝⦄\n    chebgauss n h\n    ⦃⇓(nodes, weights) => ⌜\n      -- Nodes are the Chebyshev-Gauss quadrature points\n      -- x_i = cos(π(2i-1)/(2n)) where i ranges from 1 to n\n      -- In Lean's 0-indexed system: x_i = cos(π(2*i.val+1)/(2n))"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0401_specs.lean",
+    "line": 30,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "\n    where `0 <= i <= deg[0]` and `0 <= j <= deg[1]`. The leading indices of\n    `V` index the points `(x, y)` and the last index encodes the degrees of\n    the Chebyshev polynomials.\n\n    This function creates a matrix useful for least squares fitting and\n    evaluation of 2-D Chebyshev series.\n-/\ndef chebvander2d {n : Nat} (x y : Vector Float n) (xdeg ydeg : Nat) : \n    Id (Vector (Vector Float ((xdeg + 1) * (ydeg + 1))) n) :=\n  sorry\n\n/-- Specification: chebvander2d returns a matrix where each row corresponds to\n    a point (x[k], y[k]) and contains the products of Chebyshev polynomials\n    T_i(x[k]) * T_j(y[k]) for all combinations of i and j.\n\n    Precondition: True (no special preconditions)\n    Postcondition: \n    - The result has n rows (one for each point)\n    - Each row has (xdeg + 1) * (ydeg + 1) elements\n    - For each point k and degrees (i, j), the element at position "
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0402_specs.lean",
+    "line": 21,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "  \"doc\": \"Pseudo-Vandermonde matrix of given degrees.\\n\\n    Returns the pseudo-Vandermonde matrix of degrees `deg` and sample\\n    points ``(x, y, z)``. If `l`, `m`, `n` are the given degrees in `x`, `y`, `z`,\\n    then The pseudo-Vandermonde matrix is defined by\\n\\n    .. math:: V[..., (m+1)(n+1)i + (n+1)j + k] = T_i(x)*T_j(y)*T_k(z),\\n\\n    where ``0 <= i <= l``, ``0 <= j <= m``, and ``0 <= j <= n``.  The leading\\n    indices of `V` index the points ``(x, y, z)`` and the last index encodes\\n    the degrees of the Chebyshev polynomials.\\n\\n    If ``V = chebvander3d(x, y, z, [xdeg, ydeg, zdeg])``, then the columns\\n    of `V` correspond to the elements of a 3-D coefficient array `c` of\\n    shape (xdeg + 1, ydeg + 1, zdeg + 1) in the order\\n\\n    .. math:: c_{000}, c_{001}, c_{002},... , c_{010}, c_{011}, c_{012},...\\n\\n    and ``np.dot(V, c.flat)`` and ``chebval3d(x, y, z, c)`` will be the\\n    same up to roundoff. This equivalence is useful both for least squares\\n    fitting and for the evaluation of a large number of 3-D Chebyshev\\n    series of the same degrees and sample points.\\n\\n    Parameters\\n    ----------\\n    x, y, z : array_like\\n        Arrays of point coordinates, all of the same shape. The dtypes will\\n        be converted to either float64 or complex128 depending on whether\\n        any of the elements are complex. Scalars are converted to 1-D\\n        arrays.\\n    deg : list of ints\\n        List of maximum degrees of the form [x_deg, y_deg, z_deg].\\n\\n    Returns\\n    -------\\n    vander3d : ndarray\\n        The shape of the returned matrix is ``x.shape + (order,)``, where\\n        :math:`order = (deg[0]+1)*(deg[1]+1)*(deg[2]+1)`.  The dtype will\\n        be the same as the converted `x`, `y`, and `z`.\\n\\n    See Also\\n    --------\\n    chebvander, chebvander3d, chebval2d, chebval3d\",\n  \"code\": \"def chebvander3d(x, y, z, deg):\\n    \\\"\\\"\\\"Pseudo-Vandermonde matrix of given degrees.\\n\\n    Returns the pseudo-Vandermonde matrix of degrees `deg` and sample\\n    points ``(x, y, z)``. If `l`, `m`, `n` are the given degrees in `x`, `y`, `z`,\\n    then The pseudo-Vandermonde matrix is defined by\\n\\n    .. math:: V[..., (m+1)(n+1)i + (n+1)j + k] = T_i(x)*T_j(y)*T_k(z),\\n\\n    where ``0 <= i <= l``, ``0 <= j <= m``, and ``0 <= j <= n``.  The leading\\n    indices of `V` index the points ``(x, y, z)`` and the last index encodes\\n    the degrees of the Chebyshev polynomials.\\n\\n    If ``V = chebvander3d(x, y, z, [xdeg, ydeg, zdeg])``, then the columns\\n    of `V` correspond to the elements of a 3-D coefficient array `c` of\\n    shape (xdeg + 1, ydeg + 1, zdeg + 1) in the order\\n\\n    .. math:: c_{000}, c_{001}, c_{002},... , c_{010}, c_{011}, c_{012},...\\n\\n    and ``np.dot(V, c.flat)`` and ``chebval3d(x, y, z, c)`` will be the\\n    same up to roundoff. This equivalence is useful both for least squares\\n    fitting and for the evaluation of a large number of 3-D Chebyshev\\n    series of the same degrees and sample points.\\n\\n    Parameters\\n    ----------\\n    x, y, z : array_like\\n        Arrays of point coordinates, all of the same shape. The dtypes will\\n        be converted to either float64 or complex128 depending on whether\\n        any of the elements are complex. Scalars are converted to 1-D\\n        arrays.\\n    deg : list of ints\\n        List of maximum degrees of the form [x_deg, y_deg, z_deg].\\n\\n    Returns\\n    -------\\n    vander3d : ndarray\\n        The shape of the returned matrix is ``x.shape + (order,)``, where\\n        :math:`order = (deg[0]+1)*(deg[1]+1)*(deg[2]+1)`.  The dtype will\\n        be the same as the converted `x`, `y`, and `z`.\\n\\n    See Also\\n    --------\\n    chebvander, chebvander3d, chebval2d, chebval3d\\n    \\\"\\\"\\\"\\n    return pu._vander_nd_flat((chebvander, chebvander, chebvander), (x, y, z), deg)\"\n}\n-/\n\nopen Std.Do\n\n/-- Helper function to compute Chebyshev polynomial T_n(x)\n    T_0(x) = 1, T_1(x) = x, T_n(x) = 2*x*T_{n-1}(x) - T_{n-2}(x) -/\ndef chebyshevT (n : Nat) (x : Float) : Float :=\n  sorry\n\n/-- Pseudo-Vandermonde matrix of given degrees for 3D Chebyshev polynomials.\n\n    Given three vectors of sample points (x, y, z) and degrees (xdeg, ydeg, zdeg),\n    returns a matrix V where each column corresponds to the product of Chebyshev\n    polynomials T_i(x) * T_j(y) * T_k(z) for 0 ≤ i ≤ xdeg, 0 ≤ j ≤ ydeg, 0 ≤ k ≤ zdeg.\n\n    The resulting matrix has shape (n, order) where n is the number of sample points\n    and order = (xdeg + 1) * (ydeg + 1) * (zdeg + 1). -/\ndef chebvander3d {n : Nat} (x y z : Vector Float n) (xdeg ydeg zdeg : Nat) :"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0402_specs.lean",
+    "line": 33,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "/-- Pseudo-Vandermonde matrix of given degrees for 3D Chebyshev polynomials.\n\n    Given three vectors of sample points (x, y, z) and degrees (xdeg, ydeg, zdeg),\n    returns a matrix V where each column corresponds to the product of Chebyshev\n    polynomials T_i(x) * T_j(y) * T_k(z) for 0 ≤ i ≤ xdeg, 0 ≤ j ≤ ydeg, 0 ≤ k ≤ zdeg.\n\n    The resulting matrix has shape (n, order) where n is the number of sample points\n    and order = (xdeg + 1) * (ydeg + 1) * (zdeg + 1). -/\ndef chebvander3d {n : Nat} (x y z : Vector Float n) (xdeg ydeg zdeg : Nat) :\n    Id (Vector (Vector Float ((xdeg + 1) * (ydeg + 1) * (zdeg + 1))) n) :=\n  sorry\n\n/-- Specification: chebvander3d constructs a 3D pseudo-Vandermonde matrix where\n    each entry V[p, idx] equals the product of Chebyshev polynomials evaluated\n    at the p-th sample point, with the column index encoding the polynomial degrees.\n\n    The key mathematical properties are:\n    1. Column ordering follows the pattern (i,j,k) lexicographically\n    2. Each matrix entry equals T_i(x[p]) * T_j(y[p]) * T_k(z[p])\n    3. The matrix enables efficient evaluation of 3D Chebyshev series -/\ntheorem chebvander3d_spec {n : Nat} (x y z : Vector Float n) (xdeg ydeg zdeg : Nat) :"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0435_specs.lean",
+    "line": 29,
+    "current_line": "          result.get ⟨i.val, sorry⟩ = scl * (2.0 * (i.val + 1 : Nat).toFloat) * c.get ⟨i.val + 1, sorry⟩) ∧",
+    "reasons": [
+      "fin_context",
+      "vector_get_context",
+      "min_bound_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    hermder c m scl\n    ⦃⇓result => ⌜\n      -- Basic size property: output size is n - min(m, n)\n      result.size = n - min m n ∧\n      -- Case 1: Single differentiation (m = 1)\n      (m = 1 ∧ n > 0 → \n        ∀ i : Fin (n - 1), \n          -- For Hermite polynomials: d/dx H_j(x) = 2j * H_{j-1}(x)\n          -- So the i-th coefficient (degree i) comes from the (i+1)-th coefficient\n          -- multiplied by 2*(i+1) and the scaling factor\n          result.get ⟨i.val, sorry⟩ = scl * (2.0 * (i.val + 1 : Nat).toFloat) * c.get ⟨i.val + 1, sorry⟩) ∧\n      -- Case 2: Over-differentiation (m ≥ n) gives empty vector\n      (m ≥ n → result.size = 0) ∧\n      -- Mathematical property: The operation reduces the degree by exactly m\n      (m < n → result.size = n - m) ∧\n      -- Mathematical property: Each differentiation applies the Hermite derivative rule\n      -- For multiple differentiations, the pattern compounds\n      (m = 2 ∧ n > 1 → \n        ∀ i : Fin (n - 2),\n          -- Second derivative: apply the rule twice\n          -- d²/dx² H_j(x) = d/dx (2j * H_{j-1}(x)) = 2j * 2(j-1) * H_{j-2}(x)"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0446_specs.lean",
+    "line": 26,
+    "current_line": "      (pow = 0 → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 1) ∧",
+    "reasons": [
+      "fin_context",
+      "vector_get_context",
+      "min_bound_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "-- <vc-theorems>\ntheorem hermpow_spec {n : Nat} (c : Vector Float n) (pow : Nat) (maxpower : Nat := 16) :\n    ⦃⌜n > 0 ∧ maxpower ≥ 0⌝⦄\n    hermpow c pow maxpower\n    ⦃⇓result => ⌜\n      -- Sanity check: result has bounded size\n      result.size ≤ maxpower + 1 ∧\n      result.size = min (n + (n - 1) * pow) (maxpower + 1) ∧\n\n      -- Property 1: Power of 0 gives constant polynomial [1]\n      (pow = 0 → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 1) ∧\n\n      -- Property 2: Power of 1 preserves the polynomial (up to size constraints)\n      (pow = 1 ∧ n ≤ maxpower + 1 → \n        result.size = n ∧ ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧\n\n      -- Property 3: The result represents c^pow in the Hermite polynomial basis\n      -- This is the core mathematical property but requires Hermite multiplication definition\n      -- For now, we express that the result is non-trivial for non-zero inputs\n      ((∃ i : Fin n, c.get i ≠ 0) ∧ pow > 0 → ∃ j : Fin result.size, result.get j ≠ 0) ∧\n"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0446_specs.lean",
+    "line": 30,
+    "current_line": "        result.size = n ∧ ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧",
+    "reasons": [
+      "fin_context",
+      "vector_get_context",
+      "min_bound_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    ⦃⇓result => ⌜\n      -- Sanity check: result has bounded size\n      result.size ≤ maxpower + 1 ∧\n      result.size = min (n + (n - 1) * pow) (maxpower + 1) ∧\n\n      -- Property 1: Power of 0 gives constant polynomial [1]\n      (pow = 0 → result.size = 1 ∧ result.get ⟨0, sorry⟩ = 1) ∧\n\n      -- Property 2: Power of 1 preserves the polynomial (up to size constraints)\n      (pow = 1 ∧ n ≤ maxpower + 1 → \n        result.size = n ∧ ∀ i : Fin n, result.get ⟨i.val, sorry⟩ = c.get i) ∧\n\n      -- Property 3: The result represents c^pow in the Hermite polynomial basis\n      -- This is the core mathematical property but requires Hermite multiplication definition\n      -- For now, we express that the result is non-trivial for non-zero inputs\n      ((∃ i : Fin n, c.get i ≠ 0) ∧ pow > 0 → ∃ j : Fin result.size, result.get j ≠ 0) ∧\n\n      -- Property 4: Degree bound property\n      -- The degree of c^pow is at most (deg(c) * pow) where deg(c) ≤ n-1\n      -- This ensures the result size calculation is reasonable\n      (∀ i : Fin result.size, i.val ≥ min (n + (n - 1) * pow) (maxpower + 1) → "
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0451_specs.lean",
+    "line": 23,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "    \n    This function returns the values:\n    p(x,y,z) = Σᵢ,ⱼ,ₖ c_{i,j,k} * H_i(x) * H_j(y) * H_k(z)\n    \n    where H_i, H_j, H_k are Hermite polynomials of degree i, j, k respectively. -/\ndef hermval3d {n : Nat} \n  (x y z : Vector Float n)\n  {ni nj nk : Nat}\n  (c : Vector (Vector (Vector Float nk) nj) ni) : \n  Id (Vector Float n) :=\n  sorry\n\n/-- Helper function to compute triple sum for Hermite polynomial evaluation -/\ndef hermiteTripleSum {ni nj nk : Nat} \n  (c : Vector (Vector (Vector Float nk) nj) ni) \n  (x y z : Float) : Float :=\n  sorry\n\n/-- Specification: hermval3d evaluates a 3-D Hermite polynomial at given points.\n    \n    The result at each index is the sum of all terms c[i,j,k] * H_i(x) * H_j(y) * H_k(z)"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0451_specs.lean",
+    "line": 29,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "  (x y z : Vector Float n)\n  {ni nj nk : Nat}\n  (c : Vector (Vector (Vector Float nk) nj) ni) : \n  Id (Vector Float n) :=\n  sorry\n\n/-- Helper function to compute triple sum for Hermite polynomial evaluation -/\ndef hermiteTripleSum {ni nj nk : Nat} \n  (c : Vector (Vector (Vector Float nk) nj) ni) \n  (x y z : Float) : Float :=\n  sorry\n\n/-- Specification: hermval3d evaluates a 3-D Hermite polynomial at given points.\n    \n    The result at each index is the sum of all terms c[i,j,k] * H_i(x) * H_j(y) * H_k(z)\n    where H_i, H_j, H_k are Hermite polynomials. -/\ntheorem hermval3d_spec {n : Nat} \n  (x y z : Vector Float n)\n  {ni nj nk : Nat}\n  (c : Vector (Vector (Vector Float nk) nj) ni) :\n    ⦃⌜True⌝⦄"
+  },
+  {
+    "score": 50,
+    "path": "specs/LT0454_specs.lean",
+    "line": 26,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "    index the points (x, y, z) and the last index encodes the degrees of the\n    Hermite polynomials.\n    \n    The Hermite polynomials H_n follow the recurrence relation:\n    - H_0(x) = 1\n    - H_1(x) = 2x\n    - H_n(x) = 2x * H_{n-1}(x) - 2(n-1) * H_{n-2}(x) for n >= 2\n-/\ndef hermvander3d {p : Nat} (x y z : Vector Float p) (xdeg ydeg zdeg : Nat) : \n    Id (Vector (Vector Float ((xdeg + 1) * (ydeg + 1) * (zdeg + 1))) p) :=\n  sorry\n\n/-- Auxiliary function to evaluate the k-th Hermite polynomial at point x -/\ndef hermitePolynomial (k : Nat) (x : Float) : Float :=\n  match k with\n  | 0 => 1\n  | 1 => 2 * x\n  | k + 2 => 2 * x * hermitePolynomial (k + 1) x - 2 * Float.ofNat (k + 1) * hermitePolynomial k x\n\n/-- Specification: hermvander3d creates a matrix where each row corresponds to a sample\n    point (x[i], y[i], z[i]), and the columns contain products of Hermite polynomials"
+  },
+  {
+    "score": 45,
+    "path": "specs/LF0089_specs.lean",
+    "line": 25,
+    "current_line": "  (rearrange_array n arr can).get res_idx = arr.get arr_idx := sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-theorems>\ntheorem rearrange_array_fixed_elements\n  (n : Nat) (arr : List Int) (can : List Bool) (i : Nat) (h1 : arr.length = n) \n  (h2 : can.length = n) (h3 : i < n) :\n  let idx : Fin n := ⟨i, h3⟩\n  let can_idx : Fin can.length := ⟨i, by rw [h2]; exact h3⟩\n  let arr_idx : Fin arr.length := ⟨i, by rw [h1]; exact h3⟩\n  let res_idx : Fin (rearrange_array n arr can).length := ⟨i, by rw [rearrange_array_length n arr can h1 h2]; exact h3⟩\n  can.get can_idx = true →\n  (rearrange_array n arr can).get res_idx = arr.get arr_idx := sorry\n\ntheorem rearrange_array_same_multiset\n  (n : Nat) (arr : List Int) (can : List Bool) :\n  arr.length = n → can.length = n → \n  ∃ perm : List Int, List.Perm perm (rearrange_array n arr can) := sorry\n\ntheorem rearrange_array_descending\n  (n : Nat) (arr : List Int) (can : List Bool) (i j : Nat) \n  (h1 : arr.length = n) (h2 : can.length = n) \n  (h3 : i < n) (h4 : j < n) (h5 : i < j) :"
+  },
+  {
+    "score": 45,
+    "path": "specs/LF1265_specs.lean",
+    "line": 16,
+    "current_line": "  (generate_pattern n).length = n := sorry",
+    "reasons": [
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-definitions>\ndef generate_pattern (n : Nat) : List String := sorry \n\ndef String.countChar (s : String) (c : Char) : Nat :=\n  s.data.filter (· = c) |>.length\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem pattern_length (n : Nat) (h : n > 0) :\n  (generate_pattern n).length = n := sorry\n\ntheorem pattern_first_line (n : Nat) (h : n > 0) :\n  (generate_pattern n).head! = String.join (List.map toString (List.range' n n 1)) := sorry\n\ntheorem pattern_stars_increment (n : Nat) (h : n > 0) (i : Fin n) : \n  let len_eq := pattern_length n h\n  ((generate_pattern n).get ⟨i.val, by rw [len_eq]; exact i.isLt⟩).countChar '*' = i.val := sorry\n\ntheorem pattern_stars_prefix (n : Nat) (h : n > 0) (i : Fin n) :\n  let len_eq := pattern_length n h"
+  },
+  {
+    "score": 45,
+    "path": "specs/LF1265_specs.lean",
+    "line": 19,
+    "current_line": "  (generate_pattern n).head! = String.join (List.map toString (List.range' n n 1)) := sorry",
+    "reasons": [
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "\ndef String.countChar (s : String) (c : Char) : Nat :=\n  s.data.filter (· = c) |>.length\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem pattern_length (n : Nat) (h : n > 0) :\n  (generate_pattern n).length = n := sorry\n\ntheorem pattern_first_line (n : Nat) (h : n > 0) :\n  (generate_pattern n).head! = String.join (List.map toString (List.range' n n 1)) := sorry\n\ntheorem pattern_stars_increment (n : Nat) (h : n > 0) (i : Fin n) : \n  let len_eq := pattern_length n h\n  ((generate_pattern n).get ⟨i.val, by rw [len_eq]; exact i.isLt⟩).countChar '*' = i.val := sorry\n\ntheorem pattern_stars_prefix (n : Nat) (h : n > 0) (i : Fin n) :\n  let len_eq := pattern_length n h\n  ((generate_pattern n).get ⟨i.val, by rw [len_eq]; exact i.isLt⟩).startsWith (String.mk (List.replicate i.val '*')) := sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 45,
+    "path": "specs/LF1265_specs.lean",
+    "line": 23,
+    "current_line": "  ((generate_pattern n).get ⟨i.val, by rw [len_eq]; exact i.isLt⟩).countChar '*' = i.val := sorry",
+    "reasons": [
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "\n-- <vc-theorems>\ntheorem pattern_length (n : Nat) (h : n > 0) :\n  (generate_pattern n).length = n := sorry\n\ntheorem pattern_first_line (n : Nat) (h : n > 0) :\n  (generate_pattern n).head! = String.join (List.map toString (List.range' n n 1)) := sorry\n\ntheorem pattern_stars_increment (n : Nat) (h : n > 0) (i : Fin n) : \n  let len_eq := pattern_length n h\n  ((generate_pattern n).get ⟨i.val, by rw [len_eq]; exact i.isLt⟩).countChar '*' = i.val := sorry\n\ntheorem pattern_stars_prefix (n : Nat) (h : n > 0) (i : Fin n) :\n  let len_eq := pattern_length n h\n  ((generate_pattern n).get ⟨i.val, by rw [len_eq]; exact i.isLt⟩).startsWith (String.mk (List.replicate i.val '*')) := sorry\n-- </vc-theorems>"
+  }
+]

@@ -1,0 +1,394 @@
+[
+  {
+    "score": 125,
+    "path": "specs/LT0479_specs.lean",
+    "line": 45,
+    "current_line": "                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) := by sorry",
+    "reasons": [
+      "direct_have_bound",
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    1. The result has shape (n, (xdeg + 1) * (ydeg + 1))\n    2. Each element V[k, (ydeg + 1)*i + j] = L_i(x[k]) * L_j(y[k])\n    3. The ordering follows the pattern: (0,0), (0,1), ..., (0,ydeg), (1,0), (1,1), ..., (xdeg,ydeg)\n    4. For the first column (i=0, j=0), all values are 1 since L_0(x) * L_0(y) = 1\n-/\ntheorem lagvander2d_spec {n : Nat} (x y : Vector Float n) (xdeg ydeg : Nat) :\n    ⦃⌜True⌝⦄\n    lagvander2d x y xdeg ydeg\n    ⦃⇓result => ⌜(∀ k : Fin n, ∀ i : Fin (xdeg + 1), ∀ j : Fin (ydeg + 1),\n                    let idx := i.val * (ydeg + 1) + j.val\n                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) := by sorry\n                    (result.get k).get ⟨idx, h_idx⟩ = \n                      laguerrePolynomial i.val (x.get k) * laguerrePolynomial j.val (y.get k))⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>"
+  },
+  {
+    "score": 125,
+    "path": "specs/LT0480_specs.lean",
+    "line": 46,
+    "current_line": "                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) * (zdeg + 1) := by sorry",
+    "reasons": [
+      "direct_have_bound",
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    1. The result has shape (n, (xdeg + 1) * (ydeg + 1) * (zdeg + 1))\n    2. Each element V[p, (ydeg+1)*(zdeg+1)*i + (zdeg+1)*j + k] = L_i(x[p]) * L_j(y[p]) * L_k(z[p])\n    3. The ordering follows: (0,0,0), (0,0,1), ..., (0,0,zdeg), (0,1,0), ..., (xdeg,ydeg,zdeg)\n    4. For the first column (i=0, j=0, k=0), all values are 1 since L_0(x) * L_0(y) * L_0(z) = 1\n-/\ntheorem lagvander3d_spec {n : Nat} (x y z : Vector Float n) (xdeg ydeg zdeg : Nat) :\n    ⦃⌜True⌝⦄\n    lagvander3d x y z xdeg ydeg zdeg\n    ⦃⇓result => ⌜(∀ p : Fin n, ∀ i : Fin (xdeg + 1), ∀ j : Fin (ydeg + 1), ∀ k : Fin (zdeg + 1),\n                    let idx := i.val * (ydeg + 1) * (zdeg + 1) + j.val * (zdeg + 1) + k.val\n                    have h_idx : idx < (xdeg + 1) * (ydeg + 1) * (zdeg + 1) := by sorry\n                    (result.get p).get ⟨idx, h_idx⟩ = \n                      laguerrePolynomial i.val (x.get p) * \n                      laguerrePolynomial j.val (y.get p) * \n                      laguerrePolynomial k.val (z.get p))⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n"
+  },
+  {
+    "score": 100,
+    "path": "specs/LT0032_specs.lean",
+    "line": 26,
+    "current_line": "                    have hi : i < rows := by sorry",
+    "reasons": [
+      "direct_have_bound",
+      "fin_context",
+      "vector_get_context",
+      "min_bound_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "-- <vc-theorems>\ntheorem tril_spec {rows cols : Nat} (m : Vector (Vector Float cols) rows) (k : Int := 0) :\n    ⦃⌜True⌝⦄\n    tril m k\n    ⦃⇓result => ⌜-- Element-wise specification (core property)\n                  (∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = \n                      if (i : Int) ≥ (j : Int) - k then (m.get i).get j else 0) ∧\n                  -- Sanity check: diagonal elements are preserved when k = 0\n                  (k = 0 → ∀ i : Fin (min rows cols), \n                    have hi : i < rows := by sorry\n                    have hj : i < cols := by sorry\n                    (result.get ⟨i, hi⟩).get ⟨i, hj⟩ = (m.get ⟨i, hi⟩).get ⟨i, hj⟩) ∧\n                  -- Sanity check: all elements preserved when k is very large\n                  (k ≥ (cols : Int) → ∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = (m.get i).get j) ∧\n                  -- Sanity check: all elements zeroed when k is very negative\n                  (k ≤ -(rows : Int) → ∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = 0) ∧\n                  -- Idempotency property: tril(tril(m, k), k) = tril(m, k)\n                  (∀ (i : Fin rows) (j : Fin cols),"
+  },
+  {
+    "score": 100,
+    "path": "specs/LT0032_specs.lean",
+    "line": 27,
+    "current_line": "                    have hj : i < cols := by sorry",
+    "reasons": [
+      "direct_have_bound",
+      "fin_context",
+      "vector_get_context",
+      "min_bound_context"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "theorem tril_spec {rows cols : Nat} (m : Vector (Vector Float cols) rows) (k : Int := 0) :\n    ⦃⌜True⌝⦄\n    tril m k\n    ⦃⇓result => ⌜-- Element-wise specification (core property)\n                  (∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = \n                      if (i : Int) ≥ (j : Int) - k then (m.get i).get j else 0) ∧\n                  -- Sanity check: diagonal elements are preserved when k = 0\n                  (k = 0 → ∀ i : Fin (min rows cols), \n                    have hi : i < rows := by sorry\n                    have hj : i < cols := by sorry\n                    (result.get ⟨i, hi⟩).get ⟨i, hj⟩ = (m.get ⟨i, hi⟩).get ⟨i, hj⟩) ∧\n                  -- Sanity check: all elements preserved when k is very large\n                  (k ≥ (cols : Int) → ∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = (m.get i).get j) ∧\n                  -- Sanity check: all elements zeroed when k is very negative\n                  (k ≤ -(rows : Int) → ∀ (i : Fin rows) (j : Fin cols), \n                    (result.get i).get j = 0) ∧\n                  -- Idempotency property: tril(tril(m, k), k) = tril(m, k)\n                  (∀ (i : Fin rows) (j : Fin cols),\n                    let twice_applied := tril result k"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0653_specs.lean",
+    "line": 81,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "  sorry\n\n-- Additional properties for comprehensive specification\ntheorem at_length_preservation {n m : Nat} (_a : Vector Int n) (_indices : Vector (Fin n) m) (_b : Vector Int m) :\n    True := by\n  trivial\n\ntheorem at_accumulation {n : Nat} (a : Vector Int n) (idx : Fin n) (val : Int) :\n    «at» a (Vector.replicate 2 idx) (Vector.replicate 2 val) = \n    a.set idx (a.get idx + 2 * val) := by\n  sorry\n\ntheorem at_single_index {n : Nat} (a : Vector Int n) (idx : Fin n) (val : Int) :\n    «at» a (Vector.singleton idx) (Vector.singleton val) = \n    a.set idx (a.get idx + val) := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n"
+  },
+  {
+    "score": 70,
+    "path": "specs/LT0653_specs.lean",
+    "line": 86,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [],
+    "window": "  trivial\n\ntheorem at_accumulation {n : Nat} (a : Vector Int n) (idx : Fin n) (val : Int) :\n    «at» a (Vector.replicate 2 idx) (Vector.replicate 2 val) = \n    a.set idx (a.get idx + 2 * val) := by\n  sorry\n\ntheorem at_single_index {n : Nat} (a : Vector Int n) (idx : Fin n) (val : Int) :\n    «at» a (Vector.singleton idx) (Vector.singleton val) = \n    a.set idx (a.get idx + val) := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n\n-- <vc-theorems>\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0056_specs.lean",
+    "line": 24,
+    "current_line": "                  arr.get ⟨part_idx.val * (n / k) + elem_idx.val, by sorry⟩) ∧",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem hsplit_spec {n k : Nat} (arr : Vector Float n) \n    (h_divides : k > 0 ∧ n % k = 0) :\n    ⦃⌜k > 0 ∧ n % k = 0⌝⦄\n    hsplit arr h_divides\n    ⦃⇓result => ⌜(∀ (part_idx : Fin k) (elem_idx : Fin (n / k)),\n                  (result.get part_idx).get elem_idx = \n                  arr.get ⟨part_idx.val * (n / k) + elem_idx.val, by sorry⟩) ∧\n                 (∀ i : Fin n, ∃ (p : Fin k) (e : Fin (n / k)), \n                  i.val = p.val * (n / k) + e.val ∧\n                  arr.get i = (result.get p).get e)⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0183_specs.lean",
+    "line": 12,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "import Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef ndindex {m n : Nat} (shape : Nat × Nat) : Id (Vector (Fin m × Fin n) (m * n)) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem ndindex_spec {m n : Nat} (shape : Nat × Nat) (h_shape : shape = (m, n)) :\n    ⦃⌜shape = (m, n)⌝⦄\n    ndindex shape\n    ⦃⇓indices => ⌜indices.size = m * n ∧\n                   (∀ k : Fin (m * n), \n                      let (i, j) := indices.get k\n                      i.val < m ∧ j.val < n) ∧"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0191_specs.lean",
+    "line": 15,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef ravel_multi_index {n : Nat} (row_indices col_indices : Vector Nat n) \n    (rows cols : Nat) \n    (h_rows_valid : ∀ i : Fin n, row_indices.get i < rows)\n    (h_cols_valid : ∀ i : Fin n, col_indices.get i < cols) : Id (Vector Nat n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem ravel_multi_index_spec {n : Nat} (row_indices col_indices : Vector Nat n) \n    (rows cols : Nat) \n    (h_rows_valid : ∀ i : Fin n, row_indices.get i < rows)\n    (h_cols_valid : ∀ i : Fin n, col_indices.get i < cols) :\n    ⦃⌜∀ i : Fin n, row_indices.get i < rows ∧ col_indices.get i < cols⌝⦄\n    ravel_multi_index row_indices col_indices rows cols h_rows_valid h_cols_valid\n    ⦃⇓result => ⌜∀ i : Fin n, result.get i = row_indices.get i * cols + col_indices.get i ∧"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0191_specs.lean",
+    "line": 27,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "\n-- <vc-theorems>\ntheorem ravel_multi_index_spec {n : Nat} (row_indices col_indices : Vector Nat n) \n    (rows cols : Nat) \n    (h_rows_valid : ∀ i : Fin n, row_indices.get i < rows)\n    (h_cols_valid : ∀ i : Fin n, col_indices.get i < cols) :\n    ⦃⌜∀ i : Fin n, row_indices.get i < rows ∧ col_indices.get i < cols⌝⦄\n    ravel_multi_index row_indices col_indices rows cols h_rows_valid h_cols_valid\n    ⦃⇓result => ⌜∀ i : Fin n, result.get i = row_indices.get i * cols + col_indices.get i ∧\n                              result.get i < rows * cols⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0198_specs.lean",
+    "line": 12,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "import Std.Do.Triple\nimport Std.Tactic.Do\nopen Std.Do\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\ndef unravel_index {n d : Nat} (indices : Vector Nat n) (shape : Vector Nat d) : Id (Vector (Vector Nat d) n) :=\n  sorry\n-- </vc-definitions>\n\n-- <vc-theorems>\ntheorem unravel_index_spec {n d : Nat} (indices : Vector Nat n) (shape : Vector Nat d) \n    (h_shape_pos : ∀ i : Fin d, shape.get i > 0)\n    (h_indices_valid : ∀ i : Fin n, indices.get i < (shape.toList.foldl (· * ·) 1)) :\n    ⦃⌜(∀ i : Fin d, shape.get i > 0) ∧ (∀ i : Fin n, indices.get i < (shape.toList.foldl (· * ·) 1))⌝⦄\n    unravel_index indices shape\n    ⦃⇓coords => ⌜\n      -- Each result has the same size as the number of dimensions"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0341_specs.lean",
+    "line": 24,
+    "current_line": "        result.get i = (List.range (i.val + 1)).foldl (fun acc idx => acc * arr.get ⟨idx, by sorry⟩) 1.0 ∧",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "\n-- <vc-theorems>\ntheorem nancumprod_spec {n : Nat} (arr : Vector Float n) :\n    ⦃⌜True⌝⦄\n    nancumprod arr\n    ⦃⇓result => ⌜∀ i : Fin n, \n      -- If all elements from start to i are NaN, result[i] = 1\n      (∀ j : Fin n, j.val ≤ i.val → Float.isNaN (arr.get j)) → result.get i = 1.0 ∧\n      -- If no elements from start to i are NaN, result[i] = product of all elements from start to i\n      (∀ j : Fin n, j.val ≤ i.val → ¬Float.isNaN (arr.get j)) → \n        result.get i = (List.range (i.val + 1)).foldl (fun acc idx => acc * arr.get ⟨idx, by sorry⟩) 1.0 ∧\n      -- General case: result[i] = product of all non-NaN elements from start to i\n      result.get i = (List.range (i.val + 1)).foldl (fun acc idx => \n        let val := arr.get ⟨idx, by sorry⟩\n        if Float.isNaN val then acc else acc * val) 1.0⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0341_specs.lean",
+    "line": 27,
+    "current_line": "        let val := arr.get ⟨idx, by sorry⟩",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    ⦃⌜True⌝⦄\n    nancumprod arr\n    ⦃⇓result => ⌜∀ i : Fin n, \n      -- If all elements from start to i are NaN, result[i] = 1\n      (∀ j : Fin n, j.val ≤ i.val → Float.isNaN (arr.get j)) → result.get i = 1.0 ∧\n      -- If no elements from start to i are NaN, result[i] = product of all elements from start to i\n      (∀ j : Fin n, j.val ≤ i.val → ¬Float.isNaN (arr.get j)) → \n        result.get i = (List.range (i.val + 1)).foldl (fun acc idx => acc * arr.get ⟨idx, by sorry⟩) 1.0 ∧\n      -- General case: result[i] = product of all non-NaN elements from start to i\n      result.get i = (List.range (i.val + 1)).foldl (fun acc idx => \n        let val := arr.get ⟨idx, by sorry⟩\n        if Float.isNaN val then acc else acc * val) 1.0⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0401_specs.lean",
+    "line": 49,
+    "current_line": "                  (result.get k).get ⟨idx, by sorry⟩ = ",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    - Each row has (xdeg + 1) * (ydeg + 1) elements\n    - For each point k and degrees (i, j), the element at position \n      (ydeg + 1) * i + j equals T_i(x[k]) * T_j(y[k])\n    - The elements are ordered column-major: varying j (y-degree) fastest\n-/\ntheorem chebvander2d_spec {n : Nat} (x y : Vector Float n) (xdeg ydeg : Nat) :\n    ⦃⌜True⌝⦄\n    chebvander2d x y xdeg ydeg\n    ⦃⇓result => ⌜∀ (k : Fin n) (i : Fin (xdeg + 1)) (j : Fin (ydeg + 1)),\n                  let idx := i.val * (ydeg + 1) + j.val\n                  (result.get k).get ⟨idx, by sorry⟩ = \n                  (chebyshevT i.val (x.get k)) * (chebyshevT j.val (y.get k))⌝⦄ := by\n  sorry\n-- </vc-preamble>\n\n-- <vc-helpers>\n-- </vc-helpers>\n\n-- <vc-definitions>\n-- </vc-definitions>\n"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0428_specs.lean",
+    "line": 50,
+    "current_line": "                     acc + (result.get point_idx).get ⟨k, sorry⟩ * flattened_coeff.get ⟨k, sorry⟩",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "                 -- Polynomial evaluation equivalence property exists\n                 (∀ coeff_matrix : Vector (Vector Float (y_deg + 1)) (x_deg + 1),\n                   ∃ flattened_coeff : Vector Float ((x_deg + 1) * (y_deg + 1)),\n                   -- Coefficient flattening follows row-major order\n                   (∀ i : Fin (x_deg + 1), ∀ j : Fin (y_deg + 1),\n                     flattened_coeff.get ⟨(y_deg + 1) * i.val + j.val, sorry⟩ = \n                     (coeff_matrix.get i).get j) ∧\n                   -- Matrix-vector multiplication gives polynomial evaluation\n                   ∀ point_idx : Fin n,\n                   (List.range ((x_deg + 1) * (y_deg + 1))).foldl (fun acc k =>\n                     acc + (result.get point_idx).get ⟨k, sorry⟩ * flattened_coeff.get ⟨k, sorry⟩\n                   ) 0 = \n                   -- Equivalent to direct 2D polynomial evaluation  \n                   (List.range (x_deg + 1)).foldl (fun acc_i i =>\n                     acc_i + (List.range (y_deg + 1)).foldl (fun acc_j j =>\n                       acc_j + (coeff_matrix.get ⟨i, sorry⟩).get ⟨j, sorry⟩ * \n                       -- Note: hermite_basis exists from above, this is evaluation at point\n                       1.0  -- Placeholder for correct hermite evaluation\n                     ) 0\n                   ) 0) ∧\n                 -- Vandermonde matrix properties for polynomial fitting"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0429_specs.lean",
+    "line": 45,
+    "current_line": "          (result.get p).get ⟨col_idx, by sorry⟩ = ",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "        (∀ t : Float, hermite_poly 0 t = 1) ∧\n        (∀ t : Float, hermite_poly 1 t = t) ∧\n        -- HermiteE polynomial recurrence relation\n        (∀ k : Nat, k ≥ 2 → ∀ t : Float, \n          hermite_poly k t = t * hermite_poly (k-1) t - Float.ofNat (k-1) * hermite_poly (k-2) t) ∧\n        -- Each matrix element follows the 3D product formula\n        (∀ p : Fin n, ∀ i : Nat, ∀ j : Nat, ∀ k : Nat,\n          i ≤ x_deg → j ≤ y_deg → k ≤ z_deg →\n          let col_idx := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k\n          col_idx < order →\n          (result.get p).get ⟨col_idx, by sorry⟩ = \n            hermite_poly i (x.get p) * hermite_poly j (y.get p) * hermite_poly k (z.get p))) ∧\n\n      -- Orthogonality property: HermiteE polynomials are orthogonal with respect to Gaussian weight\n      (∀ p : Fin n, ∀ i₁ j₁ k₁ i₂ j₂ k₂ : Nat,\n        i₁ ≤ x_deg → j₁ ≤ y_deg → k₁ ≤ z_deg →\n        i₂ ≤ x_deg → j₂ ≤ y_deg → k₂ ≤ z_deg →\n        (i₁ ≠ i₂ ∨ j₁ ≠ j₂ ∨ k₁ ≠ k₂) →\n        let col_idx₁ := (y_deg + 1) * (z_deg + 1) * i₁ + (z_deg + 1) * j₁ + k₁\n        let col_idx₂ := (y_deg + 1) * (z_deg + 1) * i₂ + (z_deg + 1) * j₂ + k₂\n        col_idx₁ < order → col_idx₂ < order →"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0429_specs.lean",
+    "line": 57,
+    "current_line": "        (result.get p).get ⟨col_idx₁, by sorry⟩ ≠ (result.get p).get ⟨col_idx₂, by sorry⟩ ∨ ",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "\n      -- Orthogonality property: HermiteE polynomials are orthogonal with respect to Gaussian weight\n      (∀ p : Fin n, ∀ i₁ j₁ k₁ i₂ j₂ k₂ : Nat,\n        i₁ ≤ x_deg → j₁ ≤ y_deg → k₁ ≤ z_deg →\n        i₂ ≤ x_deg → j₂ ≤ y_deg → k₂ ≤ z_deg →\n        (i₁ ≠ i₂ ∨ j₁ ≠ j₂ ∨ k₁ ≠ k₂) →\n        let col_idx₁ := (y_deg + 1) * (z_deg + 1) * i₁ + (z_deg + 1) * j₁ + k₁\n        let col_idx₂ := (y_deg + 1) * (z_deg + 1) * i₂ + (z_deg + 1) * j₂ + k₂\n        col_idx₁ < order → col_idx₂ < order →\n        -- Different polynomial products are linearly independent\n        (result.get p).get ⟨col_idx₁, by sorry⟩ ≠ (result.get p).get ⟨col_idx₂, by sorry⟩ ∨ \n        x.get p = 0 ∧ y.get p = 0 ∧ z.get p = 0) ∧\n\n      -- Consistency with evaluation: dot product with coefficients equals 3D polynomial evaluation\n      (∀ p : Fin n, ∀ coeff : Vector Float order,\n        ∃ polynomial_value : Float,\n          -- The dot product of the Vandermonde row with coefficients\n          -- equals the evaluation of the 3D HermiteE polynomial expansion\n          polynomial_value = (List.sum (List.ofFn (fun i : Fin order => (result.get p).get i * coeff.get i)))) ∧\n\n      -- Parity property: HermiteE polynomials satisfy He_n(-x) = (-1)^n * He_n(x)"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0429_specs.lean",
+    "line": 76,
+    "current_line": "          (result.get p).get ⟨col_idx, by sorry⟩ = ",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "\n      -- Parity property: HermiteE polynomials satisfy He_n(-x) = (-1)^n * He_n(x)\n      (∃ hermite_poly : Nat → Float → Float,\n        (∀ k : Nat, k ≤ max (max x_deg y_deg) z_deg → ∀ t : Float,\n          hermite_poly k (-t) = (if k % 2 = 0 then 1 else -1) * hermite_poly k t) ∧\n        -- This parity property is reflected in the matrix structure\n        (∀ p : Fin n, ∀ i j k : Nat,\n          i ≤ x_deg → j ≤ y_deg → k ≤ z_deg →\n          let col_idx := (y_deg + 1) * (z_deg + 1) * i + (z_deg + 1) * j + k\n          col_idx < order →\n          (result.get p).get ⟨col_idx, by sorry⟩ = \n            hermite_poly i (x.get p) * hermite_poly j (y.get p) * hermite_poly k (z.get p)))\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0451_specs.lean",
+    "line": 43,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    The result at each index is the sum of all terms c[i,j,k] * H_i(x) * H_j(y) * H_k(z)\n    where H_i, H_j, H_k are Hermite polynomials. -/\ntheorem hermval3d_spec {n : Nat} \n  (x y z : Vector Float n)\n  {ni nj nk : Nat}\n  (c : Vector (Vector (Vector Float nk) nj) ni) :\n    ⦃⌜True⌝⦄\n    hermval3d x y z c\n    ⦃⇓result => ⌜∀ idx : Fin n, \n      result.get idx = hermiteTripleSum c (x.get idx) (y.get idx) (z.get idx)⌝⦄ := by\n  sorry\n\n/-- Alternative detailed specification showing the mathematical property directly -/\ntheorem hermval3d_spec_detailed {n : Nat} \n  (x y z : Vector Float n)\n  {ni nj nk : Nat}\n  (c : Vector (Vector (Vector Float nk) nj) ni)\n  (h_ni : ni > 0) (h_nj : nj > 0) (h_nk : nk > 0) :\n    ⦃⌜ni > 0 ∧ nj > 0 ∧ nk > 0⌝⦄\n    hermval3d x y z c\n    ⦃⇓result => ⌜∀ idx : Fin n,"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0505_specs.lean",
+    "line": 29,
+    "current_line": "          (result.get i).get ⟨col_idx, sorry⟩ = L_p_x * L_q_y)",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    ⦃⇓result => ⌜\n      -- Matrix has correct dimensions\n      (∀ i : Fin n, ∀ j : Fin ((deg_x + 1) * (deg_y + 1)), ∃ val : Float, (result.get i).get j = val) ∧\n      -- First column corresponds to L_0(x) * L_0(y) = 1 * 1 = 1\n      (∀ i : Fin n, (result.get i).get ⟨0, sorry⟩ = 1) ∧\n      -- Entries are products of Legendre polynomial evaluations\n      (∀ i : Fin n, ∀ p : Fin (deg_x + 1), ∀ q : Fin (deg_y + 1), \n        let col_idx := (deg_y + 1) * p.val + q.val\n        col_idx < (deg_x + 1) * (deg_y + 1) →\n        ∃ L_p_x L_q_y : Float, \n          (result.get i).get ⟨col_idx, sorry⟩ = L_p_x * L_q_y)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0506_specs.lean",
+    "line": 31,
+    "current_line": "          (result.get i).get ⟨col_idx, sorry⟩ = L_p_x * L_q_y * L_r_z)",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "      -- Matrix has correct dimensions\n      (∀ i : Fin n, ∀ j : Fin ((deg_x + 1) * (deg_y + 1) * (deg_z + 1)), \n        ∃ val : Float, (result.get i).get j = val) ∧\n      -- First column corresponds to L_0(x) * L_0(y) * L_0(z) = 1 * 1 * 1 = 1\n      (∀ i : Fin n, (result.get i).get ⟨0, sorry⟩ = 1) ∧\n      -- Entries are products of Legendre polynomial evaluations\n      (∀ i : Fin n, ∀ p : Fin (deg_x + 1), ∀ q : Fin (deg_y + 1), ∀ r : Fin (deg_z + 1), \n        let col_idx := (deg_y + 1) * (deg_z + 1) * p.val + (deg_z + 1) * q.val + r.val\n        col_idx < (deg_x + 1) * (deg_y + 1) * (deg_z + 1) →\n        ∃ L_p_x L_q_y L_r_z : Float, \n          (result.get i).get ⟨col_idx, sorry⟩ = L_p_x * L_q_y * L_r_z)\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0513_specs.lean",
+    "line": 35,
+    "current_line": "          result.get i = c.get ⟨original_idx, sorry⟩ * factorial_factor * scale_factor",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "      (m > 0 → \n        ∀ i : Fin (n - m), \n          -- The coefficient at position i comes from original position i+m\n          -- It's multiplied by m consecutive factors: (i+m) * (i+m-1) * ... * (i+1)\n          -- and scaled by scl^m\n          let original_idx := i.val + m\n          let factorial_factor := (List.range m).foldl \n            (fun acc k => acc * (original_idx - k).toFloat) 1.0\n          let scale_factor := (List.range m).foldl \n            (fun acc _ => acc * scl) 1.0\n          result.get i = c.get ⟨original_idx, sorry⟩ * factorial_factor * scale_factor\n      )\n    ⌝⦄ := by\n  sorry\n-- </vc-theorems>"
+  },
+  {
+    "score": 65,
+    "path": "specs/LT0653_specs.lean",
+    "line": 71,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context",
+      "mul_or_flattened_index_shape"
+    ],
+    "penalties": [
+      "forall_context"
+    ],
+    "window": "    5. Preserves array length: result has same length as input array\n\n    Precondition: All indices must be valid (within bounds of array a)\n    Postcondition: For each index i in indices, the value at a[indices[i]] is\n    modified by the operation with b[i], with accumulation for repeated indices\n-/\ntheorem at_spec {n m : Nat} (a : Vector Int n) (indices : Vector (Fin n) m) (b : Vector Int m) :\n    ⦃⌜True⌝⦄\n    «at» a indices b\n    ⦃⇓result => ⌜∀ i : Fin n, ∃ acc : Int, result.get i = a.get i + acc ∧ acc ≥ 0⌝⦄ := by\n  sorry\n\n-- Additional properties for comprehensive specification\ntheorem at_length_preservation {n m : Nat} (_a : Vector Int n) (_indices : Vector (Fin n) m) (_b : Vector Int m) :\n    True := by\n  trivial\n\ntheorem at_accumulation {n : Nat} (a : Vector Int n) (idx : Fin n) (val : Int) :\n    «at» a (Vector.replicate 2 idx) (Vector.replicate 2 val) = \n    a.set idx (a.get idx + 2 * val) := by\n  sorry"
+  },
+  {
+    "score": 60,
+    "path": "specs/LT0588_specs.lean",
+    "line": 37,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [],
+    "window": "            (if h : (n + 1) % 2 = 1 then\n              -- odd case: middle element at index n/2\n              m = sorted.get ⟨n / 2, by\n                have : n / 2 < n + 1 :=\n  sorry\n                exact this⟩\n            else\n              -- even case: average of two middle elements  \n              m = (sorted.get ⟨n / 2, by\n                have : n / 2 < n + 1 :=\n  sorry\n                exact this⟩ + \n                   sorted.get ⟨(n + 1) / 2, by\n                have : (n + 1) / 2 < n + 1 :=\n  sorry\n                exact this⟩) / 2) ∧\n            -- median property: it's a value that appears in the original vector\n            -- or can be computed from values in the vector\n            (∃ i : Fin (n + 1), m = sorted.get i ∨ \n             ∃ i j : Fin (n + 1), m = (sorted.get i + sorted.get j) / 2)⌝⦄ := by\n  sorry"
+  },
+  {
+    "score": 60,
+    "path": "specs/LT0653_specs.lean",
+    "line": 51,
+    "current_line": "  sorry",
+    "reasons": [
+      "index_bound",
+      "fin_context",
+      "vector_get_context"
+    ],
+    "penalties": [],
+    "window": "\n    Mathematical Properties:\n    1. In-place modification: modifies the original array a\n    2. Accumulation with repeated indices: when an index appears multiple times,\n       the operation is applied multiple times\n    3. Unbuffered operation: does not suffer from buffering issues of regular indexing\n    4. Preserves array shape: only modifies values, not structure\n    5. Index bounds checking: indices must be valid for the array\n-/\ndef «at» {n m : Nat} (a : Vector Int n) (indices : Vector (Fin n) m) (b : Vector Int m) : Id (Vector Int n) :=\n  sorry\n\n/-- Specification: ufunc.at performs in-place operation at specified indices\n    with proper handling of repeated indices.\n\n    Mathematical Properties:\n    1. In-place semantics: modifies the original array values\n    2. Accumulation property: for repeated indices, operations accumulate\n    3. Index correspondence: indices[i] determines where b[i] is applied\n    4. Bounds safety: all indices must be valid for the array\n    5. Preserves array length: result has same length as input array"
+  }
+]
