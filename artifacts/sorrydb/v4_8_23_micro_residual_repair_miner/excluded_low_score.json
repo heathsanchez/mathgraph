@@ -1,0 +1,1147 @@
+[
+  {
+    "score": 18,
+    "repo": "google-deepmind/formal-imo",
+    "path": "Imo/1991/P4.lean",
+    "line": 33,
+    "current_line": "  sorry",
+    "goal": "n k : ℕ\nG : SimpleGraph (Fin (n + 1))\ninst✝ : DecidableRel G.Adj\nh₀ : G.Connected\nh₃ : G.edgeFinset.card = k\n⊢ ∃ labels,\n    ∃ (_ : Set.BijOn labels ((SimpleGraph.edgeSetEmbedding (Fin (n + 1))) G) (Set.Icc 1 k)),\n      ∀ (v : Fin (n + 1)), (G.incidenceFinset v).card ≥ 2 → (G.incidenceFinset v).gcd labels = 1",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_SimpleGraph",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "a776603a4a27ee7b6e3fb5762268b15d54d8b8ca3de38eb077493781dd751b4c"
+  },
+  {
+    "score": 15,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 53,
+    "current_line": "  have : units_finset = image_finset := by sorry",
+    "goal": "p : ℕ\ninst✝ : Fact (Nat.Prime p)\na : ℤ\nunits_finset : Finset (ZMod p) := univ.erase 0\nimage_finset : Finset (ZMod p) := image (fun x => ↑a * x) units_finset\n⊢ units_finset = image_finset",
+    "reasons": [
+      "sorry_on_current_line",
+      "local_have_by",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_05"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "63db8ffc0199cc1a713aeb07f33c5fcf900a66b1af2ab8a71cc96740cc9dd99b"
+  },
+  {
+    "score": 0,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2023P3.lean",
+    "line": 19,
+    "current_line": "  sorry",
+    "goal": "⊢ (fun k =>\n      {a |\n        (∀ (i : ℕ), 0 < a i) ∧\n          ∃ P,\n            P.Monic ∧ P.degree = ↑↑k ∧ ∀ (n : ℕ), Polynomial.eval (a n) P = ∏ i ∈ Finset.Icc (n + 1) (n + ↑k), a i}) =\n    IMO2023P3.answer",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "hard_term_Monic",
+      "hard_term_degree",
+      "hard_term_IMO202",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "97bd69736a277c80081d2194de7c55c92f84969b7e4761bd62894be46b68d048"
+  },
+  {
+    "score": 0,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2023P3.lean",
+    "line": 19,
+    "current_line": "  sorry",
+    "goal": "⊢ (fun k =>\n      {a |\n        (∀ (i : ℕ), 0 < a i) ∧\n          ∃ P,\n            P.Monic ∧ P.degree = ↑↑k ∧ ∀ (n : ℕ), Polynomial.eval (a n) P = ∏ i ∈ Finset.Icc (n + 1) (n + ↑k), a i}) =\n    IMO2023P3.answer",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "hard_term_Monic",
+      "hard_term_degree",
+      "hard_term_IMO202",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "97bd69736a277c80081d2194de7c55c92f84969b7e4761bd62894be46b68d048"
+  },
+  {
+    "score": 0,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2023P3.lean",
+    "line": 19,
+    "current_line": "  sorry",
+    "goal": "⊢ (fun k =>\n      {a |\n        (∀ (i : ℕ), 0 < a i) ∧\n          ∃ P,\n            P.Monic ∧ P.degree = ↑↑k ∧ ∀ (n : ℕ), Polynomial.eval (a n) P = ∏ i ∈ Finset.Icc (n + 1) (n + ↑k), a i}) =\n    IMO2023P3.answer",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "hard_term_Monic",
+      "hard_term_degree",
+      "hard_term_IMO202",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "97bd69736a277c80081d2194de7c55c92f84969b7e4761bd62894be46b68d048"
+  },
+  {
+    "score": -10,
+    "repo": "YaelDillies/MiscYD",
+    "path": "MiscYD/SetFamily/PosDiffs.lean",
+    "line": 117,
+    "current_line": "",
+    "goal": "α : Type u_1\ninst✝³ : Sub α\ninst✝² : Preorder α\ninst✝¹ : DecidableRel fun x1 x2 => x1 ≤ x2\ninst✝ : DecidableEq α\ns : Finset α\nhs : (↑s).OrdConnected\n⊢ card (@Finset.posSub α inst✝³ inst✝² inst✝¹ inst✝ s s) ≤ s.card",
+    "reasons": [
+      "short_goal",
+      "relation_goal"
+    ],
+    "penalties": [
+      "no_visible_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "ff875a6a368978b85a72e83db6a289f0f39497669c77a1b1f9268f83fee5781e"
+  },
+  {
+    "score": -10,
+    "repo": "YaelDillies/MiscYD",
+    "path": "MiscYD/SetFamily/PosDiffs.lean",
+    "line": 117,
+    "current_line": "",
+    "goal": "α : Type u_1\ninst✝³ : Sub α\ninst✝² : Preorder α\ninst✝¹ : DecidableRel fun x1 x2 => x1 ≤ x2\ninst✝ : DecidableEq α\ns : Finset α\nhs : (↑s).OrdConnected\n⊢ card (@Finset.posSub α inst✝³ inst✝² inst✝¹ inst✝ s s) ≤ s.card",
+    "reasons": [
+      "short_goal",
+      "relation_goal"
+    ],
+    "penalties": [
+      "no_visible_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "ff875a6a368978b85a72e83db6a289f0f39497669c77a1b1f9268f83fee5781e"
+  },
+  {
+    "score": -18,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2023P3.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : 2 ≤ k\na : ℕ+ → ℕ+\n⊢ a ∈ Imo2023P3.SolutionSet k hk ↔\n    ∃ P,\n      P.Monic ∧\n        P.degree = ↑k ∧\n          (∀ n ≤ k, 0 ≤ P.coeff n) ∧\n            ∀ (n : ℕ+), Polynomial.eval (↑↑(a n)) P = ↑↑(∏ i ∈ Finset.range k, a ⟨↑n + i + 1, ⋯⟩)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "hard_term_Monic",
+      "hard_term_degree",
+      "hard_term_SolutionSet",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "e274e715813c128bb0b34f05fcbad0206ad018e5a8b22dbb7906231f5dd6c76b"
+  },
+  {
+    "score": -18,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2023P3.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : 2 ≤ k\na : ℕ+ → ℕ+\n⊢ a ∈ Imo2023P3.SolutionSet k hk ↔\n    ∃ P,\n      P.Monic ∧\n        P.degree = ↑k ∧\n          (∀ n ≤ k, 0 ≤ P.coeff n) ∧\n            ∀ (n : ℕ+), Polynomial.eval (↑↑(a n)) P = ↑↑(∏ i ∈ Finset.range k, a ⟨↑n + i + 1, ⋯⟩)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "hard_term_Monic",
+      "hard_term_degree",
+      "hard_term_SolutionSet",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "e274e715813c128bb0b34f05fcbad0206ad018e5a8b22dbb7906231f5dd6c76b"
+  },
+  {
+    "score": -18,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2023P3.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : 2 ≤ k\na : ℕ+ → ℕ+\n⊢ a ∈ Imo2023P3.SolutionSet k hk ↔\n    ∃ P,\n      P.Monic ∧\n        P.degree = ↑k ∧\n          (∀ n ≤ k, 0 ≤ P.coeff n) ∧\n            ∀ (n : ℕ+), Polynomial.eval (↑↑(a n)) P = ↑↑(∏ i ∈ Finset.range k, a ⟨↑n + i + 1, ⋯⟩)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_Polynomial",
+      "hard_term_Monic",
+      "hard_term_degree",
+      "hard_term_SolutionSet",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "e274e715813c128bb0b34f05fcbad0206ad018e5a8b22dbb7906231f5dd6c76b"
+  },
+  {
+    "score": -20,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 54,
+    "current_line": "  sorry",
+    "goal": "p : ℕ\ninst✝ : Fact (Nat.Prime p)\na : ℤ\nunits_finset : Finset (ZMod p) := univ.erase 0\nimage_finset : Finset (ZMod p) := image (fun x => ↑a * x) units_finset\nthis : units_finset = image_finset\n⊢ ↑a ≠ 0 → ↑a ^ (p - 1) = -1",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_05"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "1d90823a9b08f76f3b0edc5bda1886cc28d47c4f846b149aeb6e1666efbac94f"
+  },
+  {
+    "score": -22,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Usa1999P1.lean",
+    "line": 46,
+    "current_line": "    n^2 ≤ c.card * 3 + 2 := by",
+    "goal": "n : ℕ\nc : Finset (Usa1999P1.checkerboard n)\nha : failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)\nhb : ∀ x ∈ c, ∀ y ∈ c, ∃ p, List.IsChain (Usa1999P1.adjacent n) p ∧ p.head? = some x ∧ p.getLast? = some y\n⊢ n ^ 2 ≤ c.card * 3 + 2",
+    "reasons": [
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃",
+      "no_visible_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "fcd6a735ca62c6f2eacf6dd1a3981a36c7f65663716071ed80004a1ae82905f5"
+  },
+  {
+    "score": -22,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Usa1999P1.lean",
+    "line": 46,
+    "current_line": "    n^2 ≤ c.card * 3 + 2 := by",
+    "goal": "n : ℕ\nc : Finset (Usa1999P1.checkerboard n)\nha : failed to pretty print expression (use 'set_option pp.rawOnError true' for raw representation)\nhb : ∀ x ∈ c, ∀ y ∈ c, ∃ p, List.IsChain (Usa1999P1.adjacent n) p ∧ p.head? = some x ∧ p.getLast? = some y\n⊢ n ^ 2 ≤ c.card * 3 + 2",
+    "reasons": [
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃",
+      "no_visible_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "fcd6a735ca62c6f2eacf6dd1a3981a36c7f65663716071ed80004a1ae82905f5"
+  },
+  {
+    "score": -28,
+    "repo": "YaelDillies/LeanCamCombi",
+    "path": "LeanCamCombi/GrowthInGroups/Lecture4.lean",
+    "line": 41,
+    "current_line": "          A ⊆ F * H := showcased",
+    "goal": "C : ℝ\nG : Type u_2\ninst✝¹ : Group G\ninst✝ : DecidableEq G\nS : Finset G\nhSsymm : S⁻¹ = S\nhSgen : ↑(Subgroup.closure ↑S) = Set.univ\nd : ℕ\nhS : ∀ (n : ℕ), ↑(S ^ n).card ≤ C * ↑n ^ d\n⊢ IsVirtuallyNilpotent G",
+    "reasons": [
+      "short_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "no_visible_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "f844d1774b4d08300f0fb1a35dd0f00130405b260c5fcfbfd5c854dbd1eb5b90"
+  },
+  {
+    "score": -28,
+    "repo": "YaelDillies/LeanCamCombi",
+    "path": "LeanCamCombi/GrowthInGroups/Lecture4.lean",
+    "line": 41,
+    "current_line": "          A ⊆ F * H := showcased",
+    "goal": "C : ℝ\nG : Type u_2\ninst✝¹ : Group G\ninst✝ : DecidableEq G\nS : Finset G\nhSsymm : S⁻¹ = S\nhSgen : ↑(Subgroup.closure ↑S) = Set.univ\nd : ℕ\nhS : ∀ (n : ℕ), ↑(S ^ n).card ≤ C * ↑n ^ d\n⊢ IsVirtuallyNilpotent G",
+    "reasons": [
+      "short_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "no_visible_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "f844d1774b4d08300f0fb1a35dd0f00130405b260c5fcfbfd5c854dbd1eb5b90"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 48,
+    "current_line": "  · sorry",
+    "goal": "case left\np : ℕ\nh : Fact (Nat.Prime p)\n⊢ ∃ m, p = 4 * m + 1 → {s | s ^ 2 = -1}.card = 2",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "6efe22035b6d2b8a940d3b739225fa4daf690e311ada66793f66edd825e9054f"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 48,
+    "current_line": "  · sorry",
+    "goal": "case left\np : ℕ\nh : Fact (Nat.Prime p)\n⊢ ∃ m, p = 4 * m + 1 → {s | s ^ 2 = -1}.card = 2",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "6efe22035b6d2b8a940d3b739225fa4daf690e311ada66793f66edd825e9054f"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 53,
+    "current_line": "    · sorry",
+    "goal": "case right.right\np : ℕ\nh : Fact (Nat.Prime p)\n⊢ ∃ m, p = 4 * m + 1 → {s | s ^ 2 = -1}.card = 0",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "902e699746fa16082ff6bede94130834cc8c8f9b2d42f496487c4920fa3ea4df"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 53,
+    "current_line": "    · sorry",
+    "goal": "case right.right\np : ℕ\nh : Fact (Nat.Prime p)\n⊢ ∃ m, p = 4 * m + 1 → {s | s ^ 2 = -1}.card = 0",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "902e699746fa16082ff6bede94130834cc8c8f9b2d42f496487c4920fa3ea4df"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 85,
+    "current_line": "  sorry",
+    "goal": "p : ℕ\nh : Fact (Nat.Prime p)\nhp : p % 4 = 1\n⊢ ∃ a b, a ^ 2 + b ^ 2 = p",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "659955bd12943dc092ffff0415886e102945c72ce6a93756779728aced5fa683"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 85,
+    "current_line": "  sorry",
+    "goal": "p : ℕ\nh : Fact (Nat.Prime p)\nhp : p % 4 = 1\n⊢ ∃ a b, a ^ 2 + b ^ 2 = p",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "659955bd12943dc092ffff0415886e102945c72ce6a93756779728aced5fa683"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 185,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\n⊢ Fintype.card ↑(ch04.U k) = Fintype.card ↑(ch04.T k)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_Fintype.card"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "5f63aa96f6ab4c2fdcfe7b133c9d7582069a26bab74decda4bf6db0233db44ba"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 113,
+    "current_line": "  sorry",
+    "goal": "p : ℕ\ninst✝¹ : Fact (Prime p)\nK : Type u_1\ninst✝ : Field K\nζ : Kˣ\nh_1 : ζ ^ p = 1\nh_2 : ζ ≠ 1\n⊢ X ^ (p - 1) - 1 = ∏ i ∈ Icc 1 p, (X - Polynomial.C ↑ζ ^ i)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_05",
+      "hard_term_Polynomial"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "fcd7001b7b076fe7885f3358723d519d3b14e481b2439a23f90b98b5f7f9f99f"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 57,
+    "current_line": "  sorry",
+    "goal": "x : ℝ\n⊢ HasSum (fun n => x ^ n / ↑n.factorial) (exp x)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_08",
+      "hard_term_HasSum"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "337995f8ca1f5af035eb2bbacfd85e7dc9aeacff891b88bdeba3197f520e2f98"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 76,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\nh_n : n ≠ 0\n⊢ ¬2 ^ n ∣ n.factorial ∧ (2 ^ (n - 1) ∣ n.factorial ↔ ∃ m, n = 2 ^ m)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_08",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "124881b068dc2ef9331986b7c06ab43a691b7851e932911530cb70c312bcddcf"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 76,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\nh_n : n ≠ 0\n⊢ ¬2 ^ n ∣ n.factorial ∧ (2 ^ (n - 1) ∣ n.factorial ↔ ∃ m, n = 2 ^ m)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_08",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "124881b068dc2ef9331986b7c06ab43a691b7851e932911530cb70c312bcddcf"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 98,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\nx : ℝ\n⊢ ∃ c, book.irrational.f_aux n x = ∑ i ∈ Icc n (2 * n), ↑(c i) * x ^ i",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_08",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "e83129dc9324c17bbf79171ccdf0ba07bc7c57e4f7771fbbe122bcd9242789ad"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 98,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\nx : ℝ\n⊢ ∃ c, book.irrational.f_aux n x = ∑ i ∈ Icc n (2 * n), ↑(c i) * x ^ i",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_08",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "e83129dc9324c17bbf79171ccdf0ba07bc7c57e4f7771fbbe122bcd9242789ad"
+  },
+  {
+    "score": -32,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_08.lean",
+    "line": 110,
+    "current_line": "  sorry",
+    "goal": "n k : ℕ\n⊢ (iteratedDeriv k (book.irrational.f_aux n) 0 ∈ Set.range fun q => ↑q) ∧\n    iteratedDeriv k (book.irrational.f_aux n) 1 ∈ Set.range fun q => ↑q",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_08",
+      "hard_term_iteratedDeriv"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "6a29708883663ee508701b0a2a81bcd3be768555516e4e0c131edf89eef71a56"
+  },
+  {
+    "score": -38,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 239,
+    "current_line": "    sorry",
+    "goal": "case h.mp\nk : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\nt : ↑(ch04.U k)\nht : ⟨⟨(t.1.1.1 - t.1.1.2.1 + t.1.1.2.2, t.1.1.2.1, 2 * t.1.1.2.1 - t.1.1.2.2), ⋯⟩, ⋯⟩ = t\n⊢ t ∈ {⟨⟨(↑k, 1), ⋯⟩, ⋯⟩}",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "ed95579168afee87333af9d50b4d41cd2c6d6c298657a682a3eb2e1f74a79edf"
+  },
+  {
+    "score": -38,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 239,
+    "current_line": "    sorry",
+    "goal": "case h.mp\nk : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\nt : ↑(ch04.U k)\nht : ⟨⟨(t.1.1.1 - t.1.1.2.1 + t.1.1.2.2, t.1.1.2.1, 2 * t.1.1.2.1 - t.1.1.2.2), ⋯⟩, ⋯⟩ = t\n⊢ t ∈ {⟨⟨(↑k, 1), ⋯⟩, ⋯⟩}",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "ed95579168afee87333af9d50b4d41cd2c6d6c298657a682a3eb2e1f74a79edf"
+  },
+  {
+    "score": -44,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 98,
+    "current_line": "  sorry",
+    "goal": "K : Type u_1\ninst✝¹ : Field K\ninst✝ : Fintype K\n⊢ ∃ ζ, ∀ (α : Kˣ), ∃ k, α = ζ ^ k",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_05",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "3ce6110359e3c92ba29fb1c338f5618b13946ed1e61b9de5ea29ccfcbf0cfeda"
+  },
+  {
+    "score": -44,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_05.lean",
+    "line": 104,
+    "current_line": "  sorry",
+    "goal": "p q : ℕ\nhp : p ≠ 2\nhq : q ≠ 2\ninst✝³ : Fact (Nat.Prime p)\ninst✝² : Fact (Nat.Prime q)\nh_pq : p ≠ q\nK : Type u_1\ninst✝¹ : Field K\ninst✝ : Fintype K\nH : Fintype.card K = q ^ (p - 1)\n⊢ ∀ (a b : K), (a + b) ^ q = a ^ q + b ^ q",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_05",
+      "hard_term_Fintype.card",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "904966eb43ab8d49d0ccb2bc98ae6aa019b66643b56ac6447298be0a3a8eb6db"
+  },
+  {
+    "score": -50,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 248,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\n⊢ Odd (Fintype.card ↑(ch04.T k))",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_Fintype.card"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "5658635a134b6404fb24addedbb23bcb9364dab0ce6a5d9e187369034dced759"
+  },
+  {
+    "score": -50,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 248,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\n⊢ Odd (Fintype.card ↑(ch04.T k))",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_Fintype.card"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "5658635a134b6404fb24addedbb23bcb9364dab0ce6a5d9e187369034dced759"
+  },
+  {
+    "score": -56,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_07.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\nA : Matrix (Fin n) (Fin n) ℝ\nh : A.IsHermitian\n⊢ ∃ Q ∈ orthogonalGroup (Fin n) ℝ, ∃ d, diagonal d = Q.conjTranspose * A * Q",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_07",
+      "hard_term_Matrix",
+      "hard_term_orthogonal",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "3c45928b7f6b9645a3d1804a7863ad1560c515ebef44608963364e0a41b034c2"
+  },
+  {
+    "score": -56,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_07.lean",
+    "line": 38,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\n⊢ ∃ M, (∀ (i j : Fin n), M i j = -1 ∨ M i j = 1) ∧ ↑M.det > √↑n.factorial",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_07",
+      "hard_term_det",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "dbf737e3353a5e457c1493f6a6b5cba1c4e180edb6a322247420dbd98b784f34"
+  },
+  {
+    "score": -56,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_07.lean",
+    "line": 38,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\nhn : 1 < n\n⊢ ∃ M, (∀ (i j : Fin n), M i j = -1 ∨ M i j = 1) ∧ ↑M.det > √↑n.factorial",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_07",
+      "hard_term_det",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "78459de26b2396bde524d5a8618acdf4290bd374eabd5e833ae95182438c4b46"
+  },
+  {
+    "score": -56,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_07.lean",
+    "line": 38,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\n⊢ ∃ M, (∀ (i j : Fin n), M i j = -1 ∨ M i j = 1) ∧ ↑M.det > √↑n.factorial",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_07",
+      "hard_term_det",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "dbf737e3353a5e457c1493f6a6b5cba1c4e180edb6a322247420dbd98b784f34"
+  },
+  {
+    "score": -56,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_07.lean",
+    "line": 38,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\nhn : 1 < n\n⊢ ∃ M, (∀ (i j : Fin n), M i j = -1 ∨ M i j = 1) ∧ ↑M.det > √↑n.factorial",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_07",
+      "hard_term_det",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "78459de26b2396bde524d5a8618acdf4290bd374eabd5e833ae95182438c4b46"
+  },
+  {
+    "score": -90,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 287,
+    "current_line": "theorem trivialInvo_fixedPoints : (fixedPoints (trivialInvo k)).Nonempty := by sorry",
+    "goal": "k : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\n⊢ (fixedPoints (ch04.trivialInvo k)).Nonempty",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_fixedPoints",
+      "top_level_theorem_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "3f4ef9e3cfcb5ab03b7b0e0387a4f687a6c7f5c0a8570e52e0d8e8b42e24c8c3"
+  },
+  {
+    "score": -90,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_04.lean",
+    "line": 287,
+    "current_line": "theorem trivialInvo_fixedPoints : (fixedPoints (trivialInvo k)).Nonempty := by sorry",
+    "goal": "k : ℕ\nhk : Fact (Nat.Prime (4 * k + 1))\n⊢ (fixedPoints (ch04.trivialInvo k)).Nonempty",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_04",
+      "hard_term_fixedPoints",
+      "top_level_theorem_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "3f4ef9e3cfcb5ab03b7b0e0387a4f687a6c7f5c0a8570e52e0d8e8b42e24c8c3"
+  },
+  {
+    "score": -97,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 73,
+    "current_line": "  have h_lamb: lamb ≠ 1 := by sorry",
+    "goal": "q n : ℕ\nlamb : ℂ\na : ℝ := lamb.re\nb : ℝ := lamb.im\nh : lamb ∈ primitiveRoots n ℂ\n⊢ lamb ≠ 1",
+    "reasons": [
+      "sorry_on_current_line",
+      "local_have_by",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "already_promoted_pr137",
+      "hard_term_primitiveRoot"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "5e44f965721b80762f0079dcc54d0d29fcd3f7e7b200ea577332f68b0bf2a10c"
+  },
+  {
+    "score": -97,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 74,
+    "current_line": "  have h_a_lt_one: ‖a‖ < 1 := by sorry",
+    "goal": "q n : ℕ\nlamb : ℂ\na : ℝ := lamb.re\nb : ℝ := lamb.im\nh : lamb ∈ primitiveRoots n ℂ\nh_lamb : lamb ≠ 1\n⊢ ‖a‖ < 1",
+    "reasons": [
+      "sorry_on_current_line",
+      "local_have_by",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "already_promoted_pr137",
+      "hard_term_primitiveRoot"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "7cb57d82c952c79e9bf4aae30f33232a11f45a9adee401673e8d8ebe31fb16b1"
+  },
+  {
+    "score": -102,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_20.lean",
+    "line": 96,
+    "current_line": "",
+    "goal": "n : ℕ\nhn : 1 ≤ n\na : ↥(Finset.Icc 1 n) → ℝ\nhpos : ∀ (i : ↥(Finset.Icc 1 n)), 0 < a i\n⊢ let harmonic := ↑n / ∑ i, 1 / a i;\n  let geometric := (∏ i, a i) ^ (1 / ↑n);\n  let arithmetic := (∑ i, a i) / ↑n;\n  let all_equal := ∀ (i : ↥(Finset.Icc 1 n)), a i = a ⟨1, ⋯⟩;\n  harmonic ≤ geometric ∧\n    geometric ≤ arithmetic ∧ (harmonic = geometric ↔ all_equal) ∧ (geometric = arithmetic ↔ all_equal)",
+    "reasons": [
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_20",
+      "hard_term_∀",
+      "no_visible_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "8335cf4f29731301b3bd5d17cf0c43d7fc3130a2328288efb263a59369451fd9"
+  },
+  {
+    "score": -102,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_20.lean",
+    "line": 96,
+    "current_line": "",
+    "goal": "n : ℕ\nhn : 1 ≤ n\na : { x // x ∈ Finset.Icc 1 n } → ℝ\nhpos : ∀ (i : { x // x ∈ Finset.Icc 1 n }), 0 < a i\n⊢ let harmonic := ↑n / ∑ i, 1 / a i;\n  let geometric := (∏ i, a i) ^ (1 / ↑n);\n  let arithmetic := (∑ i, a i) / ↑n;\n  let all_equal := ∀ (i : { x // x ∈ Finset.Icc 1 n }), a i = a ⟨1, ⋯⟩;\n  harmonic ≤ geometric ∧\n    geometric ≤ arithmetic ∧ (harmonic = geometric ↔ all_equal) ∧ (geometric = arithmetic ↔ all_equal)",
+    "reasons": [
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "parked_or_theorem_scale_Chapter_20",
+      "hard_term_∀",
+      "no_visible_sorry"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "7823477ef62b4ddbd373b452af68ca5536b6b05e6ee29aef81c0ba74a1c81676"
+  },
+  {
+    "score": -128,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 153,
+    "current_line": "        sorry",
+    "goal": "l m n : ℕ\nh_2lel : 2 ≤ l\nk : ℕ\nh_4lek : 4 ≤ k\nh_klen4 : k ≤ n - 4\nh : 2 * k ≤ n\nh_klen : k ≤ n\nh_1lel : 1 ≤ l\nH : n.choose k = m ^ l\nh₁ : ∃ p, Nat.Prime p ∧ p ^ l ≤ n ∧ k ^ l < p ^ l ∧ k ^ 2 ≤ k ^ l\nh✝ : ¬l = 2\n⊢ 3 ≤ l",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook",
+      "chapter03_context"
+    ],
+    "penalties": [
+      "already_promoted_pr138",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "e3495f5c9e15a09f8fb227dc09c18272f2f5952aebbbc2dd2a2f8059a1ec314d"
+  },
+  {
+    "score": -128,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 153,
+    "current_line": "        sorry",
+    "goal": "l m n : ℕ\nh_2lel : 2 ≤ l\nk : ℕ\nh_4lek : 4 ≤ k\nh_klen4 : k ≤ n - 4\nh : 2 * k ≤ n\nh_klen : k ≤ n\nh_1lel : 1 ≤ l\nH : n.choose k = m ^ l\nh₁ : ∃ p, Nat.Prime p ∧ p ^ l ≤ n ∧ k ^ l < p ^ l ∧ k ^ 2 ≤ k ^ l\nh✝ : ¬l = 2\n⊢ 3 ≤ l",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook",
+      "chapter03_context"
+    ],
+    "penalties": [
+      "already_promoted_pr138",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "e3495f5c9e15a09f8fb227dc09c18272f2f5952aebbbc2dd2a2f8059a1ec314d"
+  },
+  {
+    "score": -128,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 153,
+    "current_line": "        sorry",
+    "goal": "l m n : ℕ\nh_2lel : 2 ≤ l\nk : ℕ\nh_4lek : 4 ≤ k\nh_klen4 : k ≤ n - 4\nh : 2 * k ≤ n\nh_klen : k ≤ n\nh_1lel : 1 ≤ l\nH : n.choose k = m ^ l\nh₁ : ∃ p, Nat.Prime p ∧ p ^ l ≤ n ∧ k ^ l < p ^ l ∧ k ^ 2 ≤ k ^ l\nh✝ : ¬l = 2\n⊢ 3 ≤ l",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook",
+      "chapter03_context"
+    ],
+    "penalties": [
+      "already_promoted_pr138",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "e3495f5c9e15a09f8fb227dc09c18272f2f5952aebbbc2dd2a2f8059a1ec314d"
+  },
+  {
+    "score": -128,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 173,
+    "current_line": "      sorry",
+    "goal": "k l m n : ℕ\nh_2lel : 2 ≤ l\nh_4lek : 4 ≤ k\nh_klen4 : k ≤ n - 4\nh_wlog : ∀ (k' : ℕ), 4 ≤ k' → k' ≤ n - 4 → 2 * k' ≤ n → n.choose k' ≠ m ^ l\nh : n < 2 * k\nh_klen : k ≤ n\nk' : ℕ := n - k\nh_k'_def : k' = n - k\n⊢ 2 * k' ≤ n",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook",
+      "chapter03_context"
+    ],
+    "penalties": [
+      "already_promoted_pr138",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "bfad037cde20475fabf127cc96ef202f7cdc6ab019ba5d3e387fc4b6ce4c5b21"
+  },
+  {
+    "score": -128,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 173,
+    "current_line": "      sorry",
+    "goal": "k l m n : ℕ\nh_2lel : 2 ≤ l\nh_4lek : 4 ≤ k\nh_klen4 : k ≤ n - 4\nh_wlog : ∀ (k' : ℕ), 4 ≤ k' → k' ≤ n - 4 → 2 * k' ≤ n → n.choose k' ≠ m ^ l\nh : n < 2 * k\nh_klen : k ≤ n\nk' : ℕ := n - k\nh_k'_def : k' = n - k\n⊢ 2 * k' ≤ n",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook",
+      "chapter03_context"
+    ],
+    "penalties": [
+      "already_promoted_pr138",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "bfad037cde20475fabf127cc96ef202f7cdc6ab019ba5d3e387fc4b6ce4c5b21"
+  },
+  {
+    "score": -128,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_03.lean",
+    "line": 173,
+    "current_line": "      sorry",
+    "goal": "k l m n : ℕ\nh_2lel : 2 ≤ l\nh_4lek : 4 ≤ k\nh_klen4 : k ≤ n - 4\nh_wlog : ∀ (k' : ℕ), 4 ≤ k' → k' ≤ n - 4 → 2 * k' ≤ n → n.choose k' ≠ m ^ l\nh : n < 2 * k\nh_klen : k ≤ n\nk' : ℕ := n - k\nh_k'_def : k' = n - k\n⊢ 2 * k' ≤ n",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook",
+      "chapter03_context"
+    ],
+    "penalties": [
+      "already_promoted_pr138",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "bfad037cde20475fabf127cc96ef202f7cdc6ab019ba5d3e387fc4b6ce4c5b21"
+  },
+  {
+    "score": -132,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 80,
+    "current_line": "      _ = ‖(q : ℂ) - a - I*b‖^2 := by sorry",
+    "goal": "q n : ℕ\nlamb : ℂ\na : ℝ := lamb.re\nb : ℝ := lamb.im\nh : lamb ∈ primitiveRoots n ℂ\nh_lamb : lamb ≠ 1\nh_a_lt_one : ‖a‖ < 1\n⊢ ‖↑q - lamb‖ ^ 2 = ‖↑q - ↑a - I * ↑b‖ ^ 2",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "already_promoted_pr137",
+      "hard_term_primitiveRoot"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "06cf2147b64b191a85609b13daee7c622ce13953c387135490b797c700b7cc7f"
+  },
+  {
+    "score": -132,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_06.lean",
+    "line": 81,
+    "current_line": "      _ = ‖(q : ℂ) - a‖^2 + ‖b‖^2 := by sorry",
+    "goal": "q n : ℕ\nlamb : ℂ\na : ℝ := lamb.re\nb : ℝ := lamb.im\nh : lamb ∈ primitiveRoots n ℂ\nh_lamb : lamb ≠ 1\nh_a_lt_one : ‖a‖ < 1\n⊢ ‖↑q - ↑a - I * ↑b‖ ^ 2 = ‖↑q - ↑a‖ ^ 2 + ‖b‖ ^ 2",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "already_promoted_pr137",
+      "hard_term_primitiveRoot"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "a1bf38dbf70d95262bf67567f247446bbfb6d9a7c6c82e4a3fc61301452cbdab"
+  }
+]

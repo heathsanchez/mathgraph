@@ -1,0 +1,44 @@
+[
+  {
+    "score": 36,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2022P3.lean",
+    "line": 21,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : 0 < k\nS : Finset ℕ\nhS : ∀ p ∈ S, Odd p ∧ Nat.Prime p\np₁ p₂ : Fin S.card ≃ ↥S\nhp₁ : IMO2022P3.Condition k S p₁\nhp₂ : IMO2022P3.Condition k S p₂\n⊢ (∃ i, ∀ (j : Fin S.card), p₂ j = p₁ (j + i)) ∨ ∃ i, ∀ (j : Fin S.card), p₂ j = p₁ (j.rev + i)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "4dc775391e2ccdb337f257b6295182e79519b1c024be82c92d539b129872c216"
+  },
+  {
+    "score": 36,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2022P3.lean",
+    "line": 21,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : 0 < k\nS : Finset ℕ\nhS : ∀ p ∈ S, Odd p ∧ Nat.Prime p\np₁ p₂ : Fin S.card ≃ ↥S\nhp₁ : IMO2022P3.Condition k S p₁\nhp₂ : IMO2022P3.Condition k S p₂\n⊢ (∃ i, ∀ (j : Fin S.card), p₂ j = p₁ (j + i)) ∨ ∃ i, ∀ (j : Fin S.card), p₂ j = p₁ (j.rev + i)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "4dc775391e2ccdb337f257b6295182e79519b1c024be82c92d539b129872c216"
+  }
+]

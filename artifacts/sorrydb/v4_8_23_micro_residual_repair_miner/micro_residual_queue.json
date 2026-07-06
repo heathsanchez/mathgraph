@@ -1,0 +1,455 @@
+[
+  {
+    "score": 80,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_09.lean",
+    "line": 615,
+    "current_line": "  sorry",
+    "goal": "⊢ ∑' (k : ℕ), 1 / (2 * ↑k + 1) ^ 2 = Real.pi ^ 2 / 8",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "69053d06c5a730c0428d85a84b5a3c1f2b0aeacdc44a92fcb01a2b19cd76dde6"
+  },
+  {
+    "score": 80,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_09.lean",
+    "line": 619,
+    "current_line": "  sorry",
+    "goal": "⊢ ∑' (n : ℕ+), 1 / ↑↑n = Real.pi ^ 2 / 6",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "0c61aa8c3887d83d28dcf0e2da0b2af5f25c08b40055095f06cb28e43d533d7c"
+  },
+  {
+    "score": 68,
+    "repo": "mo271/FormalBook",
+    "path": "FormalBook/Chapter_24.lean",
+    "line": 38,
+    "current_line": "    M ∈ doublyStochastic ℝ (Fin n) → permanent M ≥ (n.factorial)/(n ^ n) := sorry",
+    "goal": "n : ℕ\nM : Matrix (Fin n) (Fin n) ℝ\n⊢ M ∈ doublyStochastic ℝ (Fin n) → M.permanent ≥ ↑n.factorial / ↑n ^ n",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal",
+      "known_formalbook"
+    ],
+    "penalties": [
+      "hard_term_Matrix"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "fafb865c35ed180a88ec7877c6fb3432fc771002d0021d4e0dd67de1341ec201"
+  },
+  {
+    "score": 60,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2016P5.lean",
+    "line": 69,
+    "current_line": "      sorry",
+    "goal": "case h.refine_4\nhp : ∀ (n : ℕ), (n % 4 = 2 ∨ n % 4 = 3) = ¬(n % 4 = 0 ∨ n % 4 = 1)\nx : ℝ\n⊢ ∏ i ∈ Finset.Icc 1 2016 \\ {n ∈ Finset.Icc 1 2016 | n % 4 = 2 ∨ n % 4 = 3}, (x - ↑i) ≠\n    ∏ i ∈ Finset.Icc 1 2016 \\ {n ∈ Finset.Icc 1 2016 | n % 4 = 0 ∨ n % 4 = 1}, (x - ↑i)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "1eb3a5430ac4a81ae6fad5345fdc09342737ec30147070aa9d5d45d47b9ebaeb"
+  },
+  {
+    "score": 60,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2016P5.lean",
+    "line": 69,
+    "current_line": "      sorry",
+    "goal": "case h.refine_4\nhp : ∀ (n : ℕ), (n % 4 = 2 ∨ n % 4 = 3) = ¬(n % 4 = 0 ∨ n % 4 = 1)\nx : ℝ\n⊢ ∏ i ∈ Finset.Icc 1 2016 \\ {n ∈ Finset.Icc 1 2016 | n % 4 = 2 ∨ n % 4 = 3}, (x - ↑i) ≠\n    ∏ i ∈ Finset.Icc 1 2016 \\ {n ∈ Finset.Icc 1 2016 | n % 4 = 0 ∨ n % 4 = 1}, (x - ↑i)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "1eb3a5430ac4a81ae6fad5345fdc09342737ec30147070aa9d5d45d47b9ebaeb"
+  },
+  {
+    "score": 60,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2016P5.lean",
+    "line": 69,
+    "current_line": "      sorry",
+    "goal": "case h.refine_4\nhp : ∀ (n : ℕ), (n % 4 = 2 ∨ n % 4 = 3) = ¬(n % 4 = 0 ∨ n % 4 = 1)\nx : ℝ\n⊢ ∏ i ∈ Finset.Icc 1 2016 \\ {n ∈ Finset.Icc 1 2016 | n % 4 = 2 ∨ n % 4 = 3}, (x - ↑i) ≠\n    ∏ i ∈ Finset.Icc 1 2016 \\ {n ∈ Finset.Icc 1 2016 | n % 4 = 0 ∨ n % 4 = 1}, (x - ↑i)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "1eb3a5430ac4a81ae6fad5345fdc09342737ec30147070aa9d5d45d47b9ebaeb"
+  },
+  {
+    "score": 48,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2017P6.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "goal": "S : Finset (ℤ × ℤ)\nhS : ∀ s ∈ S, gcd s.1 s.2 = 1\n⊢ ∃ n, 0 < n ∧ ∃ a, ∀ s ∈ S, ∑ i ∈ Finset.range n, a i * s.1 ^ i * s.2 ^ (n - i) = 1",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "c9f848ad84eb3e477e5e10ce2a09daf49eb61f0f3dcffa8ac4b31c9cb30215be"
+  },
+  {
+    "score": 48,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2017P6.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "goal": "S : Finset (ℤ × ℤ)\nhS : ∀ s ∈ S, gcd s.1 s.2 = 1\n⊢ ∃ n, 0 < n ∧ ∃ a, ∀ s ∈ S, ∑ i ∈ Finset.range n, a i * s.1 ^ i * s.2 ^ (n - i) = 1",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "c9f848ad84eb3e477e5e10ce2a09daf49eb61f0f3dcffa8ac4b31c9cb30215be"
+  },
+  {
+    "score": 48,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2017P6.lean",
+    "line": 32,
+    "current_line": "  sorry",
+    "goal": "S : Finset (ℤ × ℤ)\nhS : ∀ s ∈ S, gcd s.1 s.2 = 1\n⊢ ∃ n, 0 < n ∧ ∃ a, ∀ s ∈ S, ∑ i ∈ Finset.range n, a i * s.1 ^ i * s.2 ^ (n - i) = 1",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "c9f848ad84eb3e477e5e10ce2a09daf49eb61f0f3dcffa8ac4b31c9cb30215be"
+  },
+  {
+    "score": 48,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2018P5.lean",
+    "line": 37,
+    "current_line": "  sorry",
+    "goal": "a : ℕ → ℤ\napos : ∀ (n : ℕ), 0 < a n\nN : ℕ\nhN : 0 < N\nh : ∀ (n : ℕ), N ≤ n → ∃ z, ↑z = ∑ i ∈ Finset.range n, ↑(a i) / ↑(a ((i + 1) % n))\n⊢ ∃ M, ∀ (m : ℕ), M ≤ m → a m = a (m + 1)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "9c44352afd07ad4a915b781d2993bdab5820ec33f22ff13634c0a756d3e2eafd"
+  },
+  {
+    "score": 48,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2018P5.lean",
+    "line": 37,
+    "current_line": "  sorry",
+    "goal": "a : ℕ → ℤ\napos : ∀ (n : ℕ), 0 < a n\nN : ℕ\nhN : 0 < N\nh : ∀ (n : ℕ), N ≤ n → ∃ z, ↑z = ∑ i ∈ Finset.range n, ↑(a i) / ↑(a ((i + 1) % n))\n⊢ ∃ M, ∀ (m : ℕ), M ≤ m → a m = a (m + 1)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "9c44352afd07ad4a915b781d2993bdab5820ec33f22ff13634c0a756d3e2eafd"
+  },
+  {
+    "score": 48,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2018P5.lean",
+    "line": 37,
+    "current_line": "  sorry",
+    "goal": "a : ℕ → ℤ\napos : ∀ (n : ℕ), 0 < a n\nN : ℕ\nhN : 0 < N\nh : ∀ (n : ℕ), N ≤ n → ∃ z, ↑z = ∑ i ∈ Finset.range n, ↑(a i) / ↑(a ((i + 1) % n))\n⊢ ∃ M, ∀ (m : ℕ), M ≤ m → a m = a (m + 1)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "9c44352afd07ad4a915b781d2993bdab5820ec33f22ff13634c0a756d3e2eafd"
+  },
+  {
+    "score": 48,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2022P3.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : 0 < k\nS : Finset ℕ\nhS : ∀ p ∈ S, Odd p ∧ Nat.Prime p\np₁ p₂ : Fin S.card ≃ ↥S\nhp₁ : Imo2022P3.Condition k S p₁\nhp₂ : Imo2022P3.Condition k S p₂\n⊢ (∃ i, ∀ (j : Fin S.card), p₂ j = p₁ (j + i)) ∨ ∃ i, ∀ (j : Fin S.card), p₂ j = p₁ (j.rev + i)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "c5b4411d81f9283149345807b335c1e053d17833438e668c96fa082cacd0fe50"
+  },
+  {
+    "score": 48,
+    "repo": "dwrensha/compfiles",
+    "path": "Compfiles/Imo2022P3.lean",
+    "line": 39,
+    "current_line": "  sorry",
+    "goal": "k : ℕ\nhk : 0 < k\nS : Finset ℕ\nhS : ∀ p ∈ S, Odd p ∧ Nat.Prime p\np₁ p₂ : Fin S.card ≃ ↥S\nhp₁ : Imo2022P3.Condition k S p₁\nhp₂ : Imo2022P3.Condition k S p₂\n⊢ (∃ i, ∀ (j : Fin S.card), p₂ j = p₁ (j + i)) ∨ ∃ i, ∀ (j : Fin S.card), p₂ j = p₁ (j.rev + i)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_∀",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "c5b4411d81f9283149345807b335c1e053d17833438e668c96fa082cacd0fe50"
+  },
+  {
+    "score": 48,
+    "repo": "google-deepmind/formal-imo",
+    "path": "Imo/2007/P3.lean",
+    "line": 36,
+    "current_line": "  sorry",
+    "goal": "n : ℕ\nC : SimpleGraph (Fin n)\ninst✝ : DecidableRel C.Adj\nlargest_clique_size_in : Finset (Fin n) → ℕ\nh₀ : largest_clique_size_in = fun S => {s ∈ S.powerset | C.IsClique ↑s}.sup Finset.card\nh₁ : Even (largest_clique_size_in Finset.univ)\n⊢ ∃ R₁ R₂, IsCompl R₁ R₂ ∧ largest_clique_size_in R₁ = largest_clique_size_in R₂",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_SimpleGraph",
+      "hard_term_∃"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "9420420afb8501ff9c82315e7d0be090e6107c4edd1249fa110f5cefcb1df827"
+  },
+  {
+    "score": 48,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2021P6.lean",
+    "line": 15,
+    "current_line": "  sorry",
+    "goal": "m : ℕ\nhm : 2 ≤ m\nA : Finset ℤ\nB : Fin m → Finset ℤ\nhBA : ∀ (i : Fin m), B i ⊆ A\nhB : ∀ (k : Fin m), ∑ i ∈ B k, i = ↑m ^ (↑k + 1)\n⊢ ↑m / 2 ≤ ↑A.card",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "370d81df19a05812cf92b2e173e4df4a50ee669023e531d14b5e89309727ca49"
+  },
+  {
+    "score": 48,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2021P6.lean",
+    "line": 15,
+    "current_line": "  sorry",
+    "goal": "m : ℕ\nhm : 2 ≤ m\nA : Finset ℤ\nB : Fin m → Finset ℤ\nhBA : ∀ (i : Fin m), B i ⊆ A\nhB : ∀ (k : Fin m), ∑ i ∈ B k, i = ↑m ^ (↑k + 1)\n⊢ ↑m / 2 ≤ ↑A.card",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "370d81df19a05812cf92b2e173e4df4a50ee669023e531d14b5e89309727ca49"
+  },
+  {
+    "score": 48,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2021P6.lean",
+    "line": 15,
+    "current_line": "  sorry",
+    "goal": "m : ℕ\nhm : 2 ≤ m\nA : Finset ℤ\nB : Fin m → Finset ℤ\nhBA : ∀ (i : Fin m), B i ⊆ A\nhB : ∀ (k : Fin m), ∑ i ∈ B k, i = ↑m ^ (↑k + 1)\n⊢ ↑m / 2 ≤ ↑A.card",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "370d81df19a05812cf92b2e173e4df4a50ee669023e531d14b5e89309727ca49"
+  },
+  {
+    "score": 48,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2024P1.lean",
+    "line": 15,
+    "current_line": "  sorry",
+    "goal": "⊢ {α | ∀ (n : ℕ), 0 < n → ↑n ∣ ∑ i ∈ Finset.Icc 1 n, ⌊↑i * α⌋} = IMO2024P1.answer",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "69c604791ac0724139ed2090446c0136588fe18f96d32e8bd1e4061ebe391eea"
+  },
+  {
+    "score": 48,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2024P1.lean",
+    "line": 15,
+    "current_line": "  sorry",
+    "goal": "⊢ {α | ∀ (n : ℕ), 0 < n → ↑n ∣ ∑ i ∈ Finset.Icc 1 n, ⌊↑i * α⌋} = IMO2024P1.answer",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "69c604791ac0724139ed2090446c0136588fe18f96d32e8bd1e4061ebe391eea"
+  },
+  {
+    "score": 48,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2024P1.lean",
+    "line": 15,
+    "current_line": "  sorry",
+    "goal": "⊢ {α | ∀ (n : ℕ), 0 < n → ↑n ∣ ∑ i ∈ Finset.Icc 1 n, ⌊↑i * α⌋} = IMO2024P1.answer",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_17_safe_next_target_queue/safe_queue.json",
+    "raw_id": "69c604791ac0724139ed2090446c0136588fe18f96d32e8bd1e4061ebe391eea"
+  },
+  {
+    "score": 48,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2024P3.lean",
+    "line": 22,
+    "current_line": "  sorry",
+    "goal": "a : ℕ → ℕ\nN : ℕ\nh0 : ∀ (i : ℕ), 0 < a i\nha : ∀ (n : ℕ), N < n → a n = {i ∈ Finset.range n | a i = a (n - 1)}.card\n⊢ (IMO2024P3.EventuallyPeriodic fun i => a (2 * i)) ∨ IMO2024P3.EventuallyPeriodic fun i => a (2 * i + 1)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_7_target_type_law_next_queue/next_queue.json",
+    "raw_id": "a6c38e91196693b217e470bb1a6d7f5c5e4f7bf16c2f57f87773d26d0fb8d71d"
+  },
+  {
+    "score": 48,
+    "repo": "jsm28/IMOLean",
+    "path": "IMO/IMO2024P3.lean",
+    "line": 22,
+    "current_line": "  sorry",
+    "goal": "a : ℕ → ℕ\nN : ℕ\nh0 : ∀ (i : ℕ), 0 < a i\nha : ∀ (n : ℕ), N < n → a n = {i ∈ Finset.range n | a i = a (n - 1)}.card\n⊢ (IMO2024P3.EventuallyPeriodic fun i => a (2 * i)) ∨ IMO2024P3.EventuallyPeriodic fun i => a (2 * i + 1)",
+    "reasons": [
+      "sorry_on_current_line",
+      "short_goal",
+      "relation_goal",
+      "arithmetic_goal"
+    ],
+    "penalties": [
+      "hard_term_IMO202",
+      "hard_term_∀"
+    ],
+    "input_file": "artifacts/sorrydb/v4_8_9_micro_only_queue/micro_queue.json",
+    "raw_id": "a6c38e91196693b217e470bb1a6d7f5c5e4f7bf16c2f57f87773d26d0fb8d71d"
+  }
+]
