@@ -1,0 +1,14 @@
+340K	external/Brkhu__lean
+376K	external/jsm28__IMOLean
+568K	external/djvelleman__HTPILeanPackage
+960K	external/GaloisInc__lean-protocol-support
+1.5M	external/google-deepmind__formal-imo
+2.3M	external/yangky11__miniF2F-lean4
+3.6M	external/Beneficial-AI-Foundation__deductive-vericoding
+5.1M	external/compfiles
+ 10M	external/Beneficial-AI-Foundation__FloatSpec
+ 30M	external/ByteDance-Seed__Seed-Prover
+ 36M	external/ATOMSLab__LFSE2024
+114M	external/Beneficial-AI-Foundation__vericoding-benchmark
+2.9G	external/Verified-zkEVM__ArkLib
+7.0G	external/FormalBook
