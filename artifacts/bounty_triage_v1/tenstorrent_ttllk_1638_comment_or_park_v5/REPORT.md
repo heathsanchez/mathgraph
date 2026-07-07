@@ -2,7 +2,7 @@
 
 ## Verdict
 
-`READY_TO_POST_THEN_PARK`
+`PARK_UNTIL_MAINTAINER_ANSWERS`
 
 ## Why
 
@@ -40,7 +40,7 @@ The static pass found a real MOP/no-MOP matmul wedge, but the bounty is not safe
 ## Post result
 
 - post rc: `0`
-- posted/matched URL: ``
+- posted/matched URL: `https://github.com/tenstorrent/tt-llk/issues/1638#issuecomment-4898756583`
 
 ## Comment
 

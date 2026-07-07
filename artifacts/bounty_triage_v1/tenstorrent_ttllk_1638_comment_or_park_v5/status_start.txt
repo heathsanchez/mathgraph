@@ -1,6 +1,5 @@
-?? artifacts/bounty_triage_v1/tenstorrent_ttllk_1638_comment_or_park_v5/
+ M artifacts/bounty_triage_v1/tenstorrent_ttllk_1638_comment_or_park_v5/status_start.txt
 ?? artifacts/paid_fix_scout/
 ?? check_paid_github_fixes.py
 ?? refine_paid_fix_scout.py
 ?? strata_specimen_issue45_recon_v1.sh
-?? tenstorrent_ttllk_1638_comment_or_park_v5.sh
