@@ -1,0 +1,1 @@
+benchmark	fail	4m48s	https://github.com/qojulia/QuantumOptics.jl/actions/runs/28844510810/job/85545262958	

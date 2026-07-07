@@ -1,0 +1,835 @@
+benchmark	Set up job	﻿2026-07-07T05:45:43.6388292Z Current runner version: '2.335.1'
+benchmark	Set up job	2026-07-07T05:45:43.6409877Z ##[group]Runner Image Provisioner
+benchmark	Set up job	2026-07-07T05:45:43.6410627Z Hosted Compute Agent
+benchmark	Set up job	2026-07-07T05:45:43.6411098Z Version: 20260624.560
+benchmark	Set up job	2026-07-07T05:45:43.6411643Z Commit: 925d229a51159bc391ae97e54a2dd1fe20af789d
+benchmark	Set up job	2026-07-07T05:45:43.6412230Z Build Date: 2026-06-24T18:26:47Z
+benchmark	Set up job	2026-07-07T05:45:43.6412784Z Worker ID: {a98d7134-4cb9-409b-ae5e-0bb078b67250}
+benchmark	Set up job	2026-07-07T05:45:43.6413458Z Azure Region: westus
+benchmark	Set up job	2026-07-07T05:45:43.6413921Z ##[endgroup]
+benchmark	Set up job	2026-07-07T05:45:43.6415118Z ##[group]Operating System
+benchmark	Set up job	2026-07-07T05:45:43.6415635Z Ubuntu
+benchmark	Set up job	2026-07-07T05:45:43.6416061Z 24.04.4
+benchmark	Set up job	2026-07-07T05:45:43.6416546Z LTS
+benchmark	Set up job	2026-07-07T05:45:43.6416963Z ##[endgroup]
+benchmark	Set up job	2026-07-07T05:45:43.6417416Z ##[group]Runner Image
+benchmark	Set up job	2026-07-07T05:45:43.6417943Z Image: ubuntu-24.04
+benchmark	Set up job	2026-07-07T05:45:43.6418416Z Version: 20260628.225.1
+benchmark	Set up job	2026-07-07T05:45:43.6419432Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260628.225/images/ubuntu/Ubuntu2404-Readme.md
+benchmark	Set up job	2026-07-07T05:45:43.6420801Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260628.225
+benchmark	Set up job	2026-07-07T05:45:43.6421609Z ##[endgroup]
+benchmark	Set up job	2026-07-07T05:45:43.6422532Z ##[group]GITHUB_TOKEN Permissions
+benchmark	Set up job	2026-07-07T05:45:43.6424070Z Metadata: read
+benchmark	Set up job	2026-07-07T05:45:43.6424565Z PullRequests: write
+benchmark	Set up job	2026-07-07T05:45:43.6425091Z ##[endgroup]
+benchmark	Set up job	2026-07-07T05:45:43.6426777Z Secret source: Actions
+benchmark	Set up job	2026-07-07T05:45:43.6427400Z Prepare workflow directory
+benchmark	Set up job	2026-07-07T05:45:43.6686385Z Prepare all required actions
+benchmark	Set up job	2026-07-07T05:45:43.6717222Z Getting action download info
+benchmark	Set up job	2026-07-07T05:45:44.0199744Z Download action repository 'MilesCranmer/AirspeedVelocity.jl@action-v1' (SHA:315c11b51ceee8ebd6063d70cff6ae499a040d28)
+benchmark	Set up job	2026-07-07T05:45:44.4121187Z Getting action download info
+benchmark	Set up job	2026-07-07T05:45:44.5756305Z Download action repository 'actions/checkout@v6' (SHA:df4cb1c069e1874edd31b4311f1884172cec0e10)
+benchmark	Set up job	2026-07-07T05:45:44.6350401Z Download action repository 'julia-actions/setup-julia@v2' (SHA:4c0cb0fce8556fdb04a90347310e5db8b1f98fb9)
+benchmark	Set up job	2026-07-07T05:45:45.0143925Z Download action repository 'julia-actions/cache@v2' (SHA:d10a6fd8f31b12404a54613ebad242900567f2b9)
+benchmark	Set up job	2026-07-07T05:45:45.2210819Z Download action repository 'actions/upload-artifact@v5' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+benchmark	Set up job	2026-07-07T05:45:45.4067790Z Download action repository 'peter-evans/find-comment@v4' (SHA:b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad)
+benchmark	Set up job	2026-07-07T05:45:45.6968950Z Download action repository 'peter-evans/create-or-update-comment@v5' (SHA:e8674b075228eee787fea43ef493e45ece1004c9)
+benchmark	Set up job	2026-07-07T05:45:46.0168215Z Getting action download info
+benchmark	Set up job	2026-07-07T05:45:46.1785695Z Download action repository 'dcarbone/install-jq-action@f0e10f46ff84f4d32178b4b76e1ef180b16f82c3' (SHA:f0e10f46ff84f4d32178b4b76e1ef180b16f82c3)
+benchmark	Set up job	2026-07-07T05:45:46.3633624Z Download action repository 'actions/cache@5a3ec84eff668545956fd18022155c47e93e2684' (SHA:5a3ec84eff668545956fd18022155c47e93e2684)
+benchmark	Set up job	2026-07-07T05:45:46.5265771Z Download action repository 'pyTooling/Actions@42e17fae05f224e5ac3d79d021a4e3577878efe5' (SHA:42e17fae05f224e5ac3d79d021a4e3577878efe5)
+benchmark	Set up job	2026-07-07T05:45:46.9410558Z Complete job name: benchmark
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	﻿2026-07-07T05:45:47.0032837Z ##[group]Run MilesCranmer/AirspeedVelocity.jl@action-v1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0033346Z with:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0033528Z   julia-version: 1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0033706Z   tune: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0033889Z   asv-version: 0.6
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0034059Z   mode: time,memory
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0034232Z   enable-plots: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0034407Z   job-summary: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0034672Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0176424Z ##[group]Run actions/checkout@v6
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0176698Z with:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0176897Z   ref: e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0177140Z   persist-credentials: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0177366Z   repository: qojulia/QuantumOptics.jl
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0179482Z   token: ***
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0179662Z   ssh-strict: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0179831Z   ssh-user: git
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0180210Z   clean: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0180401Z   sparse-checkout-cone-mode: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0180647Z   fetch-depth: 1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0180873Z   fetch-tags: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0181048Z   show-progress: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0181222Z   lfs: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0181380Z   submodules: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0181548Z   set-safe-directory: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0181739Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0957815Z Syncing repository: qojulia/QuantumOptics.jl
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0958925Z ##[group]Getting Git version info
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0959591Z Working directory is '/home/runner/work/QuantumOptics.jl/QuantumOptics.jl'
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0960135Z [command]/usr/bin/git version
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.0974496Z git version 2.54.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1023277Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1034115Z Temporarily overriding HOME='/home/runner/work/_temp/b57d2509-3c5c-45bf-9ea0-f87de6cf49be' before making global git config changes
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1035016Z Adding repository directory to the temporary git global config as a safe directory
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1038615Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/QuantumOptics.jl/QuantumOptics.jl
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1068186Z Deleting the contents of '/home/runner/work/QuantumOptics.jl/QuantumOptics.jl'
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1071658Z ##[group]Determining repository object format
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1073366Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1073840Z ##[group]Initializing the repository
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1077494Z [command]/usr/bin/git init /home/runner/work/QuantumOptics.jl/QuantumOptics.jl
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1166831Z hint: Using 'master' as the name for the initial branch. This default branch name
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1167579Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1168237Z hint: to use in all of your new repositories, which will suppress this warning,
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1168619Z hint: call:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1168832Z hint:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1169327Z hint: 	git config --global init.defaultBranch <name>
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1169729Z hint:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1169981Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1170404Z hint: 'development'. The just-created branch can be renamed via this command:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1170894Z hint:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1171153Z hint: 	git branch -m <name>
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1171435Z hint:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1171743Z hint: Disable this message with "git config set advice.defaultBranchName false"
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1172478Z Initialized empty Git repository in /home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git/
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1175686Z [command]/usr/bin/git remote add origin https://github.com/qojulia/QuantumOptics.jl
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1200481Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1200834Z ##[group]Disabling automatic garbage collection
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1203120Z [command]/usr/bin/git config --local gc.auto 0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1224651Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1224975Z ##[group]Setting up auth
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1226163Z Removing SSH command configuration
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1230349Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1259250Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1490133Z Removing HTTP extra header
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1494690Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1519457Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1699831Z Removing includeIf entries pointing to credentials config files
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1704493Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1730055Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1914305Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1945414Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git.path /home/runner/work/_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.1969325Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.2012762Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.2037183Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.2058682Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.2059323Z ##[group]Fetching the repository
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.2065525Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7049967Z From https://github.com/qojulia/QuantumOptics.jl
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7050618Z  * branch            e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a -> FETCH_HEAD
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7077583Z [command]/usr/bin/git rev-parse --verify --quiet e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a^{object}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7099267Z e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7103061Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7103581Z ##[group]Determining the checkout info
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7104343Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7108409Z [command]/usr/bin/git sparse-checkout disable
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7145615Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7170874Z ##[group]Checking out the ref
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7175864Z [command]/usr/bin/git checkout --progress --force e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7260503Z Note: switching to 'e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a'.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7261096Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7288593Z You are in 'detached HEAD' state. You can look around, make experimental
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7289827Z changes and commit them, and you can discard any commits you make in this
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7290687Z state without impacting any branches by switching back to a branch.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7291237Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7291748Z If you want to create a new branch to retain commits you create, you may
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7292386Z do so (now or later) by using -c with the switch command. Example:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7292760Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7292922Z   git switch -c <new-branch-name>
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7293447Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7293571Z Or undo this operation with:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7293781Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7293887Z   git switch -
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7294043Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7294299Z Turn off this advice by setting config variable advice.detachedHead to false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7294670Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7294828Z HEAD is now at e925b59 Add benchmark smoke gate
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7295862Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7306801Z [command]/usr/bin/git log -1 --format=%H
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7323650Z e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7335773Z ##[group]Removing auth
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7336113Z Removing SSH command configuration
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7340724Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7368123Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7572515Z Removing HTTP extra header
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7576140Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7605316Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7784592Z Removing includeIf entries pointing to credentials config files
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7787474Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7806149Z includeif.gitdir:/home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git.path
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7807226Z includeif.gitdir:/home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git/worktrees/*.path
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7807651Z includeif.gitdir:/github/workspace/.git.path
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7807934Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7813616Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git.path
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7831459Z /home/runner/work/_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7839219Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git.path /home/runner/work/_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7864731Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git/worktrees/*.path
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7881877Z /home/runner/work/_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7889426Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/QuantumOptics.jl/QuantumOptics.jl/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7915388Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7934613Z /github/runner_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7941365Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7971182Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7988702Z /github/runner_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.7994350Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8021017Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8200103Z Removing credentials config '/home/runner/work/_temp/git-credentials-cb08562c-32ad-4630-8dfc-1f94a8fd1439.config'
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8206622Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8364383Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8365766Z ##[group]Run julia-actions/setup-julia@v2
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8365993Z with:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8366152Z   version: 1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8366328Z   include-all-prereleases: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8366527Z   arch: default
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8366697Z   show-versioninfo: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8367047Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8367195Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:47.8367358Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:49.0599620Z [command]/usr/bin/tar xf /home/runner/work/_temp/f877c00e-8bf8-4c6b-9579-78b38e38d5cc --strip-components=1 -C /opt/hostedtoolcache/julia/1.12.6/x64
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4118091Z [command]/opt/hostedtoolcache/julia/1.12.6/x64/bin/julia --version
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4236011Z julia version 1.12.6
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4472149Z ##[group]Run julia-actions/cache@v2
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4472400Z with:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4472622Z   cache-name: julia-cache;workflow=Benchmarks;job=benchmark
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4472898Z   include-matrix: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4473082Z   cache-artifacts: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4473267Z   cache-packages: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4473451Z   cache-registries: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4473640Z   cache-compiled: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4473822Z   cache-scratchspaces: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4474014Z   cache-logs: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4474204Z   delete-old-caches: true
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4476084Z   token: ***
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4476281Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4476436Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4476620Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4541433Z ##[group]Run dcarbone/install-jq-action@f0e10f46ff84f4d32178b4b76e1ef180b16f82c3
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4541897Z with:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4542098Z   force: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4542318Z   version: 1.7.1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4542527Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4542728Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4542957Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4586947Z ##[group]Run _jq_bin="$(which jq)"
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4587268Z ^[[36;1m_jq_bin="$(which jq)"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4587486Z ^[[36;1mif [ -f "${_jq_bin}" ]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4587746Z ^[[36;1m  echo "found=true" >> $GITHUB_OUTPUT^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4588009Z ^[[36;1melse^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4588250Z ^[[36;1m  echo "found=false" >> $GITHUB_OUTPUT^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.4588475Z ^[[36;1mfi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5230468Z shell: /usr/bin/sh +e {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5230762Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5230933Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5231108Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5423440Z ##[group]Run if [ -n "" ]; then
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5423728Z ^[[36;1mif [ -n "" ]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5423925Z ^[[36;1m    depot=""^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5424146Z ^[[36;1melif [ -n "$JULIA_DEPOT_PATH" ]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5424396Z ^[[36;1m    # Use the first depot path^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5424702Z ^[[36;1m    depot=$(echo $JULIA_DEPOT_PATH | cut -d$PATH_DELIMITER -f1)^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5424988Z ^[[36;1melse^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5425152Z ^[[36;1m    depot="~/.julia"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5425338Z ^[[36;1mfi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5425559Z ^[[36;1mif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5425863Z ^[[36;1m  depot="${depot/#\~/$USERPROFILE}"  # Windows paths^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5440507Z ^[[36;1m  depot="${depot//\\//}"             # Replace backslashes with forward slashes^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5440906Z ^[[36;1melse^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5441132Z ^[[36;1m  depot="${depot/#\~/$HOME}"  # Unix-like paths^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5441547Z ^[[36;1mfi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5441752Z ^[[36;1mecho "depot=$depot" | tee -a "$GITHUB_OUTPUT"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5441996Z ^[[36;1m^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5442163Z ^[[36;1mcache_paths=()^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5442380Z ^[[36;1martifacts_path="${depot}/artifacts"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5442659Z ^[[36;1m[ "true" = "true" ] && cache_paths+=("$artifacts_path")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5442929Z ^[[36;1mpackages_path="${depot}/packages"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5443187Z ^[[36;1m[ "true" = "true" ] && cache_paths+=("$packages_path")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5443458Z ^[[36;1mregistries_path="${depot}/registries"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5443692Z ^[[36;1mif [ "true" = "true" ]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5443922Z ^[[36;1m    if [ ! -d "${registries_path}" ]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5444171Z ^[[36;1m        cache_paths+=("$registries_path")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5444510Z ^[[36;1m    else^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5445202Z ^[[36;1m        echo "::warning::Julia depot registries already exist. Skipping restoring of cached registries to avoid potential merge conflicts when updating. Please ensure that \`julia-actions/cache\` precedes any workflow steps which add registries."^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5445926Z ^[[36;1m    fi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5446085Z ^[[36;1mfi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5446257Z ^[[36;1mcompiled_path="${depot}/compiled"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5446517Z ^[[36;1m[ "true" = "true" ] && cache_paths+=("$compiled_path")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5446803Z ^[[36;1mscratchspaces_path="${depot}/scratchspaces"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5447091Z ^[[36;1m[ "true" = "true" ] && cache_paths+=("$scratchspaces_path")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5447357Z ^[[36;1mlogs_path="${depot}/logs"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5447622Z ^[[36;1m[ "true" = "true" ] && cache_paths+=("$logs_path")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5447862Z ^[[36;1m{^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5448052Z ^[[36;1m    echo "cache-paths<<EOF"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5448283Z ^[[36;1m    printf "%s\n" "${cache_paths[@]}"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5448504Z ^[[36;1m    echo "EOF"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5448697Z ^[[36;1m} | tee -a "$GITHUB_OUTPUT"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5474552Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5474835Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5474991Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5475162Z   PATH_DELIMITER: :
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5475332Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5526090Z depot=/home/runner/.julia
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5537861Z cache-paths<<EOF
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5538292Z /home/runner/.julia/artifacts
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5538607Z /home/runner/.julia/packages
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5538819Z /home/runner/.julia/registries
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5539018Z /home/runner/.julia/compiled
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5539377Z /home/runner/.julia/scratchspaces
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5539590Z /home/runner/.julia/logs
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5539769Z EOF
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5568499Z ##[group]Run # `matrix_key` joins all of matrix keys/values (including nested objects) to ensure that concurrent runs each use a unique cache key.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5569436Z ^[[36;1m# `matrix_key` joins all of matrix keys/values (including nested objects) to ensure that concurrent runs each use a unique cache key.^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5569969Z ^[[36;1m# When `matrix` isn't set for the job then `MATRIX_JSON=null`.^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5570292Z ^[[36;1mif [ "true" == "true" ] && [ "$MATRIX_JSON" != "null" ]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5570811Z ^[[36;1m  matrix_key=$(echo "$MATRIX_JSON" | jq 'paths(type != "object") as $p | ($p | join("-")) + "=" + (getpath($p) | tostring)' | jq -rs 'join(";") | . + ";"')^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5571279Z ^[[36;1mfi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5571589Z ^[[36;1mrestore_key="julia-cache;workflow=Benchmarks;job=benchmark;os=Linux;${matrix_key}"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5571971Z ^[[36;1m# URL encode any restricted characters:^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5572447Z ^[[36;1m# https://github.com/actions/toolkit/blob/5430c5d84832076372990c7c27f900878ff66dc9/packages/cache/src/cache.ts#L38-L43^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5572951Z ^[[36;1mrestore_key=$(sed 's/,/%2C/g' <<<"${restore_key}")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5573389Z ^[[36;1mkey="${restore_key}run_id=28844510810;run_attempt=1"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5573691Z ^[[36;1mecho "restore-key=${restore_key}" >> $GITHUB_OUTPUT^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5573962Z ^[[36;1mecho "key=${key}" >> $GITHUB_OUTPUT^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5597315Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5597592Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5597753Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5597924Z   MATRIX_JSON: null
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5598094Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5690387Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5691542Z ##[group]Run actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5691819Z with:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5692341Z   path: /home/runner/.julia/artifacts
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	/home/runner/.julia/packages
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	/home/runner/.julia/registries
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	/home/runner/.julia/compiled
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	/home/runner/.julia/scratchspaces
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	/home/runner/.julia/logs
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5693061Z   key: julia-cache;workflow=Benchmarks;job=benchmark;os=Linux;run_id=28844510810;run_attempt=1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5693473Z   restore-keys: julia-cache;workflow=Benchmarks;job=benchmark;os=Linux;
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5693770Z   enableCrossOsArchive: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5693979Z   fail-on-cache-miss: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5694167Z   lookup-only: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5694338Z   save-always: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5694498Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5694653Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.5694814Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.6507274Z (node:2188) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.6508003Z (Use `node --trace-deprecation ...` to show where the warning was created)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.9145226Z Cache hit for: julia-cache;workflow=Benchmarks;job=benchmark;os=Linux;run_id=28844510810;run_attempt=1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:54.9228659Z (node:2188) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:56.2171174Z Received 0 of 542932534 (0.0%), 0.0 MBs/sec
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:57.2353837Z Received 134217728 of 542932534 (24.7%), 63.4 MBs/sec
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:58.2397637Z Received 264241152 of 542932534 (48.7%), 83.5 MBs/sec
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:45:59.2359971Z Received 398458880 of 542932534 (73.4%), 94.6 MBs/sec
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:00.2375892Z Received 520093696 of 542932534 (95.8%), 98.8 MBs/sec
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:00.5920698Z Received 542932534 of 542932534 (100.0%), 96.3 MBs/sec
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:00.5922365Z Cache Size: ~518 MB (542932534 B)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:00.6010998Z [command]/usr/bin/tar -xf /home/runner/work/_temp/3bd27b33-203d-4531-829b-498d37c10747/cache.tzst -P -C /home/runner/work/QuantumOptics.jl/QuantumOptics.jl --use-compress-program unzstd
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5449391Z Cache restored successfully
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5716728Z Cache restored from key: julia-cache;workflow=Benchmarks;job=benchmark;os=Linux;run_id=27974634052;run_attempt=1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5824223Z ##[group]Run mkdir -p /home/runner/.julia
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5824523Z ^[[36;1mmkdir -p /home/runner/.julia^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5824762Z ^[[36;1mdu -shc /home/runner/.julia/* || true^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5852570Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5852858Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5853020Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.5853195Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.7541719Z 973M	/home/runner/.julia/artifacts
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.7594717Z 1.2G	/home/runner/.julia/compiled
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.7595115Z 32K	/home/runner/.julia/logs
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8035724Z 89M	/home/runner/.julia/packages
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8036536Z 11M	/home/runner/.julia/registries
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8037452Z 64K	/home/runner/.julia/scratchspaces
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8038010Z 2.3G	total
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8063264Z ##[group]Run if [ -d "/home/runner/.julia/registries" ] && [ -n "$(ls -A "/home/runner/.julia/registries")" ]; then
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8063859Z ^[[36;1mif [ -d "/home/runner/.julia/registries" ] && [ -n "$(ls -A "/home/runner/.julia/registries")" ]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8064339Z ^[[36;1m  echo "Registries directory exists and is non-empty. Updating any registries"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8064784Z ^[[36;1m  julia -e "import Pkg; isdefined(Pkg, :Registry) && Pkg.Registry.update();"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8065117Z ^[[36;1melse^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8065411Z ^[[36;1m  echo "Registries directory does not exist or is empty. Skipping registry update"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8065899Z ^[[36;1mfi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8092763Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8093038Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8093194Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8093384Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:08.8307328Z Registries directory exists and is non-empty. Updating any registries
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:10.1795775Z     Updating registry at `~/.julia/registries/General.toml`
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.4826764Z ##[group]Run echo "cache-hit=$CACHE_HIT" >> $GITHUB_OUTPUT
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.4827135Z ^[[36;1mecho "cache-hit=$CACHE_HIT" >> $GITHUB_OUTPUT^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.4854584Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.4854863Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.4855023Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.4855191Z   CACHE_HIT: false
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.4855362Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5282057Z ##[group]Run export JULIA_NUM_THREADS=2
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5282331Z ^[[36;1mexport JULIA_NUM_THREADS=2^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5282647Z ^[[36;1m# Lightweight build step, as sometimes the runner runs out of memory:^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5283120Z ^[[36;1mjulia -e 'ENV["JULIA_PKG_PRECOMPILE_AUTO"]=0; using Pkg; pkg"add AirspeedVelocity@0.6"'^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5283661Z ^[[36;1mjulia -e 'ENV["JULIA_PKG_PRECOMPILE_AUTO"]=0; import Pkg; Pkg.build("AirspeedVelocity")'^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5308037Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5308297Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5308457Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:11.5308631Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:12.9320134Z ┌ Warning: The Pkg REPL mode is intended for interactive use only, and should not be used from scripts. It is recommended to use the functional API instead.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:12.9321589Z └ @ Pkg.REPLMode /opt/hostedtoolcache/julia/1.12.6/x64/share/julia/stdlib/v1.12/Pkg/src/REPLMode/REPLMode.jl:398
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:13.4221823Z    Resolving package versions...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2323330Z     Updating `~/.julia/environments/v1.12/Project.toml`
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2324675Z   [1c8270ee] + AirspeedVelocity v0.6.5
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2326100Z     Updating `~/.julia/environments/v1.12/Manifest.toml`
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2612074Z   [1c8270ee] + AirspeedVelocity v0.6.5
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2612683Z   [6e4b80f9] + BenchmarkTools v1.8.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2613317Z ⌅ [ec354790] + Cobweb v0.3.3
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2613651Z   [863f3e99] + Comonicon v1.0.8
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2613977Z   [34da2185] + Compat v4.18.1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2614311Z   [5218b696] + Configurations v0.17.6
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2614668Z   [3f0dd361] + DefaultApplication v1.1.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2615020Z   [8d63f2c5] + DispatchDoctor v0.4.28
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2615374Z   [acab07b0] + EasyConfig v0.1.16
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2615702Z   [55351af7] + ExproniconLite v0.10.14
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2616049Z   [48062228] + FilePathsBase v0.9.24
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2616383Z   [c27321d9] + Glob v1.5.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2616753Z   [692b3bcd] + JLLWrappers v1.8.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2617069Z   [682c06a0] + JSON v1.6.1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2617407Z   [0f8b85d8] + JSON3 v1.14.3
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2617719Z   [1914dd2f] + MacroTools v0.5.16
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2618163Z ⌅ [bac558e1] + OrderedCollections v1.8.2
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2618956Z   [9b87118b] + PackageCompiler v2.4.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2619460Z   [69de0a69] + Parsers v2.8.6
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2619799Z   [f2990250] + PlotlyKaleido v2.3.1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2620208Z ⌅ [ca7969ec] + PlotlyLight v0.6.4
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2620552Z   [aea7be01] + PrecompileTools v1.3.4
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2620889Z   [21216c6a] + Preferences v1.5.2
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2621222Z   [05181044] + RelocatableFolders v1.0.1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2621567Z   [6c6a2e73] + Scratch v1.3.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2621871Z   [10745b16] + Statistics v1.11.1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2622200Z   [856f2bd8] + StructTypes v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2622534Z   [ec057cc2] + StructUtils v2.8.2
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2622856Z   [f7e6163d] + Kaleido_jll v0.2.1+0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2623183Z   [0dad84c5] + ArgTools v1.1.2
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2623692Z   [56f22d72] + Artifacts v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2624011Z   [2a0f44e3] + Base64 v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2624317Z   [ade2ca70] + Dates v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2624657Z   [f43a241f] + Downloads v1.7.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2624991Z   [7b1f6079] + FileWatching v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2625330Z   [b77e0a4c] + InteractiveUtils v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2625715Z   [ac6e5ff7] + JuliaSyntaxHighlighting v1.12.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2626103Z   [4af54fe1] + LazyArtifacts v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2626447Z   [b27032c2] + LibCURL v0.6.4
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2626754Z   [76f85450] + LibGit2 v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2627069Z   [8f399da3] + Libdl v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2648061Z   [37e2e46d] + LinearAlgebra v1.12.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2648408Z   [56ddb016] + Logging v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2648619Z   [d6f4376e] + Markdown v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2648946Z   [a63ad114] + Mmap v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2649301Z   [ca575930] + NetworkOptions v1.3.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2649527Z   [44cfe95a] + Pkg v1.12.1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2649721Z   [de0858da] + Printf v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2649903Z   [9abbd945] + Profile v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2650097Z   [3fa0cd96] + REPL v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2650330Z   [9a3f8284] + Random v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2650595Z   [ea8e919c] + SHA v0.7.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2650766Z   [6462fe0b] + Sockets v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2650948Z   [f489334b] + StyledStrings v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2651141Z   [fa267f1f] + TOML v1.0.3
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2651308Z   [a4e569a6] + Tar v1.10.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2651469Z   [cf7118a7] + UUIDs v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2651643Z   [4ec0a83e] + Unicode v1.11.0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2651985Z   [e66e0078] + CompilerSupportLibraries_jll v1.3.0+1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2652227Z   [deac9b47] + LibCURL_jll v8.15.0+0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2652418Z   [e37daf67] + LibGit2_jll v1.9.0+0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2652610Z   [29816b5a] + LibSSH2_jll v1.11.3+1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2652805Z   [14a3606d] + MozillaCACerts_jll v2025.11.4
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2653025Z   [4536629a] + OpenBLAS_jll v0.3.29+0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2653223Z   [458c3c95] + OpenSSL_jll v3.5.4+0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2653530Z   [83775a58] + Zlib_jll v1.3.1+2
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2653773Z   [8e850b90] + libblastrampoline_jll v5.15.0+0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2655160Z   [8e850ede] + nghttp2_jll v1.64.0+1
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2656478Z   [3f19e933] + p7zip_jll v17.7.0+0
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:15.2657428Z         Info Packages marked with ⌅ have new versions available but compatibility constraints restrict them from upgrading. To see why use `status --outdated -m`
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:16.4541550Z     Building AirspeedVelocity → `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/278b21d21a85bd12de16976e84fce8981a49655d/build.log`
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7094511Z ##[group]Run echo "$HOME/.julia/bin" >> "$GITHUB_PATH"
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7094825Z ^[[36;1mecho "$HOME/.julia/bin" >> "$GITHUB_PATH"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7124775Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7125071Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7125221Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7125395Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7188646Z ##[group]Run pkg=$(awk -F' *= *' '/^name *=/ {gsub(/"/,"",$2); print $2; exit}' Project.toml)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7189456Z ^[[36;1mpkg=$(awk -F' *= *' '/^name *=/ {gsub(/"/,"",$2); print $2; exit}' Project.toml)^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7189785Z ^[[36;1mecho "package_name=$pkg" >> "$GITHUB_OUTPUT"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7212743Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7213010Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7213160Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7213323Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7296545Z ##[group]Run # Build separate argument lists:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7296948Z ^[[36;1m# Build separate argument lists:^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7297369Z ^[[36;1m#   bench_args -> for `benchpkg`^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7297756Z ^[[36;1m#   table_args -> for `benchpkgtable` and `benchpkgplot`^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7298198Z ^[[36;1mbench_args=()^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7298629Z ^[[36;1mtable_args=()^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7298886Z ^[[36;1m^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7299509Z ^[[36;1m# --rev : default to <default_branch>,<PR_SHA> when caller did not override^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7299931Z ^[[36;1mif [[ -n "" ]]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7300256Z ^[[36;1m  bench_args+=("--rev=")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7300609Z ^[[36;1m  table_args+=("--rev=")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7300889Z ^[[36;1melse^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7301287Z ^[[36;1m  revs="master,e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7301677Z ^[[36;1m  bench_args+=("--rev=${revs}")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7302026Z ^[[36;1m  table_args+=("--rev=${revs}")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7302503Z ^[[36;1mfi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7302772Z ^[[36;1m^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7303246Z ^[[36;1m# --bench-on : default to the repository default branch unless caller overrides^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7303674Z ^[[36;1mif [[ -n "" ]]; then^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7303996Z ^[[36;1m  bench_args+=("--bench-on=")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7304317Z ^[[36;1melse^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7304585Z ^[[36;1m  branch="master"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7304993Z ^[[36;1m  bench_args+=("--bench-on=${branch}")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7305314Z ^[[36;1mfi^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7305581Z ^[[36;1m^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7305874Z ^[[36;1m# Options that apply **only** to benchpkg^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7306260Z ^[[36;1m[[ -n ""       ]] && bench_args+=("--script=")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7306640Z ^[[36;1m[[ -n ""       ]] && bench_args+=("--filter=")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7307024Z ^[[36;1m[[ -n ""     ]] && bench_args+=("--exeflags=''")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7307389Z ^[[36;1m[[ -n ""   ]] && bench_args+=("--add=")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7307756Z ^[[36;1m[[ "false" == 'true'  ]] && bench_args+=("--tune")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7308112Z ^[[36;1m^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7308434Z ^[[36;1m# Options that apply **only** to benchpkgtable^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7308800Z ^[[36;1m[[ -n "" ]] && table_args+=("--force-time-unit=")^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7309414Z ^[[36;1m^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7309702Z ^[[36;1m# Export as composite-action outputs^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7310107Z ^[[36;1mecho "bench_args=${bench_args[*]}" >> "$GITHUB_OUTPUT"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7310550Z ^[[36;1mecho "table_args=${table_args[*]}" >> "$GITHUB_OUTPUT"^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7334156Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7334563Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7334841Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7335126Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7397395Z ##[group]Run mkdir results
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7397605Z ^[[36;1mmkdir results^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7397802Z ^[[36;1mbenchpkg "QuantumOptics" \^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7398107Z ^[[36;1m  --url="https://github.com/qojulia/QuantumOptics.jl.git" \^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7398407Z ^[[36;1m  --output-dir=results/ \^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7398742Z ^[[36;1m  --rev=master,e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a --bench-on=master^[[0m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7422044Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7422324Z env:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7422483Z   GITHUB_TOKEN: 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:33.7422658Z ##[endgroup]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:35.4377731Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39mDownloading package's latest benchmark script, assuming it is in benchmark/benchmarks.jl
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:35.4378758Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39mDownloading from master.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:43.6011556Z Precompiling packages...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:44.1940263Z     572.7 ms  ✓ ConcreteStructs
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:44.4190458Z     792.2 ms  ✓ FastPower
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:44.4671166Z     835.8 ms  ✓ Gamma
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:44.5216762Z     893.7 ms  ✓ CommonSolve
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:44.6780713Z    1054.7 ms  ✓ ADTypes
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:45.2470367Z     828.5 ms  ✓ VectorInterface
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:45.3350309Z     813.7 ms  ✓ Adapt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:45.4310237Z     751.6 ms  ✓ SciMLPublic
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:45.5330243Z    1071.5 ms  ✓ EnzymeCore
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:45.9430492Z     692.7 ms  ✓ BinaryHeaps
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:46.4050610Z    2210.0 ms  ✓ RuntimeGeneratedFunctions
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:47.0270280Z    1594.6 ms  ✓ PDMats
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:47.0380207Z    1095.9 ms  ✓ SciMLLogging
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:47.5612438Z    1156.5 ms  ✓ MuladdMacro
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:48.7825972Z    1221.7 ms  ✓ PoissonRandom
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:49.5690407Z     780.0 ms  ✓ ResettableStacks
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:50.0710959Z    3030.6 ms  ✓ FunctionWrappersWrappers
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:50.0920190Z    4557.8 ms  ✓ Accessors
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:50.6390216Z    1074.4 ms  ✓ StochasticDiffEqLevyArea
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:50.7150554Z     644.5 ms  ✓ FastPower → FastPowerForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:52.1120345Z    2019.0 ms  ✓ HypergeometricFunctions
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:52.9591383Z     847.3 ms  ✓ ADTypes → ADTypesConstructionBaseExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:54.1140544Z    3474.8 ms  ✓ DifferentiationInterface
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:54.1280390Z    1164.6 ms  ✓ VectorInterface → VectorInterfaceStaticArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:54.9660493Z    9628.6 ms  ✓ Krylov
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:55.5260369Z    1397.6 ms  ✓ Adapt → AdaptStaticArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:56.3610460Z    1394.8 ms  ✓ Adapt → AdaptSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:56.8170701Z    2702.5 ms  ✓ KrylovKit
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:57.2920190Z     932.8 ms  ✓ GPUArraysCore
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:57.9240381Z    1105.0 ms  ✓ StridedViews → StridedViewsAdaptExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:58.4180385Z    1123.9 ms  ✓ EnzymeCore → AdaptExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:59.0610347Z    1134.9 ms  ✓ ADTypes → ADTypesEnzymeCoreExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:46:59.7010309Z    4173.3 ms  ✓ ArrayInterface
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:00.2620415Z    1838.8 ms  ✓ PDMats → StatsBaseExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:00.4970705Z    1432.0 ms  ✓ FillArrays → FillArraysPDMatsExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:01.6332321Z    1371.0 ms  ✓ Accessors → LinearAlgebraExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:02.2240461Z    1729.2 ms  ✓ Accessors → StaticArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:03.3789269Z    1156.5 ms  ✓ DifferentiationInterface → DifferentiationInterfaceStaticArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:03.8620561Z   13142.1 ms  ✓ SparseMatrixColorings
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:04.5490360Z   17519.6 ms  ✓ SparseColumnPivotedQR
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:05.0230723Z    1161.0 ms  ✓ DifferentiationInterface → DifferentiationInterfaceSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:05.1940421Z    3564.5 ms  ✓ StatsFuns
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:05.2810646Z     727.2 ms  ✓ DifferentiationInterface → DifferentiationInterfaceGPUArraysCoreExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:06.1510739Z    2771.1 ms  ✓ DifferentiationInterface → DifferentiationInterfaceForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:06.2250498Z    1200.0 ms  ✓ MaybeInplace
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:06.2691229Z     991.8 ms  ✓ FastBroadcast
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:06.3310914Z    1136.8 ms  ✓ ArrayInterface → ArrayInterfaceSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:06.8205138Z     551.2 ms  ✓ ArrayInterface → ArrayInterfaceStaticArraysCoreExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:06.8370848Z     607.8 ms  ✓ ArrayInterface → ArrayInterfaceFillArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:06.9350586Z     783.5 ms  ✓ ArrayInterface → ArrayInterfaceGPUArraysCoreExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:08.5180779Z    1693.7 ms  ✓ PreallocationTools
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:09.2230415Z    2890.3 ms  ✓ SciMLStructures
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:10.2170637Z    1701.2 ms  ✓ DifferentiationInterface → DifferentiationInterfaceSparseMatrixColoringsExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:10.4330623Z    1208.7 ms  ✓ SparseColumnPivotedQR → SparseColumnPivotedQRAMDExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:10.4665233Z    3532.5 ms  ✓ SciMLOperators
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:11.1280518Z     908.1 ms  ✓ StatsFuns → StatsFunsInverseFunctionsExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:11.3165233Z     849.7 ms  ✓ FiniteDiff
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:11.7880871Z    1355.9 ms  ✓ MaybeInplace → MaybeInplaceSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:12.6780612Z     892.0 ms  ✓ SciMLOperators → SciMLOperatorsStaticArraysCoreExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:13.1910699Z    1873.5 ms  ✓ PreallocationTools → PreallocationToolsForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:13.7990409Z    6968.6 ms  ✓ Roots
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:13.8670579Z    1184.2 ms  ✓ SciMLOperators → SciMLOperatorsSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:14.2280481Z    1036.9 ms  ✓ FiniteDiff → FiniteDiffSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:14.5137072Z    3384.7 ms  ✓ SymbolicIndexingInterface
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:14.8320745Z     967.9 ms  ✓ DifferentiationInterface → DifferentiationInterfaceFiniteDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:15.0460478Z    1246.8 ms  ✓ FiniteDiff → FiniteDiffStaticArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:15.1068803Z     879.3 ms  ✓ Roots → RootsForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:20.5216880Z    6008.4 ms  ✓ Distributions
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:21.6995021Z    6869.0 ms  ✓ RecursiveArrayTools
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:22.7560650Z    1048.1 ms  ✓ RecursiveArrayTools → RecursiveArrayToolsSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:22.9741297Z    1274.3 ms  ✓ RecursiveArrayTools → RecursiveArrayToolsStatisticsExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:23.1040986Z    1399.1 ms  ✓ RecursiveArrayTools → RecursiveArrayToolsFastBroadcastExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:23.2910394Z    1582.2 ms  ✓ RecursiveArrayTools → RecursiveArrayToolsForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:26.0011749Z    3234.0 ms  ✓ QuantumOpticsBase
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:32.3237211Z    9344.3 ms  ✓ SciMLBase
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:33.6280616Z    1297.5 ms  ✓ SciMLBase → SciMLBaseDifferentiationInterfaceExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:35.1994831Z    2873.0 ms  ✓ SciMLBase → SciMLBaseStaticArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:35.2890640Z    2955.4 ms  ✓ SciMLBase → SciMLBaseForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:35.3131649Z    2988.7 ms  ✓ SciMLBase → SciMLBaseDistributionsExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:38.2155130Z    4587.9 ms  ✓ SciMLJacobianOperators
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:41.0120379Z   41311.7 ms  ✓ PureKLU
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:42.0296945Z    1017.5 ms  ✓ PureKLU → PureKLUForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:44.2877925Z    6071.3 ms  ✓ LineSearch
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:46.3906132Z    8170.4 ms  ✓ NonlinearSolveBase
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:47.9400508Z    1544.0 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseSparseMatrixColoringsExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:48.0630958Z    1662.3 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseLineSearchExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:48.7700619Z    2373.6 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:51.6520516Z    3714.5 ms  ✓ BracketingNonlinearSolve
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:54.3090585Z    2657.3 ms  ✓ BracketingNonlinearSolve → BracketingNonlinearSolveForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:54.5040362Z   13485.2 ms  ✓ LinearSolve
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:55.8640638Z    9468.5 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:56.3336979Z    1822.2 ms  ✓ LinearSolve → LinearSolveIterativeSolversExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:56.8940453Z    5232.9 ms  ✓ DiffEqBase
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:58.1830494Z    2320.0 ms  ✓ LinearSolve → LinearSolveKrylovKitExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:47:59.5560273Z    2664.0 ms  ✓ NonlinearSolveBase → NonlinearSolveBaseLinearSolveExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:00.4840553Z    5981.7 ms  ✓ LinearSolve → LinearSolveForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:01.8677447Z   13800.0 ms  ✓ NonlinearSolveSpectralMethods
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:02.8190467Z    2332.4 ms  ✓ DiffEqBase → DiffEqBaseSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:05.2680427Z    8933.5 ms  ✓ LinearSolve → LinearSolveSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:06.0781493Z    6520.7 ms  ✓ DiffEqBase → DiffEqBaseForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:07.2280628Z    1960.3 ms  ✓ NonlinearSolveSpectralMethods → NonlinearSolveSpectralMethodsForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:09.0812070Z    1853.8 ms  ✓ LinearSolve → LinearSolveEnzymeExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:10.6750232Z    7853.5 ms  ✓ OrdinaryDiffEqCore
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:11.3650443Z    9496.2 ms  ✓ DiffEqCallbacks
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:12.6666757Z    6587.9 ms  ✓ DiffEqNoiseProcess
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:14.0520592Z    2686.8 ms  ✓ OrdinaryDiffEqCore → OrdinaryDiffEqCoreSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:14.5281524Z   16345.6 ms  ✓ SimpleNonlinearSolve
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:18.6440626Z    5975.4 ms  ✓ OrdinaryDiffEqLowOrderRK
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:19.2974277Z    5246.7 ms  ✓ JumpProcesses
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:21.2700490Z    1970.2 ms  ✓ JumpProcesses → JumpProcessesOrdinaryDiffEqCoreExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:21.8280588Z    7298.8 ms  ✓ OrdinaryDiffEqDifferentiation
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:23.8085778Z    1980.8 ms  ✓ OrdinaryDiffEqDifferentiation → OrdinaryDiffEqDifferentiationSparseArraysExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:26.2710464Z    5000.6 ms  ✓ StochasticDiffEqCore
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:30.1060348Z   21023.6 ms  ✓ NonlinearSolveQuasiNewton
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:30.3586665Z    4085.5 ms  ✓ StochasticDiffEqRODE
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:32.8710417Z    6587.2 ms  ✓ StochasticDiffEqROCK
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:33.3340301Z    7050.9 ms  ✓ StochasticDiffEqIIF
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:33.9399040Z    3582.9 ms  ✓ StochasticDiffEqHighOrder
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:34.7250557Z    4619.6 ms  ✓ StochasticDiffEqMilstein
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:35.2928268Z    1963.6 ms  ✓ NonlinearSolveQuasiNewton → NonlinearSolveQuasiNewtonForwardDiffExt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:36.2558216Z    3386.3 ms  ✓ StochasticDiffEqLowOrder
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:48:46.0872884Z   35415.8 ms  ✓ NonlinearSolveFirstOrder
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:24.0245542Z   37936.6 ms  ✓ NonlinearSolve
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:27.9570483Z    3931.8 ms  ✓ OrdinaryDiffEqNonlinearSolve
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:32.1804434Z    4222.5 ms  ✓ StochasticDiffEqWeak
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:32.2716107Z    4310.1 ms  ✓ StochasticDiffEqImplicit
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:32.5702776Z    4608.2 ms  ✓ StochasticDiffEqLeaping
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:35.4347687Z    2866.2 ms  ✓ StochasticDiffEq
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:39.8089852Z    4372.0 ms  ✓ QuantumOptics
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:39.8090555Z   129 dependencies successfully precompiled in 176 seconds. 125 already precompiled.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:42.7666637Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39mFound benchmark script at /home/runner/.julia/packages/QuantumOptics/H7zJ6/benchmark/benchmarks.jl.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:42.7667822Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39mFound Project.toml at /home/runner/.julia/packages/QuantumOptics/H7zJ6/benchmark/Project.toml.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:42.7668637Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39mRunning benchmarks for QuantumOptics@master:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:42.9422590Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39m    Creating temporary environment at /tmp/jl_TsIVbS.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:42.9423660Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39m    Copying /home/runner/.julia/packages/QuantumOptics/H7zJ6/benchmark/Project.toml to environment.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:42.9427563Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39m    Adding packages.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:53.5460635Z ^[[36m^[[1m[ ^[[22m^[[39m^[[36m^[[1mInfo: ^[[22m^[[39m    Launching benchmark runner.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:54.6490894Z [ Info:     [runner] Loading benchmark script: /home/runner/.julia/packages/QuantumOptics/H7zJ6/benchmark/benchmarks.jl.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:59.7590240Z [ Info:     [runner] Running benchmarks for QuantumOptics@master.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:49:59.7635042Z [ Info: --------------------------------------------------------------------------------
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:00.8330927Z (1/6) benchmarking "schroedinger"...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:01.7659676Z   (1/2) benchmarking "base array types"...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:02.6608761Z     (1/4) benchmarking "20//1"...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:07.4747404Z     done (took 4.783217602 seconds)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:07.4747834Z     (2/4) benchmarking "1//2"...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:08.6770527Z     done (took 1.20221811 seconds)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:08.6770869Z     (3/4) benchmarking "50//1"...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:14.6648608Z     done (took 5.987746977 seconds)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:14.6648936Z     (4/4) benchmarking "100//1"...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:20.6600045Z     done (took 5.995029657 seconds)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:20.6600457Z   done (took 18.894090869 seconds)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:20.6600740Z   (2/2) benchmarking "qo types"...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:21.6164222Z     (1/4) benchmarking "20//1"...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.0961655Z ERROR: LoadError: MethodError: no method matching iterate(::QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4295056Z The function `iterate` exists, but no method is defined for this combination of argument types.
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4295586Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4295700Z Closest candidates are:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4296201Z   iterate(!Matched::Compiler.ForwardToBackedgeIterator, !Matched::Int64)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4296848Z    @ Base /opt/hostedtoolcache/julia/1.12.6/x64/share/julia/Compiler/src/typeinfer.jl:584
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4297593Z   iterate(!Matched::Compiler.ForwardToBackedgeIterator)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4298198Z    @ Base /opt/hostedtoolcache/julia/1.12.6/x64/share/julia/Compiler/src/typeinfer.jl:584
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4299735Z   iterate(!Matched::Base.MethodSpecializations)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4300128Z    @ Base runtime_internals.jl:1662
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4300443Z   ...
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4385121Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4385513Z Stacktrace:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4399682Z   [1] isempty(itr::QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4400323Z     @ Base ./essentials.jl:1075
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4400662Z   [2] _ode_initdt_iip
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4401037Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/initdt.jl:33 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4401518Z   [3] ode_determine_initdt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4401937Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/initdt.jl:295 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4402376Z   [4] _determine_initdt
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4402861Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/integrators/integrator_interface.jl:617 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4403256Z   [5] auto_dt_reset!
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4403606Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/integrators/integrator_interface.jl:627 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4595230Z   [6] handle_dt!(integrator::OrdinaryDiffEqCore.ODEIntegrator{OrdinaryDiffEqLowOrderRK.DP5{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqCore.trivial_limiter!), FastBroadcast.Serial}, true, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, Nothing, Float64, SciMLBase.NullParameters, Float64, Float64, Vector{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}}, SciMLBase.ODESolution{ComplexF64, 2, Vector{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}}, Nothing, Nothing, Vector{Float64}, Vector{Vector{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}}}, Nothing, SciMLBase.ODEProblem{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, Tuple{Float64, Float64}, true, SciMLBase.NullParameters, SciMLBase.ODEFunction{true, SciMLBase.AutoSpecialize, FunctionWrappersWrappers.FunctionWrappersWrapper{Tuple{FunctionWrappers.FunctionWrapper{Nothing, Tuple{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, SciMLBase.NullParameters, Float64}}}, FunctionWrappersWrappers.AllowNonIsBits, FunctionWrappersWrappers.SingleCacheStorage}, LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing, Nothing, Nothing, Nothing}, @Kwargs{}, SciMLBase.StandardODEProblem}, OrdinaryDiffEqLowOrderRK.DP5{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqCore.trivial_limiter!), FastBroadcast.Serial}, OrdinaryDiffEqCore.InterpolationData{SciMLBase.ODEFunction{true, SciMLBase.AutoSpecialize, FunctionWrappersWrappers.FunctionWrappersWrapper{Tuple{FunctionWrappers.FunctionWrapper{Nothing, Tuple{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, SciMLBase.NullParameters, Float64}}}, FunctionWrappersWrappers.AllowNonIsBits, FunctionWrappersWrappers.SingleCacheStorage}, LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing, Nothing, Nothing, Nothing}, Vector{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}}, Vector{Float64}, Vector{Vector{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}}}, Nothing, OrdinaryDiffEqLowOrderRK.DP5Cache{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqCore.trivial_limiter!), FastBroadcast.Serial}, Nothing}, SciMLBase.DEStats, Nothing, Nothing, Nothing, Nothing}, SciMLBase.ODEFunction{true, SciMLBase.AutoSpecialize, FunctionWrappersWrappers.FunctionWrappersWrapper{Tuple{FunctionWrappers.FunctionWrapper{Nothing, Tuple{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, SciMLBase.NullParameters, Float64}}}, FunctionWrappersWrappers.AllowNonIsBits, FunctionWrappersWrappers.SingleCacheStorage}, LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing, Nothing, Nothing, Nothing}, OrdinaryDiffEqLowOrderRK.DP5Cache{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqCore.trivial_limiter!), FastBroadcast.Serial}, OrdinaryDiffEqCore.DEOptions{Float64, Float64, Float64, Float64, typeof(DiffEqBase.ODE_DEFAULT_NORM), typeof(LinearAlgebra.opnorm), Nothing, SciMLBase.CallbackSet{Tuple{}, Tuple{}}, typeof(DiffEqBase.ODE_DEFAULT_ISOUTOFDOMAIN), typeof(DiffEqBase.ODE_DEFAULT_PROG_MESSAGE), typeof(DiffEqBase.ODE_DEFAULT_UNSTABLE_CHECK), BinaryHeaps.BinaryHeap{Float64, BinaryHeaps.FasterForward}, BinaryHeaps.BinaryHeap{Float64, BinaryHeaps.FasterForward}, Nothing, Nothing, Int64, Tuple{}, Tuple{}, Tuple{}, DiffEqBase.DEVerbosity{true, SciMLLogging.Minimal, SciMLLogging.Minimal}, Nothing}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, ComplexF64, Nothing, DiffEqBase.DefaultInit, Nothing, OrdinaryDiffEqCore.PIControllerCache{Float64, Float64, SciMLBase.IntervalNonlinearProblem}, Random.TaskLocalRNG, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing}, dt::Nothing)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4619478Z     @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/solve.jl:887
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4630677Z   [7] _ode_init(prob::SciMLBase.ODEProblem{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, Tuple{Float64, Float64}, true, SciMLBase.NullParameters, SciMLBase.ODEFunction{true, SciMLBase.AutoSpecialize, FunctionWrappersWrappers.FunctionWrappersWrapper{Tuple{FunctionWrappers.FunctionWrapper{Nothing, Tuple{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, SciMLBase.NullParameters, Float64}}}, FunctionWrappersWrappers.AllowNonIsBits, FunctionWrappersWrappers.SingleCacheStorage}, LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing, Nothing, Nothing, Nothing}, @Kwargs{}, SciMLBase.StandardODEProblem}, alg::OrdinaryDiffEqLowOrderRK.DP5{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqCore.trivial_limiter!), FastBroadcast.Serial}, timeseries_init::Tuple{}, ts_init::Tuple{}, ks_init::Tuple{}; saveat::Tuple{}, tstops::Tuple{}, d_discontinuities::Tuple{}, save_idxs::Nothing, save_everystep::Bool, save_on::Bool, save_discretes::Bool, save_start::Bool, save_end::Nothing, callback::Nothing, dense::Bool, calck::Bool, dt::Nothing, dtmin::Float64, dtmax::Float64, force_dtmin::Bool, adaptive::Bool, abstol::Nothing, reltol::Nothing, controller::Nothing, fullnormalize::Bool, failfactor::Int64, maxiters::Int64, internalnorm::typeof(DiffEqBase.ODE_DEFAULT_NORM), internalopnorm::typeof(LinearAlgebra.opnorm), isoutofdomain::typeof(DiffEqBase.ODE_DEFAULT_ISOUTOFDOMAIN), unstable_check::typeof(DiffEqBase.ODE_DEFAULT_UNSTABLE_CHECK), verbose::DiffEqBase.DEVerbosity{true, SciMLLogging.Minimal, SciMLLogging.Minimal}, timeseries_errors::Bool, dense_errors::Bool, advance_to_tstop::Bool, stop_at_next_tstop::Bool, initialize_save::Bool, progress::Bool, progress_steps::Int64, progress_name::String, progress_message::typeof(DiffEqBase.ODE_DEFAULT_PROG_MESSAGE), progress_id::Symbol, userdata::Nothing, allow_extrapolation::Bool, initialize_integrator::Bool, alias::SciMLBase.ODEAliasSpecifier, initializealg::DiffEqBase.DefaultInit, rng::Nothing, save_noise::Bool, delta::Nothing, W::Nothing, P::Nothing, sqdt::Nothing, noise::Nothing, c::Nothing, rate_constants::Nothing, _cache::Nothing, _u::Nothing, _uprev::Nothing, seed::UInt64, kwargs::@Kwargs{})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4642182Z     @ OrdinaryDiffEqCore ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/solve.jl:779
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4642675Z   [8] _ode_init
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4643044Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/solve.jl:80 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4643485Z   [9] #__init#65
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4643876Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/solve.jl:70 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4644362Z  [10] __init (repeats 2 times)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4644780Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/solve.jl:52 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4645201Z  [11] #__solve#64
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4645549Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/solve.jl:9 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4645973Z  [12] __solve
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4646331Z     @ ~/.julia/packages/OrdinaryDiffEqCore/sXbgm/src/solve.jl:1 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4646750Z  [13] #solve_call#25
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4647098Z     @ ~/.julia/packages/DiffEqBase/DoufZ/src/solve.jl:172 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4748075Z  [14] solve_up(prob::SciMLBase.ODEProblem{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, Tuple{Float64, Float64}, true, SciMLBase.NullParameters, SciMLBase.ODEFunction{true, SciMLBase.AutoSpecialize, Main.AirspeedVelocityRunner.var"#schroed!#2", LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing, Nothing, Nothing, Nothing}, @Kwargs{}, SciMLBase.StandardODEProblem}, sensealg::Nothing, u0::QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, p::SciMLBase.NullParameters, args::OrdinaryDiffEqLowOrderRK.DP5{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqCore.trivial_limiter!), FastBroadcast.Serial}; originator::SciMLBase.ChainRulesOriginator, kwargs::@Kwargs{verbose::DiffEqBase.DEVerbosity{true, SciMLLogging.Minimal, SciMLLogging.Minimal}, save_everystep::Bool})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4752430Z     @ DiffEqBase ~/.julia/packages/DiffEqBase/DoufZ/src/solve.jl:646
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4752815Z  [15] solve_up
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4753112Z     @ ~/.julia/packages/DiffEqBase/DoufZ/src/solve.jl:619 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4832896Z  [16] solve(prob::SciMLBase.ODEProblem{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, Tuple{Float64, Float64}, true, SciMLBase.NullParameters, SciMLBase.ODEFunction{true, SciMLBase.AutoSpecialize, Main.AirspeedVelocityRunner.var"#schroed!#2", LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing, Nothing, Nothing, Nothing}, @Kwargs{}, SciMLBase.StandardODEProblem}, args::OrdinaryDiffEqLowOrderRK.DP5{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqCore.trivial_limiter!), FastBroadcast.Serial}; sensealg::Nothing, u0::Nothing, p::Nothing, wrap::Val{true}, verbose::DiffEqBase.DEVerbosity{true, SciMLLogging.Minimal, SciMLLogging.Minimal}, kwargs::@Kwargs{save_everystep::Bool})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4837004Z     @ DiffEqBase ~/.julia/packages/DiffEqBase/DoufZ/src/solve.jl:603
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4837435Z  [17] solve
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4837723Z     @ ~/.julia/packages/DiffEqBase/DoufZ/src/solve.jl:591 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4853629Z  [18] var"##core#292"(bench#281::Symbol, dim#282::Rational{Int64}, prob::SciMLBase.ODEProblem{QuantumOpticsBase.Ket{QuantumInterface.SpinBasis{20//1, Int64}, Vector{ComplexF64}}, Tuple{Float64, Float64}, true, SciMLBase.NullParameters, SciMLBase.ODEFunction{true, SciMLBase.AutoSpecialize, Main.AirspeedVelocityRunner.var"#schroed!#2", LinearAlgebra.UniformScaling{Bool}, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof(SciMLBase.DEFAULT_OBSERVED), Nothing, Nothing, Nothing, Nothing}, @Kwargs{}, SciMLBase.StandardODEProblem})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4856532Z     @ Main.AirspeedVelocityRunner ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:647
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4859998Z  [19] var"##sample#293"(::Tuple{Symbol, Rational{Int64}}, __params::BenchmarkTools.Parameters, __sample_ref::Base.RefValue{Tuple{Float64, Float64, Int64, Int64}}, __result_ref::Nothing)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4861165Z     @ Main.AirspeedVelocityRunner ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:659
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4863965Z  [20] _run(b::BenchmarkTools.Benchmark, p::BenchmarkTools.Parameters; verbose::Bool, pad::String, warmup::Bool, capture_result::Bool, kwargs::@Kwargs{})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4864953Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:126
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4865452Z  [21] invokelatest
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4865716Z     @ ./Base_compiler.jl:250 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4866019Z  [22] #run_result#31
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4866384Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:50 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4866809Z  [23] run_result
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4867176Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:49 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4870795Z  [24] run(b::BenchmarkTools.Benchmark, p::BenchmarkTools.Parameters; progressid::Base.UUID, nleaves::Int64, ndone::Int64, kwargs::@Kwargs{verbose::Bool, pad::String})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4871849Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:178
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4872366Z  [25] run (repeats 2 times)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4872769Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:170 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4873204Z  [26] macro expansion
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4873556Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:198 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4873965Z  [27] macro expansion
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.4874208Z     @ ./timing.jl:461 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5179669Z  [28] (::BenchmarkTools.var"#38#39"{Bool, String, @Kwargs{progressid::Base.UUID, nleaves::Int64, ndone::Int64}, BenchmarkGroup, Tuple{}})(progressid::Base.UUID, nleaves::Int64, ndone::Int64)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5180700Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:197
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5191489Z  [29] _withprogress(f::BenchmarkTools.var"#38#39"{Bool, String, @Kwargs{progressid::Base.UUID, nleaves::Int64, ndone::Int64}, BenchmarkGroup, Tuple{}}, name::String, group::BenchmarkGroup; progressid::Base.UUID, nleaves::Int64, ndone::Int64, ::@Kwargs{})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5199884Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:92
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5201099Z  [30] run(::BenchmarkGroup; verbose::Bool, pad::String, kwargs::@Kwargs{progressid::Base.UUID, nleaves::Int64, ndone::Int64})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5201652Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:187
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5201957Z  [31] run
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5202199Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:186 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5202491Z  [32] macro expansion
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5202744Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:198 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5203017Z  [33] macro expansion
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5203198Z     @ ./timing.jl:461 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5203744Z  [34] (::BenchmarkTools.var"#38#39"{Bool, String, @Kwargs{progressid::Base.UUID, nleaves::Int64, ndone::Int64}, BenchmarkGroup, Tuple{}})(progressid::Base.UUID, nleaves::Int64, ndone::Int64)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5204503Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:197
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5207526Z  [35] _withprogress(f::BenchmarkTools.var"#38#39"{Bool, String, @Kwargs{progressid::Base.UUID, nleaves::Int64, ndone::Int64}, BenchmarkGroup, Tuple{}}, name::String, group::BenchmarkGroup; progressid::Base.UUID, nleaves::Int64, ndone::Int64, ::@Kwargs{})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5208342Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:92
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5210525Z  [36] run(::BenchmarkGroup; verbose::Bool, pad::String, kwargs::@Kwargs{progressid::Base.UUID, nleaves::Int64, ndone::Int64})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5211352Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:187
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5211843Z  [37] macro expansion
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5212099Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:198 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5212392Z  [38] macro expansion
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5212560Z     @ ./timing.jl:461 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5215101Z  [39] (::BenchmarkTools.var"#38#39"{Bool, String, @Kwargs{}, BenchmarkGroup, Tuple{}})(progressid::Base.UUID, nleaves::Int64, ndone::Int64)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5215645Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:197
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5220927Z  [40] _withprogress(f::BenchmarkTools.var"#38#39"{Bool, String, @Kwargs{}, BenchmarkGroup, Tuple{}}, name::String, group::BenchmarkGroup; progressid::Nothing, nleaves::Float64, ndone::Float64, ::@Kwargs{})
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5222095Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:98
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5222635Z  [41] _withprogress
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5223025Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:82 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5223436Z  [42] #run#36
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5223828Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:187 [inlined]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5224323Z  [43] top-level scope
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5224606Z     @ /tmp/jl_TsIVbS/runner.jl:111
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5224826Z  [44] include(mod::Module, _path::String)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5225043Z     @ Base ./Base.jl:306
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5225338Z  [45] exec_options(opts::Base.JLOptions)
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5225557Z     @ Base ./client.jl:317
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5225730Z  [46] _start()
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5225883Z     @ Base ./client.jl:550
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:25.5226094Z in expression starting at /tmp/jl_TsIVbS/runner.jl:111
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2142504Z ^[[91m^[[1mERROR: ^[[22m^[[39mLoadError: failed process: Process(`^[[4mjulia^[[24m ^[[4m--project=/tmp/jl_TsIVbS^[[24m ^[[4m--startup-file=no^[[24m ^[[4m/tmp/jl_TsIVbS/runner.jl^[[24m`, ProcessExited(1)) [1]
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2225994Z 
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2226452Z Stacktrace:
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2226799Z   [1] ^[[0m^[[1mpipeline_error^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2227167Z ^[[90m    @^[[39m ^[[90m./^[[39m^[[90m^[[4mprocess.jl:597^[[24m^[[39m^[[90m [inlined]^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2228476Z   [2] ^[[0m^[[1mrun^[[22m^[[0m^[[1m(^[[22m::^[[0mCmd; ^[[90mwait^[[39m::^[[0mBool^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2229283Z ^[[90m    @^[[39m ^[[90mBase^[[39m ^[[90m./^[[39m^[[90m^[[4mprocess.jl:512^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2229978Z   [3] ^[[0m^[[1mrun^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2230288Z ^[[90m    @^[[39m ^[[90m./^[[39m^[[90m^[[4mprocess.jl:509^[[24m^[[39m^[[90m [inlined]^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2246204Z   [4] ^[[0m^[[1m_benchmark^[[22m^[[0m^[[1m(^[[22m^[[90mspec^[[39m::^[[0mPkg.Types.PackageSpec; ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mString, ^[[90mtune^[[39m::^[[0mBool, ^[[90mexeflags^[[39m::^[[0mCmd, ^[[90mextra_pkgs^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mfilter_benchmarks^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mproject_toml^[[39m::^[[0mString, ^[[90mnsamples_load_time^[[39m::^[[0mInt64^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2247577Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.Utils^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:316^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2248065Z   [5] ^[[0m^[[1m_benchmark^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2248717Z ^[[90m    @^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:136^[[24m^[[39m^[[90m [inlined]^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2254957Z   [6] ^[[0m^[[1mbenchmark^[[22m^[[0m^[[1m(^[[22m^[[90mpackage_spec^[[39m::^[[0mPkg.Types.PackageSpec; ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mString, ^[[90mtune^[[39m::^[[0mBool, ^[[90mexeflags^[[39m::^[[0mCmd, ^[[90mextra_pkgs^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mfilter_benchmarks^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mbenchmark_on^[[39m::^[[0mNothing, ^[[90mproject_toml^[[39m::^[[0mString, ^[[90mnsamples_load_time^[[39m::^[[0mInt64^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2256347Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.Utils^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:547^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2256813Z   [7] ^[[0m^[[1mbenchmark^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2257247Z ^[[90m    @^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:524^[[24m^[[39m^[[90m [inlined]^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2266845Z   [8] ^[[0m^[[1mbenchmark^[[22m^[[0m^[[1m(^[[22m^[[90mpackage_specs^[[39m::^[[0mVector^[[90m{Pkg.Types.PackageSpec}^[[39m; ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mNothing, ^[[90mtune^[[39m::^[[0mBool, ^[[90mexeflags^[[39m::^[[0mCmd, ^[[90mextra_pkgs^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mfilter_benchmarks^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mbenchmark_on^[[39m::^[[0mString, ^[[90mproject_toml^[[39m::^[[0mNothing, ^[[90mnsamples_load_time^[[39m::^[[0mInt64^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2268324Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.Utils^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:510^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2268783Z   [9] ^[[0m^[[1mbenchmark^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2269325Z ^[[90m    @^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:481^[[24m^[[39m^[[90m [inlined]^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2278541Z  [10] ^[[0m^[[1mbenchmark^[[22m^[[0m^[[1m(^[[22m^[[90mpackage_name^[[39m::^[[0mString, ^[[90mrevs^[[39m::^[[0mVector^[[90m{String}^[[39m; ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mNothing, ^[[90mtune^[[39m::^[[0mBool, ^[[90mexeflags^[[39m::^[[0mCmd, ^[[90mextra_pkgs^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90murl^[[39m::^[[0mString, ^[[90mpath^[[39m::^[[0mNothing, ^[[90mbenchmark_on^[[39m::^[[0mString, ^[[90mfilter_benchmarks^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mnsamples_load_time^[[39m::^[[0mInt64^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2280309Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.Utils^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:417^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2281803Z  [11] ^[[0m^[[1mbenchpkg^[[22m^[[0m^[[1m(^[[22m^[[90mpackage_name^[[39m::^[[0mString; ^[[90mrev^[[39m::^[[0mString, ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mString, ^[[90mexeflags^[[39m::^[[0mString, ^[[90madd^[[39m::^[[0mString, ^[[90mtune^[[39m::^[[0mBool, ^[[90murl^[[39m::^[[0mString, ^[[90mpath^[[39m::^[[0mString, ^[[90mbench_on^[[39m::^[[0mString, ^[[90mfilter^[[39m::^[[0mString, ^[[90mnsamples_load_time^[[39m::^[[0mInt64, ^[[90mdont_print^[[39m::^[[0mBool^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2283315Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.BenchPkg^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mBenchPkg.jl:93^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2284640Z  [12] ^[[0m^[[1mcommand_main^[[22m^[[0m^[[1m(^[[22m^[[90mARGS^[[39m::^[[0mVector^[[90m{String}^[[39m^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2285646Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.BenchPkg^[[39m ^[[90m~/.julia/packages/Comonicon/F3QqZ/src/codegen/^[[39m^[[90m^[[4mjulia.jl:343^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2286412Z  [13] ^[[0m^[[1mcommand_main^[[22m^[[0m^[[1m(^[[22m^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2287317Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.BenchPkg^[[39m ^[[90m~/.julia/packages/Comonicon/F3QqZ/src/codegen/^[[39m^[[90m^[[4mjulia.jl:90^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2287849Z  [14] top-level scope
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2288118Z ^[[90m    @^[[39m ^[[90m~/.julia/bin/^[[39m^[[90m^[[4mbenchpkg:14^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2288792Z  [15] ^[[0m^[[1minclude^[[22m^[[0m^[[1m(^[[22m^[[90mmod^[[39m::^[[0mModule, ^[[90m_path^[[39m::^[[0mString^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2289618Z ^[[90m    @^[[39m ^[[90mBase^[[39m ^[[90m./^[[39m^[[90m^[[4mBase.jl:306^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2290239Z  [16] ^[[0m^[[1mexec_options^[[22m^[[0m^[[1m(^[[22m^[[90mopts^[[39m::^[[0mBase.JLOptions^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2290839Z ^[[90m    @^[[39m ^[[90mBase^[[39m ^[[90m./^[[39m^[[90m^[[4mclient.jl:317^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2291307Z  [17] ^[[0m^[[1m_start^[[22m^[[0m^[[1m(^[[22m^[[0m^[[1m)^[[22m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2291802Z ^[[90m    @^[[39m ^[[90mBase^[[39m ^[[90m./^[[39m^[[90m^[[4mclient.jl:550^[[24m^[[39m
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.2292298Z in expression starting at /home/runner/.julia/bin/benchpkg:14
+benchmark	Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.5795085Z ##[error]Process completed with exit code 1.
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	﻿2026-07-07T05:50:27.5966118Z Post job cleanup.
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6067492Z Post job cleanup.
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6111506Z Post job cleanup.
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6786824Z [command]/usr/bin/git version
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6817279Z git version 2.54.0
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6847412Z Temporarily overriding HOME='/home/runner/work/_temp/26ebe297-e9ca-42a7-ac10-5de62f6f6b16' before making global git config changes
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6862096Z Adding repository directory to the temporary git global config as a safe directory
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6862997Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/QuantumOptics.jl/QuantumOptics.jl
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6879778Z Removing SSH command configuration
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6884784Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.6936972Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.7117489Z Removing HTTP extra header
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.7121390Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.7146406Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.7329080Z Removing includeIf entries pointing to credentials config files
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.7335297Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+benchmark	Post Run MilesCranmer/AirspeedVelocity.jl@action-v1	2026-07-07T05:50:27.7360019Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+benchmark	Complete job	﻿2026-07-07T05:50:27.7671301Z Cleaning up orphan processes
+benchmark	Complete job	2026-07-07T05:50:27.7895095Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684, julia-actions/setup-julia@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

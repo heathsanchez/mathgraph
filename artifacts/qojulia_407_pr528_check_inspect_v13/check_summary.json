@@ -1,0 +1,330 @@
+{
+  "pr": "https://github.com/qojulia/QuantumOptics.jl/pull/528",
+  "failing_workflow": "Benchmarks / benchmark (pull_request_target)",
+  "run_id": "28844510810",
+  "job_id": "85545262958",
+  "log_error_file_nonempty": false,
+  "hit_count": 797,
+  "tail_hits": [
+    [
+      755,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5210525Z  [36] run(::BenchmarkGroup; verbose::Bool, pad::String, kwargs::@Kwargs{progressid::Base.UUID, nleaves::Int64, ndone::Int64})"
+    ],
+    [
+      756,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5211352Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:187"
+    ],
+    [
+      757,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5211843Z  [37] macro expansion"
+    ],
+    [
+      758,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5212099Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:198 [inlined]"
+    ],
+    [
+      759,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5212392Z  [38] macro expansion"
+    ],
+    [
+      760,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5212560Z     @ ./timing.jl:461 [inlined]"
+    ],
+    [
+      761,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5215101Z  [39] (::BenchmarkTools.var\"#38#39\"{Bool, String, @Kwargs{}, BenchmarkGroup, Tuple{}})(progressid::Base.UUID, nleaves::Int64, ndone::Int64)"
+    ],
+    [
+      762,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5215645Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:197"
+    ],
+    [
+      763,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5220927Z  [40] _withprogress(f::BenchmarkTools.var\"#38#39\"{Bool, String, @Kwargs{}, BenchmarkGroup, Tuple{}}, name::String, group::BenchmarkGroup; progressid::Nothing, nleaves::Float64, ndone::Float64, ::@Kwargs{})"
+    ],
+    [
+      764,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5222095Z     @ BenchmarkTools ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:98"
+    ],
+    [
+      765,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5222635Z  [41] _withprogress"
+    ],
+    [
+      766,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5223025Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:82 [inlined]"
+    ],
+    [
+      767,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5223436Z  [42] #run#36"
+    ],
+    [
+      768,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5223828Z     @ ~/.julia/packages/BenchmarkTools/ZtsPk/src/execution.jl:187 [inlined]"
+    ],
+    [
+      769,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5224323Z  [43] top-level scope"
+    ],
+    [
+      770,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5224606Z     @ /tmp/jl_TsIVbS/runner.jl:111"
+    ],
+    [
+      771,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5224826Z  [44] include(mod::Module, _path::String)"
+    ],
+    [
+      772,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5225043Z     @ Base ./Base.jl:306"
+    ],
+    [
+      773,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5225338Z  [45] exec_options(opts::Base.JLOptions)"
+    ],
+    [
+      774,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5225557Z     @ Base ./client.jl:317"
+    ],
+    [
+      775,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5225730Z  [46] _start()"
+    ],
+    [
+      776,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5225883Z     @ Base ./client.jl:550"
+    ],
+    [
+      777,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:25.5226094Z in expression starting at /tmp/jl_TsIVbS/runner.jl:111"
+    ],
+    [
+      778,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2142504Z ^[[91m^[[1mERROR: ^[[22m^[[39mLoadError: failed process: Process(`^[[4mjulia^[[24m ^[[4m--project=/tmp/jl_TsIVbS^[[24m ^[[4m--startup-file=no^[[24m ^[[4m/tmp/jl_TsIVbS/runner.jl^[[24m`, ProcessExited(1)) [1]"
+    ],
+    [
+      779,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2225994Z "
+    ],
+    [
+      780,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2226452Z Stacktrace:"
+    ],
+    [
+      781,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2226799Z   [1] ^[[0m^[[1mpipeline_error^[[22m"
+    ],
+    [
+      782,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2227167Z ^[[90m    @^[[39m ^[[90m./^[[39m^[[90m^[[4mprocess.jl:597^[[24m^[[39m^[[90m [inlined]^[[39m"
+    ],
+    [
+      783,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2228476Z   [2] ^[[0m^[[1mrun^[[22m^[[0m^[[1m(^[[22m::^[[0mCmd; ^[[90mwait^[[39m::^[[0mBool^[[0m^[[1m)^[[22m"
+    ],
+    [
+      784,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2229283Z ^[[90m    @^[[39m ^[[90mBase^[[39m ^[[90m./^[[39m^[[90m^[[4mprocess.jl:512^[[24m^[[39m"
+    ],
+    [
+      785,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2229978Z   [3] ^[[0m^[[1mrun^[[22m"
+    ],
+    [
+      786,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2230288Z ^[[90m    @^[[39m ^[[90m./^[[39m^[[90m^[[4mprocess.jl:509^[[24m^[[39m^[[90m [inlined]^[[39m"
+    ],
+    [
+      787,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2246204Z   [4] ^[[0m^[[1m_benchmark^[[22m^[[0m^[[1m(^[[22m^[[90mspec^[[39m::^[[0mPkg.Types.PackageSpec; ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mString, ^[[90mtune^[[39m::^[[0mBool, ^[[90mexeflags^[[39m::^[[0mCmd, ^[[90mextra_pkgs^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mfilter_benchmarks^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mproject_toml^[[39m::^[[0mString, ^[[90mnsamples_load_time^[[39m::^[[0mInt64^[[0m^[[1m)^[[22m"
+    ],
+    [
+      788,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2247577Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.Utils^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:316^[[24m^[[39m"
+    ],
+    [
+      789,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2248065Z   [5] ^[[0m^[[1m_benchmark^[[22m"
+    ],
+    [
+      790,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2248717Z ^[[90m    @^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:136^[[24m^[[39m^[[90m [inlined]^[[39m"
+    ],
+    [
+      791,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2254957Z   [6] ^[[0m^[[1mbenchmark^[[22m^[[0m^[[1m(^[[22m^[[90mpackage_spec^[[39m::^[[0mPkg.Types.PackageSpec; ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mString, ^[[90mtune^[[39m::^[[0mBool, ^[[90mexeflags^[[39m::^[[0mCmd, ^[[90mextra_pkgs^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mfilter_benchmarks^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mbenchmark_on^[[39m::^[[0mNothing, ^[[90mproject_toml^[[39m::^[[0mString, ^[[90mnsamples_load_time^[[39m::^[[0mInt64^[[0m^[[1m)^[[22m"
+    ],
+    [
+      792,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2256347Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.Utils^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:547^[[24m^[[39m"
+    ],
+    [
+      793,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2256813Z   [7] ^[[0m^[[1mbenchmark^[[22m"
+    ],
+    [
+      794,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2257247Z ^[[90m    @^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:524^[[24m^[[39m^[[90m [inlined]^[[39m"
+    ],
+    [
+      795,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2266845Z   [8] ^[[0m^[[1mbenchmark^[[22m^[[0m^[[1m(^[[22m^[[90mpackage_specs^[[39m::^[[0mVector^[[90m{Pkg.Types.PackageSpec}^[[39m; ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mNothing, ^[[90mtune^[[39m::^[[0mBool, ^[[90mexeflags^[[39m::^[[0mCmd, ^[[90mextra_pkgs^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mfilter_benchmarks^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mbenchmark_on^[[39m::^[[0mString, ^[[90mproject_toml^[[39m::^[[0mNothing, ^[[90mnsamples_load_time^[[39m::^[[0mInt64^[[0m^[[1m)^[[22m"
+    ],
+    [
+      796,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2268324Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.Utils^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:510^[[24m^[[39m"
+    ],
+    [
+      797,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2268783Z   [9] ^[[0m^[[1mbenchmark^[[22m"
+    ],
+    [
+      798,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2269325Z ^[[90m    @^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:481^[[24m^[[39m^[[90m [inlined]^[[39m"
+    ],
+    [
+      799,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2278541Z  [10] ^[[0m^[[1mbenchmark^[[22m^[[0m^[[1m(^[[22m^[[90mpackage_name^[[39m::^[[0mString, ^[[90mrevs^[[39m::^[[0mVector^[[90m{String}^[[39m; ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mNothing, ^[[90mtune^[[39m::^[[0mBool, ^[[90mexeflags^[[39m::^[[0mCmd, ^[[90mextra_pkgs^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90murl^[[39m::^[[0mString, ^[[90mpath^[[39m::^[[0mNothing, ^[[90mbenchmark_on^[[39m::^[[0mString, ^[[90mfilter_benchmarks^[[39m::^[[0mVector^[[90m{String}^[[39m, ^[[90mnsamples_load_time^[[39m::^[[0mInt64^[[0m^[[1m)^[[22m"
+    ],
+    [
+      800,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2280309Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.Utils^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mUtils.jl:417^[[24m^[[39m"
+    ],
+    [
+      801,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2281803Z  [11] ^[[0m^[[1mbenchpkg^[[22m^[[0m^[[1m(^[[22m^[[90mpackage_name^[[39m::^[[0mString; ^[[90mrev^[[39m::^[[0mString, ^[[90moutput_dir^[[39m::^[[0mString, ^[[90mscript^[[39m::^[[0mString, ^[[90mexeflags^[[39m::^[[0mString, ^[[90madd^[[39m::^[[0mString, ^[[90mtune^[[39m::^[[0mBool, ^[[90murl^[[39m::^[[0mString, ^[[90mpath^[[39m::^[[0mString, ^[[90mbench_on^[[39m::^[[0mString, ^[[90mfilter^[[39m::^[[0mString, ^[[90mnsamples_load_time^[[39m::^[[0mInt64, ^[[90mdont_print^[[39m::^[[0mBool^[[0m^[[1m)^[[22m"
+    ],
+    [
+      802,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2283315Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.BenchPkg^[[39m ^[[90m~/.julia/packages/AirspeedVelocity/ZJ8DT/src/^[[39m^[[90m^[[4mBenchPkg.jl:93^[[24m^[[39m"
+    ],
+    [
+      803,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2284640Z  [12] ^[[0m^[[1mcommand_main^[[22m^[[0m^[[1m(^[[22m^[[90mARGS^[[39m::^[[0mVector^[[90m{String}^[[39m^[[0m^[[1m)^[[22m"
+    ],
+    [
+      804,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2285646Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.BenchPkg^[[39m ^[[90m~/.julia/packages/Comonicon/F3QqZ/src/codegen/^[[39m^[[90m^[[4mjulia.jl:343^[[24m^[[39m"
+    ],
+    [
+      805,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2286412Z  [13] ^[[0m^[[1mcommand_main^[[22m^[[0m^[[1m(^[[22m^[[0m^[[1m)^[[22m"
+    ],
+    [
+      806,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2287317Z ^[[90m    @^[[39m ^[[35mAirspeedVelocity.BenchPkg^[[39m ^[[90m~/.julia/packages/Comonicon/F3QqZ/src/codegen/^[[39m^[[90m^[[4mjulia.jl:90^[[24m^[[39m"
+    ],
+    [
+      807,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2287849Z  [14] top-level scope"
+    ],
+    [
+      808,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2288118Z ^[[90m    @^[[39m ^[[90m~/.julia/bin/^[[39m^[[90m^[[4mbenchpkg:14^[[24m^[[39m"
+    ],
+    [
+      809,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2288792Z  [15] ^[[0m^[[1minclude^[[22m^[[0m^[[1m(^[[22m^[[90mmod^[[39m::^[[0mModule, ^[[90m_path^[[39m::^[[0mString^[[0m^[[1m)^[[22m"
+    ],
+    [
+      810,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2289618Z ^[[90m    @^[[39m ^[[90mBase^[[39m ^[[90m./^[[39m^[[90m^[[4mBase.jl:306^[[24m^[[39m"
+    ],
+    [
+      811,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2290239Z  [16] ^[[0m^[[1mexec_options^[[22m^[[0m^[[1m(^[[22m^[[90mopts^[[39m::^[[0mBase.JLOptions^[[0m^[[1m)^[[22m"
+    ],
+    [
+      812,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2290839Z ^[[90m    @^[[39m ^[[90mBase^[[39m ^[[90m./^[[39m^[[90m^[[4mclient.jl:317^[[24m^[[39m"
+    ],
+    [
+      813,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2291307Z  [17] ^[[0m^[[1m_start^[[22m^[[0m^[[1m(^[[22m^[[0m^[[1m)^[[22m"
+    ],
+    [
+      814,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2291802Z ^[[90m    @^[[39m ^[[90mBase^[[39m ^[[90m./^[[39m^[[90m^[[4mclient.jl:550^[[24m^[[39m"
+    ],
+    [
+      815,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.2292298Z in expression starting at /home/runner/.julia/bin/benchpkg:14"
+    ],
+    [
+      816,
+      "benchmark\tRun MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.5795085Z ##[error]Process completed with exit code 1."
+    ],
+    [
+      817,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t\ufeff2026-07-07T05:50:27.5966118Z Post job cleanup."
+    ],
+    [
+      818,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6067492Z Post job cleanup."
+    ],
+    [
+      819,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6111506Z Post job cleanup."
+    ],
+    [
+      820,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6786824Z [command]/usr/bin/git version"
+    ],
+    [
+      821,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6817279Z git version 2.54.0"
+    ],
+    [
+      822,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6847412Z Temporarily overriding HOME='/home/runner/work/_temp/26ebe297-e9ca-42a7-ac10-5de62f6f6b16' before making global git config changes"
+    ],
+    [
+      823,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6862096Z Adding repository directory to the temporary git global config as a safe directory"
+    ],
+    [
+      824,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6862997Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/QuantumOptics.jl/QuantumOptics.jl"
+    ],
+    [
+      825,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6879778Z Removing SSH command configuration"
+    ],
+    [
+      826,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6884784Z [command]/usr/bin/git config --local --name-only --get-regexp core\\.sshCommand"
+    ],
+    [
+      827,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.6936972Z [command]/usr/bin/git submodule foreach --recursive sh -c \"git config --local --name-only --get-regexp 'core\\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+    ],
+    [
+      828,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.7117489Z Removing HTTP extra header"
+    ],
+    [
+      829,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.7121390Z [command]/usr/bin/git config --local --name-only --get-regexp http\\.https\\:\\/\\/github\\.com\\/\\.extraheader"
+    ],
+    [
+      830,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.7146406Z [command]/usr/bin/git submodule foreach --recursive sh -c \"git config --local --name-only --get-regexp 'http\\.https\\:\\/\\/github\\.com\\/\\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+    ],
+    [
+      831,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.7329080Z Removing includeIf entries pointing to credentials config files"
+    ],
+    [
+      832,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.7335297Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\\.gitdir:"
+    ],
+    [
+      833,
+      "benchmark\tPost Run MilesCranmer/AirspeedVelocity.jl@action-v1\t2026-07-07T05:50:27.7360019Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url"
+    ],
+    [
+      835,
+      "benchmark\tComplete job\t2026-07-07T05:50:27.7895095Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684, julia-actions/setup-julia@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
+    ]
+  ]
+}
