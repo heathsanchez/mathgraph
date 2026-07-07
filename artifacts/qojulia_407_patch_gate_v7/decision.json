@@ -1,0 +1,11 @@
+{
+  "verdict": "PATCHABLE_AFTER_READING_EXACT_BENCHMARK_REQUEST",
+  "has_bounty": true,
+  "has_benchmark_surface": true,
+  "has_ci": true,
+  "julia_installed": false,
+  "assigned": false,
+  "mentions_claimed_or_pr": false,
+  "url": "https://github.com/qojulia/QuantumOptics.jl/issues/407",
+  "title": "Update the benchmark suite and bring it into the CI runner [$400]"
+}

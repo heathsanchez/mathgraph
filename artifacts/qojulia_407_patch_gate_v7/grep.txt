@@ -1,0 +1,167 @@
+===== issue terms in repo =====
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:6:using PkgBenchmark
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:101:        # benchmark solving ODE problems on data of QO types
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:102:        SUITE[name]["base array types"][string(dim)] = @benchmarkable solve(prob, DP5(); save_everystep=false) setup=(prob=eval($bench)($dim; pure=true))
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:103:        # benchmark solving ODE problems on custom QO types
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:104:        SUITE[name]["qo types"][string(dim)] = @benchmarkable solve(prob, DP5(); save_everystep=false) setup=(prob=eval($bench)($dim; pure=false))
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:108:        # benchmark solving ODE problems on data of QO types
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:109:        SUITE[name]["base array types"][string(dim)] = @benchmarkable solve(prob, EM(), dt=1/100; save_everystep=false) setup=(prob=eval($bench)($dim; pure=true))
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:110:        # benchmark solving ODE problems on custom QO types
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/benchmarks.jl:111:        SUITE[name]["qo types"][string(dim)] = @benchmarkable solve(prob, EM(), dt=1/100; save_everystep=false) setup=(prob=eval($bench)($dim; pure=false))
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/Project.toml:5:PkgBenchmark = "32113eaa-f34f-5b0d-bd6c-c81e245fc73d"
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/runtests.jl:41:  if get(ENV,"JET_TEST","")=="true"
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/test_jet.jl:5:@testset "JET Package Test" begin
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/test_jet.jl:6:    using JET
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/test_jet.jl:8:    JET.test_package(QuantumOptics, target_defined_modules = true)
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/Project.toml:2:Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/Project.toml:5:JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/test_aqua.jl:6:    using Aqua
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/test_aqua.jl:8:    Aqua.test_all(QuantumOptics, piracies = (broken = true,))
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/test/test_aqua.jl:12:    pirates = [pirate for pirate in Aqua.Piracy.hunt(QuantumOptics) if pirate.name ∉ phasespace_funcs]
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/examples/notebooks/cavity-cooling.ipynb:87:    "We now define the Hamiltonian as two separate parts, one that is position dependent and one that is independent of $x$. This is for reasons of performance, since it is more efficient to simply add the two parts where one is multiplied by $\\cos(x)$ than creating the entire Hamiltonian in every time-step."
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/quantumobjects/operators.md:20:For performance reasons there are three different implementations of operators in **QuantumOptics.jl**, all inheriting from the abstract [`AbstractOperator`](@ref) type:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/quantumobjects/operators.md:54:The data field of an operator (or a ket/bra) built by a tensor product exhibits reverse ordering to the standard Kronecker product, i.e. `tensor(A, B).data = kron(B.data, A.data)`. This is due to the fact that this order respects the column-major order of stored data in the Julia language which is beneficial for performance. One has to keep this in mind when manipulating the data fields. If desired you can change the data output printed to the REPL with the [`QuantumOpticsBase.set_printing`](@ref) function, i.e. by doing `QuantumOpticsBase.set_printing(standard_order=true)`. Note, that this will only change the displayed output while leaving the respective operator data fields the unmodified.
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/timeevolution/timedependent-problems.md:8:The former is completely general, but care must be taken to ensure good performance.
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/timeevolution/timedependent-problems.md:9:The latter is has fewer performance caveats and is typically more convenient, but
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/timeevolution/timedependent-problems.md:110:## Comment on performance with the functional approach
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/timeevolution/timedependent-problems.md:112:The functional approach to time-dependent problems gives you a lot of freedom as you can implement almost arbitrary time and state dependencies. However, it also makes you responsible for performance as the functions passed into the time evolution are time-critical (they are evaluated at every time step the solver takes). For general tips on writing performant Julia code, see the official [Julia manual](https://docs.julialang.org/en/v1/manual/performance-tips/). To summarize, the most relevant points are:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/timeevolution/timedependent-problems.md:114:- Precompute everything you can: try not to allocate new operators in the time-dynamic functions. Allocating matrices will greatly impact performance.
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/timeevolution/timedependent-problems.md:118:To check for type-instabilities you can use Julia's `@code_warntype`. While trying to optimize a function the [BenchmarkTools](https://github.com/JuliaCI/BenchmarkTools.jl) package is quite useful too.
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/timeevolution/master.md:42:For performance reasons the solver internally first creates the non-hermitian Hamiltonian ``H_\mathrm{nh} = H - \frac{i\hbar}{2} \sum_i J_i^\dagger J_i`` and solves the equation
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/stochastic/schroedinger.md:97:The above code would calculate a stochastic trajectory for the measurement of the y-quadrature ($\theta = \pi/2$). Since this scheme is quite commonly used, there is a function which defines the (performance optimized) functions `fdeterm` and `fstoch`. Hence, one can implement the above example in a much more simple way:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/docs/src/semiclassical.md:59:Note, that the way these functions are defined has a great impact on the performance of the calculation since they are evaluated at every time step. To save time try to optimize them, e.g. by calculating required operator products outside of the functions.
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/README.md:5:![Build_state](https://github.com/qojulia/QuantumOptics.jl/workflows/CI/badge.svg) [![Stable documentation][docs-img]][docs-url]
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/README.md:25:* Benchmarks: https://github.com/qojulia/QuantumOptics.jl-benchmarks
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/TagBot.yml:6:  workflow_dispatch:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/TagBot.yml:9:    if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/downgrade.yml:13:  # group by workflow and ref; the last slightly strange component ensures that for pull
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/downgrade.yml:15:  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/benchmark.yml:9:  # group by workflow and ref; the last slightly strange component ensures that for pull
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/benchmark.yml:11:  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/benchmark.yml:16:  benchmark:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/ci.yml:1:name: CI
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/ci.yml:9:  # group by workflow and ref; the last slightly strange component ensures that for pull
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.github/workflows/ci.yml:11:  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:11:      - JuliaCI/julia#v1:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:13:      - JuliaCI/julia-test#v1:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:14:      - JuliaCI/julia-coverage#v1:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:17:      JET_TEST: "{{matrix.JET_TEST}}"
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:25:        JET_TEST: ["false"]
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:29:            LABEL: "JET"
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:31:            JET_TEST: true
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:36:            JET_TEST: false
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:41:            JET_TEST: false
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:46:            JET_TEST: false
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:51:            JET_TEST: false
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:56:      - JuliaCI/julia#v1:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/.buildkite/pipeline.yml:73:      - JuliaCI/julia#v1:
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/CLAUDE.md:19:- `benchmark/` - Performance benchmarking
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/CLAUDE.md:57:# Run benchmarks
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/CLAUDE.md:58:julia --project=benchmark benchmark/benchmarks.jl
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/CLAUDE.md:72:- Code quality tests (Aqua.jl, JET.jl)
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/CLAUDE.md:75:- JET tests run when `JET_TEST=true` environment variable is set
+/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/CLAUDE.md:94:- Extensive test coverage with multiple CI platforms
+
+===== Project.toml files =====
+
+--- benchmark/Project.toml ---
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+OrdinaryDiffEqLowOrderRK = "1344f307-1e59-4825-a18e-ace9aa3fa4c6"
+PkgBenchmark = "32113eaa-f34f-5b0d-bd6c-c81e245fc73d"
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"
+StochasticDiffEq = "789caeaf-c7a9-5a7d-9973-96adeb23e2a0"
+
+--- test/Project.toml ---
+[deps]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+FiniteDiff = "6a86dc24-6348-571c-b903-95158fe2bd41"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+OrdinaryDiffEqLowOrderRK = "1344f307-1e59-4825-a18e-ace9aa3fa4c6"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"
+QuantumOpticsBase = "4f57444f-1401-5e15-980d-4471b28d5678"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+StochasticDiffEq = "789caeaf-c7a9-5a7d-9973-96adeb23e2a0"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+TestItemRunner = "f8b46487-2199-4994-9208-9a1283c18c0a"
+
+--- docs/examples/Project.toml ---
+[deps]
+DiffEqCallbacks = "459566f4-90b8-5000-8ac3-15dfb0a30def"
+IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+Interpolations = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
+OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
+PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"
+QuantumOpticsBase = "4f57444f-1401-5e15-980d-4471b28d5678"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+StochasticDiffEq = "789caeaf-c7a9-5a7d-9973-96adeb23e2a0"
+
+--- docs/Project.toml ---
+[deps]
+AnythingLLMDocs = "333fe5f5-19c9-4863-8caf-c9193e7dba62"
+DiffEqCallbacks = "459566f4-90b8-5000-8ac3-15dfb0a30def"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+QuantumInterface = "5717a53b-5d69-4fa3-b976-0bf2f97ca1e5"
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"
+QuantumOpticsBase = "4f57444f-1401-5e15-980d-4471b28d5678"
+StochasticDiffEq = "789caeaf-c7a9-5a7d-9973-96adeb23e2a0"
+
+[compat]
+Documenter = "1"
+
+--- Project.toml ---
+name = "QuantumOptics"
+uuid = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"
+version = "1.2.6"
+
+[deps]
+Arpack = "7d9fca2a-8960-54d3-9f78-7d1dccf2cb97"
+DiffEqCallbacks = "459566f4-90b8-5000-8ac3-15dfb0a30def"
+DiffEqNoiseProcess = "77a26b50-5914-5dd7-bc55-306e6241c503"
+FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+IterativeSolvers = "42fd0dbc-a981-5370-80f2-aaf504508153"
+KrylovKit = "0b1a1467-8014-51b9-945f-bf0ae24f4b77"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+LinearMaps = "7a12625a-238d-50fd-b39a-03d52299707e"
+OrdinaryDiffEqCore = "bbf590c4-e513-4bbe-9b18-05decba2e5d8"
+OrdinaryDiffEqLowOrderRK = "1344f307-1e59-4825-a18e-ace9aa3fa4c6"
+QuantumOpticsBase = "4f57444f-1401-5e15-980d-4471b28d5678"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+RecursiveArrayTools = "731186ca-8d62-57ce-b412-fbd966d074cd"
+Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
+SciMLBase = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+StochasticDiffEq = "789caeaf-c7a9-5a7d-9973-96adeb23e2a0"
+WignerSymbols = "9f57e263-0b3d-5e2e-b1be-24f2bb48858b"
+
+[compat]
+Arpack = "0.5.1 - 0.5.3"
+DiffEqCallbacks = "2.35, 3, 4"
+DiffEqNoiseProcess = "5.23.0"
+FFTW = "1.3"
+IterativeSolvers = "0.9.3"
+KrylovKit = "0.8, 0.9, 0.10"
+LinearAlgebra = "1.10"
+LinearMaps = "3"
+OrdinaryDiffEqCore = "1.26, 2, 3, 4, 5.0"
+OrdinaryDiffEqLowOrderRK = "1.2.0, 2.0"
+QuantumOpticsBase = "0.5.9"
+Random = "1.10"
+RecursiveArrayTools = "3.35, 4.2"
+Reexport = "1.2.2"
+SciMLBase = "2.114, 3"
+SparseArrays = "1.10"
+StochasticDiffEq = "6.80, 7.0"
+WignerSymbols = "1, 2"
+julia = "1.10"
+
+===== existing benchmark dirs =====
+benchmark

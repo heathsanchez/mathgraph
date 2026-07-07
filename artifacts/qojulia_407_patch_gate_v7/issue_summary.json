@@ -1,0 +1,13 @@
+{
+  "url": "https://github.com/qojulia/QuantumOptics.jl/issues/407",
+  "title": "Update the benchmark suite and bring it into the CI runner [$400]",
+  "state": "OPEN",
+  "labels": [
+    "bug bounty",
+    "bounty:400"
+  ],
+  "assignees": [],
+  "comment_count": 6,
+  "createdAt": "2024-08-01T13:37:33Z",
+  "updatedAt": "2026-05-01T20:11:21Z"
+}

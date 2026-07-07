@@ -1,0 +1,3 @@
+pwd=/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407
+julia not installed on this machine.
+No local Julia judge can run yet.
