@@ -1,0 +1,25 @@
+{
+  "repo": "digama0/lean4lean",
+  "pr": "14",
+  "view_ok": true,
+  "url": "https://github.com/digama0/lean4lean/pull/14",
+  "title": "Fix constDF case in StratifiedUntyped induction",
+  "state": "OPEN",
+  "isDraft": false,
+  "mergeable": "UNKNOWN",
+  "reviewDecision": "",
+  "updatedAt": "2026-07-05T09:25:36Z",
+  "headRefOid": "8c0e5200672c57337ece302c623b8027c0f09db3",
+  "comments": 0,
+  "reviews": 0,
+  "checks": [],
+  "files": [
+    {
+      "path": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+      "additions": 2,
+      "deletions": 2
+    }
+  ],
+  "latest_comments": [],
+  "latest_reviews": []
+}

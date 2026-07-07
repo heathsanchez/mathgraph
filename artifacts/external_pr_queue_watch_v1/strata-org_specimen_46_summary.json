@@ -1,0 +1,25 @@
+{
+  "repo": "strata-org/specimen",
+  "pr": "46",
+  "view_ok": true,
+  "url": "https://github.com/strata-org/specimen/pull/46",
+  "title": "Add LawfulScorable scorer laws interface",
+  "state": "OPEN",
+  "isDraft": true,
+  "mergeable": "MERGEABLE",
+  "reviewDecision": "REVIEW_REQUIRED",
+  "updatedAt": "2026-07-07T00:31:47Z",
+  "headRefOid": "c69bc02191c1480aa2f6487554af86616344f0f5",
+  "comments": 0,
+  "reviews": 0,
+  "checks": [],
+  "files": [
+    {
+      "path": "Specimen/Scoring.lean",
+      "additions": 34,
+      "deletions": 0
+    }
+  ],
+  "latest_comments": [],
+  "latest_reviews": []
+}

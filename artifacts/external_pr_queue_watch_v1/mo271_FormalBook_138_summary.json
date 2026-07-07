@@ -1,0 +1,38 @@
+{
+  "repo": "mo271/FormalBook",
+  "pr": "138",
+  "view_ok": true,
+  "url": "https://github.com/mo271/FormalBook/pull/138",
+  "title": "Fill two local arithmetic steps in Chapter 03",
+  "state": "OPEN",
+  "isDraft": false,
+  "mergeable": "MERGEABLE",
+  "reviewDecision": "",
+  "updatedAt": "2026-07-06T03:12:02Z",
+  "headRefOid": "2b56232019955ac6af6b935382c277cb6d2098f2",
+  "comments": 0,
+  "reviews": 0,
+  "checks": [
+    {
+      "name": "Build project",
+      "state": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/mo271/FormalBook/actions/runs/28765304318/job/85288272729"
+    },
+    {
+      "name": "style_lint",
+      "state": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/mo271/FormalBook/actions/runs/28765304287/job/85288272482"
+    }
+  ],
+  "files": [
+    {
+      "path": "FormalBook/Chapter_03.lean",
+      "additions": 2,
+      "deletions": 2
+    }
+  ],
+  "latest_comments": [],
+  "latest_reviews": []
+}

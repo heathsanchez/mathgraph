@@ -1,0 +1,32 @@
+{
+  "repo": "teorth/equational_theories",
+  "pr": "1461",
+  "view_ok": true,
+  "url": "https://github.com/teorth/equational_theories/pull/1461",
+  "title": "Prove Law43 term definability from swapped arguments",
+  "state": "OPEN",
+  "isDraft": false,
+  "mergeable": "MERGEABLE",
+  "reviewDecision": "",
+  "updatedAt": "2026-07-05T06:19:37Z",
+  "headRefOid": "173e39d0564d794fe59dbdd528f5c7289f31679c",
+  "comments": 0,
+  "reviews": 0,
+  "checks": [
+    {
+      "name": "Build project",
+      "state": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/teorth/equational_theories/actions/runs/28731760112/job/85241348902"
+    }
+  ],
+  "files": [
+    {
+      "path": "equational_theories/Definability/Law43.lean",
+      "additions": 48,
+      "deletions": 2
+    }
+  ],
+  "latest_comments": [],
+  "latest_reviews": []
+}

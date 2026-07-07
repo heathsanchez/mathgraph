@@ -1,0 +1,1 @@
+completed	success	Prove Law43 term definability from swapped arguments	Compile blueprint and paper	fix-law43-term-definable-from-swapped-args	pull_request	28731760112	36m35s	2026-07-05T16:41:24Z

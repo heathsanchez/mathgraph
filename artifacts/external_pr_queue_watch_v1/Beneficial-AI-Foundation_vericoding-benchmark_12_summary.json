@@ -1,0 +1,125 @@
+{
+  "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+  "pr": "12",
+  "view_ok": true,
+  "url": "https://github.com/Beneficial-AI-Foundation/vericoding-benchmark/pull/12",
+  "title": "Fill local index-bound proofs in generated specs",
+  "state": "OPEN",
+  "isDraft": false,
+  "mergeable": "MERGEABLE",
+  "reviewDecision": "",
+  "updatedAt": "2026-07-06T09:30:25Z",
+  "headRefOid": "851be23fbc254a89f207a4779f68a1730e1efc60",
+  "comments": 0,
+  "reviews": 0,
+  "checks": [],
+  "files": [
+    {
+      "path": "specs/LT0009_specs.lean",
+      "additions": 16,
+      "deletions": 2
+    },
+    {
+      "path": "specs/LT0032_specs.lean",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "path": "specs/LT0049_specs.lean",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "path": "specs/LT0091_specs.lean",
+      "additions": 8,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0151_specs.lean",
+      "additions": 6,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0156_specs.lean",
+      "additions": 6,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0171_specs.lean",
+      "additions": 8,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0179_specs.lean",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "path": "specs/LT0380_specs.lean",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0400_specs.lean",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0401_specs.lean",
+      "additions": 9,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0402_specs.lean",
+      "additions": 25,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0428_specs.lean",
+      "additions": 10,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0445_specs.lean",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "path": "specs/LT0479_specs.lean",
+      "additions": 9,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0480_specs.lean",
+      "additions": 20,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0505_specs.lean",
+      "additions": 11,
+      "deletions": 2
+    },
+    {
+      "path": "specs/LT0506_specs.lean",
+      "additions": 26,
+      "deletions": 2
+    },
+    {
+      "path": "specs/LT0513_specs.lean",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "path": "specs/LT0579_specs.lean",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "path": "specs/LT0583_specs.lean",
+      "additions": 8,
+      "deletions": 8
+    }
+  ],
+  "latest_comments": [],
+  "latest_reviews": []
+}

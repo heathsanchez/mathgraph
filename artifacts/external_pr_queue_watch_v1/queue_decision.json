@@ -1,0 +1,359 @@
+[
+  {
+    "repo": "strata-org/specimen",
+    "pr": "46",
+    "view_ok": true,
+    "url": "https://github.com/strata-org/specimen/pull/46",
+    "title": "Add LawfulScorable scorer laws interface",
+    "state": "OPEN",
+    "isDraft": true,
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "REVIEW_REQUIRED",
+    "updatedAt": "2026-07-07T00:31:47Z",
+    "headRefOid": "c69bc02191c1480aa2f6487554af86616344f0f5",
+    "comments": 0,
+    "reviews": 0,
+    "checks": [],
+    "files": [
+      {
+        "path": "Specimen/Scoring.lean",
+        "additions": 34,
+        "deletions": 0
+      }
+    ],
+    "latest_comments": [],
+    "latest_reviews": [],
+    "verdict": "CI_ACTION_REQUIRED__WAIT_FOR_MAINTAINER_APPROVAL",
+    "failed_check_count": 0,
+    "pending_check_count": 0,
+    "passed_check_count": 0,
+    "action_required_run": true,
+    "changes_requested": false,
+    "approved_detected": false
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "pr": "12",
+    "view_ok": true,
+    "url": "https://github.com/Beneficial-AI-Foundation/vericoding-benchmark/pull/12",
+    "title": "Fill local index-bound proofs in generated specs",
+    "state": "OPEN",
+    "isDraft": false,
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "",
+    "updatedAt": "2026-07-06T09:30:25Z",
+    "headRefOid": "851be23fbc254a89f207a4779f68a1730e1efc60",
+    "comments": 0,
+    "reviews": 0,
+    "checks": [],
+    "files": [
+      {
+        "path": "specs/LT0009_specs.lean",
+        "additions": 16,
+        "deletions": 2
+      },
+      {
+        "path": "specs/LT0032_specs.lean",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "specs/LT0049_specs.lean",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "specs/LT0091_specs.lean",
+        "additions": 8,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0151_specs.lean",
+        "additions": 6,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0156_specs.lean",
+        "additions": 6,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0171_specs.lean",
+        "additions": 8,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0179_specs.lean",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "specs/LT0380_specs.lean",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0400_specs.lean",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0401_specs.lean",
+        "additions": 9,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0402_specs.lean",
+        "additions": 25,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0428_specs.lean",
+        "additions": 10,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0445_specs.lean",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "specs/LT0479_specs.lean",
+        "additions": 9,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0480_specs.lean",
+        "additions": 20,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0505_specs.lean",
+        "additions": 11,
+        "deletions": 2
+      },
+      {
+        "path": "specs/LT0506_specs.lean",
+        "additions": 26,
+        "deletions": 2
+      },
+      {
+        "path": "specs/LT0513_specs.lean",
+        "additions": 1,
+        "deletions": 1
+      },
+      {
+        "path": "specs/LT0579_specs.lean",
+        "additions": 2,
+        "deletions": 2
+      },
+      {
+        "path": "specs/LT0583_specs.lean",
+        "additions": 8,
+        "deletions": 8
+      }
+    ],
+    "latest_comments": [],
+    "latest_reviews": [],
+    "verdict": "WATCH",
+    "failed_check_count": 0,
+    "pending_check_count": 0,
+    "passed_check_count": 0,
+    "action_required_run": false,
+    "changes_requested": false,
+    "approved_detected": false
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "pr": "14",
+    "view_ok": true,
+    "url": "https://github.com/digama0/lean4lean/pull/14",
+    "title": "Fix constDF case in StratifiedUntyped induction",
+    "state": "OPEN",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "reviewDecision": "",
+    "updatedAt": "2026-07-05T09:25:36Z",
+    "headRefOid": "8c0e5200672c57337ece302c623b8027c0f09db3",
+    "comments": 0,
+    "reviews": 0,
+    "checks": [],
+    "files": [
+      {
+        "path": "Lean4Lean/Experimental/StratifiedUntyped.lean",
+        "additions": 2,
+        "deletions": 2
+      }
+    ],
+    "latest_comments": [],
+    "latest_reviews": [],
+    "verdict": "WATCH",
+    "failed_check_count": 0,
+    "pending_check_count": 0,
+    "passed_check_count": 0,
+    "action_required_run": false,
+    "changes_requested": false,
+    "approved_detected": false
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "pr": "15",
+    "view_ok": true,
+    "url": "https://github.com/digama0/lean4lean/pull/15",
+    "title": "Fix constDF case in Stratified induction",
+    "state": "OPEN",
+    "isDraft": false,
+    "mergeable": "UNKNOWN",
+    "reviewDecision": "",
+    "updatedAt": "2026-07-05T09:48:50Z",
+    "headRefOid": "12f5fa90daa57bc4cf8a9fa26153dfa95fd68f7c",
+    "comments": 0,
+    "reviews": 0,
+    "checks": [],
+    "files": [
+      {
+        "path": "Lean4Lean/Experimental/Stratified.lean",
+        "additions": 2,
+        "deletions": 2
+      }
+    ],
+    "latest_comments": [],
+    "latest_reviews": [],
+    "verdict": "WATCH",
+    "failed_check_count": 0,
+    "pending_check_count": 0,
+    "passed_check_count": 0,
+    "action_required_run": false,
+    "changes_requested": false,
+    "approved_detected": false
+  },
+  {
+    "repo": "mo271/FormalBook",
+    "pr": "137",
+    "view_ok": true,
+    "url": "https://github.com/mo271/FormalBook/pull/137",
+    "title": "Fill polynomial evaluation norm step in Chapter 06",
+    "state": "OPEN",
+    "isDraft": false,
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "",
+    "updatedAt": "2026-07-06T00:39:23Z",
+    "headRefOid": "03bffeceaef98403d74922bffdd3f2d936890c55",
+    "comments": 0,
+    "reviews": 0,
+    "checks": [
+      {
+        "name": "Build project",
+        "state": "COMPLETED",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/mo271/FormalBook/actions/runs/28760580659/job/85275143722"
+      },
+      {
+        "name": "style_lint",
+        "state": "COMPLETED",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/mo271/FormalBook/actions/runs/28760580649/job/85275143504"
+      }
+    ],
+    "files": [
+      {
+        "path": "FormalBook/Chapter_06.lean",
+        "additions": 1,
+        "deletions": 1
+      }
+    ],
+    "latest_comments": [],
+    "latest_reviews": [],
+    "verdict": "WATCH",
+    "failed_check_count": 0,
+    "pending_check_count": 0,
+    "passed_check_count": 2,
+    "action_required_run": false,
+    "changes_requested": false,
+    "approved_detected": false
+  },
+  {
+    "repo": "mo271/FormalBook",
+    "pr": "138",
+    "view_ok": true,
+    "url": "https://github.com/mo271/FormalBook/pull/138",
+    "title": "Fill two local arithmetic steps in Chapter 03",
+    "state": "OPEN",
+    "isDraft": false,
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "",
+    "updatedAt": "2026-07-06T03:12:02Z",
+    "headRefOid": "2b56232019955ac6af6b935382c277cb6d2098f2",
+    "comments": 0,
+    "reviews": 0,
+    "checks": [
+      {
+        "name": "Build project",
+        "state": "COMPLETED",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/mo271/FormalBook/actions/runs/28765304318/job/85288272729"
+      },
+      {
+        "name": "style_lint",
+        "state": "COMPLETED",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/mo271/FormalBook/actions/runs/28765304287/job/85288272482"
+      }
+    ],
+    "files": [
+      {
+        "path": "FormalBook/Chapter_03.lean",
+        "additions": 2,
+        "deletions": 2
+      }
+    ],
+    "latest_comments": [],
+    "latest_reviews": [],
+    "verdict": "WATCH",
+    "failed_check_count": 0,
+    "pending_check_count": 0,
+    "passed_check_count": 2,
+    "action_required_run": false,
+    "changes_requested": false,
+    "approved_detected": false
+  },
+  {
+    "repo": "teorth/equational_theories",
+    "pr": "1461",
+    "view_ok": true,
+    "url": "https://github.com/teorth/equational_theories/pull/1461",
+    "title": "Prove Law43 term definability from swapped arguments",
+    "state": "OPEN",
+    "isDraft": false,
+    "mergeable": "MERGEABLE",
+    "reviewDecision": "",
+    "updatedAt": "2026-07-05T06:19:37Z",
+    "headRefOid": "173e39d0564d794fe59dbdd528f5c7289f31679c",
+    "comments": 0,
+    "reviews": 0,
+    "checks": [
+      {
+        "name": "Build project",
+        "state": "COMPLETED",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/teorth/equational_theories/actions/runs/28731760112/job/85241348902"
+      }
+    ],
+    "files": [
+      {
+        "path": "equational_theories/Definability/Law43.lean",
+        "additions": 48,
+        "deletions": 2
+      }
+    ],
+    "latest_comments": [],
+    "latest_reviews": [],
+    "verdict": "WATCH",
+    "failed_check_count": 0,
+    "pending_check_count": 0,
+    "passed_check_count": 1,
+    "action_required_run": false,
+    "changes_requested": false,
+    "approved_detected": false
+  }
+]

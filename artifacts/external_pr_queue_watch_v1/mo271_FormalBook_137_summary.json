@@ -1,0 +1,38 @@
+{
+  "repo": "mo271/FormalBook",
+  "pr": "137",
+  "view_ok": true,
+  "url": "https://github.com/mo271/FormalBook/pull/137",
+  "title": "Fill polynomial evaluation norm step in Chapter 06",
+  "state": "OPEN",
+  "isDraft": false,
+  "mergeable": "MERGEABLE",
+  "reviewDecision": "",
+  "updatedAt": "2026-07-06T00:39:23Z",
+  "headRefOid": "03bffeceaef98403d74922bffdd3f2d936890c55",
+  "comments": 0,
+  "reviews": 0,
+  "checks": [
+    {
+      "name": "Build project",
+      "state": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/mo271/FormalBook/actions/runs/28760580659/job/85275143722"
+    },
+    {
+      "name": "style_lint",
+      "state": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/mo271/FormalBook/actions/runs/28760580649/job/85275143504"
+    }
+  ],
+  "files": [
+    {
+      "path": "FormalBook/Chapter_06.lean",
+      "additions": 1,
+      "deletions": 1
+    }
+  ],
+  "latest_comments": [],
+  "latest_reviews": []
+}

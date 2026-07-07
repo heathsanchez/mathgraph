@@ -1,0 +1,7 @@
+strata-org/specimen	46	Add LawfulScorable scorer laws interface
+Beneficial-AI-Foundation/vericoding-benchmark	12	Fill local index-bound proofs in generated specs
+mo271/FormalBook	138	Fill two local arithmetic steps in Chapter 03
+mo271/FormalBook	137	Fill polynomial evaluation norm step in Chapter 06
+digama0/lean4lean	15	Fix constDF case in Stratified induction
+digama0/lean4lean	14	Fix constDF case in StratifiedUntyped induction
+teorth/equational_theories	1461	Prove Law43 term definability from swapped arguments

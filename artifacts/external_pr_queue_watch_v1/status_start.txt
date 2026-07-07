@@ -1,0 +1,9 @@
+2026-07-07T00:59:13Z
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   6.5Gi    65%    458k   68M    1%   /
+?? artifacts/external_pr_queue_watch_v1/
+?? artifacts/paid_fix_scout/
+?? check_paid_github_fixes.py
+?? external_pr_queue_watch_v1.sh
+?? refine_paid_fix_scout.py
+?? strata_specimen_issue45_recon_v1.sh

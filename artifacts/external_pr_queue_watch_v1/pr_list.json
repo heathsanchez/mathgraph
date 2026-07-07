@@ -1,0 +1,37 @@
+[
+  {
+    "repo": "strata-org/specimen",
+    "num": "46",
+    "title_hint": "Add LawfulScorable scorer laws interface"
+  },
+  {
+    "repo": "Beneficial-AI-Foundation/vericoding-benchmark",
+    "num": "12",
+    "title_hint": "Fill local index-bound proofs in generated specs"
+  },
+  {
+    "repo": "mo271/FormalBook",
+    "num": "138",
+    "title_hint": "Fill two local arithmetic steps in Chapter 03"
+  },
+  {
+    "repo": "mo271/FormalBook",
+    "num": "137",
+    "title_hint": "Fill polynomial evaluation norm step in Chapter 06"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "num": "15",
+    "title_hint": "Fix constDF case in Stratified induction"
+  },
+  {
+    "repo": "digama0/lean4lean",
+    "num": "14",
+    "title_hint": "Fix constDF case in StratifiedUntyped induction"
+  },
+  {
+    "repo": "teorth/equational_theories",
+    "num": "1461",
+    "title_hint": "Prove Law43 term definability from swapped arguments"
+  }
+]
