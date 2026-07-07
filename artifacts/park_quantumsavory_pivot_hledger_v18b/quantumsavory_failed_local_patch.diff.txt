@@ -1,0 +1,95 @@
+===== branch =====
+heath/benchmark-smoke-131
+
+===== status =====
+ M .github/workflows/benchmark.yml
+ M README.md
+?? benchmark/run_smoke.jl
+
+===== diff stat =====
+ .github/workflows/benchmark.yml | 42 +++++++++++++++++++++++++++++------------
+ README.md                       | 14 +++++++++++++-
+ 2 files changed, 43 insertions(+), 13 deletions(-)
+
+===== diff =====
+diff --git a/.github/workflows/benchmark.yml b/.github/workflows/benchmark.yml
+index 7e004749..21c4913f 100644
+--- a/.github/workflows/benchmark.yml
++++ b/.github/workflows/benchmark.yml
+@@ -1,22 +1,40 @@
+ name: Benchmarks
++
+ on:
+-  pull_request_target:
+-    branches: [master, main]
+-permissions:
+-  pull-requests: write
++  pull_request:
++    branches: [main, master]
++  push:
++    branches: [main, master]
++  workflow_dispatch:
++    inputs:
++      smoke_path:
++        description: "Optional benchmark smoke path, separated by /"
++        required: false
++        default: ""
+ 
+ concurrency:
+-  # group by workflow and ref; the last slightly strange component ensures that for pull
+-  # requests, we limit to 1 concurrent job, but for the master branch we don't
+-  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+-  # Cancel intermediate builds, but only if it is a pull request build.
++  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.run_number }}
+   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+ 
+ jobs:
+-  benchmark:
++  benchmark-smoke:
++    name: Benchmark smoke
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: MilesCranmer/AirspeedVelocity.jl@action-v1
++      - uses: actions/checkout@v6
++      - uses: julia-actions/setup-julia@v3
++        with:
++          version: '1'
++      - uses: actions/cache@v5
++        env:
++          cache-name: quantumsavory-benchmark-artifacts
+         with:
+-          julia-version: '1'
+-          tune: 'false'
+\ No newline at end of file
++          path: ~/.julia/artifacts
++          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('Project.toml', 'benchmark/Project.toml') }}
++          restore-keys: |
++            ${{ runner.os }}-${{ env.cache-name }}-
++            ${{ runner.os }}-
++      - name: Run benchmark smoke gate
++        env:
++          QUANTUMSAVORY_BENCHMARK_SMOKE_PATH: ${{ inputs.smoke_path }}
++        run: julia --project=benchmark benchmark/run_smoke.jl
+diff --git a/README.md b/README.md
+index acef8724..20d15e5e 100644
+--- a/README.md
++++ b/README.md
+@@ -47,4 +47,16 @@ by NSF Grant 2346089 "Research Infrastructure: CIRC: New: Full-stack Codesign To
+ 
+ ## Bounties
+ 
+-[We run many bug bounties and encourage submissions from novices (we are happy to help onboard you in the field).](https://github.com/QuantumSavory/.github/blob/main/BUG_BOUNTIES.md)
+\ No newline at end of file
++[We run many bug bounties and encourage submissions from novices (we are happy to help onboard you in the field).](https://github.com/QuantumSavory/.github/blob/main/BUG_BOUNTIES.md)
++
++## Benchmark smoke check
++
++The benchmark suite can be smoke-tested locally with:
++
++    julia --project=benchmark benchmark/run_smoke.jl
++
++The smoke runner activates the benchmark project, instantiates dependencies, loads `benchmark/benchmarks.jl`, selects one small representative benchmark, and runs it with a tiny `BenchmarkTools` sample. It prints `QUANTUMSAVORY_BENCHMARK_SMOKE_OK` on success.
++
++A specific benchmark leaf can be selected with a slash-separated path, for example:
++
++    QUANTUMSAVORY_BENCHMARK_SMOKE_PATH=register/creation_and_initialization/from_tests julia --project=benchmark benchmark/run_smoke.jl

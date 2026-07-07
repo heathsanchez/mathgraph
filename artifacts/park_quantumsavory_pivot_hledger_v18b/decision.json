@@ -1,0 +1,16 @@
+{
+  "quantumsavory": {
+    "verdict": "PARK_OVERLAP_PRIOR_CLAIMS",
+    "reason": "Issue contains prior claim/submitted-PR activity before our claim; step-back comment attempted."
+  },
+  "hledger": {
+    "verdict": "CLAIM_NEXT",
+    "reason": "Real maintainer/project, cash visible, watch/fsnotify surface found; likely next best candidate.",
+    "tools_seen": {
+      "stack": true,
+      "cabal": true,
+      "ghc": true,
+      "make": true
+    }
+  }
+}

@@ -1,0 +1,10 @@
+44:I plan to incrementally add these benchmarks while optimizing the setup to reduce noise in the measurements. I understand that benchmarks need to have a very thorough coverage, and hence I would really appreciate if you could provide me with some pointers and documentations to refer, before I start to work on this bounty.
+46:Could you also please confirm if the bounty is still open?
+55:The bounty is indeed still open, thanks for expressing interest in it! Your suggested plan sounds good. Just be careful when splitting the benchmark file -- it is structured so that other benchmarking tools in Julia can interact with it directly, so you will need to be careful not to break that while retaining the capability to run your smaller files independently.
+79:To allow me to focus entirely on the task, could you please reserve this bounty for me?
+254:Hi, I’d like to claim time to work on this bounty.
+273:I would like to claim a narrow work window for this bounty.
+286:Claiming this bounty — preparing expanded benchmark suite PR.
+293:Submitted PR expanding the benchmark suite per #131 — imports, register backends, locks, channels, and examples.
+295:author:	heathsanchez
+300:Hi, I’d like to claim this bounty if still available.

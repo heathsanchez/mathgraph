@@ -1,0 +1,639 @@
+author:	simonmichael
+association:	owner
+edited:	true
+status:	none
+--
+hledger-ui --watch uses https://hackage.haskell.org/package/fsnotify, which uses:
+
+| Platform | Haskell lib | C lib | Problem confirmed |
+| - | - | - |- |
+| GNU/Linux | [hinotify] | the linux kernel's inotify feature | Yes |
+| FreeBSD, OpenBSD | [hinotify] | inotify-tools port |
+| Mac | [hfsevents] | Cocoa CoreServices | Yes |
+| WIndows | [Win32] | Windows API ([this?]) |
+
+[hinotify]: https://hackage.haskell.org/package/hinotify
+[hfsevents]: https://hackage.haskell.org/package/hfsevents
+[Win32]: https://hackage.haskell.org/package/Win32
+[this?]: https://docs.microsoft.com/en-us/windows/win32/fileio/obtaining-directory-change-notifications
+
+--
+author:	simonmichael
+association:	owner
+edited:	true
+status:	none
+--
+This was also discussed on #836 in 2019, and is currently documented at https://hledger.org/hledger-ui.html#watch-mode.
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+Update: with current hledger-ui, the memory leak can be easily reproduced by loading a largeish file (1k transactions will do), and pressing `g` repeatedly while watching top. Observed on mac and on ubuntu.
+--
+author:	reesmichael1
+association:	collaborator
+edited:	false
+status:	none
+--
+I'd be interested in investigating this if no one else is on it (assuming this is reproducible on Linux).
+--
+author:	simonmichael
+association:	owner
+edited:	true
+status:	none
+--
+Great! Thanks for the help. Yes you should be able to reproduce easily on linux. Eg
+```
+just samplejournals
+hledger-ui -f examples/1ktxns-10accts.journal --watch --all
+# press g repeatedly
+```
+
+--
+author:	simonmichael
+association:	owner
+edited:	true
+status:	none
+--
+Fair warning, [hledger-]UI code is hard on the brain!
+--
+author:	simonmichael
+association:	owner
+edited:	true
+status:	none
+--
+This is currently our highest priority open bug, with a [user pain score](https://hledger.org/ISSUES.html#prioritising) of 16 out of 25. I'm declaring some hledger [issue bounties](https://hledger.org/FINANCE.html#issue-bounties): 
+
+- On each of the GNU/linux, mac, and windows platforms: 150 USD for a repro and full solution for non-functioning/excessive cpu use/memory leakage of hledger-ui --watch.
+
+--
+author:	reesmichael1
+association:	collaborator
+edited:	false
+status:	none
+--
+Just sharing one tidbit I've found while looking at this: running with `--debug 1` seems to make the "mash `g` and watch CPU go brrrr" issue go away.
+--
+author:	alerque
+association:	collaborator
+edited:	true
+status:	none
+--
+I have a fix for <kbd>g</kbd> causing the memory to go up indefinitely with each iteration. I don't know if this solves the long-term memory leak when left open yet, that takes longer to test.
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+> * On each of the GNU/linux, mac, and windows platforms: 150 USD for a repro and full solution for non-functioning/excessive cpu use/memory leakage of hledger-ui --watch.
+
+I was able to repro this and did my debugging using my personal finances. For obvious reasons I can't share that ledger, but I also saw in comments that you were able to repro this using one of the sample ledgers, so I assume that covers the need for a repro, no?
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+Results of overnight test...
+
+I left two watch processes going overnight, both watching the same (800k lines) journal file. One was built from the *master* branch, one from my PR, both with GHC 9.6.
+
+This morning one process was still at the same memory profile it was after I first started it and refreshed a few times manually (after the first pass ≈200M is used, after reloading 5 or so times it goes up to ≈500M, then stops, further refreshes don't cause more memory usage, only a brief blip on the CPU usage, then back to 0).
+
+The other process continued to grow every time I refreshed manually, and the 1 CPU core it was using was perpetually pegged at 100%. One core only, but still it never backed off from that. After a few manual reloads the memory usage was up at about 2G when I left it for the night. This morning it was at 45G. Still just the one core CPU usage, but that's an insatiable thirst for RAM.
+--
+author:	jupj
+association:	none
+edited:	false
+status:	none
+--
+I experience this issue on a regular basis on Linux (Void Linux, GNU libc).
+
+`hledger-ui --watch` starts using high CPU/RAM and becomes slow and unresponsive to use when I add transactions (one at a time) successively using `a` or `E` commands, or `hledger add` in a separate terminal. I have a total of around 3000 transactions in my journal files and I typically add 15-30 transactions in a session which triggers this issue.
+
+Steps to reproduce:
+
+1. Create empty file `test.journal`
+2. Start `hledger-ui -f test.journal --watch` and keep it running
+3. Run a shell script to append transactions to the file - one at a time (while `hledger-ui` is running):
+```
+#!/bin/sh
+i=0
+while [ $i -lt 4000 ]; do
+    echo "\n2025-10-05 transaction $i\n  acct:A  1\n  acct:B  -1" >> test.journal
+    i=$(( $i + 1 ))
+done
+```
+4. Let `hledger-ui` continue to run and observe CPU and RAM usage. On my machine it utilizes a full CPU core and RAM usage increases steadily. RAM usage is at 4GB (and continues to increase) after letting it run for a couple of minutes.
+
+Tested with hldeger 1.43.2
+
+----
+Similar reproduction steps for Windows 11:
+ 
+1. Create empty file `test.journal`
+2. Start `hledger-ui -f test.journal --watch` and keep it running
+3. Run a Powershell script to append transactions to the file - one at a time (while `hledger-ui` is running):
+```
+Set-Content -Path test.journal -Value ''
+for ($i=0; $i -lt 4000; $i += 1) {
+    Write-Output "`r`n2025-10-05 Transaction $i`r`n  acct:A  1`r`n  acct:B  -1" | Out-File -FilePath test.journal -Encoding utf8 -Append
+}
+```
+4. Let `hledger-ui` continue to run and observe CPU and RAM usage. On my Windows 11 machine `hledger-ui` seems to use two cores (~33% CPU utilization on a 6-core CPU); RAM steadily increases over time when you let it run.
+
+Tested with hledger 1.50.2
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+@jupj Would you be able to test with the binaries from my PR #2473 ([download](https://github.com/simonmichael/hledger/actions/runs/18236352803/artifacts/4180077901))? I think I squashed this and some confirmation that it works would be nice. Those binaries should work on Void. I don't know how we get Windows binaries to confirm if the same fix got that platform fixed up too.
+--
+author:	jupj
+association:	none
+edited:	false
+status:	none
+--
+> [@jupj](https://github.com/jupj) Would you be able to test with the binaries from my PR [#2473](https://github.com/simonmichael/hledger/pull/2473) ([download](https://github.com/simonmichael/hledger/actions/runs/18236352803/artifacts/4180077901))? I think I squashed this and some confirmation that it works would be nice. Those binaries should work on Void. I don't know how we get Windows binaries to confirm if the same fix got that platform fixed up too.
+
+@alerque I tested the binaries. The issue with high CPU is still there but it seems that the PR fixes some part of the memory usage issue.
+
+With the reproduction steps (commented above) the PR-built hledger-ui doesn't increase its memory usage significantly as long as I stay in the main menu (Cash accounts | Balance sheet accounts | Income statement accounts | All accounts). As comparison, the released hledger-ui 1.43.2 starts increasing its memory usage at this stage, even if I just stay in the main menu.
+
+However, the PR-built hledger-ui starts increasing its memory usage when I drill down to see the 4000 transactions of an account.
+In this test, the released hledger-ui 1.43.2 uses around 1.5GB after 60s and the PR built hledger-ui uses around 0.5GB after 60s. So the memory use increases at a lower rate in the PR-built binary. Both binaries continue to increase their memory usage at those rates after 60s.
+
+I would say that the PR fixes some part of the memory usage, but there is still some unsolved memory issue there. I didn't see any significant improvement in CPU usage with the PR built binary.
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+Thanks very much for the testing and repro info @jupj, I'll try to replicate that. It does sound like there might be more than one function with the same kind of issue I fixed.
+--
+author:	alerque
+association:	collaborator
+edited:	true
+status:	none
+--
+I was able to replicate your leak in the register page showing transactions per account, thanks. I found one more problem for sure and am working on a fix. There may be more, it seems like the UI code has some conceptual problems that lend themselves to this sort of mistake.
+
+The way I'm going about fixing this is kind of a sledge hammer approach to driving a nail. It will squash the memory accumulation/leaking problem(s) at the expense of doing a little extra work and not refactoring the code such that more things could be reused from a memory cache.
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+@jupj [Here is another version to try](https://github.com/simonmichael/hledger/actions/runs/18291231868/artifacts/4196020947). In my testing it resolves the memory leak from the register screen (listing transactions, not accounts). This moves a bunch of cheese around (maybe more than it should) so besides fixing the memory problem it may or may not have broken functionality. I'll get back to this and cleanup the hackery later today, but it would be useful to know if this addresses the isssue(s) as you see them. I'm particularly interested in not just memory but whether your CPU usage throttles back to just a trickle once the UI is refreshed from any data changes or inputs.
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+Here is [another update](https://github.com/simonmichael/hledger/actions/runs/18297656920/artifacts/4198295014) to test: this time fixing the feature regressions in my last hackery and also implementing one new feature: the transaction page of the UI now gets refreshed on new data as well as the account and transaction list screens.
+--
+author:	jupj
+association:	none
+edited:	false
+status:	none
+--
+> Here is [another update](https://github.com/simonmichael/hledger/actions/runs/18297656920/artifacts/4198295014) to test: this time fixing the feature regressions in my last hackery and also implementing one new feature: the transaction page of the UI now gets refreshed on new data as well as the account and transaction list screens.
+
+@alerque thanks for the updates. I tested the latest one and observed significant improvements to memory usage:
+ 
+- Memory usage stays stable (i.e., doesn't increase continuously) when I let `hledger-ui --watch` sit for a few minutes without user action. This is the clearest improvement.
+- When I use the UI, memory usage grows but I guess this is normal. When I first open the register screen, memory use goes to ~140MB. After a bit of jumping around the UI (viewing individual transactions, etc.) and writing some additional individual transactions to the journal file memory use got eventually up to ~300MB. I would say memory usage stays at a reasonable level in this test.
+- I didn't observe any significant improvement in CPU usage, it still uses one CPU core at 100%.
+--
+author:	alerque
+association:	collaborator
+edited:	true
+status:	none
+--
+Again @jupj thanks very much for the testing and reporting!
+
+> Memory usage stays stable (i.e., doesn't increase continuously) when I let `hledger-ui --watch` sit for a few minutes without user action. This is the clearest improvement.
+
+Great!
+
+> When I use the UI, memory usage grows but I guess this is normal. When I first open the register screen, memory use goes to ~140MB. After a bit of jumping around the UI (viewing individual transactions, etc.) and writing some additional individual transactions to the journal file memory use got eventually up to ~300MB. I would say memory usage stays at a reasonable level in this test.
+
+Yes, memory usage is expected to grow *some* when you start using the UI. In specific, when you first load the UI the data structures will be loaded once. For example the ledger I'm using to test results in about 120M of usage on first open. As soon as anything changes, the app starts shuffling data structures around, usually having at least a couple states in active memory, something like the last full state, the next full state, and some in flight data being processed. That might have something to do with how structures are copied, then garbage collected.  In my tests, it seems like as soon as you start using the UI or updating the data, the memory profile will about triple from the initial run size, in my tests stabilizing at about 300M.
+
+I'm sure that could be made much more efficient with a complete overhaul, but that would require a near-rewrite of the UI. What I'm trying to fix is the memory profile growing indefinitely because every time it reloads data it was hanging on to some unprocessed bits of the old data structures. That was causing the usage to not just sit stable at a high usage but grow indefinitely with use, in my tests it was easy to push it to 30+Gigs of RAM just by touching the data file!
+
+> I didn't observe any significant improvement in CPU usage, it still uses one CPU core at 100%.
+
+This concerns me a bit. In my tests the old version (current released) does in fact eat CPU, pulling one core to 100% usage as soon as data gets loaded a second time and never backing off from that. In the same side by side tests the new version uses CPU only for a few moments after data changes, then throttles back to nothing until data gets touched again.
+
+If the new versions are still hogging and not releasing a CPU then some other bug is still lurking that I haven't been able to replicate.
+
+What file system are you using?
+
+
+--
+author:	jupj
+association:	none
+edited:	false
+status:	none
+--
+@alerque I agree that the runaway memory issue seems to be fixed! I confirm the fix for my part.
+
+I'm using btrfs.
+
+I experimented some more with the CPU load and found that your PR does fix the problem with hogging and not releasing CPU, but the PR in turn has higher peak CPU load compared to release 1.43.2.
+
+When hledger-ui reads new changes from the journal file I see an ephemeral high CPU spike and then the CPU throttles back to its baseline. On my (quite old) laptop:
+- The CPU throttles consistently back to the same baseline below 10% for the PR build. For release 1.43.2, the CPU baseline increases by 5-10% points for each iteration. After 10 iterations of CPU spikes, the CPU baseline is at 80 % (single core) in release 1.43.2. This confirms that the PR fixes the CPU hogging issue.
+- However, the ephemeral CPU spike lasts for ~60s for the PR build vs. 10-15s for release 1.43.2.
+  - The CPU load stays high more or less constantly if I make frequent changes to the journal file (manually editing the file, not automated changes).
+
+I benchmarked the CPU load as follows:
+
+- Generate journal file with 4000 transactions (same script as in my earlier repro).
+- Start `hledger-ui --watch` using this file
+- Observe CPU load to set a baseline
+- Press `E` to edit the journal file and make some modification: clear or reconcile a transaction, or add a new transaction, etc. and observe CPU behavior.
+  - CPU usage goes momentarily up to 100% on one core.
+  - Measure how long it takes before the CPU to throttles back
+- Repeat the previous step multiple times
+
+In my earlier benchmark I generated the 4000 transactions _after_ starting hledger-ui, which seems to have generated accumulated CPU spikes and the CPU never throttled back in observable time.
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+> I'm using btrfs.
+
+Nice. So am I, which mostly rules out some sort of file system interaction I'm not testing.
+
+> I experimented some more with the CPU load and found that your PR does fix the problem with hogging and not releasing CPU, but the PR in turn has higher peak CPU load compared to release 1.43.2.
+
+Higher peak CPU usage is something I would expect with this fix, but it *really does* need to be released as soon as it is done doing work.
+
+Previously the UI was taking things like a list of transaction and then figuring out which ones are being displayed. Those it evaluated more exhaustively to prepare screen views, and the others it set asside as "thunk"s (Haskell's word for an expression that might be evaluated later). The problem is there isn't a clear way to express that a pending expression is now never going to be needed because the underlying data changed, so it was just hanging on to them.
+
+The "fix" I've implemented is just forced the data to be evaluated up front at more points so that what is in RAM is the finished product that might be displayed, not a bunch of pending lazy evaluations. This actually makes the UI *more* responsive while navigating around while the data is stable because everything is ready to go and no evaluation has to happen to switch screens. The downside of course is that we have to actually compute  more things up front, then if the data changes they get all discarded and recomputed.
+
+> When hledger-ui reads new changes from the journal file I see an ephemeral high CPU spike and then the CPU throttles back to its baseline. On my (quite old) laptop:
+
+Good, this is as expected.
+
+>     * The CPU throttles consistently back to the same baseline below 10% for the PR build. For release 1.43.2, the CPU baseline increases by 5-10% points for each iteration. After 10 iterations of CPU spikes, the CPU baseline is at 80 % (single core) in release 1.43.2. This confirms that the PR fixes the CPU hogging issue.
+
+Yes I expect the spike when new data lands to be a little higher, but it should go down to near zero if the data isn't actively changing. Also notably in the old release version, changing screens would cause more CPU usage while new views were computed, in the new version there should be virtually no CPU usage while just navigating around because the data is already sitting computed ready to display from memory.
+
+>     * However, the ephemeral CPU spike lasts for ~60s for the PR build vs. 10-15s for release 1.43.2.
+
+This sounds a bit extreme, I'm not happy with that. It's hard for me to test because I think I'm working with a much faster CPU. My internet this month is a rural link that barely holds onto a few kbps, but I do have CPU to burn: a Ryzen 9 370HX.
+
+Testing a 10k transaction file, the CPU spike on activity is a fraction of a second. Using the release version the CPU usage accumulates so it is obviously more intensive, but the extra work being done in the new version is such a small blip it's hard to evaluate where the new handling could be more efficient without locking up memory with unreleased thunks.
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+Wonderful investigations.
+
+What kind of CPU and RAM are you testing with there @jupj ?
+
+--
+author:	jupj
+association:	none
+edited:	false
+status:	none
+--
+> What kind of CPU and RAM are you testing with there @jupj ? 
+
+I'm using an i7-2620M @ 2.70 GHz, 8GB RAM.
+
+> Yes I expect the spike when new data lands to be a little higher, but it should go down to near zero if the data isn't actively changing. Also notably in the old release version, changing screens would cause more CPU usage while new views were computed, in the new version there should be virtually no CPU usage while just navigating around because the data is already sitting computed ready to display from memory.
+
+It's non-zero for me. When I use `--watch` then CPU load is varying between 2-8% when the UI is idle after the spike.
+
+> Testing a 10k transaction file, the CPU spike on activity is a fraction of a second. Using the release version the CPU usage accumulates so it is obviously more intensive, but the extra work being done in the new version is such a small blip it's hard to evaluate where the new handling could be more efficient without locking up memory with unreleased thunks.
+
+Interesting. FWIW, I ran strace during one ~60s CPU spike:
+
+```
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ------------------
+ 99.88    1.495801         648      2307       184 futex
+  0.04    0.000669          55        12           madvise
+  0.04    0.000612          10        56           newfstatat
+  0.03    0.000438           7        56           write
+  0.00    0.000068           2        34           rt_sigprocmask
+  0.00    0.000013           0        17           sched_getaffinity
+  0.00    0.000009           4         2           mmap
+------ ----------- ----------- --------- --------- ------------------
+100.00    1.497610         602      2484       184 total
+```
+It seems that there is quite a bit of synchronization going on, which also generates a few errors for me. This seems to go away when I remove the `--watch`.
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+In case any of this is due to the underlying C libs and not haskell code, here is what those are on each platform:
+https://github.com/simonmichael/hledger/issues/1825#issuecomment-1029244002
+--
+author:	AJ0070
+association:	none
+edited:	false
+status:	none
+--
+@simonmichael Is this still active?
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+This bug still exists in releases, and my unmerged PR that fixes it got closed by an (unnecessary) branch shuffling. I need to go through and re-open them with the new target branch.
+--
+author:	AJ0070
+association:	none
+edited:	false
+status:	none
+--
+@alerque let me know if need any help!
+--
+author:	lymeow233-wq
+association:	none
+edited:	false
+status:	none
+--
+I've opened #2590 as a submission for the Windows part of this bounty.
+
+What I tested:
+
+- Windows 11 / Windows Terminal real `hledger-ui --watch` register-screen repro.
+- `main`, 30 file changes: working set grew to about 610-633 MB with sustained idle CPU afterward.
+- #2590, same 30 file changes: working set was about 128.6 MB immediately after the changes, then settled to about 87 MB idle; idle CPU settled around 2-4% after reload work completed.
+- No-change 30s sanity run: working set stayed around 67-69 MB.
+- Transaction-screen reload sanity check: transaction list grew from 4000 to 4003 after appending transactions while preserving the selected transaction index.
+- GitHub CI is passing on the PR.
+
+The patch intentionally does not add watcher debounce/rate limiting; it addresses the reload/screen-state retention path, including register and transaction screens.
+
+If this is accepted as the repro + fix for the Windows platform, I'd like to claim the Windows platform bounty. I'm not claiming macOS or GNU/Linux coverage from my local testing here unless someone can confirm those separately.
+--
+author:	alerque
+association:	collaborator
+edited:	false
+status:	none
+--
+I posted working tested fixes for this bug 6 months ago, addressed the review I got, and newer got a complete review. It was never clear what more I needed to do to cross the finish line. Then the PR got closed for no good reason –unrelated to the contents of the PR– just badly planned house-keeping. Now vibe coding bounty hunters are sweeping through trying to claim rewards for re-solving it? I'm already somewhat offended prior work was treated so flippantly (understanding it may not have been clear up front how GH would handle branch renames and there not being a good way to backtrack once the mistake was made), but I'll be more offended if all prior work is just glossed over now in favor of the latest viber to come along.
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+I just noticed this comment @alerque. 
+
+I appreciate your work and have never been flippant about it. As the person originally working on this, you can be sure your PRs get priority for review. (I/we haven't had review bandwidth to keep up with PRs lately, so there is a backlog.) I didn't intend to close your old PR; it was an unexpected consequence of renaming master. https://github.com/simonmichael/hledger/pull/2591#issuecomment-4679398301 is the current status, awaiting your attention when you have time.
+
+--
+author:	simonmichael
+association:	owner
+edited:	true
+status:	none
+--
+And, apologies for not replying to you sooner. I lost this comment in the flurry of AI PRs, which I haven't developed procedures for yet.
+
+--
+author:	simonmichael
+association:	owner
+edited:	true
+status:	none
+--
+G'day all! Here's my understanding of the history of this darn bug:
+
+- issue #1825 created by me in 2022-02 describing this hledger-ui problem.
+
+- [$150 bounty per platform](#issuecomment-2888525669) ($450 in total) added to 1825 by me in 2025-05
+  *"150 USD for a repro and full solution for non-functioning/excessive cpu use/memory leakage of hledger-ui --watch"*
+
+- pr #2473 created by alerque in 2025-10 to fix 1825.
+  A week later I note some issues with the proposed changes.
+  In 2025-12 those seem to be confirmed by alerque.
+
+- <https://hledger.org/AI.html> policy started by me in 2026-02
+
+- In 2026-04 pr 2473 gets accidentally automatically closed when I rename the master branch.
+
+- pr #2589 created by bomlinux92-byte in 2026-05, using undisclosed AI. Closed by bomlinux92-byte two days later.
+
+- pr #2590 created by lymeow233-wq one day later, using openai codex.
+
+- pr #2591 created by alerque one hour later, resubmitting 2473.
+  A month later I review (again), this time with AI assistance, and noted some issues needing investigation.
+
+- pr #2594 created by bomlinux92-byte one day later, using undisclosed AI, also "ported from alerque's PR 2473", replacing 2589.
+
+
+In short we've had a first pr which didn't succeed, then four more at the same time, two of them (at least) based on the original.
+
+I'll guess both 2591 and 2594 are the same as 2473, with no changes to address the issues raised; if they have updates, let me know.
+
+In that case, 2594 will be closed as a duplicate (also conflicting with main). It has notes that might add some clues.
+
+I don't know yet if lymeow233-wq's 2590 is very different from alerque's 2473/2591. It also has notes, and I will review it next. (I'm not sure when; it's hard to get into hledger-ui headspace.)
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+> ### #2591 vs #2590 — comparative review
+> 
+> Both PRs actually share the **same central insight**: stop regenerating the _entire_ screen stack on every reload, and only rebuild the screen you're looking at. The difference is what they do about the hidden screens that consequently don't get refreshed — and that difference is the whole story.
+> 
+> #### What each does with the core idea
+> 
+> **#2591** (alerque's original, resubmitted; byte-for-byte the same code, targeting the `hledger1` branch) rewrites `regenerateScreens` itself so it only rebuilds the active screen (`aScreen`) and leaves `aPrevScreens` untouched — with **no compensation**. Since `regenerateScreens` is the universal update path (every toggle, filter, period change, drill-down, _and_ reload), hidden screens simply go stale. Pop back to a parent after a reload and you see pre-reload data until you reload again on that level. It also drops the `cur:`/commodity-symbol query re-expansion on reload, and (because its base predates the fix) reverts `listMoveToIfDisplayItems`, reintroducing the #2476/#2550 wrong-selection bug if merged to main.
+> 
+> **#2590** keeps `regenerateScreens` intact (full-stack regen) for all the toggle/filter/drill-down paths, and adds a _separate_ `regenerateCurrentScreen` used only by reload. To handle the hidden screens it doesn't refresh on reload, it converts every "exit to parent" handler to a new `popScreenAndRegenerate`, which rebuilds the revealed screen from the current journal **at pop time** — lazy, just-in-time refresh. I verified that conversion is complete: there's no path that reveals a stale parent. It also keeps the `cur:` re-expansion and `listMoveToIfDisplayItems`.
+> 
+> So: **2590 is the more complete realization of the same idea.** 2591 has the navigation-history correctness gap that 2590 explicitly closes.
+> 
+> #### Likely to fix the leak?
+> 
+> - **2591** is the strictness/bang-pattern approach jupj already tested (as #2473): it _reduced but did not eliminate_ the register-drill-down memory growth, and gave no CPU improvement. So: partial mitigation, known-incomplete.
+> - **2590** additionally cuts per-reload work — sitting on a transaction screen while the file changes no longer rebuilds the big hidden register/accounts reports each cycle, only when you go back. That's a real CPU/allocation win the strictness-only approach doesn't offer. But its strictness is `seq`/WHNF at the screen boundary (no bang patterns on the actual list construction), so leak-fix _completeness_ is unproven from the diff and needs the same empirical test jupj ran.
+> 
+> Neither can be declared a full fix without re-running both documented repros (repeated `g`, and the append-loop) and watching memory/CPU.
+> 
+> #### Behavioral risk
+> 
+> - **2591**: stale navigation history after reload (described above) — a genuine regression, broad because it's on the universal update path.
+> - **2590**: one behavioral _change_ to evaluate — `popScreenAndRegenerate` regenerates on **every** back-navigation, not just after a reload. Selection survives by identity (account name / transaction `tindex`), but the exact scroll/viewport offset may not, and large accounts get slight latency on LEFT where `main` was instant. This may be acceptable (always-fresh on back) but it's a maintainer call. Edge case: 2590's `tsUpdate` shows a blank transaction if the account's transactions all vanish.
+> 
+> #### Other notes
+> 
+> - **2590 scope creep**: it bundles an unrelated `hledger-lib/Hledger/Utils/IO.hs` change (`embedFileRelative` → manual UTF-8 embed) that touches how every embedded file is read at compile time. Nothing to do with #1825 — should be split out.
+> - **Both** reference `reportSpecExpandSymQueries`, which `main` renamed to `reportSpecExpandCurQueries`, so both need a trivial rename to build against current `main`.
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+Some more commentary re #2590, #2591, and the new #2652 (moved here to consolidate).
+
+> is there another, more robust solution ? The original strategy of regenerating all the hidden screens at once seems simplest and most reliable - if we could completely prevent the retaining of old data
+> 
+> This is the right question to ask. Both 2590 and 2591 are essentially working around a laziness/retention problem rather than eliminating it.
+> 
+> Three findings stand out:
+> 
+> The leak is a thunk chain. Each reload's regenerated list computes its selection index lazily from the previous generation's list (rsUpdate: newselidx ← listSelectedElement oldlist; asUpdateHelper: selidx ← _assSelectedAccount ass). Unforced, generation N+1 pins N, which pins N−1 — a chain growing one link per g. That's both the memory growth and (via GC thrashing / repeated re-evaluation) the pegged CPU.
+> Everything else is clean — bounded event channel, old journal released on reload, no caches/IORefs/brick render cache. So there is no second hidden leak to chase.
+> The infrastructure for a robust fix already exists: hledger-lib has complete NFData instances (Journal/Transaction/Posting/Amount) and StrictData; the only un-forced links are those two selection indices plus the no-op tsUpdate.
+> This means the user's preferred design is viable: keep regenerating the whole stack, but force the regeneration so each new generation holds no reference to the previous one.
+> 
+> Why alerque's strictness fix (2473/2591) was only partial:
+> 
+> brick's GenericList.listSelected :: Maybe Int is a lazy field. So alerque's !l' forces the list to WHNF but not the selection index inside it — and that unforced index thunk (newselidx, computed from listSelectedElement oldlist) is exactly the pointer that pins the previous generation. The chain survives. That matches jupj's report that the fix reduced but didn't eliminate the growth.
+
+I'm hopeful that 2560 will solve the issue on all platforms. I have tested only on mac, please test on other platforms if you can. A number of us made substantial contributions pushing this forward, so if it meets the bounty criteria, I'll split the bounty equally.
+
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+I have merged the fixes, and I believe this is fully resolved. Additional testing is welcome. Thanks to all who helped!
+
+The bounty is awarded to @alerque, @jupj, @lymeow233-wq and @simonmichael ($112.50 each). Send me your email (here or to simon@joyful.com) and I will paypal it to you; or send a [reimbursement claim](https://hledger.org/REGRESSIONS.html#how-to-claim-the-bounty) to the hledger opencollective. Do respond soon - the bounty [expires after 7 days](https://hledger.org/REGRESSIONS.html#is-there-a-time-limit-).
+--
+author:	lymeow233-wq
+association:	none
+edited:	false
+status:	none
+--
+Thanks for the update, My PayPal email is ***@***.***
+
+On Tue, Jun 30, 2026 at 5:13 AM Simon Michael ***@***.***>
+wrote:
+
+> *simonmichael* left a comment (simonmichael/hledger#1825)
+> <https://github.com/simonmichael/hledger/issues/1825#issuecomment-4837091916>
+>
+> I have merged the fixes, and I believe this is fully resolved. Additional
+> testing is welcome. Thanks to all who helped!
+>
+> The bounty is awarded to @alerque <https://github.com/alerque>, @jupj
+> <https://github.com/jupj>, @lymeow233-wq <https://github.com/lymeow233-wq>
+> and @simonmichael <https://github.com/simonmichael> ($112.50 each). Send
+> me your email (here or to ***@***.***) and I will paypal it to you;
+> or send a reimbursement claim
+> <https://hledger.org/REGRESSIONS.html#how-to-claim-the-bounty> to the
+> hledger opencollective. Do respond soon - the bounty expires after 7 days
+> <https://hledger.org/REGRESSIONS.html#is-there-a-time-limit->.
+>
+> —
+> Reply to this email directly, view it on GitHub
+> <https://github.com/simonmichael/hledger/issues/1825?email_source=notifications&email_token=BWB7TVPWPU2A62WOYSGUTND5CLLYHA5CNFSNUABFM5UWIORPF5TWS5BNNB2WEL2JONZXKZKDN5WW2ZLOOQXTIOBTG4YDSMJZGE3KM4TFMFZW63VHNVSW45DJN5XKKZLWMVXHJLDGN5XXIZLSL5RWY2LDNM#issuecomment-4837091916>,
+> or unsubscribe
+> <https://github.com/notifications/unsubscribe-auth/BWB7TVJMSJGYRDJLHMADGYD5CLLYHAVCNFSNUABDKJSXA33TNF2G64TZHM4TGMBRGQYTIO2JONZXKZJ3GEYTEMZTG4YDKMJUUF3AE>
+> .
+> Triage notifications, keep track of coding agent tasks and review pull
+> requests on the go with GitHub Mobile for iOS
+> <https://github.com/notifications/mobile/ios/BWB7TVLCO75HEHNN6UYGKCD5CLLYHA5CNFSNUABFM5UWIORPF5TWS5BNNB2WEL2JONZXKZKDN5WW2ZLOOQXTIOBTG4YDSMJZGE3KM4TFMFZW63VHNVSW45DJN5XKKZLWMVXHJKTGN5XXIZLSL5UW64Y>
+> and Android
+> <https://github.com/notifications/mobile/android/BWB7TVLNUNZZKKCRIKYWBPD5CLLYHA5CNFSNUABFM5UWIORPF5TWS5BNNB2WEL2JONZXKZKDN5WW2ZLOOQXTIOBTG4YDSMJZGE3KM4TFMFZW63VHNVSW45DJN5XKKZLWMVXHJLTGN5XXIZLSL5QW4ZDSN5UWI>.
+> Download it today!
+> You are receiving this because you were mentioned.Message ID:
+> ***@***.***>
+>
+
+--
+author:	jupj
+association:	none
+edited:	false
+status:	none
+--
+Great, I sent my paypal info by email.
+
+I tested on Void Linux and the fix works, I cannot reproduce the issue anymore on main branch.
+
+To verify the testing method, I also did an identical test on an unfixed version (1.52) and was able to reproduce both high CPU and high RAM issues for that version.
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+> Thanks for the update, My PayPal email is ***@***.***
+
+@lymeow233-wq I think your email got redacted, please send as a new email directly to simon@joyful.com.
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+@lymeow233-wq reminder: I still haven't received your email address, send it directly to simon@joyful.com (not through github) before end of tomorrow to receive your bounty.
+--
+author:	lymeow233-wq
+association:	none
+edited:	false
+status:	none
+--
+I sent the PayPal email address a few days ago. Can you see it in the screenshot?
+​
+---- Replied Message ----
+FromSimon ***@***.***>Date07/06/2026 15:41 ***@***.***> ***@***.***>,
+***@***.***>SubjectRe: [simonmichael/hledger] hledger-ui --watch consumes more CPU and RAM over time [$150 x 3] (Issue #1825)
+simonmichael left a comment (simonmichael/hledger#1825)
+@lymeow233-wq reminder: I still haven't received your email address, send it directly to ***@***.*** (not through github) before end of tomorrow to receive your bounty.
+—
+Reply to this email directly, view it on GitHub, or unsubscribe.
+Triage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! 
+You are receiving this because you were mentioned.Message ID: ***@***.***>
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+That's a copy/paste not a screenshot, and no I can't see the email address. If you view the github issue you'll see it's redacted.
+--
+author:	lymeow233-wq
+association:	none
+edited:	false
+status:	none
+--
+I sent it again.
+---- Replied Message ----
+FromSimon ***@***.***>Date07/06/2026 16:56 ***@***.***> ***@***.***>,
+***@***.***>SubjectRe: [simonmichael/hledger] hledger-ui --watch consumes more CPU and RAM over time [$150 x 3] (Issue #1825)
+simonmichael left a comment (simonmichael/hledger#1825)
+That's a copy/paste not a screenshot, and no I can't see the email address. If you view the github issue you'll see it's redacted.
+—
+Reply to this email directly, view it on GitHub, or unsubscribe.
+Triage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! 
+You are receiving this because you were mentioned.Message ID: ***@***.***>
+--
+author:	simonmichael
+association:	owner
+edited:	false
+status:	none
+--
+Address received, thank you; all bounties have now been sent.
+--

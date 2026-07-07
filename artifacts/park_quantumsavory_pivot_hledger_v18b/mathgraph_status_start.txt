@@ -1,0 +1,5 @@
+?? artifacts/park_quantumsavory_pivot_hledger_v18b/
+?? artifacts/quantumsavory_131_benchmark_smoke_v18/
+?? park_quantumsavory_pivot_hledger_v18b.sh
+?? quantumsavory_131_benchmark_smoke_v18.sh
+?? strata_specimen_issue45_recon_v1.sh
