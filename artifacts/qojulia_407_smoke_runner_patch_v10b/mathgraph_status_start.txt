@@ -1,3 +1,3 @@
-?? artifacts/qojulia_407_smoke_runner_patch_v10b/
-?? qojulia_407_smoke_runner_patch_v10b.sh
+ M artifacts/qojulia_407_smoke_runner_patch_v10b/mathgraph_status_start.txt
+ M artifacts/qojulia_407_smoke_runner_patch_v10b/status_start.txt
 ?? strata_specimen_issue45_recon_v1.sh
