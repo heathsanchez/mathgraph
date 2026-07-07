@@ -1,0 +1,21 @@
+Julia version: 1.10.11
+Root project before activate: /Users/heath/.julia/environments/v1.10/Project.toml
+Activated benchmark project: /Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/Project.toml
+Instantiating benchmark project...
+Loading benchmark/benchmarks.jl ...
+SUITE type: BenchmarkGroup
+Top-level benchmark groups:
+  - "schroedinger"
+  - "stochastic_schroedinger"
+  - "stochastic_master"
+  - "master"
+  - "stochastic schroedinger"
+  - "stochastic master"
+Nested groups:
+GROUP "schroedinger" => Any["base array types", "qo types"]
+GROUP "stochastic_schroedinger" => Any["base array types", "qo types"]
+GROUP "stochastic_master" => Any["base array types", "qo types"]
+GROUP "master" => Any["base array types", "qo types"]
+GROUP "stochastic schroedinger" => Any["base array types", "qo types"]
+GROUP "stochastic master" => Any["base array types", "qo types"]
+INCLUDE_OK

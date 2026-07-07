@@ -1,0 +1,4 @@
+JULIA_BIN=/Users/heath/.juliaup/bin/julia
+julia version 1.10.11
+Sys.BINDIR=/Users/heath/.julia/juliaup/julia-1.10.11+0.aarch64.apple.darwin14/Julia-1.10.app/Contents/Resources/julia/bin
+VERSION=1.10.11

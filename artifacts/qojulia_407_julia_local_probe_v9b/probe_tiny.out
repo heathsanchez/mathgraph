@@ -1,0 +1,3 @@
+Running tiny benchmark candidate: ("schroedinger", "base array types", "1//2")
+Trial(26.000 μs)
+TINY_BENCHMARK_OK

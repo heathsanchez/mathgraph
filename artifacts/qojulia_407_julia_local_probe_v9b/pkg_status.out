@@ -1,0 +1,9 @@
+  Installing known registries into `~/.julia`
+       Added `General` registry to ~/.julia/registries
+Status `~/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/Project.toml`
+  [6e4b80f9] BenchmarkTools
+  [1344f307] OrdinaryDiffEqLowOrderRK
+  [32113eaa] PkgBenchmark
+  [6e0679c1] QuantumOptics
+  [789caeaf] StochasticDiffEq
+  [37e2e46d] LinearAlgebra

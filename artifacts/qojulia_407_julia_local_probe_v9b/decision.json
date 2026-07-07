@@ -1,0 +1,12 @@
+{
+  "verdict": "PATCH_NEXT_SMOKE_RUNNER_AND_CI",
+  "issue": "https://github.com/qojulia/QuantumOptics.jl/issues/407",
+  "claim": "https://github.com/qojulia/QuantumOptics.jl/issues/407#issuecomment-4900216240",
+  "julia_path_bug_repaired": true,
+  "pkg_ok": true,
+  "include_ok": true,
+  "tiny_benchmark_ok": true,
+  "pkg_rc": "pkg status rc=0",
+  "include_rc": "include rc=0",
+  "tiny_rc": "tiny rc=0"
+}
