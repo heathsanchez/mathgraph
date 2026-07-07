@@ -1,0 +1,27 @@
+prize in:title,body is:issue is:open updated:>2025-01-01
+payment in:title,body is:issue is:open updated:>2025-01-01
+cash in:title,body is:issue is:open updated:>2025-01-01
+competition in:title,body is:issue is:open updated:>2025-01-01
+challenge in:title,body is:issue is:open updated:>2025-01-01
+hackathon in:title,body is:issue is:open updated:>2025-01-01
+"code golf" in:title,body is:issue is:open updated:>2025-01-01
+golf in:title,body is:issue is:open updated:>2025-01-01
+"cash prize" in:title,body is:issue is:open updated:>2025-01-01
+"prize pool" in:title,body is:issue is:open updated:>2025-01-01
+"paid challenge" in:title,body is:issue is:open updated:>2025-01-01
+"reward" "challenge" in:title,body is:issue is:open updated:>2025-01-01
+"winner" "prize" in:title,body is:issue is:open updated:>2025-01-01
+"leaderboard" "prize" in:title,body is:issue is:open updated:>2025-01-01
+"leaderboard" "competition" in:title,body is:issue is:open updated:>2025-01-01
+"benchmark" "competition" in:title,body is:issue is:open updated:>2025-01-01
+"benchmark" "challenge" in:title,body is:issue is:open updated:>2025-01-01
+"AI challenge" "prize" in:title,body is:issue is:open updated:>2025-01-01
+"math challenge" "prize" in:title,body is:issue is:open updated:>2025-01-01
+"proof challenge" in:title,body is:issue is:open updated:>2025-01-01
+"Lean" "challenge" in:title,body is:issue is:open updated:>2025-01-01
+"formal verification" "challenge" in:title,body is:issue is:open updated:>2025-01-01
+"bug bounty" in:title,body is:issue is:open updated:>2025-01-01
+"performance challenge" in:title,body is:issue is:open updated:>2025-01-01
+"optimization challenge" in:title,body is:issue is:open updated:>2025-01-01
+"submission" "leaderboard" "prize" in:title,body is:issue is:open updated:>2025-01-01
+"submission" "competition" "benchmark" in:title,body is:issue is:open updated:>2025-01-01
