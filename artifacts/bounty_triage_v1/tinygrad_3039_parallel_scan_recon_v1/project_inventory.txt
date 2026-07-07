@@ -1,0 +1,28 @@
+HEAD:
+eb3cb16cc18feff022859d3c0b69f17c9da51bf5
+
+top files:
+.coveragerc
+.git/config
+.git/config.worktree
+.git/description
+.git/FETCH_HEAD
+.git/HEAD
+.git/index
+.git/ORIG_HEAD
+.git/packed-refs
+.git/shallow
+.gitignore
+.pre-commit-config.yaml
+.pylintrc
+LICENSE
+mkdocs.yml
+opencode.json
+pyproject.toml
+README.md
+serve_docs.sh
+sz.py
+
+python/test files:
+pyproject.toml
+sz.py

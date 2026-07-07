@@ -1,0 +1,58 @@
+[
+  {
+    "path": "README.md",
+    "score": 120,
+    "hits": {
+      "kernel": 5,
+      "lower": 2,
+      "tensor": 18,
+      "test": 28
+    },
+    "lines": 202,
+    "bytes": 9417
+  },
+  {
+    "path": ".pre-commit-config.yaml",
+    "score": 74,
+    "hits": {
+      "schedule": 2,
+      "uop": 1,
+      "tensor": 1,
+      "test": 30
+    },
+    "lines": 35,
+    "bytes": 1230
+  },
+  {
+    "path": "pyproject.toml",
+    "score": 68,
+    "hits": {
+      "schedule": 2,
+      "uop": 2,
+      "tensor": 2,
+      "test": 24
+    },
+    "lines": 264,
+    "bytes": 6430
+  },
+  {
+    "path": "mkdocs.yml",
+    "score": 26,
+    "hits": {
+      "uop": 2,
+      "lower": 1,
+      "tensor": 7
+    },
+    "lines": 150,
+    "bytes": 3666
+  },
+  {
+    "path": "sz.py",
+    "score": 4,
+    "hits": {
+      "uop": 1
+    },
+    "lines": 96,
+    "bytes": 4545
+  }
+]

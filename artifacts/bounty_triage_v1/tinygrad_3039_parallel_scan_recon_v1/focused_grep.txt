@@ -1,0 +1,5 @@
+===== scan/cumsum/prefix/mamba hits =====
+./.pylintrc:418:valid-classmethod-first-arg=cls
+./.pylintrc:421:valid-metaclass-classmethod-first-arg=mcs
+
+===== test hits =====

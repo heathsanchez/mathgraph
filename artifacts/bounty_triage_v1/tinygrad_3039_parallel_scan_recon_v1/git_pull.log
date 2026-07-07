@@ -1,0 +1,10 @@
+From https://github.com/tinygrad/tinygrad
+ * branch            master     -> FETCH_HEAD
+Updating ccd3428..eb3cb16
+Fast-forward
+ test/backend/test_uops.py     | 18 +++++++++---------
+ tinygrad/codegen/__init__.py  | 21 +++------------------
+ tinygrad/schedule/rangeify.py |  4 ++--
+ tinygrad/uop/ops.py           | 16 +++++++---------
+ tinygrad/uop/symbolic.py      |  4 ++--
+ 5 files changed, 23 insertions(+), 40 deletions(-)
