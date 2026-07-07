@@ -1,0 +1,15 @@
+[
+  {
+    "path": "package.json",
+    "name": "agent-playground",
+    "type": null,
+    "scripts": {
+      "dev": "npm run dev --workspaces --if-present",
+      "test": "npm run test --workspaces --if-present",
+      "lint": "npm run lint --workspaces --if-present",
+      "format": "npm run format --workspaces --if-present"
+    },
+    "deps": [],
+    "devDeps": []
+  }
+]

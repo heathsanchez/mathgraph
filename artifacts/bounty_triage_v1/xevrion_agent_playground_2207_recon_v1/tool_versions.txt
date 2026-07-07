@@ -1,0 +1,15 @@
+node:
+/opt/homebrew/bin/node
+v23.7.0
+
+npm:
+/opt/homebrew/bin/npm
+10.9.2
+
+pnpm:
+
+yarn:
+/Users/heath/.yarn/bin/yarn
+1.22.19
+
+bun:

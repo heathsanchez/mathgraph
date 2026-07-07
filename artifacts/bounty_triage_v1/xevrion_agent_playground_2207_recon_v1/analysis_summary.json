@@ -1,0 +1,70 @@
+{
+  "package_count": 1,
+  "package_manager_guess": "npm",
+  "lockfiles": {
+    "pnpm": false,
+    "npm": false,
+    "yarn": false,
+    "bun": false
+  },
+  "test_surface": [
+    {
+      "package": "package.json",
+      "script": "test",
+      "command": "npm run test --workspaces --if-present"
+    },
+    {
+      "package": "package.json",
+      "script": "lint",
+      "command": "npm run lint --workspaces --if-present"
+    }
+  ],
+  "top_candidate_files": [
+    {
+      "path": "README.md",
+      "score": 61,
+      "hits": {
+        "user": 5,
+        "users": 2,
+        "register": 1,
+        "validation": 1,
+        "zod": 1,
+        "router": 1,
+        "route": 6,
+        "api": 4
+      },
+      "lines": 86,
+      "bytes": 1856
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "score": 15,
+      "hits": {
+        "user": 3,
+        "username": 2
+      },
+      "lines": 60,
+      "bytes": 1788
+    },
+    {
+      "path": "SECURITY.md",
+      "score": 10,
+      "hits": {
+        "validate": 1,
+        "route": 1,
+        "api": 1
+      },
+      "lines": 51,
+      "bytes": 1649
+    },
+    {
+      "path": "leaderboard.json",
+      "score": 2,
+      "hits": {
+        "api": 1
+      },
+      "lines": 418,
+      "bytes": 8628
+    }
+  ]
+}

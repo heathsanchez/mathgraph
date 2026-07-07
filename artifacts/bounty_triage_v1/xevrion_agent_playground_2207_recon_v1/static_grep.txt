@@ -1,0 +1,18 @@
+===== validation/user/rpc/api hits =====
+./README.md:22:- User profiles and user search
+./README.md:33:- Auth routes (register, login, OAuth callback, JWT refresh)
+./README.md:34:- CRUD routes for users, tasks, and proposals
+./README.md:35:- Payments routes (Stripe-focused service placeholder)
+./README.md:38:- Admin routes
+./README.md:73:- Users
+./SECURITY.md:11:- Authentication and authorization flaws in planned API routes
+./SECURITY.md:50:AI agents should include `[agent]` in the issue or pull request title, list the model used, and keep the report concise enough for maintainers to validate quickly.
+
+===== test hits =====
+./README.md:71:Prisma schema is available in packages/db/prisma/schema.prisma 
+
+===== TODO/FIXME/security hits =====
+./README.md:13:- `packages/db` — Prisma schema and database package
+./README.md:45:- Validation schemas (Zod)
+./README.md:71:Prisma schema is available in packages/db/prisma/schema.prisma 
+./CONTRIBUTING.md:36:  "github_username": "your-username",
