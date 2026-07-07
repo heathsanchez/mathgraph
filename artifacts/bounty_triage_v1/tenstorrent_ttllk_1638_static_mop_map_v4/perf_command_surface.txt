@@ -1,0 +1,3182 @@
+
+===== tests/python_tests/perf_math_matmul.py =====
+
+--- around line 6 ---
+0001: # SPDX-FileCopyrightText: © 2025 Tenstorrent AI ULC
+0002: # SPDX-License-Identifier: Apache-2.0
+0003: 
+0004: from itertools import chain, product
+0005: 
+0006: import pytest
+0007: from helpers.format_config import DataFormat, is_dest_acc_needed
+0008: from helpers.llk_params import (
+0009:     DestAccumulation,
+0010:     DestSync,
+0011:     MathFidelity,
+0012:     PerfRunType,
+0013:     StochasticRounding,
+0014: )
+0015: from helpers.matmul_sweep import sweep_matmul, sweep_tiny_tiles_matmul
+0016: from helpers.param_config import input_output_formats
+0017: from helpers.perf import PerfConfig
+0018: from helpers.stimuli_config import StimuliConfig
+0019: from helpers.test_variant_parameters import (
+0020:     CRK_TILE_DIMM,
+0021:     DEST_INDEX,
+0022:     DEST_SYNC,
+0023:     IN_TILE_DIMS,
+0024:     LOOP_FACTOR,
+
+
+--- around line 12 ---
+0004: from itertools import chain, product
+0005: 
+0006: import pytest
+0007: from helpers.format_config import DataFormat, is_dest_acc_needed
+0008: from helpers.llk_params import (
+0009:     DestAccumulation,
+0010:     DestSync,
+0011:     MathFidelity,
+0012:     PerfRunType,
+0013:     StochasticRounding,
+0014: )
+0015: from helpers.matmul_sweep import sweep_matmul, sweep_tiny_tiles_matmul
+0016: from helpers.param_config import input_output_formats
+0017: from helpers.perf import PerfConfig
+0018: from helpers.stimuli_config import StimuliConfig
+0019: from helpers.test_variant_parameters import (
+0020:     CRK_TILE_DIMM,
+0021:     DEST_INDEX,
+0022:     DEST_SYNC,
+0023:     IN_TILE_DIMS,
+0024:     LOOP_FACTOR,
+0025:     MATH_FIDELITY,
+0026:     NUM_FACES,
+0027:     PARTIAL_FACE,
+0028:     THROTTLE_LEVEL,
+0029:     TILE_COUNT,
+0030:     UNPACK_TRANS_FACES,
+
+
+--- around line 17 ---
+0009:     DestAccumulation,
+0010:     DestSync,
+0011:     MathFidelity,
+0012:     PerfRunType,
+0013:     StochasticRounding,
+0014: )
+0015: from helpers.matmul_sweep import sweep_matmul, sweep_tiny_tiles_matmul
+0016: from helpers.param_config import input_output_formats
+0017: from helpers.perf import PerfConfig
+0018: from helpers.stimuli_config import StimuliConfig
+0019: from helpers.test_variant_parameters import (
+0020:     CRK_TILE_DIMM,
+0021:     DEST_INDEX,
+0022:     DEST_SYNC,
+0023:     IN_TILE_DIMS,
+0024:     LOOP_FACTOR,
+0025:     MATH_FIDELITY,
+0026:     NUM_FACES,
+0027:     PARTIAL_FACE,
+0028:     THROTTLE_LEVEL,
+0029:     TILE_COUNT,
+0030:     UNPACK_TRANS_FACES,
+0031:     UNPACK_TRANS_WITHIN_FACE,
+0032: )
+0033: 
+0034: MATMUL_FORMATS = input_output_formats(
+0035:     [
+
+
+--- around line 57 ---
+0049:     MathFidelity.HiFi4,
+0050: ]
+0051: 
+0052: MATMUL_COMBINATIONS = sweep_matmul(
+0053:     MATMUL_FORMATS,
+0054:     DEST_ACC_MODES,
+0055:     STOCHASTIC_ROUNDING_MODES,
+0056:     DEST_SYNC_MODES,
+0057:     math_matmul=True,
+0058: )
+0059: 
+0060: TINY_TILES_MATMUL_COMBINATIONS = sweep_tiny_tiles_matmul(
+0061:     MATMUL_FORMATS,
+0062:     DEST_ACC_MODES,
+0063:     STOCHASTIC_ROUNDING_MODES,
+0064:     DEST_SYNC_MODES,
+0065:     math_matmul=True,
+0066: )
+0067: 
+0068: ALL_TEST_PARAMS = list(
+0069:     chain(
+0070:         # Regular matmul combinations with all throttle levels
+0071:         # ( Commented to reduce number of tests since CI fails with no free space left on device
+0072:         #     (fidelity, combinations, throttle)
+0073:         #     for fidelity, combinations, throttle in product(
+0074:         #         MATH_FIDELITIES, MATMUL_COMBINATIONS, [1, 2, 3, 4, 5]
+0075:         #     )
+
+
+--- around line 65 ---
+0057:     math_matmul=True,
+0058: )
+0059: 
+0060: TINY_TILES_MATMUL_COMBINATIONS = sweep_tiny_tiles_matmul(
+0061:     MATMUL_FORMATS,
+0062:     DEST_ACC_MODES,
+0063:     STOCHASTIC_ROUNDING_MODES,
+0064:     DEST_SYNC_MODES,
+0065:     math_matmul=True,
+0066: )
+0067: 
+0068: ALL_TEST_PARAMS = list(
+0069:     chain(
+0070:         # Regular matmul combinations with all throttle levels
+0071:         # ( Commented to reduce number of tests since CI fails with no free space left on device
+0072:         #     (fidelity, combinations, throttle)
+0073:         #     for fidelity, combinations, throttle in product(
+0074:         #         MATH_FIDELITIES, MATMUL_COMBINATIONS, [1, 2, 3, 4, 5]
+0075:         #     )
+0076:         # ),
+0077:         # Tiny tiles matmul combinations with throttle level 1 only
+0078:         (
+0079:             (fidelity, combinations, 0)
+0080:             for fidelity, combinations in product(
+0081:                 MATH_FIDELITIES, TINY_TILES_MATMUL_COMBINATIONS
+0082:             )
+0083:         ),
+
+
+--- around line 88 ---
+0080:             for fidelity, combinations in product(
+0081:                 MATH_FIDELITIES, TINY_TILES_MATMUL_COMBINATIONS
+0082:             )
+0083:         ),
+0084:     )
+0085: )
+0086: 
+0087: 
+0088: @pytest.mark.perf
+0089: @pytest.mark.parametrize("math_fidelity,matmul_config,throttle", ALL_TEST_PARAMS)
+0090: def test_perf_math_matmul(
+0091:     math_fidelity,
+0092:     matmul_config,
+0093:     throttle,
+0094:     perf_report,
+0095: ):
+0096:     """
+0097:     Performance test for matmul operations.
+0098: 
+0099:     Includes both regular matmul (full 32x32 tiles) and tiny tiles matmul
+0100:     (input 0 with rows: 1, 2, 4, 8, 16 and columns: 32, input 1 always 32x32).
+0101:     """
+0102:     formats = matmul_config.formats
+0103:     in0_dimensions = matmul_config.tile_dimensions.in0_dimensions
+0104:     in1_dimensions = matmul_config.tile_dimensions.in1_dimensions
+0105:     transpose = matmul_config.face_layout_config.unpack_transpose_faces
+0106:     num_faces_in0 = matmul_config.face_layout_config.num_faces_in0
+
+
+--- around line 89 ---
+0081:                 MATH_FIDELITIES, TINY_TILES_MATMUL_COMBINATIONS
+0082:             )
+0083:         ),
+0084:     )
+0085: )
+0086: 
+0087: 
+0088: @pytest.mark.perf
+0089: @pytest.mark.parametrize("math_fidelity,matmul_config,throttle", ALL_TEST_PARAMS)
+0090: def test_perf_math_matmul(
+0091:     math_fidelity,
+0092:     matmul_config,
+0093:     throttle,
+0094:     perf_report,
+0095: ):
+0096:     """
+0097:     Performance test for matmul operations.
+0098: 
+0099:     Includes both regular matmul (full 32x32 tiles) and tiny tiles matmul
+0100:     (input 0 with rows: 1, 2, 4, 8, 16 and columns: 32, input 1 always 32x32).
+0101:     """
+0102:     formats = matmul_config.formats
+0103:     in0_dimensions = matmul_config.tile_dimensions.in0_dimensions
+0104:     in1_dimensions = matmul_config.tile_dimensions.in1_dimensions
+0105:     transpose = matmul_config.face_layout_config.unpack_transpose_faces
+0106:     num_faces_in0 = matmul_config.face_layout_config.num_faces_in0
+0107:     num_faces_in1 = matmul_config.face_layout_config.num_faces_in1
+
+
+--- around line 90 ---
+0082:             )
+0083:         ),
+0084:     )
+0085: )
+0086: 
+0087: 
+0088: @pytest.mark.perf
+0089: @pytest.mark.parametrize("math_fidelity,matmul_config,throttle", ALL_TEST_PARAMS)
+0090: def test_perf_math_matmul(
+0091:     math_fidelity,
+0092:     matmul_config,
+0093:     throttle,
+0094:     perf_report,
+0095: ):
+0096:     """
+0097:     Performance test for matmul operations.
+0098: 
+0099:     Includes both regular matmul (full 32x32 tiles) and tiny tiles matmul
+0100:     (input 0 with rows: 1, 2, 4, 8, 16 and columns: 32, input 1 always 32x32).
+0101:     """
+0102:     formats = matmul_config.formats
+0103:     in0_dimensions = matmul_config.tile_dimensions.in0_dimensions
+0104:     in1_dimensions = matmul_config.tile_dimensions.in1_dimensions
+0105:     transpose = matmul_config.face_layout_config.unpack_transpose_faces
+0106:     num_faces_in0 = matmul_config.face_layout_config.num_faces_in0
+0107:     num_faces_in1 = matmul_config.face_layout_config.num_faces_in1
+0108:     num_faces = matmul_config.face_layout_config.num_faces
+
+
+--- around line 94 ---
+0086: 
+0087: 
+0088: @pytest.mark.perf
+0089: @pytest.mark.parametrize("math_fidelity,matmul_config,throttle", ALL_TEST_PARAMS)
+0090: def test_perf_math_matmul(
+0091:     math_fidelity,
+0092:     matmul_config,
+0093:     throttle,
+0094:     perf_report,
+0095: ):
+0096:     """
+0097:     Performance test for matmul operations.
+0098: 
+0099:     Includes both regular matmul (full 32x32 tiles) and tiny tiles matmul
+0100:     (input 0 with rows: 1, 2, 4, 8, 16 and columns: 32, input 1 always 32x32).
+0101:     """
+0102:     formats = matmul_config.formats
+0103:     in0_dimensions = matmul_config.tile_dimensions.in0_dimensions
+0104:     in1_dimensions = matmul_config.tile_dimensions.in1_dimensions
+0105:     transpose = matmul_config.face_layout_config.unpack_transpose_faces
+0106:     num_faces_in0 = matmul_config.face_layout_config.num_faces_in0
+0107:     num_faces_in1 = matmul_config.face_layout_config.num_faces_in1
+0108:     num_faces = matmul_config.face_layout_config.num_faces
+0109: 
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+
+
+--- around line 97 ---
+0089: @pytest.mark.parametrize("math_fidelity,matmul_config,throttle", ALL_TEST_PARAMS)
+0090: def test_perf_math_matmul(
+0091:     math_fidelity,
+0092:     matmul_config,
+0093:     throttle,
+0094:     perf_report,
+0095: ):
+0096:     """
+0097:     Performance test for matmul operations.
+0098: 
+0099:     Includes both regular matmul (full 32x32 tiles) and tiny tiles matmul
+0100:     (input 0 with rows: 1, 2, 4, 8, 16 and columns: 32, input 1 always 32x32).
+0101:     """
+0102:     formats = matmul_config.formats
+0103:     in0_dimensions = matmul_config.tile_dimensions.in0_dimensions
+0104:     in1_dimensions = matmul_config.tile_dimensions.in1_dimensions
+0105:     transpose = matmul_config.face_layout_config.unpack_transpose_faces
+0106:     num_faces_in0 = matmul_config.face_layout_config.num_faces_in0
+0107:     num_faces_in1 = matmul_config.face_layout_config.num_faces_in1
+0108:     num_faces = matmul_config.face_layout_config.num_faces
+0109: 
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+0113:     run_types = [
+0114:         PerfRunType.L1_TO_L1,
+0115:         PerfRunType.UNPACK_ISOLATE,
+
+
+--- around line 111 ---
+0103:     in0_dimensions = matmul_config.tile_dimensions.in0_dimensions
+0104:     in1_dimensions = matmul_config.tile_dimensions.in1_dimensions
+0105:     transpose = matmul_config.face_layout_config.unpack_transpose_faces
+0106:     num_faces_in0 = matmul_config.face_layout_config.num_faces_in0
+0107:     num_faces_in1 = matmul_config.face_layout_config.num_faces_in1
+0108:     num_faces = matmul_config.face_layout_config.num_faces
+0109: 
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+0113:     run_types = [
+0114:         PerfRunType.L1_TO_L1,
+0115:         PerfRunType.UNPACK_ISOLATE,
+0116:         PerfRunType.MATH_ISOLATE,
+0117:         PerfRunType.PACK_ISOLATE,
+0118:         PerfRunType.L1_CONGESTION,
+0119:     ]
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+
+
+--- around line 114 ---
+0106:     num_faces_in0 = matmul_config.face_layout_config.num_faces_in0
+0107:     num_faces_in1 = matmul_config.face_layout_config.num_faces_in1
+0108:     num_faces = matmul_config.face_layout_config.num_faces
+0109: 
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+0113:     run_types = [
+0114:         PerfRunType.L1_TO_L1,
+0115:         PerfRunType.UNPACK_ISOLATE,
+0116:         PerfRunType.MATH_ISOLATE,
+0117:         PerfRunType.PACK_ISOLATE,
+0118:         PerfRunType.L1_CONGESTION,
+0119:     ]
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+0130:         run_types,
+0131:         templates=[
+0132:             MATH_FIDELITY(math_fidelity),
+
+
+--- around line 115 ---
+0107:     num_faces_in1 = matmul_config.face_layout_config.num_faces_in1
+0108:     num_faces = matmul_config.face_layout_config.num_faces
+0109: 
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+0113:     run_types = [
+0114:         PerfRunType.L1_TO_L1,
+0115:         PerfRunType.UNPACK_ISOLATE,
+0116:         PerfRunType.MATH_ISOLATE,
+0117:         PerfRunType.PACK_ISOLATE,
+0118:         PerfRunType.L1_CONGESTION,
+0119:     ]
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+0130:         run_types,
+0131:         templates=[
+0132:             MATH_FIDELITY(math_fidelity),
+0133:             DEST_SYNC(matmul_config.dest_sync),
+
+
+--- around line 116 ---
+0108:     num_faces = matmul_config.face_layout_config.num_faces
+0109: 
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+0113:     run_types = [
+0114:         PerfRunType.L1_TO_L1,
+0115:         PerfRunType.UNPACK_ISOLATE,
+0116:         PerfRunType.MATH_ISOLATE,
+0117:         PerfRunType.PACK_ISOLATE,
+0118:         PerfRunType.L1_CONGESTION,
+0119:     ]
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+0130:         run_types,
+0131:         templates=[
+0132:             MATH_FIDELITY(math_fidelity),
+0133:             DEST_SYNC(matmul_config.dest_sync),
+0134:             THROTTLE_LEVEL(throttle),
+
+
+--- around line 117 ---
+0109: 
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+0113:     run_types = [
+0114:         PerfRunType.L1_TO_L1,
+0115:         PerfRunType.UNPACK_ISOLATE,
+0116:         PerfRunType.MATH_ISOLATE,
+0117:         PerfRunType.PACK_ISOLATE,
+0118:         PerfRunType.L1_CONGESTION,
+0119:     ]
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+0130:         run_types,
+0131:         templates=[
+0132:             MATH_FIDELITY(math_fidelity),
+0133:             DEST_SYNC(matmul_config.dest_sync),
+0134:             THROTTLE_LEVEL(throttle),
+0135:         ],
+
+
+--- around line 118 ---
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+0113:     run_types = [
+0114:         PerfRunType.L1_TO_L1,
+0115:         PerfRunType.UNPACK_ISOLATE,
+0116:         PerfRunType.MATH_ISOLATE,
+0117:         PerfRunType.PACK_ISOLATE,
+0118:         PerfRunType.L1_CONGESTION,
+0119:     ]
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+0130:         run_types,
+0131:         templates=[
+0132:             MATH_FIDELITY(math_fidelity),
+0133:             DEST_SYNC(matmul_config.dest_sync),
+0134:             THROTTLE_LEVEL(throttle),
+0135:         ],
+0136:         runtimes=[
+
+
+--- around line 127 ---
+0119:     ]
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+0130:         run_types,
+0131:         templates=[
+0132:             MATH_FIDELITY(math_fidelity),
+0133:             DEST_SYNC(matmul_config.dest_sync),
+0134:             THROTTLE_LEVEL(throttle),
+0135:         ],
+0136:         runtimes=[
+0137:             DEST_INDEX(matmul_config.dst_index),
+0138:             UNPACK_TRANS_FACES(transpose),
+0139:             UNPACK_TRANS_WITHIN_FACE(transpose),
+0140:             TILE_COUNT(variant_tile_count),
+0141:             NUM_FACES(
+0142:                 num_faces, num_faces_in0, num_faces_in1
+0143:             ),  # In0 -> Input A, In1 -> Input B
+0144:             PARTIAL_FACE(  # In0 -> Input A, In1 -> Input B
+0145:                 partial_a=matmul_config.face_layout_config.partial_face_in0,
+
+
+--- around line 128 ---
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+0130:         run_types,
+0131:         templates=[
+0132:             MATH_FIDELITY(math_fidelity),
+0133:             DEST_SYNC(matmul_config.dest_sync),
+0134:             THROTTLE_LEVEL(throttle),
+0135:         ],
+0136:         runtimes=[
+0137:             DEST_INDEX(matmul_config.dst_index),
+0138:             UNPACK_TRANS_FACES(transpose),
+0139:             UNPACK_TRANS_WITHIN_FACE(transpose),
+0140:             TILE_COUNT(variant_tile_count),
+0141:             NUM_FACES(
+0142:                 num_faces, num_faces_in0, num_faces_in1
+0143:             ),  # In0 -> Input A, In1 -> Input B
+0144:             PARTIAL_FACE(  # In0 -> Input A, In1 -> Input B
+0145:                 partial_a=matmul_config.face_layout_config.partial_face_in0,
+0146:                 partial_face_pack=matmul_config.face_layout_config.partial_face_pack,
+
+
+--- around line 176 ---
+0168:             formats.output_format,
+0169:             tile_count_A=matmul_config.tile_dimensions.tile_cnt_in0,
+0170:             tile_count_B=matmul_config.tile_dimensions.tile_cnt_in1,
+0171:             tile_count_res=matmul_config.tile_dimensions.output_tile_cnt,
+0172:         ),
+0173:         dest_acc=matmul_config.dest_acc,
+0174:     )
+0175: 
+0176:     configuration.run(perf_report)
+
+
+===== tests/python_tests/perf_matmul.py =====
+
+--- around line 6 ---
+0001: # SPDX-FileCopyrightText: © 2025 Tenstorrent AI ULC
+0002: # SPDX-License-Identifier: Apache-2.0
+0003: 
+0004: from typing import List
+0005: 
+0006: import pytest
+0007: from helpers.format_config import DataFormat, FormatConfig, is_dest_acc_needed
+0008: from helpers.llk_params import DestAccumulation, MathFidelity, PerfRunType, Transpose
+0009: from helpers.matmul_sweep import (
+0010:     generate_matmul_dimension_combinations,
+0011:     generate_tile_dims,
+0012: )
+0013: from helpers.param_config import input_output_formats, parametrize
+0014: from helpers.perf import PerfConfig
+0015: from helpers.stimuli_config import StimuliConfig
+0016: from helpers.test_variant_parameters import (
+0017:     CRK_TILE_DIMM,
+0018:     DEST_SYNC,
+0019:     LOOP_FACTOR,
+0020:     MATH_FIDELITY,
+0021:     NUM_FACES,
+0022:     THROTTLE_LEVEL,
+0023:     TILE_COUNT,
+0024:     UNPACK_TRANS_FACES,
+
+
+--- around line 8 ---
+0001: # SPDX-FileCopyrightText: © 2025 Tenstorrent AI ULC
+0002: # SPDX-License-Identifier: Apache-2.0
+0003: 
+0004: from typing import List
+0005: 
+0006: import pytest
+0007: from helpers.format_config import DataFormat, FormatConfig, is_dest_acc_needed
+0008: from helpers.llk_params import DestAccumulation, MathFidelity, PerfRunType, Transpose
+0009: from helpers.matmul_sweep import (
+0010:     generate_matmul_dimension_combinations,
+0011:     generate_tile_dims,
+0012: )
+0013: from helpers.param_config import input_output_formats, parametrize
+0014: from helpers.perf import PerfConfig
+0015: from helpers.stimuli_config import StimuliConfig
+0016: from helpers.test_variant_parameters import (
+0017:     CRK_TILE_DIMM,
+0018:     DEST_SYNC,
+0019:     LOOP_FACTOR,
+0020:     MATH_FIDELITY,
+0021:     NUM_FACES,
+0022:     THROTTLE_LEVEL,
+0023:     TILE_COUNT,
+0024:     UNPACK_TRANS_FACES,
+0025: )
+0026: 
+
+
+--- around line 14 ---
+0006: import pytest
+0007: from helpers.format_config import DataFormat, FormatConfig, is_dest_acc_needed
+0008: from helpers.llk_params import DestAccumulation, MathFidelity, PerfRunType, Transpose
+0009: from helpers.matmul_sweep import (
+0010:     generate_matmul_dimension_combinations,
+0011:     generate_tile_dims,
+0012: )
+0013: from helpers.param_config import input_output_formats, parametrize
+0014: from helpers.perf import PerfConfig
+0015: from helpers.stimuli_config import StimuliConfig
+0016: from helpers.test_variant_parameters import (
+0017:     CRK_TILE_DIMM,
+0018:     DEST_SYNC,
+0019:     LOOP_FACTOR,
+0020:     MATH_FIDELITY,
+0021:     NUM_FACES,
+0022:     THROTTLE_LEVEL,
+0023:     TILE_COUNT,
+0024:     UNPACK_TRANS_FACES,
+0025: )
+0026: 
+0027: # Important K dimensions to test
+0028: KT_DIMS = [1, 2, 3, 4, 8, 32]
+0029: 
+0030: 
+0031: def matmul_combos(
+0032:     formats: List[FormatConfig],
+
+
+--- around line 56 ---
+0048:     return [
+0049:         (format, accumulation, dims)
+0050:         for format in formats
+0051:         for accumulation in dest_acc
+0052:         for dims in dimensions[_dest_bank_max_tiles(format, accumulation)]
+0053:     ]
+0054: 
+0055: 
+0056: @pytest.mark.perf
+0057: @parametrize(
+0058:     combos=matmul_combos(
+0059:         formats=input_output_formats(
+0060:             [
+0061:                 DataFormat.Float16_b,
+0062:                 DataFormat.Float16,
+0063:                 DataFormat.Float32,
+0064:                 DataFormat.Bfp8_b,
+0065:             ]
+0066:         ),
+0067:         dest_acc=[DestAccumulation.No, DestAccumulation.Yes],
+0068:     ),
+0069:     math_fidelity=[
+0070:         MathFidelity.LoFi,
+0071:         MathFidelity.HiFi2,
+0072:         MathFidelity.HiFi3,
+0073:         MathFidelity.HiFi4,
+0074:     ],
+
+
+--- around line 76 ---
+0068:     ),
+0069:     math_fidelity=[
+0070:         MathFidelity.LoFi,
+0071:         MathFidelity.HiFi2,
+0072:         MathFidelity.HiFi3,
+0073:         MathFidelity.HiFi4,
+0074:     ],
+0075: )
+0076: def test_perf_matmul(
+0077:     perf_report,
+0078:     combos,
+0079:     math_fidelity,
+0080: ):
+0081: 
+0082:     formats, dest_acc, (matrix_a, matrix_b) = combos
+0083: 
+0084:     if is_dest_acc_needed(formats) and dest_acc == DestAccumulation.No:
+0085:         pytest.skip("Dest accumulation must be enabled for this format")
+0086: 
+0087:     run_types = [
+0088:         PerfRunType.L1_TO_L1,
+0089:         PerfRunType.UNPACK_ISOLATE,
+0090:         PerfRunType.MATH_ISOLATE,
+0091:         PerfRunType.PACK_ISOLATE,
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+
+
+--- around line 77 ---
+0069:     math_fidelity=[
+0070:         MathFidelity.LoFi,
+0071:         MathFidelity.HiFi2,
+0072:         MathFidelity.HiFi3,
+0073:         MathFidelity.HiFi4,
+0074:     ],
+0075: )
+0076: def test_perf_matmul(
+0077:     perf_report,
+0078:     combos,
+0079:     math_fidelity,
+0080: ):
+0081: 
+0082:     formats, dest_acc, (matrix_a, matrix_b) = combos
+0083: 
+0084:     if is_dest_acc_needed(formats) and dest_acc == DestAccumulation.No:
+0085:         pytest.skip("Dest accumulation must be enabled for this format")
+0086: 
+0087:     run_types = [
+0088:         PerfRunType.L1_TO_L1,
+0089:         PerfRunType.UNPACK_ISOLATE,
+0090:         PerfRunType.MATH_ISOLATE,
+0091:         PerfRunType.PACK_ISOLATE,
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+
+
+--- around line 85 ---
+0077:     perf_report,
+0078:     combos,
+0079:     math_fidelity,
+0080: ):
+0081: 
+0082:     formats, dest_acc, (matrix_a, matrix_b) = combos
+0083: 
+0084:     if is_dest_acc_needed(formats) and dest_acc == DestAccumulation.No:
+0085:         pytest.skip("Dest accumulation must be enabled for this format")
+0086: 
+0087:     run_types = [
+0088:         PerfRunType.L1_TO_L1,
+0089:         PerfRunType.UNPACK_ISOLATE,
+0090:         PerfRunType.MATH_ISOLATE,
+0091:         PerfRunType.PACK_ISOLATE,
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+0096:     dims = generate_tile_dims((matrix_a, matrix_b))
+0097: 
+0098:     variant_tile_count = dims.rt_dim * dims.ct_dim * dims.kt_dim
+0099: 
+0100:     configuration = PerfConfig(
+0101:         "sources/matmul_perf.cpp",
+0102:         formats,
+0103:         run_types,
+
+
+--- around line 88 ---
+0080: ):
+0081: 
+0082:     formats, dest_acc, (matrix_a, matrix_b) = combos
+0083: 
+0084:     if is_dest_acc_needed(formats) and dest_acc == DestAccumulation.No:
+0085:         pytest.skip("Dest accumulation must be enabled for this format")
+0086: 
+0087:     run_types = [
+0088:         PerfRunType.L1_TO_L1,
+0089:         PerfRunType.UNPACK_ISOLATE,
+0090:         PerfRunType.MATH_ISOLATE,
+0091:         PerfRunType.PACK_ISOLATE,
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+0096:     dims = generate_tile_dims((matrix_a, matrix_b))
+0097: 
+0098:     variant_tile_count = dims.rt_dim * dims.ct_dim * dims.kt_dim
+0099: 
+0100:     configuration = PerfConfig(
+0101:         "sources/matmul_perf.cpp",
+0102:         formats,
+0103:         run_types,
+0104:         templates=[
+0105:             MATH_FIDELITY(math_fidelity),
+0106:             DEST_SYNC(),
+
+
+--- around line 89 ---
+0081: 
+0082:     formats, dest_acc, (matrix_a, matrix_b) = combos
+0083: 
+0084:     if is_dest_acc_needed(formats) and dest_acc == DestAccumulation.No:
+0085:         pytest.skip("Dest accumulation must be enabled for this format")
+0086: 
+0087:     run_types = [
+0088:         PerfRunType.L1_TO_L1,
+0089:         PerfRunType.UNPACK_ISOLATE,
+0090:         PerfRunType.MATH_ISOLATE,
+0091:         PerfRunType.PACK_ISOLATE,
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+0096:     dims = generate_tile_dims((matrix_a, matrix_b))
+0097: 
+0098:     variant_tile_count = dims.rt_dim * dims.ct_dim * dims.kt_dim
+0099: 
+0100:     configuration = PerfConfig(
+0101:         "sources/matmul_perf.cpp",
+0102:         formats,
+0103:         run_types,
+0104:         templates=[
+0105:             MATH_FIDELITY(math_fidelity),
+0106:             DEST_SYNC(),
+0107:             THROTTLE_LEVEL(),
+
+
+--- around line 90 ---
+0082:     formats, dest_acc, (matrix_a, matrix_b) = combos
+0083: 
+0084:     if is_dest_acc_needed(formats) and dest_acc == DestAccumulation.No:
+0085:         pytest.skip("Dest accumulation must be enabled for this format")
+0086: 
+0087:     run_types = [
+0088:         PerfRunType.L1_TO_L1,
+0089:         PerfRunType.UNPACK_ISOLATE,
+0090:         PerfRunType.MATH_ISOLATE,
+0091:         PerfRunType.PACK_ISOLATE,
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+0096:     dims = generate_tile_dims((matrix_a, matrix_b))
+0097: 
+0098:     variant_tile_count = dims.rt_dim * dims.ct_dim * dims.kt_dim
+0099: 
+0100:     configuration = PerfConfig(
+0101:         "sources/matmul_perf.cpp",
+0102:         formats,
+0103:         run_types,
+0104:         templates=[
+0105:             MATH_FIDELITY(math_fidelity),
+0106:             DEST_SYNC(),
+0107:             THROTTLE_LEVEL(),
+0108:         ],
+
+
+--- around line 91 ---
+0083: 
+0084:     if is_dest_acc_needed(formats) and dest_acc == DestAccumulation.No:
+0085:         pytest.skip("Dest accumulation must be enabled for this format")
+0086: 
+0087:     run_types = [
+0088:         PerfRunType.L1_TO_L1,
+0089:         PerfRunType.UNPACK_ISOLATE,
+0090:         PerfRunType.MATH_ISOLATE,
+0091:         PerfRunType.PACK_ISOLATE,
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+0096:     dims = generate_tile_dims((matrix_a, matrix_b))
+0097: 
+0098:     variant_tile_count = dims.rt_dim * dims.ct_dim * dims.kt_dim
+0099: 
+0100:     configuration = PerfConfig(
+0101:         "sources/matmul_perf.cpp",
+0102:         formats,
+0103:         run_types,
+0104:         templates=[
+0105:             MATH_FIDELITY(math_fidelity),
+0106:             DEST_SYNC(),
+0107:             THROTTLE_LEVEL(),
+0108:         ],
+0109:         runtimes=[
+
+
+--- around line 92 ---
+0084:     if is_dest_acc_needed(formats) and dest_acc == DestAccumulation.No:
+0085:         pytest.skip("Dest accumulation must be enabled for this format")
+0086: 
+0087:     run_types = [
+0088:         PerfRunType.L1_TO_L1,
+0089:         PerfRunType.UNPACK_ISOLATE,
+0090:         PerfRunType.MATH_ISOLATE,
+0091:         PerfRunType.PACK_ISOLATE,
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+0096:     dims = generate_tile_dims((matrix_a, matrix_b))
+0097: 
+0098:     variant_tile_count = dims.rt_dim * dims.ct_dim * dims.kt_dim
+0099: 
+0100:     configuration = PerfConfig(
+0101:         "sources/matmul_perf.cpp",
+0102:         formats,
+0103:         run_types,
+0104:         templates=[
+0105:             MATH_FIDELITY(math_fidelity),
+0106:             DEST_SYNC(),
+0107:             THROTTLE_LEVEL(),
+0108:         ],
+0109:         runtimes=[
+0110:             UNPACK_TRANS_FACES(Transpose.No),
+
+
+--- around line 100 ---
+0092:         PerfRunType.L1_CONGESTION,
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+0096:     dims = generate_tile_dims((matrix_a, matrix_b))
+0097: 
+0098:     variant_tile_count = dims.rt_dim * dims.ct_dim * dims.kt_dim
+0099: 
+0100:     configuration = PerfConfig(
+0101:         "sources/matmul_perf.cpp",
+0102:         formats,
+0103:         run_types,
+0104:         templates=[
+0105:             MATH_FIDELITY(math_fidelity),
+0106:             DEST_SYNC(),
+0107:             THROTTLE_LEVEL(),
+0108:         ],
+0109:         runtimes=[
+0110:             UNPACK_TRANS_FACES(Transpose.No),
+0111:             NUM_FACES(),
+0112:             LOOP_FACTOR(16),
+0113:             TILE_COUNT(variant_tile_count),
+0114:             CRK_TILE_DIMM(dims.ct_dim, dims.rt_dim, dims.kt_dim),
+0115:         ],
+0116:         variant_stimuli=StimuliConfig(
+0117:             None,
+0118:             formats.input_format,
+
+
+--- around line 101 ---
+0093:     ]
+0094: 
+0095:     # Calculate all matmul dimensions using helper function
+0096:     dims = generate_tile_dims((matrix_a, matrix_b))
+0097: 
+0098:     variant_tile_count = dims.rt_dim * dims.ct_dim * dims.kt_dim
+0099: 
+0100:     configuration = PerfConfig(
+0101:         "sources/matmul_perf.cpp",
+0102:         formats,
+0103:         run_types,
+0104:         templates=[
+0105:             MATH_FIDELITY(math_fidelity),
+0106:             DEST_SYNC(),
+0107:             THROTTLE_LEVEL(),
+0108:         ],
+0109:         runtimes=[
+0110:             UNPACK_TRANS_FACES(Transpose.No),
+0111:             NUM_FACES(),
+0112:             LOOP_FACTOR(16),
+0113:             TILE_COUNT(variant_tile_count),
+0114:             CRK_TILE_DIMM(dims.ct_dim, dims.rt_dim, dims.kt_dim),
+0115:         ],
+0116:         variant_stimuli=StimuliConfig(
+0117:             None,
+0118:             formats.input_format,
+0119:             None,
+
+
+--- around line 129 ---
+0121:             formats.output_format,
+0122:             tile_count_A=variant_tile_count,
+0123:             tile_count_B=variant_tile_count,
+0124:             tile_count_res=variant_tile_count,
+0125:         ),
+0126:         dest_acc=dest_acc,
+0127:     )
+0128: 
+0129:     configuration.run(perf_report)
+
+
+===== .cursor/rules/scripts/run_test.sh =====
+
+--- around line 31 ---
+0023: ENV_SETUP=${ENV_SETUP:-1}
+0024: COMPILED=${COMPILED:-1}
+0025: RUN_TEST=${RUN_TEST:-1}
+0026: FILE_NAME=${FILE_NAME:-""}
+0027: TEST_PATH=${TEST_PATH:-""}
+0028: QUIET=${QUIET:-1}
+0029: PARALLEL_JOBS=${PARALLEL_JOBS:-10}
+0030: FAIL_FAST=${FAIL_FAST:-1}
+0031: PYTEST_ARGS=${PYTEST_ARGS:-""}
+0032: COVERAGE_FLAG=""
+0033: 
+0034: if [ "${COVERAGE:-0}" -eq 1 ]; then
+0035:     COVERAGE_FLAG="--coverage"
+0036: fi
+0037: 
+0038: if [ $ENV_SETUP -eq 1 ]; then
+0039:     echo "Setting up environment..."
+0040:     ./setup_testing_env.sh
+0041: fi
+0042: 
+0043: cd ./python_tests
+0044: 
+0045: if [ -n "$TEST_PATH" ]; then
+0046:     TEST_PATH="${TEST_PATH#./}"
+0047:     case "$TEST_PATH" in
+0048:         python_tests/*) TEST_PATH="${TEST_PATH#python_tests/}" ;;
+0049:     esac
+
+
+--- around line 66 ---
+0058:         TARGET="$FILE_NAME"
+0059:     fi
+0060:     if [ $FAIL_FAST -eq 1 ]; then
+0061:         FAIL_FAST_ARG="-x"
+0062:     else
+0063:         FAIL_FAST_ARG=""
+0064:     fi
+0065:     if [ $QUIET -eq 1 ]; then
+0066:         pytest $COVERAGE_FLAG --compile-producer -n $PARALLEL_JOBS $FAIL_FAST_ARG $PYTEST_ARGS $TARGET > /tmp/llk_test/compile.log 2>&1
+0067:         SUCCESS=$?
+0068:     else
+0069:         pytest $COVERAGE_FLAG --compile-producer -n $PARALLEL_JOBS $FAIL_FAST_ARG $PYTEST_ARGS $TARGET 2>&1 | tee /tmp/llk_test/compile.log
+0070:         SUCCESS=${PIPESTATUS[0]}
+0071:     fi
+0072: 
+0073:     if [ $SUCCESS -ne 0 ]; then
+0074:         echo "Compilation failed"
+0075:         exit 1
+0076:     fi
+0077: 
+0078: fi
+0079: 
+0080: if [ $RUN_TEST -eq 1 ]; then
+0081:     echo "Running tests..."
+0082:     mkdir -p /tmp/llk_test
+0083:     if [ -n "$TEST_PATH" ]; then
+0084:         TARGET="$TEST_PATH"
+
+
+--- around line 69 ---
+0061:         FAIL_FAST_ARG="-x"
+0062:     else
+0063:         FAIL_FAST_ARG=""
+0064:     fi
+0065:     if [ $QUIET -eq 1 ]; then
+0066:         pytest $COVERAGE_FLAG --compile-producer -n $PARALLEL_JOBS $FAIL_FAST_ARG $PYTEST_ARGS $TARGET > /tmp/llk_test/compile.log 2>&1
+0067:         SUCCESS=$?
+0068:     else
+0069:         pytest $COVERAGE_FLAG --compile-producer -n $PARALLEL_JOBS $FAIL_FAST_ARG $PYTEST_ARGS $TARGET 2>&1 | tee /tmp/llk_test/compile.log
+0070:         SUCCESS=${PIPESTATUS[0]}
+0071:     fi
+0072: 
+0073:     if [ $SUCCESS -ne 0 ]; then
+0074:         echo "Compilation failed"
+0075:         exit 1
+0076:     fi
+0077: 
+0078: fi
+0079: 
+0080: if [ $RUN_TEST -eq 1 ]; then
+0081:     echo "Running tests..."
+0082:     mkdir -p /tmp/llk_test
+0083:     if [ -n "$TEST_PATH" ]; then
+0084:         TARGET="$TEST_PATH"
+0085:     else
+0086:         TARGET="$FILE_NAME"
+0087:     fi
+
+
+--- around line 94 ---
+0086:         TARGET="$FILE_NAME"
+0087:     fi
+0088:     if [ $FAIL_FAST -eq 1 ]; then
+0089:         FAIL_FAST_ARG="-x"
+0090:     else
+0091:         FAIL_FAST_ARG=""
+0092:     fi
+0093:     if [ $QUIET -eq 1 ]; then
+0094:         pytest $COVERAGE_FLAG --compile-consumer $FAIL_FAST_ARG $PYTEST_ARGS $TARGET > /tmp/llk_test/run.log 2>&1 && tail -10 /tmp/llk_test/run.log
+0095:     else
+0096:         script -q -c "pytest $COVERAGE_FLAG --compile-consumer $FAIL_FAST_ARG $PYTEST_ARGS $TARGET" /tmp/llk_test/run.log
+0097:     fi
+0098: fi
+
+
+--- around line 96 ---
+0088:     if [ $FAIL_FAST -eq 1 ]; then
+0089:         FAIL_FAST_ARG="-x"
+0090:     else
+0091:         FAIL_FAST_ARG=""
+0092:     fi
+0093:     if [ $QUIET -eq 1 ]; then
+0094:         pytest $COVERAGE_FLAG --compile-consumer $FAIL_FAST_ARG $PYTEST_ARGS $TARGET > /tmp/llk_test/run.log 2>&1 && tail -10 /tmp/llk_test/run.log
+0095:     else
+0096:         script -q -c "pytest $COVERAGE_FLAG --compile-consumer $FAIL_FAST_ARG $PYTEST_ARGS $TARGET" /tmp/llk_test/run.log
+0097:     fi
+0098: fi
+
+
+===== docs/tests/getting_started.md =====
+
+--- around line 12 ---
+0004: If your tests are failing for *no reason*, read our [debugging guide](debugging_guide.md)
+0005: 
+0006: ## Table of contents
+0007: | | |
+0008: |:----|:----|
+0009: | 1 | [Terminology](#terminology) |
+0010: | 2 | [Overview](#overview) |
+0011: | 3 | [Functional tests](#functional-tests) |
+0012: | 4 | [Writing performance tests](#writing-performance-tests) |
+0013: | 5 | [Writing your own template and runtime parameters](#writting-your-own-template-and-runtime-parameters) |
+0014: | 6 | [Running the tests](#running-the-tests) |
+0015: | 7 | [Where do my compilation artifacts end up?](#where-do-my-compilation-artifacts-end-up) |
+0016: | 8 | [How do I see what code did my test cover during execution?](#how-do-i-see-what-code-did-my-tests-cover) |
+0017: ---
+0018: 
+0019: # Terminology
+0020: 
+0021: Here are explanations of important terms used throughout entirety of this doc:
+0022: - **LLK API** or just **API** &rarr;Low-Level Kernel API provided as header-only library defined in `tt_llk_*` folders of this repo.
+0023: - **test** &rarr; pair of `Python` and `C++` files that levarage some part of testing infrastructure to evaluate LLK code.
+0024: - **performance test** &rarr; pair of `Python` and `C++` files that levarage some part of testing infrastructure to evaluate some performance characteristic of the kernel code (number of clock cycles needed to execute it etc.).
+0025: - **kernel** &rarr; `C++` code compiled to `elf` files for `UNPACK`, `MATH` and `PACK` tensix units.
+0026: - **parameter** &rarr; group of arguments passed to `@parametrized` decorator present before test's `Python` function. This decorator is defined in [param_config.py](../../tests/python_tests/helpers/param_config.py).
+0027: - **variant** &rarr; tuple of concrete argument values passed as part of one invocation of test's `Python` function.
+0028: - **stimuli** &rarr; binary blob generated by one of our custom Torch Golden generators defined in [golden_generators.py](../../tests/python_tests/helpers/golden_generators.py)
+0029: - **template parameter** &rarr; compile time, constexpr value generated by `Python` and placed in variant's `build.h` to be passed as template parameter to LLK API function call.
+0030: - **runtime parameter** &rarr; values that are passed to API calls as function arguments, `Python` generates a struct that bundles all runtime parameters together. Furthermore, they are loaded to L1 and consumed by all kernels.
+
+
+--- around line 24 ---
+0016: | 8 | [How do I see what code did my test cover during execution?](#how-do-i-see-what-code-did-my-tests-cover) |
+0017: ---
+0018: 
+0019: # Terminology
+0020: 
+0021: Here are explanations of important terms used throughout entirety of this doc:
+0022: - **LLK API** or just **API** &rarr;Low-Level Kernel API provided as header-only library defined in `tt_llk_*` folders of this repo.
+0023: - **test** &rarr; pair of `Python` and `C++` files that levarage some part of testing infrastructure to evaluate LLK code.
+0024: - **performance test** &rarr; pair of `Python` and `C++` files that levarage some part of testing infrastructure to evaluate some performance characteristic of the kernel code (number of clock cycles needed to execute it etc.).
+0025: - **kernel** &rarr; `C++` code compiled to `elf` files for `UNPACK`, `MATH` and `PACK` tensix units.
+0026: - **parameter** &rarr; group of arguments passed to `@parametrized` decorator present before test's `Python` function. This decorator is defined in [param_config.py](../../tests/python_tests/helpers/param_config.py).
+0027: - **variant** &rarr; tuple of concrete argument values passed as part of one invocation of test's `Python` function.
+0028: - **stimuli** &rarr; binary blob generated by one of our custom Torch Golden generators defined in [golden_generators.py](../../tests/python_tests/helpers/golden_generators.py)
+0029: - **template parameter** &rarr; compile time, constexpr value generated by `Python` and placed in variant's `build.h` to be passed as template parameter to LLK API function call.
+0030: - **runtime parameter** &rarr; values that are passed to API calls as function arguments, `Python` generates a struct that bundles all runtime parameters together. Furthermore, they are loaded to L1 and consumed by all kernels.
+0031: - **coverage** &rarr; code coverage information collected during kernel execution which is then processed into `html` report.
+0032: 
+0033: # Overview
+0034: 
+0035: LLK testing infrastructure uses `Python`, more specifically it's testing framework called `pytest` to enumerate test variants from tests provided, compile necessary artefacts, and evaluate whether test kernels produce results in expected error bounds. Kernels themselves are written in `C++` using LLK API, and are compiled using our custom RISC-V compiler, called [`SFPI`](https://github.com/tenstorrent/sfpi), into `elf` files that are loaded to and executed on device using this test infrastructure's runtime.
+0036: 
+0037: # Functional Tests
+0038: 
+0039: They are used to check if tests written using LLK API perform valid calculations on provided stimuli data. Furthermore, [coverage](https://about.codecov.io/resource/what-is-code-coverage/) information can be collected during kernel execution to see what part of the API was used line-for-line.
+0040: 
+0041: ## Python part of the test
+0042: 
+
+
+--- around line 35 ---
+0027: - **variant** &rarr; tuple of concrete argument values passed as part of one invocation of test's `Python` function.
+0028: - **stimuli** &rarr; binary blob generated by one of our custom Torch Golden generators defined in [golden_generators.py](../../tests/python_tests/helpers/golden_generators.py)
+0029: - **template parameter** &rarr; compile time, constexpr value generated by `Python` and placed in variant's `build.h` to be passed as template parameter to LLK API function call.
+0030: - **runtime parameter** &rarr; values that are passed to API calls as function arguments, `Python` generates a struct that bundles all runtime parameters together. Furthermore, they are loaded to L1 and consumed by all kernels.
+0031: - **coverage** &rarr; code coverage information collected during kernel execution which is then processed into `html` report.
+0032: 
+0033: # Overview
+0034: 
+0035: LLK testing infrastructure uses `Python`, more specifically it's testing framework called `pytest` to enumerate test variants from tests provided, compile necessary artefacts, and evaluate whether test kernels produce results in expected error bounds. Kernels themselves are written in `C++` using LLK API, and are compiled using our custom RISC-V compiler, called [`SFPI`](https://github.com/tenstorrent/sfpi), into `elf` files that are loaded to and executed on device using this test infrastructure's runtime.
+0036: 
+0037: # Functional Tests
+0038: 
+0039: They are used to check if tests written using LLK API perform valid calculations on provided stimuli data. Furthermore, [coverage](https://about.codecov.io/resource/what-is-code-coverage/) information can be collected during kernel execution to see what part of the API was used line-for-line.
+0040: 
+0041: ## Python part of the test
+0042: 
+0043: You should put your code in the `./tt-llk/tests/python_tests/` folder and name it using this template: `test_[my test name].py`. In the following example, `magnificent` will be an alias for `my test name`.
+0044: 
+0045: ```python
+0046: from helpers.golden_generators import SomeGoldenGenerator
+0047: from helpers.llk_params import (format_dict, ... Some, Parameters ...)
+0048: from helpers.test_variant_parameters import (List,Of,Parameters)
+0049: from helpers.stimuli_config import StimuliConfig
+0050: from helpers.stimuli_generator import generate_stimuli
+0051: from helpers.test_config import TestConfig
+0052: from helpers.utils import passed_test
+0053: 
+
+
+--- around line 39 ---
+0031: - **coverage** &rarr; code coverage information collected during kernel execution which is then processed into `html` report.
+0032: 
+0033: # Overview
+0034: 
+0035: LLK testing infrastructure uses `Python`, more specifically it's testing framework called `pytest` to enumerate test variants from tests provided, compile necessary artefacts, and evaluate whether test kernels produce results in expected error bounds. Kernels themselves are written in `C++` using LLK API, and are compiled using our custom RISC-V compiler, called [`SFPI`](https://github.com/tenstorrent/sfpi), into `elf` files that are loaded to and executed on device using this test infrastructure's runtime.
+0036: 
+0037: # Functional Tests
+0038: 
+0039: They are used to check if tests written using LLK API perform valid calculations on provided stimuli data. Furthermore, [coverage](https://about.codecov.io/resource/what-is-code-coverage/) information can be collected during kernel execution to see what part of the API was used line-for-line.
+0040: 
+0041: ## Python part of the test
+0042: 
+0043: You should put your code in the `./tt-llk/tests/python_tests/` folder and name it using this template: `test_[my test name].py`. In the following example, `magnificent` will be an alias for `my test name`.
+0044: 
+0045: ```python
+0046: from helpers.golden_generators import SomeGoldenGenerator
+0047: from helpers.llk_params import (format_dict, ... Some, Parameters ...)
+0048: from helpers.test_variant_parameters import (List,Of,Parameters)
+0049: from helpers.stimuli_config import StimuliConfig
+0050: from helpers.stimuli_generator import generate_stimuli
+0051: from helpers.test_config import TestConfig
+0052: from helpers.utils import passed_test
+0053: 
+0054: 
+0055: @parametrize(
+0056: 	format = generate_the_format_list(...),
+0057: 	parameter1 = generate_the_list_params_1(...),
+
+
+--- around line 115 ---
+0107: 
+0108: 	res_tensor = torch.tensor(res_from_L1, dtype=format_dict[formats.output_format])
+0109: 
+0110: 	assert passed_test(golden_tensor, res_tensor, formats.output_format), "Assert against golden failed"
+0111: ```
+0112: 
+0113: ### Parametrizing the python test function
+0114: 
+0115: You shall add as many arguments as you wish. These parameters are passed as arguments to `@parametrized` decorator which decorated test function. This decorator is defined in [param_config.py](../../tests/python_tests/helpers/param_config.py). It's used to generated variant IDs and wraps `@pytest.mark.parametrize` decorator. [Here](https://docs.pytest.org/en/stable/how-to/parametrize.html) you can read more about how `pytest` internally generates test variants.
+0116: 
+0117: ### TestConfig object
+0118: This class and its object are used as a one-stop shop for building and executing all tests in the LLK infrastructure in a modular and performative way. It's defined in [test_config.py](../../tests/python_tests/helpers/test_config.py) The following snippet contains all available arguments exposed by the configuration:
+0119: 
+0120: ```python
+0121: def TestConfig.__init__(
+0122: 	self,
+0123: 	test_name: str,
+0124: 	formats: InputOutputFormat = None,
+0125: 	templates: list[TemplateParameter] = [],
+0126: 	runtimes: list[RuntimeParameter] = [],
+0127: 	variant_stimuli: StimuliConfig = None,
+0128: 	boot_mode: BootMode = BootMode.DEFAULT,
+0129: 	profiler_build: ProfilerBuild = ProfilerBuild.No,
+0130: 	L1_to_L1_iterations: int = 1,
+0131: 	unpack_to_dest: bool = False,
+0132: 	disable_format_inference: bool = False,
+0133: 	dest_acc: DestAccumulation = DestAccumulation.No,
+
+
+--- around line 118 ---
+0110: 	assert passed_test(golden_tensor, res_tensor, formats.output_format), "Assert against golden failed"
+0111: ```
+0112: 
+0113: ### Parametrizing the python test function
+0114: 
+0115: You shall add as many arguments as you wish. These parameters are passed as arguments to `@parametrized` decorator which decorated test function. This decorator is defined in [param_config.py](../../tests/python_tests/helpers/param_config.py). It's used to generated variant IDs and wraps `@pytest.mark.parametrize` decorator. [Here](https://docs.pytest.org/en/stable/how-to/parametrize.html) you can read more about how `pytest` internally generates test variants.
+0116: 
+0117: ### TestConfig object
+0118: This class and its object are used as a one-stop shop for building and executing all tests in the LLK infrastructure in a modular and performative way. It's defined in [test_config.py](../../tests/python_tests/helpers/test_config.py) The following snippet contains all available arguments exposed by the configuration:
+0119: 
+0120: ```python
+0121: def TestConfig.__init__(
+0122: 	self,
+0123: 	test_name: str,
+0124: 	formats: InputOutputFormat = None,
+0125: 	templates: list[TemplateParameter] = [],
+0126: 	runtimes: list[RuntimeParameter] = [],
+0127: 	variant_stimuli: StimuliConfig = None,
+0128: 	boot_mode: BootMode = BootMode.DEFAULT,
+0129: 	profiler_build: ProfilerBuild = ProfilerBuild.No,
+0130: 	L1_to_L1_iterations: int = 1,
+0131: 	unpack_to_dest: bool = False,
+0132: 	disable_format_inference: bool = False,
+0133: 	dest_acc: DestAccumulation = DestAccumulation.No,
+0134: 	l1_acc: L1Accumulation = L1Accumulation.No,
+0135: 	skip_build_header: bool = False,
+0136: 	compile_time_formats: bool = False,
+
+
+--- around line 151 ---
+0143: | `formats` | Object that contains input and output formats used in the LLK test variants. `InputOutputFormat` itself is dataclass placed in [format_config.py](../../tests/python_tests/helpers/format_config.py#L377) |
+0144: | `templates` | A list of template parameters used in C++ LLK API calls, in the tests themselves |
+0145: | `runtimes` | A list of parameters passed to all C++ LLK API functions in the tests themselves. These parameters will become fields of the struct that is passed as the `const struct RuntimeParams&` parameter of the kernel testing function itself (this type is abbreviated by `RUNTIME_PARAMETERS` macro included in every `build.h` by default) |
+0146: | `variant_stimuli` | Stimuli generated by Torch Golden generators defined in [golden_generators.py](../../tests/python_tests/helpers/golden_generators.py), that should be loaded to L1 before kernel execution starts. It uses [StimuliConfig object](#stimuliconfig-object) defined in [stimuli_config.py](../../tests/python_tests/helpers/stimuli_config.py) |
+0147: | `boot_mode` | Should be left to it's default value. It dictates how the kernel is started, [look here](infra_architecture.md#kernel-runtime) for more information. Value of `BootMode.DEFAULT` depends on architecture:<br>- Wormhole and Blackhole - `BootMode.BRISC`<br>- Quasar - `BootMode.TRISC` |
+0148: | `profiler_build` | If true, tests are compiled with profiler infrastrucutre enabled, this field shall only be set when `ProfilerConfig` invokes `TestConfig` constructor |
+0149: | `L1_to_L1_iterations` | Number of L1 to L1 runs in the kernel itself. This is legacy flag used in few tests written before framework for writing fused tests were written |
+0150: | `unpack_to_dest` | `unpack_to_dest` constexpr variable is set to it's value (and placed in variant's `build.h`), which shall be used as template parameter to functions of API.  When set, stimuli is unpacked directly to Dest instead of to srcA/srcB. [Read this](https://github.com/tenstorrent/tt-isa-documentation/blob/main/WormholeB0/TensixTile/TensixCoprocessor/UNPACR_Regular.md) for more details as to what hardware does exactly. This field is used to aid data format inference using `data_format(...)` function from [data_format_inference.py](../../tests/python_tests/helpers/data_format_inference.py#L417) |
+0151: | `disable_format_inference` | If true, all stimuli formats (in L1, and in srcA/srcB/Dst regs) are the same. Some edge case handling is performed, read `data_format(...)` function from [data_format_inference.py](../../tests/python_tests/helpers/data_format_inference.py#L417) for more details |
+0152: | `dest_acc` | `is_fp32_dest_acc_en` constexpr variable is set to it's value (and placed in variant's `build.h`), which shall be used at template parameter to functions of API. When set, intermediate results of some operations are accumulated in Dest register. [Read this]() for more details as to what hardware does exactly. This field is used to aid data format inference using `data_format(...)` function from [data_format_inference.py](../../tests/python_tests/helpers/data_format_inference.py#L417). Furthermore, for some format combinations, dest accumulation must be turned on, _which is done implicitly_ during data format inference |
+0153: | `l1_acc` | If set, intermediate results of some operations are accumulated in L1, this is only used on Quasar |
+0154: | `skip_build_header` | Used for fused tests, directs infra to omit generating `build.h` for the specific variant |
+0155: | `compile_time_formats` | If true, treats `formats` as compile time arguments, threats them as runtime parameters otherwise |
+0156: 
+0157: Both `templates` and `runtimes` lists can be populated with object instances of classes defined in [test_variant_parameters.py](../../tests/python_tests/helpers/test_variant_parameters.py). Importantly, all classes inherited from `class RuntimeParameter(ABC)` can be passed as template parameters too. Passing template parameters as runtimes isn't supported and will cause `Python` runtime errors. This mechanism is explained in greater detail [here](infra_architecture.md#template-and-runtime-parameters) Both types of classes wrap types defined in [llk_params.py](../../tests/python_tests/helpers/llk_params.py) and enable C++ code generation.
+0158: 
+0159: ### Writing your own `TestConfig` parameters for `C++` part of the test
+0160: All parameters are defined in [test_variant_parameters.py](../../tests/python_tests/helpers/test_variant_parameters.py). Both groups are inherited from one of these abstract classes:
+0161: ```python
+0162: @dataclass
+0163: class TemplateParameter(ABC):
+0164:     @abstractmethod
+0165:     def convert_to_cpp(self) -> str:
+0166:         pass
+0167: 
+0168: 
+0169: @dataclass
+
+
+--- around line 237 ---
+0229: | `tile_count_[A\|B\|C\|res]` | Number of tiles present in the respective stimuli |
+0230: | `num_faces`, `face_r_dim`, `tile_dimensions`, `sfpu` | Used to further configure the way byte streams are packed into, and unpacked from L1 |
+0231: | `write_full_tiles` | Writes entire tile (1024 datums) to L1, ignores actual datum count inferred from formats and tile dimensions |
+0232: | `use_dense_tile_dimensions` | Used for packing/unpacking tiny-tiles |
+0233: | `operand_res_tile_size` | Used for explicitly setting tile size of the result, measured in bytes |
+0234: 
+0235: ### Checking validity of data computed by the kernel
+0236: 
+0237: Stimuli operands passed using [StimuliConfig Class](#stimuliconfig-object) are used by the kernel to perform various calculations. Function called `passed_test`, from [utils.py](../../tests/python_tests/helpers/utils.py) is used to assert whether Golden-generated and computed stimuli blobs are within _acceptable margin of error_. This is done by [`torch.isclose(...)`](https://docs.pytorch.org/docs/stable/generated/torch.isclose.html) function. This function uses different tolerances based on stimuli formats, which are passed to aforementioned `torch` function:
+0238: 
+0239: | Format | Tolerance |
+0240: |:----|:----|
+0241: | Float16 | Tolerance(atol=0.05, rtol=0.05) |
+0242: | Float16_b | Tolerance(atol=0.05, rtol=0.05) |
+0243: | Float32 | Tolerance(atol=0.05, rtol=0.05) |
+0244: | Int32 | Tolerance(atol=0, rtol=0) |
+0245: | UInt32 | Tolerance(atol=0, rtol=0) |
+0246: | Int16 | Tolerance(atol=0, rtol=0) |
+0247: | UInt16 | Tolerance(atol=0, rtol=0) |
+0248: | Int8 | Tolerance(atol=0, rtol=0) |
+0249: | UInt8 | Tolerance(atol=0, rtol=0) |
+0250: | Bfp8_b | Tolerance(atol=0.1, rtol=0.2) |
+0251: | Bfp4_b | Tolerance(atol=0.25, rtol=0.3) |
+0252: | MxFp8R | Tolerance(atol=0.2, rtol=0.3) |
+0253: | MxFp8P | Tolerance(atol=0.2, rtol=0.3) |
+0254: | Fp8_e4m3 | Tolerance(atol=0.2, rtol=0.2) |
+0255: 
+
+
+--- around line 303 ---
+0295: 	... magnificent kernel code ...
+0296: }
+0297: 
+0298: #endif
+0299: ```
+0300: 
+0301: Named headers included in this example kernel code are mandatory to be included to ensure successful compilation. Importantly, [params.h](../../tests/helpers/include/params.h) contains template argument definitions alongside `struct RuntimeParams` definition.
+0302: 
+0303: # Writing Performance tests
+0304: 
+0305: ## Python part of the tests
+0306: 
+0307: You should put your code in the `./tt-llk/tests/python_tests/` folder and name it using this template: `perf_[my test name].py`. In the following example, `magnificent` will be an alias for `my test name`.
+0308: 
+0309: ```python
+0310: from helpers.llk_params import (PerfRunType, ... Other, Parameters ...)
+0311: from helpers.test_variant_parameters import (List,Of,Parameters)
+0312: from helpers.profiler import ProfilerConfig
+0313: 
+0314: 
+0315: @parametrize(
+0316: 	format = generate_the_format_list(...),
+0317: 	parameter1 = generate_the_list_params_1(...),
+0318: 	parameter2 = generate_the_list_params_2(...),
+0319: 	parameter3 = generate_the_list_params_3(...)
+0320: 	...
+0321: )
+
+
+--- around line 307 ---
+0299: ```
+0300: 
+0301: Named headers included in this example kernel code are mandatory to be included to ensure successful compilation. Importantly, [params.h](../../tests/helpers/include/params.h) contains template argument definitions alongside `struct RuntimeParams` definition.
+0302: 
+0303: # Writing Performance tests
+0304: 
+0305: ## Python part of the tests
+0306: 
+0307: You should put your code in the `./tt-llk/tests/python_tests/` folder and name it using this template: `perf_[my test name].py`. In the following example, `magnificent` will be an alias for `my test name`.
+0308: 
+0309: ```python
+0310: from helpers.llk_params import (PerfRunType, ... Other, Parameters ...)
+0311: from helpers.test_variant_parameters import (List,Of,Parameters)
+0312: from helpers.profiler import ProfilerConfig
+0313: 
+0314: 
+0315: @parametrize(
+0316: 	format = generate_the_format_list(...),
+0317: 	parameter1 = generate_the_list_params_1(...),
+0318: 	parameter2 = generate_the_list_params_2(...),
+0319: 	parameter3 = generate_the_list_params_3(...)
+0320: 	...
+0321: )
+0322: 
+0323: def test_magnificent(
+0324: 	perf_report
+0325: 	formats,
+
+
+--- around line 310 ---
+0302: 
+0303: # Writing Performance tests
+0304: 
+0305: ## Python part of the tests
+0306: 
+0307: You should put your code in the `./tt-llk/tests/python_tests/` folder and name it using this template: `perf_[my test name].py`. In the following example, `magnificent` will be an alias for `my test name`.
+0308: 
+0309: ```python
+0310: from helpers.llk_params import (PerfRunType, ... Other, Parameters ...)
+0311: from helpers.test_variant_parameters import (List,Of,Parameters)
+0312: from helpers.profiler import ProfilerConfig
+0313: 
+0314: 
+0315: @parametrize(
+0316: 	format = generate_the_format_list(...),
+0317: 	parameter1 = generate_the_list_params_1(...),
+0318: 	parameter2 = generate_the_list_params_2(...),
+0319: 	parameter3 = generate_the_list_params_3(...)
+0320: 	...
+0321: )
+0322: 
+0323: def test_magnificent(
+0324: 	perf_report
+0325: 	formats,
+0326: 	... other magnificent parameters ...
+0327: 
+0328: ):
+
+
+--- around line 324 ---
+0316: 	format = generate_the_format_list(...),
+0317: 	parameter1 = generate_the_list_params_1(...),
+0318: 	parameter2 = generate_the_list_params_2(...),
+0319: 	parameter3 = generate_the_list_params_3(...)
+0320: 	...
+0321: )
+0322: 
+0323: def test_magnificent(
+0324: 	perf_report
+0325: 	formats,
+0326: 	... other magnificent parameters ...
+0327: 
+0328: ):
+0329:  	configuration = ProfilerConfig(
+0330: 		"sources/path/to/magnificent_test.cpp",
+0331: 		formats,
+0332: 		run_types=[ . . . My run types . . .],
+0333: 		templates=[ Template, Parameters, Here ],
+0334: 		runtimes=[ Runtime, Parameters, Here ],
+0335: 		...
+0336: 		Other optional args that have default values
+0337: 		...
+0338: 	)
+0339: 
+0340: 	configuration.run(perf_report)
+0341: ```
+0342: 
+
+
+--- around line 340 ---
+0332: 		run_types=[ . . . My run types . . .],
+0333: 		templates=[ Template, Parameters, Here ],
+0334: 		runtimes=[ Runtime, Parameters, Here ],
+0335: 		...
+0336: 		Other optional args that have default values
+0337: 		...
+0338: 	)
+0339: 
+0340: 	configuration.run(perf_report)
+0341: ```
+0342: 
+0343: ### Parametrizing the python test function
+0344: 
+0345: You shall add as many arguments as you wish, but `perf_report` shall always be present, which enables generation of performance reports. Both arguments are generated by the same named [pytest fixtures](https://betterstack.com/community/guides/testing/pytest-fixtures-guide/#:~:text=Step%202%20%E2%80%94-,Getting%20started%20with%20Pytest%20fixtures,-To%20understand%20how). Other parameters are passed as arguments to `@parametrized` decorator which decorated test function. This decorator is defined in [param_config.py](../../tests/python_tests/helpers/param_config.py). It's used to generated variant IDs and wraps `@pytest.mark.parametrize` decorator. [Here](https://docs.pytest.org/en/stable/how-to/parametrize.html) you can read more about how `pytest` internally generates test variants.
+0346: 
+0347: ### ProfilerConfig object
+0348: 
+0349: ```python
+0350: def ProfilerConfig.__init__(
+0351: 	self,
+0352: 	test_name: str,
+0353: 	formats: FormatConfig = None,
+0354: 	run_types: list[PerfRunType] = [],
+0355: 	templates: list[TemplateParameter] = [],
+0356: 	runtimes: list[RuntimeParameter] = [],
+0357: 	variant_stimuli: StimuliConfig = None,
+0358: 	unpack_to_dest=False,
+
+
+--- around line 345 ---
+0337: 		...
+0338: 	)
+0339: 
+0340: 	configuration.run(perf_report)
+0341: ```
+0342: 
+0343: ### Parametrizing the python test function
+0344: 
+0345: You shall add as many arguments as you wish, but `perf_report` shall always be present, which enables generation of performance reports. Both arguments are generated by the same named [pytest fixtures](https://betterstack.com/community/guides/testing/pytest-fixtures-guide/#:~:text=Step%202%20%E2%80%94-,Getting%20started%20with%20Pytest%20fixtures,-To%20understand%20how). Other parameters are passed as arguments to `@parametrized` decorator which decorated test function. This decorator is defined in [param_config.py](../../tests/python_tests/helpers/param_config.py). It's used to generated variant IDs and wraps `@pytest.mark.parametrize` decorator. [Here](https://docs.pytest.org/en/stable/how-to/parametrize.html) you can read more about how `pytest` internally generates test variants.
+0346: 
+0347: ### ProfilerConfig object
+0348: 
+0349: ```python
+0350: def ProfilerConfig.__init__(
+0351: 	self,
+0352: 	test_name: str,
+0353: 	formats: FormatConfig = None,
+0354: 	run_types: list[PerfRunType] = [],
+0355: 	templates: list[TemplateParameter] = [],
+0356: 	runtimes: list[RuntimeParameter] = [],
+0357: 	variant_stimuli: StimuliConfig = None,
+0358: 	unpack_to_dest=False,
+0359: 	disable_format_inference=False,
+0360: 	dest_acc=DestAccumulation.No,
+0361: 	l1_acc=L1Accumulation.No,
+0362: 	skip_build_header: bool = False,
+0363: 	compile_time_formats: bool = False,
+
+
+--- around line 354 ---
+0346: 
+0347: ### ProfilerConfig object
+0348: 
+0349: ```python
+0350: def ProfilerConfig.__init__(
+0351: 	self,
+0352: 	test_name: str,
+0353: 	formats: FormatConfig = None,
+0354: 	run_types: list[PerfRunType] = [],
+0355: 	templates: list[TemplateParameter] = [],
+0356: 	runtimes: list[RuntimeParameter] = [],
+0357: 	variant_stimuli: StimuliConfig = None,
+0358: 	unpack_to_dest=False,
+0359: 	disable_format_inference=False,
+0360: 	dest_acc=DestAccumulation.No,
+0361: 	l1_acc=L1Accumulation.No,
+0362: 	skip_build_header: bool = False,
+0363: 	compile_time_formats: bool = False,
+0364: )
+0365: ```
+0366: 
+0367: Every argument present in [TestConfig object](#testconfig-object) has the exact same functionality as in this object. The only difference is the `run_types` argument which specifies with what performance markers the tests are compiled with, thus these are treated the same way as template parameters. Available run types are defined in [llk_params.py](../../tests/python_tests/helpers/llk_params.py#L440).
+0368: 
+0369: ## C++ part of the performance test
+0370: 
+0371: ```cpp
+0372: ... some magnificent header includes used by all kernels
+
+
+--- around line 367 ---
+0359: 	disable_format_inference=False,
+0360: 	dest_acc=DestAccumulation.No,
+0361: 	l1_acc=L1Accumulation.No,
+0362: 	skip_build_header: bool = False,
+0363: 	compile_time_formats: bool = False,
+0364: )
+0365: ```
+0366: 
+0367: Every argument present in [TestConfig object](#testconfig-object) has the exact same functionality as in this object. The only difference is the `run_types` argument which specifies with what performance markers the tests are compiled with, thus these are treated the same way as template parameters. Available run types are defined in [llk_params.py](../../tests/python_tests/helpers/llk_params.py#L440).
+0368: 
+0369: ## C++ part of the performance test
+0370: 
+0371: ```cpp
+0372: ... some magnificent header includes used by all kernels
+0373: #include "ckernel.h"
+0374: #include "llk_defs.h"
+0375: 
+0376: 
+0377: // Globals
+0378: ... magnificent global variables used by all kernels
+0379: 
+0380: #ifdef LLK_TRISC_UNPACK
+0381: ... magnificent header includes used by UNPACK part of the kernel ...
+0382: 
+0383: #include "params.h"
+0384: void run_kernel(RUNTIME_PARAMETERS params){
+0385: 	{
+
+
+--- around line 369 ---
+0361: 	l1_acc=L1Accumulation.No,
+0362: 	skip_build_header: bool = False,
+0363: 	compile_time_formats: bool = False,
+0364: )
+0365: ```
+0366: 
+0367: Every argument present in [TestConfig object](#testconfig-object) has the exact same functionality as in this object. The only difference is the `run_types` argument which specifies with what performance markers the tests are compiled with, thus these are treated the same way as template parameters. Available run types are defined in [llk_params.py](../../tests/python_tests/helpers/llk_params.py#L440).
+0368: 
+0369: ## C++ part of the performance test
+0370: 
+0371: ```cpp
+0372: ... some magnificent header includes used by all kernels
+0373: #include "ckernel.h"
+0374: #include "llk_defs.h"
+0375: 
+0376: 
+0377: // Globals
+0378: ... magnificent global variables used by all kernels
+0379: 
+0380: #ifdef LLK_TRISC_UNPACK
+0381: ... magnificent header includes used by UNPACK part of the kernel ...
+0382: 
+0383: #include "params.h"
+0384: void run_kernel(RUNTIME_PARAMETERS params){
+0385: 	{
+0386: 		ZONE_SCOPED("INIT")
+0387: 		... magnificent kernel code to be profiled ...
+
+
+--- around line 452 ---
+0444: 2. run `./setup_testing_env.sh`
+0445: 
+0446: ### Other docker image or testing environment
+0447: 1. `cd` yourself to `./tt-llk/tests`
+0448: 2. run `./setup_external_testing_env.sh`
+0449: 
+0450: This will install all the necessary headers for your platform alongside latest [`SFPI`](https://github.com/tenstorrent/sfpi), version.
+0451: 
+0452: ## Invoking pytest
+0453: `cd` yourself to one of the paths:
+0454: - `./tt-llk/tests`
+0455: - `./tt-llk/tests/python_tests/`
+0456: 
+0457: afterwards run:
+0458: 
+0459: `pytest ./path/to/my_test_name.py`
+0460: 
+0461: This command will serially compile and execute your test's variants.
+0462: 
+0463: There are few custom `pytest` command line arguments exposed that enable altering how python tests are executed:
+0464: 
+0465: | Argument | Description |
+0466: |:----|:----|
+0467: | `--coverage` | Instructs compiler to: add coverage counters to kernel binary, generate `.gcno` counter tables for every `elf` file and link every `elf` with [debug L1 layout](infra_architecture.md#debug). Furthermore, instructs test infrastrucre runtime to pull coverage data from device at the end of the kernel and store it to variant's folder for later processing |
+0468: | `--compile-producer` | Only compile enumerated test variants |
+0469: | `--compile-consumer` | Only execute already compiled enumerated test variants. If `--coverage` is passed, generated coverage information is processed and merged into  `/tmp/tt-llk-build/merged_coverage.info` file |
+0470: | `--speed-of-light` | All parameters passed to `TestConfig` or `ProfilerConfig` objects are treated as compile time arguments |
+
+
+--- around line 459 ---
+0451: 
+0452: ## Invoking pytest
+0453: `cd` yourself to one of the paths:
+0454: - `./tt-llk/tests`
+0455: - `./tt-llk/tests/python_tests/`
+0456: 
+0457: afterwards run:
+0458: 
+0459: `pytest ./path/to/my_test_name.py`
+0460: 
+0461: This command will serially compile and execute your test's variants.
+0462: 
+0463: There are few custom `pytest` command line arguments exposed that enable altering how python tests are executed:
+0464: 
+0465: | Argument | Description |
+0466: |:----|:----|
+0467: | `--coverage` | Instructs compiler to: add coverage counters to kernel binary, generate `.gcno` counter tables for every `elf` file and link every `elf` with [debug L1 layout](infra_architecture.md#debug). Furthermore, instructs test infrastrucre runtime to pull coverage data from device at the end of the kernel and store it to variant's folder for later processing |
+0468: | `--compile-producer` | Only compile enumerated test variants |
+0469: | `--compile-consumer` | Only execute already compiled enumerated test variants. If `--coverage` is passed, generated coverage information is processed and merged into  `/tmp/tt-llk-build/merged_coverage.info` file |
+0470: | `--speed-of-light` | All parameters passed to `TestConfig` or `ProfilerConfig` objects are treated as compile time arguments |
+0471: | `--record-test-order[=./path/to/dest/file.json]` | Tracks which test variants executed on what core alongside dumping `Tensix` state after each variant finished. Default path is `./tt-llk/../run_order_[month]_[day]_[hour]_[minute]_[second].json` |
+0472: | `--test-order-file=./path/to/order/file.json` | Tests names present in the file are executed in the exact order in which they are written. [Read this](debugging_guide.md#test-flakyness) for more details. This feature is still work in progress |
+0473: | `--rewind-runner='runner_name'` | what is the runner key that should be used when processing variant runs in a file provided by `--test-order-file=./path/to/order/file.json` |
+0474: | `--skip-codegen` | Skip C++ code generation for fused tests and use existing files. TODO @mradosavljeviTT explain further what this does |
+0475: | `--no-debug-symbols` | Compile elfs without debug symbols (`-g` sfpi flag) to save disk space |
+0476: | `--logging-level [TRACE \| DEBUG \| INFO \| WARNING \| ERROR \| CRITICAL]` | Sets loguru log level. Overrides `LOGURU_LEVEL` env var. Default: INFO |
+0477: | `--detailed-artefacts` | Adds `-save-temps=obj -fdump-tree-all -fdump-rtl-all -v` compilation flags when compiling kernel elfs, allowing generation of compiler level debug information, used when debugging compiler bugs |
+
+
+--- around line 463 ---
+0455: - `./tt-llk/tests/python_tests/`
+0456: 
+0457: afterwards run:
+0458: 
+0459: `pytest ./path/to/my_test_name.py`
+0460: 
+0461: This command will serially compile and execute your test's variants.
+0462: 
+0463: There are few custom `pytest` command line arguments exposed that enable altering how python tests are executed:
+0464: 
+0465: | Argument | Description |
+0466: |:----|:----|
+0467: | `--coverage` | Instructs compiler to: add coverage counters to kernel binary, generate `.gcno` counter tables for every `elf` file and link every `elf` with [debug L1 layout](infra_architecture.md#debug). Furthermore, instructs test infrastrucre runtime to pull coverage data from device at the end of the kernel and store it to variant's folder for later processing |
+0468: | `--compile-producer` | Only compile enumerated test variants |
+0469: | `--compile-consumer` | Only execute already compiled enumerated test variants. If `--coverage` is passed, generated coverage information is processed and merged into  `/tmp/tt-llk-build/merged_coverage.info` file |
+0470: | `--speed-of-light` | All parameters passed to `TestConfig` or `ProfilerConfig` objects are treated as compile time arguments |
+0471: | `--record-test-order[=./path/to/dest/file.json]` | Tracks which test variants executed on what core alongside dumping `Tensix` state after each variant finished. Default path is `./tt-llk/../run_order_[month]_[day]_[hour]_[minute]_[second].json` |
+0472: | `--test-order-file=./path/to/order/file.json` | Tests names present in the file are executed in the exact order in which they are written. [Read this](debugging_guide.md#test-flakyness) for more details. This feature is still work in progress |
+0473: | `--rewind-runner='runner_name'` | what is the runner key that should be used when processing variant runs in a file provided by `--test-order-file=./path/to/order/file.json` |
+0474: | `--skip-codegen` | Skip C++ code generation for fused tests and use existing files. TODO @mradosavljeviTT explain further what this does |
+0475: | `--no-debug-symbols` | Compile elfs without debug symbols (`-g` sfpi flag) to save disk space |
+0476: | `--logging-level [TRACE \| DEBUG \| INFO \| WARNING \| ERROR \| CRITICAL]` | Sets loguru log level. Overrides `LOGURU_LEVEL` env var. Default: INFO |
+0477: | `--detailed-artefacts` | Adds `-save-temps=obj -fdump-tree-all -fdump-rtl-all -v` compilation flags when compiling kernel elfs, allowing generation of compiler level debug information, used when debugging compiler bugs |
+0478: 
+0479: ## Usage examples
+0480: 
+0481: ### Basic run workflow
+
+
+--- around line 468 ---
+0460: 
+0461: This command will serially compile and execute your test's variants.
+0462: 
+0463: There are few custom `pytest` command line arguments exposed that enable altering how python tests are executed:
+0464: 
+0465: | Argument | Description |
+0466: |:----|:----|
+0467: | `--coverage` | Instructs compiler to: add coverage counters to kernel binary, generate `.gcno` counter tables for every `elf` file and link every `elf` with [debug L1 layout](infra_architecture.md#debug). Furthermore, instructs test infrastrucre runtime to pull coverage data from device at the end of the kernel and store it to variant's folder for later processing |
+0468: | `--compile-producer` | Only compile enumerated test variants |
+0469: | `--compile-consumer` | Only execute already compiled enumerated test variants. If `--coverage` is passed, generated coverage information is processed and merged into  `/tmp/tt-llk-build/merged_coverage.info` file |
+0470: | `--speed-of-light` | All parameters passed to `TestConfig` or `ProfilerConfig` objects are treated as compile time arguments |
+0471: | `--record-test-order[=./path/to/dest/file.json]` | Tracks which test variants executed on what core alongside dumping `Tensix` state after each variant finished. Default path is `./tt-llk/../run_order_[month]_[day]_[hour]_[minute]_[second].json` |
+0472: | `--test-order-file=./path/to/order/file.json` | Tests names present in the file are executed in the exact order in which they are written. [Read this](debugging_guide.md#test-flakyness) for more details. This feature is still work in progress |
+0473: | `--rewind-runner='runner_name'` | what is the runner key that should be used when processing variant runs in a file provided by `--test-order-file=./path/to/order/file.json` |
+0474: | `--skip-codegen` | Skip C++ code generation for fused tests and use existing files. TODO @mradosavljeviTT explain further what this does |
+0475: | `--no-debug-symbols` | Compile elfs without debug symbols (`-g` sfpi flag) to save disk space |
+0476: | `--logging-level [TRACE \| DEBUG \| INFO \| WARNING \| ERROR \| CRITICAL]` | Sets loguru log level. Overrides `LOGURU_LEVEL` env var. Default: INFO |
+0477: | `--detailed-artefacts` | Adds `-save-temps=obj -fdump-tree-all -fdump-rtl-all -v` compilation flags when compiling kernel elfs, allowing generation of compiler level debug information, used when debugging compiler bugs |
+0478: 
+0479: ## Usage examples
+0480: 
+0481: ### Basic run workflow
+0482: 
+0483: `cd` into `./tt-llk/tests`, then run:
+0484: 
+0485: `pytest --compile-producer -n 10 -x ./python_test/my_test_name1.py ./python_test/my_test_name2.py`
+0486: 
+
+
+--- around line 469 ---
+0461: This command will serially compile and execute your test's variants.
+0462: 
+0463: There are few custom `pytest` command line arguments exposed that enable altering how python tests are executed:
+0464: 
+0465: | Argument | Description |
+0466: |:----|:----|
+0467: | `--coverage` | Instructs compiler to: add coverage counters to kernel binary, generate `.gcno` counter tables for every `elf` file and link every `elf` with [debug L1 layout](infra_architecture.md#debug). Furthermore, instructs test infrastrucre runtime to pull coverage data from device at the end of the kernel and store it to variant's folder for later processing |
+0468: | `--compile-producer` | Only compile enumerated test variants |
+0469: | `--compile-consumer` | Only execute already compiled enumerated test variants. If `--coverage` is passed, generated coverage information is processed and merged into  `/tmp/tt-llk-build/merged_coverage.info` file |
+0470: | `--speed-of-light` | All parameters passed to `TestConfig` or `ProfilerConfig` objects are treated as compile time arguments |
+0471: | `--record-test-order[=./path/to/dest/file.json]` | Tracks which test variants executed on what core alongside dumping `Tensix` state after each variant finished. Default path is `./tt-llk/../run_order_[month]_[day]_[hour]_[minute]_[second].json` |
+0472: | `--test-order-file=./path/to/order/file.json` | Tests names present in the file are executed in the exact order in which they are written. [Read this](debugging_guide.md#test-flakyness) for more details. This feature is still work in progress |
+0473: | `--rewind-runner='runner_name'` | what is the runner key that should be used when processing variant runs in a file provided by `--test-order-file=./path/to/order/file.json` |
+0474: | `--skip-codegen` | Skip C++ code generation for fused tests and use existing files. TODO @mradosavljeviTT explain further what this does |
+0475: | `--no-debug-symbols` | Compile elfs without debug symbols (`-g` sfpi flag) to save disk space |
+0476: | `--logging-level [TRACE \| DEBUG \| INFO \| WARNING \| ERROR \| CRITICAL]` | Sets loguru log level. Overrides `LOGURU_LEVEL` env var. Default: INFO |
+0477: | `--detailed-artefacts` | Adds `-save-temps=obj -fdump-tree-all -fdump-rtl-all -v` compilation flags when compiling kernel elfs, allowing generation of compiler level debug information, used when debugging compiler bugs |
+0478: 
+0479: ## Usage examples
+0480: 
+0481: ### Basic run workflow
+0482: 
+0483: `cd` into `./tt-llk/tests`, then run:
+0484: 
+0485: `pytest --compile-producer -n 10 -x ./python_test/my_test_name1.py ./python_test/my_test_name2.py`
+0486: 
+0487: which will first compile all your variants using 10 CPU cores of your host machine. Then you run all your compiled tests with
+
+
+--- around line 485 ---
+0477: | `--detailed-artefacts` | Adds `-save-temps=obj -fdump-tree-all -fdump-rtl-all -v` compilation flags when compiling kernel elfs, allowing generation of compiler level debug information, used when debugging compiler bugs |
+0478: 
+0479: ## Usage examples
+0480: 
+0481: ### Basic run workflow
+0482: 
+0483: `cd` into `./tt-llk/tests`, then run:
+0484: 
+0485: `pytest --compile-producer -n 10 -x ./python_test/my_test_name1.py ./python_test/my_test_name2.py`
+0486: 
+0487: which will first compile all your variants using 10 CPU cores of your host machine. Then you run all your compiled tests with
+0488: 
+0489: `pytest --compile-consumer -n 10 -x ./python_test/my_test_name1.py ./python_test/my_test_name2.py`
+0490: 
+0491: which will run tests on 10 Tensix tiles on Wormhole and Blackhole in parallel.
+0492: 
+0493: You can run your pre-compiled tests as many times as you like. This is useful when you're experimenting with different **runtime arguments** or **stimuli generation**
+0494: functions. Keep in mind that if you change any other parameters (eg. templates or any other arguments to constructors) you **must** recompile your test variant by running the first `pytest` command. If you don't do that, you'll probably get `TTException` that states that the elf file can't be found or a stimuli assertion error.
+0495: 
+0496: ### Recording and executing tests in specific order
+0497: 
+0498: 
+0499: For a PR run, `cd` into `./tt-llk/tests`, then to compile everything run:
+0500: 
+0501: `pytest --compile-producer -n 10 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0502: 
+0503: when that is done, to initially execute entire PR locally and record order and state run:
+
+
+--- around line 489 ---
+0481: ### Basic run workflow
+0482: 
+0483: `cd` into `./tt-llk/tests`, then run:
+0484: 
+0485: `pytest --compile-producer -n 10 -x ./python_test/my_test_name1.py ./python_test/my_test_name2.py`
+0486: 
+0487: which will first compile all your variants using 10 CPU cores of your host machine. Then you run all your compiled tests with
+0488: 
+0489: `pytest --compile-consumer -n 10 -x ./python_test/my_test_name1.py ./python_test/my_test_name2.py`
+0490: 
+0491: which will run tests on 10 Tensix tiles on Wormhole and Blackhole in parallel.
+0492: 
+0493: You can run your pre-compiled tests as many times as you like. This is useful when you're experimenting with different **runtime arguments** or **stimuli generation**
+0494: functions. Keep in mind that if you change any other parameters (eg. templates or any other arguments to constructors) you **must** recompile your test variant by running the first `pytest` command. If you don't do that, you'll probably get `TTException` that states that the elf file can't be found or a stimuli assertion error.
+0495: 
+0496: ### Recording and executing tests in specific order
+0497: 
+0498: 
+0499: For a PR run, `cd` into `./tt-llk/tests`, then to compile everything run:
+0500: 
+0501: `pytest --compile-producer -n 10 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0502: 
+0503: when that is done, to initially execute entire PR locally and record order and state run:
+0504: 
+0505: `pytest --compile-consumer -n 10 -x --record-test-order=./my_lovely_run.json -m "not nightly and not quasar and not perf" ./python_tests`
+0506: 
+0507: This will need approximately 20% more time than normal PR to finish because of record overheads.
+
+
+--- around line 494 ---
+0486: 
+0487: which will first compile all your variants using 10 CPU cores of your host machine. Then you run all your compiled tests with
+0488: 
+0489: `pytest --compile-consumer -n 10 -x ./python_test/my_test_name1.py ./python_test/my_test_name2.py`
+0490: 
+0491: which will run tests on 10 Tensix tiles on Wormhole and Blackhole in parallel.
+0492: 
+0493: You can run your pre-compiled tests as many times as you like. This is useful when you're experimenting with different **runtime arguments** or **stimuli generation**
+0494: functions. Keep in mind that if you change any other parameters (eg. templates or any other arguments to constructors) you **must** recompile your test variant by running the first `pytest` command. If you don't do that, you'll probably get `TTException` that states that the elf file can't be found or a stimuli assertion error.
+0495: 
+0496: ### Recording and executing tests in specific order
+0497: 
+0498: 
+0499: For a PR run, `cd` into `./tt-llk/tests`, then to compile everything run:
+0500: 
+0501: `pytest --compile-producer -n 10 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0502: 
+0503: when that is done, to initially execute entire PR locally and record order and state run:
+0504: 
+0505: `pytest --compile-consumer -n 10 -x --record-test-order=./my_lovely_run.json -m "not nightly and not quasar and not perf" ./python_tests`
+0506: 
+0507: This will need approximately 20% more time than normal PR to finish because of record overheads.
+0508: 
+0509: You can visualise what passed/failed, and what tests ran on which runner with:
+0510: 
+0511: `python3 ../infra/run_order_processing.py ./my_lovely_run.json`
+0512: 
+
+
+--- around line 501 ---
+0493: You can run your pre-compiled tests as many times as you like. This is useful when you're experimenting with different **runtime arguments** or **stimuli generation**
+0494: functions. Keep in mind that if you change any other parameters (eg. templates or any other arguments to constructors) you **must** recompile your test variant by running the first `pytest` command. If you don't do that, you'll probably get `TTException` that states that the elf file can't be found or a stimuli assertion error.
+0495: 
+0496: ### Recording and executing tests in specific order
+0497: 
+0498: 
+0499: For a PR run, `cd` into `./tt-llk/tests`, then to compile everything run:
+0500: 
+0501: `pytest --compile-producer -n 10 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0502: 
+0503: when that is done, to initially execute entire PR locally and record order and state run:
+0504: 
+0505: `pytest --compile-consumer -n 10 -x --record-test-order=./my_lovely_run.json -m "not nightly and not quasar and not perf" ./python_tests`
+0506: 
+0507: This will need approximately 20% more time than normal PR to finish because of record overheads.
+0508: 
+0509: You can visualise what passed/failed, and what tests ran on which runner with:
+0510: 
+0511: `python3 ../infra/run_order_processing.py ./my_lovely_run.json`
+0512: 
+0513: When you've chosen what runner order you want to reproduce, in this example it's runner '0', you execute:
+0514: 
+0515: `pytest --compile-consumer --test-order-file=./my_lovely_run.json --rewind-runner=0 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0516: 
+0517: This will just pick the variants, so all other options like `--compile-producer`, `--coverage` and so on, can be used as usual and have the same semantic effects. You shall not pass `-n NUMBER` flag here to execute on multiple pytest worker, because you won't get valid order reproduction that way.
+0518: 
+0519: > You may indeed edit `./my_lovely_run.json` and change order of elements in the runner's list. You shall only edit order, not the contents of the list elements themselves.
+
+
+--- around line 505 ---
+0497: 
+0498: 
+0499: For a PR run, `cd` into `./tt-llk/tests`, then to compile everything run:
+0500: 
+0501: `pytest --compile-producer -n 10 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0502: 
+0503: when that is done, to initially execute entire PR locally and record order and state run:
+0504: 
+0505: `pytest --compile-consumer -n 10 -x --record-test-order=./my_lovely_run.json -m "not nightly and not quasar and not perf" ./python_tests`
+0506: 
+0507: This will need approximately 20% more time than normal PR to finish because of record overheads.
+0508: 
+0509: You can visualise what passed/failed, and what tests ran on which runner with:
+0510: 
+0511: `python3 ../infra/run_order_processing.py ./my_lovely_run.json`
+0512: 
+0513: When you've chosen what runner order you want to reproduce, in this example it's runner '0', you execute:
+0514: 
+0515: `pytest --compile-consumer --test-order-file=./my_lovely_run.json --rewind-runner=0 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0516: 
+0517: This will just pick the variants, so all other options like `--compile-producer`, `--coverage` and so on, can be used as usual and have the same semantic effects. You shall not pass `-n NUMBER` flag here to execute on multiple pytest worker, because you won't get valid order reproduction that way.
+0518: 
+0519: > You may indeed edit `./my_lovely_run.json` and change order of elements in the runner's list. You shall only edit order, not the contents of the list elements themselves.
+0520: 
+0521: ### Collecting coverage data
+0522: 
+0523: For collecting code coverage data, you just pass `--coverage` flag to both `pytest` commands. If you want to collect coverage, you **must** compile your variants with coverage flag enabled to be able to collect that information. Coverage **can't** be collected on performance tests, because collected performance data wouldn't adequatelly represent real-world kernel performance.
+
+
+--- around line 515 ---
+0507: This will need approximately 20% more time than normal PR to finish because of record overheads.
+0508: 
+0509: You can visualise what passed/failed, and what tests ran on which runner with:
+0510: 
+0511: `python3 ../infra/run_order_processing.py ./my_lovely_run.json`
+0512: 
+0513: When you've chosen what runner order you want to reproduce, in this example it's runner '0', you execute:
+0514: 
+0515: `pytest --compile-consumer --test-order-file=./my_lovely_run.json --rewind-runner=0 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0516: 
+0517: This will just pick the variants, so all other options like `--compile-producer`, `--coverage` and so on, can be used as usual and have the same semantic effects. You shall not pass `-n NUMBER` flag here to execute on multiple pytest worker, because you won't get valid order reproduction that way.
+0518: 
+0519: > You may indeed edit `./my_lovely_run.json` and change order of elements in the runner's list. You shall only edit order, not the contents of the list elements themselves.
+0520: 
+0521: ### Collecting coverage data
+0522: 
+0523: For collecting code coverage data, you just pass `--coverage` flag to both `pytest` commands. If you want to collect coverage, you **must** compile your variants with coverage flag enabled to be able to collect that information. Coverage **can't** be collected on performance tests, because collected performance data wouldn't adequatelly represent real-world kernel performance.
+0524: 
+0525: # Where do my compilation artifacts end up?
+0526: 
+0527: Default build directory is at `/tmp/tt-llk-build/`. Your test's artifacts will be at the same path as the one provided in the `test_name` argument in the `TestConfig`/`ProfilerConfig` object. All variants will be placed in folders corresponding to the hash of their compile time arguments. Header file `build.h` generated using passed configuration parameters is placed in its variant's folder.
+0528: If coverage is enabled, all coverage data is merged at the end of execution of tests and placed in the `/tmp/tt-llk-build/merged_coverage.info` file. For more details consult [this section](infra_architecture.md#file-and-artefact-paths)
+0529: 
+0530: # How do I see what code did my tests cover?
+0531: 
+0532: After finishing compilation and execution of your tests with coverage enabled, run `./generate_coverage_report.sh` placed in the `./tt-llk/tests` folder. The generated report is placed in the same folder as your `./tt-llk` repo. For convenient preview of the coverage data, I'd recommend installing the [Live Server VSCode extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer). When it opens your browser tab, you'll see the `./coverage_report` folder. By clicking on it, you'll see `html` report of lines, files and folders your run covered.
+
+
+--- around line 517 ---
+0509: You can visualise what passed/failed, and what tests ran on which runner with:
+0510: 
+0511: `python3 ../infra/run_order_processing.py ./my_lovely_run.json`
+0512: 
+0513: When you've chosen what runner order you want to reproduce, in this example it's runner '0', you execute:
+0514: 
+0515: `pytest --compile-consumer --test-order-file=./my_lovely_run.json --rewind-runner=0 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0516: 
+0517: This will just pick the variants, so all other options like `--compile-producer`, `--coverage` and so on, can be used as usual and have the same semantic effects. You shall not pass `-n NUMBER` flag here to execute on multiple pytest worker, because you won't get valid order reproduction that way.
+0518: 
+0519: > You may indeed edit `./my_lovely_run.json` and change order of elements in the runner's list. You shall only edit order, not the contents of the list elements themselves.
+0520: 
+0521: ### Collecting coverage data
+0522: 
+0523: For collecting code coverage data, you just pass `--coverage` flag to both `pytest` commands. If you want to collect coverage, you **must** compile your variants with coverage flag enabled to be able to collect that information. Coverage **can't** be collected on performance tests, because collected performance data wouldn't adequatelly represent real-world kernel performance.
+0524: 
+0525: # Where do my compilation artifacts end up?
+0526: 
+0527: Default build directory is at `/tmp/tt-llk-build/`. Your test's artifacts will be at the same path as the one provided in the `test_name` argument in the `TestConfig`/`ProfilerConfig` object. All variants will be placed in folders corresponding to the hash of their compile time arguments. Header file `build.h` generated using passed configuration parameters is placed in its variant's folder.
+0528: If coverage is enabled, all coverage data is merged at the end of execution of tests and placed in the `/tmp/tt-llk-build/merged_coverage.info` file. For more details consult [this section](infra_architecture.md#file-and-artefact-paths)
+0529: 
+0530: # How do I see what code did my tests cover?
+0531: 
+0532: After finishing compilation and execution of your tests with coverage enabled, run `./generate_coverage_report.sh` placed in the `./tt-llk/tests` folder. The generated report is placed in the same folder as your `./tt-llk` repo. For convenient preview of the coverage data, I'd recommend installing the [Live Server VSCode extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer). When it opens your browser tab, you'll see the `./coverage_report` folder. By clicking on it, you'll see `html` report of lines, files and folders your run covered.
+
+
+--- around line 523 ---
+0515: `pytest --compile-consumer --test-order-file=./my_lovely_run.json --rewind-runner=0 -x -m "not nightly and not quasar and not perf" ./python_tests`
+0516: 
+0517: This will just pick the variants, so all other options like `--compile-producer`, `--coverage` and so on, can be used as usual and have the same semantic effects. You shall not pass `-n NUMBER` flag here to execute on multiple pytest worker, because you won't get valid order reproduction that way.
+0518: 
+0519: > You may indeed edit `./my_lovely_run.json` and change order of elements in the runner's list. You shall only edit order, not the contents of the list elements themselves.
+0520: 
+0521: ### Collecting coverage data
+0522: 
+0523: For collecting code coverage data, you just pass `--coverage` flag to both `pytest` commands. If you want to collect coverage, you **must** compile your variants with coverage flag enabled to be able to collect that information. Coverage **can't** be collected on performance tests, because collected performance data wouldn't adequatelly represent real-world kernel performance.
+0524: 
+0525: # Where do my compilation artifacts end up?
+0526: 
+0527: Default build directory is at `/tmp/tt-llk-build/`. Your test's artifacts will be at the same path as the one provided in the `test_name` argument in the `TestConfig`/`ProfilerConfig` object. All variants will be placed in folders corresponding to the hash of their compile time arguments. Header file `build.h` generated using passed configuration parameters is placed in its variant's folder.
+0528: If coverage is enabled, all coverage data is merged at the end of execution of tests and placed in the `/tmp/tt-llk-build/merged_coverage.info` file. For more details consult [this section](infra_architecture.md#file-and-artefact-paths)
+0529: 
+0530: # How do I see what code did my tests cover?
+0531: 
+0532: After finishing compilation and execution of your tests with coverage enabled, run `./generate_coverage_report.sh` placed in the `./tt-llk/tests` folder. The generated report is placed in the same folder as your `./tt-llk` repo. For convenient preview of the coverage data, I'd recommend installing the [Live Server VSCode extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer). When it opens your browser tab, you'll see the `./coverage_report` folder. By clicking on it, you'll see `html` report of lines, files and folders your run covered.
+
+
+===== .github/workflows/setup-and-test.yml =====
+
+--- around line 18 ---
+0010:       runs_on:
+0011:         description: "The runner to use for the job"
+0012:         required: true
+0013:         type: string
+0014:       test_splits:
+0015:         description: "Number of test groups to split tests into (e.g., 4)"
+0016:         required: true
+0017:         type: number
+0018:       pytest_markers:
+0019:         description: "Pytest mark expression to select/deselect tests (e.g., 'not perf', 'nightly or not perf')"
+0020:         required: false
+0021:         default: "not perf and not quasar"
+0022:         type: string
+0023:       timeout_minutes:
+0024:         description: "Timeout in minutes for the test job"
+0025:         required: false
+0026:         default: 80
+0027:         type: number
+0028:       random_order:
+0029:         description: "Enable randomized test order"
+0030:         required: false
+0031:         default: false
+0032:         type: boolean
+0033:       coverage:
+0034:         description: "Enable code coverage testing for entire test suite"
+0035:         required: false
+0036:         default: false
+
+
+--- around line 19 ---
+0011:         description: "The runner to use for the job"
+0012:         required: true
+0013:         type: string
+0014:       test_splits:
+0015:         description: "Number of test groups to split tests into (e.g., 4)"
+0016:         required: true
+0017:         type: number
+0018:       pytest_markers:
+0019:         description: "Pytest mark expression to select/deselect tests (e.g., 'not perf', 'nightly or not perf')"
+0020:         required: false
+0021:         default: "not perf and not quasar"
+0022:         type: string
+0023:       timeout_minutes:
+0024:         description: "Timeout in minutes for the test job"
+0025:         required: false
+0026:         default: 80
+0027:         type: number
+0028:       random_order:
+0029:         description: "Enable randomized test order"
+0030:         required: false
+0031:         default: false
+0032:         type: boolean
+0033:       coverage:
+0034:         description: "Enable code coverage testing for entire test suite"
+0035:         required: false
+0036:         default: false
+0037:         type: boolean
+
+
+--- around line 21 ---
+0013:         type: string
+0014:       test_splits:
+0015:         description: "Number of test groups to split tests into (e.g., 4)"
+0016:         required: true
+0017:         type: number
+0018:       pytest_markers:
+0019:         description: "Pytest mark expression to select/deselect tests (e.g., 'not perf', 'nightly or not perf')"
+0020:         required: false
+0021:         default: "not perf and not quasar"
+0022:         type: string
+0023:       timeout_minutes:
+0024:         description: "Timeout in minutes for the test job"
+0025:         required: false
+0026:         default: 80
+0027:         type: number
+0028:       random_order:
+0029:         description: "Enable randomized test order"
+0030:         required: false
+0031:         default: false
+0032:         type: boolean
+0033:       coverage:
+0034:         description: "Enable code coverage testing for entire test suite"
+0035:         required: false
+0036:         default: false
+0037:         type: boolean
+0038:       use_durations:
+0039:         description: "Use previously collected test durations for balanced splitting"
+
+
+--- around line 152 ---
+0144:           if [[ "${{ inputs.use_durations }}" == "true" ]] && [[ -f ".test_durations" ]]; then
+0145:             DURATIONS_FLAG="--durations-path=.test_durations"
+0146:             echo "Using duration-based test splitting from .test_durations"
+0147:           else
+0148:             echo "Duration file not found or not enabled, using default splitting"
+0149:           fi
+0150: 
+0151:           echo "Compiling artefacts"
+0152:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-producer -n 10 \
+0153:                 -m "${{ inputs.pytest_markers }}" \
+0154:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0155:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0156:                 --timeout=60 \
+0157:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml .
+0158: 
+0159:           MULTI_CORE_EXEC=""
+0160:           if [[ "${{ inputs.multi_core_execution }}" == "true" ]]; then
+0161:             MULTI_CORE_EXEC="-n 15"
+0162:           fi
+0163: 
+0164:           echo "Running tests"
+0165:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+
+
+--- around line 153 ---
+0145:             DURATIONS_FLAG="--durations-path=.test_durations"
+0146:             echo "Using duration-based test splitting from .test_durations"
+0147:           else
+0148:             echo "Duration file not found or not enabled, using default splitting"
+0149:           fi
+0150: 
+0151:           echo "Compiling artefacts"
+0152:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-producer -n 10 \
+0153:                 -m "${{ inputs.pytest_markers }}" \
+0154:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0155:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0156:                 --timeout=60 \
+0157:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml .
+0158: 
+0159:           MULTI_CORE_EXEC=""
+0160:           if [[ "${{ inputs.multi_core_execution }}" == "true" ]]; then
+0161:             MULTI_CORE_EXEC="-n 15"
+0162:           fi
+0163: 
+0164:           echo "Running tests"
+0165:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+0171: 
+
+
+--- around line 157 ---
+0149:           fi
+0150: 
+0151:           echo "Compiling artefacts"
+0152:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-producer -n 10 \
+0153:                 -m "${{ inputs.pytest_markers }}" \
+0154:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0155:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0156:                 --timeout=60 \
+0157:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml .
+0158: 
+0159:           MULTI_CORE_EXEC=""
+0160:           if [[ "${{ inputs.multi_core_execution }}" == "true" ]]; then
+0161:             MULTI_CORE_EXEC="-n 15"
+0162:           fi
+0163: 
+0164:           echo "Running tests"
+0165:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+0171: 
+0172:           junitparser merge pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml \
+0173:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml \
+0174:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}.xml
+0175: 
+
+
+--- around line 165 ---
+0157:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml .
+0158: 
+0159:           MULTI_CORE_EXEC=""
+0160:           if [[ "${{ inputs.multi_core_execution }}" == "true" ]]; then
+0161:             MULTI_CORE_EXEC="-n 15"
+0162:           fi
+0163: 
+0164:           echo "Running tests"
+0165:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+0171: 
+0172:           junitparser merge pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml \
+0173:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml \
+0174:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}.xml
+0175: 
+0176:           if [[ "${{ inputs.coverage }}" == "true" ]]; then
+0177:             if [ ! -f "/tmp/tt-llk-build/merged_coverage.info" ]; then
+0178:               echo "Error: Coverage file /tmp/tt-llk-build/merged_coverage.info not found." >&2
+0179:               echo "Ensure coverage artefcats was generated!" >&2
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+
+
+--- around line 166 ---
+0158: 
+0159:           MULTI_CORE_EXEC=""
+0160:           if [[ "${{ inputs.multi_core_execution }}" == "true" ]]; then
+0161:             MULTI_CORE_EXEC="-n 15"
+0162:           fi
+0163: 
+0164:           echo "Running tests"
+0165:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+0171: 
+0172:           junitparser merge pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml \
+0173:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml \
+0174:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}.xml
+0175: 
+0176:           if [[ "${{ inputs.coverage }}" == "true" ]]; then
+0177:             if [ ! -f "/tmp/tt-llk-build/merged_coverage.info" ]; then
+0178:               echo "Error: Coverage file /tmp/tt-llk-build/merged_coverage.info not found." >&2
+0179:               echo "Ensure coverage artefcats was generated!" >&2
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+
+
+--- around line 170 ---
+0162:           fi
+0163: 
+0164:           echo "Running tests"
+0165:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+0171: 
+0172:           junitparser merge pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml \
+0173:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml \
+0174:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}.xml
+0175: 
+0176:           if [[ "${{ inputs.coverage }}" == "true" ]]; then
+0177:             if [ ! -f "/tmp/tt-llk-build/merged_coverage.info" ]; then
+0178:               echo "Error: Coverage file /tmp/tt-llk-build/merged_coverage.info not found." >&2
+0179:               echo "Ensure coverage artefcats was generated!" >&2
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+
+
+--- around line 172 ---
+0164:           echo "Running tests"
+0165:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+0171: 
+0172:           junitparser merge pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml \
+0173:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml \
+0174:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}.xml
+0175: 
+0176:           if [[ "${{ inputs.coverage }}" == "true" ]]; then
+0177:             if [ ! -f "/tmp/tt-llk-build/merged_coverage.info" ]; then
+0178:               echo "Error: Coverage file /tmp/tt-llk-build/merged_coverage.info not found." >&2
+0179:               echo "Ensure coverage artefcats was generated!" >&2
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+0189:         shell: bash
+0190:         run: |
+
+
+--- around line 173 ---
+0165:           pytest $SPEED_OF_LIGHT_FLAG $COVERAGE_FLAG --compile-consumer $MULTI_CORE_EXEC -x \
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+0171: 
+0172:           junitparser merge pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml \
+0173:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml \
+0174:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}.xml
+0175: 
+0176:           if [[ "${{ inputs.coverage }}" == "true" ]]; then
+0177:             if [ ! -f "/tmp/tt-llk-build/merged_coverage.info" ]; then
+0178:               echo "Error: Coverage file /tmp/tt-llk-build/merged_coverage.info not found." >&2
+0179:               echo "Ensure coverage artefcats was generated!" >&2
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+0189:         shell: bash
+0190:         run: |
+0191:           zip -r perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip perf_data/
+
+
+--- around line 174 ---
+0166:                 -m "${{ inputs.pytest_markers }}" \
+0167:                 ${{ inputs.random_order && '--random-order-bucket=global' || '' }} \
+0168:                 --splits $SPLITS --group ${{ matrix.test_group }} $DURATIONS_FLAG \
+0169:                 --override-ini="addopts=-v" --timeout=60 \
+0170:                 --junitxml=pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml .
+0171: 
+0172:           junitparser merge pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-compile.xml \
+0173:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}-run.xml \
+0174:                    pytest-report-${CHIP_ARCH}-${{ matrix.test_group }}.xml
+0175: 
+0176:           if [[ "${{ inputs.coverage }}" == "true" ]]; then
+0177:             if [ ! -f "/tmp/tt-llk-build/merged_coverage.info" ]; then
+0178:               echo "Error: Coverage file /tmp/tt-llk-build/merged_coverage.info not found." >&2
+0179:               echo "Ensure coverage artefcats was generated!" >&2
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+0189:         shell: bash
+0190:         run: |
+0191:           zip -r perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip perf_data/
+0192:           echo "Performance data zipped successfully"
+
+
+--- around line 186 ---
+0178:               echo "Error: Coverage file /tmp/tt-llk-build/merged_coverage.info not found." >&2
+0179:               echo "Ensure coverage artefcats was generated!" >&2
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+0189:         shell: bash
+0190:         run: |
+0191:           zip -r perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip perf_data/
+0192:           echo "Performance data zipped successfully"
+0193: 
+0194:       # Step 4.1: Upload generated info file per runner
+0195:       - name: Upload code coverage for this runner
+0196:         uses: actions/upload-artifact@v4
+0197:         if: ${{ inputs.coverage }}
+0198:         with:
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+
+
+--- around line 187 ---
+0179:               echo "Ensure coverage artefcats was generated!" >&2
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+0189:         shell: bash
+0190:         run: |
+0191:           zip -r perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip perf_data/
+0192:           echo "Performance data zipped successfully"
+0193: 
+0194:       # Step 4.1: Upload generated info file per runner
+0195:       - name: Upload code coverage for this runner
+0196:         uses: actions/upload-artifact@v4
+0197:         if: ${{ inputs.coverage }}
+0198:         with:
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+
+
+--- around line 188 ---
+0180:               exit 1
+0181:             fi
+0182:             cd ../../
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+0189:         shell: bash
+0190:         run: |
+0191:           zip -r perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip perf_data/
+0192:           echo "Performance data zipped successfully"
+0193: 
+0194:       # Step 4.1: Upload generated info file per runner
+0195:       - name: Upload code coverage for this runner
+0196:         uses: actions/upload-artifact@v4
+0197:         if: ${{ inputs.coverage }}
+0198:         with:
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+0206:         with:
+
+
+--- around line 191 ---
+0183:             cp /tmp/tt-llk-build/merged_coverage.info code-coverage-${CHIP_ARCH}-${{ matrix.test_group }}.info
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+0189:         shell: bash
+0190:         run: |
+0191:           zip -r perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip perf_data/
+0192:           echo "Performance data zipped successfully"
+0193: 
+0194:       # Step 4.1: Upload generated info file per runner
+0195:       - name: Upload code coverage for this runner
+0196:         uses: actions/upload-artifact@v4
+0197:         if: ${{ inputs.coverage }}
+0198:         with:
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+0206:         with:
+0207:           name: perf-data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0208:           path: perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip
+0209: 
+
+
+--- around line 192 ---
+0184:           fi
+0185: 
+0186:       # Step 4: Zip performance data if perf tests were run
+0187:       - name: Zip performance data
+0188:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data/**') != ''
+0189:         shell: bash
+0190:         run: |
+0191:           zip -r perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip perf_data/
+0192:           echo "Performance data zipped successfully"
+0193: 
+0194:       # Step 4.1: Upload generated info file per runner
+0195:       - name: Upload code coverage for this runner
+0196:         uses: actions/upload-artifact@v4
+0197:         if: ${{ inputs.coverage }}
+0198:         with:
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+0206:         with:
+0207:           name: perf-data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0208:           path: perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip
+0209: 
+0210:       - name: Upload test logs on failure
+
+
+--- around line 202 ---
+0194:       # Step 4.1: Upload generated info file per runner
+0195:       - name: Upload code coverage for this runner
+0196:         uses: actions/upload-artifact@v4
+0197:         if: ${{ inputs.coverage }}
+0198:         with:
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+0206:         with:
+0207:           name: perf-data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0208:           path: perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip
+0209: 
+0210:       - name: Upload test logs on failure
+0211:         uses: actions/upload-artifact@v4
+0212:         if: failure()
+0213:         with:
+0214:           name: test-logs-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0215:           path: |
+0216:             tests/python_tests/test_run*.log
+0217:             tests/python_tests/test_errors*.log
+0218: 
+0219:       - name: Upload JUnit report
+0220:         uses: actions/upload-artifact@v4
+
+
+--- around line 203 ---
+0195:       - name: Upload code coverage for this runner
+0196:         uses: actions/upload-artifact@v4
+0197:         if: ${{ inputs.coverage }}
+0198:         with:
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+0206:         with:
+0207:           name: perf-data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0208:           path: perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip
+0209: 
+0210:       - name: Upload test logs on failure
+0211:         uses: actions/upload-artifact@v4
+0212:         if: failure()
+0213:         with:
+0214:           name: test-logs-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0215:           path: |
+0216:             tests/python_tests/test_run*.log
+0217:             tests/python_tests/test_errors*.log
+0218: 
+0219:       - name: Upload JUnit report
+0220:         uses: actions/upload-artifact@v4
+0221:         if: always()
+
+
+--- around line 205 ---
+0197:         if: ${{ inputs.coverage }}
+0198:         with:
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+0206:         with:
+0207:           name: perf-data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0208:           path: perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip
+0209: 
+0210:       - name: Upload test logs on failure
+0211:         uses: actions/upload-artifact@v4
+0212:         if: failure()
+0213:         with:
+0214:           name: test-logs-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0215:           path: |
+0216:             tests/python_tests/test_run*.log
+0217:             tests/python_tests/test_errors*.log
+0218: 
+0219:       - name: Upload JUnit report
+0220:         uses: actions/upload-artifact@v4
+0221:         if: always()
+0222:         with:
+0223:           name: >-
+
+
+--- around line 207 ---
+0199:           name: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+0206:         with:
+0207:           name: perf-data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0208:           path: perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip
+0209: 
+0210:       - name: Upload test logs on failure
+0211:         uses: actions/upload-artifact@v4
+0212:         if: failure()
+0213:         with:
+0214:           name: test-logs-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0215:           path: |
+0216:             tests/python_tests/test_run*.log
+0217:             tests/python_tests/test_errors*.log
+0218: 
+0219:       - name: Upload JUnit report
+0220:         uses: actions/upload-artifact@v4
+0221:         if: always()
+0222:         with:
+0223:           name: >-
+0224:             ${{ (contains(inputs.pytest_markers, 'perf') && !contains(inputs.pytest_markers, 'not perf'))
+0225:                 && 'perf-' || '' }}junit-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+
+
+--- around line 208 ---
+0200:           path: code-coverage-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.info
+0201: 
+0202:       # Step 5: Upload performance data
+0203:       - name: Upload performance data
+0204:         uses: actions/upload-artifact@v4
+0205:         if: always() && contains(inputs.pytest_markers, 'perf') && hashFiles('perf_data-*.zip') != ''
+0206:         with:
+0207:           name: perf-data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0208:           path: perf_data-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.zip
+0209: 
+0210:       - name: Upload test logs on failure
+0211:         uses: actions/upload-artifact@v4
+0212:         if: failure()
+0213:         with:
+0214:           name: test-logs-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0215:           path: |
+0216:             tests/python_tests/test_run*.log
+0217:             tests/python_tests/test_errors*.log
+0218: 
+0219:       - name: Upload JUnit report
+0220:         uses: actions/upload-artifact@v4
+0221:         if: always()
+0222:         with:
+0223:           name: >-
+0224:             ${{ (contains(inputs.pytest_markers, 'perf') && !contains(inputs.pytest_markers, 'not perf'))
+0225:                 && 'perf-' || '' }}junit-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0226:           path: tests/python_tests/pytest-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.xml
+
+
+--- around line 224 ---
+0216:             tests/python_tests/test_run*.log
+0217:             tests/python_tests/test_errors*.log
+0218: 
+0219:       - name: Upload JUnit report
+0220:         uses: actions/upload-artifact@v4
+0221:         if: always()
+0222:         with:
+0223:           name: >-
+0224:             ${{ (contains(inputs.pytest_markers, 'perf') && !contains(inputs.pytest_markers, 'not perf'))
+0225:                 && 'perf-' || '' }}junit-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0226:           path: tests/python_tests/pytest-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.xml
+0227: 
+0228:       # Step 7: Publish the test results
+0229:       - name: Publish Test Results
+0230:         uses: mikepenz/action-junit-report@v5
+0231:         if: always()
+0232:         with:
+0233:           report_paths: tests/python_tests/pytest-report-*-${{ matrix.test_group }}.xml
+0234:           include_passed: true
+0235:           annotate_only: true
+0236: 
+0237:   merge-coverage:
+0238:     name: "Merge coverage files"
+0239:     runs-on: ubuntu-latest
+0240:     container:
+0241:       image: ${{ inputs.docker_image }}
+0242:     needs: setup-and-test
+
+
+--- around line 225 ---
+0217:             tests/python_tests/test_errors*.log
+0218: 
+0219:       - name: Upload JUnit report
+0220:         uses: actions/upload-artifact@v4
+0221:         if: always()
+0222:         with:
+0223:           name: >-
+0224:             ${{ (contains(inputs.pytest_markers, 'perf') && !contains(inputs.pytest_markers, 'not perf'))
+0225:                 && 'perf-' || '' }}junit-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0226:           path: tests/python_tests/pytest-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.xml
+0227: 
+0228:       # Step 7: Publish the test results
+0229:       - name: Publish Test Results
+0230:         uses: mikepenz/action-junit-report@v5
+0231:         if: always()
+0232:         with:
+0233:           report_paths: tests/python_tests/pytest-report-*-${{ matrix.test_group }}.xml
+0234:           include_passed: true
+0235:           annotate_only: true
+0236: 
+0237:   merge-coverage:
+0238:     name: "Merge coverage files"
+0239:     runs-on: ubuntu-latest
+0240:     container:
+0241:       image: ${{ inputs.docker_image }}
+0242:     needs: setup-and-test
+0243:     if: inputs.coverage == true
+
+
+--- around line 226 ---
+0218: 
+0219:       - name: Upload JUnit report
+0220:         uses: actions/upload-artifact@v4
+0221:         if: always()
+0222:         with:
+0223:           name: >-
+0224:             ${{ (contains(inputs.pytest_markers, 'perf') && !contains(inputs.pytest_markers, 'not perf'))
+0225:                 && 'perf-' || '' }}junit-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0226:           path: tests/python_tests/pytest-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.xml
+0227: 
+0228:       # Step 7: Publish the test results
+0229:       - name: Publish Test Results
+0230:         uses: mikepenz/action-junit-report@v5
+0231:         if: always()
+0232:         with:
+0233:           report_paths: tests/python_tests/pytest-report-*-${{ matrix.test_group }}.xml
+0234:           include_passed: true
+0235:           annotate_only: true
+0236: 
+0237:   merge-coverage:
+0238:     name: "Merge coverage files"
+0239:     runs-on: ubuntu-latest
+0240:     container:
+0241:       image: ${{ inputs.docker_image }}
+0242:     needs: setup-and-test
+0243:     if: inputs.coverage == true
+0244:     permissions:
+
+
+--- around line 233 ---
+0225:                 && 'perf-' || '' }}junit-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}
+0226:           path: tests/python_tests/pytest-report-${{ env.CHIP_ARCH }}-${{ matrix.test_group }}.xml
+0227: 
+0228:       # Step 7: Publish the test results
+0229:       - name: Publish Test Results
+0230:         uses: mikepenz/action-junit-report@v5
+0231:         if: always()
+0232:         with:
+0233:           report_paths: tests/python_tests/pytest-report-*-${{ matrix.test_group }}.xml
+0234:           include_passed: true
+0235:           annotate_only: true
+0236: 
+0237:   merge-coverage:
+0238:     name: "Merge coverage files"
+0239:     runs-on: ubuntu-latest
+0240:     container:
+0241:       image: ${{ inputs.docker_image }}
+0242:     needs: setup-and-test
+0243:     if: inputs.coverage == true
+0244:     permissions:
+0245:       contents: read
+0246:     steps:
+0247:       - name: Set CHIP_ARCH
+0248:         shell: bash
+0249:         run: |
+0250:           CHIP_ARCH=unknown
+0251:           if [[ "${{ inputs.runs_on }}" =~ n150 ]]; then
+
+
+===== .github/workflows/run-perf-tests.yml =====
+
+--- around line 1 ---
+0001: name: 🚀 Run Performance Tests
+0002: 
+0003: on:
+0004:   workflow_dispatch:
+0005:   workflow_call:
+0006:   pull_request:
+0007:     types: [labeled, synchronize]
+0008: 
+0009: permissions:
+0010:   checks: write
+0011:   contents: read
+0012:   packages: write
+0013:   pull-requests: write
+0014: 
+0015: concurrency:
+0016:   group: ${{ github.workflow }}-${{ github.ref_protected && github.run_id ||
+0017:     github.event.pull_request.number || github.ref }}
+0018:   cancel-in-progress: true
+0019: 
+
+
+--- around line 27 ---
+0019: 
+0020: jobs:
+0021:   detect-changes:
+0022:     name: "🔍 Detect changes"
+0023:     runs-on: ubuntu-latest
+0024:     if: |
+0025:       contains(fromJSON('["workflow_dispatch","workflow_call","schedule"]'), github.event_name) ||
+0026:       (github.event_name == 'pull_request' &&
+0027:        contains(github.event.pull_request.labels.*.name, 'performance-tests'))
+0028:     outputs:
+0029:       wormhole: ${{ steps.set.outputs.wormhole }}
+0030:       blackhole: ${{ steps.set.outputs.blackhole }}
+0031:       performance: ${{ steps.set.outputs.performance }}
+0032:     steps:
+0033:       - name: Checkout code
+0034:         uses: actions/checkout@v6
+0035:         with:
+0036:           fetch-depth: 200
+0037: 
+0038:       - name: Detect which directories changed
+0039:         uses: dorny/paths-filter@v4
+0040:         id: filter
+0041:         if: github.event_name != 'schedule'
+0042:         with:
+0043:           filters: |
+0044:               wormhole:
+0045:                 - 'tt_llk_wormhole_b0/**'
+
+
+--- around line 31 ---
+0023:     runs-on: ubuntu-latest
+0024:     if: |
+0025:       contains(fromJSON('["workflow_dispatch","workflow_call","schedule"]'), github.event_name) ||
+0026:       (github.event_name == 'pull_request' &&
+0027:        contains(github.event.pull_request.labels.*.name, 'performance-tests'))
+0028:     outputs:
+0029:       wormhole: ${{ steps.set.outputs.wormhole }}
+0030:       blackhole: ${{ steps.set.outputs.blackhole }}
+0031:       performance: ${{ steps.set.outputs.performance }}
+0032:     steps:
+0033:       - name: Checkout code
+0034:         uses: actions/checkout@v6
+0035:         with:
+0036:           fetch-depth: 200
+0037: 
+0038:       - name: Detect which directories changed
+0039:         uses: dorny/paths-filter@v4
+0040:         id: filter
+0041:         if: github.event_name != 'schedule'
+0042:         with:
+0043:           filters: |
+0044:               wormhole:
+0045:                 - 'tt_llk_wormhole_b0/**'
+0046:               blackhole:
+0047:                 - 'tt_llk_blackhole/**'
+0048:               performance:
+0049:                 - '**/*perf**'
+
+
+--- around line 48 ---
+0040:         id: filter
+0041:         if: github.event_name != 'schedule'
+0042:         with:
+0043:           filters: |
+0044:               wormhole:
+0045:                 - 'tt_llk_wormhole_b0/**'
+0046:               blackhole:
+0047:                 - 'tt_llk_blackhole/**'
+0048:               performance:
+0049:                 - '**/*perf**'
+0050:                 - '**/*profiler**'
+0051: 
+0052:       - name: Resolve test triggers (nightly vs changes)
+0053:         id: set
+0054:         run: |
+0055:           if [[ "${{ github.event_name }}" == "schedule" ]]; then
+0056:             echo "wormhole=true" >> $GITHUB_OUTPUT
+0057:             echo "blackhole=true" >> $GITHUB_OUTPUT
+0058:             echo "performance=true" >> $GITHUB_OUTPUT
+0059:           else
+0060:             echo "wormhole=${{ steps.filter.outputs.wormhole }}" >> $GITHUB_OUTPUT
+0061:             echo "blackhole=${{ steps.filter.outputs.blackhole }}" >> $GITHUB_OUTPUT
+0062:             echo "performance=${{ steps.filter.outputs.performance }}" >> $GITHUB_OUTPUT
+0063:           fi
+0064: 
+0065:   build-images:
+0066:     name: "🐳️ Docker setup"
+
+
+--- around line 49 ---
+0041:         if: github.event_name != 'schedule'
+0042:         with:
+0043:           filters: |
+0044:               wormhole:
+0045:                 - 'tt_llk_wormhole_b0/**'
+0046:               blackhole:
+0047:                 - 'tt_llk_blackhole/**'
+0048:               performance:
+0049:                 - '**/*perf**'
+0050:                 - '**/*profiler**'
+0051: 
+0052:       - name: Resolve test triggers (nightly vs changes)
+0053:         id: set
+0054:         run: |
+0055:           if [[ "${{ github.event_name }}" == "schedule" ]]; then
+0056:             echo "wormhole=true" >> $GITHUB_OUTPUT
+0057:             echo "blackhole=true" >> $GITHUB_OUTPUT
+0058:             echo "performance=true" >> $GITHUB_OUTPUT
+0059:           else
+0060:             echo "wormhole=${{ steps.filter.outputs.wormhole }}" >> $GITHUB_OUTPUT
+0061:             echo "blackhole=${{ steps.filter.outputs.blackhole }}" >> $GITHUB_OUTPUT
+0062:             echo "performance=${{ steps.filter.outputs.performance }}" >> $GITHUB_OUTPUT
+0063:           fi
+0064: 
+0065:   build-images:
+0066:     name: "🐳️ Docker setup"
+0067:     uses: ./.github/workflows/build-images.yml
+
+
+--- around line 58 ---
+0050:                 - '**/*profiler**'
+0051: 
+0052:       - name: Resolve test triggers (nightly vs changes)
+0053:         id: set
+0054:         run: |
+0055:           if [[ "${{ github.event_name }}" == "schedule" ]]; then
+0056:             echo "wormhole=true" >> $GITHUB_OUTPUT
+0057:             echo "blackhole=true" >> $GITHUB_OUTPUT
+0058:             echo "performance=true" >> $GITHUB_OUTPUT
+0059:           else
+0060:             echo "wormhole=${{ steps.filter.outputs.wormhole }}" >> $GITHUB_OUTPUT
+0061:             echo "blackhole=${{ steps.filter.outputs.blackhole }}" >> $GITHUB_OUTPUT
+0062:             echo "performance=${{ steps.filter.outputs.performance }}" >> $GITHUB_OUTPUT
+0063:           fi
+0064: 
+0065:   build-images:
+0066:     name: "🐳️ Docker setup"
+0067:     uses: ./.github/workflows/build-images.yml
+0068:     needs: detect-changes
+0069:     secrets: inherit
+0070: 
+0071:   setup-and-test-wormhole:
+0072:     name: "🌀 Performance tests (Wormhole)"
+0073:     uses: ./.github/workflows/setup-and-test.yml
+0074:     needs: [build-images, detect-changes]
+0075:     if: ${{ needs.detect-changes.outputs.wormhole == 'true' ||
+0076:             needs.detect-changes.outputs.performance == 'true' ||
+
+
+--- around line 62 ---
+0054:         run: |
+0055:           if [[ "${{ github.event_name }}" == "schedule" ]]; then
+0056:             echo "wormhole=true" >> $GITHUB_OUTPUT
+0057:             echo "blackhole=true" >> $GITHUB_OUTPUT
+0058:             echo "performance=true" >> $GITHUB_OUTPUT
+0059:           else
+0060:             echo "wormhole=${{ steps.filter.outputs.wormhole }}" >> $GITHUB_OUTPUT
+0061:             echo "blackhole=${{ steps.filter.outputs.blackhole }}" >> $GITHUB_OUTPUT
+0062:             echo "performance=${{ steps.filter.outputs.performance }}" >> $GITHUB_OUTPUT
+0063:           fi
+0064: 
+0065:   build-images:
+0066:     name: "🐳️ Docker setup"
+0067:     uses: ./.github/workflows/build-images.yml
+0068:     needs: detect-changes
+0069:     secrets: inherit
+0070: 
+0071:   setup-and-test-wormhole:
+0072:     name: "🌀 Performance tests (Wormhole)"
+0073:     uses: ./.github/workflows/setup-and-test.yml
+0074:     needs: [build-images, detect-changes]
+0075:     if: ${{ needs.detect-changes.outputs.wormhole == 'true' ||
+0076:             needs.detect-changes.outputs.performance == 'true' ||
+0077:             github.event_name == 'workflow_dispatch' ||
+0078:             github.event_name == 'workflow_call' }}
+0079:     with:
+0080:       docker_image: ${{ needs.build-images.outputs.docker-image }}
+
+
+--- around line 72 ---
+0064: 
+0065:   build-images:
+0066:     name: "🐳️ Docker setup"
+0067:     uses: ./.github/workflows/build-images.yml
+0068:     needs: detect-changes
+0069:     secrets: inherit
+0070: 
+0071:   setup-and-test-wormhole:
+0072:     name: "🌀 Performance tests (Wormhole)"
+0073:     uses: ./.github/workflows/setup-and-test.yml
+0074:     needs: [build-images, detect-changes]
+0075:     if: ${{ needs.detect-changes.outputs.wormhole == 'true' ||
+0076:             needs.detect-changes.outputs.performance == 'true' ||
+0077:             github.event_name == 'workflow_dispatch' ||
+0078:             github.event_name == 'workflow_call' }}
+0079:     with:
+0080:       docker_image: ${{ needs.build-images.outputs.docker-image }}
+0081:       runs_on: tt-ubuntu-2204-n150-stable
+0082:       test_splits: 5
+0083:       pytest_markers: "perf"
+0084:       timeout_minutes: 240
+0085:       compile_time_args: true
+0086:       multi_core_execution: true
+0087: 
+0088:   setup-and-test-blackhole:
+0089:     name: "🕳️ Performance tests (Blackhole)"
+0090:     uses: ./.github/workflows/setup-and-test.yml
+
+
+--- around line 76 ---
+0068:     needs: detect-changes
+0069:     secrets: inherit
+0070: 
+0071:   setup-and-test-wormhole:
+0072:     name: "🌀 Performance tests (Wormhole)"
+0073:     uses: ./.github/workflows/setup-and-test.yml
+0074:     needs: [build-images, detect-changes]
+0075:     if: ${{ needs.detect-changes.outputs.wormhole == 'true' ||
+0076:             needs.detect-changes.outputs.performance == 'true' ||
+0077:             github.event_name == 'workflow_dispatch' ||
+0078:             github.event_name == 'workflow_call' }}
+0079:     with:
+0080:       docker_image: ${{ needs.build-images.outputs.docker-image }}
+0081:       runs_on: tt-ubuntu-2204-n150-stable
+0082:       test_splits: 5
+0083:       pytest_markers: "perf"
+0084:       timeout_minutes: 240
+0085:       compile_time_args: true
+0086:       multi_core_execution: true
+0087: 
+0088:   setup-and-test-blackhole:
+0089:     name: "🕳️ Performance tests (Blackhole)"
+0090:     uses: ./.github/workflows/setup-and-test.yml
+0091:     needs: [build-images, detect-changes]
+0092:     if: ${{ needs.detect-changes.outputs.blackhole == 'true' ||
+0093:             needs.detect-changes.outputs.performance == 'true' ||
+0094:             github.event_name == 'workflow_dispatch' ||
+
+
+--- around line 83 ---
+0075:     if: ${{ needs.detect-changes.outputs.wormhole == 'true' ||
+0076:             needs.detect-changes.outputs.performance == 'true' ||
+0077:             github.event_name == 'workflow_dispatch' ||
+0078:             github.event_name == 'workflow_call' }}
+0079:     with:
+0080:       docker_image: ${{ needs.build-images.outputs.docker-image }}
+0081:       runs_on: tt-ubuntu-2204-n150-stable
+0082:       test_splits: 5
+0083:       pytest_markers: "perf"
+0084:       timeout_minutes: 240
+0085:       compile_time_args: true
+0086:       multi_core_execution: true
+0087: 
+0088:   setup-and-test-blackhole:
+0089:     name: "🕳️ Performance tests (Blackhole)"
+0090:     uses: ./.github/workflows/setup-and-test.yml
+0091:     needs: [build-images, detect-changes]
+0092:     if: ${{ needs.detect-changes.outputs.blackhole == 'true' ||
+0093:             needs.detect-changes.outputs.performance == 'true' ||
+0094:             github.event_name == 'workflow_dispatch' ||
+0095:             github.event_name == 'workflow_call' }}
+0096:     with:
+0097:       docker_image: ${{ needs.build-images.outputs.docker-image }}
+0098:       runs_on: tt-ubuntu-2204-p150b-stable
+0099:       test_splits: 5
+0100:       pytest_markers: "perf"
+0101:       timeout_minutes: 240
+
+
+--- around line 89 ---
+0081:       runs_on: tt-ubuntu-2204-n150-stable
+0082:       test_splits: 5
+0083:       pytest_markers: "perf"
+0084:       timeout_minutes: 240
+0085:       compile_time_args: true
+0086:       multi_core_execution: true
+0087: 
+0088:   setup-and-test-blackhole:
+0089:     name: "🕳️ Performance tests (Blackhole)"
+0090:     uses: ./.github/workflows/setup-and-test.yml
+0091:     needs: [build-images, detect-changes]
+0092:     if: ${{ needs.detect-changes.outputs.blackhole == 'true' ||
+0093:             needs.detect-changes.outputs.performance == 'true' ||
+0094:             github.event_name == 'workflow_dispatch' ||
+0095:             github.event_name == 'workflow_call' }}
+0096:     with:
+0097:       docker_image: ${{ needs.build-images.outputs.docker-image }}
+0098:       runs_on: tt-ubuntu-2204-p150b-stable
+0099:       test_splits: 5
+0100:       pytest_markers: "perf"
+0101:       timeout_minutes: 240
+0102:       compile_time_args: true
+0103:       multi_core_execution: true
+0104: 
+0105:   check-all-green:
+0106:     name: "✅ Check all green"
+0107:     if: |
+
+
+--- around line 93 ---
+0085:       compile_time_args: true
+0086:       multi_core_execution: true
+0087: 
+0088:   setup-and-test-blackhole:
+0089:     name: "🕳️ Performance tests (Blackhole)"
+0090:     uses: ./.github/workflows/setup-and-test.yml
+0091:     needs: [build-images, detect-changes]
+0092:     if: ${{ needs.detect-changes.outputs.blackhole == 'true' ||
+0093:             needs.detect-changes.outputs.performance == 'true' ||
+0094:             github.event_name == 'workflow_dispatch' ||
+0095:             github.event_name == 'workflow_call' }}
+0096:     with:
+0097:       docker_image: ${{ needs.build-images.outputs.docker-image }}
+0098:       runs_on: tt-ubuntu-2204-p150b-stable
+0099:       test_splits: 5
+0100:       pytest_markers: "perf"
+0101:       timeout_minutes: 240
+0102:       compile_time_args: true
+0103:       multi_core_execution: true
+0104: 
+0105:   check-all-green:
+0106:     name: "✅ Check all green"
+0107:     if: |
+0108:       always() && (
+0109:       contains(fromJSON('["workflow_dispatch","workflow_call","schedule"]'), github.event_name) ||
+0110:       (github.event_name == 'pull_request' &&
+0111:        contains(github.event.pull_request.labels.*.name, 'performance-tests'))
+
+
+--- around line 100 ---
+0092:     if: ${{ needs.detect-changes.outputs.blackhole == 'true' ||
+0093:             needs.detect-changes.outputs.performance == 'true' ||
+0094:             github.event_name == 'workflow_dispatch' ||
+0095:             github.event_name == 'workflow_call' }}
+0096:     with:
+0097:       docker_image: ${{ needs.build-images.outputs.docker-image }}
+0098:       runs_on: tt-ubuntu-2204-p150b-stable
+0099:       test_splits: 5
+0100:       pytest_markers: "perf"
+0101:       timeout_minutes: 240
+0102:       compile_time_args: true
+0103:       multi_core_execution: true
+0104: 
+0105:   check-all-green:
+0106:     name: "✅ Check all green"
+0107:     if: |
+0108:       always() && (
+0109:       contains(fromJSON('["workflow_dispatch","workflow_call","schedule"]'), github.event_name) ||
+0110:       (github.event_name == 'pull_request' &&
+0111:        contains(github.event.pull_request.labels.*.name, 'performance-tests'))
+0112:       )
+0113:     needs:
+0114:       - build-images
+0115:       - setup-and-test-wormhole
+0116:       - setup-and-test-blackhole
+0117:     runs-on: ubuntu-latest
+0118:     steps:
+
+
+--- around line 111 ---
+0103:       multi_core_execution: true
+0104: 
+0105:   check-all-green:
+0106:     name: "✅ Check all green"
+0107:     if: |
+0108:       always() && (
+0109:       contains(fromJSON('["workflow_dispatch","workflow_call","schedule"]'), github.event_name) ||
+0110:       (github.event_name == 'pull_request' &&
+0111:        contains(github.event.pull_request.labels.*.name, 'performance-tests'))
+0112:       )
+0113:     needs:
+0114:       - build-images
+0115:       - setup-and-test-wormhole
+0116:       - setup-and-test-blackhole
+0117:     runs-on: ubuntu-latest
+0118:     steps:
+0119:       - name: Check if the required jobs succeeded or failed
+0120:         uses: re-actors/alls-green@release/v1
+0121:         with:
+0122:           jobs: ${{ toJSON(needs) }}
+0123:           allowed-skips: setup-and-test-wormhole, setup-and-test-blackhole
+

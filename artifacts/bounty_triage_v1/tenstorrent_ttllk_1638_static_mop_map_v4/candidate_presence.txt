@@ -1,0 +1,14 @@
+FOUND tt_llk_wormhole_b0/llk_lib/experimental/llk_math_matmul_custom_no_mop.h
+FOUND tt_llk_blackhole/llk_lib/experimental/llk_math_matmul_custom_no_mop.h
+FOUND tt_llk_wormhole_b0/llk_lib/llk_math_matmul.h
+FOUND tt_llk_blackhole/llk_lib/llk_math_matmul.h
+FOUND tt_llk_wormhole_b0/common/inc/ckernel_template.h
+FOUND tt_llk_wormhole_b0/common/inc/ckernel_ops.h
+FOUND tt_llk_wormhole_b0/common/inc/ckernel_instr_params.h
+FOUND tests/python_tests/perf_math_matmul.py
+FOUND tests/sources/math_matmul_perf.cpp
+FOUND tests/sources/matmul_perf.cpp
+FOUND tests/helpers/include/perf.h
+FOUND tests/python_tests/helpers/perf.py
+FOUND tests/python_tests/helpers/counters.py
+FOUND docs/performance_counters/performance_counters.md

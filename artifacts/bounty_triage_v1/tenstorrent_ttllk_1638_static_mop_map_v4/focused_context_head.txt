@@ -1,0 +1,900 @@
+
+
+===== tt_llk_wormhole_b0/llk_lib/experimental/llk_math_matmul_custom_no_mop.h =====
+
+--- around line 13 ---
+0001: // SPDX-FileCopyrightText: © 2026 Tenstorrent AI ULC
+0002: //
+0003: // SPDX-License-Identifier: Apache-2.0
+0004: 
+0005: #pragma once
+0006: 
+0007: #include <cstdint>
+0008: 
+0009: #include "llk_math_matmul.h"
+0010: 
+0011: using namespace ckernel;
+0012: 
+0013: inline void matmul_validate_no_mop_contract(
+0014:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0015:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0016:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0017:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0018:     const bool partial_face            = false)
+0019: {
+0020:     LLK_ASSERT(
+0021:         in0_tile_r_dim == TILE_R_DIM && in0_tile_c_dim == TILE_C_DIM && in1_tile_r_dim == TILE_R_DIM && in1_tile_c_dim == TILE_C_DIM && !partial_face,
+0022:         "Wormhole custom no-mop matmul currently supports only full 32x32 tiles with partial_face disabled");
+0023: }
+0024: 
+0025: inline std::uint32_t matmul_get_replay_buf_len_no_mop(
+0026:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0027:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0028:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0029:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0030:     [[maybe_unused]] const bool partial_face            = false)
+0031: {
+0032:     // The narrowed WH full-tile path uses a fixed replay image.
+0033:     return 16;
+0034: }
+0035: 
+0036: template <MathFidelity math_fidelity, int THROTTLE_LEVEL = 0>
+0037: inline void matmul_configure_addrmod_no_mop(
+0038:     const bool transpose,
+0039:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0040:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0041:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0042:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0043:     const bool partial_face            = false,
+0044:     const std::uint32_t ct_dim         = 1,
+0045:     const std::uint32_t rt_dim         = 1)
+
+--- around line 62 ---
+0046: {
+0047:     // The current Wormhole no-mop path is intentionally narrowed to the
+0048:     // full-tile use case. Keep the contract explicit so generic LLK harnesses
+0049:     // do not silently exercise unsupported tiny-tile or partial-face variants.
+0050:     static_assert(THROTTLE_LEVEL == 0, "Wormhole custom no-mop matmul only supports THROTTLE_LEVEL == 0");
+0051:     matmul_validate_no_mop_contract(in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0052: 
+0053:     // Reuse the regular Wormhole matmul addrmods for the tile traversal itself.
+0054:     // The no-mop-specific part below only fixes up the dvalid contract for
+0055:     // reentry. Unlike BH, this WH path has to make the A/B reuse policy explicit
+0056:     // so repeated replays keep the right source valid across ct/rt shapes.
+0057:     matmul_configure_addrmod<math_fidelity, THROTTLE_LEVEL>(transpose, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0058: 
+0059:     const bool reuse_a        = ct_dim >= rt_dim;
+0060:     const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0061: 
+0062:     // When the replay reuses one operand across multiple output tiles, keep the
+0063:     // opposite source disabled until the replay sequence explicitly clears it.
+0064:     if (t_dim > 1)
+0065:     {
+0066:         if (reuse_a)
+0067:         {
+0068:             TTI_SETC16(CLR_DVALID_SrcB_Disable_ADDR32, CLR_DVALID_SrcB_Disable_MASK);
+0069:         }
+0070:         else
+0071:         {
+0072:             TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, CLR_DVALID_SrcA_Disable_MASK);
+0073:         }
+0074:     }
+0075:     else
+0076:     {
+0077:         TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, 0);
+0078:     }
+0079: }
+0080: 
+0081: template <MathFidelity math_fidelity>
+0082: inline void matmul_emit_replay_program_no_mop(
+0083:     const std::uint32_t ct_dim,
+0084:     const std::uint32_t rt_dim,
+0085:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0086:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0087:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0088:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0089:     [[maybe_unused]] const bool partial_face            = false)
+0090: {
+0091:     const bool reuse_a        = ct_dim >= rt_dim;
+0092:     const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0093: 
+0094:     // This is the fixed full-tile replay image for the current no-mop path.
+
+--- around line 174 ---
+0158:         }
+0159:         else
+0160:         {
+0161:             if (t_dim > 1)
+0162:             {
+0163:                 TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0164:             }
+0165:             else
+0166:             {
+0167:                 TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_1, 0);
+0168:             }
+0169:         }
+0170:     }
+0171: }
+0172: 
+0173: template <MathFidelity math_fidelity>
+0174: inline void matmul_load_replay_no_mop(
+0175:     const std::uint32_t ct_dim,
+0176:     const std::uint32_t rt_dim,
+0177:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0178:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0179:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0180:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0181:     const bool partial_face            = false)
+0182: {
+0183:     const std::uint32_t replay_buf_len = matmul_get_replay_buf_len_no_mop(in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0184: 
+0185:     // WH records the replay image explicitly at init/reinit time rather than
+0186:     // assuming it persists like the BH path does.
+0187:     lltt::record<lltt::NoExec>(ckernel::math::replay_buf_offset, replay_buf_len);
+0188:     matmul_emit_replay_program_no_mop<math_fidelity>(ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0189: }
+0190: 
+0191: template <MathFidelity math_fidelity>
+0192: inline void matmul_execute_replay_no_mop(const std::uint32_t replay_buf_len, const bool reuse_a, const std::uint32_t t_dim)
+0193: {
+0194:     if constexpr (!is_high_fidelity(math_fidelity))
+0195:     {
+0196:         lltt::replay(ckernel::math::replay_buf_offset, replay_buf_len);
+0197:         return;
+0198:     }
+0199: 
+0200:     // HiFi paths replay the same full-tile program multiple times, then repair
+0201:     // the A/B/F counter state to match what the next outer-loop iteration
+0202:     // expects.
+0203:     constexpr std::uint32_t num_replay = to_underlying(math_fidelity);
+0204:     for (std::uint32_t replay = 0; replay < num_replay; replay++)
+0205:     {
+0206:         lltt::replay(ckernel::math::replay_buf_offset, replay_buf_len);
+
+--- around line 224 ---
+0208: 
+0209:     if (t_dim > 1)
+0210:     {
+0211:         TTI_SETRWC(p_setrwc::CLR_NONE, 0, 0, 0, 0, p_setrwc::SET_F);
+0212:     }
+0213:     else if (reuse_a)
+0214:     {
+0215:         TTI_SETRWC(p_setrwc::CLR_A, 0, 0, 0, 0, p_setrwc::SET_ABD_F);
+0216:     }
+0217:     else
+0218:     {
+0219:         TTI_SETRWC(p_setrwc::CLR_B, 0, 0, 0, 0, p_setrwc::SET_ABD_F);
+0220:     }
+0221: }
+0222: 
+0223: template <MathFidelity math_fidelity>
+0224: inline void matmul_run_no_mop_tdim1_reuse_a(
+0225:     const std::uint32_t dst_index, [[maybe_unused]] const std::uint32_t ct_dim, const std::uint32_t rut_dim, const std::uint32_t replay_buf_len)
+0226: {
+0227:     for (std::uint32_t rut = 0; (rut + 1) < rut_dim; rut++)
+0228:     {
+0229:         math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + rut);
+0230:         matmul_execute_replay_no_mop<math_fidelity>(replay_buf_len, true, 1);
+0231:     }
+0232: 
+0233:     math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + rut_dim - 1);
+0234:     matmul_execute_replay_no_mop<math_fidelity>(replay_buf_len, true, 1);
+0235:     TTI_SETRWC(p_setrwc::CLR_B, 0, 0, 0, 0, p_setrwc::SET_ABD);
+0236: }
+0237: 
+0238: template <MathFidelity math_fidelity>
+0239: inline void matmul_run_no_mop_tdim1_reuse_b(
+0240:     const std::uint32_t dst_index, const std::uint32_t ct_dim, const std::uint32_t rut_dim, const std::uint32_t replay_buf_len)
+0241: {
+0242:     for (std::uint32_t rut = 0; (rut + 1) < rut_dim; rut++)
+0243:     {
+0244:         math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + rut * ct_dim);
+0245:         matmul_execute_replay_no_mop<math_fidelity>(replay_buf_len, false, 1);
+0246:     }
+0247: 
+0248:     math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + (rut_dim - 1) * ct_dim);
+0249:     matmul_execute_replay_no_mop<math_fidelity>(replay_buf_len, false, 1);
+0250:     TTI_SETRWC(p_setrwc::CLR_A, 0, 0, 0, 0, p_setrwc::SET_ABD);
+0251: }
+0252: 
+0253: template <MathFidelity math_fidelity>
+0254: inline void matmul_run_no_mop_tdim_gt1_reuse_a(
+0255:     const std::uint32_t dst_index, const std::uint32_t ct_dim, const std::uint32_t t_dim, const std::uint32_t rut_dim, const std::uint32_t replay_buf_len)
+0256: {
+
+
+===== tt_llk_blackhole/llk_lib/experimental/llk_math_matmul_custom_no_mop.h =====
+
+--- around line 27 ---
+0011: #include "ckernel_template.h"
+0012: #include "cmath_common.h"
+0013: #include "llk_assert.h"
+0014: #include "llk_math_common.h"
+0015: 
+0016: using namespace ckernel;
+0017: 
+0018: // Helper functions for math fidelity
+0019: constexpr int get_math_num_fidelity_phases(const MathFidelity math_fidelity)
+0020: {
+0021:     // LoFi = 0 has 0 fidelity phases
+0022:     // HiFi2 = 1 has 1 phase, HiFi3 = 2 has 2 phases, HiFi4 = 3 has 3 phases
+0023:     return ckernel::to_underlying(math_fidelity);
+0024: }
+0025: 
+0026: template <MathFidelity math_fidelity, int THROTTLE_LEVEL>
+0027: inline void matmul_configure_addrmod_no_mop(
+0028:     const bool transpose,
+0029:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0030:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0031:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0032:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0033:     [[maybe_unused]] const bool partial_face            = false)
+0034: {
+0035:     static_assert(THROTTLE_LEVEL >= 0 && THROTTLE_LEVEL <= 5, "THROTTLE_LEVEL must be in range [0, 5]");
+0036:     constexpr bool high_fidelity     = math_fidelity != MathFidelity::LoFi;
+0037:     constexpr int fidelity_increment = high_fidelity ? 1 : 0;
+0038: 
+0039:     // MVMUL does D = B*A
+0040: 
+0041:     // Inner Loop --> 32/8 = 4 times for the full 32x16 face
+0042:     // DEST -- 8 rows are calculated each time
+0043:     // SRCB -- 8 rows are needed
+0044:     // SRCA -- full 16x16 gets used -- hardware will pair cols of A with rows of B
+0045:     // D[8,16] = B[8,16] * A[16,16]
+0046:     addr_mod_t {
+0047:         .srca = {.incr = 0, .clr = 0, .cr = 0},
+0048:         .srcb = {.incr = 8, .clr = 0, .cr = 0},
+0049:         .dest = {.incr = 8, .clr = 0, .cr = 0},
+0050:     }
+0051:         .set(ADDR_MOD_0);
+0052: 
+0053:     // reset all, increment fidelity if we have more fidelity phases
+0054:     addr_mod_t {
+0055:         .srca     = {.incr = 0, .clr = 1, .cr = 1},
+0056:         .srcb     = {.incr = 0, .clr = 1, .cr = 1},
+0057:         .dest     = {.incr = 0, .clr = 1, .cr = 1},
+0058:         .fidelity = {.incr = fidelity_increment, .clr = 0},
+0059:     }
+
+--- around line 127 ---
+0111:     else
+0112:     {
+0113:         addr_mod_t {
+0114:             .srca = {.incr = 32, .clr = 0, .cr = 1},
+0115:             //.srca = {.incr = srca_set, .clr = 0, .cr = 1},
+0116:             .srcb = {.incr = 48, .clr = 0, .cr = 1}, // cr=32 before, cr+48=16 after wrapping
+0117:             .dest = {.incr = 0, .clr = 0, .cr = 1},
+0118:             // .bias = {.incr = 1},
+0119:         }
+0120:             .set(ADDR_MOD_4);
+0121:     }
+0122: }
+0123: 
+0124: template <MathFidelity math_fidelity = MathFidelity::LoFi, int THROTTLE_LEVEL = 0>
+0125: inline void matmul_configure_addrmod_reinit(const bool transpose = false)
+0126: {
+0127:     // Reinit must restore the full matmul address-modifier contract used by replay.
+0128:     // In particular, transpose affects ADDR_MOD_1/4 and fidelity/throttle use ADDR_MOD_5/6.
+0129:     matmul_configure_addrmod_no_mop<math_fidelity, THROTTLE_LEVEL>(transpose);
+0130: }
+0131: 
+0132: template <MathFidelity math_fidelity>
+0133: inline void matmul_configure_mop_custom(
+0134:     const std::uint32_t ct_dim,
+0135:     const std::uint32_t rt_dim,
+0136:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0137:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0138:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0139:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0140:     [[maybe_unused]] const bool partial_face            = false)
+0141: {
+0142:     // in0 - loaded to SrcB
+0143:     // in1 - loaded to SrcA
+0144:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0145:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0146:     // by changing address increment amount via addr_mods
+0147:     // Col major layout in dest only impacts destination address increment
+0148:     // if col major layout faces are ordered as f0,f2,f1,f3
+0149: 
+0150:     [[maybe_unused]] constexpr int num_fidelity_phases = get_math_num_fidelity_phases(math_fidelity);
+0151:     constexpr bool high_fidelity                       = math_fidelity != MathFidelity::LoFi;
+0152: 
+0153:     const bool reuse_a                         = ct_dim >= rt_dim;
+0154:     [[maybe_unused]] const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0155: 
+0156:     const std::uint32_t replay_buf_len = 16;
+0157: 
+0158:     load_replay_buf(
+0159:         ckernel::math::replay_buf_offset,
+
+--- around line 201 ---
+0185:                 // TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0); // B3A3 or B3A2 // reset srca/srcb/dest, increment phase (addr_mod_5)
+0186:                 TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_5, 0); // B3A3 or B3A2 // reset srca/srcb/dest, increment phase (addr_mod_5)
+0187:             }
+0188:             else
+0189:             {
+0190:                 if (reuse_a)
+0191:                 {
+0192:                     TTI_MVMUL(p_setrwc::CLR_A, 0, ADDR_MOD_5, 0); // B3A3 or B3A2 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0193:                 }
+0194:                 else
+0195:                 {
+0196:                     TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_5, 0); // B3A3 or B2A1 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0197:                 }
+0198:             }
+0199:         });
+0200: 
+0201:     // MOP template programming removed - will use direct replay calls
+0202: }
+0203: 
+0204: template <int Level>
+0205: void run_throttled_sequence_no_mop();
+0206: 
+0207: template <>
+0208: void run_throttled_sequence_no_mop<1>()
+0209: {
+0210:     TTI_NOP;
+0211:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0212:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0213:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0214:     TTI_NOP;
+0215:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_2, 0);
+0216:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0217:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0218:     TTI_NOP;
+0219:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0220: }
+0221: 
+0222: template <>
+0223: void run_throttled_sequence_no_mop<2>()
+0224: {
+0225:     TTI_NOP;
+0226:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0227:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0228:     TTI_NOP;
+0229:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0230:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_2, 0);
+0231:     TTI_NOP;
+0232:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0233:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+
+--- around line 259 ---
+0243:     TTI_NOP;
+0244:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0245:     TTI_NOP;
+0246:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0247:     TTI_NOP;
+0248:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_2, 0);
+0249:     TTI_NOP;
+0250:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0251:     TTI_NOP;
+0252:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0253:     TTI_NOP;
+0254:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0255:     TTI_NOP;
+0256: }
+0257: 
+0258: template <>
+0259: void run_throttled_sequence_no_mop<4>()
+0260: {
+0261:     TTI_NOP;
+0262:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0263:     TTI_NOP;
+0264:     TTI_NOP;
+0265:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0266:     TTI_NOP;
+0267:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0268:     TTI_NOP;
+0269:     TTI_NOP;
+0270: }
+0271: 
+0272: template <>
+0273: void run_throttled_sequence_no_mop<5>()
+0274: {
+0275:     TTI_NOP;
+0276:     TTI_NOP;
+0277:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0278:     TTI_NOP;
+0279:     TTI_NOP;
+0280:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0281:     TTI_NOP;
+0282:     TTI_NOP;
+0283:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0284:     TTI_NOP;
+0285:     TTI_NOP;
+0286: }
+0287: 
+0288: /*
+0289:  * Programming of the MOP for the case we limit matmul compute throughput
+0290:  * Done by inserting NOP instructions between MVMUL instructions of matmul kernel
+0291:  *
+
+--- around line 327 ---
+0311:     // in1 - loaded to SrcA
+0312:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0313:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0314:     // by changing address increment amount via addr_mods
+0315:     // Col major layout in dest only impacts destination address increment
+0316:     // if col major layout faces are ordered as f0,f2,f1,f3
+0317: 
+0318:     constexpr int num_fidelity_phases = get_math_num_fidelity_phases(math_fidelity);
+0319:     constexpr bool high_fidelity      = math_fidelity != MathFidelity::LoFi;
+0320:     static_assert((THROTTLE_LEVEL > 0) && (THROTTLE_LEVEL <= 5), "MM throttling only enabled for THROTTLE_LEVEL={1,2,3,4,5}");
+0321:     LLK_ASSERT(
+0322:         (in0_tile_r_dim == TILE_R_DIM) && (in0_tile_c_dim == TILE_C_DIM) && (in1_tile_r_dim == TILE_R_DIM) && (in1_tile_c_dim == TILE_C_DIM) && !partial_face,
+0323:         "MM throttling only enabled for full 32x32 tile size");
+0324: 
+0325:     const bool reuse_a = ct_dim >= rt_dim;
+0326: 
+0327:     constexpr std::uint32_t replay_buf_len = (THROTTLE_LEVEL > 3) ? (1 + THROTTLE_LEVEL * 2) : ((THROTTLE_LEVEL > 1) ? (3 + THROTTLE_LEVEL * 4) : 10);
+0328: 
+0329:     load_replay_buf(
+0330:         ckernel::math::replay_buf_offset,
+0331:         replay_buf_len,
+0332:         // Lambda function to load reply buffer
+0333:         [] { run_throttled_sequence_no_mop<THROTTLE_LEVEL>(); });
+0334: 
+0335:     // MOP template programming removed - will use direct replay calls
+0336: }
+0337: 
+0338: template <MathFidelity math_fidelity, int THROTTLE_LEVEL = 0>
+0339: inline void _llk_math_matmul_init_no_mop_(
+0340:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0341:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0342:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0343:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0344:     const bool partial_face            = false,
+0345:     const std::uint32_t transpose      = 0,
+0346:     const std::uint32_t ct_dim         = 1,
+0347:     const std::uint32_t rt_dim         = 1)
+0348: {
+0349:     matmul_configure_addrmod_no_mop<math_fidelity, THROTTLE_LEVEL>(transpose, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0350:     if constexpr (THROTTLE_LEVEL > 0)
+0351:     {
+0352:         matmul_configure_mop_throttled_no_mop<math_fidelity, THROTTLE_LEVEL>(
+0353:             ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0354:     }
+0355:     else
+0356:     {
+0357:         matmul_configure_mop_custom<math_fidelity>(ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0358:     }
+0359:     math::reset_counters(p_setrwc::SET_ABD_F);
+
+--- around line 384 ---
+0368: inline void _llk_math_matmul_no_mop_(
+0369:     std::uint32_t dst_index,
+0370:     const std::uint32_t ct_dim                          = 1,
+0371:     const std::uint32_t rt_dim                          = 1,
+0372:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0373:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0374:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0375:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0376:     [[maybe_unused]] const bool partial_face            = false)
+0377: {
+0378:     const bool reuse_a                = ct_dim >= rt_dim;
+0379:     const std::uint32_t t_dim         = reuse_a ? rt_dim : ct_dim;
+0380:     const std::uint32_t rut_dim       = reuse_a ? ct_dim : rt_dim; // reuse-dim
+0381:     constexpr int num_fidelity_phases = get_math_num_fidelity_phases(math_fidelity);
+0382:     constexpr bool high_fidelity      = math_fidelity != MathFidelity::LoFi;
+0383: 
+0384:     // Compute replay buffer length based on tile dimensions (same logic as in matmul_configure_mop)
+0385:     std::uint32_t replay_buf_len;
+0386:     if constexpr (THROTTLE_LEVEL > 0)
+0387:     {
+0388:         replay_buf_len = (THROTTLE_LEVEL > 3) ? (1 + THROTTLE_LEVEL * 2) : ((THROTTLE_LEVEL > 1) ? (3 + THROTTLE_LEVEL * 4) : 10);
+0389:     }
+0390:     else
+0391:     {
+0392:         replay_buf_len = 16;
+0393:     }
+0394: 
+0395:     for (std::uint32_t t = 0; t < t_dim; t++)
+0396:     {
+0397:         for (std::uint32_t rut = 0; rut < rut_dim; rut++)
+0398:         {
+0399:             math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + (reuse_a ? ct_dim * t + rut : t + rut * ct_dim));
+0400: 
+0401:             if constexpr (THROTTLE_LEVEL > 0)
+0402:             {
+0403:                 // Throttled execution
+0404:                 if constexpr (THROTTLE_LEVEL > 3)
+0405:                 {
+0406:                     // THROTTLE_LEVEL 4 or 5: outer_loops = 2
+0407:                     if constexpr (high_fidelity)
+0408:                     {
+0409:                         // outer loop for fidelity phases
+0410:                         for (std::uint32_t phase = 0; phase < num_fidelity_phases; phase++)
+0411:                         {
+0412:                             // inner loop (2 iterations for standard tiles)
+0413:                             for (std::uint32_t inner = 0; inner < 2; inner++)
+0414:                             {
+0415:                                 lltt::replay(ckernel::math::replay_buf_offset, replay_buf_len);
+0416:                                 if (inner < 1)
+
+
+===== tt_llk_wormhole_b0/llk_lib/llk_math_matmul.h =====
+
+--- around line 300 ---
+0284:         }
+0285:         else
+0286:         {
+0287:             addr_mod_t {
+0288:                 .srca = {.incr = 32, .clr = 0, .cr = 1},
+0289:                 //.srca = {.incr = srca_set, .clr = 0, .cr = 1},
+0290:                 .srcb = {.incr = 48, .clr = 0, .cr = 1}, // cr=32 before, cr+48=16 after wrapping
+0291:                 .dest = {.incr = 0, .clr = 0, .cr = 1},
+0292:                 .bias = {.incr = 1},
+0293:             }
+0294:                 .set(ADDR_MOD_4);
+0295:         }
+0296:     }
+0297: }
+0298: 
+0299: template <MathFidelity math_fidelity>
+0300: inline void matmul_configure_mop(
+0301:     const std::uint32_t ct_dim,
+0302:     const std::uint32_t rt_dim,
+0303:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0304:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0305:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0306:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0307:     const bool partial_face            = false)
+0308: {
+0309:     // in0 - loaded to SrcB
+0310:     // in1 - loaded to SrcA
+0311:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0312:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0313:     // by changing address increment amount via addr_mods
+0314:     // Col major layout in dest only impacts destination address increment
+0315:     // if col major layout faces are ordered as f0,f2,f1,f3
+0316: 
+0317:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0318: 
+0319:     const bool reuse_a        = ct_dim >= rt_dim;
+0320:     const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0321: 
+0322:     const bool is_in0_16x32 = (in0_tile_r_dim <= FACE_R_DIM) && (in0_tile_c_dim > FACE_C_DIM);
+0323:     const bool is_in1_32x16 = (in1_tile_r_dim > FACE_R_DIM) && (in1_tile_c_dim <= FACE_C_DIM);
+0324:     const bool is_in0_32x16 = (in0_tile_r_dim > FACE_R_DIM) && (in0_tile_c_dim <= FACE_C_DIM);
+0325:     const bool is_in1_16x32 = (in1_tile_r_dim <= FACE_R_DIM) && (in1_tile_c_dim > FACE_C_DIM);
+0326: 
+0327:     const std::uint32_t replay_buf_len =
+0328:         (is_in0_16x32 && is_in1_32x16) ? 4 : ((is_in0_16x32 || is_in1_32x16 || is_in0_32x16 || is_in1_16x32) ? (partial_face ? 4 : 8) : 16);
+0329: 
+0330:     lltt::record(ckernel::math::replay_buf_offset, replay_buf_len);
+0331: 
+0332:     if (is_in1_32x16)
+
+--- around line 433 ---
+0417:         }
+0418:         else
+0419:         {
+0420:             if (t_dim > 1)
+0421:             {
+0422:                 TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0); // B3A3 or B2A1 // reset srca/srcb/dest, increment phase (addr_mod_5)
+0423:             }
+0424:             else
+0425:             {
+0426:                 TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_1, 0); // B3A3 or B2A1 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0427:             }
+0428:         }
+0429:     }
+0430: 
+0431:     // TODO: can we commonize this?
+0432:     constexpr std::uint32_t inner_loops = high_fidelity ? to_underlying(math_fidelity) : 1;
+0433:     ckernel_template tmp(1 /* outer loop */, inner_loops, lltt::replay_insn(ckernel::math::replay_buf_offset, replay_buf_len));
+0434: 
+0435:     if constexpr (high_fidelity)
+0436:     {
+0437:         if (t_dim > 1)
+0438:         {                                                                                  //
+0439:             tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_NONE, 0, 0, 0, 0, p_setrwc::SET_F)); // Reset fidelity phase
+0440:         }
+0441:         else
+0442:         {
+0443:             if (reuse_a)
+0444:             {
+0445:                 tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_A, 0, 0, 0, 0, p_setrwc::SET_ABD_F));
+0446:             }
+0447:             else
+0448:             {
+0449:                 tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_B, 0, 0, 0, 0, p_setrwc::SET_ABD_F));
+0450:             }
+0451:         }
+0452:     }
+0453:     tmp.program();
+0454: }
+0455: 
+0456: template <int THROTTLE_LEVEL, bool high_fidelity>
+0457: void run_throttled_sequence(const std::uint32_t t_dim, const bool reuse_a)
+0458: {
+0459:     if constexpr (THROTTLE_LEVEL == 1)
+0460:     {
+0461:         TTI_NOP;
+0462:         TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0463:         TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0464:         TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0465:         TTI_NOP;
+
+--- around line 581 ---
+0565:             {
+0566:                 TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0567:             }
+0568:             else if (reuse_a)
+0569:             {
+0570:                 TTI_MVMUL(p_setrwc::CLR_A, 0, ADDR_MOD_1, 0);
+0571:             }
+0572:             else
+0573:             {
+0574:                 TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_1, 0);
+0575:             }
+0576:         }
+0577:     }
+0578: }
+0579: 
+0580: /*
+0581:  * Programming of the MOP for the case we limit matmul compute throughput
+0582:  * Done by inserting NOP instructions between MVMUL instructions of matmul kernel
+0583:  *
+0584:  * Valid range of THROTTLE_LEVEL is {1,2,3,4,5}
+0585:  * Each value corresponds to level of throttling as:
+0586:  * Level 1: throttle to 73% of max
+0587:  * Level 2: throttle to 67% of max
+0588:  * Level 3: throttle to 50% of max
+0589:  * Level 4: throttle to 40% of max
+0590:  * Level 5: throttle to 33% of max
+0591:  */
+0592: template <MathFidelity math_fidelity, int THROTTLE_LEVEL>
+0593: inline void matmul_configure_mop_throttled(
+0594:     const std::uint32_t ct_dim,
+0595:     const std::uint32_t rt_dim,
+0596:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0597:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0598:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0599:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0600:     const bool partial_face            = false)
+0601: {
+0602:     // in0 - loaded to SrcB
+0603:     // in1 - loaded to SrcA
+0604:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0605:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0606:     // by changing address increment amount via addr_mods
+0607:     // Col major layout in dest only impacts destination address increment
+0608:     // if col major layout faces are ordered as f0,f2,f1,f3
+0609:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0610:     static_assert((THROTTLE_LEVEL > 0) && (THROTTLE_LEVEL <= 5), "MM throttling only enabled for THROTTLE_LEVEL={1,2,3,4,5}");
+0611:     LLK_ASSERT(
+0612:         (in0_tile_r_dim == TILE_R_DIM) && (in0_tile_c_dim == TILE_C_DIM) && (in1_tile_r_dim == TILE_R_DIM) && (in1_tile_c_dim == TILE_C_DIM) && !partial_face,
+0613:         "MM throttling only enabled for full 32x32 tile size");
+
+--- around line 636 ---
+0620:     const bool is_in0_32x16 = (in0_tile_r_dim > FACE_R_DIM) && (in0_tile_c_dim <= FACE_C_DIM);
+0621:     const bool is_in1_16x32 = (in1_tile_r_dim <= FACE_R_DIM) && (in1_tile_c_dim > FACE_C_DIM);
+0622: 
+0623:     constexpr std::uint32_t replay_buff_len_throttle = (THROTTLE_LEVEL > 3) ? (16) : ((THROTTLE_LEVEL > 1) ? (3 + THROTTLE_LEVEL * 4) : 10);
+0624:     const std::uint32_t replay_buf_len =
+0625:         (is_in0_16x32 && is_in1_32x16) ? 4
+0626:                                        : ((is_in0_16x32 || is_in1_32x16 || is_in0_32x16 || is_in1_16x32) ? (partial_face ? 4 : 8) : replay_buff_len_throttle);
+0627: 
+0628:     lltt::record(ckernel::math::replay_buf_offset, replay_buf_len);
+0629:     if (!is_in1_32x16 && !is_in1_16x32 && !is_in0_32x16 && !is_in0_16x32)
+0630:     {
+0631:         run_throttled_sequence<THROTTLE_LEVEL, high_fidelity>(t_dim, reuse_a);
+0632:     }
+0633: 
+0634:     constexpr std::uint32_t outer_loops        = (THROTTLE_LEVEL > 3) ? 2 : (high_fidelity ? to_underlying(math_fidelity) : 1);
+0635:     const std::uint32_t inner_loops            = (!is_in1_16x32) ? 2 : 1;
+0636:     constexpr std::uint32_t loop_instruction_0 = (THROTTLE_LEVEL == 5)   ? lltt::replay_insn(ckernel::math::replay_buf_offset + 1, 8)
+0637:                                                  : (THROTTLE_LEVEL == 4) ? lltt::replay_insn(ckernel::math::replay_buf_offset + 2, 6)
+0638:                                                                          : lltt::replay_insn(ckernel::math::replay_buf_offset, replay_buff_len_throttle);
+0639:     constexpr std::uint32_t loop_instruction_1 = (THROTTLE_LEVEL == 5)   ? lltt::replay_insn(ckernel::math::replay_buf_offset + 9, 4)
+0640:                                                  : (THROTTLE_LEVEL == 4) ? lltt::replay_insn(ckernel::math::replay_buf_offset + 8, 4)
+0641:                                                                          : TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0642:     ckernel_template tmp(outer_loops, inner_loops, loop_instruction_0, loop_instruction_1);
+0643: 
+0644:     if constexpr (THROTTLE_LEVEL == 5)
+0645:     {
+0646:         tmp.set_last_inner_loop_instr(lltt::replay_insn(ckernel::math::replay_buf_offset, 4));
+0647:         tmp.set_last_outer_loop_instr(lltt::replay_insn(ckernel::math::replay_buf_offset + 13, 3));
+0648:     }
+0649:     else if constexpr (THROTTLE_LEVEL == 4)
+0650:     {
+0651:         tmp.set_last_inner_loop_instr(lltt::replay_insn(ckernel::math::replay_buf_offset, 4));
+0652:         tmp.set_last_outer_loop_instr(lltt::replay_insn(ckernel::math::replay_buf_offset + 12, 4));
+0653:     }
+0654:     else
+0655:     {
+0656:         if constexpr (high_fidelity)
+0657:         {
+0658:             tmp.set_last_inner_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0));
+0659:         }
+0660: 
+0661:         if (t_dim > 1)
+0662:         {
+0663:             tmp.set_last_outer_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, high_fidelity ? ADDR_MOD_2 : ADDR_MOD_1, 0));
+0664:         }
+0665:         else if (reuse_a)
+0666:         {
+0667:             tmp.set_last_outer_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_A, 0, high_fidelity ? ADDR_MOD_2 : ADDR_MOD_1, 0));
+0668:         }
+
+--- around line 718 ---
+0702:         if (reuse_a)
+0703:         {
+0704:             TTI_SETC16(CLR_DVALID_SrcB_Disable_ADDR32, CLR_DVALID_SrcB_Disable_MASK); // Disable srcB valid clear. Has to be done via dedicated instruction
+0705:         }
+0706:         else
+0707:         {
+0708:             TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, CLR_DVALID_SrcA_Disable_MASK); // Disable srcA valid clear. Has to be done via dedicated instruction
+0709:         }
+0710:     }
+0711:     else
+0712:     {
+0713:         TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, 0);
+0714:     }
+0715: 
+0716:     if constexpr (THROTTLE_LEVEL > 0)
+0717:     {
+0718:         matmul_configure_mop_throttled<math_fidelity, THROTTLE_LEVEL>(
+0719:             ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0720:     }
+0721:     else
+0722:     {
+0723:         matmul_configure_mop<math_fidelity>(ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0724:     }
+0725:     math::reset_counters(p_setrwc::SET_ABD_F);
+0726: }
+0727: 
+0728: inline void _llk_math_matmul_uninit_()
+0729: {
+0730:     TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, 0);
+0731:     TTI_SETC16(CLR_DVALID_SrcB_Disable_ADDR32, 0);
+0732: }
+0733: 
+0734: template <MathFidelity math_fidelity, int THROTTLE_LEVEL = 0>
+0735: inline void _llk_math_matmul_(std::uint32_t dst_index, const std::uint32_t ct_dim = 1, const std::uint32_t rt_dim = 1)
+0736: {
+0737:     const bool reuse_a           = ct_dim >= rt_dim;
+0738:     const std::uint32_t t_dim    = reuse_a ? rt_dim : ct_dim;
+0739:     const std::uint32_t rut_dim  = reuse_a ? ct_dim : rt_dim; // reuse-dim
+0740:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0741: 
+0742:     for (std::uint32_t t = 0; t < t_dim; t++)
+0743:     {
+0744:         for (std::uint32_t rut = 0; rut < rut_dim; rut++)
+0745:         {
+0746:             math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + (reuse_a ? ct_dim * t + rut : t + rut * ct_dim));
+0747: 
+0748:             if (t_dim == 1)
+0749:             {
+0750:                 if constexpr (THROTTLE_LEVEL > 3 && high_fidelity)
+
+
+===== tt_llk_blackhole/llk_lib/llk_math_matmul.h =====
+
+--- around line 276 ---
+0260:         }
+0261:         else
+0262:         {
+0263:             addr_mod_t {
+0264:                 .srca = {.incr = 32, .clr = 0, .cr = 1},
+0265:                 //.srca = {.incr = srca_set, .clr = 0, .cr = 1},
+0266:                 .srcb = {.incr = 48, .clr = 0, .cr = 1}, // cr=32 before, cr+48=16 after wrapping
+0267:                 .dest = {.incr = 0, .clr = 0, .cr = 1},
+0268:                 // .bias = {.incr = 1},
+0269:             }
+0270:                 .set(ADDR_MOD_4);
+0271:         }
+0272:     }
+0273: }
+0274: 
+0275: template <MathFidelity math_fidelity>
+0276: inline void matmul_configure_mop(
+0277:     const std::uint32_t ct_dim,
+0278:     const std::uint32_t rt_dim,
+0279:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0280:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0281:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0282:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0283:     const bool partial_face            = false)
+0284: {
+0285:     // in0 - loaded to SrcB
+0286:     // in1 - loaded to SrcA
+0287:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0288:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0289:     // by changing address increment amount via addr_mods
+0290:     // Col major layout in dest only impacts destination address increment
+0291:     // if col major layout faces are ordered as f0,f2,f1,f3
+0292:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0293: 
+0294:     const bool reuse_a        = ct_dim >= rt_dim;
+0295:     const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0296: 
+0297:     const bool is_in0_16x32 = (in0_tile_r_dim <= FACE_R_DIM) && (in0_tile_c_dim > FACE_C_DIM);
+0298:     const bool is_in1_32x16 = (in1_tile_r_dim > FACE_R_DIM) && (in1_tile_c_dim <= FACE_C_DIM);
+0299:     const bool is_in0_32x16 = (in0_tile_r_dim > FACE_R_DIM) && (in0_tile_c_dim <= FACE_C_DIM);
+0300:     const bool is_in1_16x32 = (in1_tile_r_dim <= FACE_R_DIM) && (in1_tile_c_dim > FACE_C_DIM);
+0301: 
+0302:     const std::uint32_t replay_buf_len =
+0303:         (is_in0_16x32 && is_in1_32x16) ? 4 : ((is_in0_16x32 || is_in1_32x16 || is_in0_32x16 || is_in1_16x32) ? (partial_face ? 4 : 8) : 16);
+0304: 
+0305:     load_replay_buf(
+0306:         ckernel::math::replay_buf_offset,
+0307:         replay_buf_len,
+0308:         // Lambda function to load reply buffer
+
+--- around line 398 ---
+0382:             }
+0383:             else
+0384:             {
+0385:                 if (reuse_a)
+0386:                 {
+0387:                     TTI_MVMUL(p_setrwc::CLR_A, 0, ADDR_MOD_5, 0); // B3A3 or B3A2 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0388:                 }
+0389:                 else
+0390:                 {
+0391:                     TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_5, 0); // B3A3 or B2A1 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0392:                 }
+0393:             }
+0394:         });
+0395: 
+0396:     // TODO: can we commonize this?
+0397:     constexpr std::uint32_t inner_loops = high_fidelity ? to_underlying(math_fidelity) : 1;
+0398:     ckernel_template tmp(1 /* outer loop */, inner_loops, lltt::replay_insn(ckernel::math::replay_buf_offset, replay_buf_len));
+0399: 
+0400:     if constexpr (high_fidelity)
+0401:     {
+0402:         if (reuse_a)
+0403:         {
+0404:             tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_A, 0, 0, 0, 0, p_setrwc::SET_ABD_F));
+0405:         }
+0406:         else
+0407:         {
+0408:             tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_B, 0, 0, 0, 0, p_setrwc::SET_ABD_F));
+0409:         }
+0410:     }
+0411:     tmp.program();
+0412: }
+0413: 
+0414: template <int Level>
+0415: void run_throttled_sequence();
+0416: 
+0417: template <>
+0418: void run_throttled_sequence<1>()
+0419: {
+0420:     TTI_NOP;
+0421:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0422:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0423:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0424:     TTI_NOP;
+0425:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_2, 0);
+0426:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0427:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0428:     TTI_NOP;
+0429:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0430: }
+
+--- around line 499 ---
+0483: void run_throttled_sequence<5>()
+0484: {
+0485:     TTI_NOP;
+0486:     TTI_NOP;
+0487:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0488:     TTI_NOP;
+0489:     TTI_NOP;
+0490:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0491:     TTI_NOP;
+0492:     TTI_NOP;
+0493:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0494:     TTI_NOP;
+0495:     TTI_NOP;
+0496: }
+0497: 
+0498: /*
+0499:  * Programming of the MOP for the case we limit matmul compute throughput
+0500:  * Done by inserting NOP instructions between MVMUL instructions of matmul kernel
+0501:  *
+0502:  * Valid range of THROTTLE_LEVEL is {1,2,3,4,5}
+0503:  * Each value corresponds to level of throttling as:
+0504:  * Level 1: throttle to 73% of max
+0505:  * Level 2: throttle to 67% of max

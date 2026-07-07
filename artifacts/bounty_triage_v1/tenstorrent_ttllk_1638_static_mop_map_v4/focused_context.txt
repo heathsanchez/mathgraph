@@ -1,0 +1,2927 @@
+
+
+===== tt_llk_wormhole_b0/llk_lib/experimental/llk_math_matmul_custom_no_mop.h =====
+
+--- around line 13 ---
+0001: // SPDX-FileCopyrightText: © 2026 Tenstorrent AI ULC
+0002: //
+0003: // SPDX-License-Identifier: Apache-2.0
+0004: 
+0005: #pragma once
+0006: 
+0007: #include <cstdint>
+0008: 
+0009: #include "llk_math_matmul.h"
+0010: 
+0011: using namespace ckernel;
+0012: 
+0013: inline void matmul_validate_no_mop_contract(
+0014:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0015:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0016:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0017:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0018:     const bool partial_face            = false)
+0019: {
+0020:     LLK_ASSERT(
+0021:         in0_tile_r_dim == TILE_R_DIM && in0_tile_c_dim == TILE_C_DIM && in1_tile_r_dim == TILE_R_DIM && in1_tile_c_dim == TILE_C_DIM && !partial_face,
+0022:         "Wormhole custom no-mop matmul currently supports only full 32x32 tiles with partial_face disabled");
+0023: }
+0024: 
+0025: inline std::uint32_t matmul_get_replay_buf_len_no_mop(
+0026:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0027:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0028:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0029:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0030:     [[maybe_unused]] const bool partial_face            = false)
+0031: {
+0032:     // The narrowed WH full-tile path uses a fixed replay image.
+0033:     return 16;
+0034: }
+0035: 
+0036: template <MathFidelity math_fidelity, int THROTTLE_LEVEL = 0>
+0037: inline void matmul_configure_addrmod_no_mop(
+0038:     const bool transpose,
+0039:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0040:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0041:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0042:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0043:     const bool partial_face            = false,
+0044:     const std::uint32_t ct_dim         = 1,
+0045:     const std::uint32_t rt_dim         = 1)
+
+--- around line 62 ---
+0046: {
+0047:     // The current Wormhole no-mop path is intentionally narrowed to the
+0048:     // full-tile use case. Keep the contract explicit so generic LLK harnesses
+0049:     // do not silently exercise unsupported tiny-tile or partial-face variants.
+0050:     static_assert(THROTTLE_LEVEL == 0, "Wormhole custom no-mop matmul only supports THROTTLE_LEVEL == 0");
+0051:     matmul_validate_no_mop_contract(in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0052: 
+0053:     // Reuse the regular Wormhole matmul addrmods for the tile traversal itself.
+0054:     // The no-mop-specific part below only fixes up the dvalid contract for
+0055:     // reentry. Unlike BH, this WH path has to make the A/B reuse policy explicit
+0056:     // so repeated replays keep the right source valid across ct/rt shapes.
+0057:     matmul_configure_addrmod<math_fidelity, THROTTLE_LEVEL>(transpose, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0058: 
+0059:     const bool reuse_a        = ct_dim >= rt_dim;
+0060:     const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0061: 
+0062:     // When the replay reuses one operand across multiple output tiles, keep the
+0063:     // opposite source disabled until the replay sequence explicitly clears it.
+0064:     if (t_dim > 1)
+0065:     {
+0066:         if (reuse_a)
+0067:         {
+0068:             TTI_SETC16(CLR_DVALID_SrcB_Disable_ADDR32, CLR_DVALID_SrcB_Disable_MASK);
+0069:         }
+0070:         else
+0071:         {
+0072:             TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, CLR_DVALID_SrcA_Disable_MASK);
+0073:         }
+0074:     }
+0075:     else
+0076:     {
+0077:         TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, 0);
+0078:     }
+0079: }
+0080: 
+0081: template <MathFidelity math_fidelity>
+0082: inline void matmul_emit_replay_program_no_mop(
+0083:     const std::uint32_t ct_dim,
+0084:     const std::uint32_t rt_dim,
+0085:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0086:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0087:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0088:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0089:     [[maybe_unused]] const bool partial_face            = false)
+0090: {
+0091:     const bool reuse_a        = ct_dim >= rt_dim;
+0092:     const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0093: 
+0094:     // This is the fixed full-tile replay image for the current no-mop path.
+
+--- around line 174 ---
+0158:         }
+0159:         else
+0160:         {
+0161:             if (t_dim > 1)
+0162:             {
+0163:                 TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0164:             }
+0165:             else
+0166:             {
+0167:                 TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_1, 0);
+0168:             }
+0169:         }
+0170:     }
+0171: }
+0172: 
+0173: template <MathFidelity math_fidelity>
+0174: inline void matmul_load_replay_no_mop(
+0175:     const std::uint32_t ct_dim,
+0176:     const std::uint32_t rt_dim,
+0177:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0178:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0179:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0180:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0181:     const bool partial_face            = false)
+0182: {
+0183:     const std::uint32_t replay_buf_len = matmul_get_replay_buf_len_no_mop(in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0184: 
+0185:     // WH records the replay image explicitly at init/reinit time rather than
+0186:     // assuming it persists like the BH path does.
+0187:     lltt::record<lltt::NoExec>(ckernel::math::replay_buf_offset, replay_buf_len);
+0188:     matmul_emit_replay_program_no_mop<math_fidelity>(ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0189: }
+0190: 
+0191: template <MathFidelity math_fidelity>
+0192: inline void matmul_execute_replay_no_mop(const std::uint32_t replay_buf_len, const bool reuse_a, const std::uint32_t t_dim)
+0193: {
+0194:     if constexpr (!is_high_fidelity(math_fidelity))
+0195:     {
+0196:         lltt::replay(ckernel::math::replay_buf_offset, replay_buf_len);
+0197:         return;
+0198:     }
+0199: 
+0200:     // HiFi paths replay the same full-tile program multiple times, then repair
+0201:     // the A/B/F counter state to match what the next outer-loop iteration
+0202:     // expects.
+0203:     constexpr std::uint32_t num_replay = to_underlying(math_fidelity);
+0204:     for (std::uint32_t replay = 0; replay < num_replay; replay++)
+0205:     {
+0206:         lltt::replay(ckernel::math::replay_buf_offset, replay_buf_len);
+
+--- around line 224 ---
+0208: 
+0209:     if (t_dim > 1)
+0210:     {
+0211:         TTI_SETRWC(p_setrwc::CLR_NONE, 0, 0, 0, 0, p_setrwc::SET_F);
+0212:     }
+0213:     else if (reuse_a)
+0214:     {
+0215:         TTI_SETRWC(p_setrwc::CLR_A, 0, 0, 0, 0, p_setrwc::SET_ABD_F);
+0216:     }
+0217:     else
+0218:     {
+0219:         TTI_SETRWC(p_setrwc::CLR_B, 0, 0, 0, 0, p_setrwc::SET_ABD_F);
+0220:     }
+0221: }
+0222: 
+0223: template <MathFidelity math_fidelity>
+0224: inline void matmul_run_no_mop_tdim1_reuse_a(
+0225:     const std::uint32_t dst_index, [[maybe_unused]] const std::uint32_t ct_dim, const std::uint32_t rut_dim, const std::uint32_t replay_buf_len)
+0226: {
+0227:     for (std::uint32_t rut = 0; (rut + 1) < rut_dim; rut++)
+0228:     {
+0229:         math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + rut);
+0230:         matmul_execute_replay_no_mop<math_fidelity>(replay_buf_len, true, 1);
+0231:     }
+0232: 
+0233:     math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + rut_dim - 1);
+0234:     matmul_execute_replay_no_mop<math_fidelity>(replay_buf_len, true, 1);
+0235:     TTI_SETRWC(p_setrwc::CLR_B, 0, 0, 0, 0, p_setrwc::SET_ABD);
+0236: }
+0237: 
+0238: template <MathFidelity math_fidelity>
+0239: inline void matmul_run_no_mop_tdim1_reuse_b(
+0240:     const std::uint32_t dst_index, const std::uint32_t ct_dim, const std::uint32_t rut_dim, const std::uint32_t replay_buf_len)
+0241: {
+0242:     for (std::uint32_t rut = 0; (rut + 1) < rut_dim; rut++)
+0243:     {
+0244:         math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + rut * ct_dim);
+0245:         matmul_execute_replay_no_mop<math_fidelity>(replay_buf_len, false, 1);
+0246:     }
+0247: 
+0248:     math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + (rut_dim - 1) * ct_dim);
+0249:     matmul_execute_replay_no_mop<math_fidelity>(replay_buf_len, false, 1);
+0250:     TTI_SETRWC(p_setrwc::CLR_A, 0, 0, 0, 0, p_setrwc::SET_ABD);
+0251: }
+0252: 
+0253: template <MathFidelity math_fidelity>
+0254: inline void matmul_run_no_mop_tdim_gt1_reuse_a(
+0255:     const std::uint32_t dst_index, const std::uint32_t ct_dim, const std::uint32_t t_dim, const std::uint32_t rut_dim, const std::uint32_t replay_buf_len)
+0256: {
+
+
+===== tt_llk_blackhole/llk_lib/experimental/llk_math_matmul_custom_no_mop.h =====
+
+--- around line 27 ---
+0011: #include "ckernel_template.h"
+0012: #include "cmath_common.h"
+0013: #include "llk_assert.h"
+0014: #include "llk_math_common.h"
+0015: 
+0016: using namespace ckernel;
+0017: 
+0018: // Helper functions for math fidelity
+0019: constexpr int get_math_num_fidelity_phases(const MathFidelity math_fidelity)
+0020: {
+0021:     // LoFi = 0 has 0 fidelity phases
+0022:     // HiFi2 = 1 has 1 phase, HiFi3 = 2 has 2 phases, HiFi4 = 3 has 3 phases
+0023:     return ckernel::to_underlying(math_fidelity);
+0024: }
+0025: 
+0026: template <MathFidelity math_fidelity, int THROTTLE_LEVEL>
+0027: inline void matmul_configure_addrmod_no_mop(
+0028:     const bool transpose,
+0029:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0030:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0031:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0032:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0033:     [[maybe_unused]] const bool partial_face            = false)
+0034: {
+0035:     static_assert(THROTTLE_LEVEL >= 0 && THROTTLE_LEVEL <= 5, "THROTTLE_LEVEL must be in range [0, 5]");
+0036:     constexpr bool high_fidelity     = math_fidelity != MathFidelity::LoFi;
+0037:     constexpr int fidelity_increment = high_fidelity ? 1 : 0;
+0038: 
+0039:     // MVMUL does D = B*A
+0040: 
+0041:     // Inner Loop --> 32/8 = 4 times for the full 32x16 face
+0042:     // DEST -- 8 rows are calculated each time
+0043:     // SRCB -- 8 rows are needed
+0044:     // SRCA -- full 16x16 gets used -- hardware will pair cols of A with rows of B
+0045:     // D[8,16] = B[8,16] * A[16,16]
+0046:     addr_mod_t {
+0047:         .srca = {.incr = 0, .clr = 0, .cr = 0},
+0048:         .srcb = {.incr = 8, .clr = 0, .cr = 0},
+0049:         .dest = {.incr = 8, .clr = 0, .cr = 0},
+0050:     }
+0051:         .set(ADDR_MOD_0);
+0052: 
+0053:     // reset all, increment fidelity if we have more fidelity phases
+0054:     addr_mod_t {
+0055:         .srca     = {.incr = 0, .clr = 1, .cr = 1},
+0056:         .srcb     = {.incr = 0, .clr = 1, .cr = 1},
+0057:         .dest     = {.incr = 0, .clr = 1, .cr = 1},
+0058:         .fidelity = {.incr = fidelity_increment, .clr = 0},
+0059:     }
+
+--- around line 127 ---
+0111:     else
+0112:     {
+0113:         addr_mod_t {
+0114:             .srca = {.incr = 32, .clr = 0, .cr = 1},
+0115:             //.srca = {.incr = srca_set, .clr = 0, .cr = 1},
+0116:             .srcb = {.incr = 48, .clr = 0, .cr = 1}, // cr=32 before, cr+48=16 after wrapping
+0117:             .dest = {.incr = 0, .clr = 0, .cr = 1},
+0118:             // .bias = {.incr = 1},
+0119:         }
+0120:             .set(ADDR_MOD_4);
+0121:     }
+0122: }
+0123: 
+0124: template <MathFidelity math_fidelity = MathFidelity::LoFi, int THROTTLE_LEVEL = 0>
+0125: inline void matmul_configure_addrmod_reinit(const bool transpose = false)
+0126: {
+0127:     // Reinit must restore the full matmul address-modifier contract used by replay.
+0128:     // In particular, transpose affects ADDR_MOD_1/4 and fidelity/throttle use ADDR_MOD_5/6.
+0129:     matmul_configure_addrmod_no_mop<math_fidelity, THROTTLE_LEVEL>(transpose);
+0130: }
+0131: 
+0132: template <MathFidelity math_fidelity>
+0133: inline void matmul_configure_mop_custom(
+0134:     const std::uint32_t ct_dim,
+0135:     const std::uint32_t rt_dim,
+0136:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0137:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0138:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0139:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0140:     [[maybe_unused]] const bool partial_face            = false)
+0141: {
+0142:     // in0 - loaded to SrcB
+0143:     // in1 - loaded to SrcA
+0144:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0145:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0146:     // by changing address increment amount via addr_mods
+0147:     // Col major layout in dest only impacts destination address increment
+0148:     // if col major layout faces are ordered as f0,f2,f1,f3
+0149: 
+0150:     [[maybe_unused]] constexpr int num_fidelity_phases = get_math_num_fidelity_phases(math_fidelity);
+0151:     constexpr bool high_fidelity                       = math_fidelity != MathFidelity::LoFi;
+0152: 
+0153:     const bool reuse_a                         = ct_dim >= rt_dim;
+0154:     [[maybe_unused]] const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0155: 
+0156:     const std::uint32_t replay_buf_len = 16;
+0157: 
+0158:     load_replay_buf(
+0159:         ckernel::math::replay_buf_offset,
+
+--- around line 201 ---
+0185:                 // TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0); // B3A3 or B3A2 // reset srca/srcb/dest, increment phase (addr_mod_5)
+0186:                 TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_5, 0); // B3A3 or B3A2 // reset srca/srcb/dest, increment phase (addr_mod_5)
+0187:             }
+0188:             else
+0189:             {
+0190:                 if (reuse_a)
+0191:                 {
+0192:                     TTI_MVMUL(p_setrwc::CLR_A, 0, ADDR_MOD_5, 0); // B3A3 or B3A2 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0193:                 }
+0194:                 else
+0195:                 {
+0196:                     TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_5, 0); // B3A3 or B2A1 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0197:                 }
+0198:             }
+0199:         });
+0200: 
+0201:     // MOP template programming removed - will use direct replay calls
+0202: }
+0203: 
+0204: template <int Level>
+0205: void run_throttled_sequence_no_mop();
+0206: 
+0207: template <>
+0208: void run_throttled_sequence_no_mop<1>()
+0209: {
+0210:     TTI_NOP;
+0211:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0212:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0213:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0214:     TTI_NOP;
+0215:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_2, 0);
+0216:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0217:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0218:     TTI_NOP;
+0219:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0220: }
+0221: 
+0222: template <>
+0223: void run_throttled_sequence_no_mop<2>()
+0224: {
+0225:     TTI_NOP;
+0226:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0227:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0228:     TTI_NOP;
+0229:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0230:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_2, 0);
+0231:     TTI_NOP;
+0232:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0233:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+
+--- around line 259 ---
+0243:     TTI_NOP;
+0244:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0245:     TTI_NOP;
+0246:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0247:     TTI_NOP;
+0248:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_2, 0);
+0249:     TTI_NOP;
+0250:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0251:     TTI_NOP;
+0252:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0253:     TTI_NOP;
+0254:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0255:     TTI_NOP;
+0256: }
+0257: 
+0258: template <>
+0259: void run_throttled_sequence_no_mop<4>()
+0260: {
+0261:     TTI_NOP;
+0262:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0263:     TTI_NOP;
+0264:     TTI_NOP;
+0265:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0266:     TTI_NOP;
+0267:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0268:     TTI_NOP;
+0269:     TTI_NOP;
+0270: }
+0271: 
+0272: template <>
+0273: void run_throttled_sequence_no_mop<5>()
+0274: {
+0275:     TTI_NOP;
+0276:     TTI_NOP;
+0277:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0278:     TTI_NOP;
+0279:     TTI_NOP;
+0280:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0281:     TTI_NOP;
+0282:     TTI_NOP;
+0283:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0284:     TTI_NOP;
+0285:     TTI_NOP;
+0286: }
+0287: 
+0288: /*
+0289:  * Programming of the MOP for the case we limit matmul compute throughput
+0290:  * Done by inserting NOP instructions between MVMUL instructions of matmul kernel
+0291:  *
+
+--- around line 327 ---
+0311:     // in1 - loaded to SrcA
+0312:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0313:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0314:     // by changing address increment amount via addr_mods
+0315:     // Col major layout in dest only impacts destination address increment
+0316:     // if col major layout faces are ordered as f0,f2,f1,f3
+0317: 
+0318:     constexpr int num_fidelity_phases = get_math_num_fidelity_phases(math_fidelity);
+0319:     constexpr bool high_fidelity      = math_fidelity != MathFidelity::LoFi;
+0320:     static_assert((THROTTLE_LEVEL > 0) && (THROTTLE_LEVEL <= 5), "MM throttling only enabled for THROTTLE_LEVEL={1,2,3,4,5}");
+0321:     LLK_ASSERT(
+0322:         (in0_tile_r_dim == TILE_R_DIM) && (in0_tile_c_dim == TILE_C_DIM) && (in1_tile_r_dim == TILE_R_DIM) && (in1_tile_c_dim == TILE_C_DIM) && !partial_face,
+0323:         "MM throttling only enabled for full 32x32 tile size");
+0324: 
+0325:     const bool reuse_a = ct_dim >= rt_dim;
+0326: 
+0327:     constexpr std::uint32_t replay_buf_len = (THROTTLE_LEVEL > 3) ? (1 + THROTTLE_LEVEL * 2) : ((THROTTLE_LEVEL > 1) ? (3 + THROTTLE_LEVEL * 4) : 10);
+0328: 
+0329:     load_replay_buf(
+0330:         ckernel::math::replay_buf_offset,
+0331:         replay_buf_len,
+0332:         // Lambda function to load reply buffer
+0333:         [] { run_throttled_sequence_no_mop<THROTTLE_LEVEL>(); });
+0334: 
+0335:     // MOP template programming removed - will use direct replay calls
+0336: }
+0337: 
+0338: template <MathFidelity math_fidelity, int THROTTLE_LEVEL = 0>
+0339: inline void _llk_math_matmul_init_no_mop_(
+0340:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0341:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0342:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0343:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0344:     const bool partial_face            = false,
+0345:     const std::uint32_t transpose      = 0,
+0346:     const std::uint32_t ct_dim         = 1,
+0347:     const std::uint32_t rt_dim         = 1)
+0348: {
+0349:     matmul_configure_addrmod_no_mop<math_fidelity, THROTTLE_LEVEL>(transpose, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0350:     if constexpr (THROTTLE_LEVEL > 0)
+0351:     {
+0352:         matmul_configure_mop_throttled_no_mop<math_fidelity, THROTTLE_LEVEL>(
+0353:             ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0354:     }
+0355:     else
+0356:     {
+0357:         matmul_configure_mop_custom<math_fidelity>(ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0358:     }
+0359:     math::reset_counters(p_setrwc::SET_ABD_F);
+
+--- around line 384 ---
+0368: inline void _llk_math_matmul_no_mop_(
+0369:     std::uint32_t dst_index,
+0370:     const std::uint32_t ct_dim                          = 1,
+0371:     const std::uint32_t rt_dim                          = 1,
+0372:     [[maybe_unused]] const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0373:     [[maybe_unused]] const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0374:     [[maybe_unused]] const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0375:     [[maybe_unused]] const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0376:     [[maybe_unused]] const bool partial_face            = false)
+0377: {
+0378:     const bool reuse_a                = ct_dim >= rt_dim;
+0379:     const std::uint32_t t_dim         = reuse_a ? rt_dim : ct_dim;
+0380:     const std::uint32_t rut_dim       = reuse_a ? ct_dim : rt_dim; // reuse-dim
+0381:     constexpr int num_fidelity_phases = get_math_num_fidelity_phases(math_fidelity);
+0382:     constexpr bool high_fidelity      = math_fidelity != MathFidelity::LoFi;
+0383: 
+0384:     // Compute replay buffer length based on tile dimensions (same logic as in matmul_configure_mop)
+0385:     std::uint32_t replay_buf_len;
+0386:     if constexpr (THROTTLE_LEVEL > 0)
+0387:     {
+0388:         replay_buf_len = (THROTTLE_LEVEL > 3) ? (1 + THROTTLE_LEVEL * 2) : ((THROTTLE_LEVEL > 1) ? (3 + THROTTLE_LEVEL * 4) : 10);
+0389:     }
+0390:     else
+0391:     {
+0392:         replay_buf_len = 16;
+0393:     }
+0394: 
+0395:     for (std::uint32_t t = 0; t < t_dim; t++)
+0396:     {
+0397:         for (std::uint32_t rut = 0; rut < rut_dim; rut++)
+0398:         {
+0399:             math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + (reuse_a ? ct_dim * t + rut : t + rut * ct_dim));
+0400: 
+0401:             if constexpr (THROTTLE_LEVEL > 0)
+0402:             {
+0403:                 // Throttled execution
+0404:                 if constexpr (THROTTLE_LEVEL > 3)
+0405:                 {
+0406:                     // THROTTLE_LEVEL 4 or 5: outer_loops = 2
+0407:                     if constexpr (high_fidelity)
+0408:                     {
+0409:                         // outer loop for fidelity phases
+0410:                         for (std::uint32_t phase = 0; phase < num_fidelity_phases; phase++)
+0411:                         {
+0412:                             // inner loop (2 iterations for standard tiles)
+0413:                             for (std::uint32_t inner = 0; inner < 2; inner++)
+0414:                             {
+0415:                                 lltt::replay(ckernel::math::replay_buf_offset, replay_buf_len);
+0416:                                 if (inner < 1)
+
+
+===== tt_llk_wormhole_b0/llk_lib/llk_math_matmul.h =====
+
+--- around line 300 ---
+0284:         }
+0285:         else
+0286:         {
+0287:             addr_mod_t {
+0288:                 .srca = {.incr = 32, .clr = 0, .cr = 1},
+0289:                 //.srca = {.incr = srca_set, .clr = 0, .cr = 1},
+0290:                 .srcb = {.incr = 48, .clr = 0, .cr = 1}, // cr=32 before, cr+48=16 after wrapping
+0291:                 .dest = {.incr = 0, .clr = 0, .cr = 1},
+0292:                 .bias = {.incr = 1},
+0293:             }
+0294:                 .set(ADDR_MOD_4);
+0295:         }
+0296:     }
+0297: }
+0298: 
+0299: template <MathFidelity math_fidelity>
+0300: inline void matmul_configure_mop(
+0301:     const std::uint32_t ct_dim,
+0302:     const std::uint32_t rt_dim,
+0303:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0304:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0305:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0306:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0307:     const bool partial_face            = false)
+0308: {
+0309:     // in0 - loaded to SrcB
+0310:     // in1 - loaded to SrcA
+0311:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0312:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0313:     // by changing address increment amount via addr_mods
+0314:     // Col major layout in dest only impacts destination address increment
+0315:     // if col major layout faces are ordered as f0,f2,f1,f3
+0316: 
+0317:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0318: 
+0319:     const bool reuse_a        = ct_dim >= rt_dim;
+0320:     const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0321: 
+0322:     const bool is_in0_16x32 = (in0_tile_r_dim <= FACE_R_DIM) && (in0_tile_c_dim > FACE_C_DIM);
+0323:     const bool is_in1_32x16 = (in1_tile_r_dim > FACE_R_DIM) && (in1_tile_c_dim <= FACE_C_DIM);
+0324:     const bool is_in0_32x16 = (in0_tile_r_dim > FACE_R_DIM) && (in0_tile_c_dim <= FACE_C_DIM);
+0325:     const bool is_in1_16x32 = (in1_tile_r_dim <= FACE_R_DIM) && (in1_tile_c_dim > FACE_C_DIM);
+0326: 
+0327:     const std::uint32_t replay_buf_len =
+0328:         (is_in0_16x32 && is_in1_32x16) ? 4 : ((is_in0_16x32 || is_in1_32x16 || is_in0_32x16 || is_in1_16x32) ? (partial_face ? 4 : 8) : 16);
+0329: 
+0330:     lltt::record(ckernel::math::replay_buf_offset, replay_buf_len);
+0331: 
+0332:     if (is_in1_32x16)
+
+--- around line 433 ---
+0417:         }
+0418:         else
+0419:         {
+0420:             if (t_dim > 1)
+0421:             {
+0422:                 TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0); // B3A3 or B2A1 // reset srca/srcb/dest, increment phase (addr_mod_5)
+0423:             }
+0424:             else
+0425:             {
+0426:                 TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_1, 0); // B3A3 or B2A1 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0427:             }
+0428:         }
+0429:     }
+0430: 
+0431:     // TODO: can we commonize this?
+0432:     constexpr std::uint32_t inner_loops = high_fidelity ? to_underlying(math_fidelity) : 1;
+0433:     ckernel_template tmp(1 /* outer loop */, inner_loops, lltt::replay_insn(ckernel::math::replay_buf_offset, replay_buf_len));
+0434: 
+0435:     if constexpr (high_fidelity)
+0436:     {
+0437:         if (t_dim > 1)
+0438:         {                                                                                  //
+0439:             tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_NONE, 0, 0, 0, 0, p_setrwc::SET_F)); // Reset fidelity phase
+0440:         }
+0441:         else
+0442:         {
+0443:             if (reuse_a)
+0444:             {
+0445:                 tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_A, 0, 0, 0, 0, p_setrwc::SET_ABD_F));
+0446:             }
+0447:             else
+0448:             {
+0449:                 tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_B, 0, 0, 0, 0, p_setrwc::SET_ABD_F));
+0450:             }
+0451:         }
+0452:     }
+0453:     tmp.program();
+0454: }
+0455: 
+0456: template <int THROTTLE_LEVEL, bool high_fidelity>
+0457: void run_throttled_sequence(const std::uint32_t t_dim, const bool reuse_a)
+0458: {
+0459:     if constexpr (THROTTLE_LEVEL == 1)
+0460:     {
+0461:         TTI_NOP;
+0462:         TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0463:         TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0464:         TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0465:         TTI_NOP;
+
+--- around line 581 ---
+0565:             {
+0566:                 TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0567:             }
+0568:             else if (reuse_a)
+0569:             {
+0570:                 TTI_MVMUL(p_setrwc::CLR_A, 0, ADDR_MOD_1, 0);
+0571:             }
+0572:             else
+0573:             {
+0574:                 TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_1, 0);
+0575:             }
+0576:         }
+0577:     }
+0578: }
+0579: 
+0580: /*
+0581:  * Programming of the MOP for the case we limit matmul compute throughput
+0582:  * Done by inserting NOP instructions between MVMUL instructions of matmul kernel
+0583:  *
+0584:  * Valid range of THROTTLE_LEVEL is {1,2,3,4,5}
+0585:  * Each value corresponds to level of throttling as:
+0586:  * Level 1: throttle to 73% of max
+0587:  * Level 2: throttle to 67% of max
+0588:  * Level 3: throttle to 50% of max
+0589:  * Level 4: throttle to 40% of max
+0590:  * Level 5: throttle to 33% of max
+0591:  */
+0592: template <MathFidelity math_fidelity, int THROTTLE_LEVEL>
+0593: inline void matmul_configure_mop_throttled(
+0594:     const std::uint32_t ct_dim,
+0595:     const std::uint32_t rt_dim,
+0596:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0597:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0598:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0599:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0600:     const bool partial_face            = false)
+0601: {
+0602:     // in0 - loaded to SrcB
+0603:     // in1 - loaded to SrcA
+0604:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0605:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0606:     // by changing address increment amount via addr_mods
+0607:     // Col major layout in dest only impacts destination address increment
+0608:     // if col major layout faces are ordered as f0,f2,f1,f3
+0609:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0610:     static_assert((THROTTLE_LEVEL > 0) && (THROTTLE_LEVEL <= 5), "MM throttling only enabled for THROTTLE_LEVEL={1,2,3,4,5}");
+0611:     LLK_ASSERT(
+0612:         (in0_tile_r_dim == TILE_R_DIM) && (in0_tile_c_dim == TILE_C_DIM) && (in1_tile_r_dim == TILE_R_DIM) && (in1_tile_c_dim == TILE_C_DIM) && !partial_face,
+0613:         "MM throttling only enabled for full 32x32 tile size");
+
+--- around line 636 ---
+0620:     const bool is_in0_32x16 = (in0_tile_r_dim > FACE_R_DIM) && (in0_tile_c_dim <= FACE_C_DIM);
+0621:     const bool is_in1_16x32 = (in1_tile_r_dim <= FACE_R_DIM) && (in1_tile_c_dim > FACE_C_DIM);
+0622: 
+0623:     constexpr std::uint32_t replay_buff_len_throttle = (THROTTLE_LEVEL > 3) ? (16) : ((THROTTLE_LEVEL > 1) ? (3 + THROTTLE_LEVEL * 4) : 10);
+0624:     const std::uint32_t replay_buf_len =
+0625:         (is_in0_16x32 && is_in1_32x16) ? 4
+0626:                                        : ((is_in0_16x32 || is_in1_32x16 || is_in0_32x16 || is_in1_16x32) ? (partial_face ? 4 : 8) : replay_buff_len_throttle);
+0627: 
+0628:     lltt::record(ckernel::math::replay_buf_offset, replay_buf_len);
+0629:     if (!is_in1_32x16 && !is_in1_16x32 && !is_in0_32x16 && !is_in0_16x32)
+0630:     {
+0631:         run_throttled_sequence<THROTTLE_LEVEL, high_fidelity>(t_dim, reuse_a);
+0632:     }
+0633: 
+0634:     constexpr std::uint32_t outer_loops        = (THROTTLE_LEVEL > 3) ? 2 : (high_fidelity ? to_underlying(math_fidelity) : 1);
+0635:     const std::uint32_t inner_loops            = (!is_in1_16x32) ? 2 : 1;
+0636:     constexpr std::uint32_t loop_instruction_0 = (THROTTLE_LEVEL == 5)   ? lltt::replay_insn(ckernel::math::replay_buf_offset + 1, 8)
+0637:                                                  : (THROTTLE_LEVEL == 4) ? lltt::replay_insn(ckernel::math::replay_buf_offset + 2, 6)
+0638:                                                                          : lltt::replay_insn(ckernel::math::replay_buf_offset, replay_buff_len_throttle);
+0639:     constexpr std::uint32_t loop_instruction_1 = (THROTTLE_LEVEL == 5)   ? lltt::replay_insn(ckernel::math::replay_buf_offset + 9, 4)
+0640:                                                  : (THROTTLE_LEVEL == 4) ? lltt::replay_insn(ckernel::math::replay_buf_offset + 8, 4)
+0641:                                                                          : TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0642:     ckernel_template tmp(outer_loops, inner_loops, loop_instruction_0, loop_instruction_1);
+0643: 
+0644:     if constexpr (THROTTLE_LEVEL == 5)
+0645:     {
+0646:         tmp.set_last_inner_loop_instr(lltt::replay_insn(ckernel::math::replay_buf_offset, 4));
+0647:         tmp.set_last_outer_loop_instr(lltt::replay_insn(ckernel::math::replay_buf_offset + 13, 3));
+0648:     }
+0649:     else if constexpr (THROTTLE_LEVEL == 4)
+0650:     {
+0651:         tmp.set_last_inner_loop_instr(lltt::replay_insn(ckernel::math::replay_buf_offset, 4));
+0652:         tmp.set_last_outer_loop_instr(lltt::replay_insn(ckernel::math::replay_buf_offset + 12, 4));
+0653:     }
+0654:     else
+0655:     {
+0656:         if constexpr (high_fidelity)
+0657:         {
+0658:             tmp.set_last_inner_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0));
+0659:         }
+0660: 
+0661:         if (t_dim > 1)
+0662:         {
+0663:             tmp.set_last_outer_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, high_fidelity ? ADDR_MOD_2 : ADDR_MOD_1, 0));
+0664:         }
+0665:         else if (reuse_a)
+0666:         {
+0667:             tmp.set_last_outer_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_A, 0, high_fidelity ? ADDR_MOD_2 : ADDR_MOD_1, 0));
+0668:         }
+
+--- around line 718 ---
+0702:         if (reuse_a)
+0703:         {
+0704:             TTI_SETC16(CLR_DVALID_SrcB_Disable_ADDR32, CLR_DVALID_SrcB_Disable_MASK); // Disable srcB valid clear. Has to be done via dedicated instruction
+0705:         }
+0706:         else
+0707:         {
+0708:             TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, CLR_DVALID_SrcA_Disable_MASK); // Disable srcA valid clear. Has to be done via dedicated instruction
+0709:         }
+0710:     }
+0711:     else
+0712:     {
+0713:         TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, 0);
+0714:     }
+0715: 
+0716:     if constexpr (THROTTLE_LEVEL > 0)
+0717:     {
+0718:         matmul_configure_mop_throttled<math_fidelity, THROTTLE_LEVEL>(
+0719:             ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0720:     }
+0721:     else
+0722:     {
+0723:         matmul_configure_mop<math_fidelity>(ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0724:     }
+0725:     math::reset_counters(p_setrwc::SET_ABD_F);
+0726: }
+0727: 
+0728: inline void _llk_math_matmul_uninit_()
+0729: {
+0730:     TTI_SETC16(CLR_DVALID_SrcA_Disable_ADDR32, 0);
+0731:     TTI_SETC16(CLR_DVALID_SrcB_Disable_ADDR32, 0);
+0732: }
+0733: 
+0734: template <MathFidelity math_fidelity, int THROTTLE_LEVEL = 0>
+0735: inline void _llk_math_matmul_(std::uint32_t dst_index, const std::uint32_t ct_dim = 1, const std::uint32_t rt_dim = 1)
+0736: {
+0737:     const bool reuse_a           = ct_dim >= rt_dim;
+0738:     const std::uint32_t t_dim    = reuse_a ? rt_dim : ct_dim;
+0739:     const std::uint32_t rut_dim  = reuse_a ? ct_dim : rt_dim; // reuse-dim
+0740:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0741: 
+0742:     for (std::uint32_t t = 0; t < t_dim; t++)
+0743:     {
+0744:         for (std::uint32_t rut = 0; rut < rut_dim; rut++)
+0745:         {
+0746:             math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + (reuse_a ? ct_dim * t + rut : t + rut * ct_dim));
+0747: 
+0748:             if (t_dim == 1)
+0749:             {
+0750:                 if constexpr (THROTTLE_LEVEL > 3 && high_fidelity)
+
+
+===== tt_llk_blackhole/llk_lib/llk_math_matmul.h =====
+
+--- around line 276 ---
+0260:         }
+0261:         else
+0262:         {
+0263:             addr_mod_t {
+0264:                 .srca = {.incr = 32, .clr = 0, .cr = 1},
+0265:                 //.srca = {.incr = srca_set, .clr = 0, .cr = 1},
+0266:                 .srcb = {.incr = 48, .clr = 0, .cr = 1}, // cr=32 before, cr+48=16 after wrapping
+0267:                 .dest = {.incr = 0, .clr = 0, .cr = 1},
+0268:                 // .bias = {.incr = 1},
+0269:             }
+0270:                 .set(ADDR_MOD_4);
+0271:         }
+0272:     }
+0273: }
+0274: 
+0275: template <MathFidelity math_fidelity>
+0276: inline void matmul_configure_mop(
+0277:     const std::uint32_t ct_dim,
+0278:     const std::uint32_t rt_dim,
+0279:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0280:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0281:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0282:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0283:     const bool partial_face            = false)
+0284: {
+0285:     // in0 - loaded to SrcB
+0286:     // in1 - loaded to SrcA
+0287:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0288:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0289:     // by changing address increment amount via addr_mods
+0290:     // Col major layout in dest only impacts destination address increment
+0291:     // if col major layout faces are ordered as f0,f2,f1,f3
+0292:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0293: 
+0294:     const bool reuse_a        = ct_dim >= rt_dim;
+0295:     const std::uint32_t t_dim = reuse_a ? rt_dim : ct_dim;
+0296: 
+0297:     const bool is_in0_16x32 = (in0_tile_r_dim <= FACE_R_DIM) && (in0_tile_c_dim > FACE_C_DIM);
+0298:     const bool is_in1_32x16 = (in1_tile_r_dim > FACE_R_DIM) && (in1_tile_c_dim <= FACE_C_DIM);
+0299:     const bool is_in0_32x16 = (in0_tile_r_dim > FACE_R_DIM) && (in0_tile_c_dim <= FACE_C_DIM);
+0300:     const bool is_in1_16x32 = (in1_tile_r_dim <= FACE_R_DIM) && (in1_tile_c_dim > FACE_C_DIM);
+0301: 
+0302:     const std::uint32_t replay_buf_len =
+0303:         (is_in0_16x32 && is_in1_32x16) ? 4 : ((is_in0_16x32 || is_in1_32x16 || is_in0_32x16 || is_in1_16x32) ? (partial_face ? 4 : 8) : 16);
+0304: 
+0305:     load_replay_buf(
+0306:         ckernel::math::replay_buf_offset,
+0307:         replay_buf_len,
+0308:         // Lambda function to load reply buffer
+
+--- around line 398 ---
+0382:             }
+0383:             else
+0384:             {
+0385:                 if (reuse_a)
+0386:                 {
+0387:                     TTI_MVMUL(p_setrwc::CLR_A, 0, ADDR_MOD_5, 0); // B3A3 or B3A2 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0388:                 }
+0389:                 else
+0390:                 {
+0391:                     TTI_MVMUL(p_setrwc::CLR_B, 0, ADDR_MOD_5, 0); // B3A3 or B2A1 // reset srca/srcb/dest, increment phase (addr_mod_5), clear src A
+0392:                 }
+0393:             }
+0394:         });
+0395: 
+0396:     // TODO: can we commonize this?
+0397:     constexpr std::uint32_t inner_loops = high_fidelity ? to_underlying(math_fidelity) : 1;
+0398:     ckernel_template tmp(1 /* outer loop */, inner_loops, lltt::replay_insn(ckernel::math::replay_buf_offset, replay_buf_len));
+0399: 
+0400:     if constexpr (high_fidelity)
+0401:     {
+0402:         if (reuse_a)
+0403:         {
+0404:             tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_A, 0, 0, 0, 0, p_setrwc::SET_ABD_F));
+0405:         }
+0406:         else
+0407:         {
+0408:             tmp.set_end_op(TT_OP_SETRWC(p_setrwc::CLR_B, 0, 0, 0, 0, p_setrwc::SET_ABD_F));
+0409:         }
+0410:     }
+0411:     tmp.program();
+0412: }
+0413: 
+0414: template <int Level>
+0415: void run_throttled_sequence();
+0416: 
+0417: template <>
+0418: void run_throttled_sequence<1>()
+0419: {
+0420:     TTI_NOP;
+0421:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0422:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0423:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0424:     TTI_NOP;
+0425:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_2, 0);
+0426:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0427:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0428:     TTI_NOP;
+0429:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0430: }
+
+--- around line 499 ---
+0483: void run_throttled_sequence<5>()
+0484: {
+0485:     TTI_NOP;
+0486:     TTI_NOP;
+0487:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0488:     TTI_NOP;
+0489:     TTI_NOP;
+0490:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_1, 0);
+0491:     TTI_NOP;
+0492:     TTI_NOP;
+0493:     TTI_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_0, 0);
+0494:     TTI_NOP;
+0495:     TTI_NOP;
+0496: }
+0497: 
+0498: /*
+0499:  * Programming of the MOP for the case we limit matmul compute throughput
+0500:  * Done by inserting NOP instructions between MVMUL instructions of matmul kernel
+0501:  *
+0502:  * Valid range of THROTTLE_LEVEL is {1,2,3,4,5}
+0503:  * Each value corresponds to level of throttling as:
+0504:  * Level 1: throttle to 73% of max
+0505:  * Level 2: throttle to 67% of max
+0506:  * Level 3: throttle to 50% of max
+0507:  * Level 4: throttle to 40% of max
+0508:  * Level 5: throttle to 33% of max
+0509:  */
+0510: template <MathFidelity math_fidelity, int THROTTLE_LEVEL>
+0511: inline void matmul_configure_mop_throttled(
+0512:     const std::uint32_t ct_dim,
+0513:     const std::uint32_t rt_dim,
+0514:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0515:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0516:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+0517:     const std::uint32_t in1_tile_c_dim = TILE_C_DIM,
+0518:     const bool partial_face            = false)
+0519: {
+0520:     // in0 - loaded to SrcB
+0521:     // in1 - loaded to SrcA
+0522:     // Unpacker will always load faces in f0,f1,f2,f3 order
+0523:     // if in1 is transposed then faces 1&2 need to be swapped during read
+0524:     // by changing address increment amount via addr_mods
+0525:     // Col major layout in dest only impacts destination address increment
+0526:     // if col major layout faces are ordered as f0,f2,f1,f3
+0527:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0528:     static_assert((THROTTLE_LEVEL > 0) && (THROTTLE_LEVEL <= 5), "MM throttling only enabled for THROTTLE_LEVEL={1,2,3,4,5}");
+0529:     LLK_ASSERT(
+0530:         (in0_tile_r_dim == TILE_R_DIM) && (in0_tile_c_dim == TILE_C_DIM) && (in1_tile_r_dim == TILE_R_DIM) && (in1_tile_c_dim == TILE_C_DIM) && !partial_face,
+0531:         "MM throttling only enabled for full 32x32 tile size");
+
+--- around line 563 ---
+0547:         replay_buf_len,
+0548:         // Lambda function to load reply buffer
+0549:         [is_in1_32x16, is_in1_16x32, is_in0_32x16, is_in0_16x32]
+0550:         {
+0551:             if (!is_in1_32x16 && !is_in1_16x32 && !is_in0_32x16 && !is_in0_16x32)
+0552:             {
+0553:                 run_throttled_sequence<THROTTLE_LEVEL>();
+0554:             }
+0555:         });
+0556: 
+0557:     constexpr std::uint32_t outer_loops        = (THROTTLE_LEVEL > 3) ? 2 : (high_fidelity ? to_underlying(math_fidelity) : 1);
+0558:     const std::uint32_t inner_loops            = (!is_in1_16x32) ? 2 : 1;
+0559:     constexpr std::uint8_t addr_mod_inner_loop = (THROTTLE_LEVEL > 3) ? ADDR_MOD_2 : ADDR_MOD_4;
+0560:     ckernel_template tmp(
+0561:         outer_loops,
+0562:         inner_loops,
+0563:         lltt::replay_insn(ckernel::math::replay_buf_offset, replay_buf_len),
+0564:         TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, addr_mod_inner_loop, 0));
+0565: 
+0566:     if (!is_in1_32x16 && !is_in1_16x32 && !is_in0_32x16 && !is_in0_16x32)
+0567:     {
+0568:         if constexpr (high_fidelity && THROTTLE_LEVEL > 3)
+0569:         {
+0570:             tmp.set_last_inner_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_4, 0));
+0571:             tmp.set_last_outer_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_5, 0));
+0572:         }
+0573:         else if constexpr (high_fidelity)
+0574:         {
+0575:             tmp.set_last_inner_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_5, 0));
+0576:             tmp.set_last_outer_loop_instr(TT_OP_MVMUL(reuse_a ? p_setrwc::CLR_A : p_setrwc::CLR_B, 0, ADDR_MOD_6, 0));
+0577:         }
+0578:         else
+0579:         {
+0580:             if constexpr (THROTTLE_LEVEL > 3)
+0581:             {
+0582:                 tmp.set_last_inner_loop_instr(TT_OP_MVMUL(p_setrwc::CLR_NONE, 0, ADDR_MOD_4, 0));
+0583:             }
+0584:             tmp.set_last_outer_loop_instr(TT_OP_MVMUL(reuse_a ? p_setrwc::CLR_A : p_setrwc::CLR_B, 0, ADDR_MOD_5, 0));
+0585:         }
+0586:     }
+0587: 
+0588:     tmp.program();
+0589: }
+0590: 
+0591: template <MathFidelity math_fidelity, int THROTTLE_LEVEL = 0>
+0592: inline void _llk_math_matmul_init_(
+0593:     const std::uint32_t in0_tile_r_dim = TILE_R_DIM,
+0594:     const std::uint32_t in0_tile_c_dim = TILE_C_DIM,
+0595:     const std::uint32_t in1_tile_r_dim = TILE_R_DIM,
+
+--- around line 613 ---
+0597:     const bool partial_face            = false,
+0598:     const std::uint32_t transpose      = 0,
+0599:     const std::uint32_t ct_dim         = 1,
+0600:     const std::uint32_t rt_dim         = 1)
+0601: {
+0602:     // 16x16 inputs not supported - no dedicated math path; falls to 32x32 default which is incorrect for < 4 faces
+0603:     LLK_ASSERT(
+0604:         !((in0_tile_r_dim == FACE_R_DIM) && (in0_tile_c_dim == FACE_C_DIM) && (in1_tile_r_dim == FACE_R_DIM) && (in1_tile_c_dim == FACE_C_DIM)),
+0605:         "16x16 by 16x16 matmul is not supported");
+0606:     // in1=32x16 NOT supported with transpose (no addr_mod handling)
+0607:     LLK_ASSERT(!(transpose && (in1_tile_r_dim == TILE_R_DIM) && (in1_tile_c_dim == FACE_C_DIM)), "Transpose with input 1 dimensions 32x16 not supported");
+0608: 
+0609:     matmul_configure_addrmod<math_fidelity, THROTTLE_LEVEL>(transpose, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0610: 
+0611:     if constexpr (THROTTLE_LEVEL > 0)
+0612:     {
+0613:         matmul_configure_mop_throttled<math_fidelity, THROTTLE_LEVEL>(
+0614:             ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0615:     }
+0616:     else
+0617:     {
+0618:         matmul_configure_mop<math_fidelity>(ct_dim, rt_dim, in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, partial_face);
+0619:     }
+0620:     math::reset_counters(p_setrwc::SET_ABD_F);
+0621: }
+0622: 
+0623: inline void _llk_math_matmul_uninit_()
+0624: {
+0625:     // No state to restore - all states are transient or default
+0626: }
+0627: 
+0628: template <MathFidelity math_fidelity, int THROTTLE_LEVEL = 0>
+0629: inline void _llk_math_matmul_(std::uint32_t dst_index, const std::uint32_t ct_dim = 1, const std::uint32_t rt_dim = 1)
+0630: {
+0631:     const bool reuse_a           = ct_dim >= rt_dim;
+0632:     const std::uint32_t t_dim    = reuse_a ? rt_dim : ct_dim;
+0633:     const std::uint32_t rut_dim  = reuse_a ? ct_dim : rt_dim; // reuse-dim
+0634:     constexpr bool high_fidelity = is_high_fidelity(math_fidelity);
+0635: 
+0636:     for (std::uint32_t t = 0; t < t_dim; t++)
+0637:     {
+0638:         for (std::uint32_t rut = 0; rut < rut_dim; rut++)
+0639:         {
+0640:             math::set_dst_write_addr<DstTileShape::Tile32x32, UnpackDestination::SrcRegs>(dst_index + (reuse_a ? ct_dim * t + rut : t + rut * ct_dim));
+0641: 
+0642:             if constexpr (THROTTLE_LEVEL > 3 && high_fidelity)
+0643:             {
+0644:                 for (std::uint32_t phase = 0; phase < to_underlying(math_fidelity); phase++)
+0645:                 {
+
+
+===== tt_llk_wormhole_b0/common/inc/ckernel_template.h =====
+
+--- around line 16 ---
+0001: // SPDX-FileCopyrightText: © 2025 Tenstorrent AI ULC
+0002: //
+0003: // SPDX-License-Identifier: Apache-2.0
+0004: 
+0005: #pragma once
+0006: 
+0007: #include <cstdint>
+0008: 
+0009: #include "ckernel.h"
+0010: 
+0011: namespace ckernel
+0012: {
+0013: 
+0014: class ckernel_template
+0015: {
+0016:     // Here is the basic outline of a MOP loop and the definition of the
+0017:     // variables used.
+0018:     // LOOP_OUTER: <OUTER_LOOP_COUNT>
+0019:     //   START_OP
+0020:     //   LOOP_INNER: <INNER_LOOP_COUNT>
+0021:     //     LOOP_OP0
+0022:     //     LOOP_OP1
+0023:     //   END_LOOP_INNER
+0024:     //   END_OP0
+0025:     //   END_OP1
+0026:     // END_LOOP_OUTER
+0027: 
+0028:     const std::uint32_t m_outer_loop_len;
+0029:     const std::uint32_t m_inner_loop_len;
+0030:     std::uint32_t m_loop_op0;
+0031:     std::uint32_t m_loop_op1;
+0032:     std::uint32_t m_end_op0, m_end_op1, m_start_op0;
+0033:     std::uint32_t
+0034:         m_loop0_last_instr; // In the last iteration of the outer loop, this instruction replaces the inner loop instruction, if constructed with one inner
+0035:                             // loop instruction or the second inner loop instruction, if constructed with two inner loop instructions (see below example).
+0036:     std::uint32_t
+0037:         m_loop1_last_instr; // In the last iteration of the inner loop, this instruction replaces the inner loop instruction, if constructed with one inner
+0038:                             // loop instruction or the second inner loop instruction, if constructed with two inner loop instructions (see below example).
+0039: 
+0040:     // Note: The last iteration of inner loop will also be the last iteration of the outer loop when outer loop length = 1.
+0041:     // This means that in this case, last_inner_loop_instr will be replaced by the last_outer_loop_instr
+0042:     // NOTE:
+0043:     // This is how m_loop0_last_instr and m_loop1_last_instr are executed:
+0044:     //
+0045:     // if(last_inner_loop_iter && last_outer_loop_iter) m_loop_op1 = m_loop0_last_instr;
+0046:     // else if(last_inner_loop_iter)                    m_loop_op1 = m_loop1_last_instr;
+0047:     // else                                             m_loop_op1 = m_loop_op1;
+0048: 
+
+--- around line 322 ---
+0306:     m_loop1_last_instr = op;
+0307: }
+0308: 
+0309: inline void ckernel_template::set_last_outer_loop_instr(std::uint32_t op)
+0310: {
+0311:     m_loop0_last_instr = op;
+0312: }
+0313: 
+0314: inline void ckernel_template::program_and_run()
+0315: {
+0316:     program();
+0317:     run();
+0318: }
+0319: 
+0320: inline void ckernel_template::run()
+0321: {
+0322:     TTI_MOP(1, 0, 0); // run the double-loop template
+0323: }
+0324: 
+0325: inline void ckernel_template::program()
+0326: {
+0327:     volatile std::uint32_t *mop_cfg = reinterpret_cast<volatile std::uint32_t *>(TENSIX_MOP_CFG_BASE);
+0328: 
+0329:     mop_sync(); // wait until previous mops have completed
+0330: 
+0331:     mop_cfg[0] = m_outer_loop_len;
+0332:     mop_cfg[1] = m_inner_loop_len;
+0333:     mop_cfg[2] = m_start_op0;
+0334:     mop_cfg[3] = m_end_op0;
+0335:     mop_cfg[4] = m_end_op1;
+0336:     mop_cfg[5] = m_loop_op0;
+0337:     mop_cfg[6] = m_loop_op1;
+0338:     mop_cfg[7] = m_loop0_last_instr;
+0339:     mop_cfg[8] = m_loop1_last_instr;
+0340: }
+0341: 
+0342: inline void ckernel_unpack_template::program_and_run(const std::uint8_t count, const std::uint32_t zmask)
+0343: {
+0344:     program();
+0345:     run(count, zmask);
+0346: }
+0347: 
+0348: inline void ckernel_unpack_template::run(const std::uint8_t count, const std::uint32_t zmask)
+0349: {
+0350:     TT_MOP_CFG(zmask >> 16);              // Set the top 16 bits of zmask - we could skip this for count <= 16
+0351:     TT_MOP(0, count - 1, zmask & 0xFFFF); // Run the template
+0352: }
+0353: 
+0354: // Version without zmask, should be slightly faster by eliminating one instruction.
+
+--- around line 371 ---
+0355: inline void ckernel_unpack_template::run(const std::uint8_t count)
+0356: {
+0357:     TT_MOP(0, count - 1, 0); // Run the template
+0358: }
+0359: 
+0360: inline void ckernel_unpack_template::program() const
+0361: {
+0362:     volatile std::uint32_t *mop_cfg = reinterpret_cast<volatile std::uint32_t *>(TENSIX_MOP_CFG_BASE);
+0363: 
+0364:     mop_sync(); // wait until previous mops have completed
+0365: 
+0366:     mop_cfg[1] = m_unpackB | (m_unpack_halo << 1);
+0367:     mop_cfg[2] = m_B_instr;
+0368:     mop_cfg[3] = m_A0_instr;
+0369:     mop_cfg[4] = m_A1_instr;
+0370:     mop_cfg[5] = m_A2_instr;
+0371:     mop_cfg[6] = m_A3_instr;
+0372:     mop_cfg[7] = m_skipA_instr;
+0373:     mop_cfg[8] = m_skipB_instr;
+0374: }
+0375: 
+0376: inline ckernel_unpack_template ckernel_unpack_template::lA(std::uint32_t A_instr, std::uint32_t skipA_instr)
+0377: {
+0378:     return ckernel_unpack_template(
+0379:         false, // src B
+0380:         false, // halo
+0381:         A_instr,
+0382:         0,
+0383:         0,
+0384:         0,
+0385:         skipA_instr,
+0386:         0,
+0387:         0);
+0388: }
+0389: 
+0390: inline ckernel_unpack_template ckernel_unpack_template::lB(std::uint32_t B_instr, std::uint32_t skipB_instr)
+0391: {
+0392:     return ckernel_unpack_template(
+0393:         false, // src B
+0394:         false, // halo
+0395:         B_instr,
+0396:         0,
+0397:         0,
+0398:         0,
+0399:         skipB_instr,
+0400:         0,
+0401:         0);
+0402: }
+0403: 
+
+
+===== tt_llk_wormhole_b0/common/inc/ckernel_ops.h =====
+
+--- around line 261 ---
+0245:     ckernel::instrn_buffer[0] = TT_OP_LOADIND(SizeSel, OffsetIndex, AutoIncSpec, DataRegIndex, AddrRegIndex)
+0246: #define TTI_LOADIND(SizeSel, OffsetIndex, AutoIncSpec, DataRegIndex, AddrRegIndex) \
+0247:     INSTRUCTION_WORD(TT_OP_LOADIND(SizeSel, OffsetIndex, AutoIncSpec, DataRegIndex, AddrRegIndex))
+0248: 
+0249: #define TT_OP_LOADREG(TdmaDataRegIndex, RegAddr)    TT_OP(0x68, (((TdmaDataRegIndex) << 18) + ((RegAddr) << 0)))
+0250: #define TT_LOADREG_VALID(TdmaDataRegIndex, RegAddr) (ckernel::is_valid(TdmaDataRegIndex, 6) && ckernel::is_valid(RegAddr, 18))
+0251: #define TT_LOADREG(TdmaDataRegIndex, RegAddr)       ckernel::instrn_buffer[0] = TT_OP_LOADREG(TdmaDataRegIndex, RegAddr)
+0252: #define TTI_LOADREG(TdmaDataRegIndex, RegAddr)      INSTRUCTION_WORD(TT_OP_LOADREG(TdmaDataRegIndex, RegAddr))
+0253: 
+0254: #define TT_OP_MFCONV3S1(clear_dvalid, rotate_weights, addr_mode, dst) \
+0255:     TT_OP(0x3a, (((clear_dvalid) << 22) + ((rotate_weights) << 17) + ((addr_mode) << 15) + ((dst) << 0)))
+0256: #define TT_MFCONV3S1_VALID(clear_dvalid, rotate_weights, addr_mode, dst) \
+0257:     (ckernel::is_valid(clear_dvalid, 2) && ckernel::is_valid(rotate_weights, 5) && ckernel::is_valid(addr_mode, 2) && ckernel::is_valid(dst, 15))
+0258: #define TT_MFCONV3S1(clear_dvalid, rotate_weights, addr_mode, dst)  ckernel::instrn_buffer[0] = TT_OP_MFCONV3S1(clear_dvalid, rotate_weights, addr_mode, dst)
+0259: #define TTI_MFCONV3S1(clear_dvalid, rotate_weights, addr_mode, dst) INSTRUCTION_WORD(TT_OP_MFCONV3S1(clear_dvalid, rotate_weights, addr_mode, dst))
+0260: 
+0261: #define TT_OP_MOP(mop_type, loop_count, zmask_lo16)    TT_OP(0x01, (((mop_type) << 23) + ((loop_count) << 16) + ((zmask_lo16) << 0)))
+0262: #define TT_MOP_VALID(mop_type, loop_count, zmask_lo16) (ckernel::is_valid(mop_type, 1) && ckernel::is_valid(loop_count, 7) && ckernel::is_valid(zmask_lo16, 16))
+0263: #define TT_MOP(mop_type, loop_count, zmask_lo16)       ckernel::instrn_buffer[0] = TT_OP_MOP(mop_type, loop_count, zmask_lo16)
+0264: #define TTI_MOP(mop_type, loop_count, zmask_lo16)      INSTRUCTION_WORD(TT_OP_MOP(mop_type, loop_count, zmask_lo16))
+0265: 
+0266: #define TT_OP_MOP_CFG(zmask_hi16)    TT_OP(0x03, (((zmask_hi16) << 0)))
+0267: #define TT_MOP_CFG_VALID(zmask_hi16) (ckernel::is_valid(zmask_hi16, 24))
+0268: #define TT_MOP_CFG(zmask_hi16)       ckernel::instrn_buffer[0] = TT_OP_MOP_CFG(zmask_hi16)
+0269: #define TTI_MOP_CFG(zmask_hi16)      INSTRUCTION_WORD(TT_OP_MOP_CFG(zmask_hi16))
+0270: 
+0271: #define TT_OP_MOVA2D(dest_32b_lo, src, addr_mode, instr_mod, dst) \
+0272:     TT_OP(0x12, (((dest_32b_lo) << 23) + ((src) << 17) + ((addr_mode) << 15) + ((instr_mod) << 12) + ((dst) << 0)))
+0273: #define TT_MOVA2D_VALID(dest_32b_lo, src, addr_mode, instr_mod, dst)                                                                         \
+0274:     (ckernel::is_valid(dest_32b_lo, 1) && ckernel::is_valid(src, 6) && ckernel::is_valid(addr_mode, 2) && ckernel::is_valid(instr_mod, 3) && \
+0275:      ckernel::is_valid(dst, 12))
+0276: #define TT_MOVA2D(dest_32b_lo, src, addr_mode, instr_mod, dst)  ckernel::instrn_buffer[0] = TT_OP_MOVA2D(dest_32b_lo, src, addr_mode, instr_mod, dst)
+0277: #define TTI_MOVA2D(dest_32b_lo, src, addr_mode, instr_mod, dst) INSTRUCTION_WORD(TT_OP_MOVA2D(dest_32b_lo, src, addr_mode, instr_mod, dst))
+0278: 
+0279: #define TT_OP_MOVB2A(srca, addr_mode, instr_mod, srcb) TT_OP(0x0b, (((srca) << 17) + ((addr_mode) << 15) + ((instr_mod) << 12) + ((srcb) << 0)))
+0280: #define TT_MOVB2A_VALID(srca, addr_mode, instr_mod, srcb) \
+0281:     (ckernel::is_valid(srca, 7) && ckernel::is_valid(addr_mode, 2) && ckernel::is_valid(instr_mod, 3) && ckernel::is_valid(srcb, 12))
+0282: #define TT_MOVB2A(srca, addr_mode, instr_mod, srcb)  ckernel::instrn_buffer[0] = TT_OP_MOVB2A(srca, addr_mode, instr_mod, srcb)
+0283: #define TTI_MOVB2A(srca, addr_mode, instr_mod, srcb) INSTRUCTION_WORD(TT_OP_MOVB2A(srca, addr_mode, instr_mod, srcb))
+0284: 
+0285: #define TT_OP_MOVB2D(dest_32b_lo, src, addr_mode, instr_mod, dst) \
+0286:     TT_OP(0x13, (((dest_32b_lo) << 23) + ((src) << 17) + ((addr_mode) << 15) + ((instr_mod) << 12) + ((dst) << 0)))
+0287: #define TT_MOVB2D_VALID(dest_32b_lo, src, addr_mode, instr_mod, dst)                                                                         \
+0288:     (ckernel::is_valid(dest_32b_lo, 1) && ckernel::is_valid(src, 6) && ckernel::is_valid(addr_mode, 2) && ckernel::is_valid(instr_mod, 3) && \
+0289:      ckernel::is_valid(dst, 12))
+0290: #define TT_MOVB2D(dest_32b_lo, src, addr_mode, instr_mod, dst)  ckernel::instrn_buffer[0] = TT_OP_MOVB2D(dest_32b_lo, src, addr_mode, instr_mod, dst)
+0291: #define TTI_MOVB2D(dest_32b_lo, src, addr_mode, instr_mod, dst) INSTRUCTION_WORD(TT_OP_MOVB2D(dest_32b_lo, src, addr_mode, instr_mod, dst))
+0292: 
+0293: #define TT_OP_MOVD2A(dest_32b_lo, src, addr_mode, instr_mod, dst) \
+
+--- around line 386 ---
+0370: 
+0371: #define TT_OP_RDCFG(GprAddress, CfgReg)    TT_OP(0xb1, (((GprAddress) << 16) + ((CfgReg) << 0)))
+0372: #define TT_RDCFG_VALID(GprAddress, CfgReg) (ckernel::is_valid(GprAddress, 8) && ckernel::is_valid(CfgReg, 16))
+0373: #define TT_RDCFG(GprAddress, CfgReg)       ckernel::instrn_buffer[0] = TT_OP_RDCFG(GprAddress, CfgReg)
+0374: #define TTI_RDCFG(GprAddress, CfgReg)      INSTRUCTION_WORD(TT_OP_RDCFG(GprAddress, CfgReg))
+0375: 
+0376: #define TT_OP_REG2FLOP(SizeSel, TargetSel, ByteOffset, ContextId_2, FlopIndex, RegIndex) \
+0377:     TT_OP(0x48, (((SizeSel) << 22) + ((TargetSel) << 20) + ((ByteOffset) << 18) + ((ContextId_2) << 16) + ((FlopIndex) << 6) + ((RegIndex) << 0)))
+0378: #define TT_REG2FLOP_VALID(SizeSel, TargetSel, ByteOffset, ContextId_2, FlopIndex, RegIndex)                                                       \
+0379:     (ckernel::is_valid(SizeSel, 2) && ckernel::is_valid(TargetSel, 2) && ckernel::is_valid(ByteOffset, 2) && ckernel::is_valid(ContextId_2, 2) && \
+0380:      ckernel::is_valid(FlopIndex, 10) && ckernel::is_valid(RegIndex, 6))
+0381: #define TT_REG2FLOP(SizeSel, TargetSel, ByteOffset, ContextId_2, FlopIndex, RegIndex) \
+0382:     ckernel::instrn_buffer[0] = TT_OP_REG2FLOP(SizeSel, TargetSel, ByteOffset, ContextId_2, FlopIndex, RegIndex)
+0383: #define TTI_REG2FLOP(SizeSel, TargetSel, ByteOffset, ContextId_2, FlopIndex, RegIndex) \
+0384:     INSTRUCTION_WORD(TT_OP_REG2FLOP(SizeSel, TargetSel, ByteOffset, ContextId_2, FlopIndex, RegIndex))
+0385: 
+0386: #define TT_OP_REPLAY(start_idx, len, execute_while_loading, load_mode) \
+0387:     TT_OP(0x04, (((start_idx) << 14) + ((len) << 4) + ((execute_while_loading) << 1) + ((load_mode) << 0)))
+0388: #define TT_REPLAY_VALID(start_idx, len, execute_while_loading, load_mode) \
+0389:     (ckernel::is_valid(start_idx, 10) && ckernel::is_valid(len, 10) && ckernel::is_valid(execute_while_loading, 3) && ckernel::is_valid(load_mode, 1))
+0390: #define TT_REPLAY(start_idx, len, execute_while_loading, load_mode)  ckernel::instrn_buffer[0] = TT_OP_REPLAY(start_idx, len, execute_while_loading, load_mode)
+0391: #define TTI_REPLAY(start_idx, len, execute_while_loading, load_mode) INSTRUCTION_WORD(TT_OP_REPLAY(start_idx, len, execute_while_loading, load_mode))
+0392: 
+0393: #define TT_OP_RMWCIB0(Mask, Data, CfgRegAddr)    TT_OP(0xb3, (((Mask) << 16) + ((Data) << 8) + ((CfgRegAddr) << 0)))
+0394: #define TT_RMWCIB0_VALID(Mask, Data, CfgRegAddr) (ckernel::is_valid(Mask, 8) && ckernel::is_valid(Data, 8) && ckernel::is_valid(CfgRegAddr, 8))
+0395: #define TT_RMWCIB0(Mask, Data, CfgRegAddr)       ckernel::instrn_buffer[0] = TT_OP_RMWCIB0(Mask, Data, CfgRegAddr)
+0396: #define TTI_RMWCIB0(Mask, Data, CfgRegAddr)      INSTRUCTION_WORD(TT_OP_RMWCIB0(Mask, Data, CfgRegAddr))
+0397: 
+0398: #define TT_OP_RMWCIB1(Mask, Data, CfgRegAddr)    TT_OP(0xb4, (((Mask) << 16) + ((Data) << 8) + ((CfgRegAddr) << 0)))
+0399: #define TT_RMWCIB1_VALID(Mask, Data, CfgRegAddr) (ckernel::is_valid(Mask, 8) && ckernel::is_valid(Data, 8) && ckernel::is_valid(CfgRegAddr, 8))
+0400: #define TT_RMWCIB1(Mask, Data, CfgRegAddr)       ckernel::instrn_buffer[0] = TT_OP_RMWCIB1(Mask, Data, CfgRegAddr)
+0401: #define TTI_RMWCIB1(Mask, Data, CfgRegAddr)      INSTRUCTION_WORD(TT_OP_RMWCIB1(Mask, Data, CfgRegAddr))
+0402: 
+0403: #define TT_OP_RMWCIB2(Mask, Data, CfgRegAddr)    TT_OP(0xb5, (((Mask) << 16) + ((Data) << 8) + ((CfgRegAddr) << 0)))
+0404: #define TT_RMWCIB2_VALID(Mask, Data, CfgRegAddr) (ckernel::is_valid(Mask, 8) && ckernel::is_valid(Data, 8) && ckernel::is_valid(CfgRegAddr, 8))
+0405: #define TT_RMWCIB2(Mask, Data, CfgRegAddr)       ckernel::instrn_buffer[0] = TT_OP_RMWCIB2(Mask, Data, CfgRegAddr)
+0406: #define TTI_RMWCIB2(Mask, Data, CfgRegAddr)      INSTRUCTION_WORD(TT_OP_RMWCIB2(Mask, Data, CfgRegAddr))
+0407: 
+0408: #define TT_OP_RMWCIB3(Mask, Data, CfgRegAddr)    TT_OP(0xb6, (((Mask) << 16) + ((Data) << 8) + ((CfgRegAddr) << 0)))
+0409: #define TT_RMWCIB3_VALID(Mask, Data, CfgRegAddr) (ckernel::is_valid(Mask, 8) && ckernel::is_valid(Data, 8) && ckernel::is_valid(CfgRegAddr, 8))
+0410: #define TT_RMWCIB3(Mask, Data, CfgRegAddr)       ckernel::instrn_buffer[0] = TT_OP_RMWCIB3(Mask, Data, CfgRegAddr)
+0411: #define TTI_RMWCIB3(Mask, Data, CfgRegAddr)      INSTRUCTION_WORD(TT_OP_RMWCIB3(Mask, Data, CfgRegAddr))
+0412: 
+0413: #define TT_OP_RSTDMA TT_OP(0x44, 0)
+0414: #define TTI_RSTDMA   INSTRUCTION_WORD(TT_OP_RSTDMA)
+0415: 
+0416: #define TT_OP_SEMGET(sem_sel)    TT_OP(0xa5, (((sem_sel) << 2)))
+0417: #define TT_SEMGET_VALID(sem_sel) (ckernel::is_valid(sem_sel, 22))
+0418: #define TT_SEMGET(sem_sel)       ckernel::instrn_buffer[0] = TT_OP_SEMGET(sem_sel)
+
+--- around line 621 ---
+0605: #define TT_SFPIADD(imm12_math, lreg_c, lreg_dest, instr_mod1)  ckernel::instrn_buffer[0] = TT_OP_SFPIADD(imm12_math, lreg_c, lreg_dest, instr_mod1)
+0606: #define TTI_SFPIADD(imm12_math, lreg_c, lreg_dest, instr_mod1) INSTRUCTION_WORD(TT_OP_SFPIADD(imm12_math, lreg_c, lreg_dest, instr_mod1))
+0607: 
+0608: #define TT_OP_SFPLOAD(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr) \
+0609:     TT_OP(0x70, (((lreg_ind) << 20) + ((instr_mod0) << 16) + ((sfpu_addr_mode) << 14) + ((dest_reg_addr) << 0)))
+0610: #define TT_SFPLOAD_VALID(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr) \
+0611:     (ckernel::is_valid(lreg_ind, 4) && ckernel::is_valid(instr_mod0, 4) && ckernel::is_valid(sfpu_addr_mode, 2) && ckernel::is_valid(dest_reg_addr, 14))
+0612: #define TT_SFPLOAD(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr) \
+0613:     ckernel::instrn_buffer[0] = TT_OP_SFPLOAD(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr)
+0614: #define TTI_SFPLOAD(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr) INSTRUCTION_WORD(TT_OP_SFPLOAD(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr))
+0615: 
+0616: #define TT_OP_SFPLOADI(lreg_ind, instr_mod0, imm16)    TT_OP(0x71, (((lreg_ind) << 20) + ((instr_mod0) << 16) + ((imm16) << 0)))
+0617: #define TT_SFPLOADI_VALID(lreg_ind, instr_mod0, imm16) (ckernel::is_valid(lreg_ind, 4) && ckernel::is_valid(instr_mod0, 4) && ckernel::is_valid(imm16, 16))
+0618: #define TT_SFPLOADI(lreg_ind, instr_mod0, imm16)       ckernel::instrn_buffer[0] = TT_OP_SFPLOADI(lreg_ind, instr_mod0, imm16)
+0619: #define TTI_SFPLOADI(lreg_ind, instr_mod0, imm16)      INSTRUCTION_WORD(TT_OP_SFPLOADI(lreg_ind, instr_mod0, imm16))
+0620: 
+0621: #define TT_OP_SFPLOADMACRO(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr) \
+0622:     TT_OP(0x93, (((lreg_ind) << 20) + ((instr_mod0) << 16) + ((sfpu_addr_mode) << 14) + ((dest_reg_addr) << 0)))
+0623: #define TT_SFPLOADMACRO_VALID(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr) \
+0624:     (ckernel::is_valid(lreg_ind, 4) && ckernel::is_valid(instr_mod0, 4) && ckernel::is_valid(sfpu_addr_mode, 2) && ckernel::is_valid(dest_reg_addr, 14))
+0625: #define TT_SFPLOADMACRO(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr) \
+0626:     ckernel::instrn_buffer[0] = TT_OP_SFPLOADMACRO(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr)
+0627: #define TTI_SFPLOADMACRO(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr) \
+0628:     INSTRUCTION_WORD(TT_OP_SFPLOADMACRO(lreg_ind, instr_mod0, sfpu_addr_mode, dest_reg_addr))
+0629: 
+0630: #define TT_OP_SFPLUT(lreg_ind, instr_mod0, dest_reg_addr) TT_OP(0x73, (((lreg_ind) << 20) + ((instr_mod0) << 16) + ((dest_reg_addr) << 0)))
+0631: #define TT_SFPLUT_VALID(lreg_ind, instr_mod0, dest_reg_addr) \
+0632:     (ckernel::is_valid(lreg_ind, 4) && ckernel::is_valid(instr_mod0, 4) && ckernel::is_valid(dest_reg_addr, 16))
+0633: #define TT_SFPLUT(lreg_ind, instr_mod0, dest_reg_addr)  ckernel::instrn_buffer[0] = TT_OP_SFPLUT(lreg_ind, instr_mod0, dest_reg_addr)
+0634: #define TTI_SFPLUT(lreg_ind, instr_mod0, dest_reg_addr) INSTRUCTION_WORD(TT_OP_SFPLUT(lreg_ind, instr_mod0, dest_reg_addr))
+0635: 
+0636: #define TT_OP_SFPLUTFP32(lreg_dest, instr_mod1)    TT_OP(0x95, (((lreg_dest) << 4) + ((instr_mod1) << 0)))
+0637: #define TT_SFPLUTFP32_VALID(lreg_dest, instr_mod1) (ckernel::is_valid(lreg_dest, 20) && ckernel::is_valid(instr_mod1, 4))
+0638: #define TT_SFPLUTFP32(lreg_dest, instr_mod1)       ckernel::instrn_buffer[0] = TT_OP_SFPLUTFP32(lreg_dest, instr_mod1)
+0639: #define TTI_SFPLUTFP32(lreg_dest, instr_mod1)      INSTRUCTION_WORD(TT_OP_SFPLUTFP32(lreg_dest, instr_mod1))
+0640: 
+0641: #define TT_OP_SFPLZ(imm12_math, lreg_c, lreg_dest, instr_mod1) TT_OP(0x81, (((imm12_math) << 12) + ((lreg_c) << 8) + ((lreg_dest) << 4) + ((instr_mod1) << 0)))
+0642: #define TT_SFPLZ_VALID(imm12_math, lreg_c, lreg_dest, instr_mod1) \
+0643:     (ckernel::is_valid(imm12_math, 12) && ckernel::is_valid(lreg_c, 4) && ckernel::is_valid(lreg_dest, 4) && ckernel::is_valid(instr_mod1, 4))
+0644: #define TT_SFPLZ(imm12_math, lreg_c, lreg_dest, instr_mod1)  ckernel::instrn_buffer[0] = TT_OP_SFPLZ(imm12_math, lreg_c, lreg_dest, instr_mod1)
+0645: #define TTI_SFPLZ(imm12_math, lreg_c, lreg_dest, instr_mod1) INSTRUCTION_WORD(TT_OP_SFPLZ(imm12_math, lreg_c, lreg_dest, instr_mod1))
+0646: 
+0647: #define TT_OP_SFPMAD(lreg_src_a, lreg_src_b, lreg_src_c, lreg_dest, instr_mod1) \
+0648:     TT_OP(0x84, (((lreg_src_a) << 16) + ((lreg_src_b) << 12) + ((lreg_src_c) << 8) + ((lreg_dest) << 4) + ((instr_mod1) << 0)))
+0649: #define TT_SFPMAD_VALID(lreg_src_a, lreg_src_b, lreg_src_c, lreg_dest, instr_mod1)                                                                  \
+0650:     (ckernel::is_valid(lreg_src_a, 8) && ckernel::is_valid(lreg_src_b, 4) && ckernel::is_valid(lreg_src_c, 4) && ckernel::is_valid(lreg_dest, 4) && \
+0651:      ckernel::is_valid(instr_mod1, 4))
+0652: #define TT_SFPMAD(lreg_src_a, lreg_src_b, lreg_src_c, lreg_dest, instr_mod1) \
+0653:     ckernel::instrn_buffer[0] = TT_OP_SFPMAD(lreg_src_a, lreg_src_b, lreg_src_c, lreg_dest, instr_mod1)
+
+
+===== tt_llk_wormhole_b0/common/inc/ckernel_instr_params.h =====
+
+--- around line 396 ---
+0380:     // ADJ_EXP : 1011 1101 0011 1111 (-0x4300 + 0x003F = 0xBD3F)
+0381:     constexpr static std::uint32_t ADJ_EXP = 0xBD3F;
+0382: };
+0383: 
+0384: struct p_setdmareg
+0385: {
+0386:     constexpr static std::uint32_t PAYLOAD_IMMEDIATE   = 0;
+0387:     constexpr static std::uint32_t PAYLOAD_16BIT       = 0;
+0388:     constexpr static std::uint32_t PAYLOAD_32BIT       = 1;
+0389:     constexpr static std::uint32_t PAYLOAD_128BIT      = 2;
+0390:     constexpr static std::uint32_t PAYLOAD_TILE_HEADER = 3;
+0391: 
+0392:     constexpr static std::uint32_t MODE_IMMEDIATE = 0;
+0393:     constexpr static std::uint32_t MODE_SIGNAL    = 1;
+0394: };
+0395: 
+0396: struct p_mop
+0397: {
+0398:     constexpr static std::uint32_t MASK_LOOP   = 0;
+0399:     constexpr static std::uint32_t DOUBLE_LOOP = 1;
+0400: };
+0401: 
+0402: struct p_adddmareg
+0403: {
+0404:     constexpr static std::uint32_t REG_PLUS_REG = 0;
+0405:     constexpr static std::uint32_t REG_PLUS_IMM = 1;
+0406: };
+0407: 
+0408: constexpr static std::uint32_t REG2FLOP_FLOP_INDEX(std::uint32_t addr)
+0409: {
+0410:     return addr - THCON_CFGREG_BASE_ADDR32;
+0411: }
+0412: 
+0413: struct p_reg2flop
+0414: {
+0415:     constexpr static std::uint32_t WRITE_16B = 0;
+0416:     constexpr static std::uint32_t WRITE_4B  = 1;
+0417:     constexpr static std::uint32_t WRITE_2B  = 2;
+0418:     constexpr static std::uint32_t WRITE_1B  = 3;
+0419: };
+0420: 
+0421: } // namespace ckernel
+
+
+===== tests/python_tests/perf_math_matmul.py =====
+
+--- around line 12 ---
+0001: # SPDX-FileCopyrightText: © 2025 Tenstorrent AI ULC
+0002: # SPDX-License-Identifier: Apache-2.0
+0003: 
+0004: from itertools import chain, product
+0005: 
+0006: import pytest
+0007: from helpers.format_config import DataFormat, is_dest_acc_needed
+0008: from helpers.llk_params import (
+0009:     DestAccumulation,
+0010:     DestSync,
+0011:     MathFidelity,
+0012:     PerfRunType,
+0013:     StochasticRounding,
+0014: )
+0015: from helpers.matmul_sweep import sweep_matmul, sweep_tiny_tiles_matmul
+0016: from helpers.param_config import input_output_formats
+0017: from helpers.perf import PerfConfig
+0018: from helpers.stimuli_config import StimuliConfig
+0019: from helpers.test_variant_parameters import (
+0020:     CRK_TILE_DIMM,
+0021:     DEST_INDEX,
+0022:     DEST_SYNC,
+0023:     IN_TILE_DIMS,
+0024:     LOOP_FACTOR,
+0025:     MATH_FIDELITY,
+0026:     NUM_FACES,
+0027:     PARTIAL_FACE,
+0028:     THROTTLE_LEVEL,
+0029:     TILE_COUNT,
+0030:     UNPACK_TRANS_FACES,
+0031:     UNPACK_TRANS_WITHIN_FACE,
+0032: )
+0033: 
+0034: MATMUL_FORMATS = input_output_formats(
+0035:     [
+0036:         DataFormat.Bfp8_b,
+0037:         DataFormat.Float16_b,
+0038:         DataFormat.Float16,
+0039:         DataFormat.Float32,
+0040:     ]
+0041: )
+0042: DEST_ACC_MODES = [DestAccumulation.No, DestAccumulation.Yes]
+0043: DEST_SYNC_MODES = [DestSync.Half, DestSync.Full]
+0044: STOCHASTIC_ROUNDING_MODES = [StochasticRounding.No]
+
+--- around line 114 ---
+0098: 
+0099:     Includes both regular matmul (full 32x32 tiles) and tiny tiles matmul
+0100:     (input 0 with rows: 1, 2, 4, 8, 16 and columns: 32, input 1 always 32x32).
+0101:     """
+0102:     formats = matmul_config.formats
+0103:     in0_dimensions = matmul_config.tile_dimensions.in0_dimensions
+0104:     in1_dimensions = matmul_config.tile_dimensions.in1_dimensions
+0105:     transpose = matmul_config.face_layout_config.unpack_transpose_faces
+0106:     num_faces_in0 = matmul_config.face_layout_config.num_faces_in0
+0107:     num_faces_in1 = matmul_config.face_layout_config.num_faces_in1
+0108:     num_faces = matmul_config.face_layout_config.num_faces
+0109: 
+0110:     if is_dest_acc_needed(formats) and matmul_config.dest_acc == DestAccumulation.No:
+0111:         pytest.skip("Dest accumulation must be enabled for this format")
+0112: 
+0113:     run_types = [
+0114:         PerfRunType.L1_TO_L1,
+0115:         PerfRunType.UNPACK_ISOLATE,
+0116:         PerfRunType.MATH_ISOLATE,
+0117:         PerfRunType.PACK_ISOLATE,
+0118:         PerfRunType.L1_CONGESTION,
+0119:     ]
+0120: 
+0121:     variant_tile_count = (
+0122:         matmul_config.tile_dimensions.rt_dim
+0123:         * matmul_config.tile_dimensions.ct_dim
+0124:         * matmul_config.tile_dimensions.kt_dim
+0125:     )
+0126: 
+0127:     configuration = PerfConfig(
+0128:         "sources/math_matmul_perf.cpp",
+0129:         formats,
+0130:         run_types,
+0131:         templates=[
+0132:             MATH_FIDELITY(math_fidelity),
+0133:             DEST_SYNC(matmul_config.dest_sync),
+0134:             THROTTLE_LEVEL(throttle),
+0135:         ],
+0136:         runtimes=[
+0137:             DEST_INDEX(matmul_config.dst_index),
+0138:             UNPACK_TRANS_FACES(transpose),
+0139:             UNPACK_TRANS_WITHIN_FACE(transpose),
+0140:             TILE_COUNT(variant_tile_count),
+0141:             NUM_FACES(
+0142:                 num_faces, num_faces_in0, num_faces_in1
+0143:             ),  # In0 -> Input A, In1 -> Input B
+0144:             PARTIAL_FACE(  # In0 -> Input A, In1 -> Input B
+0145:                 partial_a=matmul_config.face_layout_config.partial_face_in0,
+0146:                 partial_face_pack=matmul_config.face_layout_config.partial_face_pack,
+
+
+===== tests/sources/math_matmul_perf.cpp =====
+
+--- around line 83 ---
+0067:             TILE_SIZE_UNPACK_B);
+0068:         _llk_unpack_AB_matmul_init_<>(
+0069:             UNPACK_TRANSPOSE_FACES,
+0070:             CT_DIM,
+0071:             RT_DIM,
+0072:             KT_DIM,
+0073:             in1_tile_r_dim < FACE_R_DIM ? in1_tile_r_dim : FACE_R_DIM,
+0074:             in0_tile_r_dim < FACE_R_DIM ? in0_tile_r_dim : FACE_R_DIM,
+0075:             num_faces_B,     // In1
+0076:             num_faces_A,     // In0
+0077:             PARTIAL_FACE_B,  // In1
+0078:             PARTIAL_FACE_A); // In0
+0079:         PROFILER_SYNC();
+0080:     }
+0081:     {
+0082:         ZONE_SCOPED("TILE_LOOP")
+0083:         if constexpr (PERF_RUN_TYPE == PerfRunType::PACK_ISOLATE)
+0084:         {
+0085:             return;
+0086:         }
+0087:         else if constexpr (PERF_RUN_TYPE == PerfRunType::MATH_ISOLATE)
+0088:         {
+0089:             _perf_unpack_matmul_mock(LOOP_FACTOR, RT_DIM, KT_DIM, CT_DIM);
+0090:             return;
+0091:         }
+0092:         else
+0093:         {
+0094:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0095:             {
+0096:                 for (std::uint32_t j = 0; j < KT_DIM; j++)
+0097:                 {
+0098:                     _llk_unpack_AB_matmul_<>(
+0099:                         L1_ADDRESS(buffer_A[0]),
+0100:                         L1_ADDRESS(buffer_B[0]),
+0101:                         j,
+0102:                         j * CT_DIM,
+0103:                         TILE_SIZE_UNPACK_A,
+0104:                         TILE_SIZE_UNPACK_B,
+0105:                         PARTIAL_FACE_B, // In1
+0106:                         PARTIAL_FACE_A, // In0
+0107:                         CT_DIM,
+0108:                         RT_DIM,
+0109:                         KT_DIM);
+0110:                 }
+0111:             }
+0112:         }
+0113:         PROFILER_SYNC();
+0114:     }
+0115: }
+
+--- around line 158 ---
+0142:     const std::uint32_t RT_DIM        = params.RT_DIM;
+0143:     const std::uint32_t KT_DIM        = params.KT_DIM;
+0144:     const bool UNPACK_TRANSPOSE_FACES = params.UNPACK_TRANSPOSE_FACES;
+0145: #endif
+0146: 
+0147:     {
+0148:         ZONE_SCOPED("INIT")
+0149:         _llk_math_hw_configure_<is_fp32_dest_acc_en>(formats.math, formats.math);
+0150:         _llk_math_pack_sync_init_<dest_sync, is_fp32_dest_acc_en>();
+0151:         _llk_math_matmul_init_<MATH_FIDELITY, THROTTLE_LEVEL>(
+0152:             in0_tile_r_dim, in0_tile_c_dim, in1_tile_r_dim, in1_tile_c_dim, PARTIAL_FACE_MATH, UNPACK_TRANSPOSE_FACES, CT_DIM, RT_DIM);
+0153: 
+0154:         PROFILER_SYNC();
+0155:     }
+0156:     {
+0157:         ZONE_SCOPED("TILE_LOOP")
+0158:         if constexpr (PERF_RUN_TYPE == PerfRunType::PACK_ISOLATE)
+0159:         {
+0160:             return;
+0161:         }
+0162:         else if constexpr (PERF_RUN_TYPE == PerfRunType::UNPACK_ISOLATE || PERF_RUN_TYPE == PerfRunType::L1_CONGESTION)
+0163:         {
+0164:             _perf_math_matmul_mock(LOOP_FACTOR, RT_DIM, KT_DIM, CT_DIM);
+0165:             return;
+0166:         }
+0167:         else if constexpr (PERF_RUN_TYPE == PerfRunType::MATH_ISOLATE)
+0168:         {
+0169:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0170:             {
+0171:                 for (std::uint32_t j = 0; j < KT_DIM; j++)
+0172:                 {
+0173:                     _llk_math_matmul_<MATH_FIDELITY, THROTTLE_LEVEL>(DST_INDEX, CT_DIM, RT_DIM);
+0174:                 }
+0175:             }
+0176:         }
+0177:         else
+0178:         {
+0179:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0180:             {
+0181:                 _llk_math_wait_for_dest_available_<dest_sync>();
+0182:                 for (std::uint32_t j = 0; j < KT_DIM; j++)
+0183:                 {
+0184:                     _llk_math_matmul_<MATH_FIDELITY, THROTTLE_LEVEL>(DST_INDEX, CT_DIM, RT_DIM);
+0185:                 }
+0186:                 _llk_math_dest_section_done_<dest_sync, is_fp32_dest_acc_en>();
+0187:             }
+0188:         }
+0189:         PROFILER_SYNC();
+0190:     }
+
+--- around line 245 ---
+0229:             formats.pack_dst,
+0230:             in0_tile_r_dim < FACE_R_DIM ? in0_tile_r_dim : FACE_R_DIM,
+0231:             TILE_C_DIM,
+0232:             num_faces,
+0233:             false /* partial_face parameter is unused on BH */);
+0234:         _llk_pack_dest_init_<dest_sync, is_fp32_dest_acc_en>();
+0235: #else
+0236:         _llk_pack_hw_configure_<is_fp32_dest_acc_en, false>(
+0237:             formats.pack_src, formats.pack_dst, TILE_SIZE_PACK, in0_tile_r_dim < FACE_R_DIM ? in0_tile_r_dim : FACE_R_DIM, num_faces, PARTIAL_FACE_PACK);
+0238:         _llk_pack_init_<false, false>(formats.pack_dst, in0_tile_r_dim < FACE_R_DIM ? in0_tile_r_dim : FACE_R_DIM, num_faces, PARTIAL_FACE_PACK);
+0239:         _llk_pack_dest_init_<dest_sync, is_fp32_dest_acc_en, false>();
+0240: #endif
+0241:         PROFILER_SYNC();
+0242:     }
+0243:     {
+0244:         ZONE_SCOPED("TILE_LOOP")
+0245:         if constexpr (PERF_RUN_TYPE == PerfRunType::MATH_ISOLATE || PERF_RUN_TYPE == PerfRunType::UNPACK_ISOLATE)
+0246:         {
+0247:             return;
+0248:         }
+0249:         else if constexpr (PERF_RUN_TYPE == PerfRunType::PACK_ISOLATE || PERF_RUN_TYPE == PerfRunType::L1_CONGESTION)
+0250:         {
+0251:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0252:             {
+0253:                 for (std::uint32_t tile = 0; tile < CT_DIM * RT_DIM; tile++)
+0254:                 {
+0255:                     _llk_pack_<dest_sync, is_fp32_dest_acc_en>(DST_INDEX + tile, PERF_ADDRESS(PERF_OUTPUT, tile));
+0256:                 }
+0257:             }
+0258:         }
+0259:         else
+0260:         {
+0261:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0262:             {
+0263:                 _llk_packer_wait_for_math_done_();
+0264:                 for (std::uint32_t tile = 0; tile < CT_DIM * RT_DIM; tile++)
+0265:                 {
+0266:                     _llk_pack_<dest_sync, is_fp32_dest_acc_en>(DST_INDEX + tile, PERF_ADDRESS(PERF_OUTPUT, tile));
+0267:                 }
+0268:                 _llk_pack_dest_section_done_<dest_sync, is_fp32_dest_acc_en>();
+0269:             }
+0270:         }
+0271:         PROFILER_SYNC();
+0272:     }
+0273: }
+0274: 
+0275: #endif
+
+
+===== tests/sources/matmul_perf.cpp =====
+
+--- around line 65 ---
+0049:         _llk_unpack_hw_configure_<is_fp32_dest_acc_en>(
+0050:             formats.unpack_A_src,
+0051:             formats.unpack_B_src,
+0052:             formats.unpack_A_dst,
+0053:             formats.unpack_B_dst,
+0054:             FACE_R_DIM,
+0055:             FACE_R_DIM,
+0056:             num_faces_A,
+0057:             num_faces_B,
+0058:             TILE_SIZE_UNPACK_A,
+0059:             TILE_SIZE_UNPACK_B);
+0060:         _llk_unpack_AB_matmul_init_<>(UNPACK_TRANSPOSE_FACES, CT_DIM, RT_DIM, KT_DIM, FACE_R_DIM, FACE_R_DIM, TILE_NUM_FACES, TILE_NUM_FACES, false, false);
+0061:         PROFILER_SYNC();
+0062:     }
+0063:     {
+0064:         ZONE_SCOPED("TILE_LOOP")
+0065:         if constexpr (PERF_RUN_TYPE == PerfRunType::PACK_ISOLATE)
+0066:         {
+0067:             return;
+0068:         }
+0069:         else if constexpr (PERF_RUN_TYPE == PerfRunType::MATH_ISOLATE)
+0070:         {
+0071:             _perf_unpack_matmul_mock(LOOP_FACTOR, RT_DIM, KT_DIM, CT_DIM);
+0072:             return;
+0073:         }
+0074:         else
+0075:         {
+0076:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0077:             {
+0078:                 for (std::uint32_t j = 0; j < KT_DIM; j++)
+0079:                 {
+0080:                     _llk_unpack_AB_matmul_<>(
+0081:                         PERF_ADDRESS(PERF_INPUT_A, j),
+0082:                         PERF_ADDRESS(PERF_INPUT_B, j),
+0083:                         j,
+0084:                         j * CT_DIM,
+0085:                         TILE_SIZE_UNPACK_A,
+0086:                         TILE_SIZE_UNPACK_B,
+0087:                         /* partial face */ false,
+0088:                         /* partial face */ false,
+0089:                         CT_DIM,
+0090:                         RT_DIM,
+0091:                         KT_DIM);
+0092:                 }
+0093:             }
+0094:         }
+0095:         PROFILER_SYNC();
+0096:     }
+0097: }
+
+--- around line 127 ---
+0111: {
+0112: #if defined(RUNTIME_FORMATS) && !defined(SPEED_OF_LIGHT)
+0113:     const FormatConfig& formats = params.formats;
+0114: #endif
+0115: 
+0116: #ifndef SPEED_OF_LIGHT
+0117:     const std::uint32_t LOOP_FACTOR = params.LOOP_FACTOR;
+0118:     std::uint32_t CT_DIM            = params.CT_DIM;
+0119:     std::uint32_t RT_DIM            = params.RT_DIM;
+0120:     std::uint32_t KT_DIM            = params.KT_DIM;
+0121: #endif
+0122: 
+0123:     {
+0124:         ZONE_SCOPED("INIT")
+0125:         _llk_math_hw_configure_<is_fp32_dest_acc_en>(formats.math, formats.math);
+0126:         _llk_math_pack_sync_init_<dest_sync, is_fp32_dest_acc_en>();
+0127: #ifdef USE_MATMUL_CUSTOM_NO_MOP
+0128:         _llk_math_matmul_init_no_mop_<MATH_FIDELITY, THROTTLE_LEVEL>(
+0129:             /* tile A */ TILE_R_DIM,
+0130:             /* tile A */ TILE_C_DIM,
+0131:             /* tile B */ TILE_R_DIM,
+0132:             /* tile B */ TILE_C_DIM,
+0133:             /* partial face */ false,
+0134:             /* transpose */ false,
+0135:             CT_DIM,
+0136:             RT_DIM);
+0137: #else
+0138:         _llk_math_matmul_init_<MATH_FIDELITY, THROTTLE_LEVEL>(
+0139:             /* tile A */ TILE_R_DIM,
+0140:             /* tile A */ TILE_C_DIM,
+0141:             /* tile B */ TILE_R_DIM,
+0142:             /* tile B */ TILE_C_DIM,
+0143:             /* partial face */ false,
+0144:             /* transpose */ false,
+0145:             CT_DIM,
+0146:             RT_DIM);
+0147: #endif
+0148: 
+0149:         PROFILER_SYNC();
+0150:     }
+0151:     {
+0152:         ZONE_SCOPED("TILE_LOOP")
+0153:         if constexpr (PERF_RUN_TYPE == PerfRunType::PACK_ISOLATE)
+0154:         {
+0155:             return;
+0156:         }
+0157:         else if constexpr (PERF_RUN_TYPE == PerfRunType::UNPACK_ISOLATE || PERF_RUN_TYPE == PerfRunType::L1_CONGESTION)
+0158:         {
+0159:             _perf_math_matmul_mock(LOOP_FACTOR, RT_DIM, KT_DIM, CT_DIM);
+
+--- around line 193 ---
+0177:                         /* dest_index */ 0, CT_DIM, RT_DIM);
+0178: #endif
+0179:                 }
+0180:             }
+0181:         }
+0182:         else
+0183:         {
+0184:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0185:             {
+0186:                 LLK_ASSERT(
+0187:                     (get_dest_max_matmul_tiles(0, CT_DIM, RT_DIM) < get_dest_max_tiles<dest_sync, is_fp32_dest_acc_en, DstTileShape::Tile32x32>()),
+0188:                     "Block tile index exceeds maximum destination tiles for matmul");
+0189: 
+0190:                 _llk_math_wait_for_dest_available_<dest_sync>();
+0191:                 for (std::uint32_t j = 0; j < KT_DIM; j++)
+0192:                 {
+0193: #ifdef USE_MATMUL_CUSTOM_NO_MOP
+0194:                     _llk_math_matmul_no_mop_<MATH_FIDELITY, THROTTLE_LEVEL>(
+0195:                         /* dest_index */ 0, CT_DIM, RT_DIM);
+0196: #else
+0197:                     _llk_math_matmul_<MATH_FIDELITY, THROTTLE_LEVEL>(
+0198:                         /* dest_index */ 0, CT_DIM, RT_DIM);
+0199: #endif
+0200:                 }
+0201:                 _llk_math_dest_section_done_<dest_sync, is_fp32_dest_acc_en>();
+0202:             }
+0203:         }
+0204:         PROFILER_SYNC();
+0205:     }
+0206: }
+0207: 
+0208: #endif
+0209: 
+0210: #ifdef LLK_TRISC_PACK
+0211: 
+0212: #include "llk_pack.h"
+0213: #include "llk_pack_common.h"
+0214: 
+0215: void run_kernel(RUNTIME_PARAMETERS params)
+0216: {
+0217: #if defined(RUNTIME_FORMATS) && !defined(SPEED_OF_LIGHT)
+0218:     const FormatConfig& formats = params.formats;
+0219: #endif
+0220: 
+0221: #ifndef SPEED_OF_LIGHT
+0222:     const std::uint32_t LOOP_FACTOR = params.LOOP_FACTOR;
+0223:     std::uint32_t CT_DIM            = params.CT_DIM;
+0224:     std::uint32_t RT_DIM            = params.RT_DIM;
+0225: #endif
+
+--- around line 242 ---
+0226: 
+0227:     {
+0228:         ZONE_SCOPED("INIT")
+0229:         _llk_pack_hw_configure_<is_fp32_dest_acc_en>(formats.pack_src, formats.pack_dst, TILE_C_DIM * TILE_R_DIM);
+0230:         _llk_pack_init_<
+0231:             /* untilize */ false,
+0232:             /* zero_output */ false>(formats.pack_dst);
+0233:         _llk_pack_dest_init_<DstSync::SyncHalf, is_fp32_dest_acc_en>();
+0234:         PROFILER_SYNC();
+0235:     }
+0236:     {
+0237:         ZONE_SCOPED("TILE_LOOP")
+0238:         if constexpr (PERF_RUN_TYPE == PerfRunType::MATH_ISOLATE || PERF_RUN_TYPE == PerfRunType::UNPACK_ISOLATE)
+0239:         {
+0240:             return;
+0241:         }
+0242:         else if constexpr (PERF_RUN_TYPE == PerfRunType::PACK_ISOLATE || PERF_RUN_TYPE == PerfRunType::L1_CONGESTION)
+0243:         {
+0244:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0245:             {
+0246:                 for (std::uint32_t tile = 0; tile < CT_DIM * RT_DIM; tile++)
+0247:                 {
+0248:                     const std::uint32_t tile_index = tile % MAX_TILES_DEST;
+0249:                     LLK_ASSERT(
+0250:                         (tile_index < get_dest_max_tiles<DstSync::SyncHalf, is_fp32_dest_acc_en, DstTileShape::Tile32x32>()),
+0251:                         "Block tile index exceeds maximum destination tiles for matmul");
+0252:                     _llk_pack_<DstSync::SyncHalf, is_fp32_dest_acc_en>(tile_index, PERF_ADDRESS(PERF_OUTPUT, tile_index));
+0253:                 }
+0254:             }
+0255:         }
+0256:         else
+0257:         {
+0258:             for (std::uint32_t loop = 0; loop < LOOP_FACTOR; loop++)
+0259:             {
+0260:                 _llk_packer_wait_for_math_done_();
+0261:                 for (std::uint32_t tile = 0; tile < CT_DIM * RT_DIM; tile++)
+0262:                 {
+0263:                     const std::uint32_t tile_index = tile % MAX_TILES_DEST;
+0264:                     LLK_ASSERT(
+0265:                         (tile_index < get_dest_max_tiles<DstSync::SyncHalf, is_fp32_dest_acc_en, DstTileShape::Tile32x32>()),
+0266:                         "Block tile index exceeds maximum destination tiles for matmul");
+0267:                     _llk_pack_<DstSync::SyncHalf, is_fp32_dest_acc_en>(tile_index, PERF_ADDRESS(PERF_OUTPUT, tile_index));
+0268:                 }
+0269:                 _llk_pack_dest_section_done_<DstSync::SyncHalf, is_fp32_dest_acc_en>();
+0270:             }
+0271:         }
+0272:         PROFILER_SYNC();
+0273:     }
+0274: }
+
+
+===== tests/helpers/include/perf.h =====
+
+--- around line 24 ---
+0008: #include <cstdint>
+0009: 
+0010: #include "ckernel.h"
+0011: 
+0012: // FIXME: this shouldn't be statically allocated
+0013: constexpr std::uint32_t PERF_INPUT_A = 0x21000;
+0014: constexpr std::uint32_t PERF_INPUT_B = PERF_INPUT_A + 16 * 4096;
+0015: constexpr std::uint32_t PERF_INPUT_C = PERF_INPUT_B + 16 * 4096;
+0016: constexpr std::uint32_t PERF_OUTPUT  = PERF_INPUT_C + 16 * 4096;
+0017: 
+0018: constexpr std::uint32_t PERF_ADDRESS(std::uint32_t buffer, std::uint32_t tile)
+0019: {
+0020:     std::uint32_t address = buffer + (tile % 16) * 4096; // Loop every 16 tiles, to prevent escaping memory
+0021:     return address / 16 - 1;                             // Correct the L1 Address for Tensix
+0022: }
+0023: 
+0024: enum class PerfRunType
+0025: {
+0026:     L1_TO_L1,
+0027:     UNPACK_ISOLATE,
+0028:     MATH_ISOLATE,
+0029:     PACK_ISOLATE,
+0030:     L1_CONGESTION
+0031: };
+0032: 
+0033: inline void _perf_unpack_set_valid(std::uint32_t source)
+0034: {
+0035:     std::uint32_t set_a = source == ckernel::SrcA ? 1 : 0;
+0036:     std::uint32_t set_b = source == ckernel::SrcB ? 1 : 0;
+0037: 
+0038:     std::uint32_t wait_clear_a = set_a ? ckernel::p_stall::SRCA_CLR : 0;
+0039:     std::uint32_t wait_clear_b = set_b ? ckernel::p_stall::SRCB_CLR : 0;
+0040: 
+0041: #ifdef ARCH_QUASAR
+0042:     TT_STALLWAIT(ckernel::p_stall::STALL_TDMA, wait_clear_a, wait_clear_b, 0);
+0043:     TT_SETDVALID((set_b << 1) | set_a);
+0044: 
+0045: #else
+0046:     TT_STALLWAIT(ckernel::p_stall::STALL_TDMA, wait_clear_a | wait_clear_b);
+0047:     TT_SETDVALID((set_b << 1) | set_a);
+0048: 
+0049: #endif
+0050: }
+0051: 
+0052: inline void _perf_math_clear_valid(std::uint32_t source)
+0053: {
+0054:     std::uint32_t clear_a = source == ckernel::SrcA ? 1 : 0;
+0055:     std::uint32_t clear_b = source == ckernel::SrcB ? 1 : 0;
+0056: 
+
+--- around line 105 ---
+0089: inline void _perf_math_loop_clear_valid(std::uint32_t iterations)
+0090: {
+0091:     while (iterations-- > 0)
+0092:     {
+0093:         constexpr std::uint32_t cond_valid_a = clear_a ? ckernel::p_stall::SRCA_VLD : 0;
+0094:         constexpr std::uint32_t cond_valid_b = clear_b ? ckernel::p_stall::SRCB_VLD : 0;
+0095: #ifdef ARCH_QUASAR
+0096:         TTI_STALLWAIT(ckernel::p_stall::STALL_MATH, cond_valid_a, cond_valid_b, 0);
+0097:         TTI_CLEARDVALID((clear_b << 1) | clear_a, 0, 0, 0, 0, 0);
+0098: #else
+0099:         TTI_STALLWAIT(ckernel::p_stall::STALL_MATH, cond_valid_a | cond_valid_b);
+0100:         TTI_CLEARDVALID((clear_b << 1) | clear_a, 0);
+0101: #endif
+0102:     }
+0103: }
+0104: 
+0105: inline void _perf_unpack_matmul_mock(std::uint32_t loop_factor, std::uint32_t rt_dim, std::uint32_t kt_dim, std::uint32_t ct_dim)
+0106: {
+0107:     // fixme: add quasar support
+0108: 
+0109:     for (std::uint32_t loop = 0; loop < loop_factor; loop++)
+0110:     {
+0111:         for (std::uint32_t j = 0; j < kt_dim; j++)
+0112:         {
+0113:             const std::uint32_t reuse_reg  = ct_dim >= rt_dim ? ckernel::SrcB : ckernel::SrcA;
+0114:             const std::uint32_t reuse_loop = std::min(ct_dim, rt_dim);
+0115: 
+0116:             const std::uint32_t reload_reg  = ct_dim >= rt_dim ? ckernel::SrcA : ckernel::SrcB;
+0117:             const std::uint32_t reload_loop = std::max(ct_dim, rt_dim);
+0118: 
+0119: #ifdef ARCH_WORMHOLE
+0120: 
+0121:             /*
+0122:              * WORMHOLE SCHEME:
+0123:              * Utilizes both source register banks to maximize throughput.
+0124:              * IF CT_DIM >= RT_DIM ->
+0125:              *   SRCB, SRCB, SRCA * CT_DIM, SRCB, SRCB, ...
+0126:              * ELSE ->
+0127:              *   SRCA, SRCA, SRCB * RT_DIM, SRCA, SRCA, ...
+0128:              */
+0129: 
+0130:             std::uint32_t reuse_iter = 0;
+0131:             while (reuse_iter < reuse_loop)
+0132:             {
+0133:                 const std::uint32_t reuse_burst = std::min(static_cast<std::uint32_t>(2), reuse_loop - reuse_iter);
+0134: 
+0135:                 for (std::uint32_t i = 0; i < reuse_burst; i++)
+0136:                 {
+0137:                     _perf_unpack_set_valid(reuse_reg);
+
+--- around line 174 ---
+0158:              */
+0159: 
+0160:             for (std::uint32_t reuse_iter = 0; reuse_iter < reuse_loop; reuse_iter++)
+0161:             {
+0162:                 _perf_unpack_set_valid(reuse_reg);
+0163: 
+0164:                 for (std::uint32_t i = 0; i < reload_loop; i++)
+0165:                 {
+0166:                     _perf_unpack_set_valid(reload_reg);
+0167:                 }
+0168:             }
+0169: #endif
+0170:         }
+0171:     }
+0172: }
+0173: 
+0174: inline void _perf_math_matmul_mock(std::uint32_t loop_factor, std::uint32_t rt_dim, std::uint32_t kt_dim, std::uint32_t ct_dim)
+0175: {
+0176:     // fixme: add quasar support
+0177: 
+0178:     for (std::uint32_t loop = 0; loop < loop_factor; loop++)
+0179:     {
+0180:         for (std::uint32_t j = 0; j < kt_dim; j++)
+0181:         {
+0182:             const std::uint32_t reuse_reg  = ct_dim >= rt_dim ? ckernel::SrcB : ckernel::SrcA;
+0183:             const std::uint32_t reuse_loop = std::min(ct_dim, rt_dim);
+0184: 
+0185:             const std::uint32_t reload_reg  = ct_dim >= rt_dim ? ckernel::SrcA : ckernel::SrcB;
+0186:             const std::uint32_t reload_loop = std::max(ct_dim, rt_dim);
+0187: 
+0188: #ifdef ARCH_WORMHOLE
+0189: 
+0190:             /*
+0191:              * WORMHOLE SCHEME:
+0192:              * Utilizes both source register banks to maximize throughput.
+0193:              * IF CT_DIM >= RT_DIM ->
+0194:              *  SRCA * CT_DIM, SRCB, SRCB, SRCA * CT_DIM, ...
+0195:              * ELSE ->
+0196:              *  SRCB * RT_DIM, SRCA, SRCA, SRCB * RT_DIM, ...
+0197:              */
+0198: 
+0199:             std::uint32_t reuse_iter = 0;
+0200:             while (reuse_iter < reuse_loop)
+0201:             {
+0202:                 const std::uint32_t reuse_burst = std::min(static_cast<std::uint32_t>(2), reuse_loop - reuse_iter);
+0203: 
+0204:                 for (std::uint32_t i = 0; i < reload_loop; i++)
+0205:                 {
+0206:                     _perf_math_clear_valid(reload_reg);
+
+
+===== tests/helpers/include/counters.h =====
+
+--- around line 34 ---
+0018: 
+0019: // TDMA_UNPACK registers (missing from hw headers)
+0020: #ifndef RISCV_DEBUG_REG_PERF_CNT_TDMA_UNPACK0
+0021: #define RISCV_DEBUG_REG_PERF_CNT_TDMA_UNPACK0 (RISCV_DEBUG_REGS_START_ADDR | 0x00C)
+0022: #define RISCV_DEBUG_REG_PERF_CNT_TDMA_UNPACK1 (RISCV_DEBUG_REGS_START_ADDR | 0x010)
+0023: #define RISCV_DEBUG_REG_PERF_CNT_TDMA_UNPACK2 (RISCV_DEBUG_REGS_START_ADDR | 0x014)
+0024: #endif
+0025: 
+0026: // L1 counter MUX control register
+0027: #ifndef RISCV_DEBUG_REG_PERF_CNT_MUX_CTRL
+0028: #define RISCV_DEBUG_REG_PERF_CNT_MUX_CTRL (RISCV_DEBUG_REGS_START_ADDR | 0x218)
+0029: #endif
+0030: 
+0031: // Performance counter output registers
+0032: // OUT_L: Reference cycle count (independent of event)
+0033: // OUT_H: Event-specific count (depends on selected counter)
+0034: #define RISCV_DEBUG_REG_PERF_CNT_OUT_L_INSTRN_THREAD (RISCV_DEBUG_REGS_START_ADDR | 0x100)
+0035: #define RISCV_DEBUG_REG_PERF_CNT_OUT_H_INSTRN_THREAD (RISCV_DEBUG_REGS_START_ADDR | 0x104)
+0036: #define RISCV_DEBUG_REG_PERF_CNT_OUT_L_TDMA_UNPACK   (RISCV_DEBUG_REGS_START_ADDR | 0x108)
+0037: #define RISCV_DEBUG_REG_PERF_CNT_OUT_H_TDMA_UNPACK   (RISCV_DEBUG_REGS_START_ADDR | 0x10C)
+0038: #define RISCV_DEBUG_REG_PERF_CNT_OUT_L_TDMA_PACK     (RISCV_DEBUG_REGS_START_ADDR | 0x110)
+0039: #define RISCV_DEBUG_REG_PERF_CNT_OUT_H_TDMA_PACK     (RISCV_DEBUG_REGS_START_ADDR | 0x114)
+0040: #define RISCV_DEBUG_REG_PERF_CNT_OUT_L_DBG_L1        (RISCV_DEBUG_REGS_START_ADDR | 0x118)
+0041: #define RISCV_DEBUG_REG_PERF_CNT_OUT_H_DBG_L1        (RISCV_DEBUG_REGS_START_ADDR | 0x11C)
+0042: #define RISCV_DEBUG_REG_PERF_CNT_OUT_L_FPU           (RISCV_DEBUG_REGS_START_ADDR | 0x120)
+0043: #define RISCV_DEBUG_REG_PERF_CNT_OUT_H_FPU           (RISCV_DEBUG_REGS_START_ADDR | 0x124)
+0044: 
+0045: // ============================================================================
+0046: // L1 Memory Layout (Single Shared Buffer)
+0047: // ============================================================================
+0048: 
+0049: // SOURCE OF TRUTH: tests/python_tests/helpers/test_config.py (TestConfig class)
+0050: // Must be below profiler buffers which start at 0x16B000
+0051: #define PERF_COUNTERS_BASE_ADDR    0x16A000
+0052: #define PERF_COUNTERS_CONFIG_WORDS 86  // Counter configuration slots
+0053: #define PERF_COUNTERS_DATA_WORDS   172 // Counter data (cycles + count per slot)
+0054: #define PERF_COUNTERS_BUFFER_SIZE  ((PERF_COUNTERS_CONFIG_WORDS + PERF_COUNTERS_DATA_WORDS) * 4)
+0055: 
+0056: #define PERF_COUNTERS_CONFIG_ADDR    (PERF_COUNTERS_BASE_ADDR)
+0057: #define PERF_COUNTERS_DATA_ADDR      (PERF_COUNTERS_BASE_ADDR + PERF_COUNTERS_CONFIG_WORDS * 4)
+0058: #define PERF_COUNTERS_SYNC_CTRL_ADDR (PERF_COUNTERS_BASE_ADDR + PERF_COUNTERS_BUFFER_SIZE)
+0059: 
+0060: // Thread count for perf counter synchronization
+0061: // Quasar: 4 TRISCs (UNPACK, MATH, PACK, SFPU); Wormhole/Blackhole: 3 TRISCs
+0062: #if defined(ARCH_QUASAR)
+0063: #define PERF_COUNTERS_THREAD_COUNT 4
+0064: #else
+0065: #define PERF_COUNTERS_THREAD_COUNT 3
+0066: #endif
+
+--- around line 115 ---
+0099: #endif
+0100: 
+0101: #ifndef PERF_COUNTERS_USE_ATINCGET
+0102: #define PERF_COUNTERS_USE_ATINCGET 1
+0103: #endif
+0104: 
+0105: constexpr std::uint32_t ATINCGET_WIDTH_32    = 31u; // IntWidth for 32-bit
+0106: constexpr std::uint32_t ATINCGET_DMANOP_WAIT = 96u;
+0107: constexpr std::uint32_t PERF_COUNTER_THREADS = PERF_COUNTERS_THREAD_COUNT;
+0108: 
+0109: // ============================================================================
+0110: // Counter Bank Enumeration
+0111: // ============================================================================
+0112: 
+0113: enum class counter_bank : std::uint8_t
+0114: {
+0115:     instrn_thread = 0,
+0116:     fpu           = 1,
+0117:     tdma_unpack   = 2,
+0118:     l1            = 3,
+0119:     tdma_pack     = 4,
+0120: };
+0121: 
+0122: constexpr std::uint32_t COUNTER_BANK_COUNT = 5;
+0123: constexpr std::uint32_t COUNTER_SLOT_COUNT = 86;
+0124: 
+0125: // ============================================================================
+0126: // Helper Functions
+0127: // ============================================================================
+0128: 
+0129: // Hardware register access functions for performance counter control
+0130: namespace hw_access
+0131: {
+0132: // Write a 32-bit value to a hardware register address
+0133: inline void write_reg(std::uint32_t addr, std::uint32_t value)
+0134: {
+0135:     *reinterpret_cast<volatile std::uint32_t*>(addr) = value;
+0136: }
+0137: 
+0138: // Read a 32-bit value from a hardware register address
+0139: inline std::uint32_t read_reg(std::uint32_t addr)
+0140: {
+0141:     return *reinterpret_cast<volatile std::uint32_t*>(addr);
+0142: }
+0143: 
+0144: // Get the base configuration register address for a counter bank
+0145: // Used to configure and control counter operation (period, mode, start/stop)
+0146: inline std::uint32_t get_counter_base_addr(counter_bank bank)
+0147: {
+
+--- around line 164 ---
+0148:     constexpr std::uint32_t base_addrs[COUNTER_BANK_COUNT] = {
+0149:         RISCV_DEBUG_REG_PERF_CNT_INSTRN_THREAD0,
+0150:         RISCV_DEBUG_REG_PERF_CNT_FPU0,
+0151:         RISCV_DEBUG_REG_PERF_CNT_TDMA_UNPACK0,
+0152:         RISCV_DEBUG_REG_PERF_CNT_L1_0,
+0153:         RISCV_DEBUG_REG_PERF_CNT_TDMA_PACK0,
+0154:     };
+0155:     const std::uint32_t idx = static_cast<std::uint32_t>(bank);
+0156:     return idx < COUNTER_BANK_COUNT ? base_addrs[idx] : 0u;
+0157: }
+0158: 
+0159: // Get the output register address for cycle counts (reference counter)
+0160: // This counter runs continuously regardless of events
+0161: inline std::uint32_t get_counter_output_low_addr(counter_bank bank)
+0162: {
+0163:     constexpr std::uint32_t low_addrs[COUNTER_BANK_COUNT] = {
+0164:         RISCV_DEBUG_REG_PERF_CNT_OUT_L_INSTRN_THREAD,
+0165:         RISCV_DEBUG_REG_PERF_CNT_OUT_L_FPU,
+0166:         RISCV_DEBUG_REG_PERF_CNT_OUT_L_TDMA_UNPACK,
+0167:         RISCV_DEBUG_REG_PERF_CNT_OUT_L_DBG_L1,
+0168:         RISCV_DEBUG_REG_PERF_CNT_OUT_L_TDMA_PACK,
+0169:     };
+0170:     const std::uint32_t idx = static_cast<std::uint32_t>(bank);
+0171:     return idx < COUNTER_BANK_COUNT ? low_addrs[idx] : 0u;
+0172: }
+0173: 
+0174: // Get the output register address for event counts
+0175: // This counter increments based on the selected counter/event type
+0176: inline std::uint32_t get_counter_output_high_addr(counter_bank bank)
+0177: {
+0178:     constexpr std::uint32_t high_addrs[COUNTER_BANK_COUNT] = {
+0179:         RISCV_DEBUG_REG_PERF_CNT_OUT_H_INSTRN_THREAD,
+0180:         RISCV_DEBUG_REG_PERF_CNT_OUT_H_FPU,
+0181:         RISCV_DEBUG_REG_PERF_CNT_OUT_H_TDMA_UNPACK,
+0182:         RISCV_DEBUG_REG_PERF_CNT_OUT_H_DBG_L1,
+0183:         RISCV_DEBUG_REG_PERF_CNT_OUT_H_TDMA_PACK,
+0184:     };
+0185:     const std::uint32_t idx = static_cast<std::uint32_t>(bank);
+0186:     return idx < COUNTER_BANK_COUNT ? high_addrs[idx] : 0u;
+0187: }
+0188: } // namespace hw_access
+0189: 
+0190: // Thread identification and sync bit helpers
+0191: // Each TRISC thread (Unpack/Math/Pack) needs to identify itself for synchronization
+0192: namespace thread_info
+0193: {
+0194: // Get the current thread ID based on compile-time defines
+0195: // Returns: 0 (UNPACK), 1 (MATH), 2 (PACK), 3 (SFPU on Quasar only)
+0196: constexpr std::uint32_t get_thread_id()
+
+--- around line 240 ---
+0224: 
+0225: // ============================================================================
+0226: // Performance Counter Manager (Singleton)
+0227: // ============================================================================
+0228: 
+0229: class PerfCounterManager
+0230: {
+0231: private:
+0232:     PerfCounterManager() = default;
+0233: 
+0234:     // Get pointer to L1 config buffer (86 words of counter metadata)
+0235:     const volatile std::uint32_t* get_config_mem()
+0236:     {
+0237:         return reinterpret_cast<volatile std::uint32_t*>(PERF_COUNTERS_CONFIG_ADDR);
+0238:     }
+0239: 
+0240:     // Get pointer to L1 data buffer (172 words: cycles + count per counter)
+0241:     volatile std::uint32_t* get_data_mem()
+0242:     {
+0243:         return reinterpret_cast<volatile std::uint32_t*>(PERF_COUNTERS_DATA_ADDR);
+0244:     }
+0245: 
+0246:     // Get pointer to sync control word (thread coordination flags)
+0247:     volatile std::uint32_t* get_sync_ctrl_mem()
+0248:     {
+0249:         return reinterpret_cast<volatile std::uint32_t*>(PERF_COUNTERS_SYNC_CTRL_ADDR);
+0250:     }
+0251: 
+0252:     // Force L1 cache flush by doing uncached write followed by uncached read
+0253:     // This ensures our write is visible to other cores in cache-incoherent system
+0254:     inline void flush_l1_cache(volatile std::uint32_t* addr)
+0255:     {
+0256:         // Read-modify-write to force cache flush
+0257:         // The asm volatile prevents compiler reordering
+0258:         std::uint32_t tmp;
+0259:         asm volatile(
+0260:             "lw %0, 0(%1)\n" // Load from address
+0261:             "sw %0, 0(%1)\n" // Store back same value (forces writeback)
+0262:             "lw %0, 0(%1)\n" // Load again (forces cache line fetch)
+0263:             : "=&r"(tmp)
+0264:             : "r"(addr)
+0265:             : "memory");
+0266:     }
+0267: 
+0268:     // Read an L1 word with a flush to improve visibility across threads.
+0269:     inline std::uint32_t read_l1_word(volatile std::uint32_t* addr)
+0270:     {
+0271:         flush_l1_cache(addr);
+0272:         return *addr;
+
+--- around line 654 ---
+0638: {
+0639:     PerfCounterManager::instance().start();
+0640: }
+0641: 
+0642: // Stop performance counters (call from all threads)
+0643: inline void stop_perf_counters()
+0644: {
+0645:     PerfCounterManager::instance().stop();
+0646: }
+0647: 
+0648: // ============================================================================
+0649: // Counter ID Constants (for reference/documentation)
+0650: // ============================================================================
+0651: 
+0652: namespace counter_id
+0653: {
+0654: namespace instrn_thread
+0655: {
+0656: // Instruction availability counters (per-thread: add thread offset 0, 1, or 2)
+0657: constexpr std::uint32_t CFG_INSTRN_AVAILABLE_0     = 0;
+0658: constexpr std::uint32_t CFG_INSTRN_AVAILABLE_1     = 1;
+0659: constexpr std::uint32_t CFG_INSTRN_AVAILABLE_2     = 2;
+0660: constexpr std::uint32_t SYNC_INSTRN_AVAILABLE_0    = 3;
+0661: constexpr std::uint32_t SYNC_INSTRN_AVAILABLE_1    = 4;
+0662: constexpr std::uint32_t SYNC_INSTRN_AVAILABLE_2    = 5;
+0663: constexpr std::uint32_t THCON_INSTRN_AVAILABLE_0   = 6;
+0664: constexpr std::uint32_t THCON_INSTRN_AVAILABLE_1   = 7;
+0665: constexpr std::uint32_t THCON_INSTRN_AVAILABLE_2   = 8;
+0666: constexpr std::uint32_t XSEARCH_INSTRN_AVAILABLE_0 = 9;
+0667: constexpr std::uint32_t XSEARCH_INSTRN_AVAILABLE_1 = 10;
+0668: constexpr std::uint32_t XSEARCH_INSTRN_AVAILABLE_2 = 11;
+0669: constexpr std::uint32_t MOVE_INSTRN_AVAILABLE_0    = 12;
+0670: constexpr std::uint32_t MOVE_INSTRN_AVAILABLE_1    = 13;
+0671: constexpr std::uint32_t MOVE_INSTRN_AVAILABLE_2    = 14;
+0672: constexpr std::uint32_t FPU_INSTRN_AVAILABLE_0     = 15;
+0673: constexpr std::uint32_t FPU_INSTRN_AVAILABLE_1     = 16;
+0674: constexpr std::uint32_t FPU_INSTRN_AVAILABLE_2     = 17;
+0675: constexpr std::uint32_t UNPACK_INSTRN_AVAILABLE_0  = 18;
+0676: constexpr std::uint32_t UNPACK_INSTRN_AVAILABLE_1  = 19;
+0677: constexpr std::uint32_t UNPACK_INSTRN_AVAILABLE_2  = 20;
+0678: constexpr std::uint32_t PACK_INSTRN_AVAILABLE_0    = 21;
+0679: constexpr std::uint32_t PACK_INSTRN_AVAILABLE_1    = 22;
+0680: constexpr std::uint32_t PACK_INSTRN_AVAILABLE_2    = 23;
+0681: // Thread stalls
+0682: constexpr std::uint32_t THREAD_STALLS_0 = 24;
+0683: constexpr std::uint32_t THREAD_STALLS_1 = 25;
+0684: constexpr std::uint32_t THREAD_STALLS_2 = 26;
+0685: // Wait counters (shared across threads)
+0686: constexpr std::uint32_t WAITING_FOR_SRCA_CLEAR = 27;
+
+--- around line 718 ---
+0702: constexpr std::uint32_t WAITING_FOR_MATH_IDLE_2   = 42;
+0703: constexpr std::uint32_t WAITING_FOR_NONZERO_SEM_0 = 43;
+0704: constexpr std::uint32_t WAITING_FOR_NONZERO_SEM_1 = 44;
+0705: constexpr std::uint32_t WAITING_FOR_NONZERO_SEM_2 = 45;
+0706: constexpr std::uint32_t WAITING_FOR_NONFULL_SEM_0 = 46;
+0707: constexpr std::uint32_t WAITING_FOR_NONFULL_SEM_1 = 47;
+0708: constexpr std::uint32_t WAITING_FOR_NONFULL_SEM_2 = 48;
+0709: constexpr std::uint32_t WAITING_FOR_MOVE_IDLE_0   = 49;
+0710: constexpr std::uint32_t WAITING_FOR_MOVE_IDLE_1   = 50;
+0711: constexpr std::uint32_t WAITING_FOR_MOVE_IDLE_2   = 51;
+0712: constexpr std::uint32_t WAITING_FOR_MMIO_IDLE_0   = 52;
+0713: constexpr std::uint32_t WAITING_FOR_MMIO_IDLE_1   = 53;
+0714: constexpr std::uint32_t WAITING_FOR_MMIO_IDLE_2   = 54;
+0715: constexpr std::uint32_t WAITING_FOR_SFPU_IDLE_0   = 55;
+0716: constexpr std::uint32_t WAITING_FOR_SFPU_IDLE_1   = 56;
+0717: constexpr std::uint32_t WAITING_FOR_SFPU_IDLE_2   = 57;
+0718: // Thread instruction counts (bit 8 set = ID 256+n)
+0719: constexpr std::uint32_t THREAD_INSTRUCTIONS_0 = 256;
+0720: constexpr std::uint32_t THREAD_INSTRUCTIONS_1 = 257;
+0721: constexpr std::uint32_t THREAD_INSTRUCTIONS_2 = 258;
+0722: } // namespace instrn_thread
+0723: 
+0724: namespace fpu
+0725: {
+0726: constexpr std::uint32_t FPU_INSTRUCTION    = 0;
+0727: constexpr std::uint32_t SFPU_INSTRUCTION   = 1;
+0728: constexpr std::uint32_t FPU_OR_SFPU_INSTRN = 257;
+0729: } // namespace fpu
+0730: 
+0731: namespace tdma_unpack
+0732: {
+0733: constexpr std::uint32_t DATA_HAZARD_STALLS_MOVD2A = 1;
+0734: constexpr std::uint32_t MATH_INSTRN_STARTED       = 3;
+0735: constexpr std::uint32_t MATH_INSTRN_AVAILABLE     = 4;
+0736: constexpr std::uint32_t SRCB_WRITE_AVAILABLE      = 5;
+0737: constexpr std::uint32_t SRCA_WRITE_AVAILABLE      = 6;
+0738: constexpr std::uint32_t UNPACK0_BUSY_THREAD0      = 7;
+0739: constexpr std::uint32_t UNPACK1_BUSY_THREAD0      = 8;
+0740: constexpr std::uint32_t UNPACK0_BUSY_THREAD1      = 9;
+0741: constexpr std::uint32_t UNPACK1_BUSY_THREAD1      = 10;
+0742: constexpr std::uint32_t SRCB_WRITE                = 259;
+0743: constexpr std::uint32_t SRCA_WRITE                = 261;
+0744: } // namespace tdma_unpack
+0745: 
+0746: namespace l1
+0747: {
+0748: // l1_mux = 0
+0749: constexpr std::uint32_t NOC_RING0_INCOMING_1 = 0;
+0750: constexpr std::uint32_t NOC_RING0_INCOMING_0 = 1;
+
+
+===== tests/python_tests/helpers/perf.py =====
+
+--- around line 18 ---
+0002: #
+0003: # SPDX-License-Identifier: Apache-2.0
+0004: 
+0005: import glob
+0006: import os
+0007: import re
+0008: from dataclasses import fields
+0009: from functools import reduce
+0010: from pathlib import Path
+0011: from typing import Any, ClassVar
+0012: 
+0013: import pandas as pd
+0014: import pytest
+0015: 
+0016: from .device import BootMode
+0017: from .format_config import FormatConfig
+0018: from .llk_params import DestAccumulation, L1Accumulation, PerfRunType
+0019: from .logger import logger
+0020: from .profiler import Profiler, ProfilerData
+0021: from .stimuli_config import StimuliConfig
+0022: from .test_config import BuildMode, ProfilerBuild, TestConfig
+0023: from .test_variant_parameters import PERF_RUN_TYPE, RuntimeParameter, TemplateParameter
+0024: 
+0025: # Maps each run type to the kernel components whose text section sizes contribute to ELF_SIZE.
+0026: # L1_TO_L1 sums across all three components; isolate run types use their single component.
+0027: # L1_CONGESTION is excluded (no ELF_SIZE column).
+0028: _CODE_SIZE_COMPONENTS = {
+0029:     PerfRunType.L1_TO_L1: ["unpack", "math", "pack"],
+0030:     PerfRunType.UNPACK_ISOLATE: ["unpack"],
+0031:     PerfRunType.MATH_ISOLATE: ["math"],
+0032:     PerfRunType.PACK_ISOLATE: ["pack"],
+0033: }
+0034: 
+0035: # Common postprocessing
+0036: 
+0037: 
+0038: def _postprocess_tile_loop(frame: pd.DataFrame) -> pd.DataFrame:
+0039: 
+0040:     if frame.empty:
+0041:         return pd.DataFrame()
+0042: 
+0043:     mask = frame["marker"] == "TILE_LOOP"
+0044: 
+0045:     if not mask.any():
+0046:         return frame
+0047: 
+0048:     # Ensure columns exist and default missing values only for masked rows
+0049:     for col in ["loop_factor", "tile_cnt"]:
+0050:         if col not in frame.columns:
+
+--- around line 185 ---
+0169:             go.Scatter(
+0170:                 x=list(range(len(report.sweep_values))),
+0171:                 y=y_vals,
+0172:                 mode="markers+lines",
+0173:                 name=stat_name,
+0174:                 text=hover,
+0175:                 hoverinfo="text+y",
+0176:             )
+0177:         )
+0178: 
+0179:     # X-axis label
+0180:     xaxis_title = "Sweep index (see hover for values)"
+0181: 
+0182:     fig.update_layout(
+0183:         title=f"Performance Scatter Plot: {testname}",
+0184:         xaxis_title=xaxis_title,
+0185:         yaxis_title="Cycles / Tile",
+0186:         legend_title="Run Type / Stat",
+0187:     )
+0188: 
+0189:     fig.write_html(str(output_path))
+0190: 
+0191: 
+0192: def get_unique_base_names(input_dir: Path):
+0193:     """
+0194:     Extract unique base filenames from files matching *.gw*.csv pattern.
+0195:     For example: perf_unpack_untilize.gw0.csv -> perf_unpack_untilize
+0196:     """
+0197: 
+0198:     csv_files = list(input_dir.glob("*.gw*.csv")) + list(
+0199:         input_dir.glob("*.master*.csv")
+0200:     )
+0201: 
+0202:     # Extract base names with regex that handles both patterns
+0203:     unique_bases = {
+0204:         re.sub(r"\.(?:gw\d+|master)(?:\.post)?\.csv$", "", report_file.name)
+0205:         for report_file in csv_files
+0206:     }
+0207: 
+0208:     return sorted(unique_bases)
+0209: 
+0210: 
+0211: def combine_perf_reports():
+0212:     """
+0213:     Combine performance report CSV files into two files per base name:
+0214:     - One for regular files (without .post.csv)
+0215:     - One for post files (with .post.csv)
+0216:     """
+0217: 
+
+--- around line 304 ---
+0288: 
+0289:         for file in regular_files:
+0290:             Path(file).unlink()
+0291: 
+0292:         for file in post_files:
+0293:             Path(file).unlink()
+0294: 
+0295: 
+0296: class PerfConfig(TestConfig):
+0297:     # === STATIC VARIABLES ===
+0298:     TEST_COUNTER: ClassVar[int] = 0
+0299: 
+0300:     def __init__(
+0301:         self,
+0302:         test_name: str,
+0303:         formats: FormatConfig = None,
+0304:         run_types: list[PerfRunType] = [],
+0305:         templates: list[TemplateParameter] = [],
+0306:         runtimes: list[RuntimeParameter] = [],
+0307:         variant_stimuli: StimuliConfig = None,
+0308:         unpack_to_dest=False,
+0309:         unpack_to_srcs=False,
+0310:         disable_format_inference=False,
+0311:         dest_acc=DestAccumulation.No,
+0312:         l1_acc=L1Accumulation.No,
+0313:         skip_build_header: bool = False,
+0314:         compile_time_formats: bool = False,
+0315:     ):
+0316: 
+0317:         # Initialize passed templates and runtimes here so we don't get variant hash issues
+0318:         # when we reasign them in run method of PerfConfig
+0319:         self.passed_templates = templates.copy()
+0320:         self.passed_runtimes = runtimes.copy()
+0321:         self.current_run_type = None
+0322: 
+0323:         # TODO Add check here for all selected runs, to see if the profiler/counter supports them
+0324:         self.run_configs = [
+0325:             (
+0326:                 templates.copy() + [PERF_RUN_TYPE(run_type)],
+0327:                 runtimes.copy(),
+0328:                 run_type,
+0329:             )
+0330:             for run_type in run_types
+0331:         ]
+0332: 
+0333:         super().__init__(
+0334:             test_name,
+0335:             formats,
+0336:             templates,
+
+
+===== tests/python_tests/helpers/counters.py =====
+
+--- around line 39 ---
+0023: PERF_COUNTERS_DATA_ADDR = TestConfig.PERF_COUNTERS_DATA_ADDR
+0024: PERF_COUNTERS_SYNC_CTRL_ADDR = TestConfig.PERF_COUNTERS_SYNC_CTRL_ADDR
+0025: PERF_COUNTERS_START_COUNTER_ADDR = TestConfig.PERF_COUNTERS_SYNC_CTRL_ADDR + 4
+0026: 
+0027: PERF_COUNTERS_THREAD_COUNT = len(TestConfig.KERNEL_COMPONENTS)
+0028: PERF_COUNTERS_STOP_COUNTER_ADDR = PERF_COUNTERS_START_COUNTER_ADDR + (
+0029:     PERF_COUNTERS_THREAD_COUNT * 4
+0030: )
+0031: PERF_COUNTERS_STOP_ELECT_ADDR = PERF_COUNTERS_STOP_COUNTER_ADDR + (
+0032:     PERF_COUNTERS_THREAD_COUNT * 4
+0033: )
+0034: 
+0035: # TRISC id -> name. BH uses ids 0–2; Quasar uses 0–3. Same mapping for missing-thread errors and starter/stopper.
+0036: PERF_COUNTER_TRISC_NAMES = {0: "UNPACK", 1: "MATH", 2: "PACK", 3: "SFPU"}
+0037: 
+0038: COUNTER_BANK_NAMES = {
+0039:     0: "INSTRN_THREAD",
+0040:     1: "FPU",
+0041:     2: "TDMA_UNPACK",
+0042:     3: "L1",
+0043:     4: "TDMA_PACK",
+0044: }
+0045: 
+0046: # Reverse lookup: bank name -> bank id (computed once at module load)
+0047: _BANK_NAME_TO_ID = {v: k for k, v in COUNTER_BANK_NAMES.items()}
+0048: 
+0049: COUNTER_NAMES = {
+0050:     "INSTRN_THREAD": {
+0051:         # Instruction availability counters (per-thread)
+0052:         0: "CFG_INSTRN_AVAILABLE_0",
+0053:         1: "CFG_INSTRN_AVAILABLE_1",
+0054:         2: "CFG_INSTRN_AVAILABLE_2",
+0055:         3: "SYNC_INSTRN_AVAILABLE_0",
+0056:         4: "SYNC_INSTRN_AVAILABLE_1",
+0057:         5: "SYNC_INSTRN_AVAILABLE_2",
+0058:         6: "THCON_INSTRN_AVAILABLE_0",
+0059:         7: "THCON_INSTRN_AVAILABLE_1",
+0060:         8: "THCON_INSTRN_AVAILABLE_2",
+0061:         9: "XSEARCH_INSTRN_AVAILABLE_0",
+0062:         10: "XSEARCH_INSTRN_AVAILABLE_1",
+0063:         11: "XSEARCH_INSTRN_AVAILABLE_2",
+0064:         12: "MOVE_INSTRN_AVAILABLE_0",
+0065:         13: "MOVE_INSTRN_AVAILABLE_1",
+0066:         14: "MOVE_INSTRN_AVAILABLE_2",
+0067:         15: "FPU_INSTRN_AVAILABLE_0",
+0068:         16: "FPU_INSTRN_AVAILABLE_1",
+0069:         17: "FPU_INSTRN_AVAILABLE_2",
+0070:         18: "UNPACK_INSTRN_AVAILABLE_0",
+0071:         19: "UNPACK_INSTRN_AVAILABLE_1",
+
+--- around line 113 ---
+0097:         42: "WAITING_FOR_MATH_IDLE_2",
+0098:         43: "WAITING_FOR_NONZERO_SEM_0",
+0099:         44: "WAITING_FOR_NONZERO_SEM_1",
+0100:         45: "WAITING_FOR_NONZERO_SEM_2",
+0101:         46: "WAITING_FOR_NONFULL_SEM_0",
+0102:         47: "WAITING_FOR_NONFULL_SEM_1",
+0103:         48: "WAITING_FOR_NONFULL_SEM_2",
+0104:         49: "WAITING_FOR_MOVE_IDLE_0",
+0105:         50: "WAITING_FOR_MOVE_IDLE_1",
+0106:         51: "WAITING_FOR_MOVE_IDLE_2",
+0107:         52: "WAITING_FOR_MMIO_IDLE_0",
+0108:         53: "WAITING_FOR_MMIO_IDLE_1",
+0109:         54: "WAITING_FOR_MMIO_IDLE_2",
+0110:         55: "WAITING_FOR_SFPU_IDLE_0",
+0111:         56: "WAITING_FOR_SFPU_IDLE_1",
+0112:         57: "WAITING_FOR_SFPU_IDLE_2",
+0113:         # Thread instruction counts (bit 8 set = ID 256+n)
+0114:         256: "THREAD_INSTRUCTIONS_0",
+0115:         257: "THREAD_INSTRUCTIONS_1",
+0116:         258: "THREAD_INSTRUCTIONS_2",
+0117:     },
+0118:     "FPU": {
+0119:         0: "FPU_INSTRUCTION",
+0120:         1: "SFPU_INSTRUCTION",
+0121:         257: "FPU_OR_SFPU_INSTRN",  # Combined FPU/SFPU
+0122:     },
+0123:     "TDMA_UNPACK": {
+0124:         1: "DATA_HAZARD_STALLS_MOVD2A",
+0125:         3: "MATH_INSTRN_STARTED",
+0126:         4: "MATH_INSTRN_AVAILABLE",
+0127:         5: "SRCB_WRITE_AVAILABLE",
+0128:         6: "SRCA_WRITE_AVAILABLE",
+0129:         7: "UNPACK0_BUSY_THREAD0",
+0130:         8: "UNPACK1_BUSY_THREAD0",
+0131:         9: "UNPACK0_BUSY_THREAD1",
+0132:         10: "UNPACK1_BUSY_THREAD1",
+0133:         259: "SRCB_WRITE",  # Bit 8 set
+0134:         261: "SRCA_WRITE",  # Bit 8 set
+0135:     },
+0136:     "L1": {
+0137:         # Format: (counter_id, l1_mux) -> name
+0138:         (0, 0): "NOC_RING0_INCOMING_1",
+0139:         (1, 0): "NOC_RING0_INCOMING_0",
+0140:         (2, 0): "NOC_RING0_OUTGOING_1",
+0141:         (3, 0): "NOC_RING0_OUTGOING_0",
+0142:         (4, 0): "L1_ARB_TDMA_BUNDLE_1",
+0143:         (5, 0): "L1_ARB_TDMA_BUNDLE_0",
+0144:         (6, 0): "L1_ARB_UNPACKER",
+0145:         (7, 0): "L1_NO_ARB_UNPACKER",
+
+--- around line 176 ---
+0160: }
+0161: 
+0162: # Reverse lookups for O(1) counter name -> id resolution (computed once at module load)
+0163: _L1_NAME_TO_ID = {(name, mux): cid for (cid, mux), name in COUNTER_NAMES["L1"].items()}
+0164: 
+0165: _COUNTER_NAME_TO_ID = {
+0166:     bank: {name: cid for cid, name in counters.items()}
+0167:     for bank, counters in COUNTER_NAMES.items()
+0168:     if bank != "L1"
+0169: }
+0170: 
+0171: 
+0172: def _build_all_counters() -> List[Dict]:
+0173:     """Build the complete list of performance counters across all banks."""
+0174:     counters = []
+0175: 
+0176:     # INSTRN_THREAD bank (61 counters)
+0177:     for counter_id in COUNTER_NAMES["INSTRN_THREAD"].keys():
+0178:         counters.append({"bank": "INSTRN_THREAD", "counter_id": counter_id})
+0179: 
+0180:     # FPU bank (3 counters)
+0181:     for counter_id in COUNTER_NAMES["FPU"].keys():
+0182:         counters.append({"bank": "FPU", "counter_id": counter_id})
+0183: 
+0184:     # TDMA_UNPACK bank (11 counters)
+0185:     for counter_id in COUNTER_NAMES["TDMA_UNPACK"].keys():
+0186:         counters.append({"bank": "TDMA_UNPACK", "counter_id": counter_id})
+0187: 
+0188:     # TDMA_PACK bank (3 counters)
+0189:     for counter_id in COUNTER_NAMES["TDMA_PACK"].keys():
+0190:         counters.append({"bank": "TDMA_PACK", "counter_id": counter_id})
+0191: 
+0192:     # L1 bank with l1_mux=0 (8 counters)
+0193:     for (counter_id, l1_mux), name in COUNTER_NAMES["L1"].items():
+0194:         if l1_mux == 0:
+0195:             counters.append({"bank": "L1", "counter_id": counter_id, "l1_mux": 0})
+0196: 
+0197:     # L1 bank with l1_mux=1 (8 counters)
+0198:     for (counter_id, l1_mux), name in COUNTER_NAMES["L1"].items():
+0199:         if l1_mux == 1:
+0200:             counters.append({"bank": "L1", "counter_id": counter_id, "l1_mux": 1})
+0201: 
+0202:     return counters
+0203: 
+0204: 
+0205: # Pre-built list of all counters (computed once at module load)
+0206: # Total: 94 counters (61 INSTRN_THREAD + 3 FPU + 11 TDMA_UNPACK + 3 TDMA_PACK + 16 L1)
+0207: # Note: L1 has 8 counter IDs × 2 mux settings = 16 entries, but only 8 L1 counters
+0208: # can be active at once (determined by mux setting), so maximum concurrent counters = 86
+
+--- around line 276 ---
+0260:     )
+0261: 
+0262: 
+0263: def read_counters(location: str = "0,0") -> pd.DataFrame:
+0264:     """
+0265:     Read performance counter results from the shared buffer.
+0266: 
+0267:     In the shared buffer architecture, whichever thread finishes last (the "last stopper")
+0268:     reads the hardware counters and writes them to the shared buffer. This function returns
+0269:     a single thread's snapshot - the results captured by the last stopper.
+0270: 
+0271:     Args:
+0272:         location: Tensix core coordinates (e.g., "0,0").
+0273: 
+0274:     Returns:
+0275:         DataFrame containing counter results, with columns:
+0276:         starter_thread, stopper_thread, bank, counter_name, counter_id, cycles, count, l1_mux
+0277:     """
+0278:     all_results = []
+0279: 
+0280:     # Read from the single shared buffer (last stopper wrote here)
+0281:     sync_ctrl = read_words_from_device(
+0282:         location=location, addr=PERF_COUNTERS_SYNC_CTRL_ADDR, word_count=3
+0283:     )
+0284:     if not sync_ctrl:
+0285:         raise RuntimeError(
+0286:             "Perf counter sync control word not readable; counters may not have been stopped."
+0287:         )
+0288: 
+0289:     sync_word = sync_ctrl[0]
+0290: 
+0291:     # Sync control word bit layout (matches counters.h); layout differs for 3 vs 4 TRISCs.
+0292:     thread_count = len(TestConfig.KERNEL_COMPONENTS)
+0293:     SYNC_START_MASK = (1 << thread_count) - 1
+0294:     SYNC_STOP_BIT_SHIFT = thread_count
+0295:     SYNC_STOP_MASK = SYNC_START_MASK << SYNC_STOP_BIT_SHIFT
+0296:     SYNC_STARTED_FLAG = 1 << (2 * thread_count)
+0297:     SYNC_STOPPED_FLAG = 1 << (2 * thread_count + 1)
+0298:     SYNC_STARTER_SHIFT = 2 * thread_count + 2
+0299:     SYNC_STOPPER_SHIFT = SYNC_STARTER_SHIFT + 2
+0300: 
+0301:     if sync_word == 0:
+0302:         raise RuntimeError(
+0303:             "Perf counter sync word is zero - counters were never started. "
+0304:             "Ensure start_perf_counters() is called in all threads."
+0305:         )
+0306: 
+0307:     if not (sync_word & SYNC_STARTED_FLAG):
+0308:         raise RuntimeError(
+
+--- around line 414 ---
+0398:         counter_id = (config_word >> 8) & 0x1FF  # 9 bits for counter_id
+0399:         l1_mux = (config_word >> 17) & 0x1
+0400: 
+0401:         bank_name = COUNTER_BANK_NAMES.get(bank_id, f"UNKNOWN_{bank_id}")
+0402: 
+0403:         # Get counter name
+0404:         if bank_name == "L1":
+0405:             counter_name = COUNTER_NAMES["L1"].get(
+0406:                 (counter_id, l1_mux), f"L1_UNKNOWN_{counter_id}_{l1_mux}"
+0407:             )
+0408:         else:
+0409:             counter_name = COUNTER_NAMES.get(bank_name, {}).get(
+0410:                 counter_id, f"{bank_name}_UNKNOWN_{counter_id}"
+0411:             )
+0412: 
+0413:         # Extract results using data_idx
+0414:         cycles = data[data_idx * 2]
+0415:         count = data[data_idx * 2 + 1]
+0416:         data_idx += 1
+0417: 
+0418:         all_results.append(
+0419:             {
+0420:                 "starter_thread": starter_thread,
+0421:                 "stopper_thread": stopper_thread,
+0422:                 "bank": bank_name,
+0423:                 "counter_name": counter_name,
+0424:                 "counter_id": counter_id,
+0425:                 "cycles": cycles,
+0426:                 "count": count,
+0427:                 "l1_mux": l1_mux if bank_name == "L1" else None,
+0428:             }
+0429:         )
+0430: 
+0431:     return pd.DataFrame(all_results)
+0432: 
+0433: 
+0434: def print_counters(results: pd.DataFrame) -> None:
+0435:     """
+0436:     Print all counter results to console in a readable format.
+0437: 
+0438:     Args:
+0439:         results: DataFrame with counter results (from read_counters).
+0440:     """
+0441:     if results.empty:
+0442:         print("No counter results to display.")
+0443:         return
+0444: 
+0445:     print("\n" + "=" * 100)
+0446:     print("PERFORMANCE COUNTER RESULTS")
+
+--- around line 463 ---
+0447:     print("=" * 100)
+0448: 
+0449:     # Get starter and stopper from first row (same for all)
+0450:     if not results.empty:
+0451:         starter = results["starter_thread"].iloc[0]
+0452:         stopper = results["stopper_thread"].iloc[0]
+0453:         print(f"\n{'─' * 100}")
+0454:         print(f"  Hardware started by: {starter} thread")
+0455:         print(f"  Hardware stopped by: {stopper} thread")
+0456:         print(f"{'─' * 100}")
+0457: 
+0458:     for bank in ["INSTRN_THREAD", "FPU", "TDMA_UNPACK", "L1", "TDMA_PACK"]:
+0459:         bank_df = results[results["bank"] == bank]
+0460:         if bank_df.empty:
+0461:             continue
+0462: 
+0463:         cycles = bank_df["cycles"].iloc[0] if len(bank_df) > 0 else 0
+0464: 
+0465:         print(f"\n  ┌─ {bank} (cycles: {cycles:,})")
+0466:         print(f"  │ {'Counter Name':<40} {'Count':>15} {'Rate':>12}")
+0467:         print(f"  │ {'─' * 40} {'─' * 15} {'─' * 12}")
+0468: 
+0469:         for _, row in bank_df.iterrows():
+0470:             name = row["counter_name"]
+0471:             # Add mux info for L1 counters
+0472:             if pd.notna(row["l1_mux"]):
+0473:                 name = f"{name} (mux{int(row['l1_mux'])})"
+0474:             count = row["count"]
+0475:             rate = (count / cycles) if cycles else 0.0
+0476:             print(f"  │ {name:<40} {count:>15,} {rate:>12.4f}")
+0477: 
+0478:         print(f"  └{'─' * 70}")
+0479: 
+0480:     print("\n" + "=" * 100 + "\n")
+0481: 
+0482: 
+0483: def export_counters(
+0484:     results: pd.DataFrame,
+0485:     filename: str,
+0486:     test_params: dict = None,
+0487:     worker_id: str = "gw0",
+0488: ) -> None:
+0489:     """
+0490:     Export counter DataFrame to CSV file in perf_data directory.
+0491: 
+0492:     Args:
+0493:         results: DataFrame with counter results (from read_counters).
+0494:         filename: Base filename (without extension), e.g., "test_matmul_counters".
+0495:         test_params: Optional dictionary of test parameters to add as columns.
+
+
+===== docs/performance_counters/performance_counters.md =====
+
+--- around line 11 ---
+0001: # Tensix Performance Counters Guide
+0002: 
+0003: This guide documents the interface for controlling and reading Tensix hardware performance counters. It covers how to configure and read them from C++ and Python, which useful derived metrics you can compute, and how to test both the interface and the metrics. It consolidates the hardware documentation and aligns it with the implemented interfaces found in this repository.
+0004: 
+0005: ## Overview
+0006: 
+0007: Tensix cores contain five hardware performance counter banks (also referred to as "groups" in some hardware documentation). This guide consistently uses the term "bank".
+0008: 
+0009: | Bank | Description |
+0010: |------|-------------|
+0011: | INSTRN_THREAD | Instruction issue counts and stall reasons per thread |
+0012: | FPU | FPU and SFPU operation valid signals |
+0013: | TDMA_UNPACK | Unpacker busy signals and math pipeline status |
+0014: | L1 | NoC ring transactions and L1 arbitration events |
+0015: | TDMA_PACK | Packer busy signals and destination register access |
+0016: 
+0017: Each category has debug registers for control and two output registers:
+0018: - `PERF_CNT_*0`: Reference period (optional, only used in mode 1)
+0019: - `PERF_CNT_*1`: Mode + counter select
+0020: - `PERF_CNT_*2`: Start/stop (rising-edge triggered)
+0021: - `PERF_CNT_OUT_L_*`: Cycles counted in the measurement window
+0022: - `PERF_CNT_OUT_H_*`: Event-specific count for the selected counter
+0023: 
+0024: Special registers:
+0025: - `PERF_CNT_ALL`: Start/stop for FPU and INSTRN_THREAD groups simultaneously
+0026: - `PERF_CNT_MUX_CTRL`: L1 counter multiplexer control register
+0027: 
+0028: ### L1 Mux Control Register
+0029: 
+0030: The L1 bank has 8 counter IDs (0–7), but the hardware provides 16 different signals to monitor. The `PERF_CNT_MUX_CTRL` register (bit 4) selects which set of 8 signals maps to those IDs:
+0031: 
+0032: | Bit 4 | Counter ID 0–7 Maps To |
+0033: |-------|------------------------|
+0034: | 0 | NOC Ring 0 transactions, L1 arbitration bundles, unpacker arbitration |
+0035: | 1 | NOC Ring 1 transactions, TDMA bundle arbitration, extended unpacker/packer signals |
+0036: 
+0037: You must set this mux bit **before starting** the L1 counters to ensure you're measuring the intended signals. The L1 mux setting is latched at measurement start time. Changing `PERF_CNT_MUX_CTRL` while counters are running results in undefined measurements.
+0038: 
+0039: ### Mode Register Bits
+0040: 
+0041: The mode register (`PERF_CNT_*1`) controls counter selection:
+0042: 
+0043: | Bits | Field | Description |
+
+--- around line 71 ---
+0055: | 2 (Continuous, no ref) | Same as mode 0, but does NOT maintain the reference cycle count. |
+0056: 
+0057: **Mode 0 vs Mode 2:** Both run continuously until stopped. Mode 0 tracks elapsed cycles in `OUT_L` (needed for rate calculations), while mode 2 omits reference cycle tracking. **Use mode 0 for most cases** since you typically need both event counts and cycle counts. Mode 2 should only be used when cycle counts are not required.
+0058: 
+0059: **Note:** The reference period register is ignored in modes 0 and 2.
+0060: 
+0061: ### Counter Slots
+0062: 
+0063: A "counter slot" is a single 32-bit configuration word in the per-thread L1 configuration buffer. Each slot (one config word) specifies which bank/counter/mux combination to read out after measurement. The interface supports up to 86 slots per thread, allowing you to capture multiple events in a single measurement window. Slots are processed in increasing index order; invalid slots (valid bit = 0) are skipped and produce no output entry.
+0064: 
+0065: ## Register Map
+0066: 
+0067: The following addresses are used (offsets from `RISCV_DEBUG_REGS_START_ADDR`):
+0068: 
+0069: | Register | Offset | Description |
+0070: |----------|--------|-------------|
+0071: | PERF_CNT_INSTRN_THREAD0 | 0x000 | Reference period |
+0072: | PERF_CNT_INSTRN_THREAD1 | 0x004 | Mode |
+0073: | PERF_CNT_INSTRN_THREAD2 | 0x008 | Start/Stop |
+0074: | PERF_CNT_TDMA_UNPACK0 | 0x00C | Reference period |
+0075: | PERF_CNT_TDMA_UNPACK1 | 0x010 | Mode |
+0076: | PERF_CNT_TDMA_UNPACK2 | 0x014 | Start/Stop |
+0077: | PERF_CNT_FPU0 | 0x018 | Reference period |
+0078: | PERF_CNT_FPU1 | 0x01C | Mode |
+0079: | PERF_CNT_FPU2 | 0x020 | Start/Stop |
+0080: | PERF_CNT_L1_0 | 0x030 | Reference period |
+0081: | PERF_CNT_L1_1 | 0x034 | Mode |
+0082: | PERF_CNT_L1_2 | 0x038 | Start/Stop |
+0083: | PERF_CNT_ALL | 0x03C | Global start/stop |
+0084: | PERF_CNT_TDMA_PACK0 | 0x0F0 | Reference period |
+0085: | PERF_CNT_TDMA_PACK1 | 0x0F4 | Mode |
+0086: | PERF_CNT_TDMA_PACK2 | 0x0F8 | Start/Stop |
+0087: | PERF_CNT_OUT_L_INSTRN_THREAD | 0x100 | Cycle count output |
+0088: | PERF_CNT_OUT_H_INSTRN_THREAD | 0x104 | Counter value output |
+0089: | PERF_CNT_OUT_L_TDMA_UNPACK | 0x108 | Cycle count output |
+0090: | PERF_CNT_OUT_H_TDMA_UNPACK | 0x10C | Counter value output |
+0091: | PERF_CNT_OUT_L_TDMA_PACK | 0x110 | Cycle count output |
+0092: | PERF_CNT_OUT_H_TDMA_PACK | 0x114 | Counter value output |
+0093: | PERF_CNT_OUT_L_DBG_L1 | 0x118 | Cycle count output |
+0094: | PERF_CNT_OUT_H_DBG_L1 | 0x11C | Counter value output |
+0095: | PERF_CNT_OUT_L_FPU | 0x120 | Cycle count output |
+0096: | PERF_CNT_OUT_H_FPU | 0x124 | Counter value output |
+0097: | PERF_CNT_MUX_CTRL | 0x218 | L1 mux control |
+0098: 
+0099: Implementation details are in `tests/helpers/include/counters.h`.
+0100: 
+0101: ## Events and Counters
+0102: 
+0103: ### FPU Bank (3 counters)
+
+--- around line 127 ---
+0111: Use these to measure compute utilization: `FPU_OR_SFPU_INSTRN / cycles`. Note that all utilization metrics are cycle-based, not instruction-based—they represent the fraction of active cycles, not work completed.
+0112: 
+0113: ### INSTRN_THREAD Bank (61 counters)
+0114: 
+0115: **Instruction availability counters:** These counters measure cycles where an instruction of a given type was available in the instruction buffer and ready to issue. A high count means the thread frequently had that instruction type queued; a low count (relative to total cycles) suggests the thread was idle or blocked waiting for other work. These are useful for understanding instruction mix and identifying pipeline bottlenecks.
+0116: 
+0117: | ID | Name | Description |
+0118: |----|------|-------------|
+0119: | 0–2 | CFG_INSTRN_AVAILABLE_[0-2] | CFG instruction available per thread |
+0120: | 3–5 | SYNC_INSTRN_AVAILABLE_[0-2] | SYNC instruction available per thread |
+0121: | 6–8 | THCON_INSTRN_AVAILABLE_[0-2] | THCON instruction available per thread |
+0122: | 9–11 | XSEARCH_INSTRN_AVAILABLE_[0-2] | XSEARCH instruction available per thread |
+0123: | 12–14 | MOVE_INSTRN_AVAILABLE_[0-2] | MOVE instruction available per thread |
+0124: | 15–17 | FPU_INSTRN_AVAILABLE_[0-2] | FPU/SFPU instruction available per thread |
+0125: | 18–20 | UNPACK_INSTRN_AVAILABLE_[0-2] | UNPACK instruction available per thread |
+0126: | 21–23 | PACK_INSTRN_AVAILABLE_[0-2] | PACK instruction available per thread |
+0127: | 24–26 | THREAD_STALLS_[0-2] | Cycles the thread was stalled per thread |
+0128: 
+0129: **Wait reason counters:** Identify why the thread was waiting.
+0130: 
+0131: | ID | Name | Description |
+0132: |----|------|-------------|
+0133: | 27 | WAITING_FOR_SRCA_CLEAR | Cycles waiting for srcA to be cleared |
+0134: | 28 | WAITING_FOR_SRCB_CLEAR | Cycles waiting for srcB to be cleared |
+0135: | 29 | WAITING_FOR_SRCA_VALID | Cycles waiting for srcA data to be valid |
+0136: | 30 | WAITING_FOR_SRCB_VALID | Cycles waiting for srcB data to be valid |
+0137: | 31–33 | WAITING_FOR_THCON_IDLE_[0-2] | Cycles waiting for THCON idle per thread |
+0138: | 34–36 | WAITING_FOR_UNPACK_IDLE_[0-2] | Cycles waiting for unpack idle per thread |
+0139: | 37–39 | WAITING_FOR_PACK_IDLE_[0-2] | Cycles waiting for pack idle per thread |
+0140: | 40–42 | WAITING_FOR_MATH_IDLE_[0-2] | Cycles waiting for math idle per thread |
+0141: | 43–45 | WAITING_FOR_NONZERO_SEM_[0-2] | Cycles waiting for semaphore > 0 per thread |
+0142: | 46–48 | WAITING_FOR_NONFULL_SEM_[0-2] | Cycles waiting for semaphore < max per thread |
+0143: | 49–51 | WAITING_FOR_MOVE_IDLE_[0-2] | Cycles waiting for MOVE idle per thread |
+0144: | 52–54 | WAITING_FOR_MMIO_IDLE_[0-2] | Cycles waiting for MMIO idle per thread |
+0145: | 55–57 | WAITING_FOR_SFPU_IDLE_[0-2] | Cycles waiting for SFPU idle per thread |
+0146: 
+0147: **Thread instruction counts:** (Counter IDs 256–258, using bit 8 set)
+0148: 
+0149: | ID | Name | Description |
+0150: |----|------|-------------|
+0151: | 256–258 | THREAD_INSTRUCTIONS_[0-2] | Total instructions executed per thread |
+0152: 
+0153: ### TDMA_UNPACK Bank (11 counters)
+0154: 
+0155: **Note on HF cycles:** "HF" refers to "Half-Fidelity" cycles. In Tensix math operations, fidelity settings control precision vs speed tradeoffs. Higher fidelity (HiFi) uses more cycles per operation for better precision; lower fidelity (LoFi) uses fewer cycles. The HF cycle counts indicate how many half-fidelity-equivalent cycles the instruction consumed.
+0156: 
+0157: | ID | Name | Description |
+0158: |----|------|-------------|
+0159: | 1 | DATA_HAZARD_STALLS_MOVD2A | Cycles stalled due to data hazards on MOVD2A |

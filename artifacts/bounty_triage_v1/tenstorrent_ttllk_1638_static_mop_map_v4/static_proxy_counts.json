@@ -1,0 +1,93 @@
+[
+  {
+    "TTI_calls": 38,
+    "MOP": 9,
+    "LOADMACRO": 0,
+    "replay": 68,
+    "for_loops": 7,
+    "if_constexpr": 2,
+    "inline_funcs": 13,
+    "perf_markers": 0,
+    "file": "tt_llk_wormhole_b0/llk_lib/experimental/llk_math_matmul_custom_no_mop.h",
+    "bytes": 17532,
+    "lines": 421
+  },
+  {
+    "TTI_calls": 93,
+    "MOP": 3,
+    "LOADMACRO": 0,
+    "replay": 39,
+    "for_loops": 10,
+    "if_constexpr": 9,
+    "inline_funcs": 7,
+    "perf_markers": 0,
+    "file": "tt_llk_blackhole/llk_lib/experimental/llk_math_matmul_custom_no_mop.h",
+    "bytes": 22587,
+    "lines": 555
+  },
+  {
+    "TTI_calls": 135,
+    "MOP": 1,
+    "LOADMACRO": 0,
+    "replay": 30,
+    "for_loops": 5,
+    "if_constexpr": 17,
+    "inline_funcs": 6,
+    "perf_markers": 0,
+    "file": "tt_llk_wormhole_b0/llk_lib/llk_math_matmul.h",
+    "bytes": 34463,
+    "lines": 875
+  },
+  {
+    "TTI_calls": 100,
+    "MOP": 1,
+    "LOADMACRO": 0,
+    "replay": 16,
+    "for_loops": 3,
+    "if_constexpr": 8,
+    "inline_funcs": 6,
+    "perf_markers": 0,
+    "file": "tt_llk_blackhole/llk_lib/llk_math_matmul.h",
+    "bytes": 26879,
+    "lines": 677
+  },
+  {
+    "TTI_calls": 7,
+    "MOP": 0,
+    "LOADMACRO": 0,
+    "replay": 0,
+    "for_loops": 12,
+    "if_constexpr": 0,
+    "inline_funcs": 6,
+    "perf_markers": 2,
+    "file": "tests/helpers/include/perf.h",
+    "bytes": 7869,
+    "lines": 242
+  },
+  {
+    "TTI_calls": 0,
+    "MOP": 0,
+    "LOADMACRO": 0,
+    "replay": 0,
+    "for_loops": 10,
+    "if_constexpr": 7,
+    "inline_funcs": 0,
+    "perf_markers": 19,
+    "file": "tests/sources/math_matmul_perf.cpp",
+    "bytes": 9478,
+    "lines": 276
+  },
+  {
+    "TTI_calls": 0,
+    "MOP": 0,
+    "LOADMACRO": 0,
+    "replay": 0,
+    "for_loops": 10,
+    "if_constexpr": 7,
+    "inline_funcs": 0,
+    "perf_markers": 19,
+    "file": "tests/sources/matmul_perf.cpp",
+    "bytes": 9437,
+    "lines": 277
+  }
+]
