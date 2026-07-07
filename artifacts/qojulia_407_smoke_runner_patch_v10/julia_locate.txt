@@ -1,0 +1,2 @@
+JULIA_BIN=/Users/heath/.juliaup/bin/julia
+julia version 1.10.11

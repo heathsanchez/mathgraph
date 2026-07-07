@@ -1,0 +1,9 @@
+QuantumOptics benchmark smoke
+Julia version: 1.10.11
+Benchmark project: /Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/qojulia__QuantumOptics.jl_407/benchmark/Project.toml
+Selected benchmark: ("schroedinger", "base array types", "1//2")
+BenchmarkTools.Trial: 1 sample with 1 evaluation per sample.
+ Single result which took 80.042 μs (0.00% GC) to evaluate,
+ with a memory estimate of 5.03 KiB, over 59 allocations.
+
+BENCHMARK_SMOKE_OK

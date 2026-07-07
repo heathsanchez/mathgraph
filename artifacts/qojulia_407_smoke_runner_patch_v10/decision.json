@@ -1,0 +1,13 @@
+{
+  "repo": "qojulia/QuantumOptics.jl",
+  "issue": 407,
+  "branch": "heath/benchmark-smoke-407",
+  "smoke_rc": 0,
+  "local_smoke_passed": true,
+  "patch_files": [
+    "benchmark/run_smoke.jl",
+    ".github/workflows/benchmark-smoke.yml",
+    "README.md"
+  ],
+  "verdict": "COMMIT_PATCH_AND_OPTIONAL_DRAFT_PR"
+}
