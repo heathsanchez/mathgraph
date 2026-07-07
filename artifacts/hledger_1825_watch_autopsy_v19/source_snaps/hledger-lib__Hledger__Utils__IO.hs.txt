@@ -1,0 +1,261 @@
+===== FILE: hledger-lib/Hledger/Utils/IO.hs =====
+{- | 
+General and hledger-specific input/output-related helpers for
+pretty-printing haskell values, error reporting, time, files, command line parsing,
+terminals, pager output, ANSI colour/styles, etc.
+-}
+
+{-# LANGUAGE ImplicitParams      #-}
+{-# LANGUAGE LambdaCase          #-}
+{-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE PackageImports      #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE MultiWayIf #-}
+
+module Hledger.Utils.IO (
+
+  -- * Pretty showing/printing
+  pshow,
+  pshow',
+  pprint,
+  pprint',
+
+  -- * Errors
+  error',
+  usageError,
+  warn,
+  warnIO,
+  ansiFormatError,
+  ansiFormatWarning,
+  printError,
+  exitWithErrorMessage,
+  handleExit,
+
+  -- * Time
+  getCurrentLocalTime,
+  getCurrentZonedTime,
+
+  -- * Files
+  dataDirName,
+  rulesDirName,
+  getHomeSafe,
+  embedFileRelative,
+  expandHomePath,
+  expandPath,
+  expandGlob,
+  expandPathOrGlob,
+  sortByModTime,
+  openFileOrStdin,
+  withFileOrStdout,
+  ensureFilesystemCanAppend,
+  readFileOrStdinPortably,
+  readFileOrStdinPortably',
+  readFileStrictly,
+  readFilePortably,
+  hGetContentsPortably,
+  -- hereFileRelative,
+  textToHandle,
+
+  -- * Command line parsing
+  progArgs,
+  getFlag,
+  getOpt,
+  parseYN,
+  parseYNA,
+  YNA(..),
+  -- hasOutputFile,
+  -- outputFileOption,
+
+  -- * Terminal size
+  getTerminalHeightWidth,
+  getTerminalHeight,
+  getTerminalWidth,
+
+  -- * Pager output
+  findPager,
+  runPager,
+  lessVarValue,
+  lessIsWorking,
+
+  -- * ANSI colour/styles
+
+  -- ** hledger-specific
+
+  colorOption,
+  useColorOnStdout,
+  useColorOnStderr,
+  useColorOnStdoutUnsafe,
+  useColorOnStderrUnsafe,
+  bold',
+  faint',
+  black',
+  red',
+  green',
+  yellow',
+  blue',
+  magenta',
+  cyan',
+  white',
+  brightBlack',
+  brightRed',
+  brightGreen',
+  brightYellow',
+  brightBlue',
+  brightMagenta',
+  brightCyan',
+  brightWhite',
+  rgb',
+  sgrresetall,
+
+  -- ** Generic
+
+  color,
+  bgColor,
+  colorB,
+  bgColorB,
+  -- XXX Types used with color/bgColor/colorB/bgColorB,
+  -- not re-exported because clashing with UIUtils:
+  -- Color(..),
+  -- ColorIntensity(..),
+
+  terminalIsLight,
+  terminalLightness,
+  terminalFgColor,
+  terminalBgColor,
+
+  )
+where
+
+import           Control.Concurrent (forkIO)
+import           Control.Exception
+import           Control.Monad (when, forM, guard, void)
+import           Data.Char (toLower, isSpace)
+import Data.ByteString qualified as BS
+import           Data.Colour.RGBSpace (RGB(RGB))
+import           Data.Colour.RGBSpace.HSL (lightness)
+import           Data.Colour.SRGB (sRGB)
+import           Data.Encoding (DynEncoding)
+import           Data.FileEmbed (makeRelativeToProject, embedStringFile)
+import           Data.Functor ((<&>))
+import           Data.List hiding (uncons)
+import           Data.Maybe (isJust, catMaybes)
+import Data.Text qualified as T
+import           Data.Text.Encoding.Error (UnicodeException)
+import Data.Text.IO qualified as T
+import Data.Text.Lazy qualified as TL
+import Data.Text.Lazy.Builder qualified as TB
+import           Data.Time.Clock (getCurrentTime)
+import           Data.Time.LocalTime (LocalTime, ZonedTime, getCurrentTimeZone, utcToLocalTime, utcToZonedTime)
+import           Data.Word (Word16)
+import           Debug.Trace
+import           Foreign.C.Error (Errno(..), ePIPE)
+import           GHC.IO.Encoding (getLocaleEncoding, textEncodingName)
+import           GHC.IO.Exception (IOException(..), IOErrorType (ResourceVanished))
+import           Language.Haskell.TH.Syntax (Q, Exp)
+import           Safe (headMay, maximumDef)
+import           System.Console.ANSI (Color(..),ColorIntensity(..), ConsoleLayer(..), SGR(..), hSupportsANSIColor, setSGRCode, getLayerColor, ConsoleIntensity (..))
+import           System.Console.Terminal.Size (Window (Window), size)
+import           System.Directory (getHomeDirectory, getModificationTime, findExecutable)
+import           System.Environment (getArgs, getEnvironment, lookupEnv, getProgName)
+import           System.Exit (ExitCode(ExitSuccess), exitFailure)
+import           System.FilePath (isRelative, (</>), takeBaseName)
+import "Glob"    System.FilePath.Glob (glob)
+import           System.Info (os)
+import           System.IO (Handle, IOMode (..), hClose, hGetEncoding, hIsTerminalDevice, hPutStr, hPutStrLn, hSetNewlineMode, hSetEncoding, openFile, stderr, stdin, stdout, universalNewlineMode, utf8_bom, utf8, withFile)
+import System.IO.Encoding qualified as Enc
+import           System.IO.Temp (withTempFile)
+import           System.IO.Unsafe (unsafePerformIO)
+import           System.Process (CreateProcess(..), StdStream(CreatePipe), createPipe, proc, readCreateProcessWithExitCode, shell, waitForProcess, withCreateProcess)
+import           System.Timeout (timeout)
+import           Text.Pretty.Simple (CheckColorTty(..), OutputOptions(..), defaultOutputOptionsDarkBg, defaultOutputOptionsNoColor, pShowOpt, pPrintOpt)
+
+import Hledger.Utils.Text (WideBuilder(WideBuilder))
+import Control.Monad.IO.Class (MonadIO, liftIO)
+
+
+-- Pretty showing/printing
+-- using pretty-simple
+
+-- https://hackage.haskell.org/package/pretty-simple/docs/Text-Pretty-Simple.html#t:OutputOptions
+
+-- | pretty-simple options with colour enabled if allowed.
+prettyopts =
+  (if useColorOnStderrUnsafe then defaultOutputOptionsDarkBg else defaultOutputOptionsNoColor)
+    { outputOptionsIndentAmount = 2
+    -- , outputOptionsCompact      = True  -- fills lines, but does not respect page width (https://github.com/cdepillabout/pretty-simple/issues/126)
+    -- , outputOptionsPageWidth    = fromMaybe 80 $ unsafePerformIO getTerminalWidth
+    }
+
+-- | pretty-simple options with colour disabled.
+prettyoptsNoColor =
+  defaultOutputOptionsNoColor
+    { outputOptionsIndentAmount=2
+    }
+
+-- | Pretty show. An easier alias for pretty-simple's pShow.
+-- This will probably show in colour if useColorOnStderrUnsafe is true.
+pshow :: Show a => a -> String
+pshow = TL.unpack . pShowOpt prettyopts
+
+-- | Monochrome version of pshow. This will never show in colour.
+pshow' :: Show a => a -> String
+pshow' = TL.unpack . pShowOpt prettyoptsNoColor
+
+-- | Pretty print a showable value. An easier alias for pretty-simple's pPrint.
+-- This will print in colour if useColorOnStderrUnsafe is true.
+pprint :: Show a => a -> IO ()
+pprint = pPrintOpt (if useColorOnStderrUnsafe then CheckColorTty else NoCheckColorTty) prettyopts
+
+-- | Monochrome version of pprint. This will never print in colour.
+pprint' :: Show a => a -> IO ()
+pprint' = pPrintOpt NoCheckColorTty prettyoptsNoColor
+
+-- "Avoid using pshow, pprint, dbg* in the code below to prevent infinite loops." (?)
+
+
+
+-- Errors
+
+-- | Call errorWithoutStackTrace, prepending a "Error:" label.
+error' :: String -> a
+error' = errorWithoutStackTrace . ("Error: "<>)
+
+-- | Like error', but add a hint about using -h.
+usageError :: String -> a
+usageError = error' . (++ " (use -h to see usage)")
+
+-- | Apply standard ANSI SGR formatting (red, bold) suitable for console error text.
+ansiFormatError :: String -> String
+ansiFormatError = (<> sgrresetall) . ((sgrbrightred <> sgrbold) <>)
+
+-- | Show a warning message on stderr before returning the given value.
+-- Like trace, but prepends a "Warning:" label, and does some ANSI styling of the first line when allowed (using unsafe IO).
+-- Currently we use this very sparingly in hledger; we prefer to either quietly work, or loudly raise an error.
+-- Varying output can make scripting harder. But on stderr, it shouldn't cause much hassle.
+warn :: String -> a -> a
+warn = trace . formatWarning
+
+-- | Like warn, but take extra care to sequence properly in IO.
+warnIO :: MonadIO m => String -> m ()
+warnIO = liftIO . traceIO . formatWarning
+
+formatWarning =
+  (if useColorOnStderrUnsafe then modifyFirstLine ansiFormatWarning else id) .
+  ("Warning: " <>)
+
+-- | Apply standard ANSI SGR formatting (yellow, bold) suitable for console warning text.
+ansiFormatWarning :: String -> String
+ansiFormatWarning = (<> sgrresetall) . ((sgrbrightyellow <> sgrbold) <>)
+
+-- Transform a string's first line.
+-- Note, this won't add a trailing newline if there isn't one,
+-- and it will remove one if there is one or more.
+modifyFirstLine :: (String -> String) -> String -> String
+modifyFirstLine f s = intercalate "\n" $ map f l <> ls where (l,ls) = splitAt 1 $ lines s  -- total
+
+-- | Print an error message to stderr, with a consistent "programname: " prefix,
+-- and applying ANSI styling (bold bright red) to the first line if that is supported and allowed.
+printError :: String -> IO ()
+printError msg = do
+  progname <- getProgName
+  usecolor <- useColorOnStderr

@@ -1,0 +1,261 @@
+===== FILE: hledger-lib/Hledger/Reports/ReportOptions.hs =====
+{-|
+
+Options common to most hledger reports.
+
+-}
+
+{-# LANGUAGE BangPatterns          #-}
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE LambdaCase            #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE RankNTypes            #-}
+{-# LANGUAGE RecordWildCards       #-}
+{-# LANGUAGE TemplateHaskell       #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE TypeOperators #-}
+
+module Hledger.Reports.ReportOptions (
+  ReportOpts(..),
+  HasReportOptsNoUpdate(..),
+  HasReportOpts(..),
+  ReportSpec(..),
+  HasReportSpec(..),
+  SortField(..),
+  SortSpec,
+  sortKeysDescription,
+  overEither,
+  setEither,
+  BalanceCalculation(..),
+  BalanceAccumulation(..),
+  AccountListMode(..),
+  ValuationType(..),
+  Layout(..),
+  PeriodTitles(..),
+  effectiveTitle,
+  defreportopts,
+  rawOptsToReportOpts,
+  defreportspec,
+  defsortspec,
+  setDefaultConversionOp,
+  reportOptsToSpec,
+  updateReportSpec,
+  updateReportSpecWith,
+  rawOptsToReportSpec,
+  reportSpecExpandCurQueries,
+  balanceAccumulationOverride,
+  flat_,
+  tree_,
+  reportOptsToggleStatus,
+  simplifyStatuses,
+  whichDate,
+  journalValueAndFilterPostings,
+  journalValueAndFilterPostingsWith,
+  journalApplyValuationFromOpts,
+  journalApplyValuationFromOptsWith,
+  mixedAmountApplyValuationAfterSumFromOptsWith,
+  valuationAfterSum,
+  requiresHistorical,
+  intervalFromRawOpts,
+  queryFromFlags,
+  transactionDateFn,
+  postingDateFn,
+  reportSpan,
+  reportSpanBothDates,
+  reportStartDate,
+  reportEndDate,
+  reportPeriodStart,
+  reportPeriodOrJournalStart,
+  reportPeriodLastDay,
+  reportPeriodOrJournalLastDay,
+  reportPeriodName
+)
+where
+
+import Prelude hiding (Applicative(..))
+import Control.Applicative (Applicative(..), Const(..), (<|>))
+import Control.Monad (guard, join)
+import Data.Char (toLower)
+import Data.Either (fromRight)
+import Data.Either.Extra (eitherToMaybe)
+import Data.Functor.Identity (Identity(..))
+import Data.List (partition)
+import Data.List.Extra (find, isPrefixOf, nubSort, stripPrefix)
+import Data.Maybe (fromMaybe, isJust, isNothing, mapMaybe)
+import Data.Text qualified as T
+import Data.Time.Calendar (Day, addDays)
+import Data.Default (Default(..))
+import Safe (lastDef, lastMay, maximumMay, readMay)
+
+import Hledger.Data
+import Hledger.Query
+import Hledger.Utils
+import Data.Function ((&))
+
+-- | What to calculate for each cell in a balance report.
+-- "Balance report types -> Calculation type" in the hledger manual.
+data BalanceCalculation =
+    CalcChange        -- ^ Sum of posting amounts in the period.
+  | CalcBudget        -- ^ Sum of posting amounts and the goal for the period.
+  | CalcValueChange   -- ^ Change from previous period's historical end value to this period's historical end value.
+  | CalcGain          -- ^ Change from previous period's gain, i.e. valuation minus cost basis.
+  | CalcPostingsCount -- ^ Number of postings in the period.
+  deriving (Eq, Show)
+
+instance Default BalanceCalculation where def = CalcChange
+
+-- | How to accumulate calculated values across periods (columns) in a balance report.
+-- "Balance report types -> Accumulation type" in the hledger manual.
+data BalanceAccumulation =
+    PerPeriod   -- ^ No accumulation. Eg, shows the change of balance in each period.
+  | Cumulative  -- ^ Accumulate changes across periods, starting from zero at report start.
+  | Historical  -- ^ Accumulate changes across periods, including any from before report start.
+                --   Eg, shows the historical end balance of each period.
+  deriving (Eq,Show)
+
+instance Default BalanceAccumulation where def = PerPeriod
+
+-- | Should accounts be displayed: in the command's default style, hierarchically, or as a flat list ?
+data AccountListMode = ALFlat | ALTree deriving (Eq, Show)
+
+instance Default AccountListMode where def = ALFlat
+
+data Layout = LayoutWide (Maybe Int)
+            | LayoutTall
+            | LayoutBare
+            | LayoutTidy
+  deriving (Eq, Show)
+
+-- | How to render period column headings in periodic reports.
+data PeriodTitles = PTCompact | PTDates deriving (Eq, Show)
+
+instance Default PeriodTitles where def = PTCompact
+
+-- | Standard options for customising report filtering and output.
+-- Most of these correspond to standard hledger command-line options
+-- or query arguments, but not all. Some are used only by certain
+-- commands, as noted below.
+data ReportOpts = ReportOpts {
+     -- for most reports:
+     period_           :: Period
+    ,interval_         :: Interval
+    ,statuses_         :: [Status]  -- ^ Zero, one, or two statuses to be matched
+    ,conversionop_     :: Maybe ConversionOp  -- ^ Which operation should we apply to conversion transactions?
+    ,value_            :: Maybe ValuationType  -- ^ What value should amounts be converted to ?
+    ,infer_prices_     :: Bool      -- ^ Infer market prices from transactions ?
+    ,depth_            :: DepthSpec
+    ,date2_            :: Bool
+    ,empty_            :: Bool
+    ,no_elide_         :: Bool
+    ,real_             :: Bool
+    ,format_           :: StringFormat
+    ,balance_base_url_ :: Maybe T.Text
+    ,pretty_           :: Bool
+    ,querystring_      :: [T.Text]
+    --
+    ,average_          :: Bool
+    -- for posting reports (register)
+    ,related_          :: Bool
+    -- for sorting reports (register)
+    ,sortspec_             :: SortSpec
+    -- for account transactions reports (aregister)
+    ,txn_dates_        :: Bool
+    -- for balance reports (bal, bs, cf, is)
+    ,balancecalc_      :: BalanceCalculation  -- ^ What to calculate in balance report cells
+    ,balanceaccum_     :: BalanceAccumulation -- ^ How to accumulate balance report values over time
+    ,budgetpat_        :: Maybe T.Text  -- ^ A case-insensitive description substring
+                                        --   to select periodic transactions for budget reports.
+                                        --   (Not a regexp, nor a full hledger query, for now.)
+    ,accountlistmode_  :: AccountListMode
+    ,drop_             :: Int
+    ,declared_         :: Bool  -- ^ Include accounts declared but not yet posted to ?
+    ,row_total_        :: Bool
+    ,no_total_         :: Bool
+    ,summary_only_     :: Bool
+    ,show_costs_       :: Bool  -- ^ Show costs for reports which normally don't show them ?
+    ,sort_amount_      :: Bool
+    ,percent_          :: Bool
+    ,invert_           :: Bool  -- ^ Flip all amount signs in reports ?
+    ,normalbalance_    :: Maybe NormalSign
+      -- ^ This can be set when running balance reports on a set of accounts
+      --   with the same normal balance type (eg all assets, or all incomes).
+      -- - It helps --sort-amount know how to sort negative numbers
+      --   (eg in the income section of an income statement)
+      -- - It helps compound balance report commands (is, bs etc.) do
+      --   sign normalisation, converting normally negative subreports to
+      --   normally positive for a more conventional display.
+    ,color_            :: Bool
+      -- ^ Whether to use ANSI color codes in text output.
+      --   Influenced by the --color/colour flag (cf CliOptions),
+      --   whether stdout is an interactive terminal, and the value of
+      --   TERM and existence of NO_COLOR environment variables.
+    ,transpose_        :: Bool
+    ,layout_           :: Layout
+    ,period_titles_  :: PeriodTitles
+    -- | Explicit --title value if given (possibly empty to
+    -- suppress); otherwise Nothing, in which case each report falls
+    -- back to its own default heading. Resolved via effectiveTitle.
+    ,title_   :: Maybe T.Text
+    -- | Explicit --subreport-titles value, a |-separated list of
+    -- subreport titles to use in compound reports. An empty string
+    -- means "suppress all default subreport titles".
+    ,subreport_titles_ :: Maybe T.Text
+ } deriving (Show)
+
+instance Default ReportOpts where def = defreportopts
+
+defreportopts :: ReportOpts
+defreportopts = ReportOpts
+    { period_           = PeriodAll
+    , interval_         = NoInterval
+    , statuses_         = []
+    , conversionop_     = Nothing
+    , value_            = Nothing
+    , infer_prices_     = False
+    , depth_            = DepthSpec Nothing []
+    , date2_            = False
+    , empty_            = False
+    , no_elide_         = False
+    , real_             = False
+    , format_           = def
+    , balance_base_url_ = Nothing
+    , pretty_           = False
+    , querystring_      = []
+    , average_          = False
+    , related_          = False
+    , sortspec_         = defsortspec 
+    , txn_dates_        = False
+    , balancecalc_      = def
+    , balanceaccum_     = def
+    , budgetpat_        = Nothing
+    , accountlistmode_  = ALFlat
+    , drop_             = 0
+    , declared_         = False
+    , row_total_        = False
+    , no_total_         = False
+    , summary_only_     = False
+    , show_costs_       = False
+    , sort_amount_      = False
+    , percent_          = False
+    , invert_           = False
+    , normalbalance_    = Nothing
+    , color_            = False
+    , transpose_        = False
+    , layout_           = LayoutWide Nothing
+    , period_titles_  = PTCompact
+    , title_   = Nothing
+    , subreport_titles_ = Nothing
+    }
+
+-- | Generate a ReportOpts from raw command-line input, given a day and whether to use ANSI colour/styles in standard output.
+-- This will fail with a usage error if it is passed
+-- - an invalid --format argument,
+-- - an invalid --value argument,
+-- - if --valuechange is called with a valuation type other than -V/--value=end.
+-- - an invalid --pretty argument,
+rawOptsToReportOpts :: Day -> Bool -> RawOpts -> ReportOpts
+rawOptsToReportOpts d usecoloronstdout rawopts =
+
+    -- Bang-let-bind the results of every option parser that can call usageError.

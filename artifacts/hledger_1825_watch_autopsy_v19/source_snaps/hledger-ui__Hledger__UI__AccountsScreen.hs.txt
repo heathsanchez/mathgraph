@@ -1,0 +1,261 @@
+===== FILE: hledger-ui/Hledger/UI/AccountsScreen.hs =====
+-- The accounts screen, showing accounts and balances like the CLI balance command.
+
+{-# LANGUAGE CPP #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE TupleSections #-}
+
+module Hledger.UI.AccountsScreen
+ (asNew
+ ,asUpdate
+ ,asDraw
+ ,asDrawHelper
+ ,asHandle
+ ,handleHelpMode
+ ,handleMinibufferMode
+ ,asHandleNormalMode
+ ,enterRegisterScreen
+ ,asSetSelectedAccount
+ )
+where
+
+import Brick
+import Brick.Widgets.List
+import Brick.Widgets.Edit
+import Control.Monad
+import Control.Monad.IO.Class (liftIO)
+#if MIN_VERSION_base(4,19,0)
+import Data.List hiding (reverse, (!?))
+#else
+import Data.List hiding (reverse)
+#endif
+import Data.Maybe
+import Data.Text qualified as T
+import Data.Time.Calendar (Day)
+import Data.Vector qualified as V
+import Data.Vector ((!?))
+import Graphics.Vty (Event(..),Key(..),Modifier(..), Button (BLeft, BScrollDown, BScrollUp))
+import Lens.Micro.Platform
+import System.Console.ANSI
+import System.FilePath (takeFileName)
+import Text.DocLayout (realLength)
+
+import Hledger
+import Hledger.Cli hiding (Mode, mode, progname, prognameandversion)
+import Hledger.UI.UIOptions
+import Hledger.UI.UITypes
+import Hledger.UI.UIState
+import Hledger.UI.UIUtils
+import Hledger.UI.UIScreens
+import Hledger.UI.Editor
+import Hledger.UI.ErrorScreen (uiReload, uiReloadIfFileChanged, uiToggleBalanceAssertions)
+import Hledger.UI.RegisterScreen (rsCenterSelection)
+import Data.Either (fromRight)
+import Control.Arrow ((>>>))
+import Safe (headDef)
+
+
+asDraw :: AccountsScreenState -> UIState -> [Widget Name]
+asDraw ass@ASS{_assKind=kind} ui = dbgui "asDraw" $ asDrawHelper ass ui ropts' scrname
+  where
+    ropts'  = accountsScreenRoptsMod kind $ _rsReportOpts $ reportspec_ $ uoCliOpts $ aopts ui
+    scrname = accountsScreenName kind ropts'
+
+-- | The display name shown in an accounts-like screen's header, for the given kind.
+accountsScreenName :: AccountsScreenKind -> ReportOpts -> String
+accountsScreenName kind ropts = case kind of
+  AllAccounts             -> "account " ++ if balanceaccum_ ropts == Historical then "balances" else "changes"
+  CashAccounts            -> "cash balances"
+  BalancesheetAccounts    -> "balance sheet balances"
+  IncomestatementAccounts -> "income statement changes"
+
+-- | Help draw any accounts-like screen (all accounts, balance sheet, income statement..).
+-- The provided ReportOpts are used instead of the ones in the UIState.
+-- The other argument is the screen display name.
+asDrawHelper :: AccountsScreenState -> UIState -> ReportOpts -> String -> [Widget Name]
+asDrawHelper ass UIState{aopts=uopts, ajournal=j, aMode=mode} ropts scrname =
+  dbgui "asDrawHelper" $
+  case mode of
+      Help -> [helpDialog, maincontent]
+      _    -> [maincontent]
+      where
+        UIOpts{uoCliOpts=copts} = uopts
+        maincontent = Widget Greedy Greedy $ do
+          c <- getContext
+          let
+            availwidth =
+              -- ltrace "availwidth" $
+              c^.availWidthL
+              - 2 -- XXX due to margin ? shouldn't be necessary (cf UIUtils)
+            displayitems = ass ^. assList . listElementsL
+
+            acctwidths = V.map (\AccountsScreenItem{..} -> asItemIndentLevel + realLength asItemDisplayAccountName) displayitems
+            balwidths  = V.map (maybe 0 (wbWidth . showMixedAmountB oneLineNoCostFmt) . asItemMixedAmount) displayitems
+            preferredacctwidth = V.maximum acctwidths
+            totalacctwidthseen = V.sum acctwidths
+            preferredbalwidth  = V.maximum balwidths
+            totalbalwidthseen  = V.sum balwidths
+
+            totalwidthseen = totalacctwidthseen + totalbalwidthseen
+            shortfall = preferredacctwidth + preferredbalwidth + 2 - availwidth
+            acctwidthproportion = fromIntegral totalacctwidthseen `divideSafe` fromIntegral totalwidthseen
+            adjustedacctwidth = min preferredacctwidth . max 15 . round $ acctwidthproportion * fromIntegral (availwidth - 2)  -- leave 2 whitespace for padding
+            adjustedbalwidth  = availwidth - 2 - adjustedacctwidth
+
+            -- XXX how to minimise the balance column's jumping around as you change the depth limit ?
+
+            colwidths | shortfall <= 0 = (preferredacctwidth, preferredbalwidth)
+                      | otherwise      = (adjustedacctwidth, adjustedbalwidth)
+
+          render $ defaultLayout toplabel bottomlabel $ renderList (asDrawItem colwidths) True (ass ^. assList)
+
+          where
+            ishistorical = balanceaccum_ ropts == Historical
+
+            toplabel =
+                  withAttr (attrName "border" <> attrName "filename") files
+              <+> toggles
+              <+> str (" " ++ scrname)
+              <+> borderPeriodStr (if ishistorical then "at end of" else "in") (period_ ropts)
+              <+> borderQueryStr (T.unpack . T.unwords . map textQuoteIfNeeded $ querystring_ ropts)
+              <+> borderDepthStr mdepth
+              <+> str (" ("++curidx++"/"++totidx++")")
+              <+> (if ignore_assertions_ . balancingopts_ $ inputopts_ copts
+                  then withAttr (attrName "border" <> attrName "query") (str " ignoring balance assertions")
+                  else str "")
+              where
+                files = case journalFilePaths j of
+                              [] -> str ""
+                              f:_ -> str $ takeFileName f
+                              -- [f,_:[]] -> (withAttr ("border" <> "bold") $ str $ takeFileName f) <+> str " (& 1 included file)"
+                              -- f:fs  -> (withAttr ("border" <> "bold") $ str $ takeFileName f) <+> str (" (& " ++ show (length fs) ++ " included files)")
+                toggles = withAttr (attrName "border" <> attrName "query") $ str $ unwords $ concat [
+                  [""]
+                  ,if empty_ ropts then [] else ["nonzero"]
+                  ,uiShowStatus copts $ statuses_ ropts
+                  ,if real_ ropts then ["real"] else []
+                  ]
+                mdepth = dsFlatDepth $ depth_ ropts
+                curidx = case ass ^. assList . listSelectedL of
+                          Nothing -> "-"
+                          Just i -> show (i + 1)
+                totidx = show $ V.length nonblanks
+                  where
+                    nonblanks = V.takeWhile (not . T.null . asItemAccountName) $ ass ^. assList . listElementsL
+
+            bottomlabel = case mode of
+                            Minibuffer label ed -> minibuffer label ed
+                            _                   -> quickhelp
+              where
+                quickhelp = borderKeysStr' [
+                   ("LEFT", str "back")
+                  -- ,("RIGHT", str "register")
+                  ,("t", renderToggle (tree_ ropts) "list" "tree")
+                  -- ,("t", str "tree")
+                  -- ,("l", str "list")
+                  ,("-+", str "depth")
+                  ,case _assKind ass of
+                    BalancesheetAccounts    -> ("", str "")
+                    IncomestatementAccounts -> ("", str "")
+                    _                       -> ("H", renderToggle (not ishistorical) "end-bals" "changes")
+                  ,("F", renderToggle1 (isJust . forecast_ $ inputopts_ copts) "forecast")
+                  ,("L", renderToggle1 (boolopt "lots" $ rawopts_ copts) "lots")
+                  --,("/", "filter")
+                  --,("DEL", "unfilter")
+                  --,("ESC", "cancel/top")
+                  -- ,("a", str "add")
+                  -- ,("g", "reload")
+                  ,("?", str "help")
+                  -- ,("q", str "quit")
+                  ]
+
+asDrawItem :: (Int,Int) -> Bool -> AccountsScreenItem -> Widget Name
+asDrawItem (acctwidth, balwidth) selected AccountsScreenItem{..} =
+  Widget Greedy Fixed $ do
+    -- c <- getContext
+      -- let showitem = intercalate "\n" . balanceReportItemAsText defreportopts fmt
+    render $
+      txt (fitText (Just acctwidth) (Just acctwidth) True True $ T.replicate (asItemIndentLevel) " " <> asItemDisplayAccountName) <+>
+      txt balspace <+>
+      splitAmounts balBuilder
+      where
+        balBuilder = maybe mempty showamt asItemMixedAmount
+        showamt = showMixedAmountB oneLineNoCostFmt{displayMinWidth=Just balwidth, displayMaxWidth=Just balwidth}
+        balspace = T.replicate (2 + balwidth - wbWidth balBuilder) " "
+        splitAmounts = foldr1 (<+>) . intersperse (str ", ") . map renderamt . T.splitOn ", " . wbToText
+        renderamt :: T.Text -> Widget Name
+        renderamt a | T.any (=='-') a = withAttr (sel $ attrName "list" <> attrName "balance" <> attrName "negative") $ txt a
+                    | otherwise       = withAttr (sel $ attrName "list" <> attrName "balance" <> attrName "positive") $ txt a
+        sel | selected  = (<> attrName "selected")
+            | otherwise = id
+
+-- | Handle events on any accounts-like screen (all accounts, balance sheet, income statement..).
+asHandle :: AccountsScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+asHandle ass ev = do
+  dbguiEv "asHandle"
+  ui0@UIState{aMode=mode} <- get'
+  -- save the currently selected account, in case we leave this screen and lose the selection
+  put' ui0{aScreen=AS ass{_assSelectedAccount=asSelectedAccount ass}}
+  case mode of
+    Normal          -> asHandleNormalMode ass ev
+    Minibuffer _ ed -> handleMinibufferMode ed ev
+    Help            -> handleHelpMode ev
+
+-- | Handle events when in normal mode on any accounts-like screen.
+-- The provided state should be the ui state's current screen.
+asHandleNormalMode :: AccountsScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+asHandleNormalMode ass ev = do
+  dbguiEv "asHandleNormalMode"
+
+  ui@UIState{aopts=UIOpts{uoCliOpts=copts}, ajournal=j} <- get'
+  d <- liftIO getCurrentDay
+  let
+    l = _assList ass
+    selacct = asSelectedAccount ass
+    centerSelection = scrollSelectionToMiddle l
+    clickedAcctAt y =
+      case asItemAccountName <$> listElements l !? y of
+        Just t | not $ T.null t -> Just t
+        _ -> Nothing
+    nonblanks = V.takeWhile (not . T.null . asItemAccountName) $ listElements l
+    lastnonblankidx = max 0 (length nonblanks - 1)
+    journalspan = journalDateSpan False j
+
+  case ev of
+
+    VtyEvent (EvKey (KChar 'q') []) -> halt                               -- q: quit
+    VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui                    -- C-z: suspend
+    VtyEvent (EvKey (KChar 'l') [MCtrl]) -> centerSelection >> redraw     -- C-l: redraw
+    VtyEvent (EvKey KEsc        []) -> modify' (resetScreens d)           -- ESC: reset
+    VtyEvent (EvKey (KChar c)   []) | c == '?' -> modify' (setMode Help)  -- ?: enter help mode
+    
+    -- AppEvents come from the system, in --watch mode.
+    -- XXX currently they are handled only in Normal mode
+    -- XXX be sure we don't leave unconsumed app events piling up
+    -- A data file has changed (or the user has pressed g): reload.
+    e | e `elem` [AppEvent FileChange, VtyEvent (EvKey (KChar 'g') [])] ->
+      uiReload copts d ui >>= put'
+
+    -- The date has changed (and we are viewing a standard period which contained the old date):
+    -- adjust the viewed period and regenerate, just in case needed.
+    -- (Eg: when watching data for "today" and the time has just passed midnight.)
+    AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+      modify' (setReportPeriod (DayPeriod d) >>> regenerateScreens d)
+      where p = reportPeriod ui
+
+    -- set or reset a filter:
+    VtyEvent (EvKey (KChar '/') []) -> modify' (showMinibuffer "filter" Nothing >>> regenerateScreens d)
+    VtyEvent (EvKey k           []) | k `elem` [KBS, KDel] -> modify' (resetFilter >>> regenerateScreens d)
+
+    -- run external programs:
+    VtyEvent (EvKey (KChar 'a') []) -> suspendAndResume $ clearScreen >> setCursorPosition 0 0 >> add (cliOptsDropArgs copts) j >> uiReloadIfFileChanged copts d j ui
+    VtyEvent (EvKey (KChar 'A') []) -> suspendAndResume $ void (runIadd (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+    VtyEvent (EvKey (KChar 'E') []) -> suspendAndResume $ void (runEditor endPosition (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+    -- J/K Jumps: move 10 rows at a time
+    VtyEvent (EvKey (KChar 'J') []) -> do
+      let l' = listMoveBy 10 l
+      -- Ensure we don't jump into the blank padding at the end
+      let l'' = if isBlankItem (listSelectedElement l')
+                then listMoveTo lastnonblankidx l'
+                else l'

@@ -1,0 +1,261 @@
+===== FILE: hledger-lib/Hledger/Read/RulesReader.hs =====
+--- * module
+--- ** doc
+-- In Emacs, use TAB on lines beginning with "-- *" to collapse/expand sections.
+{-|
+
+A reader for a CSV rules file. 
+This reads the actual data from a file specified by a `source` rule
+or from a similarly-named file in the same directory.
+
+Most of the code for reading rules files and csv files is in this module.
+-}
+-- Lots of haddocks in this file are for non-exported types.
+-- Here's a command that will render them:
+-- stack haddock hledger-lib --fast --no-haddock-deps --haddock-arguments='--ignore-all-exports' --open
+
+--- ** language
+{-# LANGUAGE CPP    #-}
+{-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE OverloadedStrings    #-}
+{-# LANGUAGE RecordWildCards      #-}
+{-# LANGUAGE ScopedTypeVariables  #-}
+{-# LANGUAGE ViewPatterns         #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE TupleSections #-}
+
+--- ** exports
+module Hledger.Read.RulesReader (
+  -- * Reader
+  reader,
+  -- * Misc.
+  dataFileFor,
+  rulesFileFor,
+  getRulesFile,
+  readRules,
+  rulesEncoding,
+  readJournalFromCsv,
+  parseBalanceAssertionType,
+  -- * Tests
+  tests_RulesReader,
+)
+where
+
+--- ** imports
+import Prelude hiding (Applicative(..))
+import Control.Applicative (Applicative(..))
+import Control.Concurrent (forkIO)
+import Control.DeepSeq (deepseq)
+import Control.Monad (unless, void, when)
+import Control.Monad.Except       (ExceptT(..), liftEither, throwError)
+import Control.Monad.Fail qualified as Fail
+import Control.Monad.IO.Class     (MonadIO, liftIO)
+import Control.Monad.State.Strict (StateT, get, modify', evalStateT)
+import Control.Monad.Trans.Class  (lift)
+import Data.Char                  (toLower, isDigit, isSpace, isAlphaNum, ord)
+import Data.Bifunctor             (first)
+import Data.ByteString qualified as B
+import Data.ByteString.Lazy qualified as BL
+import Data.Csv qualified as Cassava
+import Data.Csv.Parser.Megaparsec qualified as CassavaMegaparsec
+import Data.Encoding (encodingFromStringExplicit, DynEncoding)
+import Data.Either (fromRight)
+import Data.Functor ((<&>))
+import Data.List (elemIndex, mapAccumL, nub, sortOn, isInfixOf, isPrefixOf)
+#if !MIN_VERSION_base(4,20,0)
+import Data.List (foldl')
+#endif
+import Data.List.Extra (groupOn)
+import Data.Maybe (catMaybes, fromMaybe, isJust)
+import Data.MemoUgly (memo)
+import Data.Text (Text)
+import Data.Text qualified as T
+import Data.Text.Encoding qualified as T
+import Data.Text.IO qualified as T
+import Data.Time ( Day, TimeZone, UTCTime, LocalTime, ZonedTime(ZonedTime),
+  defaultTimeLocale, getCurrentTimeZone, localDay, parseTimeM, utcToLocalTime, localTimeToUTC, zonedTimeToUTC, utctDay)
+import Safe (atMay, headDef, headMay, lastMay, readMay)
+import System.Directory (createDirectoryIfMissing, doesDirectoryExist, doesFileExist, getHomeDirectory, getModificationTime, listDirectory, removeFile)
+import System.Exit      (ExitCode(..))
+import System.FilePath (isAbsolute, splitDirectories, stripExtension, takeBaseName, takeDirectory, takeExtension, (<.>), (</>))
+import System.IO       (Handle, hClose, hPutStrLn, stderr, hGetContents')
+import System.Process  (CreateProcess(..), StdStream(CreatePipe), shell, waitForProcess, withCreateProcess)
+import Data.Foldable (asum, toList)
+import Text.Megaparsec hiding (match, parse)
+import Text.Megaparsec.Char (char, newline, string, digitChar)
+import Text.Printf (printf)
+
+import Hledger.Data
+import Hledger.Utils
+import Hledger.Read.Common (aliasesFromOpts, Reader(..), InputOpts(..), amountp, statusp, journalFinalise, accountnamep, transactioncommentp, postingcommentp )
+import Hledger.Write.Csv
+
+--- ** doctest setup
+-- $setup
+-- >>> :set -XOverloadedStrings
+
+--- ** reader
+_READER__________________________________________ = undefined  -- VSCode outline separator
+
+
+reader :: MonadIO m => Reader m
+reader = Reader
+  {rFormat     = Rules
+  ,rExtensions = ["rules"]
+  ,rReadFn     = parse
+  ,rParser     = const $ fail "sorry, rules files can't be included yet"
+  }
+
+getDownloadDir = do
+  home <- getHomeDirectory
+  return $ home </> "Downloads"  -- XXX
+
+-- | Read, parse and post-process a "Journal" from the given rules file, or give an error.
+-- This particular reader also provides some extra features like data cleaning/generating commands and data archiving.
+--
+-- Unlike CsvReader, this reader ignores the provided input file handle (and the --rules option).
+-- Instead, it reads a data file (or data-generating command) specified by the @source@ rule,
+-- or if there is no @source@ rule, it raises an error.
+--
+-- The source rule's path is resolved as follows:
+--
+-- * @~/foo.csv@ or @/abs/foo.csv@ - used as-is (home is expanded).
+-- * @./foo.csv@ or @../foo.csv@ - anchored relative to the rules file's directory (no fallback).
+-- * bare filename (@foo.csv@) or other relative path (@sub/foo.csv@) - looked for in
+--   the journal's data directory first, otherwise in @~/Downloads@.
+--
+-- The data directory is the same one used by the @archive@ rule and the @get@ command.
+-- By default it is @data/@ next to the main input file.
+-- When the input file's directory is unknown, eg when reading from stdin, the data directory is @data/@ next to the rules file.
+--
+-- The directory comes from 'InputOpts._journaldir', set by the CLI entry points
+-- ('withJournal', 'withPossibleJournal', 'journalReload'). Library callers doing a
+-- secondary read after a journal has been loaded (the pattern used by the @import@
+-- command) should apply 'inputOptsSetJournalDir' to their iopts.
+--
+-- The source rule can specify a glob pattern: @source foo*.csv@.
+-- If the glob pattern matches multiple files, the newest (last modified) file is used (with one exception, described below).
+--
+-- The source rule can specify a data-cleaning command, after a @|@ separator: @source foo*.csv | sed -e 's/USD/$/g'@.
+-- This command is executed by the user's default shell, receives the data file's content on stdin,
+-- and should output CSV data suitable for the conversion rules.
+-- A # character can be used to comment out the data-cleaning command: @source foo*.csv  # | ...@.
+--
+-- Or the source rule can specify just a data-generating command, with no file pattern: @source | foo-csv.sh@.
+-- In this case the command receives no input; it should output CSV data suitable for the conversion rules.
+--
+-- If the archive rule is present:
+-- 1. After successfully reading the data file or data command and converting to a journal, while doing a non-dry-run import:
+-- the data will be archived in an @archive/@ subdirectory of the data directory (see above), auto-creating it if needed.
+-- (The subdirectory keeps archived files out of sight of the source rule's glob, which might otherwise re-match them.)
+-- The archive file name will be based on the rules file and the data file's modification date and extension
+-- (or when the source is a data-generating command: the current date and the ".csv" extension).
+-- 2. import will prefer the oldest file matched by a glob pattern (not the newest).
+--
+-- Balance assertions are not checked by this reader.
+--
+parse :: InputOpts -> FilePath -> Handle -> ExceptT String IO Journal
+parse iopts rulesfile h = do
+  lift $ hClose h -- We don't need it (XXX why ?)
+
+  -- The rules reader does a lot; we must be organised.
+
+  -- 1. gather contextual info
+  --  gives: import flag, dryrun flag, rulesdir
+
+  let
+    args     = progArgs
+    import_  = dbg2 "import" $ any (`elem` args) ["import", "imp"]
+    dryrun   = dbg2 "dryrun" $ any (`elem` args) ["--dry-run", "--dry"]
+
+  -- 2. parse the source and archive rules
+  --  needs: rules file
+  --  gives: file pattern, data cleaning/generating command, archive flag
+
+  -- XXX higher-than usual logging priority for file reading (normally 6 or 7), to bypass excessive noise from elsewhere
+  rules <- readRules $ dbg1 "reading rules file" rulesfile
+  let
+    msourcearg = getDirective "source" rules
+      -- Nothing -> error' $ rulesfile ++ " source rule must specify a file pattern or a command"
+    -- A # anywhere starts a same-line comment, stripped from the whole source value.
+    -- Surrounding whitespace is then removed from the whole source argument and from each part of it.
+    stripcomment = T.takeWhile (/= '#')
+    stripspaces  = T.strip
+    mpatandcmd = T.breakOn "|" . stripspaces . stripcomment <$> msourcearg
+    mpat = dbg2 "file pattern" $  -- a non-empty file pattern, or nothing
+      case T.unpack . stripspaces . fst <$> mpatandcmd of
+        Just s | not $ null s -> Just s
+        _ -> Nothing
+    mcmd = dbg2 "data command" $  -- a non-empty command, or nothing
+      mpatandcmd >>= \sc ->
+        let c = T.unpack . stripspaces . T.drop 1 . snd $ sc
+        in if null c then Nothing else Just c
+
+    archive = isJust (getDirective "archive" rules)
+
+  -- 3. find the file to be read, if any
+  --  needs: file pattern, data command, import flag, archive flag, data dir, downloads dir
+  --  gives: data file, data file description
+
+  -- The data/ directory lives next to the main journal file.
+  -- This is the same directory used by the get command and by the archive rule below.
+  let
+    journaldir = fromMaybe (takeDirectory rulesfile) $ _journaldir iopts
+    datadir    = journaldir </> dataDirName
+
+  (mdatafile, datafiledesc) <- dbg2 "data file found ?" <$> case (mpat, mcmd) of
+    (Nothing, Nothing) -> error' $ "to make " ++ rulesfile ++ " readable,\n please add a 'source' rule with a non-empty file pattern or command"
+    (Nothing, Just _) -> return (Nothing, "")
+    (Just pat, _) -> do
+      dldir <- liftIO getDownloadDir
+      -- Source-rule path resolution (platform-independent):
+      --  ./foo or ../foo  -> anchored relative to the rules file's directory (no fallback)
+      --  /abs or ~/foo    -> used as-is (no fallback)
+      --  bare or sub/foo  -> looked for under the data directory, then ~/Downloads
+      let firstSeg = headDef "" $ splitDirectories pat
+          anchoredToRulesDir = firstSeg `elem` [".", ".."]
+          -- ~ isn't a real path concept; only special as a leading literal segment.
+          isAbsoluteOrTilde = isAbsolute pat || firstSeg == "~"
+          plainRelative = not anchoredToRulesDir && not isAbsoluteOrTilde
+          primarydir = if anchoredToRulesDir then takeDirectory rulesfile else datadir
+          primarydesc | anchoredToRulesDir = " relative to rules file"
+                      | otherwise          = " in data directory"
+      (fs, dirdesc) <- liftIO $ do
+        primaryfs <- expandGlob primarydir pat >>= sortByModTime
+        if not (null primaryfs) || not plainRelative
+          then return (primaryfs, primarydesc)
+          else do
+            dlfs <- expandGlob dldir pat >>= sortByModTime
+            return (dlfs, " in download directory")
+      let fs' = dbg2 ("matched files"<>dirdesc<>", oldest first") fs
+      return $
+        if import_ && archive
+        then (headMay fs', " oldest file")
+        else (lastMay fs', " newest file")
+
+  -- 4. log which file we are reading/importing/cleaning/generating
+  --  needs: data file, data file description, import flag
+
+  case (mdatafile, datafiledesc) of
+    (Just f, desc) -> dbg1IO ("trying to " ++ (if import_ then "import" else "read") ++ desc) f
+    (Nothing, _)   -> return ()
+
+  -- 5. read raw, cleaned or generated data
+  --  needs: file pattern, data file, optional data file encoding, data command
+  --  gives: clean data (possibly empty)
+
+  mexistingdatafile <- maybe (return Nothing) (\f -> liftIO $ do
+    exists <- doesFileExist f
+    return $ if exists then Just f else Nothing
+    ) $ mdatafile
+  cleandata <- dbg1With (\t -> "read "++(show $ length $ T.lines t)++" lines") <$> case (mpat, mexistingdatafile, mcmd) of
+
+    -- file pattern, but no file found
+    (Just _, Nothing, _) -> -- trace "file pattern, but no file found" $
+      return ""
+
+    -- file found, and maybe a data cleaning command
+    (_, Just f,  mc) -> do  -- trace "file found" $
+      mencoding <- rulesEncoding rulesfile rules
+      liftIO $ do
+        raw <- openFileOrStdin f >>= hGetContentsPortably mencoding

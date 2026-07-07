@@ -1,0 +1,261 @@
+===== FILE: hledger/hledger.info =====
+This is hledger.info, produced by makeinfo version 7.3 from stdin.
+
+INFO-DIR-SECTION User Applications
+START-INFO-DIR-ENTRY
+* hledger: (hledger).  Command-line plain text accounting tool.
+END-INFO-DIR-ENTRY
+
+
+File: hledger.info,  Node: Top,  Next: PART 1 USER INTERFACE,  Up: (dir)
+
+hledger(1)
+**********
+
+hledger - a robust, friendly plain text accounting app (command line
+version).
+
+   'hledger'
+or
+'hledger COMMAND [OPTS] [ARGS]'
+
+   hledger is a robust, user-friendly, cross-platform set of programs
+for tracking money, time, or any other commodity, using double-entry
+accounting and a simple, editable file format.  hledger is inspired by
+and largely compatible with ledger(1), and largely interconvertible with
+beancount(1).
+
+   This manual is for hledger's command line interface, version 1.99.
+It also describes the common options, file formats and concepts used by
+all hledger programs.  It might accidentally teach you some
+bookkeeping/accounting as well!  You don't need to know everything in
+here to use hledger productively, but when you have a question about
+functionality, this doc should answer it.  It is detailed, so do skip
+ahead or skim when needed.  You can read it on hledger.org, or as an
+info manual or man page on your system.  You can also open a built-in
+copy, at a point of interest, by running
+'hledger --man [CMD]', 'hledger --info [CMD]' or 'hledger help [TOPIC]'.
+
+   (And for shorter help, try 'hledger --tldr [CMD]'.)
+
+   The main function of the hledger CLI is to read plain text files
+describing financial transactions, crunch the numbers, and print a
+useful report on the terminal (or save it as HTML, CSV, JSON or SQL).
+Many reports are available, as subcommands.  hledger will also detect
+other 'hledger-*' executables as extra subcommands.
+
+   hledger usually reads from (and appends to) a journal file specified
+by the 'LEDGER_FILE' environment variable (defaulting to
+'$HOME/.hledger.journal'); or you can specify files with '-f' options.
+It can also read timeclock files, timedot files, or any CSV/SSV/TSV file
+with a date field.
+
+   Here is a small journal file describing one transaction:
+
+2015-10-16 bought food
+  expenses:food          $10
+  assets:cash
+
+   Transactions are dated movements of money (etc.)  between two or more
+_accounts_: bank accounts, your wallet, revenue/expense categories,
+people, etc.  You can choose any account names you wish, using ':' to
+indicate subaccounts.  There must be at least two spaces between account
+name and amount.  Positive amounts are inflow to that account (_debit_),
+negatives are outflow from it (_credit_).  (Some reports show revenue,
+liability and equity account balances as negative numbers as a result;
+this is normal.)
+
+   hledger's add command can help you add transactions, or you can
+install other data entry UIs like hledger-web or hledger-iadd.  For more
+extensive/efficient changes, use a text editor: Emacs + ledger-mode, VIM
++ vim-ledger, or VS Code + hledger-vscode are some good choices (see
+https://hledger.org/editors.html).
+
+   To get started, run 'hledger add' and follow the prompts, or save
+some entries like the above in '$HOME/.hledger.journal', then try
+commands like:
+
+$ hledger print -x
+$ hledger aregister assets
+$ hledger balance
+$ hledger balancesheet
+$ hledger incomestatement
+
+   Run 'hledger' to list the commands.  See also the "Starting a journal
+file" and "Setting opening balances" sections in PART 5: COMMON TASKS.
+
+* Menu:
+
+* PART 1 USER INTERFACE::
+* Input::
+* Commands::
+* Options::
+* Output::
+* Environment::
+* PART 2 DATA FORMATS::
+* Journal::
+* CSV::
+* Timeclock::
+* Timedot::
+* PART 3 REPORTING CONCEPTS::
+* Time periods::
+* Report titles::
+* Depth::
+* Queries::
+* Pivoting::
+* Generating data::
+* Detecting special postings::
+* Forecasting::
+* Budgeting::
+* Amount formatting::
+* Cost reporting::
+* Value reporting::
+* Lot reporting::
+* PART 4 COMMANDS::
+* Help commands::
+* User interface commands::
+* Data entry commands::
+* Basic report commands::
+* Standard report commands::
+* Advanced report commands::
+* Chart commands::
+* Data generation commands::
+* Maintenance commands::
+* PART 5 COMMON TASKS::
+* BUGS::
+
+
+File: hledger.info,  Node: PART 1 USER INTERFACE,  Next: Input,  Prev: Top,  Up: Top
+
+1 PART 1: USER INTERFACE
+************************
+
+
+File: hledger.info,  Node: Input,  Next: Commands,  Prev: PART 1 USER INTERFACE,  Up: Top
+
+2 Input
+*******
+
+hledger reads one or more data files, each time you run it.  You can
+specify a file with '-f', like so
+
+$ hledger -f FILE [-f FILE2 ...] print
+
+   Files are most often in hledger's journal format, with the '.journal'
+file extension ('.hledger' or '.j' also work); these files describe
+transactions, like an accounting general journal.
+
+   When no file is specified, hledger looks for '.hledger.journal' in
+your home directory.
+
+   But most people prefer to keep financial files in a dedicated folder,
+perhaps with version control.  Also, starting a new journal file each
+year is common (it's not required, but helps keep things fast and
+organised).  So we usually configure a different journal file, by
+setting the 'LEDGER_FILE' environment variable, to something like
+'~/finance/2023.journal'.  For more about how to do that on your system,
+see Common tasks > Setting LEDGER_FILE.
+
+* Menu:
+
+* Text encoding::
+* Data formats::
+* Standard input::
+* Multiple files::
+* Strict mode::
+
+
+File: hledger.info,  Node: Text encoding,  Next: Data formats,  Up: Input
+
+2.1 Text encoding
+=================
+
+hledger expects non-ascii input to be decodable with the system locale's
+text encoding.  (For CSV/SSV/TSV files, this can be overridden by the
+'encoding' CSV rule.)
+
+   So, trying to read non-ascii files which have the wrong text
+encoding, or when no system locale is configured, will fail.  To fix
+this, configure your system locale appropriately, and/or convert the
+files to your system's text encoding (using 'iconv' on unix, or
+powershell or notepad on Windows).  See Install: Text encoding for more
+tips.
+
+   hledger's output will use the system locale's encoding.
+
+   hledger's docs and example files mostly use UTF-8 encoding.
+
+
+File: hledger.info,  Node: Data formats,  Next: Standard input,  Prev: Text encoding,  Up: Input
+
+2.2 Data formats
+================
+
+Usually the data file is in hledger's journal format, but it can be in
+any of the supported file formats, which currently are:
+
+Reader:        Reads:                             Automatically used for
+                                                  files with extensions:
+---------------------------------------------------------------------------
+'journal'      hledger journal files and some     '.journal' '.j'
+               Ledger journals, for               '.hledger' '.ledger'
+               transactions
+'timeclock'    timeclock files, for precise       '.timeclock'
+               time logging
+'timedot'      timedot files, for approximate     '.timedot'
+               time logging
+'csv'          Comma- or other                    '.csv'
+               delimiter-separated values, for
+               data import
+'ssv'          Semicolon separated values         '.ssv'
+'tsv'          Tab separated values               '.tsv'
+'rules'        CSV/SSV/TSV/other separated        '.rules'
+               values, alternate way
+
+   These formats are described in more detail below.
+
+   hledger detects the format automatically based on the file extensions
+shown above.  If it can't recognise the file extension, it assumes
+'journal' format.  So for non-journal files, it's important to use a
+recognised file extension, so as to either read successfully or to show
+relevant error messages.
+
+   You can also force a specific reader/format by prefixing the file
+path with the format and a colon.  Eg, to read a .dat file containing
+tab separated values:
+
+$ hledger -f tsv:/some/file.dat stats
+
+
+File: hledger.info,  Node: Standard input,  Next: Multiple files,  Prev: Data formats,  Up: Input
+
+2.3 Standard input
+==================
+
+The file name '-' means standard input:
+
+$ cat FILE | hledger -f- print
+
+   If reading non-journal data in this way, you'll need to write the
+format as a prefix, like 'timeclock:' here:
+
+$ echo 'i 2009/13/1 08:00:00' | hledger print -f timeclock:-
+
+
+File: hledger.info,  Node: Multiple files,  Next: Strict mode,  Prev: Standard input,  Up: Input
+
+2.4 Multiple files
+==================
+
+You can specify multiple '-f' options, to read multiple files as one big
+journal.  When doing this, note that certain features (described below)
+will be affected:
+
+   * Balance assertions will not see the effect of transactions in
+     previous files.  (Usually this doesn't matter as each file will set
+     the corresponding opening balances.)
+   * Some directives will not affect previous or subsequent files.
+
+   If needed, you can work around these by using a single parent file
+which includes the others, or concatenating the files into one, eg: 'cat
+a.journal b.journal | hledger -f- CMD'.

@@ -1,0 +1,779 @@
+===== watch flags/options =====
+hledger/hledger.1:325:You can run add\-on commands directly: \f[CR]hledger\-ui \-\-watch\f[R].
+hledger/hledger.1:328:\f[CR]hledger ui \-\-watch\f[R].
+hledger/hledger.1:10536:$ watchexec \-\- \(dqhledger import \-\-dry\-run bank.csv | hledger \-f\- \-I print unknown\(dq
+hledger/hledger.1:14843:\f[CR]hledger\-ui \-\-watch \-\-register checking \-C\f[R]
+hledger/hledger.info:340:   You can run add-on commands directly: 'hledger-ui --watch'.
+hledger/hledger.info:343:--watch'.  In this case hledger's config file will be used, so you can
+hledger/hledger.info:10133:$ watchexec -- "hledger import --dry-run bank.csv | hledger -f- -I print unknown"
+hledger/hledger.info:14543:live-updating register while you edit the journal: 'hledger-ui --watch
+hledger/test/README.md:70:    $ watchexec -w hledger/test/journal/assertions.test just functest -i balance-assertions.*19
+hledger/hledger.m4.md:236:You can run add-on commands directly: `hledger-ui --watch`.
+hledger/hledger.m4.md:238:Or you can run them with hledger, like built-in commands: `hledger ui --watch`. 
+hledger/hledger.m4.md:7996:`hledger-ui --watch --register checking -C`
+hledger/Hledger/Cli/Commands/Import.txt:79:$ watchexec -- "hledger import --dry-run bank.csv | hledger -f- -I print unknown"
+hledger/Hledger/Cli/Commands/Import.md:88:$ watchexec -- "hledger import --dry-run bank.csv | hledger -f- -I print unknown"
+hledger/CHANGES.md:1238:- import: use windows-compatible quotes in watchexec example
+hledger/CHANGES.md:3081:- bin/watchaccounts is a small shell script for watching the account tree as you make changes.
+hledger/hledger.txt:231:     You can run add-on commands directly: hledger-ui --watch.
+hledger/hledger.txt:234:     --watch.   In  this case hledger's config file will be used, so you can set
+hledger/hledger.txt:8016:            $ watchexec -- "hledger import --dry-run bank.csv | hledger -f- -I print unknown"
+hledger/hledger.txt:11648:     register while you edit the journal: hledger-ui --watch --register checking
+hledger-ui/test/uitest.md:226:hledger-ui --today 2021-09-01 -f forecast.journal --register a --forecast=2021 --watch, press F once
+hledger-ui/Hledger/UI/Main.hs:47:import System.FSNotify (Event(Added, Modified), watchDir, withManager, EventIsDirectory (IsFile))
+hledger-ui/Hledger/UI/Main.hs:297:      watchDate old = do
+hledger-ui/Hledger/UI/Main.hs:305:        watchDate new
+hledger-ui/Hledger/UI/Main.hs:309:      (getCurrentDay >>= watchDate)
+hledger-ui/Hledger/UI/Main.hs:323:        dbg1IO "directories to watch" directories
+hledger-ui/Hledger/UI/Main.hs:325:        forM_ directories $ \d -> watchDir
+hledger-ui/Hledger/UI/UITypes.hs:42:-- --watch reload leak (#1825). Note: this does not reach brick's GenericList.listSelected,
+hledger-ui/Hledger/UI/UITypes.hs:76:  ,ajournal      :: Journal   -- ^ the journal being viewed (can change with --watch).
+hledger-ui/Hledger/UI/UIOptions.hs:50:   flagNone ["watch","w"] (setboolopt "watch") "watch for data and date changes and reload automatically"
+hledger-ui/Hledger/UI/UIOptions.hs:111:       uoWatch    = boolopt "watch" rawopts
+hledger-ui/Hledger/UI/AccountsScreen.hs:232:    -- AppEvents come from the system, in --watch mode.
+hledger-ui/Hledger/UI/AccountsScreen.hs:241:    -- (Eg: when watching data for "today" and the time has just passed midnight.)
+hledger-ui/Hledger/UI/RegisterScreen.hs:240:            -- AppEvents arrive in --watch mode, see AccountsScreen
+hledger-ui/hledger-ui.txt:43:              -w --watch                watch for data and date changes and reload
+hledger-ui/hledger-ui.txt:204:     ing -w/--watch and viewing a narrowed period  containing  today,  the  view
+hledger-ui/hledger-ui.txt:381:     One of hledger-ui's best features is the  auto-reloading  -w/--watch  mode.
+hledger-ui/hledger-ui.txt:387:     file  open  in an editor window; and hledger-ui in watch mode in a terminal
+hledger-ui/hledger-ui.txt:390:            $ hledger-ui --watch --register checking -C
+hledger-ui/hledger-ui.txt:397:   --watch problems
+hledger-ui/hledger-ui.txt:398:     However. There are limitations/unresolved bugs with --watch:
+hledger-ui/hledger-ui.txt:401:       ration.   On some unix systems, increasing fs.inotify.max_user_watches or
+hledger-ui/hledger-ui.txt:410:       (This  is  probably not --watch specific, you may be able to reproduce it
+hledger-ui/hledger-ui.txt:415:     * If --watch won't work for you, press g to reload data manually instead.
+hledger-ui/hledger-ui.txt:417:     * If --watch is leaking resources over time, quit and restart  (or  suspend
+hledger-ui/hledger-ui.txt:439:     --watch is not robust, especially with large files (see WATCH MODE above).
+hledger-ui/hledger-ui.1:54:  \-w \-\-watch                watch for data and date changes and reload
+hledger-ui/hledger-ui.1:229:If you are using \f[CR]\-w/\-\-watch\f[R] and viewing a narrowed period
+hledger-ui/hledger-ui.1:432:\f[CR]\-w/\-\-watch\f[R] mode.
+hledger-ui/hledger-ui.1:439:window; and hledger\-ui in watch mode in a terminal window, eg:
+hledger-ui/hledger-ui.1:442:$ hledger\-ui \-\-watch \-\-register checking \-C
+hledger-ui/hledger-ui.1:450:.SS \-\-watch problems
+hledger-ui/hledger-ui.1:452:\f[CR]\-\-watch\f[R]:
+hledger-ui/hledger-ui.1:456:On some unix systems, increasing fs.inotify.max_user_watches or
+hledger-ui/hledger-ui.1:467:(This is probably not \-\-watch specific, you may be able to reproduce
+hledger-ui/hledger-ui.1:473:If \-\-watch won\(aqt work for you, press \f[CR]g\f[R] to reload data
+hledger-ui/hledger-ui.1:476:If \-\-watch is leaking resources over time, quit and restart (or
+hledger-ui/hledger-ui.1:497:\f[CR]\-\-watch\f[R] is not robust, especially with large files (see
+hledger-ui/CHANGES.md:159:- `--watch` mode now also detects changes from apps which overwrite the file, such as VS Code.
+hledger-ui/CHANGES.md:184:  eg when using the `E` or `g` keys or `--watch`.
+hledger-ui/CHANGES.md:187:- When the journal is reloaded by the `g` key or `--watch`, the
+hledger-ui/CHANGES.md:241:  possibly making hledger-ui --watch more reliable in this regard.
+hledger-ui/CHANGES.md:251:- Update --watch docs.
+hledger-ui/CHANGES.md:261:  which should help `hledger-ui --watch` a little.
+hledger-ui/CHANGES.md:267:- Update --watch notes
+hledger-ui/CHANGES.md:518:- A possible bug with detecting change of date while in --watch mode has been fixed.
+hledger-ui/CHANGES.md:591:- The `--watch` feature now has a convenient short flag, `-w`.
+hledger-ui/CHANGES.md:643:- Document watch mode and its limitations. (#1617, #911, #836)
+hledger-ui/CHANGES.md:661:  or `--watch`. (Stephen Morgan)
+hledger-ui/CHANGES.md:683:  reloading with `g` or `--watch` in the Transaction screen. (#1556)
+hledger-ui/CHANGES.md:1054:-   with --watch, the display updates automatically to show file or date changes
+hledger-ui/CHANGES.md:1056:    hledger-ui --watch will reload data when the journal file (or any included file) changes.
+hledger-ui/hledger-ui.m4.md:59:  -w --watch                watch for data and date changes and reload
+hledger-ui/hledger-ui.m4.md:129:If you are using `-w/--watch` and viewing a narrowed period containing today,
+hledger-ui/hledger-ui.m4.md:309:One of hledger-ui's best features is the auto-reloading `-w/--watch` mode.
+hledger-ui/hledger-ui.m4.md:316:and hledger-ui in watch mode in a terminal window, eg:
+hledger-ui/hledger-ui.m4.md:319:$ hledger-ui --watch --register checking -C
+hledger-ui/hledger-ui.m4.md:328:## --watch problems
+hledger-ui/hledger-ui.m4.md:330:*However.* There are limitations/unresolved bugs with `--watch`:
+hledger-ui/hledger-ui.m4.md:333:  On some unix systems, increasing fs.inotify.max_user_watches or fs.file-max parameters in /etc/sysctl.conf might help.
+hledger-ui/hledger-ui.m4.md:340:- If --watch won't work for you, press `g` to reload data manually instead.
+hledger-ui/hledger-ui.m4.md:358:`--watch` is not robust, especially with large files (see WATCH MODE above).
+hledger-ui/hledger-ui.info:67:  -w --watch                watch for data and date changes and reload
+hledger-ui/hledger-ui.info:239:to "today".  If you are using '-w/--watch' and viewing a narrowed period
+hledger-ui/hledger-ui.info:487:One of hledger-ui's best features is the auto-reloading '-w/--watch'
+hledger-ui/hledger-ui.info:493:journal file open in an editor window; and hledger-ui in watch mode in a
+hledger-ui/hledger-ui.info:496:$ hledger-ui --watch --register checking -C
+hledger-ui/hledger-ui.info:506:* --watch problems::
+hledger-ui/hledger-ui.info:509:File: hledger-ui.info,  Node: --watch problems,  Up: WATCH MODE
+hledger-ui/hledger-ui.info:511:5.1 -watch problems
+hledger-ui/hledger-ui.info:514:_However._  There are limitations/unresolved bugs with '--watch':
+hledger-ui/hledger-ui.info:518:     fs.inotify.max_user_watches or fs.file-max parameters in
+hledger-ui/hledger-ui.info:524:     files.  (This is probably not -watch specific, you may be able to
+hledger-ui/hledger-ui.info:529:   * If -watch won't work for you, press 'g' to reload data manually
+hledger-ui/hledger-ui.info:531:   * If -watch is leaking resources over time, quit and restart (or
+hledger-ui/hledger-ui.info:561:   '--watch' is not robust, especially with large files (see WATCH MODE
+hledger-ui/hledger-ui.info:583:Node: --watch problems22400
+hledger-lib/Hledger/Reports/ReportOptions.hs:1087:-- declarations change. Long-lived sessions (hledger-ui watch,
+
+===== fsnotify/hfsnotify refs =====
+hledger/embeddedfiles/install.cast:248:[63.583791, "o", "Trying stack install --install-ghc --resolver=lts-20.14 hledger-1.29.1 hledger-lib-1.29.1 brick-1.6 fsnotify-0.4.1.0 --verbosity=error\r\n"]
+hledger/embeddedfiles/install.cast:489:[78.886608, "o", "Progress 122/135: fsnotify, network, profunctors"]
+hledger/embeddedfiles/install.cast:761:[208.650852, "o", "Trying stack install --install-ghc --resolver=lts-20.14 hledger-ui-1.29.1 hledger-1.29.1 hledger-lib-1.29.1 brick-1.6 fsnotify-0.4.1.0 --verbosity=error\r\n"]
+hledger/embeddedfiles/install.cast:947:[216.996719, "o", "Progress 93/138: assoc, config-ini, fsnotify, profunctors, resourcet, semigroupoids, tasty, typed-process"]
+hledger/embeddedfiles/install.cast:949:[217.075651, "o", "Progress 94/138: assoc, config-ini, fsnotify, profunctors, semigroupoids, tasty, typed-process, uuid-types"]
+hledger/embeddedfiles/install.cast:951:[217.156588, "o", "Progress 95/138: assoc, fsnotify, profunctors, semigroupoids, tasty, typed-process, uuid-types, vector"]
+hledger/embeddedfiles/install.cast:953:[217.235479, "o", "Progress 96/138: assoc, fsnotify, profunctors, semigroupoids, tasty-hunit, typed-process, uuid-types, vector"]
+hledger/embeddedfiles/install.cast:955:[217.31554, "o", "Progress 97/138: fsnotify, profunctors, semigroupoids, tasty-hunit, these, typed-process, uuid-types, vector"]
+hledger/embeddedfiles/install.cast:957:[217.395707, "o", "Progress 98/138: fsnotify, semigroupoids, tasty-hunit, these, typed-process, uuid-types, vector, wizards"]
+hledger/embeddedfiles/install.cast:959:[217.475722, "o", "Progress 99/138: fsnotify, tasty-hunit, these, typed-process, uuid-types, vector, wizards, word-wrap"]
+hledger/embeddedfiles/install.cast:961:[217.555779, "o", "Progress 100/138: fsnotify, tasty-hunit, these, uuid-types, vector, wizards, word-wrap, zlib"]
+hledger/embeddedfiles/install.cast:1023:[235.908629, "o", "Trying stack install --install-ghc --resolver=lts-20.14 hledger-web-1.29.1 hledger-1.29.1 hledger-lib-1.29.1 brick-1.6 fsnotify-0.4.1.0 --verbosity=error\r\n"]
+hledger/embeddedfiles/install.cast:1326:[250.246706, "o", "Progress 151/240: attoparsec-iso8601, fsnotify, http2, lifted-base, socks, these, typed-process, unliftio"]
+hledger/embeddedfiles/install.cast:1328:[250.352989, "o", "Progress 152/240: attoparsec-iso8601, fsnotify, http2, lifted-base, socks, strict, typed-process, unliftio"]
+hledger/embeddedfiles/install.cast:1330:[250.435311, "o", "Progress 153/240: attoparsec-iso8601, fsnotify, http2, lifted-base, socks, strict, tasty-hunit, unliftio"]
+hledger/embeddedfiles/install.cast:1332:[250.551988, "o", "Progress 154/240: attoparsec-iso8601, fsnotify, http2, lifted-base, socks, strict, tasty-hunit, unordered-containers"]
+hledger-ui/test/UITestUtils.hs:10:full picture and whose @nextEvent@ replays a scripted list of events. brick reads
+hledger-ui/test/UITestUtils.hs:11:input only via @nextEvent vty@, so scripted events are fed by overriding that one
+hledger-ui/test/UITestUtils.hs:28:  of hanging on the blocking @nextEvent@.
+hledger-ui/test/UITestUtils.hs:38:  -- * Event helpers
+hledger-ui/test/UITestUtils.hs:69:import Graphics.Vty (Vty(..), Event(..), Key(..), Picture, DisplayRegion)
+hledger-ui/test/UITestUtils.hs:102:-- 'nextEvent' and only queries 'displayBounds' on the output, both satisfied here.
+hledger-ui/test/UITestUtils.hs:103:headlessVty :: DisplayRegion -> TChan Event -> IORef [Picture] -> IO Vty
+hledger-ui/test/UITestUtils.hs:106:  stubChan <- newTChanIO  -- never read; brick reads via nextEvent below
+hledger-ui/test/UITestUtils.hs:115:    , nextEvent            = atomically (readTChan evchan)
+hledger-ui/test/UITestUtils.hs:116:    , nextEventNonblocking = atomically (tryReadTChan evchan)
+hledger-ui/test/UITestUtils.hs:128:driveUI :: UIOpts -> Journal -> [Event] -> IO ([UIState], [Picture])
+hledger-ui/test/UITestUtils.hs:137:      app = (brickApp (uoTheme uopts)){appHandleEvent = \ev -> uiHandle ev >> snapshot}
+hledger-ui/test/UITestUtils.hs:147:-- Event helpers ------------------------------------------------------------------
+hledger-ui/test/UITestUtils.hs:149:key :: Char -> Event
+hledger-ui/test/UITestUtils.hs:152:keyEnter, keyRight, keyLeft, keyDown, keyUp :: Event
+hledger-ui/Hledger/UI/UIUtils.hs:18:  ,moveDownEvents
+hledger-ui/Hledger/UI/UIUtils.hs:19:  ,moveLeftEvents
+hledger-ui/Hledger/UI/UIUtils.hs:20:  ,moveRightEvents
+hledger-ui/Hledger/UI/UIUtils.hs:21:  ,moveUpEvents
+hledger-ui/Hledger/UI/UIUtils.hs:45:  ,sendVtyEvents  -- currently unused, kept (and exported, to avoid an unused-binding warning) for future use
+hledger-ui/Hledger/UI/UIUtils.hs:62:  (Event(..),Key(..),Modifier(..),Vty(..),Color,Attr,currentAttr,refresh, displayBounds
+hledger-ui/Hledger/UI/UIUtils.hs:64:  ,Vty (inputIface), InternalEvent (InputEvent), Input (eventChannel)
+hledger-ui/Hledger/UI/UIUtils.hs:132:suspend :: Ord a => s -> EventM a s ()
+hledger-ui/Hledger/UI/UIUtils.hs:136:redraw :: EventM a s ()
+hledger-ui/Hledger/UI/UIUtils.hs:227:-- | Event handler used when help mode is active.
+hledger-ui/Hledger/UI/UIUtils.hs:229:helpHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UIUtils.hs:234:    VtyEvent e | e `elem` closeHelpEvents -> put' ui'
+hledger-ui/Hledger/UI/UIUtils.hs:235:    VtyEvent (EvKey (KChar 'p') []) -> suspendAndResume (runPagerForTopic "hledger-ui" Nothing >> return ui')
+hledger-ui/Hledger/UI/UIUtils.hs:236:    VtyEvent (EvKey (KChar 'm') []) -> suspendAndResume (runManForTopic   "hledger-ui" Nothing >> return ui')
+hledger-ui/Hledger/UI/UIUtils.hs:237:    VtyEvent (EvKey (KChar 'i') []) -> suspendAndResume (runInfoForTopic  "hledger-ui" Nothing >> return ui')
+hledger-ui/Hledger/UI/UIUtils.hs:240:    closeHelpEvents = moveLeftEvents ++ [EvKey KEsc [], EvKey (KChar '?') [], EvKey (KChar 'q') []]
+hledger-ui/Hledger/UI/UIUtils.hs:374:--continueWith :: EventM n () -> ui -> EventM n (Next ui)
+hledger-ui/Hledger/UI/UIUtils.hs:379:--scrollToTop :: List Name e -> EventM Name ()
+hledger-ui/Hledger/UI/UIUtils.hs:386:scrollSelectionToMiddle :: Brick.Widgets.List.List Name item -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UIUtils.hs:400:moveUpEvents    = [EvKey KUp []   , EvKey (KChar 'k') [], EvKey (KChar 'p') [MCtrl]]
+hledger-ui/Hledger/UI/UIUtils.hs:401:moveDownEvents  = [EvKey KDown [] , EvKey (KChar 'j') [], EvKey (KChar 'n') [MCtrl]]
+hledger-ui/Hledger/UI/UIUtils.hs:402:moveLeftEvents  = [EvKey KLeft [] , EvKey (KChar 'h') [], EvKey (KChar 'b') [MCtrl]]
+hledger-ui/Hledger/UI/UIUtils.hs:403:moveRightEvents = [EvKey KRight [], EvKey (KChar 'l') [], EvKey (KChar 'f') [MCtrl], EvKey KEnter []]
+hledger-ui/Hledger/UI/UIUtils.hs:406:  | ev `elem` moveUpEvents    = EvKey KUp []
+hledger-ui/Hledger/UI/UIUtils.hs:407:  | ev `elem` moveDownEvents  = EvKey KDown []
+hledger-ui/Hledger/UI/UIUtils.hs:408:  | ev `elem` moveLeftEvents  = EvKey KLeft []
+hledger-ui/Hledger/UI/UIUtils.hs:409:  | ev `elem` moveRightEvents = EvKey KRight []
+hledger-ui/Hledger/UI/UIUtils.hs:436:listScrollPushingSelection :: Name -> Int -> Int -> EventM Name (Brick.Widgets.List.List Name item) (GenericList Name Vector item)
+hledger-ui/Hledger/UI/UIUtils.hs:464:-- | Like dbgui, but convenient to use in EventM handlers.
+hledger-ui/Hledger/UI/UIUtils.hs:465:dbguiEv :: String -> EventM Name s ()
+hledger-ui/Hledger/UI/UIUtils.hs:471:dbguiScreensEv :: String -> (Screen -> String) -> UIState -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UIUtils.hs:542:sendVtyEvents :: [Event] -> EventM n s ()
+hledger-ui/Hledger/UI/UIUtils.hs:543:sendVtyEvents evs = do
+hledger-ui/Hledger/UI/UIUtils.hs:545:  liftIO $ atomically $ mapM_ (writeTChan input . InputEvent) evs
+hledger-ui/Hledger/UI/TransactionScreen.hs:22:import Graphics.Vty (Event(..),Key(..),Modifier(..), Button (BLeft))
+hledger-ui/Hledger/UI/TransactionScreen.hs:113:tsHandle :: TransactionScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/TransactionScreen.hs:124:            -- VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/TransactionScreen.hs:125:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/TransactionScreen.hs:126:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:135:            VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/TransactionScreen.hs:136:            VtyEvent (EvKey KEsc        []) -> put' $ resetScreens d ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:137:            VtyEvent (EvKey (KChar c)   []) | c == '?' -> put' $ setMode Help ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:140:            e | e `elem` [VtyEvent (EvKey (KChar 'g') []), AppEvent FileChange] ->
+hledger-ui/Hledger/UI/TransactionScreen.hs:148:            VtyEvent (EvKey (KChar 'E') []) -> do
+hledger-ui/Hledger/UI/TransactionScreen.hs:157:            AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+hledger-ui/Hledger/UI/TransactionScreen.hs:162:            VtyEvent (EvKey (KChar 'I') []) -> uiToggleBalanceAssertions d ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:169:            VtyEvent (EvKey (KChar 'B') []) -> put' . regenerateScreens d $ toggleConversionOp ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:170:            VtyEvent (EvKey (KChar 'V') []) -> put' . regenerateScreens d $ toggleValue ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:171:            VtyEvent (EvKey (KChar 'L') []) -> put' . regenerateScreens d $ toggleLots ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:173:            VtyEvent e | e `elem` moveUpEvents   -> put' $ tsSelect iprev tprev ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:174:            VtyEvent e | e `elem` moveDownEvents -> put' $ tsSelect inext tnext ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:177:            VtyEvent e | e `elem` moveLeftEvents -> put' . popScreen $ tsSelect i t ui  -- Probably not necessary to tsSelect here, but it's safe.
+hledger-ui/Hledger/UI/TransactionScreen.hs:179:            VtyEvent (EvMouseUp x _y (Just BLeft)) | x==0 -> put' . popScreen $ tsSelect i t ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:181:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/TransactionScreen.hs:182:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/Main.hs:47:import System.FSNotify (Event(Added, Modified), watchDir, withManager, EventIsDirectory (IsFile))
+hledger-ui/Hledger/UI/Main.hs:316:      -- withManagerConf defaultConfig{confDebounce=Debounce 1} $ \mgr -> do
+hledger-ui/Hledger/UI/Main.hs:319:      withManager $ \mgr -> do
+hledger-ui/Hledger/UI/Main.hs:325:        forM_ directories $ \d -> watchDir
+hledger-ui/Hledger/UI/Main.hs:339:            -- return $ dbglog "fsnotify" $ showFSNEvent fev -- not working
+hledger-ui/Hledger/UI/Main.hs:340:            dbg1IO "fsnotify" $ show fev
+hledger-ui/Hledger/UI/Main.hs:344:        -- and start the app. Must be inside the withManager block. (XXX makevty too ?)
+hledger-ui/Hledger/UI/Main.hs:348:brickApp :: Maybe String -> App UIState AppEvent Name
+hledger-ui/Hledger/UI/Main.hs:350:    appStartEvent   = return ()
+hledger-ui/Hledger/UI/Main.hs:353:  , appHandleEvent  = uiHandle
+hledger-ui/Hledger/UI/Main.hs:357:uiHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/ErrorScreen.hs:25:import Graphics.Vty (Event(..),Key(..),Modifier(..))
+hledger-ui/Hledger/UI/ErrorScreen.hs:65:esHandle :: ErrorScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/ErrorScreen.hs:76:            VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/ErrorScreen.hs:77:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/ErrorScreen.hs:78:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/ErrorScreen.hs:84:            VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/ErrorScreen.hs:85:            VtyEvent (EvKey KEsc        []) -> put' $ uiCheckBalanceAssertions d $ resetScreens d ui
+hledger-ui/Hledger/UI/ErrorScreen.hs:86:            VtyEvent (EvKey (KChar c)   []) | c `elem` ['h','?'] -> put' $ setMode Help ui
+hledger-ui/Hledger/UI/ErrorScreen.hs:89:            e | e `elem` [VtyEvent (EvKey (KChar 'g') []), AppEvent FileChange] -> esReload copts d ui
+hledger-ui/Hledger/UI/ErrorScreen.hs:92:            VtyEvent (EvKey (KChar 'E') []) -> do
+hledger-ui/Hledger/UI/ErrorScreen.hs:101:            VtyEvent (EvKey (KChar 'I') []) -> uiToggleBalanceAssertions d (popScreen ui)
+hledger-ui/Hledger/UI/ErrorScreen.hs:102:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/ErrorScreen.hs:103:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/ErrorScreen.hs:157:uiReload :: CliOpts -> Day -> UIState -> EventM Name UIState UIState
+hledger-ui/Hledger/UI/ErrorScreen.hs:222:uiToggleBalanceAssertions :: Day -> UIState -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UITypes.hs:13:    brickapp :: App (UIState) V.Event
+hledger-ui/Hledger/UI/UITypes.hs:15:        appLiftVtyEvent = id
+hledger-ui/Hledger/UI/UITypes.hs:16:      , appStartEvent   = return
+hledger-ui/Hledger/UI/UITypes.hs:19:      , appHandleEvent  = \st ev -> sHandle (aScreen st) st ev
+hledger-ui/Hledger/UI/UITypes.hs:62:data AppEvent =
+hledger-ui/Hledger/UI/UITypes.hs:144:--       ,sHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()  -- ^ brick event handler for this screen
+hledger-ui/Hledger/UI/UITypes.hs:152:--       ,sHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UITypes.hs:163:--       ,sHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UITypes.hs:172:--       ,sHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/AccountsScreen.hs:37:import Graphics.Vty (Event(..),Key(..),Modifier(..), Button (BLeft, BScrollDown, BScrollUp))
+hledger-ui/Hledger/UI/AccountsScreen.hs:193:asHandle :: AccountsScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/AccountsScreen.hs:206:asHandleNormalMode :: AccountsScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/AccountsScreen.hs:226:    VtyEvent (EvKey (KChar 'q') []) -> halt                               -- q: quit
+hledger-ui/Hledger/UI/AccountsScreen.hs:227:    VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui                    -- C-z: suspend
+hledger-ui/Hledger/UI/AccountsScreen.hs:228:    VtyEvent (EvKey (KChar 'l') [MCtrl]) -> centerSelection >> redraw     -- C-l: redraw
+hledger-ui/Hledger/UI/AccountsScreen.hs:229:    VtyEvent (EvKey KEsc        []) -> modify' (resetScreens d)           -- ESC: reset
+hledger-ui/Hledger/UI/AccountsScreen.hs:230:    VtyEvent (EvKey (KChar c)   []) | c == '?' -> modify' (setMode Help)  -- ?: enter help mode
+hledger-ui/Hledger/UI/AccountsScreen.hs:232:    -- AppEvents come from the system, in --watch mode.
+hledger-ui/Hledger/UI/AccountsScreen.hs:236:    e | e `elem` [AppEvent FileChange, VtyEvent (EvKey (KChar 'g') [])] ->
+hledger-ui/Hledger/UI/AccountsScreen.hs:242:    AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+hledger-ui/Hledger/UI/AccountsScreen.hs:247:    VtyEvent (EvKey (KChar '/') []) -> modify' (showMinibuffer "filter" Nothing >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:248:    VtyEvent (EvKey k           []) | k `elem` [KBS, KDel] -> modify' (resetFilter >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:251:    VtyEvent (EvKey (KChar 'a') []) -> suspendAndResume $ clearScreen >> setCursorPosition 0 0 >> add (cliOptsDropArgs copts) j >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:252:    VtyEvent (EvKey (KChar 'A') []) -> suspendAndResume $ void (runIadd (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:253:    VtyEvent (EvKey (KChar 'E') []) -> suspendAndResume $ void (runEditor endPosition (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:255:    VtyEvent (EvKey (KChar 'J') []) -> do
+hledger-ui/Hledger/UI/AccountsScreen.hs:263:    VtyEvent (EvKey (KChar 'K') []) -> do
+hledger-ui/Hledger/UI/AccountsScreen.hs:268:    VtyEvent (EvKey (KChar 'T') []) ->       modify' (setReportPeriod (DayPeriod d)    >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:269:    VtyEvent (EvKey (KDown)     [MShift]) -> modify' (shrinkReportPeriod d             >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:270:    VtyEvent (EvKey (KUp)       [MShift]) -> modify' (growReportPeriod d               >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:271:    VtyEvent (EvKey (KRight)    [MShift]) -> modify' (nextReportPeriod journalspan     >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:272:    VtyEvent (EvKey (KLeft)     [MShift]) -> modify' (previousReportPeriod journalspan >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:275:    VtyEvent (EvKey (KChar 'I') []) -> get' >>= uiToggleBalanceAssertions d
+hledger-ui/Hledger/UI/AccountsScreen.hs:276:    VtyEvent (EvKey (KChar 'F') []) -> modify' (toggleForecast d   >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:277:    VtyEvent (EvKey (KChar 'B') []) -> modify' (toggleConversionOp >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:278:    VtyEvent (EvKey (KChar 'V') []) -> modify' (toggleValue        >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:279:    VtyEvent (EvKey (KChar '0') []) -> modify' (setDepth (Just 0)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:280:    VtyEvent (EvKey (KChar '1') []) -> modify' (setDepth (Just 1)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:281:    VtyEvent (EvKey (KChar '2') []) -> modify' (setDepth (Just 2)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:282:    VtyEvent (EvKey (KChar '3') []) -> modify' (setDepth (Just 3)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:283:    VtyEvent (EvKey (KChar '4') []) -> modify' (setDepth (Just 4)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:284:    VtyEvent (EvKey (KChar '5') []) -> modify' (setDepth (Just 5)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:285:    VtyEvent (EvKey (KChar '6') []) -> modify' (setDepth (Just 6)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:286:    VtyEvent (EvKey (KChar '7') []) -> modify' (setDepth (Just 7)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:287:    VtyEvent (EvKey (KChar '8') []) -> modify' (setDepth (Just 8)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:288:    VtyEvent (EvKey (KChar '9') []) -> modify' (setDepth (Just 9)  >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:289:    VtyEvent (EvKey (KChar c) []) | c `elem` ['-','_'] -> modify' (decDepth >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:290:    VtyEvent (EvKey (KChar c) []) | c `elem` ['+','='] -> modify' (incDepth >>> regenerateScreens d)
+hledger-ui/Hledger/UI/AccountsScreen.hs:292:    VtyEvent (EvKey (KChar 'L') []) -> modify' (toggleLots         >>> regenerateScreens d) >> centerSelection
+hledger-ui/Hledger/UI/AccountsScreen.hs:293:    VtyEvent (EvKey (KChar 'H') []) -> modify' (toggleHistorical   >>> regenerateScreens d) >> centerSelection  -- harmless on BS/IS screens
+hledger-ui/Hledger/UI/AccountsScreen.hs:294:    VtyEvent (EvKey (KChar 't') []) -> modify' (toggleTree         >>> regenerateScreens d) >> centerSelection
+hledger-ui/Hledger/UI/AccountsScreen.hs:295:    VtyEvent (EvKey (KChar 'R') []) -> modify' (toggleReal         >>> regenerateScreens d) >> centerSelection
+hledger-ui/Hledger/UI/AccountsScreen.hs:296:    VtyEvent (EvKey (KChar 'U') []) -> modify' (toggleUnmarked     >>> regenerateScreens d) >> centerSelection
+hledger-ui/Hledger/UI/AccountsScreen.hs:297:    VtyEvent (EvKey (KChar 'P') []) -> modify' (togglePending      >>> regenerateScreens d) >> centerSelection
+hledger-ui/Hledger/UI/AccountsScreen.hs:298:    VtyEvent (EvKey (KChar 'C') []) -> modify' (toggleCleared      >>> regenerateScreens d) >> centerSelection
+hledger-ui/Hledger/UI/AccountsScreen.hs:299:    VtyEvent (EvKey (KChar c) []) | c `elem` ['z','Z'] -> modify' (toggleEmpty >>> regenerateScreens d) >> centerSelection  -- back compat: accept Z as well as z
+hledger-ui/Hledger/UI/AccountsScreen.hs:302:    VtyEvent e | e `elem` moveLeftEvents  -> modify' popScreen
+hledger-ui/Hledger/UI/AccountsScreen.hs:303:    VtyEvent (EvMouseUp 0 _ (Just BLeft)) -> modify' popScreen  -- this mouse click is a VtyEvent since not in a clickable widget
+hledger-ui/Hledger/UI/AccountsScreen.hs:306:    VtyEvent e | e `elem` moveRightEvents, not $ isBlankItem $ listSelectedElement l -> enterRegisterScreen d selacct ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:320:      l' <- nestEventM' l $ listScrollPushingSelection name (asListSize l) scrollamt
+hledger-ui/Hledger/UI/AccountsScreen.hs:325:    VtyEvent e@(EvKey k []) | k `elem` [KPageDown, KEnd] -> do
+hledger-ui/Hledger/UI/AccountsScreen.hs:326:      l1 <- nestEventM' l $ handleListEvent e
+hledger-ui/Hledger/UI/AccountsScreen.hs:336:    VtyEvent e | e `elem` moveDownEvents, isBlankItem mnextelement -> vScrollBy (viewportScroll $ l^.listNameL) 1
+hledger-ui/Hledger/UI/AccountsScreen.hs:340:    VtyEvent e -> do
+hledger-ui/Hledger/UI/AccountsScreen.hs:341:      l' <- nestEventM' l $ handleListEvent (normaliseMovementKeys e)
+hledger-ui/Hledger/UI/AccountsScreen.hs:347:    AppEvent _  -> return ()
+hledger-ui/Hledger/UI/AccountsScreen.hs:354:    VtyEvent (EvKey KEsc   []) -> put' $ closeMinibuffer ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:355:    VtyEvent (EvKey KEnter []) -> put' $ regenerateScreens d ui'
+hledger-ui/Hledger/UI/AccountsScreen.hs:360:    VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/AccountsScreen.hs:361:    VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:362:    VtyEvent e -> do
+hledger-ui/Hledger/UI/AccountsScreen.hs:363:      ed' <- nestEventM' ed $ handleEditorEvent (VtyEvent e)
+hledger-ui/Hledger/UI/AccountsScreen.hs:365:    AppEvent _  -> return ()
+hledger-ui/Hledger/UI/AccountsScreen.hs:373:    -- VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/AccountsScreen.hs:374:    VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/AccountsScreen.hs:375:    VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:378:enterRegisterScreen :: Day -> AccountName -> UIState -> EventM Name UIState ()
+hledger-ui/Hledger/UI/RegisterScreen.hs:31:import Graphics.Vty (Event(..),Key(..),Modifier(..), Button (BLeft, BScrollDown, BScrollUp))
+hledger-ui/Hledger/UI/RegisterScreen.hs:186:rsHandle :: RegisterScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/RegisterScreen.hs:211:            VtyEvent (EvKey KEsc   []) -> modify' closeMinibuffer
+hledger-ui/Hledger/UI/RegisterScreen.hs:212:            VtyEvent (EvKey KEnter []) -> put' $ regenerateScreens d $
+hledger-ui/Hledger/UI/RegisterScreen.hs:217:            -- VtyEvent (EvKey (KChar '/') []) -> put' $ regenerateScreens d $ showMinibuffer ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:218:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/RegisterScreen.hs:219:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:220:            VtyEvent e -> do
+hledger-ui/Hledger/UI/RegisterScreen.hs:221:              ed' <- nestEventM' ed $ handleEditorEvent (VtyEvent e)
+hledger-ui/Hledger/UI/RegisterScreen.hs:223:            AppEvent _  -> return ()
+hledger-ui/Hledger/UI/RegisterScreen.hs:229:            -- VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/RegisterScreen.hs:230:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/RegisterScreen.hs:231:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:236:            VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/RegisterScreen.hs:237:            VtyEvent (EvKey KEsc        []) -> put' $ resetScreens d ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:238:            VtyEvent (EvKey (KChar c)   []) | c == '?' -> put' $ setMode Help ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:240:            -- AppEvents arrive in --watch mode, see AccountsScreen
+hledger-ui/Hledger/UI/RegisterScreen.hs:241:            AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+hledger-ui/Hledger/UI/RegisterScreen.hs:246:            e | e `elem` [AppEvent FileChange, VtyEvent (EvKey (KChar 'g') [])] -> uiReload copts d ui >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:248:            VtyEvent (EvKey (KChar 'I') []) -> uiToggleBalanceAssertions d ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:249:            VtyEvent (EvKey (KChar 'a') []) -> suspendAndResume $ clearScreen >> setCursorPosition 0 0 >> add (cliOptsDropArgs copts) j >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:250:            VtyEvent (EvKey (KChar 'A') []) -> suspendAndResume $ void (runIadd (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:251:            VtyEvent (EvKey (KChar 'T') []) -> put' $ regenerateScreens d $ setReportPeriod (DayPeriod d) ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:252:            VtyEvent (EvKey (KChar 'E') []) -> suspendAndResume $ void (runEditor pos f) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:260:            VtyEvent (EvKey (KChar 'B') []) -> rsCenterSelection (regenerateScreens d $ toggleConversionOp ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:261:            VtyEvent (EvKey (KChar 'V') []) -> rsCenterSelection (regenerateScreens d $ toggleValue ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:262:            VtyEvent (EvKey (KChar 'H') []) -> rsCenterSelection (regenerateScreens d $ toggleHistorical ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:263:            VtyEvent (EvKey (KChar 't') []) -> rsCenterSelection (regenerateScreens d $ toggleTree ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:264:            VtyEvent (EvKey (KChar c) []) | c `elem` ['z','Z'] -> rsCenterSelection (regenerateScreens d $ toggleEmpty ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:265:            VtyEvent (EvKey (KChar 'R') []) -> rsCenterSelection (regenerateScreens d $ toggleReal ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:266:            VtyEvent (EvKey (KChar 'U') []) -> rsCenterSelection (regenerateScreens d $ toggleUnmarked ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:267:            VtyEvent (EvKey (KChar 'P') []) -> rsCenterSelection (regenerateScreens d $ togglePending ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:268:            VtyEvent (EvKey (KChar 'C') []) -> rsCenterSelection (regenerateScreens d $ toggleCleared ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:269:            VtyEvent (EvKey (KChar 'F') []) -> rsCenterSelection (regenerateScreens d $ toggleForecast d ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:270:            VtyEvent (EvKey (KChar 'L') []) -> rsCenterSelection (regenerateScreens d $ toggleLots ui) >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:271:            VtyEvent (EvKey (KChar 'J') []) -> do
+hledger-ui/Hledger/UI/RegisterScreen.hs:278:            VtyEvent (EvKey (KChar 'K') []) -> do
+hledger-ui/Hledger/UI/RegisterScreen.hs:281:            VtyEvent (EvKey (KChar '/') []) -> put' $ regenerateScreens d $ showMinibuffer "filter" Nothing ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:282:            VtyEvent (EvKey (KDown)     [MShift]) -> put' $ regenerateScreens d $ shrinkReportPeriod d ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:283:            VtyEvent (EvKey (KUp)       [MShift]) -> put' $ regenerateScreens d $ growReportPeriod d ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:284:            VtyEvent (EvKey (KRight)    [MShift]) -> put' $ regenerateScreens d $ nextReportPeriod journalspan ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:285:            VtyEvent (EvKey (KLeft)     [MShift]) -> put' $ regenerateScreens d $ previousReportPeriod journalspan ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:286:            VtyEvent (EvKey k           []) | k `elem` [KBS, KDel] -> (put' $ regenerateScreens d $ resetFilter ui)
+hledger-ui/Hledger/UI/RegisterScreen.hs:287:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> scrollSelectionToMiddle _rssList >> redraw
+hledger-ui/Hledger/UI/RegisterScreen.hs:288:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:291:            VtyEvent e | e `elem` moveLeftEvents  -> put' $ popScreen ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:292:            -- or on a click in the app's left margin. This is a VtyEvent since not in a clickable widget.
+hledger-ui/Hledger/UI/RegisterScreen.hs:293:            VtyEvent (EvMouseUp x _y (Just BLeft)) | x==0 -> put' $ popScreen ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:296:            VtyEvent e | e `elem` moveRightEvents ->
+hledger-ui/Hledger/UI/RegisterScreen.hs:310:            VtyEvent e | e `elem` moveDownEvents, isBlankElement mnextelement -> do
+hledger-ui/Hledger/UI/RegisterScreen.hs:318:              list' <- nestEventM' _rssList $ listScrollPushingSelection name (rsListSize _rssList) scrollamt
+hledger-ui/Hledger/UI/RegisterScreen.hs:322:            VtyEvent e@(EvKey k           []) | k `elem` [KPageDown, KEnd] -> do
+hledger-ui/Hledger/UI/RegisterScreen.hs:323:              l <- nestEventM' _rssList $ handleListEvent e
+hledger-ui/Hledger/UI/RegisterScreen.hs:333:            VtyEvent e -> do
+hledger-ui/Hledger/UI/RegisterScreen.hs:335:              newitems <- nestEventM' _rssList $ handleListEvent e'
+hledger-ui/Hledger/UI/RegisterScreen.hs:340:            AppEvent _        -> return ()
+hledger-ui/Hledger/UI/RegisterScreen.hs:354:rsCenterSelection :: UIState -> EventM Name UIState UIState
+hledger-ui/Hledger/UI/RegisterScreen.hs:360:rsEnterTransactionScreen :: AccountName -> Bool -> [NumberedTransaction] -> NumberedTransaction -> UIState -> EventM Name UIState ()
+hledger-ui/Hledger/UI/MenuScreen.hs:24:import Graphics.Vty (Event(..),Key(..),Modifier(..), Button (BLeft, BScrollDown, BScrollUp))
+hledger-ui/Hledger/UI/MenuScreen.hs:38:import Brick.Widgets.Edit (getEditContents, handleEditorEvent)
+hledger-ui/Hledger/UI/MenuScreen.hs:98:msHandle :: MenuScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/MenuScreen.hs:121:            VtyEvent (EvKey KEsc   []) -> put' $ closeMinibuffer ui
+hledger-ui/Hledger/UI/MenuScreen.hs:122:            VtyEvent (EvKey KEnter []) -> put' $ regenerateScreens d $
+hledger-ui/Hledger/UI/MenuScreen.hs:127:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/MenuScreen.hs:128:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/MenuScreen.hs:129:            VtyEvent e -> do
+hledger-ui/Hledger/UI/MenuScreen.hs:130:              ed' <- nestEventM' ed $ handleEditorEvent (VtyEvent e)
+hledger-ui/Hledger/UI/MenuScreen.hs:132:            AppEvent _  -> return ()
+hledger-ui/Hledger/UI/MenuScreen.hs:138:            -- VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/MenuScreen.hs:139:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/MenuScreen.hs:140:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/MenuScreen.hs:145:            VtyEvent (EvKey (KChar 'q') []) -> halt
+hledger-ui/Hledger/UI/MenuScreen.hs:147:            VtyEvent (EvKey KEsc        []) -> put' $ resetScreens d ui
+hledger-ui/Hledger/UI/MenuScreen.hs:148:            VtyEvent (EvKey (KChar c)   []) | c == '?' -> put' $ setMode Help ui
+hledger-ui/Hledger/UI/MenuScreen.hs:149:            -- XXX AppEvents currently handled only in Normal mode
+hledger-ui/Hledger/UI/MenuScreen.hs:151:            AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+hledger-ui/Hledger/UI/MenuScreen.hs:155:            e | e `elem` [VtyEvent (EvKey (KChar 'g') []), AppEvent FileChange] -> uiReload copts d ui >>= put'
+hledger-ui/Hledger/UI/MenuScreen.hs:156:            VtyEvent (EvKey (KChar 'I') []) -> uiToggleBalanceAssertions d ui
+hledger-ui/Hledger/UI/MenuScreen.hs:157:            VtyEvent (EvKey (KChar 'a') []) -> suspendAndResume $ clearScreen >> setCursorPosition 0 0 >> add (cliOptsDropArgs copts) j >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/MenuScreen.hs:158:            VtyEvent (EvKey (KChar 'A') []) -> suspendAndResume $ void (runIadd (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/MenuScreen.hs:159:            VtyEvent (EvKey (KChar 'E') []) -> suspendAndResume $ void (runEditor endPosition (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/MenuScreen.hs:161:--             VtyEvent (EvKey (KChar 'B') []) -> put' $ regenerateScreens d $ toggleConversionOp ui
+hledger-ui/Hledger/UI/MenuScreen.hs:162:--             VtyEvent (EvKey (KChar 'V') []) -> put' $ regenerateScreens d $ toggleValue ui
+hledger-ui/Hledger/UI/MenuScreen.hs:163:--             VtyEvent (EvKey (KChar '0') []) -> put' $ regenerateScreens d $ setDepth (Just 0) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:164:--             VtyEvent (EvKey (KChar '1') []) -> put' $ regenerateScreens d $ setDepth (Just 1) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:165:--             VtyEvent (EvKey (KChar '2') []) -> put' $ regenerateScreens d $ setDepth (Just 2) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:166:--             VtyEvent (EvKey (KChar '3') []) -> put' $ regenerateScreens d $ setDepth (Just 3) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:167:--             VtyEvent (EvKey (KChar '4') []) -> put' $ regenerateScreens d $ setDepth (Just 4) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:168:--             VtyEvent (EvKey (KChar '5') []) -> put' $ regenerateScreens d $ setDepth (Just 5) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:169:--             VtyEvent (EvKey (KChar '6') []) -> put' $ regenerateScreens d $ setDepth (Just 6) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:170:--             VtyEvent (EvKey (KChar '7') []) -> put' $ regenerateScreens d $ setDepth (Just 7) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:171:--             VtyEvent (EvKey (KChar '8') []) -> put' $ regenerateScreens d $ setDepth (Just 8) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:172:--             VtyEvent (EvKey (KChar '9') []) -> put' $ regenerateScreens d $ setDepth (Just 9) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:173:--             VtyEvent (EvKey (KChar '-') []) -> put' $ regenerateScreens d $ decDepth ui
+hledger-ui/Hledger/UI/MenuScreen.hs:174:--             VtyEvent (EvKey (KChar '_') []) -> put' $ regenerateScreens d $ decDepth ui
+hledger-ui/Hledger/UI/MenuScreen.hs:175:--             VtyEvent (EvKey (KChar c)   []) | c `elem` ['+','='] -> put' $ regenerateScreens d $ incDepth ui
+hledger-ui/Hledger/UI/MenuScreen.hs:176:--             VtyEvent (EvKey (KChar 'T') []) -> put' $ regenerateScreens d $ setReportPeriod (DayPeriod d) ui
+hledger-ui/Hledger/UI/MenuScreen.hs:179:--             VtyEvent (EvKey (KChar 't') []) -> modify' (regenerateScreens d . toggleTree) >> msCenterAndContinue
+hledger-ui/Hledger/UI/MenuScreen.hs:180:--             VtyEvent (EvKey (KChar c) []) | c `elem` ['z','Z'] -> modify' (regenerateScreens d . toggleEmpty) >> msCenterAndContinue
+hledger-ui/Hledger/UI/MenuScreen.hs:181:--             VtyEvent (EvKey (KChar 'R') []) -> modify' (regenerateScreens d . toggleReal) >> msCenterAndContinue
+hledger-ui/Hledger/UI/MenuScreen.hs:182:--             VtyEvent (EvKey (KChar 'U') []) -> modify' (regenerateScreens d . toggleUnmarked) >> msCenterAndContinue
+hledger-ui/Hledger/UI/MenuScreen.hs:183:--             VtyEvent (EvKey (KChar 'P') []) -> modify' (regenerateScreens d . togglePending) >> msCenterAndContinue
+hledger-ui/Hledger/UI/MenuScreen.hs:184:--             VtyEvent (EvKey (KChar 'C') []) -> modify' (regenerateScreens d . toggleCleared) >> msCenterAndContinue
+hledger-ui/Hledger/UI/MenuScreen.hs:185:--             VtyEvent (EvKey (KChar 'F') []) -> modify' (regenerateScreens d . toggleForecast d)
+hledger-ui/Hledger/UI/MenuScreen.hs:186:            -- VtyEvent (EvKey (KChar 'H') []) -> modify' (toggleHistorical >>> regenerateScreens d)
+hledger-ui/Hledger/UI/MenuScreen.hs:189:            VtyEvent (EvKey (KDown)     [MShift]) -> modify' (shrinkReportPeriod d             >>> regenerateScreens d)
+hledger-ui/Hledger/UI/MenuScreen.hs:190:            VtyEvent (EvKey (KUp)       [MShift]) -> modify' (growReportPeriod d               >>> regenerateScreens d)
+hledger-ui/Hledger/UI/MenuScreen.hs:191:            VtyEvent (EvKey (KRight)    [MShift]) -> modify' (nextReportPeriod journalspan     >>> regenerateScreens d)
+hledger-ui/Hledger/UI/MenuScreen.hs:192:            VtyEvent (EvKey (KLeft)     [MShift]) -> modify' (previousReportPeriod journalspan >>> regenerateScreens d)
+hledger-ui/Hledger/UI/MenuScreen.hs:193:            VtyEvent (EvKey (KChar 'T') [])       -> modify' (setReportPeriod (DayPeriod d)    >>> regenerateScreens d)
+hledger-ui/Hledger/UI/MenuScreen.hs:195:            VtyEvent (EvKey (KChar '/') []) -> put' $ regenerateScreens d $ showMinibuffer "filter" Nothing ui
+hledger-ui/Hledger/UI/MenuScreen.hs:196:            VtyEvent (EvKey k           []) | k `elem` [KBS, KDel] -> (put' $ regenerateScreens d $ resetFilter ui)
+hledger-ui/Hledger/UI/MenuScreen.hs:198:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> scrollSelectionToMiddle (_mssList sst) >> redraw
+hledger-ui/Hledger/UI/MenuScreen.hs:199:            VtyEvent (EvKey (KChar 'z') [MCtrl]) -> suspend ui
+hledger-ui/Hledger/UI/MenuScreen.hs:202:            VtyEvent e | e `elem` moveRightEvents
+hledger-ui/Hledger/UI/MenuScreen.hs:225:            VtyEvent e | e `elem` moveDownEvents, isBlankElement mnextelement -> do
+hledger-ui/Hledger/UI/MenuScreen.hs:233:              list' <- nestEventM' (_mssList sst) $ listScrollPushingSelection name (msListSize (_mssList sst)) scrollamt
+hledger-ui/Hledger/UI/MenuScreen.hs:237:            VtyEvent e@(EvKey k           []) | k `elem` [KPageDown, KEnd] -> do
+hledger-ui/Hledger/UI/MenuScreen.hs:238:              l <- nestEventM' (_mssList sst) $ handleListEvent e
+hledger-ui/Hledger/UI/MenuScreen.hs:248:            VtyEvent e -> do
+hledger-ui/Hledger/UI/MenuScreen.hs:249:              list' <- nestEventM' (_mssList sst) $ handleListEvent (normaliseMovementKeys e)
+hledger-ui/Hledger/UI/MenuScreen.hs:254:            AppEvent _  -> return ()
+hledger-ui/Hledger/UI/MenuScreen.hs:257:msEnterScreen :: Day -> AccountsScreenKind -> UIState -> EventM Name UIState ()
+hledger-ui/hledger-ui.cabal:82:    , fsnotify >=0.4.2.0 && <0.5
+hledger-ui/package.yaml:82:  - fsnotify >=0.4.2.0 && <0.5
+hledger-ui/CHANGES.md:240:- Require fsnotify >=0.4.2.0, which fixes some events being ignored on mac,
+hledger-ui/CHANGES.md:259:- Require fsnotify-0.4.2.0+/hfsevents-0.1.8+, which fixes some events
+hledger-ui/CHANGES.md:511:- Support (and require) brick 1.5, fsnotify 0.4.x.
+hledger-ui/CHANGES.md:928:-   restore support for fsnotify 0.2.1.2, as well as 0.3.x (#833)
+hledger-ui/CHANGES.md:938:-   support/require fsnotify 0.3.0.1+
+
+===== reload/redraw refs =====
+hledger-ui/LICENSE:228:    invalidate such permission if you have separately received it.
+hledger-ui/test/UITestUtils.hs:4:A small headless harness for testing hledger-ui (a brick/vty terminal UI)
+hledger-ui/test/UITestUtils.hs:7:How it works: brick always hands vty a complete 'V.Picture' each frame (vty does
+hledger-ui/test/UITestUtils.hs:11:input only via @nextEvent vty@, so scripted events are fed by overriding that one
+hledger-ui/test/UITestUtils.hs:20:  and reload (@g@), which is what we care about.
+hledger-ui/test/UITestUtils.hs:67:import Brick (App(..), customMain)
+hledger-ui/test/UITestUtils.hs:68:import Brick.Widgets.List (listSelected, listSelectedElement)
+hledger-ui/test/UITestUtils.hs:119:    , refresh              = pure ()
+hledger-ui/test/UITestUtils.hs:135:  vty <- headlessVty region evchan frames
+hledger-ui/test/UITestUtils.hs:138:  mres <- timeout (10 * 1000 * 1000) $ void $ customMain vty (pure vty) Nothing app ui0
+hledger-ui/test/uitest.md:124:│ ?     toggle this help                 g    reload data                     │
+hledger-ui/test/uitest.md:125:│ p/m/i while help is open:              C-l  redraw & recenter               │
+hledger-ui/test/uitest.md:129:────────── ?:help LEFT:back UP/DOWN:prev/next E:editor g:reload q:quit ─────────
+hledger-ui/test/uitest.md:267:## current screen shows new data after reload
+hledger-ui/test/uitest.md:276:## newly created screens show new data after reload
+hledger-ui/test/UITest.hs:3:-- | Proof-of-concept automated tests for hledger-ui, driving the real brick/vty
+hledger-ui/test/UITest.hs:6:-- drill-down, backtracking that preserves each screen's selection, and reload (#1825).
+hledger-ui/test/UITest.hs:45:  , testCase "reload preserves the accounts-screen selection (#1825)" $
+hledger-ui/test/UITest.hs:47:        --                          down  down   right(reg) g(reload) left(back)
+hledger-ui/test/UITest.hs:50:            afterReload  = last states  -- back on the accounts screen after a reload
+hledger-ui/test/UITest.hs:70:  , testCase "reload into a parse error shows, and keeps, the error screen" $
+hledger-ui/test/UITest.hs:72:      -- file, so reloading reads the broken file. (No mid-run file mutation needed.)
+hledger-ui/test/UITest.hs:80:          -- second g: the simplified esReload pops, reloads, and re-pushes; stays on the error screen
+hledger-ui/test/UITest.hs:98:            -- L reveals the lot subaccount (re-derived in memory, no reload) ...
+hledger-ui/Hledger/UI/UIState.hs:47:import Brick.Widgets.Edit
+hledger-ui/Hledger/UI/UIState.hs:94:-- display journal from the stored uncollapsed journal, in memory, without reloading from disk.
+hledger-ui/Hledger/UI/UIState.hs:297:-- has been reloaded since startup.
+hledger-ui/Hledger/UI/UIState.hs:412:-- drift out of sync. To change the journal (eg on reload), set auncollapsedjournal and
+hledger-ui/Hledger/UI/UIState.hs:416:-- not from any other screen, so the whole stack refreshes uniformly here.
+hledger-ui/Hledger/UI/UIState.hs:420:  -- terms against the (possibly reloaded) journal's commodity aliases.
+hledger-ui/Hledger/UI/UIState.hs:431:      -- previous-generation screen/list/journal is retained after a reload (#1825).
+hledger-ui/Hledger/UI/UIState.hs:438:-- collapsed on each reload rather than chaining up over time (#1825).
+hledger-ui/Hledger/UI/UIUtils.hs:31:  ,redraw
+hledger-ui/Hledger/UI/UIUtils.hs:49:import Brick
+hledger-ui/Hledger/UI/UIUtils.hs:50:import Brick.Widgets.Border
+hledger-ui/Hledger/UI/UIUtils.hs:51:import Brick.Widgets.Border.Style
+hledger-ui/Hledger/UI/UIUtils.hs:52:import Brick.Widgets.Dialog
+hledger-ui/Hledger/UI/UIUtils.hs:53:import Brick.Widgets.Edit
+hledger-ui/Hledger/UI/UIUtils.hs:54:import Brick.Widgets.List (List, listSelectedL, listNameL, listItemHeightL, listSelected, listMoveDown, listMoveUp, GenericList, listElements)
+hledger-ui/Hledger/UI/UIUtils.hs:62:  (Event(..),Key(..),Modifier(..),Vty(..),Color,Attr,currentAttr,refresh, displayBounds
+hledger-ui/Hledger/UI/UIUtils.hs:135:-- | Tell vty to redraw the whole screen.
+hledger-ui/Hledger/UI/UIUtils.hs:136:redraw :: EventM a s ()
+hledger-ui/Hledger/UI/UIUtils.hs:137:redraw = getVtyHandle >>= liftIO . refresh
+hledger-ui/Hledger/UI/UIUtils.hs:204:                  ,renderKey ("g   ", "reload data")
+hledger-ui/Hledger/UI/UIUtils.hs:205:                  ,renderKey ("C-l ", "redraw & recenter")
+hledger-ui/Hledger/UI/UIUtils.hs:229:helpHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UIUtils.hs:386:scrollSelectionToMiddle :: Brick.Widgets.List.List Name item -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UIUtils.hs:436:listScrollPushingSelection :: Name -> Int -> Int -> EventM Name (Brick.Widgets.List.List Name item) (GenericList Name Vector item)
+hledger-ui/Hledger/UI/UIUtils.hs:540:-- Send some events to vty, atomically so they won't have other events interleaved.
+hledger-ui/Hledger/UI/TransactionScreen.hs:15:import Brick
+hledger-ui/Hledger/UI/TransactionScreen.hs:16:import Brick.Widgets.Edit (editorText, renderEditor)
+hledger-ui/Hledger/UI/TransactionScreen.hs:17:import Brick.Widgets.List (listMoveTo)
+hledger-ui/Hledger/UI/TransactionScreen.hs:93:              ,("g", "reload")
+hledger-ui/Hledger/UI/TransactionScreen.hs:113:tsHandle :: TransactionScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/TransactionScreen.hs:125:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/TransactionScreen.hs:139:            -- g or file change: reload the journal and rebuild app state.
+hledger-ui/Hledger/UI/TransactionScreen.hs:147:            -- E: run editor, reload the journal.
+hledger-ui/Hledger/UI/TransactionScreen.hs:181:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/TransactionScreen.hs:187:      -- Reload the journal and regenerate the whole screen stack; tsUpdate now refreshes
+hledger-ui/Hledger/UI/Main.hs:48:import Brick
+hledger-ui/Hledger/UI/Main.hs:49:import Brick.BChan qualified as BC
+hledger-ui/Hledger/UI/Main.hs:101:  -- Theme.hs's themes currently hard code various colours and styles provided by vty,
+hledger-ui/Hledger/UI/Main.hs:126:        in runBrickUi opts' j
+hledger-ui/Hledger/UI/Main.hs:269:runBrickUi :: UIOpts -> Journal -> IO ()
+hledger-ui/Hledger/UI/Main.hs:270:runBrickUi uopts0 j =
+hledger-ui/Hledger/UI/Main.hs:280:    makevty = do
+hledger-ui/Hledger/UI/Main.hs:287:    vty <- makevty
+hledger-ui/Hledger/UI/Main.hs:288:    void $ customMain vty makevty Nothing app ui
+hledger-ui/Hledger/UI/Main.hs:344:        -- and start the app. Must be inside the withManager block. (XXX makevty too ?)
+hledger-ui/Hledger/UI/Main.hs:345:        vty <- makevty
+hledger-ui/Hledger/UI/Main.hs:346:        void $ customMain vty makevty (Just eventChan) app ui
+hledger-ui/Hledger/UI/Main.hs:357:uiHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UIScreens.hs:38:import Brick.Widgets.List (listMoveTo, listSelectedElement, list, listSelectedL, GenericList)
+hledger-ui/Hledger/UI/UIScreens.hs:340:-- | Update a transaction screen: rebuild its transaction list from the (possibly reloaded)
+hledger-ui/Hledger/UI/UIScreens.hs:341:-- journal, and reselect the same transaction by its journal index, so the screen refreshes
+hledger-ui/Hledger/UI/UIScreens.hs:342:-- in place on reload. If that transaction is gone, fall back to the one at the same position,
+hledger-ui/Hledger/UI/ErrorScreen.hs:1:-- The error screen, showing a current error condition (such as a parse error after reloading the journal)
+hledger-ui/Hledger/UI/ErrorScreen.hs:20:import Brick
+hledger-ui/Hledger/UI/ErrorScreen.hs:21:-- import Brick.Widgets.Border ("border")
+hledger-ui/Hledger/UI/ErrorScreen.hs:48:              withAttr (attrName "border" <> attrName "bold") (str "Oops. Please fix this problem then press g to reload")
+hledger-ui/Hledger/UI/ErrorScreen.hs:60:              ,("g", "reload")
+hledger-ui/Hledger/UI/ErrorScreen.hs:65:esHandle :: ErrorScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/ErrorScreen.hs:77:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/ErrorScreen.hs:88:            -- g or file change: reload the journal and rebuild app state.
+hledger-ui/Hledger/UI/ErrorScreen.hs:91:            -- E: run editor, reload the journal.
+hledger-ui/Hledger/UI/ErrorScreen.hs:102:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/ErrorScreen.hs:108:      -- Reload from the error screen: drop the error screen, then reload and regenerate the
+hledger-ui/Hledger/UI/ErrorScreen.hs:149:-- As a convenience (usually), if journal reloading fails, this enters the error screen, or if already there, updates its message.
+hledger-ui/Hledger/UI/ErrorScreen.hs:151:-- The provided cli options can influence reloading; then if reloading succeeds they are saved in the ui state,
+hledger-ui/Hledger/UI/ErrorScreen.hs:163:  -- dbg1IO "uiReload before reload" (map tdescription $ jtxns $ ajournal ui)
+hledger-ui/Hledger/UI/ErrorScreen.hs:166:      -- dbg1 "uiReload after reload" (map tdescription $ jtxns jraw) $
+hledger-ui/Hledger/UI/ErrorScreen.hs:194:    -- unchanged: nothing reloaded, refresh in place (opts/date may have changed), keep the journal
+hledger-ui/Hledger/UI/ErrorScreen.hs:219:-- But if --pivot is active, a full journal reload is done instead
+hledger-ui/Hledger/UI/ErrorScreen.hs:228:    (False, False) -> uiReload copts d ui' >>= put'           -- pivoted journal, must reload to check it
+hledger-ui/Hledger/UI/Theme.hs:4:-- https://hackage.haskell.org/package/vty/docs/Graphics-Vty-Attributes.html
+hledger-ui/Hledger/UI/Theme.hs:5:-- http://hackage.haskell.org/package/brick/docs/Brick-AttrMap.html
+hledger-ui/Hledger/UI/Theme.hs:6:-- http://hackage.haskell.org/package/brick-0.1/docs/Brick-Util.html
+hledger-ui/Hledger/UI/Theme.hs:7:-- http://hackage.haskell.org/package/brick-0.1/docs/Brick-Widgets-Core.html#g:5
+hledger-ui/Hledger/UI/Theme.hs:8:-- http://hackage.haskell.org/package/brick-0.1/docs/Brick-Widgets-Border.html
+hledger-ui/Hledger/UI/Theme.hs:23:import Brick
+hledger-ui/Hledger/UI/Theme.hs:39:-- A hledger-ui theme is a vty/brick AttrMap.  Each theme specifies a
+hledger-ui/Hledger/UI/UITypes.hs:11:Brick.defaultMain brickapp st
+hledger-ui/Hledger/UI/UITypes.hs:42:-- --watch reload leak (#1825). Note: this does not reach brick's GenericList.listSelected,
+hledger-ui/Hledger/UI/UITypes.hs:52:import Brick.Widgets.List (List)
+hledger-ui/Hledger/UI/UITypes.hs:53:import Brick.Widgets.Edit (Editor)
+hledger-ui/Hledger/UI/UITypes.hs:144:--       ,sHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()  -- ^ brick event handler for this screen
+hledger-ui/Hledger/UI/UITypes.hs:152:--       ,sHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UITypes.hs:163:--       ,sHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UITypes.hs:172:--       ,sHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/UIOptions.hs:50:   flagNone ["watch","w"] (setboolopt "watch") "watch for data and date changes and reload automatically"
+hledger-ui/Hledger/UI/AccountsScreen.hs:22:import Brick
+hledger-ui/Hledger/UI/AccountsScreen.hs:23:import Brick.Widgets.List
+hledger-ui/Hledger/UI/AccountsScreen.hs:24:import Brick.Widgets.Edit
+hledger-ui/Hledger/UI/AccountsScreen.hs:167:                  -- ,("g", "reload")
+hledger-ui/Hledger/UI/AccountsScreen.hs:193:asHandle :: AccountsScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/AccountsScreen.hs:206:asHandleNormalMode :: AccountsScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/AccountsScreen.hs:228:    VtyEvent (EvKey (KChar 'l') [MCtrl]) -> centerSelection >> redraw     -- C-l: redraw
+hledger-ui/Hledger/UI/AccountsScreen.hs:235:    -- A data file has changed (or the user has pressed g): reload.
+hledger-ui/Hledger/UI/AccountsScreen.hs:339:    -- Any other vty event (UP, DOWN, PGUP etc): handle with List's default handler.
+hledger-ui/Hledger/UI/AccountsScreen.hs:360:    VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/AccountsScreen.hs:374:    VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/RegisterScreen.hs:32:import Brick
+hledger-ui/Hledger/UI/RegisterScreen.hs:33:import Brick.Widgets.List hiding (reverse)
+hledger-ui/Hledger/UI/RegisterScreen.hs:34:import Brick.Widgets.Edit
+hledger-ui/Hledger/UI/RegisterScreen.hs:154:              -- ,("g", "reload")
+hledger-ui/Hledger/UI/RegisterScreen.hs:186:rsHandle :: RegisterScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/RegisterScreen.hs:218:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/RegisterScreen.hs:230:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/RegisterScreen.hs:287:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> scrollSelectionToMiddle _rssList >> redraw
+hledger-ui/Hledger/UI/MenuScreen.hs:15:import Brick
+hledger-ui/Hledger/UI/MenuScreen.hs:16:import Brick.Widgets.List
+hledger-ui/Hledger/UI/MenuScreen.hs:38:import Brick.Widgets.Edit (getEditContents, handleEditorEvent)
+hledger-ui/Hledger/UI/MenuScreen.hs:84:--               ,("g", "reload")
+hledger-ui/Hledger/UI/MenuScreen.hs:98:msHandle :: MenuScreenState -> BrickEvent Name AppEvent -> EventM Name UIState ()
+hledger-ui/Hledger/UI/MenuScreen.hs:127:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/MenuScreen.hs:139:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> redraw
+hledger-ui/Hledger/UI/MenuScreen.hs:198:            VtyEvent (EvKey (KChar 'l') [MCtrl]) -> scrollSelectionToMiddle (_mssList sst) >> redraw
+hledger-ui/hledger-ui.txt:43:              -w --watch                watch for data and date changes and reload
+hledger-ui/hledger-ui.txt:226:     CTRL-l redraws the screen and centers the selection if possible (selections
+hledger-ui/hledger-ui.txt:229:     g reloads from the data file(s) and updates the current screen and any pre-
+hledger-ui/hledger-ui.txt:235:     reloads the journal, like g.)
+hledger-ui/hledger-ui.txt:237:     a  runs  command-line  hledger's add command, and reloads the updated file.
+hledger-ui/hledger-ui.txt:369:     stable id (at least until the next reload).
+hledger-ui/hledger-ui.txt:376:     you press g to reload.  Once you have fixed the problem, press g  again  to
+hledger-ui/hledger-ui.txt:377:     reload  and  resume  normal operation.  (Or, you can press escape to cancel
+hledger-ui/hledger-ui.txt:378:     the reload attempt.)
+hledger-ui/hledger-ui.txt:381:     One of hledger-ui's best features is the  auto-reloading  -w/--watch  mode.
+hledger-ui/hledger-ui.txt:415:     * If --watch won't work for you, press g to reload data manually instead.
+hledger-ui/hledger-ui.cabal:99:    , vty >=6.1
+hledger-ui/hledger-ui.cabal:100:    , vty-crossplatform >=0.4.0.0
+hledger-ui/hledger-ui.cabal:106:        vty-windows >=0.2.0.1
+hledger-ui/hledger-ui.cabal:156:    , vty >=6.1
+hledger-ui/hledger-ui.cabal:157:    , vty-crossplatform >=0.4.0.0
+hledger-ui/hledger-ui.1:54:  \-w \-\-watch                watch for data and date changes and reload
+hledger-ui/hledger-ui.1:255:\f[CR]CTRL\-l\f[R] redraws the screen and centers the selection if
+hledger-ui/hledger-ui.1:259:\f[CR]g\f[R] reloads from the data file(s) and updates the current
+hledger-ui/hledger-ui.1:267:re\-enabling balance assertions with the \f[CR]I\f[R] key also reloads
+hledger-ui/hledger-ui.1:270:\f[CR]a\f[R] runs command\-line hledger\(aqs add command, and reloads
+hledger-ui/hledger-ui.1:419:the next reload).
+hledger-ui/hledger-ui.1:426:when you press g to reload.
+hledger-ui/hledger-ui.1:427:Once you have fixed the problem, press g again to reload and resume
+hledger-ui/hledger-ui.1:429:(Or, you can press escape to cancel the reload attempt.)
+hledger-ui/hledger-ui.1:431:One of hledger\-ui\(aqs best features is the auto\-reloading
+hledger-ui/hledger-ui.1:473:If \-\-watch won\(aqt work for you, press \f[CR]g\f[R] to reload data
+hledger-ui/package.yaml:98:  - vty >=6.1
+hledger-ui/package.yaml:99:  - vty-crossplatform >= 0.4.0.0
+hledger-ui/package.yaml:103:        dependencies: vty-windows >= 0.2.0.1
+hledger-ui/package.yaml:120:    # -threaded is required to drive the brick/vty event loop in the headless harness
+hledger-ui/package.yaml:127:    - vty >=6.1
+hledger-ui/package.yaml:128:    - vty-crossplatform >= 0.4.0.0
+hledger-ui/CHANGES.md:40:  Aliases are recomputed on each journal reload, so a mid-session
+hledger-ui/CHANGES.md:48:- allow vty 6.6+
+hledger-ui/CHANGES.md:78:- Allow vty-crossplatform 0.5.
+hledger-ui/CHANGES.md:126:- Allow vty-crossplatform 0.5. (Jens Petersen)
+hledger-ui/CHANGES.md:142:- Allow brick 2.10, vty 6.5.
+hledger-ui/CHANGES.md:163:  with the I key now does a full journal reload, to check assertions more accurately.
+hledger-ui/CHANGES.md:169:- Allow brick 2.10, vty 6.5.
+hledger-ui/CHANGES.md:187:- When the journal is reloaded by the `g` key or `--watch`, the
+hledger-ui/CHANGES.md:273:- allow vty 6.4
+hledger-ui/CHANGES.md:284:- Allow vty 6.3.
+hledger-ui/CHANGES.md:373:- Require vty-windows-0.2.0.2+ to avoid display problems in recent
+hledger-ui/CHANGES.md:404:- Allow vty 6.2, brick 2.3
+hledger-ui/CHANGES.md:433:- Add upper bounds for vty & brick.
+hledger-ui/CHANGES.md:660:- Don't reset the `B`/`V` (cost, value) state when reloading with `g`
+hledger-ui/CHANGES.md:683:  reloading with `g` or `--watch` in the Transaction screen. (#1556)
+hledger-ui/CHANGES.md:726:- Fix loss of forecasted transactions when the journal was reloaded
+hledger-ui/CHANGES.md:858:- control-l now works everywhere and redraws more reliably
+hledger-ui/CHANGES.md:930:-   fix a vty version bound & possibly build failures with old vty (#494)
+hledger-ui/CHANGES.md:934:-   the effect of --value, --forecast, and --anon flags is now preserved on reload (#753)
+hledger-ui/CHANGES.md:981:-   allow vty 5.17 (Felix Yan)
+hledger-ui/CHANGES.md:1019:-   on pressing the control-l key (should force a screen redraw, also)
+hledger-ui/CHANGES.md:1040:Allow brick 0.16 (Joshua Chia) and brick 0.17/vty 0.15 (Peter Simons)
+hledger-ui/CHANGES.md:1056:    hledger-ui --watch will reload data when the journal file (or any included file) changes.
+hledger-ui/CHANGES.md:1064:-   always reload when g is pressed
+hledger-ui/CHANGES.md:1066:    Previously it would check the modification time and reload only if
+hledger-ui/CHANGES.md:1067:    it looked newer than the last reload.
+hledger-ui/CHANGES.md:1071:-   allow brick 0.15, vty 5.14, text-zipper 0.9
+hledger-ui/CHANGES.md:1178:-   reloading now preserves any options and modes in effect
+hledger-ui/CHANGES.md:1180:-   reloading on the error screen now updates the message rather than entering a new error screen
+hledger-ui/CHANGES.md:1203:-   make reloading work on the transaction screen
+hledger-ui/CHANGES.md:1209:    where the vty lib is not yet supported).
+hledger-ui/CHANGES.md:1213:    hledger-vty, which it replaces:
+hledger-ui/CHANGES.md:1222:    -   allows journal reloading
+hledger-ui/CHANGES.md:1228:    on vty, making it relatively easy to grow and maintain.
+hledger-ui/hledger-ui.m4.md:59:  -w --watch                watch for data and date changes and reload
+hledger-ui/hledger-ui.m4.md:150:`CTRL-l` redraws the screen and centers the selection if possible
+hledger-ui/hledger-ui.m4.md:153:`g` reloads from the data file(s) and updates the current screen and any
+hledger-ui/hledger-ui.m4.md:158:(If hledger-ui was started with a `--pivot` option, re-enabling balance assertions with the `I` key also reloads the journal, like `g`.)
+hledger-ui/hledger-ui.m4.md:160:`a` runs command-line hledger's add command, and reloads the updated file.
+hledger-ui/hledger-ui.m4.md:294:reload).
+hledger-ui/hledger-ui.m4.md:302:when you press g to reload. Once you have fixed the problem,
+hledger-ui/hledger-ui.m4.md:303:press g again to reload and resume normal operation.
+hledger-ui/hledger-ui.m4.md:304:(Or, you can press escape to cancel the reload attempt.)
+hledger-ui/hledger-ui.m4.md:309:One of hledger-ui's best features is the auto-reloading `-w/--watch` mode.
+hledger-ui/hledger-ui.m4.md:340:- If --watch won't work for you, press `g` to reload data manually instead.
+hledger-ui/hledger-ui.info:67:  -w --watch                watch for data and date changes and reload
+hledger-ui/hledger-ui.info:262:   'CTRL-l' redraws the screen and centers the selection if possible
+hledger-ui/hledger-ui.info:266:   'g' reloads from the data file(s) and updates the current screen and
+hledger-ui/hledger-ui.info:273:'I' key also reloads the journal, like 'g'.)
+hledger-ui/hledger-ui.info:275:   'a' runs command-line hledger's add command, and reloads the updated
+hledger-ui/hledger-ui.info:464:reload).
+hledger-ui/hledger-ui.info:477:when you press g to reload.  Once you have fixed the problem, press g
+hledger-ui/hledger-ui.info:478:again to reload and resume normal operation.  (Or, you can press escape
+hledger-ui/hledger-ui.info:479:to cancel the reload attempt.)
+hledger-ui/hledger-ui.info:487:One of hledger-ui's best features is the auto-reloading '-w/--watch'
+hledger-ui/hledger-ui.info:529:   * If -watch won't work for you, press 'g' to reload data manually
+hledger-lib/LICENSE:228:    invalidate such permission if you have separately received it.
+hledger-lib/test/doctests.hs:9:--slow reloads ghci between each test (https://github.com/sol/doctest#a-note-on-performance).
+hledger-lib/Hledger/Utils/Debug.hs:49:which can be useful for TUI apps which are redrawing the screen.
+hledger-lib/Hledger/Utils/Debug.hs:58:As a consequence, if you are testing in GHCI and want to change the debug level, you'll need to reload this module.
+hledger-lib/Hledger/Utils/Debug.hs:253:-- When running in GHCI, changing this requires reloading this module.
+hledger-lib/Hledger/Utils/IO.hs:568:-- Uses unsafePerformIO; tends to stick in GHCI until reloaded,
+hledger-lib/Hledger/Utils/IO.hs:633:-- Uses getOpt; sticky in GHCI until reloaded, may not always be affected by a hledger config file, etc.
+hledger-lib/Hledger/Utils/IO.hs:644:-- -- Uses getOpt; sticky in GHCI until reloaded, may not always be affected by a hledger config file, etc.
+hledger-lib/Hledger/Utils/IO.hs:868:-- Sticky in GHCI until reloaded, may not always be affected by --color in a hledger config file, etc.
+hledger-lib/Hledger/Reports/ReportOptions.hs:1079:-- | Associate this journal with this ReportSpec, returning a refreshed
+hledger-lib/Hledger/Reports/ReportOptions.hs:1088:-- hledger-web) should call this on every reload.
+hledger-lib/CHANGES.md:1735:-   doctests now run quicker by default, by skipping reloading between tests.
+hledger-lib/CHANGES.md:2161:-   reloading a file now preserves the effect of options, query arguments etc.
+hledger-lib/CHANGES.md:2163:-   reloading a journal should now reload all included files as well.
+
+===== async/thread/channel refs =====
+hledger-ui/test/UITestUtils.hs:55:import Control.Concurrent.STM (TChan, atomically, newTChanIO, readTChan, tryReadTChan, writeTChan)
+hledger-ui/test/UITestUtils.hs:103:headlessVty :: DisplayRegion -> TChan Event -> IORef [Picture] -> IO Vty
+hledger-ui/test/UITestUtils.hs:106:  stubChan <- newTChanIO  -- never read; brick reads via nextEvent below
+hledger-ui/test/UITestUtils.hs:108:        { eventChannel      = stubChan
+hledger-ui/test/UITestUtils.hs:115:    , nextEvent            = atomically (readTChan evchan)
+hledger-ui/test/UITestUtils.hs:116:    , nextEventNonblocking = atomically (tryReadTChan evchan)
+hledger-ui/test/UITestUtils.hs:133:  evchan <- newTChanIO
+hledger-ui/test/UITestUtils.hs:134:  atomically $ mapM_ (writeTChan evchan) (events ++ [key 'q'])
+hledger-ui/Hledger/UI/UIUtils.hs:55:import Control.Concurrent.STM (atomically, writeTChan)  -- GHC only
+hledger-ui/Hledger/UI/UIUtils.hs:64:  ,Vty (inputIface), InternalEvent (InputEvent), Input (eventChannel)
+hledger-ui/Hledger/UI/UIUtils.hs:540:-- Send some events to vty, atomically so they won't have other events interleaved.
+hledger-ui/Hledger/UI/UIUtils.hs:544:  input <- eventChannel . inputIface <$> getVtyHandle
+hledger-ui/Hledger/UI/UIUtils.hs:545:  liftIO $ atomically $ mapM_ (writeTChan input . InputEvent) evs
+hledger-ui/Hledger/UI/TransactionScreen.hs:33:import Hledger.UI.ErrorScreen (uiReload, uiReloadIfFileChanged, uiToggleBalanceAssertions)
+hledger-ui/Hledger/UI/TransactionScreen.hs:140:            e | e `elem` [VtyEvent (EvKey (KChar 'g') []), AppEvent FileChange] ->
+hledger-ui/Hledger/UI/TransactionScreen.hs:155:              tsReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/TransactionScreen.hs:157:            AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+hledger-ui/Hledger/UI/TransactionScreen.hs:190:      tsReloadIfFileChanged copts d j ui = liftIO (uiReloadIfFileChanged copts d j ui) >>= put'
+hledger-ui/Hledger/UI/Main.hs:29:import Control.Concurrent (threadDelay)
+hledger-ui/Hledger/UI/Main.hs:49:import Brick.BChan qualified as BC
+hledger-ui/Hledger/UI/Main.hs:68:newChan :: IO (BC.BChan a)
+hledger-ui/Hledger/UI/Main.hs:69:newChan = BC.newBChan 10
+hledger-ui/Hledger/UI/Main.hs:71:writeChan :: BC.BChan a -> a -> IO ()
+hledger-ui/Hledger/UI/Main.hs:72:writeChan = BC.writeBChan
+hledger-ui/Hledger/UI/Main.hs:292:    eventChan <- newChan
+hledger-ui/Hledger/UI/Main.hs:295:    -- use async for proper child termination in GHCI
+hledger-ui/Hledger/UI/Main.hs:298:        threadDelay 1000000 -- 1 s
+hledger-ui/Hledger/UI/Main.hs:301:          let dc = DateChange old new
+hledger-ui/Hledger/UI/Main.hs:304:          writeChan eventChan dc
+hledger-ui/Hledger/UI/Main.hs:308:      -- run this small task asynchronously:
+hledger-ui/Hledger/UI/Main.hs:311:      $ \_async ->
+hledger-ui/Hledger/UI/Main.hs:341:            writeChan eventChan FileChange
+hledger-ui/Hledger/UI/Main.hs:346:        void $ customMain vty makevty (Just eventChan) app ui
+hledger-ui/Hledger/UI/UIScreens.hs:228:    -- XXX Ugly. Changing to 0 helps when debugging.
+hledger-ui/Hledger/UI/UIScreens.hs:234:                            ,rsItemChangeAmount  = mempty
+hledger-ui/Hledger/UI/UIScreens.hs:317:                        ,rsItemChangeAmount  = showamt change
+hledger-ui/Hledger/UI/ErrorScreen.hs:15: ,uiReloadIfFileChanged
+hledger-ui/Hledger/UI/ErrorScreen.hs:89:            e | e `elem` [VtyEvent (EvKey (KChar 'g') []), AppEvent FileChange] -> esReload copts d ui
+hledger-ui/Hledger/UI/ErrorScreen.hs:99:              esReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/ErrorScreen.hs:114:      esReloadIfFileChanged copts d j ui =
+hledger-ui/Hledger/UI/ErrorScreen.hs:115:        liftIO (uiReloadIfFileChanged copts d j (popScreen ui)) >>= put' . uiCheckBalanceAssertions d
+hledger-ui/Hledger/UI/ErrorScreen.hs:185:uiReloadIfFileChanged :: CliOpts -> Day -> Journal -> UIState -> IO UIState
+hledger-ui/Hledger/UI/ErrorScreen.hs:186:uiReloadIfFileChanged copts d j ui = do
+hledger-ui/Hledger/UI/ErrorScreen.hs:190:    in runExceptT $ journalReloadIfChanged loadopts d j
+hledger-ui/Hledger/UI/UITypes.hs:48:-- import Control.Concurrent (threadDelay)
+hledger-ui/Hledger/UI/UITypes.hs:63:    FileChange          -- one of the Journal's files has been added/modified/removed
+hledger-ui/Hledger/UI/UITypes.hs:64:  | DateChange Day Day  -- the current date has changed since last checked (with the old and new values)
+hledger-ui/Hledger/UI/UITypes.hs:83:  -- a no-op. aPrevScreens is kept nearest-first, so pushScreen/popScreen are O(1). Change
+hledger-ui/Hledger/UI/UITypes.hs:264:  ,rsItemChangeAmount   :: WideBuilder  -- ^ the change to the current account from this transaction
+hledger-ui/Hledger/UI/AccountsScreen.hs:51:import Hledger.UI.ErrorScreen (uiReload, uiReloadIfFileChanged, uiToggleBalanceAssertions)
+hledger-ui/Hledger/UI/AccountsScreen.hs:236:    e | e `elem` [AppEvent FileChange, VtyEvent (EvKey (KChar 'g') [])] ->
+hledger-ui/Hledger/UI/AccountsScreen.hs:242:    AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+hledger-ui/Hledger/UI/AccountsScreen.hs:251:    VtyEvent (EvKey (KChar 'a') []) -> suspendAndResume $ clearScreen >> setCursorPosition 0 0 >> add (cliOptsDropArgs copts) j >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:252:    VtyEvent (EvKey (KChar 'A') []) -> suspendAndResume $ void (runIadd (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/AccountsScreen.hs:253:    VtyEvent (EvKey (KChar 'E') []) -> suspendAndResume $ void (runEditor endPosition (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:46:import Hledger.UI.ErrorScreen (uiReload, uiReloadIfFileChanged, uiToggleBalanceAssertions)
+hledger-ui/Hledger/UI/RegisterScreen.hs:73:        maxchangewidthseen = maximum' $ map (wbWidth . rsItemChangeAmount) displayitems
+hledger-ui/Hledger/UI/RegisterScreen.hs:176:    changeAmt  = wbToText rsItemChangeAmount
+hledger-ui/Hledger/UI/RegisterScreen.hs:241:            AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+hledger-ui/Hledger/UI/RegisterScreen.hs:246:            e | e `elem` [AppEvent FileChange, VtyEvent (EvKey (KChar 'g') [])] -> uiReload copts d ui >>= put'
+hledger-ui/Hledger/UI/RegisterScreen.hs:249:            VtyEvent (EvKey (KChar 'a') []) -> suspendAndResume $ clearScreen >> setCursorPosition 0 0 >> add (cliOptsDropArgs copts) j >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:250:            VtyEvent (EvKey (KChar 'A') []) -> suspendAndResume $ void (runIadd (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/RegisterScreen.hs:252:            VtyEvent (EvKey (KChar 'E') []) -> suspendAndResume $ void (runEditor pos f) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/MenuScreen.hs:36:import Hledger.UI.ErrorScreen (uiReload, uiReloadIfFileChanged, uiToggleBalanceAssertions)
+hledger-ui/Hledger/UI/MenuScreen.hs:151:            AppEvent (DateChange old _) | isStandardPeriod p && p `periodContainsDate` old ->
+hledger-ui/Hledger/UI/MenuScreen.hs:155:            e | e `elem` [VtyEvent (EvKey (KChar 'g') []), AppEvent FileChange] -> uiReload copts d ui >>= put'
+hledger-ui/Hledger/UI/MenuScreen.hs:157:            VtyEvent (EvKey (KChar 'a') []) -> suspendAndResume $ clearScreen >> setCursorPosition 0 0 >> add (cliOptsDropArgs copts) j >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/MenuScreen.hs:158:            VtyEvent (EvKey (KChar 'A') []) -> suspendAndResume $ void (runIadd (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/Hledger/UI/MenuScreen.hs:159:            VtyEvent (EvKey (KChar 'E') []) -> suspendAndResume $ void (runEditor endPosition (journalFilePath j)) >> uiReloadIfFileChanged copts d j ui
+hledger-ui/hledger-ui.cabal:72:    , async
+hledger-ui/package.yaml:74:  - async
+hledger-ui/CHANGES.md:203:  uiReloadJournalIfChanged -> uiReloadIfFileChanged
+hledger-lib/Hledger/Read/RulesReader.hs:46:import Control.Concurrent (forkIO)
+hledger-lib/Hledger/Read/RulesReader.hs:334:        forkIO $ T.hPutStr hin input >> hClose hin
+hledger-lib/Hledger/Utils/IO.hs:128:import           Control.Concurrent (forkIO)
+hledger-lib/Hledger/Utils/IO.hs:549:  forkIO $ T.hPutStr w t >> hClose w
+hledger-lib/Hledger/Utils/IO.hs:764:              Just hin -> void $ forkIO $   -- Write from another thread to avoid deadlock ? Maybe unneeded, but just in case.
+hledger-lib/Hledger/Reports/ReportOptions.hs:99:    CalcChange        -- ^ Sum of posting amounts in the period.
+hledger-lib/Hledger/Reports/ReportOptions.hs:101:  | CalcValueChange   -- ^ Change from previous period's historical end value to this period's historical end value.
+hledger-lib/Hledger/Reports/ReportOptions.hs:102:  | CalcGain          -- ^ Change from previous period's gain, i.e. valuation minus cost basis.
+hledger-lib/Hledger/Reports/ReportOptions.hs:106:instance Default BalanceCalculation where def = CalcChange
+hledger-lib/Hledger/Reports/ReportOptions.hs:385:  fromMaybe CalcChange . choiceopt parse where
+hledger-lib/Hledger/Reports/ReportOptions.hs:387:      "sum"         -> Just CalcChange
+hledger-lib/Hledger/Reports/ReportOptions.hs:388:      "valuechange" -> Just CalcValueChange
+hledger-lib/Hledger/Reports/ReportOptions.hs:417:      CalcValueChange -> Just PerPeriod
+hledger-lib/Hledger/Reports/ReportOptions.hs:566:    (CalcValueChange, Nothing       ) -> Just $ AtEnd Nothing  -- If no valuation requested for valuechange, use AtEnd
+hledger-lib/Hledger/Reports/ReportOptions.hs:567:    (CalcValueChange, Just (AtEnd _)) -> directval             -- If AtEnd valuation requested, use it
+hledger-lib/Hledger/Reports/ReportOptions.hs:568:    (CalcValueChange, _             ) -> usageError "--valuechange only produces sensible results with --value=end"
+hledger-lib/Hledger/Reports/ReportOptions.hs:722:    -- Which custom calculation to do for balance reports. For all other reports, it will be CalcChange.
+hledger-lib/Hledger/Reports/ReportOptions.hs:774:    accum == Historical || calc == CalcValueChange || calc == CalcGain
+hledger-lib/Hledger/Reports/ReportTypes.hs:15:, Change
+hledger-lib/Hledger/Reports/ReportTypes.hs:53:type Change  = MixedAmount  -- ^ A change in balance during a certain period.
+hledger-lib/Hledger/Reports/ReportTypes.hs:55:type Total   = MixedAmount  -- ^ The sum of 'Change's in a report or a report row. Does not make sense for 'Balance's.
+hledger-lib/Hledger/Reports/ReportTypes.hs:56:type Average = MixedAmount  -- ^ The average of 'Change's or 'Balance's in a report or report row.
+hledger-lib/Hledger/Reports/BudgetReport.hs:36:type BudgetGoal    = Change
+hledger-lib/Hledger/Reports/BudgetReport.hs:42:type BudgetCell = (Maybe Change, Maybe BudgetGoal)
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:276:    rowbals unvaluedChanges = case balanceaccum_ ropts of
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:282:        -- differences in the valued historical amount for CalcValueChange and CalcGain.
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:284:            CalcChange        -> avalue unvaluedChanges
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:285:            CalcBudget        -> avalue unvaluedChanges
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:286:            CalcValueChange   -> periodChanges historical
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:287:            CalcGain          -> periodChanges historical
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:288:            CalcPostingsCount -> avalue unvaluedChanges
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:290:        historical = avalue $ cumulativeSum unvaluedChanges
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:501:periodChanges :: Traversable t => t BalanceData -> t BalanceData
+hledger-lib/Hledger/Reports/MultiBalanceReport.hs:502:periodChanges = snd . mapAccumL (\prev new -> (new, opBalanceData maMinus new prev)) mempty
+hledger-lib/CHANGES.md:836:  Changing the return type of journalAddForecast and journalTransform
+hledger-lib/CHANGES.md:899:       ChangeReport -> CalcChange
+hledger-lib/CHANGES.md:901:       ValueChangeReport -> CalcValueChange
+hledger-lib/CHANGES.md:904:       PeriodChange -> PerPeriod
+hledger-lib/CHANGES.md:905:       CumulativeChange -> Cumulative
+hledger-lib/CHANGES.md:1048:- Change internal representation of MixedAmount to use a strict Map
+hledger-lib/CHANGES.md:1586:Changes:
+hledger-lib/CHANGES.md:1622:Changes include:
+hledger-lib/Text/Tabular/AsciiWide.hs:176:    . map (addBorders . mconcat) . transpose     -- Change to a list of lines and add borders

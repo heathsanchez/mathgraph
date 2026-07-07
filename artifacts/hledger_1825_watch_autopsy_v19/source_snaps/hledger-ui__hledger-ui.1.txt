@@ -1,0 +1,261 @@
+===== FILE: hledger-ui/hledger-ui.1 =====
+
+.TH "HLEDGER\-UI" "1" "May 2026" "hledger-ui-1.99 " "hledger User Manuals"
+
+
+
+.SH NAME
+hledger\-ui \- terminal interface (TUI) for \f[CR]hledger\f[R], a
+robust, friendly plain text accounting app.
+.SH SYNOPSIS
+\f[CR]hledger\-ui [OPTS] [QUERYARGS]\f[R]
+.PD 0
+.P
+.PD
+or
+.PD 0
+.P
+.PD
+\f[CR]hledger ui [OPTS] [QUERYARGS]\f[R]
+.SH DESCRIPTION
+This manual is for hledger\(aqs terminal interface, version 1.99.
+See also the hledger manual for common concepts and file formats.
+.PP
+hledger is a robust, user\-friendly, cross\-platform set of programs for
+tracking money, time, or any other commodity, using double\-entry
+accounting and a simple, editable file format.
+hledger is inspired by and largely compatible with ledger(1), and
+largely interconvertible with beancount(1).
+.PP
+hledger\-ui is hledger\(aqs terminal interface, providing an efficient
+full\-window text UI for viewing accounts and transactions, and some
+limited data entry capability.
+It is easier than hledger\(aqs command\-line interface, and sometimes
+quicker and more convenient than the web interface.
+.PP
+Like hledger, it reads from (and appends to) a journal file specified by
+the \f[CR]LEDGER_FILE\f[R] environment variable (defaulting to
+\f[CR]$HOME/.hledger.journal\f[R]); or you can specify files with
+\f[CR]\-f\f[R] options.
+It can also read timeclock files, timedot files, or any CSV/SSV/TSV file
+with a date field.
+(See hledger(1) \-> Input for details.)
+.PP
+Unlike hledger, hledger\-ui hides all future\-dated transactions by
+default.
+They can be revealed, along with any rule\-generated periodic
+transactions, by pressing the F key (or starting with \-\-forecast) to
+enable \(dqforecast mode\(dq.
+.SH OPTIONS
+Any arguments are interpreted as a hledger query which filters the data.
+hledger\-ui provides the following options:
+.IP
+.EX
+Flags:
+  \-w \-\-watch                watch for data and date changes and reload
+                            automatically
+     \-\-theme=THEME          use this custom display theme (light,
+                            dark, terminal, greenterm)
+     \-\-cash                 start in the cash accounts screen
+     \-\-bs                   start in the balance sheet accounts screen
+     \-\-is                   start in the income statement accounts screen
+     \-\-all                  start in the all accounts screen
+     \-\-register=ACCTREGEX   start in the (first matched) account\(aqs register
+     \-\-change               show period balances (changes) at startup instead
+                            of historical balances
+  \-l \-\-flat                 show accounts as a flat list (default)
+  \-t \-\-tree                 show accounts as a tree
+.EE
+.PP
+and also supports many of hledger\(aqs general options:
+.IP
+.EX
+General input flags:
+  \-f \-\-file=[FMT:]FILE      Use this as the journal file (\- means stdin). If
+                            not specified, $LEDGER_FILE or \(ti/.hledger.journal
+                            will be used. If specified more than once, the
+                            files will be read in order. Each file\(aqs format
+                            (journal, csv, timeclock, timedot, rules..) is
+                            inferred from the file extension or a FMT: prefix.
+                            Some commands (add, import) write to the (first)
+                            file, and expect it to be in journal format.
+     \-\-rules=RULESFILE      Use rules defined in this rules file for
+                            converting subsequent CSV/SSV/TSV files. If not
+                            specified, uses FILE.csv.rules for each FILE.csv.
+     \-\-alias=A=B|/RGX/=RPL  transform account names from A to B, or by
+                            replacing regular expression matches
+     \-\-auto                 generate extra postings by applying auto posting
+                            rules (\(dq=\(dq) to all transactions
+     \-\-forecast[=PERIOD]    Generate extra transactions from periodic rules
+                            (\(dq\(ti\(dq), from after the latest ordinary transaction
+                            until 6 months from now. Or, during the specified
+                            PERIOD (the equals is required). Auto posting rules
+                            will also be applied to these transactions. In
+                            hledger\-ui, also make future\-dated transactions
+                            visible at startup.
+     \-\-ignore\-assertions    don\(aqt check balance assertions by default
+     \-\-ignore\-lots          don\(aqt check lot entries by default
+  \-I                        shortcut for \-\-ignore\-assertions \-\-ignore\-lots
+     \-\-txn\-balancing=...    how to check that transactions are balanced:
+                            \(aqold\(aq:   \- use global display precision
+                            \(aqexact\(aq: \- use transaction precision (default)
+     \-\-infer\-costs          infer conversion equity postings from costs
+     \-\-infer\-equity         infer costs from conversion equity postings
+     \-\-infer\-market\-prices  infer market prices from costs
+     \-\-pivot=TAGNAME        use a different field or tag as account names
+  \-s \-\-strict               do extra error checks (and override \-I)
+
+General output flags (affecting some commands):
+  \-b \-\-begin=DATE           include postings/transactions on/after this date
+  \-e \-\-end=DATE             include postings/transactions before this date
+                            (with a report interval, will be adjusted to
+                            following subperiod end)
+  \-D \-\-daily                set report interval: 1 day
+  \-W \-\-weekly               set report interval: 1 week
+  \-M \-\-monthly              set report interval: 1 month
+  \-Q \-\-quarterly            set report interval: 1 quarter
+  \-Y \-\-yearly               set report interval: 1 year
+  \-p \-\-period=PERIODEXP     set begin date, end date, and/or report interval,
+                            with more flexibility
+     \-\-today=DATE           override today\(aqs date (affects relative dates)
+     \-\-date2                match/use secondary dates instead (deprecated)
+  \-U \-\-unmarked             include only unmarked postings/transactions
+  \-P \-\-pending              include only pending postings/transactions
+  \-C \-\-cleared              include only cleared postings/transactions
+                            (\-U/\-P/\-C can be combined)
+  \-R \-\-real                 include only non\-virtual postings
+  \-E \-\-empty                Show zero items, which are normally hidden.
+                            In hledger\-ui & hledger\-web, do the opposite.
+     \-\-depth=DEPTHEXP       if a number (or \-NUM): show only top NUM levels
+                            of accounts. If REGEXP=NUM, only apply limiting to
+                            accounts matching the regular expression.
+  \-B \-\-cost                 convert amounts to their cost/sale amount (\(at/\(at\(at)
+  \-V \-\-market               valuation mode: show amounts converted to market
+                            value at period end(s) in their default valuation
+                            commodity. Short for \-\-value=end.
+  \-X \-\-exchange=COMM        valuation mode: show amounts converted to market
+                            value at period end(s) in the specified commodity.
+                            Short for \-\-value=end,COMM.
+     \-\-value=WHEN[,COMM]    valuation mode: show amounts converted to market
+                            value on the specified date(s) in their default
+                            valuation commodity or a specified commodity. WHEN
+                            can be:
+                            \(aqthen\(aq:     value on transaction dates
+                            \(aqend\(aq:      value at period end(s)
+                            \(aqnow\(aq:      value today
+                            YYYY\-MM\-DD: value on given date
+     \-\-lots                 show lot subaccounts and other lot details
+  \-c \-\-commodity\-style=S    Override a commodity\(aqs display style.
+                            Eg: \-c \(aq.\(aq or \-c \(aq1.000,00 EUR\(aq
+     \-\-pretty[=YN]          Use box\-drawing characters in text output? The
+                            optional \(aqy\(aq/\(aqyes\(aq or \(aqn\(aq/\(aqno\(aq arg requires =.
+     \-\-title=T              set or customise a report title
+     \-\-subreport\-titles=TS  customise subreport headings in compound reports
+                            (|\-separated)
+     \-\-period\-titles=OPT    customise headings in periodic reports:
+                            \(aqcompact\(aq: readable period names when possible
+                            \(aqdates\(aq:   exact dates/date ranges always
+
+General help flags:
+  \-h \-\-help                 show command line help
+     \-\-tldr                 show command examples with tldr
+     \-\-info                 show the manual with info
+     \-\-man                  show the manual with man
+     \-\-version              show version information
+     \-\-debug=[1\-9]          show this much debug output (default: 1)
+     \-\-pager=YN             use a pager when needed ? y/yes (default) or n/no
+     \-\-color=YNA \-\-colour   use ANSI color ? y/yes, n/no, or auto (default)
+.EE
+.PP
+With hledger\-ui, the \f[CR]\-\-debug\f[R] option sends debug output to
+a \f[CR]hledger\-ui.log\f[R] file in the current directory.
+.PP
+If you use the bash shell, you can auto\-complete flags by pressing TAB
+in the command line.
+If this is not working see Install > Shell completions.
+.SH MOUSE
+In most modern terminals, you can navigate through the screens with a
+mouse or touchpad:
+.IP \(bu 2
+Use mouse wheel or trackpad to scroll up and down
+.IP \(bu 2
+Click on list items to go deeper
+.IP \(bu 2
+Click on the left margin (column 0) to go back.
+.SH KEYS
+Keyboard gives more control.
+.PP
+\f[CR]?\f[R] shows a help dialog listing all keys.
+(Some of these also appear in the quick help at the bottom of each
+screen.)
+Press \f[CR]?\f[R] again (or \f[CR]ESCAPE\f[R], or \f[CR]LEFT\f[R], or
+\f[CR]q\f[R]) to close it.
+The following keys work on most screens:
+.PP
+The cursor keys navigate: \f[CR]RIGHT\f[R] or \f[CR]ENTER\f[R] goes
+deeper, \f[CR]LEFT\f[R] returns to the previous screen,
+\f[CR]UP\f[R]/\f[CR]DOWN\f[R]/\f[CR]PGUP\f[R]/\f[CR]PGDN\f[R]/\f[CR]HOME\f[R]/\f[CR]END\f[R]
+move up and down through lists.
+\f[CR]J\f[R]/\f[CR]K\f[R] jump down/up 10 items at a time.
+Emacs\-style
+(\f[CR]CTRL\-p\f[R]/\f[CR]CTRL\-n\f[R]/\f[CR]CTRL\-f\f[R]/\f[CR]CTRL\-b\f[R])
+and VI\-style (\f[CR]k\f[R],\f[CR]j\f[R],\f[CR]l\f[R],\f[CR]h\f[R])
+movement keys are also supported.
+.PP
+(Tip: movement speed is limited by your keyboard repeat rate, to move
+faster you may want to adjust it.
+On a mac, the Karabiner app is one way to do that.)
+.PP
+\f[CR]/\f[R] lets you set a general filter query limiting the data
+shown, using the same query terms as in hledger and hledger\-web.
+While editing the query, you can use CTRL\-a/e/d/k, BS, cursor keys;
+press \f[CR]ENTER\f[R] to set it, or \f[CR]ESCAPE\f[R]to cancel.
+There are also keys for quickly adjusting some common filters like
+account depth and transaction status (see below).
+\f[CR]BACKSPACE\f[R] or \f[CR]DELETE\f[R] removes all filters, showing
+all transactions.
+.PP
+As mentioned above, by default hledger\-ui hides future transactions \-
+both ordinary transactions recorded in the journal, and periodic
+transactions generated by rule.
+\f[CR]F\f[R] toggles forecast mode, in which future/forecasted
+transactions are shown.
+.PP
+Pressing \f[CR]SHIFT\-DOWN\f[R] narrows the report period, and pressing
+\f[CR]SHIFT\-UP\f[R] expands it again.
+When narrowed, the current report period is displayed in the header
+line, pressing \f[CR]SHIFT\-LEFT\f[R] or \f[CR]SHIFT\-RIGHT\f[R] moves
+to the previous or next period, and pressing \f[CR]T\f[R] sets the
+period to \(dqtoday\(dq.
+If you are using \f[CR]\-w/\-\-watch\f[R] and viewing a narrowed period
+containing today, the view will follow any changes in system date
+(moving to the period containing the new date).
+(These keys work only with the standard Julian calendar
+year/quarter/month/week/day periods; they are not affected by a custom
+report interval specified at the command line.)
+.PP
+You can also specify a non\-standard period with \f[CR]/\f[R] and a
+\f[CR]date:\f[R] query; in this case, the period is not movable with the
+arrow keys.
+.PP
+(Tip: arrow keys with Shift do not work out of the box in all terminal
+software.
+Eg in Apple\(aqs Terminal, the SHIFT\-DOWN and SHIFT\-UP keys must be
+configured as follows: in Terminal\(aqs preferences, click Profiles,
+select your current profile on the left, click Keyboard on the right,
+click + and add this for SHIFT\-DOWN: \f[CR]\(rs033[1;2B\f[R], click +
+and add this for SHIFT\-UP: \f[CR]\(rs033[1;2A\f[R].
+\ In other terminals (Windows Terminal ?)
+you might need to configure SHIFT\-RIGHT and SHIFT\-LEFT to emit
+\f[CR]\(rs033[1;2C\f[R] and \f[CR]\(rs033[1;2D\f[R] respectively.)
+.PP
+\f[CR]ESCAPE\f[R] resets the UI state and jumps back to the top screen,
+restoring the app\(aqs initial state at startup.
+Or, it cancels minibuffer data entry or the help dialog.
+.PP
+\f[CR]CTRL\-l\f[R] redraws the screen and centers the selection if
+possible (selections near the top won\(aqt be centered, since we
+don\(aqt scroll above the top).
+.PP
+\f[CR]g\f[R] reloads from the data file(s) and updates the current
+screen and any previous screens.

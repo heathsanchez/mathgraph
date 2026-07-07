@@ -1,0 +1,261 @@
+===== FILE: hledger-ui/hledger-ui.info =====
+This is hledger-ui.info, produced by makeinfo version 7.3 from stdin.
+
+INFO-DIR-SECTION User Applications
+START-INFO-DIR-ENTRY
+* hledger-ui: (hledger-ui).  Terminal UI for the hledger accounting tool.
+END-INFO-DIR-ENTRY
+
+
+File: hledger-ui.info,  Node: Top,  Next: OPTIONS,  Up: (dir)
+
+hledger-ui(1)
+*************
+
+hledger-ui - terminal interface (TUI) for 'hledger', a robust, friendly
+plain text accounting app.
+
+   'hledger-ui [OPTS] [QUERYARGS]'
+or
+'hledger ui [OPTS] [QUERYARGS]'
+
+   This manual is for hledger's terminal interface, version 1.99.  See
+also the hledger manual for common concepts and file formats.
+
+   hledger is a robust, user-friendly, cross-platform set of programs
+for tracking money, time, or any other commodity, using double-entry
+accounting and a simple, editable file format.  hledger is inspired by
+and largely compatible with ledger(1), and largely interconvertible with
+beancount(1).
+
+   hledger-ui is hledger's terminal interface, providing an efficient
+full-window text UI for viewing accounts and transactions, and some
+limited data entry capability.  It is easier than hledger's command-line
+interface, and sometimes quicker and more convenient than the web
+interface.
+
+   Like hledger, it reads from (and appends to) a journal file specified
+by the 'LEDGER_FILE' environment variable (defaulting to
+'$HOME/.hledger.journal'); or you can specify files with '-f' options.
+It can also read timeclock files, timedot files, or any CSV/SSV/TSV file
+with a date field.  (See hledger(1) -> Input for details.)
+
+   Unlike hledger, hledger-ui hides all future-dated transactions by
+default.  They can be revealed, along with any rule-generated periodic
+transactions, by pressing the F key (or starting with -forecast) to
+enable "forecast mode".
+
+* Menu:
+
+* OPTIONS::
+* MOUSE::
+* KEYS::
+* SCREENS::
+* WATCH MODE::
+* ENVIRONMENT::
+* BUGS::
+
+
+File: hledger-ui.info,  Node: OPTIONS,  Next: MOUSE,  Prev: Top,  Up: Top
+
+1 OPTIONS
+*********
+
+Any arguments are interpreted as a hledger query which filters the data.
+hledger-ui provides the following options:
+
+Flags:
+  -w --watch                watch for data and date changes and reload
+                            automatically
+     --theme=THEME          use this custom display theme (light,
+                            dark, terminal, greenterm)
+     --cash                 start in the cash accounts screen
+     --bs                   start in the balance sheet accounts screen
+     --is                   start in the income statement accounts screen
+     --all                  start in the all accounts screen
+     --register=ACCTREGEX   start in the (first matched) account's register
+     --change               show period balances (changes) at startup instead
+                            of historical balances
+  -l --flat                 show accounts as a flat list (default)
+  -t --tree                 show accounts as a tree
+
+   and also supports many of hledger's general options:
+
+General input flags:
+  -f --file=[FMT:]FILE      Use this as the journal file (- means stdin). If
+                            not specified, $LEDGER_FILE or ~/.hledger.journal
+                            will be used. If specified more than once, the
+                            files will be read in order. Each file's format
+                            (journal, csv, timeclock, timedot, rules..) is
+                            inferred from the file extension or a FMT: prefix.
+                            Some commands (add, import) write to the (first)
+                            file, and expect it to be in journal format.
+     --rules=RULESFILE      Use rules defined in this rules file for
+                            converting subsequent CSV/SSV/TSV files. If not
+                            specified, uses FILE.csv.rules for each FILE.csv.
+     --alias=A=B|/RGX/=RPL  transform account names from A to B, or by
+                            replacing regular expression matches
+     --auto                 generate extra postings by applying auto posting
+                            rules ("=") to all transactions
+     --forecast[=PERIOD]    Generate extra transactions from periodic rules
+                            ("~"), from after the latest ordinary transaction
+                            until 6 months from now. Or, during the specified
+                            PERIOD (the equals is required). Auto posting rules
+                            will also be applied to these transactions. In
+                            hledger-ui, also make future-dated transactions
+                            visible at startup.
+     --ignore-assertions    don't check balance assertions by default
+     --ignore-lots          don't check lot entries by default
+  -I                        shortcut for --ignore-assertions --ignore-lots
+     --txn-balancing=...    how to check that transactions are balanced:
+                            'old':   - use global display precision
+                            'exact': - use transaction precision (default)
+     --infer-costs          infer conversion equity postings from costs
+     --infer-equity         infer costs from conversion equity postings
+     --infer-market-prices  infer market prices from costs
+     --pivot=TAGNAME        use a different field or tag as account names
+  -s --strict               do extra error checks (and override -I)
+
+General output flags (affecting some commands):
+  -b --begin=DATE           include postings/transactions on/after this date
+  -e --end=DATE             include postings/transactions before this date
+                            (with a report interval, will be adjusted to
+                            following subperiod end)
+  -D --daily                set report interval: 1 day
+  -W --weekly               set report interval: 1 week
+  -M --monthly              set report interval: 1 month
+  -Q --quarterly            set report interval: 1 quarter
+  -Y --yearly               set report interval: 1 year
+  -p --period=PERIODEXP     set begin date, end date, and/or report interval,
+                            with more flexibility
+     --today=DATE           override today's date (affects relative dates)
+     --date2                match/use secondary dates instead (deprecated)
+  -U --unmarked             include only unmarked postings/transactions
+  -P --pending              include only pending postings/transactions
+  -C --cleared              include only cleared postings/transactions
+                            (-U/-P/-C can be combined)
+  -R --real                 include only non-virtual postings
+  -E --empty                Show zero items, which are normally hidden.
+                            In hledger-ui & hledger-web, do the opposite.
+     --depth=DEPTHEXP       if a number (or -NUM): show only top NUM levels
+                            of accounts. If REGEXP=NUM, only apply limiting to
+                            accounts matching the regular expression.
+  -B --cost                 convert amounts to their cost/sale amount (@/@@)
+  -V --market               valuation mode: show amounts converted to market
+                            value at period end(s) in their default valuation
+                            commodity. Short for --value=end.
+  -X --exchange=COMM        valuation mode: show amounts converted to market
+                            value at period end(s) in the specified commodity.
+                            Short for --value=end,COMM.
+     --value=WHEN[,COMM]    valuation mode: show amounts converted to market
+                            value on the specified date(s) in their default
+                            valuation commodity or a specified commodity. WHEN
+                            can be:
+                            'then':     value on transaction dates
+                            'end':      value at period end(s)
+                            'now':      value today
+                            YYYY-MM-DD: value on given date
+     --lots                 show lot subaccounts and other lot details
+  -c --commodity-style=S    Override a commodity's display style.
+                            Eg: -c '.' or -c '1.000,00 EUR'
+     --pretty[=YN]          Use box-drawing characters in text output? The
+                            optional 'y'/'yes' or 'n'/'no' arg requires =.
+     --title=T              set or customise a report title
+     --subreport-titles=TS  customise subreport headings in compound reports
+                            (|-separated)
+     --period-titles=OPT    customise headings in periodic reports:
+                            'compact': readable period names when possible
+                            'dates':   exact dates/date ranges always
+
+General help flags:
+  -h --help                 show command line help
+     --tldr                 show command examples with tldr
+     --info                 show the manual with info
+     --man                  show the manual with man
+     --version              show version information
+     --debug=[1-9]          show this much debug output (default: 1)
+     --pager=YN             use a pager when needed ? y/yes (default) or n/no
+     --color=YNA --colour   use ANSI color ? y/yes, n/no, or auto (default)
+
+   With hledger-ui, the '--debug' option sends debug output to a
+'hledger-ui.log' file in the current directory.
+
+   If you use the bash shell, you can auto-complete flags by pressing
+TAB in the command line.  If this is not working see Install > Shell
+completions.
+
+
+File: hledger-ui.info,  Node: MOUSE,  Next: KEYS,  Prev: OPTIONS,  Up: Top
+
+2 MOUSE
+*******
+
+In most modern terminals, you can navigate through the screens with a
+mouse or touchpad:
+
+   * Use mouse wheel or trackpad to scroll up and down
+   * Click on list items to go deeper
+   * Click on the left margin (column 0) to go back.
+
+
+File: hledger-ui.info,  Node: KEYS,  Next: SCREENS,  Prev: MOUSE,  Up: Top
+
+3 KEYS
+******
+
+Keyboard gives more control.
+
+   '?' shows a help dialog listing all keys.  (Some of these also appear
+in the quick help at the bottom of each screen.)  Press '?' again (or
+'ESCAPE', or 'LEFT', or 'q') to close it.  The following keys work on
+most screens:
+
+   The cursor keys navigate: 'RIGHT' or 'ENTER' goes deeper, 'LEFT'
+returns to the previous screen, 'UP'/'DOWN'/'PGUP'/'PGDN'/'HOME'/'END'
+move up and down through lists.  'J'/'K' jump down/up 10 items at a
+time.  Emacs-style ('CTRL-p'/'CTRL-n'/'CTRL-f'/'CTRL-b') and VI-style
+('k','j','l','h') movement keys are also supported.
+
+   (Tip: movement speed is limited by your keyboard repeat rate, to move
+faster you may want to adjust it.  On a mac, the Karabiner app is one
+way to do that.)
+
+   '/' lets you set a general filter query limiting the data shown,
+using the same query terms as in hledger and hledger-web.  While editing
+the query, you can use CTRL-a/e/d/k, BS, cursor keys; press 'ENTER' to
+set it, or 'ESCAPE'to cancel.  There are also keys for quickly adjusting
+some common filters like account depth and transaction status (see
+below).  'BACKSPACE' or 'DELETE' removes all filters, showing all
+transactions.
+
+   As mentioned above, by default hledger-ui hides future transactions -
+both ordinary transactions recorded in the journal, and periodic
+transactions generated by rule.  'F' toggles forecast mode, in which
+future/forecasted transactions are shown.
+
+   Pressing 'SHIFT-DOWN' narrows the report period, and pressing
+'SHIFT-UP' expands it again.  When narrowed, the current report period
+is displayed in the header line, pressing 'SHIFT-LEFT' or 'SHIFT-RIGHT'
+moves to the previous or next period, and pressing 'T' sets the period
+to "today".  If you are using '-w/--watch' and viewing a narrowed period
+containing today, the view will follow any changes in system date
+(moving to the period containing the new date).  (These keys work only
+with the standard Julian calendar year/quarter/month/week/day periods;
+they are not affected by a custom report interval specified at the
+command line.)
+
+   You can also specify a non-standard period with '/' and a 'date:'
+query; in this case, the period is not movable with the arrow keys.
+
+   (Tip: arrow keys with Shift do not work out of the box in all
+terminal software.  Eg in Apple's Terminal, the SHIFT-DOWN and SHIFT-UP
+keys must be configured as follows: in Terminal's preferences, click
+Profiles, select your current profile on the left, click Keyboard on the
+right, click + and add this for SHIFT-DOWN: '\033[1;2B', click + and add
+this for SHIFT-UP: '\033[1;2A'.  In other terminals (Windows Terminal ?)
+you might need to configure SHIFT-RIGHT and SHIFT-LEFT to emit
+'\033[1;2C' and '\033[1;2D' respectively.)
+
+   'ESCAPE' resets the UI state and jumps back to the top screen,
+restoring the app's initial state at startup.  Or, it cancels minibuffer
+data entry or the help dialog.

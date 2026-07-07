@@ -1,0 +1,261 @@
+===== FILE: hledger-lib/Hledger/Utils/Debug.hs =====
+{- | 
+
+Here are debug tracing/logging helpers built on Debug.Trace, extracted from the hledger project.
+Features:
+
+- they can be built in to your program permanently, and activated by a --debug [LEVEL] option
+- they can optionally log to a file instead of stderr (for TUI apps)
+- they can be used in IO, pure, or startup code
+- values are printed with a label, and pretty-printed (using pretty-simple)
+- ANSI colour is used when appropriate.
+
+Insert these @dbg*@ helpers at points of interest in your code,
+either temporarily while debugging,
+or permanently in production code, and activate them with @--debug [1-9]@ on the command line
+(@--debug@ with no value means level 1).
+For example, this expression:
+
+> dbg4 "foo" foo
+
+will pretty-print foo with a "foo:" label when it is evaluated, but only if --debug's value is 4 or greater.
+In other words: use dbg1 for the most useful debug output, dbg9 for the most specialised/verbose.
+
+They are intended to be easy to use and to find in your code, with a consistent naming scheme:
+
+> dbg<LEVEL>Msg   STR    VAL  -- trace/log a string in pure code
+> dbg<LEVEL>MsgIO STR         -- trace/log a string in IO
+>
+> dbg<LEVEL>      STR    VAL  -- trace/log a showable value in pure code
+> dbg<LEVEL>IO    STR    VAL  -- trace/log a showable value in IO
+>
+> dbg<LEVEL>With  SHOWFN VAL  -- trace/log any value
+
+Or if you prefer you can ignore the numbered variants and write an extra argument:
+
+> dbgMsg   LEVEL  STR    VAL
+> dbgMsgIO LEVEL  STR
+>
+> dbg      LEVEL  STR    VAL
+> dbgIO    LEVEL  STR    VAL
+>
+> dbgWith  LEVEL  SHOWFN VAL
+
+Haskell values will be pretty-printed by default, using pretty-simple.
+
+ANSI color will also be used if appropriate,
+respecting output capabilities, @NO_COLOR@, and/or a @--color [YNA]@ (or @--colour@) command line option.
+
+These helpers normally print output on stderr, but can automatically log to a file instead,
+which can be useful for TUI apps which are redrawing the screen.
+To enable this logging mode, use @withProgName@ to add a ".log" suffix to the program name:
+
+> main = withProgName "PROGRAM.log" $ do ...
+
+Now all dbg calls will log to @PROGRAM.log@ in the current directory.
+
+Logging, and reading the command line\/program name\/output context use unsafePerformIO,
+so that these can be used anywhere, including early in your program before command line parsing is complete.
+As a consequence, if you are testing in GHCI and want to change the debug level, you'll need to reload this module.
+
+The @dbg@ function name clashes with the one in Text.Megaparsec.Debug, unfortunately; sorry about that.
+If you are also using that, use qualified imports, or our @dbg_@ alias, to avoid the clash.
+
+The meaning of debug levels is up to you. Eg hledger uses them as follows:
+
+@
+Debug level:  What to show:
+------------  ---------------------------------------------------------
+0             normal program output only
+1             useful warnings, most common troubleshooting info
+2             common troubleshooting info, more detail
+3             report options selection
+4             report generation
+5             report generation, more detail
+6             input file reading
+7             input file reading, more detail
+8             command line parsing
+9             any other rarely needed / more in-depth info
+@
+
+It's not yet possible to select debug output by topic; that would be useful.
+
+-}
+
+-- Disabled until 0.1.2.0 is released with windows support:
+--  This module also exports Debug.Trace and the breakpoint package's Debug.Breakpoint.
+
+-- more:
+-- http://hackage.haskell.org/packages/archive/TraceUtils/0.1.0.2/doc/html/Debug-TraceUtils.html
+-- http://hackage.haskell.org/packages/archive/trace-call/0.1/doc/html/Debug-TraceCall.html
+-- http://hackage.haskell.org/packages/archive/htrace/0.1/doc/html/Debug-HTrace.html
+-- http://hackage.haskell.org/packages/archive/traced/2009.7.20/doc/html/Debug-Traced.html
+-- https://hackage.haskell.org/package/debug
+
+-- internal helpers, currently not exported:
+
+-- * Tracing to stderr
+-- These print to stderr.
+-- This output will be interleaved with the program's normal output,
+-- which can be helpful for understanding code execution.
+--
+-- ,traceWith
+-- ,traceAt
+-- ,traceAtWith
+-- ,ptrace
+-- ,ptraceAt
+-- ,ptraceAtIO
+
+-- * Logging to a log file
+-- These append to a PROGRAM.log file in the current directory.
+-- PROGRAM is normally the name of the executable, but it can change
+-- eg when running in GHCI. So when using these, you should call
+-- @withProgName@ to ensure a stable program name.
+-- Eg: @main = withProgName "PROGRAM" $ do ...@.
+--
+-- ,log'
+-- ,logAt
+-- ,logIO
+-- ,logAtIO
+-- ,logWith
+-- ,logAtWith
+-- ,plogAt
+-- ,plogAtIO
+
+{-# LANGUAGE CPP #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+module Hledger.Utils.Debug (
+
+  -- * Debug level
+  debugLevel
+
+  -- * Trace/log a string
+  ,dbgMsg
+  ,dbg0Msg
+  ,dbg1Msg
+  ,dbg2Msg
+  ,dbg3Msg
+  ,dbg4Msg
+  ,dbg5Msg
+  ,dbg6Msg
+  ,dbg7Msg
+  ,dbg8Msg
+  ,dbg9Msg
+
+  -- * Trace/log a string in IO
+  ,dbgMsgIO
+  ,dbg0MsgIO
+  ,dbg1MsgIO
+  ,dbg2MsgIO
+  ,dbg3MsgIO
+  ,dbg4MsgIO
+  ,dbg5MsgIO
+  ,dbg6MsgIO
+  ,dbg7MsgIO
+  ,dbg8MsgIO
+  ,dbg9MsgIO
+
+  -- * Trace/log a value
+  ,dbg
+  ,dbg_
+  ,dbg0
+  ,dbg1
+  ,dbg2
+  ,dbg3
+  ,dbg4
+  ,dbg5
+  ,dbg6
+  ,dbg7
+  ,dbg8
+  ,dbg9
+
+  -- * Trace/log a value in IO
+  ,dbgIO
+  ,dbg0IO
+  ,dbg1IO
+  ,dbg2IO
+  ,dbg3IO
+  ,dbg4IO
+  ,dbg5IO
+  ,dbg6IO
+  ,dbg7IO
+  ,dbg8IO
+  ,dbg9IO
+
+  -- * Trace/log a value with a show function
+  ,dbgWith
+  ,dbg0With
+  ,dbg1With
+  ,dbg2With
+  ,dbg3With
+  ,dbg4With
+  ,dbg5With
+  ,dbg6With
+  ,dbg7With
+  ,dbg8With
+  ,dbg9With
+
+  -- * Utilities
+  ,lbl_
+  ,progName
+
+  -- * ghc-debug helpers
+  ,ghcDebugSupportedInLib
+  ,GhcDebugMode(..)
+  ,ghcDebugMode
+  ,withGhcDebug'
+  ,ghcDebugPause'
+
+  -- * Re-exports: Debug.Trace
+  -- ,module Debug.Breakpoint
+  ,module Debug.Trace
+
+  )
+where
+
+import Control.DeepSeq (force)
+import Control.Exception (evaluate)
+import Control.Monad.IO.Class (MonadIO, liftIO)
+import Data.List hiding (uncons)
+import Debug.Trace (trace, traceIO, traceShowId)
+#ifdef GHCDEBUG
+import GHC.Debug.Stub (pause, withGhcDebug)
+#endif
+import Safe (readDef)
+import System.Environment (getProgName)
+-- import System.Exit (exitFailure)
+import System.IO.Unsafe (unsafePerformIO)
+
+import Hledger.Utils.IO (progArgs, pshow, pshow')
+
+
+-- | The program name as returned by @getProgName@.
+-- It's best to set this explicitly at program startup with @withProgName@,
+-- otherwise when running in GHCI (eg) it will change to "<interactive>".
+-- Setting it with a ".log" suffix causes some functions below
+-- to log instead of trace.
+{-# NOINLINE modifiedProgName #-}
+modifiedProgName :: String
+modifiedProgName = unsafePerformIO getProgName
+
+-- | The progam name, with any ".log" suffix removed.
+progName :: String
+progName =
+  if ".log" `isSuffixOf` modifiedProgName
+  then reverse $ drop 4 $ reverse modifiedProgName
+  else modifiedProgName
+
+-- | The program's debug output verbosity, from 0 to 9.
+-- The default is 0 meaning no debug output.
+-- This can be overridden by running the program with a --debug [1-9] command line option;
+-- a --debug flag with no value means 1.
+-- Uses unsafePerformIO to read the command line.
+-- When running in GHCI, changing this requires reloading this module.
+debugLevel :: Int
+debugLevel = case dropWhile (/="--debug") progArgs of
+               ["--debug"]   -> 1
+               "--debug":n:_ -> readDef 1 n
+               _             ->
+                 case take 1 $ filter ("--debug" `isPrefixOf`) progArgs of
+                   ['-':'-':'d':'e':'b':'u':'g':'=':v] -> readDef 1 v

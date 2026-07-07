@@ -1,0 +1,261 @@
+===== FILE: hledger-ui/Hledger/UI/UIUtils.hs =====
+{- | Rendering & misc. helpers. -}
+
+{-# LANGUAGE CPP               #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE LambdaCase #-}
+
+module Hledger.UI.UIUtils (
+   borderDepthStr
+  ,borderKeysStr
+  ,borderKeysStr'
+  ,borderPeriodStr
+  ,borderQueryStr
+  ,defaultLayout
+  ,helpDialog
+  ,helpHandle
+  ,minibuffer
+  ,moveDownEvents
+  ,moveLeftEvents
+  ,moveRightEvents
+  ,moveUpEvents
+  ,normaliseMovementKeys
+  ,renderToggle
+  ,renderToggle1
+  ,replaceHiddenAccountsNameWith
+  ,scrollSelectionToMiddle
+  ,get'
+  ,put'
+  ,modify'
+  ,suspend
+  ,redraw
+  ,reportSpecAddQuery
+  ,reportSpecSetFutureAndForecast
+  ,listScrollPushingSelection
+  ,dbgui
+  ,dbguiIO
+  ,dbguiEv
+  ,dbguiScreensEv
+  ,showScreenId
+  ,showScreenRegisterDescriptions
+  ,showScreenSelection
+  ,mapScreens
+  ,uiNumBlankItems
+  ,showScreenStack
+  ,sendVtyEvents  -- currently unused, kept (and exported, to avoid an unused-binding warning) for future use
+  )
+where
+
+import Brick
+import Brick.Widgets.Border
+import Brick.Widgets.Border.Style
+import Brick.Widgets.Dialog
+import Brick.Widgets.Edit
+import Brick.Widgets.List (List, listSelectedL, listNameL, listItemHeightL, listSelected, listMoveDown, listMoveUp, GenericList, listElements)
+import Control.Concurrent.STM (atomically, writeTChan)  -- GHC only
+import Control.Monad.IO.Class
+import Data.Bifunctor (second)
+import Data.List
+import Data.Text qualified as T
+import Data.Time (addDays)
+import Graphics.Vty
+  (Event(..),Key(..),Modifier(..),Vty(..),Color,Attr,currentAttr,refresh, displayBounds
+  -- ,Output(displayBounds,mkDisplayContext),DisplayContext(..)
+  ,Vty (inputIface), InternalEvent (InputEvent), Input (eventChannel)
+  )
+import Lens.Micro.Platform
+
+import Hledger
+-- import Hledger.Cli.CliOptions (CliOpts(reportspec_))
+import Hledger.Cli.DocFiles
+-- import Hledger.UI.UIOptions (UIOpts(uoCliOpts))
+import Hledger.UI.UITypes
+
+import Data.Vector (Vector)
+import Data.Vector qualified as V
+
+-- | On posix platforms, send the system STOP signal to suspend the
+-- current program. On windows, does nothing.
+-- (Though, currently hledger-ui is not built on windows.)
+#ifdef mingw32_HOST_OS
+suspendSignal :: IO ()
+suspendSignal = return ()
+#else
+import System.Posix.Signals
+suspendSignal :: IO ()
+suspendSignal = raiseSignal sigSTOP
+#endif
+
+-- Debug logging for UI state changes.
+-- A good place to log things of interest while debugging, see commented examples below.
+
+get' = do
+  ui <- get
+  dbguiEv $ "getting state: " ++ 
+    showScreenStack "" showScreenSelection ui
+    -- (head $ lines $ pshow $ aScreen x)
+    -- ++ " " ++ (show $ map tdescription $ jtxns $ ajournal x)
+  -- dbguiEv $ ("query: "++) $ pshow' $ x  & aopts & uoCliOpts & reportspec_ & _rsQuery
+  -- dbguiScreensEv "getting" showScreenId x
+  -- dbguiScreensEv "getting, with register descriptions" showScreenRegisterDescriptions x
+  return ui
+
+put' ui = do
+  dbguiEv $ "putting state: " ++
+    showScreenStack "" showScreenSelection ui
+    -- (head $ lines $ pshow $ aScreen x)
+    -- ++ " " ++ (show $ map tdescription $ jtxns $ ajournal x)
+  -- dbguiEv $ ("query: "++) $ pshow' $ x  & aopts & uoCliOpts & reportspec_ & _rsQuery
+  -- dbguiScreensEv "putting" showScreenId x
+  -- dbguiScreensEv "putting, with register descriptions" showScreenRegisterDescriptions x
+  put ui
+
+modify' f = do
+  ui <- get
+  let ui' = f ui
+  dbguiEv $ "getting state: " ++ (showScreenStack "" showScreenSelection ui)
+  dbguiEv $ "putting state: " ++ (showScreenStack "" showScreenSelection ui')
+    -- (head $ lines $ pshow $ aScreen x')
+    -- ++ " " ++ (show $ map tdescription $ jtxns $ ajournal x')
+  -- dbguiEv $ ("from: "++) $ pshow' $ x  & aopts & uoCliOpts & reportspec_ & _rsQuery
+  -- dbguiEv $ ("to:   "++) $ pshow' $ x' & aopts & uoCliOpts & reportspec_ & _rsQuery
+  -- dbguiScreensEv "getting" showScreenId x
+  -- dbguiScreensEv "putting" showScreenId x'
+  -- dbguiScreensEv "getting, with register descriptions" showScreenRegisterDescriptions x
+  -- dbguiScreensEv "putting, with register descriptions" showScreenRegisterDescriptions x'
+  modify f
+
+-- | On posix platforms, suspend the program using the STOP signal,
+-- like control-z in bash, returning to the original shell prompt,
+-- and when resumed, continue where we left off.
+-- On windows, does nothing.
+suspend :: Ord a => s -> EventM a s ()
+suspend st = suspendAndResume $ suspendSignal >> return st
+
+-- | Tell vty to redraw the whole screen.
+redraw :: EventM a s ()
+redraw = getVtyHandle >>= liftIO . refresh
+
+-- | Wrap a widget in the default hledger-ui screen layout.
+defaultLayout :: Widget Name -> Widget Name -> Widget Name -> Widget Name
+defaultLayout toplabel bottomlabel =
+  topBottomBorderWithLabels (str " "<+>toplabel<+>str " ") (str " "<+>bottomlabel<+>str " ") .
+  margin 1 0 Nothing
+  -- topBottomBorderWithLabel label .
+  -- padLeftRight 1 -- XXX should reduce inner widget's width by 2, but doesn't
+                    -- "the layout adjusts... if you use the core combinators"
+
+-- | Draw the help dialog, called when help mode is active.
+helpDialog :: Widget Name
+helpDialog =
+  Widget Fixed Fixed $ do
+    c <- getContext
+    render $
+      withDefAttr (attrName "help") $
+      renderDialog (dialog (Just $ str "Help (LEFT/ESC/?/q to close help)") Nothing (c^.availWidthL)) $ -- (Just (0,[("ok",())]))
+      padTop (Pad 0) $ padLeft (Pad 1) $ padRight (Pad 1) $
+        vBox [
+           hBox [
+              padRight (Pad 1) $
+                vBox [
+                   withAttr (attrName "help" <> attrName "heading") $ str "Navigation"
+                  ,renderKey ("UP/DOWN/PUP/PDN/HOME/END/k/j/C-p/C-n", "")
+                  ,str "     move selection up/down"
+                  ,renderKey ("RIGHT/l/C-f", "show txns, or txn detail")
+                  ,renderKey ("LEFT/h/C-b ", "go back/see other screens")
+                  ,renderKey ("ESC ", "cancel, or reset app state")
+
+                  ,str " "
+                  ,withAttr (attrName "help" <> attrName "heading") $ str "Accounts screens"
+                  ,renderKey ("1234567890-+ ", "set/adjust depth limit")
+                  ,renderKey ("t ", "toggle accounts tree/list mode")
+                  ,renderKey ("H ", "toggle historical balance/change")
+                  ,str " "
+                  ,withAttr (attrName "help" <> attrName "heading") $ str "Register screens"
+                  ,renderKey ("t ", "toggle subaccount txns\n(and accounts tree/list mode)")
+                  ,renderKey ("H ", "toggle historical/period total")
+                  ,str " "
+                  ,withAttr (attrName "help" <> attrName "heading") $ str "Help"
+                  ,renderKey ("?    ", "toggle this help")
+                  ,renderKey ("p/m/i", "while help is open:\nshow manual in pager/man/info")
+                  ,str " "
+                ]
+             ,padLeft (Pad 1) $ padRight (Pad 0) $
+                vBox [
+                   withAttr (attrName "help" <> attrName "heading") $ str "Filtering"
+                  ,renderKey ("/   ", "set a filter query")
+                  ,renderKey ("F   ", "show future & forecast txns")
+                  ,renderKey ("R   ", "show real/all postings")
+                  ,renderKey ("z   ", "show nonzero/all amounts")
+                  ,renderKey ("U/P/C ", "show unmarked/pending/cleared")
+                  ,renderKey ("S-DOWN /S-UP  ", "shrink/grow period")
+                  ,renderKey ("S-RIGHT/S-LEFT", "next/previous period")
+                  ,renderKey ("T             ", "set period to today")
+                  ,renderKey ("DEL ", "reset filters")
+                  ,str " "
+                  ,withAttr (attrName "help" <> attrName "heading") $ str "Other"
+                  ,renderKey ("a   ", "add transaction (hledger add)")
+                  ,renderKey ("A   ", "add transaction (hledger-iadd)")
+                  ,renderKey ("B   ", "show amounts/costs")
+                  ,renderKey ("E   ", "open editor")
+                  ,renderKey ("I   ", "toggle balance assertions")
+                  ,renderKey ("L   ", "show/hide lot detail")
+                  ,renderKey ("V   ", "show amounts/market values")
+                  ,renderKey ("g   ", "reload data")
+                  ,renderKey ("C-l ", "redraw & recenter")
+                  ,renderKey ("C-z ", "suspend")
+                  ,renderKey ("q   ", "quit")
+                ]
+             ]
+--           ,vBox [
+--              str " "
+--             ,hCenter $ padLeftRight 1 $
+--               hCenter (str "MANUAL")
+--               <=>
+--               hCenter (hBox [
+--                  renderKey ("t", "text")
+--                 ,str " "
+--                 ,renderKey ("m", "man page")
+--                 ,str " "
+--                 ,renderKey ("i", "info")
+--                 ])
+--             ]
+          ]
+  where
+    renderKey (key,desc) = withAttr (attrName "help" <> attrName "key") (str key) <+> str " " <+> str desc
+
+-- | Event handler used when help mode is active.
+-- May invoke $PAGER, less, man or info, which is likely to fail on MS Windows, TODO.
+helpHandle :: BrickEvent Name AppEvent -> EventM Name UIState ()
+helpHandle ev = do
+  ui <- get
+  let ui' = ui{aMode=Normal}
+  case ev of
+    VtyEvent e | e `elem` closeHelpEvents -> put' ui'
+    VtyEvent (EvKey (KChar 'p') []) -> suspendAndResume (runPagerForTopic "hledger-ui" Nothing >> return ui')
+    VtyEvent (EvKey (KChar 'm') []) -> suspendAndResume (runManForTopic   "hledger-ui" Nothing >> return ui')
+    VtyEvent (EvKey (KChar 'i') []) -> suspendAndResume (runInfoForTopic  "hledger-ui" Nothing >> return ui')
+    _ -> return ()
+  where
+    closeHelpEvents = moveLeftEvents ++ [EvKey KEsc [], EvKey (KChar '?') [], EvKey (KChar 'q') []]
+
+-- | Draw the minibuffer with the given label.
+minibuffer :: T.Text -> Editor String Name -> Widget Name
+minibuffer string ed =
+  forceAttr (attrName "border" <> attrName "minibuffer") $
+  hBox [txt $ string <> ": ", renderEditor (str . unlines) True ed]
+
+borderQueryStr :: String -> Widget Name
+borderQueryStr ""  = str ""
+borderQueryStr qry = str " matching " <+> withAttr (attrName "border" <> attrName "query") (str qry)
+
+borderDepthStr :: Maybe Int -> Widget Name
+borderDepthStr Nothing  = str ""
+borderDepthStr (Just d) = str " to depth " <+> withAttr (attrName "border" <> attrName "query") (str $ show d)
+
+borderPeriodStr :: String -> Period -> Widget Name
+borderPeriodStr _           PeriodAll = str ""
+borderPeriodStr preposition p         = str (" "++preposition++" ") <+> withAttr (attrName "border" <> attrName "query") (str . T.unpack $ showPeriod p)
+
+borderKeysStr :: [(String,String)] -> Widget Name

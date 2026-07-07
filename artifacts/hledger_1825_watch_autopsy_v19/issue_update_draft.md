@@ -1,0 +1,1 @@
+Quick update: I’ve started by mapping the `--watch` implementation path and preparing a small diagnostic harness to measure idle CPU/RSS over time. I’ll avoid submitting a speculative fix until I can show a reproducible before/after or a clearly isolated event-loop/watch-lifecycle cause.

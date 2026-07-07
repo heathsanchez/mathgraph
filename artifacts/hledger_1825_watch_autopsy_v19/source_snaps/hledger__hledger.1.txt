@@ -1,0 +1,261 @@
+===== FILE: hledger/hledger.1 =====
+.\"t
+
+.TH "HLEDGER" "1" "May 2026" "hledger-1.99 " "hledger User Manuals"
+
+
+
+.SH NAME
+hledger \- a robust, friendly plain text accounting app (command line
+version).
+.SH SYNOPSIS
+\f[CR]hledger\f[R]
+.PD 0
+.P
+.PD
+or
+.PD 0
+.P
+.PD
+\f[CR]hledger COMMAND [OPTS] [ARGS]\f[R]
+.SH DESCRIPTION
+hledger is a robust, user\-friendly, cross\-platform set of programs for
+tracking money, time, or any other commodity, using double\-entry
+accounting and a simple, editable file format.
+hledger is inspired by and largely compatible with ledger(1), and
+largely interconvertible with beancount(1).
+.PP
+This manual is for hledger\(aqs command line interface, version 1.99.
+It also describes the common options, file formats and concepts used by
+all hledger programs.
+It might accidentally teach you some bookkeeping/accounting as well!
+You don\(aqt need to know everything in here to use hledger
+productively, but when you have a question about functionality, this doc
+should answer it.
+It is detailed, so do skip ahead or skim when needed.
+You can read it on hledger.org, or as an info manual or man page on your
+system.
+You can also open a built\-in copy, at a point of interest, by running
+.PD 0
+.P
+.PD
+\f[CR]hledger \-\-man [CMD]\f[R], \f[CR]hledger \-\-info [CMD]\f[R] or
+\f[CR]hledger help [TOPIC]\f[R].
+.PP
+(And for shorter help, try \f[CR]hledger \-\-tldr [CMD]\f[R].)
+.PP
+The main function of the hledger CLI is to read plain text files
+describing financial transactions, crunch the numbers, and print a
+useful report on the terminal (or save it as HTML, CSV, JSON or SQL).
+Many reports are available, as subcommands.
+hledger will also detect other \f[CR]hledger\-*\f[R] executables as
+extra subcommands.
+.PP
+hledger usually reads from (and appends to) a journal file specified by
+the \f[CR]LEDGER_FILE\f[R] environment variable (defaulting to
+\f[CR]$HOME/.hledger.journal\f[R]); or you can specify files with
+\f[CR]\-f\f[R] options.
+It can also read timeclock files, timedot files, or any CSV/SSV/TSV file
+with a date field.
+.PP
+Here is a small journal file describing one transaction:
+.IP
+.EX
+2015\-10\-16 bought food
+  expenses:food          $10
+  assets:cash
+.EE
+.PP
+Transactions are dated movements of money (etc.)
+between two or more \f[I]accounts\f[R]: bank accounts, your wallet,
+revenue/expense categories, people, etc.
+You can choose any account names you wish, using \f[CR]:\f[R] to
+indicate subaccounts.
+There must be at least two spaces between account name and amount.
+Positive amounts are inflow to that account (\f[I]debit\f[R]), negatives
+are outflow from it (\f[I]credit\f[R]).
+(Some reports show revenue, liability and equity account balances as
+negative numbers as a result; this is normal.)
+.PP
+hledger\(cqs add command can help you add transactions, or you can
+install other data entry UIs like hledger\-web or hledger\-iadd.
+For more extensive/efficient changes, use a text editor: Emacs +
+ledger\-mode, VIM + vim\-ledger, or VS Code + hledger\-vscode are some
+good choices (see https://hledger.org/editors.html).
+.PP
+To get started, run \f[CR]hledger add\f[R] and follow the prompts, or
+save some entries like the above in \f[CR]$HOME/.hledger.journal\f[R],
+then try commands like:
+.IP
+.EX
+$ hledger print \-x
+$ hledger aregister assets
+$ hledger balance
+$ hledger balancesheet
+$ hledger incomestatement
+.EE
+.PP
+Run \f[CR]hledger\f[R] to list the commands.
+See also the \(dqStarting a journal file\(dq and \(dqSetting opening
+balances\(dq sections in PART 5: COMMON TASKS.
+.SH PART 1: USER INTERFACE
+.SH Input
+hledger reads one or more data files, each time you run it.
+You can specify a file with \f[CR]\-f\f[R], like so
+.IP
+.EX
+$ hledger \-f FILE [\-f FILE2 ...] print
+.EE
+.PP
+Files are most often in hledger\(aqs journal format, with the
+\f[CR].journal\f[R] file extension (\f[CR].hledger\f[R] or \f[CR].j\f[R]
+also work); these files describe transactions, like an accounting
+general journal.
+.PP
+When no file is specified, hledger looks for \f[CR].hledger.journal\f[R]
+in your home directory.
+.PP
+But most people prefer to keep financial files in a dedicated folder,
+perhaps with version control.
+Also, starting a new journal file each year is common (it\(aqs not
+required, but helps keep things fast and organised).
+So we usually configure a different journal file, by setting the
+\f[CR]LEDGER_FILE\f[R] environment variable, to something like
+\f[CR]\(ti/finance/2023.journal\f[R].
+For more about how to do that on your system, see Common tasks > Setting
+LEDGER_FILE.
+.SS Text encoding
+hledger expects non\-ascii input to be decodable with the system
+locale\(aqs text encoding.
+(For CSV/SSV/TSV files, this can be overridden by the
+\f[CR]encoding\f[R] CSV rule.)
+.PP
+So, trying to read non\-ascii files which have the wrong text encoding,
+or when no system locale is configured, will fail.
+To fix this, configure your system locale appropriately, and/or convert
+the files to your system\(aqs text encoding (using \f[CR]iconv\f[R] on
+unix, or powershell or notepad on Windows).
+See Install: Text encoding for more tips.
+.PP
+hledger\(aqs output will use the system locale\(aqs encoding.
+.PP
+hledger\(aqs docs and example files mostly use UTF\-8 encoding.
+.SS Data formats
+Usually the data file is in hledger\(aqs journal format, but it can be
+in any of the supported file formats, which currently are:
+.PP
+.TS
+tab(@);
+lw(13.5n) lw(33.0n) lw(23.5n).
+T{
+Reader:
+T}@T{
+Reads:
+T}@T{
+Automatically used for files with extensions:
+T}
+_
+T{
+\f[CR]journal\f[R]
+T}@T{
+hledger journal files and some Ledger journals, for transactions
+T}@T{
+\f[CR].journal\f[R] \f[CR].j\f[R] \f[CR].hledger\f[R] \f[CR].ledger\f[R]
+T}
+T{
+\f[CR]timeclock\f[R]
+T}@T{
+timeclock files, for precise time logging
+T}@T{
+\f[CR].timeclock\f[R]
+T}
+T{
+\f[CR]timedot\f[R]
+T}@T{
+timedot files, for approximate time logging
+T}@T{
+\f[CR].timedot\f[R]
+T}
+T{
+\f[CR]csv\f[R]
+T}@T{
+Comma\- or other delimiter\-separated values, for data import
+T}@T{
+\f[CR].csv\f[R]
+T}
+T{
+\f[CR]ssv\f[R]
+T}@T{
+Semicolon separated values
+T}@T{
+\f[CR].ssv\f[R]
+T}
+T{
+\f[CR]tsv\f[R]
+T}@T{
+Tab separated values
+T}@T{
+\f[CR].tsv\f[R]
+T}
+T{
+\f[CR]rules\f[R]
+T}@T{
+CSV/SSV/TSV/other separated values, alternate way
+T}@T{
+\f[CR].rules\f[R]
+T}
+.TE
+.PP
+These formats are described in more detail below.
+.PP
+hledger detects the format automatically based on the file extensions
+shown above.
+If it can\(aqt recognise the file extension, it assumes
+\f[CR]journal\f[R] format.
+So for non\-journal files, it\(aqs important to use a recognised file
+extension, so as to either read successfully or to show relevant error
+messages.
+.PP
+You can also force a specific reader/format by prefixing the file path
+with the format and a colon.
+Eg, to read a .dat file containing tab separated values:
+.IP
+.EX
+$ hledger \-f tsv:/some/file.dat stats
+.EE
+.SS Standard input
+The file name \f[CR]\-\f[R] means standard input:
+.IP
+.EX
+$ cat FILE | hledger \-f\- print
+.EE
+.PP
+If reading non\-journal data in this way, you\(aqll need to write the
+format as a prefix, like \f[CR]timeclock:\f[R] here:
+.IP
+.EX
+$ echo \(aqi 2009/13/1 08:00:00\(aq | hledger print \-f timeclock:\-
+.EE
+.SS Multiple files
+You can specify multiple \f[CR]\-f\f[R] options, to read multiple files
+as one big journal.
+When doing this, note that certain features (described below) will be
+affected:
+.IP \(bu 2
+Balance assertions will not see the effect of transactions in previous
+files.
+(Usually this doesn\(aqt matter as each file will set the corresponding
+opening balances.)
+.IP \(bu 2
+Some directives will not affect previous or subsequent files.
+.PP
+If needed, you can work around these by using a single parent file which
+includes the others, or concatenating the files into one, eg:
+\f[CR]cat a.journal b.journal | hledger \-f\- CMD\f[R].
+.SS Strict mode
+hledger checks input files for valid data.
+By default, the most important errors are detected, while still
+accepting easy journal files without a lot of declarations:
+.IP \(bu 2
+Are the input files parseable, with valid syntax ?
+.IP \(bu 2

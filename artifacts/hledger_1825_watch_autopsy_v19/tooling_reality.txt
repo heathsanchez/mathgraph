@@ -1,0 +1,44 @@
+===== tools =====
+/usr/bin/make
+/bin/ps
+/usr/bin/vm_stat
+
+===== build files =====
+./cabal.project
+./doc/haskellerz/Makefile
+./examples/debconf/Makefile
+./examples/reports/Makefile
+./hledger-lib/hledger-lib.cabal
+./hledger-lib/package.yaml
+./hledger-ui/hledger-ui.cabal
+./hledger-ui/package.yaml
+./hledger-web/hledger-web.cabal
+./hledger-web/package.yaml
+./hledger/hledger.cabal
+./hledger/package.yaml
+./hledger/shell-completion/Makefile
+./Makefile
+./stack.yaml
+
+===== package refs =====
+hledger-ui/hledger-ui.cabal:7:name:           hledger-ui
+hledger-ui/hledger-ui.cabal:33:    hledger-ui.1
+hledger-ui/hledger-ui.cabal:34:    hledger-ui.txt
+hledger-ui/hledger-ui.cabal:35:    hledger-ui.info
+hledger-ui/hledger-ui.cabal:74:    , brick >=2.1.1 && <2.3.2 || >2.3.2 && <3
+hledger-ui/hledger-ui.cabal:82:    , fsnotify >=0.4.2.0 && <0.5
+hledger-ui/hledger-ui.cabal:99:    , vty >=6.1
+hledger-ui/hledger-ui.cabal:100:    , vty-crossplatform >=0.4.0.0
+hledger-ui/hledger-ui.cabal:106:        vty-windows >=0.2.0.1
+hledger-ui/hledger-ui.cabal:111:executable hledger-ui
+hledger-ui/hledger-ui.cabal:112:  main-is: hledger-ui.hs
+hledger-ui/hledger-ui.cabal:123:    , hledger-ui
+hledger-ui/hledger-ui.cabal:142:    , brick >=2.1.1 && <2.3.2 || >2.3.2 && <3
+hledger-ui/hledger-ui.cabal:148:    , hledger-ui
+hledger-ui/hledger-ui.cabal:156:    , vty >=6.1
+hledger-ui/hledger-ui.cabal:157:    , vty-crossplatform >=0.4.0.0
+stack.yaml:7:- hledger-ui
+cabal.project:3:          hledger-ui
+cabal.project:8:-- https://github.com/jtdaugherty/brick/issues/539
+cabal.project:14:  brick >= 2.10,
+cabal.project:19:  vty-windows >= 0.2.0.1,

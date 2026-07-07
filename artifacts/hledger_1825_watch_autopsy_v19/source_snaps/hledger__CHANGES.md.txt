@@ -1,0 +1,261 @@
+===== FILE: hledger/CHANGES.md =====
+<!--
+      _ _
+  ___| (_)
+ / __| | |
+| (__| | |
+ \___|_|_|
+
+Breaking changes
+
+Fixes
+
+Features
+
+Improvements
+
+Docs
+
+Examples
+
+Scripts/addons
+
+API
+
+AI usage
+
+-->
+
+User-visible changes in the hledger command line tool and library.
+
+
+# 1.99.3 2026-06-24
+
+## Breaking changes
+
+- CLI: `--verbose-tags` is no longer a general flag, it is now a
+  command-specific flag for `print` and `rewrite`.
+
+- Commodities & prices: `commodities --used` now only shows
+  commodities used in transactions; use `--priced` to see commodities
+  used in P directives.
+
+- Data import: The CSV `source` and `archive` rules now read from/write to a
+  journal-adjacent `data/` directory by default.
+
+- Journal: Inferred missing amounts no longer affect display precisions or
+  entry balancing precisions.
+
+- Journal: account names whose final part is enclosed in curly braces
+  (like `assets:{foo}`) are expected to have a valid lot subaccount
+  name within the braces, and will raise an error if not. This is now
+  documented.  Also this error checking (and the hiding by default) of
+  explicit lot subaccounts can now be disabled with `-I`/`--ignore-lots`.
+
+- print: `print` now aligns posting amounts by decimal mark, by default.
+  `--layout=hledger1` restores the old layout.
+
+## Command line
+
+- We now show a clear error when no value is provided for a
+  value-requiring option.  (Eg, `hledger import -f --dry-run` no
+  longer tries to use `--dry-run` as `-f`'s value.)
+
+- Bad option values are now reliably reported as an error.
+  Previously, some invalid option values triggered an error only if
+  the option was actually used by the command being run.
+
+- On Windows, file paths containing spaces are now quoted properly
+  when invoking external helpers (info, man, tldr, pager, `$EDITOR`,
+  `hledger-iadd`). This affected hledger-ui's `A` and `E` keys, and
+  hledger's help/pager invocations.
+  [#2646]
+
+## Commodities & prices
+
+- Commodity aliases:
+  In journal files, commodity directives can now define one or more
+  aliases for the commodity.  Eg here USD has three aliases:
+
+      commodity USD 1.00    ; alias: $ US$ "us dollars"
+
+  A 1:1 market price is inferred for these, so you can use `-X` to
+  freely convert between them.  This is useful eg if your journal and
+  your downloaded market price data use different symbols for a currency.
+
+  `cur:COMM` queries now match COMM or any of its commodity aliases.
+  To match only a specific symbol without considering aliases, use `sym:SYM`.
+
+- `commodities`: `--used` now only shows commodities used in transactions;
+  a new `--priced` flag shows commodities used in P directives.
+  Separating these makes `--used` more useful with a date query.
+
+- `commodities` now supports `date:` queries (and/or `-b`/`-e`/`-p`
+  report period options), affecting the `--used` and `--priced` reports.
+
+- `prices` has a new `--summary` mode.
+
+- `prices` has a new `--locations` flag, showing the file and line number
+  of each price's directive or transaction from which it was inferred.
+
+## Data entry
+
+- `add` and `import` now test for faulty filesystems before writing.
+  Some filesystems, eg an Android shared filesystem in Termux, overwrite when you tell them to append.
+  hledger now tests for this before writing to the journal, to reduce risk of data loss.
+  [#2577]
+
+- `add` now offers useful default amounts after entering a balance assignment.
+  Previously, amounts entered via `= BALANCEAMOUNT` were not affecting
+  subsequent postings' default amounts, making it difficult to
+  complete data entry. Now, appropriate balancing amounts are offered.
+
+- `add` no longer restarts at posting 1 if the final transaction checks fail.
+  So if the entered transaction fails to balance or satisfy balance assertions,
+  it now just reprompts for another posting, instead of discarding the postings
+  entered. (This is most visible when entering balance assignments.)
+
+- `add`'s default amounts are now displayed with the journal's commodity
+  display styles, helping to avoid misparsing of decimal marks. [#2645]
+
+## Data import
+
+- `get` is a new command for fetching transaction data and market prices.
+  It runs two helper scripts which you can customise:
+  
+  - `data/getdata` to gather transaction data (eg CSV) files in `data/`
+  - `prices/getprices` to download market prices, to be saved in `prices/`
+
+  Or with `--transactions` or `--prices`, only the selected phase is run.
+  The data and prices directories are autocreated if needed, next to the main journal file.
+  Sample scripts can be found in <https://github.com/simonmichael/hledger/tree/main/bin>.
+  The sample `getprices` requires `pricehist`.
+
+- `import` with no file arguments now reads from all `.rules` files in
+  the `rules/` directory next to the main journal file, by default.
+  Files whose name begins with `.` or `_` are skipped (this is useful
+  for included files which should not be read directly.)
+
+- `import -g`/`--get` runs the `get` command before importing.  So
+  with appropriate helper scripts, a complete import workflow can be:
+  `hledger import -g [--dry-run]`
+
+- `import` now archives only when new transactions were actually
+  imported.  This avoids creating duplicate archives, eg with a
+  data-generating `source` rule like `source | paypalcsv ...`.
+
+- The CSV `source` and `archive` rules now read from/write to the
+  journal's `data/` directory by default:
+
+  - `source` looks for bare filenames/relative paths first in `data/`,
+    then in `~/Downloads`.
+    (Except paths beginning with `./` or `../` - these are relative
+    to the rules file, as before.)
+  - `archive` saves to `data/archive/`, autocreating that if needed.
+    (A breaking change; previously it saved in a data dir next to the rules file.)
+
+- On Windows, `source` file paths with a drive letter like `C:\foo`
+  are now properly recognised as absolute paths (not relative).
+
+- A `#` character in a `source` rule now always starts a same-line
+  comment, even if it appears after `|`.
+
+## Error messages
+
+- Balance assertion errors: in the suggested troubleshooting command,
+  commodity symbols containing regex metacharacters (like $) are now
+  properly quoted for the shell.
+
+- In error messages which compare two amounts (balance assertions,
+  recorded gain, `check basis`), when the rounded amounts look
+  identical, we now show more decimal places to make the difference
+  visible. [#2636]
+
+- Certain errors when reading a CSV or rules file 
+  (eg a missing date rule, or encoding/skip/timezone errors)
+  now show the path of the problem rules file.
+
+- `import`'s "no data files" error message is improved.
+
+- With an unrecognised command argument, the error message now shows
+  the bad argument, and the config file path if it came from a config
+  file.  [#2489]
+
+## Journal
+
+- Inferred missing amounts no longer affect display precisions or the
+  entries' local balancing precisions. So a high-precision inferred
+  amount won't affect the number of decimals displayed in reports, or
+  the precision required to balance the entry. So,
+
+  - An unseen high-precision balancing amount, eg inferred from a
+    precise `@` price, no longer makes it harder to balance the entry.
+  - Some reports that used to add unnecessary decimal zeros no longer do so.
+  - Reports more consistently show amounts smaller than their
+    commodity's display precision as `0`.
+
+## Lots & gains
+
+- In command line help, `--lots` has moved from "General input flags"
+  to "General output flags".
+
+- hledger can now detect gain postings heuristically, without
+  requiring that their account is declared as `type:G`. Five styles
+  for writing disposal transactions are documented in the manual's
+  "Recording disposals" section.
+
+- The `G`/`Gain` and `U`/`UnrealisedGain` account types are now
+  inferred from conventional English names, like the other types.  Eg
+  `revenues:gain`, `income:capital-gains`, `equity:unrealised-gain`,
+  `equity:unrealized gains` are recognised as type G, G, U, U.
+
+- Gain amounts are now inferred or checked at the gain commodity's
+  local precision within the entry. This makes it easier to read
+  inferred gain amounts and to write explicit gain amounts.
+  As a special case, if the local precision is zero but the gain is a
+  non-integer, 2 decimal places are assumed.
+  Inferred gain amounts preserve their full precision internally, so
+  they can be viewed more precisely with a command like `print -c
+  '$1.000000' --round=soft`.
+
+- Lot transfer destinations are now checked more carefully: any
+  specified lot details on the destination annotation (date, label,
+  cost) must match the source lot, or an error is raised. (Previously,
+  this would silently disrupt lot identities.)
+
+- The `AVERAGE`/`AVERAGEALL` cost basis methods now properly
+  recalculate the pool-wide average cost after each acquisition.
+  And when they are used, lot subaccount names now omit the cost
+  (`{2026-01-15}` rather than `{2026-01-15, $50}`), so account names
+  remain stable as new lots are acquired.
+  [#2581]
+
+- `check basis` no longer fails because of non-terminating decimals in
+  the unit cost (eg `$50/7 = $7.142857...`).
+  [#2636]
+
+- Harmless commodity style differences in explicit lot subaccount
+  names are now ignored (eg `$60` vs `$ 60`).
+ 
+- Explicit lot subaccounts are detected more robustly, tolerating
+  colons or curly braces within the label or commodity symbol.
+
+- Explicit lot subaccounts now require a comma after the date.
+
+- The `--ignore-lots`/`-I` flags disable explicit lot subaccounts
+  detection and error checking. [#2649]
+
+- When disposing a single lot with a balance assertion, we no longer
+  generate an unnecessary new assertion posting.
+
+- If a Ledger-style `(LOTNOTE)` annotation contains double quotes,
+  these are now stripped so they don't clash with hledger's cost basis
+  syntax and break round-trip parsing.
+
+- When generating labels for unlabelled lots acquired on the same day,
+  we now pick the smallest numeric label not already used on that
+  date, avoiding collisions with user-provided labels.
+
+- When there's only one unlabelled acquisition on a date, we no longer
+  generate an unnecessary label.
+

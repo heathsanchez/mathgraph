@@ -1,0 +1,261 @@
+===== FILE: hledger/hledger.m4.md =====
+% hledger(1)
+% _author_
+% _monthyear_
+
+m4_dnl  Lines beginning with m4_dnl are comments. See help at end of file.
+m4_dnl  The macro below includes the content only in the web format:
+_notinfo_({{
+# NAME
+}})
+
+hledger - a robust, friendly plain text accounting app (command line version).
+
+_notinfo_({{
+# SYNOPSIS
+}})
+
+`hledger`\
+or\
+`hledger COMMAND [OPTS] [ARGS]`
+
+_notinfo_({{
+# DESCRIPTION
+}})
+
+_hledgerdescription_
+
+This manual is for hledger's command line interface, version _version_.
+It also describes the common options, file formats and concepts used by all hledger programs. 
+It might accidentally teach you some bookkeeping/accounting as well!
+You don't need to know everything in here to use hledger productively,
+but when you have a question about functionality, this doc should answer it.
+It is detailed, so do skip ahead or skim when needed.
+You can read it on hledger.org, or as an info manual or man page on your system.
+You can also open a built-in copy, at a point of interest, by running\
+`hledger --man [CMD]`, `hledger --info [CMD]` or `hledger help [TOPIC]`.
+
+(And for shorter help, try `hledger --tldr [CMD]`.)
+
+The main function of the hledger CLI is
+to read plain text files describing financial transactions,
+crunch the numbers,
+and print a useful report on the terminal (or save it as HTML, CSV, JSON or SQL).
+Many reports are available, as subcommands.
+hledger will also detect other `hledger-*` executables as extra subcommands.
+
+hledger usually _inputfiles_
+
+Here is a small journal file describing one transaction:
+
+```journal
+2015-10-16 bought food
+  expenses:food          $10
+  assets:cash
+```
+
+Transactions are dated movements of money (etc.) between two or more *accounts*:
+bank accounts, your wallet, revenue/expense categories, people, etc.
+You can choose any account names you wish, using `:` to indicate subaccounts.
+There must be at least two spaces between account name and amount.
+Positive amounts are inflow to that account (*debit*), negatives are outflow from it (*credit*).
+(Some reports show revenue, liability and equity account balances as negative numbers
+as a result; this is normal.)
+
+hledger’s add command can help you add transactions,
+or you can install other data entry UIs like hledger-web or hledger-iadd.
+For more extensive/efficient changes, use a text editor:
+Emacs + ledger-mode, VIM + vim-ledger, or VS Code + hledger-vscode
+are some good choices (see <https://hledger.org/editors.html>).
+
+To get started, run `hledger add` and follow the prompts,
+or save some entries like the above in `$HOME/.hledger.journal`,
+then try commands like:
+```cli
+$ hledger print -x
+$ hledger aregister assets
+$ hledger balance
+$ hledger balancesheet
+$ hledger incomestatement
+```
+Run `hledger` to list the commands.
+See also the "Starting a journal file" and "Setting opening balances" sections
+in [PART 5: COMMON TASKS](#part-5-common-tasks).
+
+# PART 1: USER INTERFACE
+
+# Input
+
+hledger reads one or more data files, each time you run it. 
+You can specify a file with `-f`, like so
+```cli
+$ hledger -f FILE [-f FILE2 ...] print
+```
+
+Files are most often in hledger's [journal format](#journal), with the `.journal` file extension (`.hledger` or `.j` also work);
+these files describe transactions, like an accounting general journal.
+
+When no file is specified, hledger looks for `.hledger.journal` in your home directory.
+
+But most people prefer to keep financial files in a dedicated folder, perhaps with version control.
+Also, starting a new journal file each year is common (it's not required, but helps keep things fast and organised).
+So we usually configure a different journal file, by setting the `LEDGER_FILE` environment variable,
+to something like `~/finance/2023.journal`.
+For more about how to do that on your system, see [Common tasks > Setting LEDGER_FILE](#setting-ledger_file).
+
+## Text encoding
+
+hledger expects non-ascii input to be decodable with the system locale's text encoding.
+(For CSV/SSV/TSV files, this can be overridden by the [`encoding`](#encoding) CSV rule.)
+
+So, trying to read non-ascii files which have the wrong text encoding,
+or when no system locale is configured, will fail.
+To fix this, configure your system locale appropriately,
+and/or convert the files to your system's text encoding (using `iconv` on unix, or powershell or notepad on Windows).
+See [Install: Text encoding](/install.md#text-encoding) for more tips.
+
+hledger's output will use the system locale's encoding.
+
+hledger's docs and example files mostly use UTF-8 encoding.
+
+## Data formats
+
+Usually the data file is in hledger's journal format, but it can be in any of the supported file formats, which currently are:
+
+| Reader:                   | Reads:                                                           | Automatically used for files with extensions: |
+|---------------------------|------------------------------------------------------------------|-----------------------------------------------|
+| [`journal`](#journal)     | hledger journal files and some Ledger journals, for transactions | `.journal` `.j` `.hledger` `.ledger`          |
+| [`timeclock`](#timeclock) | timeclock files, for precise time logging                        | `.timeclock`                                  |
+| [`timedot`](#timedot)     | timedot files, for approximate time logging                      | `.timedot`                                    |
+| [`csv`](#csv)             | Comma- or other delimiter-separated values, for data import      | `.csv`                                        |
+| [`ssv`](#csv)             | Semicolon separated values                                       | `.ssv`                                        |
+| [`tsv`](#csv)             | Tab separated values                                             | `.tsv`                                        |
+| [`rules`](#csv)           | CSV/SSV/TSV/other separated values, alternate way                | `.rules`                                      |
+
+These formats are described in more detail below.
+
+hledger detects the format automatically based on the file extensions shown above.
+If it can't recognise the file extension, it assumes `journal` format.
+So for non-journal files, it's important to use a recognised file extension,
+so as to either read successfully or to show relevant error messages.
+
+You can also force a specific reader/format by prefixing the file path with the format and a colon.
+Eg, to read a .dat file containing tab separated values:
+
+```cli
+$ hledger -f tsv:/some/file.dat stats
+```
+
+## Standard input
+
+The file name `-` means standard input:
+
+```cli
+$ cat FILE | hledger -f- print
+```
+
+If reading non-journal data in this way, you'll need to write the format as a prefix,
+like `timeclock:` here:
+
+```cli
+$ echo 'i 2009/13/1 08:00:00' | hledger print -f timeclock:-
+```
+
+## Multiple files
+
+You can specify multiple `-f` options, to read multiple files as one big journal. When doing this, note that certain features (described below) will be affected:
+
+- [Balance assertions](#balance-assertions) will not see the effect of transactions in previous files. (Usually this doesn't matter as each file will set the corresponding opening balances.)
+- Some [directives](#directives) will not affect previous or subsequent files.
+
+If needed, you can work around these by using a single parent file which [includes](#include-directive) the others, or concatenating the files into one, eg: `cat a.journal b.journal | hledger -f- CMD`.
+
+## Strict mode
+
+hledger checks input files for valid data.
+By default, the most important errors are detected, while still accepting
+easy journal files without a lot of declarations:
+
+- Are the input files parseable, with valid syntax ?
+- Are all transactions balanced ?
+- Do all balance assertions pass ?
+
+With the `-s`/`--strict` flag, additional checks are performed:
+
+- Are all accounts posted to, declared with an `account` directive ?
+  ([Account error checking](#account-error-checking))
+- Are all commodities declared with a `commodity` directive ?
+  ([Commodity error checking](#commodity-error-checking))
+- Are all commodity conversions declared explicitly ?
+
+You can use the [check](#check) command to run individual checks - the ones listed above and some more.
+
+# Commands
+
+hledger provides various subcommands for getting things done.
+Most of these commands do not change the journal file; they just read it and output a report.
+A few commands assist with adding data and file management.
+Some often-used commands are `add`, `print`, `register`, `balancesheet` and `incomestatement`.
+
+To show a summary of commands, run `hledger` with no arguments.
+You can see the same commands summary at the start of [PART 4: COMMANDS](#part-4-commands) below.
+
+To use a particular command, run `hledger CMD [CMDOPTS] [CMDARGS]`,
+
+- CMD is the full command name,
+or its standard abbreviation shown in the commands list,
+or any unambiguous prefix of the name.
+
+- CMDOPTS are command-specific options, if any.
+Command-specific options must be written after the command name.
+Eg: `hledger print -x`.
+
+- CMDARGS are additional arguments to the command, if any.
+Most hledger commands accept arguments representing a [query](#queries), to limit the data in some way.
+Eg: `hledger reg assets:checking`.
+
+To list a command's options, arguments, and documentation in the terminal, run `hledger CMD -h`.
+Eg: `hledger bal -h`.
+
+## Add-on commands
+
+In addition to the built-in commands, you can install *add-on commands*, which will also appear in hledger's commands list.
+Some of these can be installed as separate packages;
+others can be found in hledger's bin/ directory, documented at <https://hledger.org/scripts.html>.
+
+Add-on commands are programs or scripts in your shell's PATH,
+whose name starts with "hledger-"
+and ends with no extension or a recognised extension
+(".bat", ".com", ".exe", ".hs", ".js", ".lhs", ".lua", ".php", ".pl", ".py", ".rb", ".rkt", or ".sh"),
+and (on unix and mac) which has executable permission for the current user.
+
+m4_dnl Add-ons can be written in any language, but Haskell scripts or programs can
+m4_dnl call hledger's code directly, which means they can do anything built-in commands can.
+m4_dnl Scripts/programs in other languages can't do this, but they can use hledger's
+m4_dnl command-line interface, or output formats like CSV or JSON.
+
+You can run add-on commands directly: `hledger-ui --watch`.
+
+Or you can run them with hledger, like built-in commands: `hledger ui --watch`. 
+In this case hledger's config file will be used, so you can set custom options for the addon there.
+(Before hledger 1.50, an `--` argument was needed before addon options, but not any more.)
+
+# Options
+
+Run `hledger -h` to see general command line help.
+Options can be written either before or after the command name.
+These options are specific to the `hledger` CLI:
+
+```
+Flags:
+     --conf=CONFFILE        Use extra options defined in this config file. If
+                            not specified, searches upward and in XDG config
+                            dir for hledger.conf (or .hledger.conf in $HOME).
+  -n --no-conf              ignore any config file
+```
+
+And the following general options are common to most hledger commands:
+
+_generaloptions_
+
+Usually hledger accepts any unambiguous flag prefix,

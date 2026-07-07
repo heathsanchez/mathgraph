@@ -1,0 +1,45 @@
+{
+  "verdict": "REPRO_HARNESS_FIRST",
+  "issue": "https://github.com/simonmichael/hledger/issues/1825",
+  "claim_comment": "https://github.com/simonmichael/hledger/issues/1825#issuecomment-4901262602",
+  "signals": {
+    "claim_post_visible": true,
+    "watch_refs": 137,
+    "fsnotify_refs": 39,
+    "async_refs": 284,
+    "reload_refs": 235,
+    "stack_available": false,
+    "cabal_available": false,
+    "ghc_available": false,
+    "hledger_ui_available": false
+  },
+  "likely_files_top20": [
+    "hledger/hledger.1",
+    "hledger/hledger.info",
+    "hledger/test/README.md",
+    "hledger/hledger.m4.md",
+    "hledger/Hledger/Cli/Commands/Import.txt",
+    "hledger/Hledger/Cli/Commands/Import.md",
+    "hledger/CHANGES.md",
+    "hledger/hledger.txt",
+    "hledger-ui/test/uitest.md",
+    "hledger-ui/Hledger/UI/Main.hs",
+    "hledger-ui/Hledger/UI/UITypes.hs",
+    "hledger-ui/Hledger/UI/UIOptions.hs",
+    "hledger-ui/Hledger/UI/AccountsScreen.hs",
+    "hledger-ui/Hledger/UI/RegisterScreen.hs",
+    "hledger-ui/hledger-ui.txt",
+    "hledger-ui/hledger-ui.1",
+    "hledger-ui/CHANGES.md",
+    "hledger-ui/hledger-ui.m4.md",
+    "hledger-ui/hledger-ui.info",
+    "hledger-lib/Hledger/Reports/ReportOptions.hs"
+  ],
+  "next_patch_shape": [
+    "Do not speculate a source fix before reproducing.",
+    "Use hledger_watch_measure.sh against installed or locally built hledger-ui.",
+    "If CPU/RSS rises without file events, inspect watch thread/event loop lifecycle.",
+    "If CPU/RSS rises only after synthetic file changes, inspect event coalescing/reload/redraw scheduling.",
+    "First PR should include either a reproducible diagnostic script/doc or a narrow lifecycle fix with measured before/after."
+  ]
+}
