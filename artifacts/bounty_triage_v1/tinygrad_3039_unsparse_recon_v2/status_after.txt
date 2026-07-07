@@ -1,0 +1,18 @@
+eb3cb16cc18feff022859d3c0b69f17c9da51bf5
+
+top dirs:
+.
+.git
+.git/hooks
+.git/info
+.git/logs
+.git/objects
+.git/refs
+
+python files count:
+       0
+
+disk:
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   6.6Gi    65%    458k   69M    1%   /
+572K	/Users/heath/Documents/mathgraph-lean-work/external/bounty_triage_v1/tinygrad__tinygrad
