@@ -1,0 +1,12 @@
+2026-07-07T04:35:00Z
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   8.2Gi    59%    458k   86M    1%   /
+?? artifacts/prize_cash_challenge_scout_v5_compact/
+?? prize_cash_challenge_scout_v5_compact.sh
+?? strata_specimen_issue45_recon_v1.sh
+
+local commits not on origin/local-main:
+65ce00c Run prize-word money recon v4
+af0b2ba Add prize-word money opportunity scout v4
+232e1de Run strict money opportunity recon v3
+16a7d24 Add strict money opportunity scout v3

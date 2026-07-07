@@ -1,0 +1,26 @@
+"cash prize" "benchmark" is:issue is:open updated:>2026-01-01
+"prize pool" "benchmark" is:issue is:open updated:>2026-01-01
+"leaderboard" "prize" is:issue is:open updated:>2026-01-01
+"leaderboard" "cash" is:issue is:open updated:>2026-01-01
+"competition" "leaderboard" "submission" is:issue is:open updated:>2026-01-01
+"challenge" "leaderboard" "submission" is:issue is:open updated:>2026-01-01
+"hackathon" "prize" "submission" is:issue is:open updated:>2026-01-01
+"code golf" "challenge" is:issue is:open updated:>2026-01-01
+"golf" "leaderboard" "prize" is:issue is:open updated:>2026-01-01
+"payment" "acceptance criteria" "test" is:issue is:open updated:>2026-01-01
+"paid" "acceptance criteria" "test" is:issue is:open updated:>2026-01-01
+"bounty" "acceptance criteria" "pytest" is:issue is:open updated:>2026-01-01
+"bounty" "acceptance criteria" "benchmark" is:issue is:open updated:>2026-01-01
+"bounty" "metric" "benchmark" is:issue is:open updated:>2026-01-01
+"bounty" "local test" is:issue is:open updated:>2026-01-01
+"bounty" "unit tests" is:issue is:open updated:>2026-01-01
+"bounty" "CI" "acceptance" is:issue is:open updated:>2026-01-01
+"Lean" "prize" is:issue is:open updated:>2026-01-01
+"Lean" "challenge" "proof" is:issue is:open updated:>2026-01-01
+"formal verification" "prize" is:issue is:open updated:>2026-01-01
+"formal verification" "payment" is:issue is:open updated:>2026-01-01
+"proof" "challenge" "prize" is:issue is:open updated:>2026-01-01
+"optimization challenge" "benchmark" is:issue is:open updated:>2026-01-01
+"performance challenge" "benchmark" is:issue is:open updated:>2026-01-01
+"GraphSAGE" "bounty" is:issue is:open updated:>2026-01-01
+"Tenstorrent" "bounty" is:issue is:open updated:>2026-01-01
