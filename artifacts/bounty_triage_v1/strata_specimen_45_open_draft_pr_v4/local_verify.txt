@@ -1,0 +1,8 @@
+lean-toolchain:
+leanprover/lean4:v4.30.0-rc1
+lake env lean Specimen/Scoring.lean
+scoring_rc=0
+
+lake build
+Build completed successfully (47 jobs).
+build_rc=0

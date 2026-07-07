@@ -1,0 +1,1 @@
+pull request create failed: GraphQL: Head sha can't be blank, Base sha can't be blank, Head repository can't be blank, No commits between strata-org:main and heathsanchez:mathgraph-lawful-scorable-issue45, Head ref must be a branch, not all refs are readable (createPullRequest)
