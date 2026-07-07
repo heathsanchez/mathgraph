@@ -1,0 +1,5 @@
+e925b59 Add benchmark smoke gate
+ .github/workflows/benchmark-smoke.yml | 33 +++++++++++++++++++++
+ README.md                             |  9 ++++++
+ benchmark/run_smoke.jl                | 56 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 98 insertions(+)

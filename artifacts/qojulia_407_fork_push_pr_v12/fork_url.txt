@@ -1,0 +1,1 @@
+FORK_URL=https://github.com/heathsanchez/QuantumOptics.jl.git
