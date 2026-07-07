@@ -1,0 +1,14 @@
+bounty in:title,body is:issue is:open updated:>2025-01-01
+"$500" in:title,body is:issue is:open updated:>2025-01-01
+"$1000" in:title,body is:issue is:open updated:>2025-01-01
+"$1,000" in:title,body is:issue is:open updated:>2025-01-01
+"USD" "bounty" in:title,body is:issue is:open updated:>2025-01-01
+"reward" "test" in:title,body is:issue is:open updated:>2025-01-01
+"bounty" "pytest" in:title,body is:issue is:open updated:>2025-01-01
+"bounty" "benchmark" in:title,body is:issue is:open updated:>2025-01-01
+"bounty" "CI" in:title,body is:issue is:open updated:>2025-01-01
+"bounty" "acceptance criteria" in:title,body is:issue is:open updated:>2025-01-01
+"bounty" "Lean" in:title,body is:issue is:open updated:>2025-01-01
+"bounty" "lake build" in:title,body is:issue is:open updated:>2025-01-01
+"paid" "Lean" in:title,body is:issue is:open updated:>2025-01-01
+"formal verification" "bounty" in:title,body is:issue is:open updated:>2025-01-01

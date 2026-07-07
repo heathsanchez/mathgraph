@@ -1,0 +1,6 @@
+2026-07-07T04:29:48Z
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   8.8Gi    58%    458k   92M    0%   /
+?? artifacts/money_opportunity_scout_v3_strict/
+?? money_opportunity_scout_v3_strict.sh
+?? strata_specimen_issue45_recon_v1.sh
