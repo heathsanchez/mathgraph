@@ -1,0 +1,361 @@
+[
+  {
+    "score": 95,
+    "verdict": "PROMOTE_RECON",
+    "amount": 150,
+    "repo": "simonmichael/hledger",
+    "number": 1825,
+    "title": "hledger-ui --watch consumes more CPU and RAM over time [$150 x 3]",
+    "url": "https://github.com/simonmichael/hledger/issues/1825",
+    "labels": "A-BUG platform-linux platform-windows platform-mac performance bounty ui annoyance4-major affects4-many",
+    "assignees": [],
+    "updatedAt": "2026-07-06T12:14:21Z",
+    "reasons": [
+      "money\u2248$150",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language"
+    ],
+    "snippet": "An idle hledger-ui with `--watch`, left running for days, may show gradually increasing CPU usage - 1%, 2%, 3%, 4%... - and RAM usage. I have always seen this on mac, and @the-solipsist sees it on ubuntu gnu/linux. I believe it is more apparent when you have a lot of accounts / transactions. I seem to remember, or I have assumed, that it's a problem with the underlying C file-watching library (which might be different on each platform). As a workaround, you can occasionally quit and restart hledger-ui (`q`, `C-p`, `enter`), or suspend and resume it when not in use (`C-z`, `fg`, `enter`). It's quite unfortunate. ---- See also - #836 - #1617 - https://github.com/haskell-fswatch/hfsnotify/issue",
+    "real_score": 130,
+    "real_reasons": [
+      "known-real-project",
+      "meaningful-payout",
+      "money\u2248$150",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language"
+    ]
+  },
+  {
+    "score": 82,
+    "verdict": "PROMOTE_RECON",
+    "amount": 200,
+    "repo": "QuantumSavory/QuantumSavory.jl",
+    "number": 131,
+    "title": "More thorough benchmarks [$200]",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/131",
+    "labels": "good first issue bug bounty bounty:200",
+    "assignees": [],
+    "updatedAt": "2026-06-29T02:55:38Z",
+    "reasons": [
+      "money\u2248$200",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit"
+    ],
+    "snippet": "<details> <summary><strong>Bug bounty logistic details</strong> (click to expand)</summary> To claim exclusive time to work on this bounty either post a comment here or message [skrastanov@umass.edu](mailto:skrastanov@umass.edu) with: - your name - github username - **(optional)** a brief list of previous pertinent projects you have engaged in If you want to, you can work on this project without making a claim, however claims are encouraged to give you and other contributors peace of mind. Whoever has made a claim takes precedence when solutions are considered. You can always propose your own funded project, if you would like to contribute something of value that is not yet covered by an off",
+    "real_score": 127,
+    "real_reasons": [
+      "known-real-project",
+      "meaningful-payout",
+      "patchable-surface-title",
+      "money\u2248$200",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit"
+    ]
+  },
+  {
+    "score": 79,
+    "verdict": "PROMOTE_RECON",
+    "amount": 500,
+    "repo": "tinygrad/tinygrad",
+    "number": 3039,
+    "title": "Bounty: Fast parallel scan (Mamba, etc). ",
+    "url": "https://github.com/tinygrad/tinygrad/issues/3039",
+    "labels": "bounty",
+    "assignees": [],
+    "updatedAt": "2026-07-06T19:16:55Z",
+    "reasons": [
+      "money\u2248$500",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "claim/assigned language"
+    ],
+    "snippet": "It would be great to have a general parallel prefix sum (associative scan) operation in tinygrad, something like [associative_scan](https://jax.readthedocs.io/en/latest/_autosummary/jax.lax.associative_scan.html) in JAX or [scan_associative](https://www.tensorflow.org/probability/api_docs/python/tfp/math/scan_associative) in TensorFlow Probability. This operation is key for the parallelization of some algorithms in CRFs, [filtering/smoothing in state space models](https://github.com/EEA-sensors/sequential-parallelization-examples/blob/main/python/temporal-parallelization-bayes-smoothers/parallel_kalman_jax.ipynb), mamba etc. Additional Reference https://arxiv.org/abs/2311.06281 --- Current B",
+    "real_score": 114,
+    "real_reasons": [
+      "known-real-project",
+      "meaningful-payout",
+      "money\u2248$500",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "claim/assigned language"
+    ]
+  },
+  {
+    "score": 72,
+    "verdict": "PROMOTE_RECON",
+    "amount": 400,
+    "repo": "JuliaGraphs/Graphs.jl",
+    "number": 446,
+    "title": "A reliable idiomatic wrapper for the C library `igraphs` [$400]",
+    "url": "https://github.com/JuliaGraphs/Graphs.jl/issues/446",
+    "labels": "bounty bounty:400",
+    "assignees": [],
+    "updatedAt": "2026-03-29T02:45:17Z",
+    "reasons": [
+      "money\u2248$400",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "possible hardware dependency"
+    ],
+    "snippet": "# A reliable idiomatic `igraphs` wrapper [$400] The JuliaGraphs/IGraphs.jl package already exists and provides a simple low-level wrapper for the igraph C library. A lot of this work probably will not be directly in the Graphs.jl repository. - [ ] Fast conversion and/or views between Graphs.jl types and the C structures of igraph (slow converters already exist for simple graphs and some vectors/matrices) - [ ] Complete Graph API support for the IGraph types (so that IGraph types can be used in all already existing Graph.jl algorithms that do not peek behind the API) - [ ] use GraphsInterfaceChecker.jl in the test suite - [ ] Dispatch from operations defined in Graphs/GraphsMatching/GraphsOpt",
+    "real_score": 107,
+    "real_reasons": [
+      "known-real-project",
+      "meaningful-payout",
+      "money\u2248$400",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "possible hardware dependency"
+    ]
+  },
+  {
+    "score": 72,
+    "verdict": "PROMOTE_RECON",
+    "amount": 200,
+    "repo": "QuantumSavory/QuantumSymbolics.jl",
+    "number": 73,
+    "title": "A backend for QuantumCumulants.jl [$200]",
+    "url": "https://github.com/QuantumSavory/QuantumSymbolics.jl/issues/73",
+    "labels": "bug bounty bounty:200 bounty:reserved",
+    "assignees": [],
+    "updatedAt": "2026-05-01T20:27:40Z",
+    "reasons": [
+      "money\u2248$200",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "claim/assigned language"
+    ],
+    "snippet": "# A backend for QuantumCumulants.jl [$200] The QuantumCumulants library (part of the QuantumOptics organization) provides for an elegant way to solve truncated differential equations for expectation values of quantum observables. To claim this bounty you need to create an `express` interface for converting symbolic objects from QuantumSymbolics into objects QuantumCumulants can work with. **Required skills**: Knowledge of the QuantumCumulants library **Reviewer**: Stefan Krastanov and/or @david-pl **Duration**: 2 months #### Payout procedure: The Funding for these bounties comes from the National Science Foundation and from the NSF Center for Quantum Networks. The payouts are managed by the ",
+    "real_score": 107,
+    "real_reasons": [
+      "known-real-project",
+      "meaningful-payout",
+      "money\u2248$200",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "claim/assigned language"
+    ]
+  },
+  {
+    "score": 68,
+    "verdict": "PROMOTE_RECON",
+    "amount": 70,
+    "repo": "tscircuit/dsn-converter",
+    "number": 54,
+    "title": "We can't convert Smoothie Board to Circuit JSON",
+    "url": "https://github.com/tscircuit/dsn-converter/issues/54",
+    "labels": "",
+    "assignees": [],
+    "updatedAt": "2026-07-03T22:23:48Z",
+    "reasons": [
+      "money\u2248$70",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "claim/assigned language"
+    ],
+    "snippet": "Smoothie Board: https://github.com/freerouting/freerouting/blob/master/tests/Issue145-smoothieboard.dsn Upload to DSN Viewer: https://dsn.tscircuit.com/ This is probably a pretty hard multi-step issue. Make sure to download freerouting to make sure the snapshot resembles the DSN file. In addition to the bounty, we will likely tip for steps along the way because doing it in one big PR may be counter-productive. /bounty $70 ![Image](https://github.com/user-attachments/assets/a612114f-df22-434c-80a5-383c9e754ae3)",
+    "real_score": 103,
+    "real_reasons": [
+      "known-real-project",
+      "patchable-surface-title",
+      "money\u2248$70",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "claim/assigned language"
+    ]
+  },
+  {
+    "score": 77,
+    "verdict": "PROMOTE_RECON",
+    "amount": 1000,
+    "repo": "tscircuit/tscircuit",
+    "number": 328,
+    "title": "Build the Arduino Nano with tscircuit",
+    "url": "https://github.com/tscircuit/tscircuit/issues/328",
+    "labels": "",
+    "assignees": [
+      "seveibar"
+    ],
+    "updatedAt": "2026-07-02T02:36:28Z",
+    "reasons": [
+      "money\u2248$1000",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "assigned"
+    ],
+    "snippet": "Create the Arduino Nano on tscircuit snippets. https://store-usa.arduino.cc/products/arduino-nano?queryID=undefined&selectedStore=us /bounty $100 To get the bounty, you just need to edit the README and add a link to your Arduino Nano. We will actually order your board and test it! Please share your work on discord and we will help you with design issues. tscircuit is still in active development, and this is a fairly difficult board, you may need the team to help build features as you go, stay active on the discord- we're here to help!",
+    "real_score": 102,
+    "real_reasons": [
+      "known-real-project",
+      "assigned-risk",
+      "meaningful-payout",
+      "patchable-surface-title",
+      "money\u2248$1000",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "assigned"
+    ]
+  },
+  {
+    "score": 69,
+    "verdict": "PROMOTE_RECON",
+    "amount": 100,
+    "repo": "BitgesellOfficial/bitgesell",
+    "number": 32,
+    "title": "BGL PR bounty hunt",
+    "url": "https://github.com/BitgesellOfficial/bitgesell/issues/32",
+    "labels": "",
+    "assignees": [],
+    "updatedAt": "2026-07-05T07:56:06Z",
+    "reasons": [
+      "money\u2248$100",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "claim/assigned language"
+    ],
+    "snippet": "To get more people involved and provide motivation, we are announcing Bitgesell Pull Request bounty hunt! The rules are simple: - You can create any reasonable pull request that may contain any modifications, including, but not limited to: - Refactoring and simplification; - Test fixes (_1 test group/file fixed by single PR counts_!); - Cleanup of features that are no longer used (e.g. non-segwit transactions); - Documentation and comments (but if no code changes then some reasonable amount of changes should be done to count); - Bug fixes; - Every PR would be paid **$100** in USDT upon approval, larger PRs could receive bigger payouts. - Interested people are welcome to become maintainers of",
+    "real_score": 79,
+    "real_reasons": [
+      "meaningful-payout",
+      "money\u2248$100",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "claim/assigned language"
+    ]
+  },
+  {
+    "score": 77,
+    "verdict": "PROMOTE_RECON",
+    "amount": 2000,
+    "repo": "SatoshiPortal/bdk-flutter",
+    "number": 1,
+    "title": "Bounty for reproducible cross-compilation of rust libraries for Android, Linux, Ios and Macos targets - 0.03 BTC ($2000)",
+    "url": "https://github.com/SatoshiPortal/bdk-flutter/issues/1",
+    "labels": "",
+    "assignees": [
+      "i5hi"
+    ],
+    "updatedAt": "2026-06-24T14:24:25Z",
+    "reasons": [
+      "money\u2248$2000",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "assigned",
+      "claim/assigned language"
+    ],
+    "snippet": "This bounty is for bdk-flutter but will also be used for lwk-dart and boltz-dart All builds are currently functional but not reproducible/verifiable. **Requirements:** Android & Linux: A build environment using bash scripts, makefile and Docker, that builds on Linux & Mac hosts iOS & MacOS: A build environment using bash scripts and makefile, that builds on Mac hosts Reproducibility: A bash (and python?) script that can verify github releases against local builds. The library developers will be publishing binaries as github releases. We require a validation script that compares the libary's github release and compare them against local builds. Reference: https://github.com/signalapp/Signal-A",
+    "real_score": 77,
+    "real_reasons": [
+      "assigned-risk",
+      "meaningful-payout",
+      "patchable-surface-title",
+      "money\u2248$2000",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "assigned",
+      "claim/assigned language"
+    ]
+  },
+  {
+    "score": 52,
+    "verdict": "PARK_ASSIGNED",
+    "amount": 400,
+    "repo": "JuliaGraphs/Graphs.jl",
+    "number": 447,
+    "title": "A reliable idiomatic wrapper for the C++ library `LEMON` [$400]",
+    "url": "https://github.com/JuliaGraphs/Graphs.jl/issues/447",
+    "labels": "bounty bounty:400 bounty:reserved",
+    "assignees": [
+      "AJ0070"
+    ],
+    "updatedAt": "2026-04-26T23:47:50Z",
+    "reasons": [
+      "money\u2248$400",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "assigned",
+      "claim/assigned language"
+    ],
+    "snippet": "# A reliable idiomatic `LEMON` wrapper [$400] The JuliaGraphs/LEMONGraphs.jl package already exists and provides an extremely barebones wrapper for the LEMON C++ library. It is barely more than a proof of concept for the build infrastructure. A lot of this work probably will not be directly in the Graphs.jl repository. - [ ] Fast conversion and/or views between Graphs.jl types and the C++ structures of LEMON (slow converters already exist for simple graphs) - [ ] Complete Graph API support for the LEMONGraph types (so that LEMONGraph types can be used in all already existing Graph.jl algorithms that do not peek behind the API) - [ ] use GraphsInterfaceChecker.jl in the test suite - [ ] Dispa",
+    "real_score": 67,
+    "real_reasons": [
+      "known-real-project",
+      "assigned-risk",
+      "meaningful-payout",
+      "money\u2248$400",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "assigned",
+      "claim/assigned language"
+    ]
+  },
+  {
+    "score": 52,
+    "verdict": "PARK_ASSIGNED",
+    "amount": 400,
+    "repo": "JuliaGraphs/Graphs.jl",
+    "number": 449,
+    "title": "A reliable idiomatic wrapper for networkx [$400]",
+    "url": "https://github.com/JuliaGraphs/Graphs.jl/issues/449",
+    "labels": "bounty bounty:400",
+    "assignees": [
+      "Syuizen"
+    ],
+    "updatedAt": "2026-04-30T12:22:37Z",
+    "reasons": [
+      "money\u2248$400",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "assigned",
+      "claim/assigned language"
+    ],
+    "snippet": "# A reliable idiomatic `networkx` wrapper [$400] Using networkx through PythonCall.jl is trivially easy. This bounty is mostly about creating a new NetworkX.jl wrapper (by using PythonCall.jl) that provides quality-of-life improvements, - [ ] Fast conversion and/or views between Graphs.jl types and the networkx structures - [ ] Complete Graph API support for the newly created networkx wrapper types (so that networkx types can be used in all already existing Graph.jl algorithms that do not peek behind the API) - [ ] use GraphsInterfaceChecker.jl in the test suite - [ ] Dispatch from operations defined in Graphs/GraphsMatching/GraphsOptim to networkx implementation. For instance if there is a ",
+    "real_score": 67,
+    "real_reasons": [
+      "known-real-project",
+      "assigned-risk",
+      "meaningful-payout",
+      "money\u2248$400",
+      "local/test/benchmark surface",
+      "patchable wording",
+      "stack fit",
+      "available language",
+      "assigned",
+      "claim/assigned language"
+    ]
+  }
+]

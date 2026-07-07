@@ -1,0 +1,5 @@
+===== executable paths =====
+/opt/homebrew/bin/brew
+
+===== versions if present =====
+Homebrew 6.0.3

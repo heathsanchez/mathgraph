@@ -1,0 +1,90 @@
+{
+  "hledger": {
+    "verdict": "PARK_UNTIL_VERIFIER",
+    "can_run_hledger_ui": false,
+    "can_build_haskell": false,
+    "claim_comment": "https://github.com/simonmichael/hledger/issues/1825#issuecomment-4901262602"
+  },
+  "next_real_candidates": [
+    {
+      "repo": "simonmichael/hledger",
+      "number": 1825,
+      "title": "hledger-ui --watch consumes more CPU and RAM over time [$150 x 3]",
+      "url": "https://github.com/simonmichael/hledger/issues/1825",
+      "amount": 150,
+      "real_score": 130
+    },
+    {
+      "repo": "QuantumSavory/QuantumSavory.jl",
+      "number": 131,
+      "title": "More thorough benchmarks [$200]",
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/131",
+      "amount": 200,
+      "real_score": 127
+    },
+    {
+      "repo": "tinygrad/tinygrad",
+      "number": 3039,
+      "title": "Bounty: Fast parallel scan (Mamba, etc). ",
+      "url": "https://github.com/tinygrad/tinygrad/issues/3039",
+      "amount": 500,
+      "real_score": 114
+    },
+    {
+      "repo": "JuliaGraphs/Graphs.jl",
+      "number": 446,
+      "title": "A reliable idiomatic wrapper for the C library `igraphs` [$400]",
+      "url": "https://github.com/JuliaGraphs/Graphs.jl/issues/446",
+      "amount": 400,
+      "real_score": 107
+    },
+    {
+      "repo": "QuantumSavory/QuantumSymbolics.jl",
+      "number": 73,
+      "title": "A backend for QuantumCumulants.jl [$200]",
+      "url": "https://github.com/QuantumSavory/QuantumSymbolics.jl/issues/73",
+      "amount": 200,
+      "real_score": 107
+    },
+    {
+      "repo": "tscircuit/dsn-converter",
+      "number": 54,
+      "title": "We can't convert Smoothie Board to Circuit JSON",
+      "url": "https://github.com/tscircuit/dsn-converter/issues/54",
+      "amount": 70,
+      "real_score": 103
+    },
+    {
+      "repo": "tscircuit/tscircuit",
+      "number": 328,
+      "title": "Build the Arduino Nano with tscircuit",
+      "url": "https://github.com/tscircuit/tscircuit/issues/328",
+      "amount": 1000,
+      "real_score": 102
+    },
+    {
+      "repo": "BitgesellOfficial/bitgesell",
+      "number": 32,
+      "title": "BGL PR bounty hunt",
+      "url": "https://github.com/BitgesellOfficial/bitgesell/issues/32",
+      "amount": 100,
+      "real_score": 79
+    },
+    {
+      "repo": "SatoshiPortal/bdk-flutter",
+      "number": 1,
+      "title": "Bounty for reproducible cross-compilation of rust libraries for Android, Linux, Ios and Macos targets - 0.03 BTC ($2000)",
+      "url": "https://github.com/SatoshiPortal/bdk-flutter/issues/1",
+      "amount": 2000,
+      "real_score": 77
+    },
+    {
+      "repo": "JuliaGraphs/Graphs.jl",
+      "number": 447,
+      "title": "A reliable idiomatic wrapper for the C++ library `LEMON` [$400]",
+      "url": "https://github.com/JuliaGraphs/Graphs.jl/issues/447",
+      "amount": 400,
+      "real_score": 67
+    }
+  ]
+}
