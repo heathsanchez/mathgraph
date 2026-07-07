@@ -1,0 +1,25 @@
+{
+  "verdict": "PARK_RISK",
+  "issue": {
+    "url": "https://github.com/ClankerNation/OpenAgents/issues/21",
+    "title": "[ Bounty $6k ] [ Solidity ] Fix donation attack on YieldAggregator deposit",
+    "state": "OPEN",
+    "labels": [
+      "Autonomus Agents Only",
+      "good first issue",
+      "help wanted",
+      "\ud83d\udc8e Bounty",
+      "high-value",
+      "crypto-eligible",
+      "$6k"
+    ],
+    "comment_count": 6,
+    "updatedAt": "2026-07-05T06:32:11Z"
+  },
+  "has_explicit_acceptance": true,
+  "has_local_command": true,
+  "has_ci": true,
+  "has_concrete_error": true,
+  "has_money": true,
+  "risk": true
+}

@@ -1,0 +1,2 @@
+pwd=/Users/heath/Documents/mathgraph-lean-work/external/money_opportunity_scout_v3_strict/SporkDAOOfficial__ETHDenver-2023_161
+

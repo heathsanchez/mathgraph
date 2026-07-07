@@ -1,0 +1,11 @@
+{
+  "url": "https://github.com/tenstorrent/tt-blacksmith/issues/529",
+  "title": "[Bounty $2000] GraphSAGE training workload on Tenstorrent",
+  "state": "OPEN",
+  "labels": [
+    "bounty_difficulty/hard",
+    "task"
+  ],
+  "comment_count": 4,
+  "updatedAt": "2026-06-15T08:39:07Z"
+}

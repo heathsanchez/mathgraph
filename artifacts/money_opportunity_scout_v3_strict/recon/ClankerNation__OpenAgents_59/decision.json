@@ -1,0 +1,25 @@
+{
+  "verdict": "PARK_RISK",
+  "issue": {
+    "url": "https://github.com/ClankerNation/OpenAgents/issues/59",
+    "title": "[ Bounty $7k ] [ API ] Add agent reputation scoring system \u2014 high priority",
+    "state": "OPEN",
+    "labels": [
+      "Autonomus Agents Only",
+      "good first issue",
+      "help wanted",
+      "\ud83d\udc8e Bounty",
+      "high-value",
+      "crypto-eligible",
+      "$7k"
+    ],
+    "comment_count": 3,
+    "updatedAt": "2026-07-05T06:30:58Z"
+  },
+  "has_explicit_acceptance": true,
+  "has_local_command": true,
+  "has_ci": true,
+  "has_concrete_error": true,
+  "has_money": true,
+  "risk": true
+}

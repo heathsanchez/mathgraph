@@ -1,0 +1,1157 @@
+===== issue terms =====
+## Summary
+Propose adding a GraphSAGE training workload to tt-blacksmith
+
+## Proposed Scope
+- Primary focus: training
+- Secondary stretch goal: inference if time permits
+- Hardware target: Wormhole N300
+- Initial datasets:
+  - Reddit (main target)
+  - PubMed (smaller fallback / bring-up option)
+
+## Initial Plan
+1. Build a CPU baseline
+2. Profile the workload and identify the most important stages
+3. Port the model into a tt-blacksmith experiment structure using TT-supported ops where possible
+4. Run on Tenstorrent hardware
+5. Compare correctness and performance against CPU
+6. Document limitations, blocked ops, and optimisation opportunities
+
+## Deliverables
+- Working CPU baseline
+- Working TT implementation for the training workload (or core training stages)
+- CPU vs TT parity checks
+- Benchmarking / profiling results
+- Reproducible setup and documentation
+
+## Success Criteria
+- TT execution on hardware, with only targeted CPU fallbacks if necessary
+- Clear correctness checks against CPU
+- Measurable benchmarking results
+- Documentation of unsupported or difficult stages and possible next steps
+
+## Open Questions
+- Preferred dataset for initial bring-up: Reddit vs PubMed?
+- Preferred framework path inside tt-blacksmith / Forge?
+- What level of TT execution is acceptable for the first milestone?
+- Should milestones be split similarly to other training workload issues?
+===== judge hits =====
+./.cursor/skills/perf-benchmark-single-chip/reference.md:78:## Tracy signpost workflow
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:2:name: perf-benchmark-single-chip
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:3:description: Run device performance benchmarks for tt-blacksmith single-chip training workloads. Use when the user asks to benchmark, profile, or measure performance of a training workload on Tenstorrent hardware, or mentions tracy, tt-perf-report, or device time analysis.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:6:# Single-chip perf benchmark
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:27:Before running any workload, ensure no stale processes are holding the TT device. A previous process that was force-killed (kill -9) leaves the device in a bad state, causing "Timeout waiting for Ethernet core service" or "Waiting for lock 'CHIP_IN_USE_*_PCIe'" errors.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:107:- The sync must come **after backward**, not between forward and backward. Calls like `loss.item()` force an implicit sync -- move them after backward or remove them when benchmarking.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:137:    tracy.signpost("benchmark_complete")
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:249:- **"Timeout waiting for Ethernet core service" / "Waiting for lock 'CHIP_IN_USE_*_PCIe'"**: Kill all stale Python processes, then reset all devices: `tt-smi -r`. Wait a few seconds before starting a new process.
+./LICENSE:168:      and charge a fee for, acceptance of support, warranty, indemnity,
+./.flake8-config:22:    .pytest_cache,
+./tests/training_test_cases.py:4:import pytest
+./tests/training_test_cases.py:8:    pytest.param(
+./tests/training_test_cases.py:15:            pytest.mark.push,
+./tests/training_test_cases.py:16:            pytest.mark.n300,
+./tests/training_test_cases.py:17:            pytest.mark.torch,
+./tests/training_test_cases.py:18:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:22:    pytest.param(
+./tests/training_test_cases.py:29:            pytest.mark.push,
+./tests/training_test_cases.py:30:            pytest.mark.n300,
+./tests/training_test_cases.py:31:            pytest.mark.torch,
+./tests/training_test_cases.py:32:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:36:    pytest.param(
+./tests/training_test_cases.py:43:            pytest.mark.push,
+./tests/training_test_cases.py:44:            pytest.mark.n150,
+./tests/training_test_cases.py:45:            pytest.mark.n300,
+./tests/training_test_cases.py:46:            pytest.mark.torch,
+./tests/training_test_cases.py:47:            pytest.mark.single_chip,
+./tests/training_test_cases.py:51:    # Bounty #453 (GATv2/PubMed). Disabled in CI until the experiment-specific
+./tests/training_test_cases.py:52:    # torch_geometric dependency and a TT runner are wired into the regression pipeline;
+./tests/training_test_cases.py:54:    # pytest.param(
+./tests/training_test_cases.py:62:    #         pytest.mark.uplift,
+./tests/training_test_cases.py:63:    #         pytest.mark.n150,
+./tests/training_test_cases.py:64:    #         pytest.mark.n300,
+./tests/training_test_cases.py:65:    #         pytest.mark.torch,
+./tests/training_test_cases.py:66:    #         pytest.mark.single_chip,
+./tests/training_test_cases.py:70:    pytest.param(
+./tests/training_test_cases.py:78:            pytest.mark.uplift,
+./tests/training_test_cases.py:79:            pytest.mark.n300,
+./tests/training_test_cases.py:80:            pytest.mark.jax,
+./tests/training_test_cases.py:81:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:85:    pytest.param(
+./tests/training_test_cases.py:93:            pytest.mark.uplift,
+./tests/training_test_cases.py:94:            pytest.mark.n150,
+./tests/training_test_cases.py:95:            pytest.mark.jax,
+./tests/training_test_cases.py:96:            pytest.mark.single_chip,
+./tests/training_test_cases.py:100:    pytest.param(
+./tests/training_test_cases.py:108:            pytest.mark.uplift,
+./tests/training_test_cases.py:109:            pytest.mark.n150,
+./tests/training_test_cases.py:110:            pytest.mark.jax,
+./tests/training_test_cases.py:111:            pytest.mark.single_chip,
+./tests/training_test_cases.py:115:    pytest.param(
+./tests/training_test_cases.py:123:            pytest.mark.skip(
+./tests/training_test_cases.py:126:            pytest.mark.uplift,
+./tests/training_test_cases.py:127:            pytest.mark.n300,
+./tests/training_test_cases.py:128:            pytest.mark.jax,
+./tests/training_test_cases.py:129:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:134:        pytest.param(
+./tests/training_test_cases.py:143:                pytest.mark.uplift,
+./tests/training_test_cases.py:144:                pytest.mark.n150,
+./tests/training_test_cases.py:145:                pytest.mark.torch,
+./tests/training_test_cases.py:146:                pytest.mark.single_chip,
+./tests/training_test_cases.py:147:                pytest.mark.split_0,
+./tests/training_test_cases.py:159:    pytest.param(
+./tests/training_test_cases.py:166:            pytest.mark.uplift,
+./tests/training_test_cases.py:167:            pytest.mark.n300_llmbox,
+./tests/training_test_cases.py:168:            pytest.mark.torch,
+./tests/training_test_cases.py:169:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:170:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:174:    pytest.param(
+./tests/training_test_cases.py:182:            pytest.mark.uplift,
+./tests/training_test_cases.py:183:            pytest.mark.n300_llmbox,
+./tests/training_test_cases.py:184:            pytest.mark.torch,
+./tests/training_test_cases.py:185:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:186:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:190:    pytest.param(
+./tests/training_test_cases.py:198:            pytest.mark.uplift,
+./tests/training_test_cases.py:199:            pytest.mark.n300_llmbox,
+./tests/training_test_cases.py:200:            pytest.mark.torch,
+./tests/training_test_cases.py:201:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:202:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:206:    pytest.param(
+./tests/training_test_cases.py:215:            pytest.mark.uplift,
+./tests/training_test_cases.py:216:            pytest.mark.qb2_blackhole,
+./tests/training_test_cases.py:217:            pytest.mark.torch,
+./tests/training_test_cases.py:218:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:222:    pytest.param(
+./tests/training_test_cases.py:230:            pytest.mark.uplift,
+./tests/training_test_cases.py:231:            pytest.mark.n300_llmbox,
+./tests/training_test_cases.py:232:            pytest.mark.torch,
+./tests/training_test_cases.py:233:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:237:    pytest.param(
+./tests/training_test_cases.py:244:            pytest.mark.uplift,
+./tests/training_test_cases.py:245:            pytest.mark.p150,
+./tests/training_test_cases.py:246:            pytest.mark.torch,
+./tests/training_test_cases.py:247:            pytest.mark.single_chip,
+./tests/training_test_cases.py:251:    pytest.param(
+./tests/training_test_cases.py:258:            pytest.mark.skip(reason="OOM on Galaxy llama 8B"),
+./tests/training_test_cases.py:259:            pytest.mark.uplift,
+./tests/training_test_cases.py:260:            pytest.mark.galaxy,
+./tests/training_test_cases.py:261:            pytest.mark.torch,
+./tests/training_test_cases.py:262:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:263:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:267:    pytest.param(
+./tests/training_test_cases.py:275:            pytest.mark.skip(reason="OOM on Galaxy llama 8B"),
+./tests/training_test_cases.py:276:            pytest.mark.uplift,
+./tests/training_test_cases.py:277:            pytest.mark.galaxy,
+./tests/training_test_cases.py:278:            pytest.mark.torch,
+./tests/training_test_cases.py:279:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:280:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:284:    pytest.param(
+./tests/training_test_cases.py:292:            pytest.mark.uplift,
+./tests/training_test_cases.py:293:            pytest.mark.galaxy,
+./tests/training_test_cases.py:294:            pytest.mark.torch,
+./tests/training_test_cases.py:295:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:299:    pytest.param(
+./tests/training_test_cases.py:306:            pytest.mark.uplift,
+./tests/training_test_cases.py:307:            pytest.mark.galaxy,
+./tests/training_test_cases.py:308:            pytest.mark.torch,
+./tests/training_test_cases.py:309:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:310:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:314:    pytest.param(
+./tests/training_test_cases.py:321:            pytest.mark.uplift,
+./tests/training_test_cases.py:322:            pytest.mark.n150,
+./tests/training_test_cases.py:323:            pytest.mark.torch,
+./tests/training_test_cases.py:324:            pytest.mark.single_chip,
+./tests/training_test_cases.py:325:            pytest.mark.split_0,
+./tests/training_test_cases.py:329:    pytest.param(
+./tests/training_test_cases.py:336:            pytest.mark.xfail(reason="PCC issues, currently investigating.", strict=False),
+./tests/training_test_cases.py:337:            pytest.mark.uplift,
+./tests/training_test_cases.py:338:            pytest.mark.n150,
+./tests/training_test_cases.py:339:            pytest.mark.torch,
+./tests/training_test_cases.py:340:            pytest.mark.single_chip,
+./tests/training_test_cases.py:341:            pytest.mark.split_1,
+./tests/training_test_cases.py:345:    pytest.param(
+./tests/training_test_cases.py:354:            pytest.mark.uplift,
+./tests/training_test_cases.py:355:            pytest.mark.p150,
+./tests/training_test_cases.py:356:            pytest.mark.torch,
+./tests/training_test_cases.py:357:            pytest.mark.single_chip,
+./tests/training_test_cases.py:361:    pytest.param(
+./tests/training_test_cases.py:370:            pytest.mark.uplift,
+./tests/training_test_cases.py:371:            pytest.mark.n150,
+./tests/training_test_cases.py:372:            pytest.mark.torch,
+./tests/training_test_cases.py:373:            pytest.mark.single_chip,
+./tests/training_test_cases.py:374:            pytest.mark.split_1,
+./tests/training_test_cases.py:378:    pytest.param(
+./tests/training_test_cases.py:385:            pytest.mark.uplift,
+./tests/training_test_cases.py:386:            pytest.mark.n150,
+./tests/training_test_cases.py:387:            pytest.mark.torch,
+./tests/training_test_cases.py:388:            pytest.mark.single_chip,
+./tests/training_test_cases.py:392:    pytest.param(
+./tests/training_test_cases.py:400:            pytest.mark.skip(reason="Jax tests are not supported yet."),
+./tests/training_test_cases.py:401:            pytest.mark.uplift,
+./tests/training_test_cases.py:402:            pytest.mark.n150,
+./tests/training_test_cases.py:403:            pytest.mark.jax,
+./tests/training_test_cases.py:404:            pytest.mark.single_chip,
+./tests/training_test_cases.py:408:    pytest.param(
+./tests/training_test_cases.py:416:            pytest.mark.skip(reason="Jax tests are not supported yet."),
+./tests/training_test_cases.py:417:            pytest.mark.uplift,
+./tests/training_test_cases.py:418:            pytest.mark.n150,
+./tests/training_test_cases.py:419:            pytest.mark.jax,
+./tests/training_test_cases.py:420:            pytest.mark.single_chip,
+./tests/training_test_cases.py:424:    pytest.param(
+./tests/training_test_cases.py:432:            pytest.mark.skip(reason="Jax tests are not supported yet."),
+./tests/training_test_cases.py:433:            pytest.mark.uplift,
+./tests/training_test_cases.py:434:            pytest.mark.n150,
+./tests/training_test_cases.py:435:            pytest.mark.jax,
+./tests/training_test_cases.py:436:            pytest.mark.single_chip,
+./tests/conftest.py:4:def pytest_addoption(parser):
+./tests/pytest.ini:1:[pytest]
+./tests/test_all.py:9:import pytest
+./tests/test_all.py:28:@pytest.fixture
+./tests/test_all.py:92:            pytest.fail(f"Training script exited with code {result.returncode}")
+./tests/test_all.py:95:        pytest.fail(f"Training script timed out after {setup_dict['timeout']} seconds")
+./tests/test_all.py:115:        pytest.fail(f"Checkpoint not found: {checkpoint_path}")
+./tests/test_all.py:121:@pytest.mark.parametrize("setup_dict", TRAINING_TEST_CASES)
+./tests/test_all.py:124:    request: pytest.FixtureRequest,
+./tests/test_all.py:140:        request: pytest request object.
+./tests/configs/BOUNTIES/tt-gatv2_pubmed-pubmed-n150.yaml:1:# CI test overlay for GATv2/PubMed on a single Wormhole chip.
+./tests/configs/tt-gemma11-math_preference_dpo-p150.yaml:1:# CI overrides for the Gemma 1.1 2B DPO experiment
+./tests/trainer/test_callbacks_handler.py:8:# TODO(mmilosevicTT): Add tests to CI once we have trainings through trainer class. See https://github.com/tenstorrent/tt-blacksmith/issues/629.
+./docs/shared/_templates/layout.html:41:          <a href="{{ _home }}aibs/blackhole/index.html">Blackhole™ PCIe Cards</a>
+./docs/shared/_templates/layout.html:45:          <a href="{{ _home }}aibs/wormhole/index.html">Wormhole™ PCIe Cards</a>
+./docs/src/introduction.md:3:The **TT-Blacksmith** project contains optimized training recipes for a variety of machine learning models on [Tenstorrent](https://tenstorrent.com/) hardware, powered by the [TT-Forge](https://github.com/tenstorrent/tt-forge) compiler stack. Showcasing the compiler's flexibility, it enables the use of popular [AI frameworks](https://github.com/tenstorrent/tt-forge?tab=readme-ov-file#current-ai-framework-front-end-projects) like PyTorch and JAX for training workflows.
+./docs/src/introduction.md:6:- **Demonstrations:** Practical examples and workflows showcasing how to train various ML models on Tenstorrent hardware.
+./docs/src/coding-guidelines.md:244:loss = criterion(output, target)
+./README.md:20:The **TT-Blacksmith** project contains optimized training recipes for a variety of machine learning models on [Tenstorrent](https://tenstorrent.com/) hardware, powered by the [TT-Forge](https://github.com/tenstorrent/tt-forge) compiler stack. Showcasing the compiler's flexibility, it enables the use of popular [AI frameworks](https://github.com/tenstorrent/tt-forge?tab=readme-ov-file#current-ai-framework-front-end-projects) like PyTorch and JAX for training workflows.
+./README.md:38:- **Demonstrations:** Practical examples and workflows showcasing how to train various ML models on Tenstorrent hardware.
+./env/requirements.txt:11:pytest
+./env/activate:23:# pytest alias for venv interpreter
+./env/activate:24:alias pytest='python -m pytest'
+./blacksmith/tools/reproducibility_manager.py:42:            torch.backends.cudnn.benchmark = False
+./blacksmith/tools/cli.py:33:    # When running under pytest, apply defaults to limit training duration and
+./blacksmith/tools/cli.py:64:        "--test-config", type=Path, required=False, help="[Testing utils] Configuration that is used for CI testing"
+./blacksmith/tools/test_config.py:13:    This config is used during pytest runs to speed up tests by limiting
+./blacksmith/experiments/torch/albert/README.md:18:mteb/banking77 is a fine-grained intent classification dataset consisting of online banking customer service queries annotated with their corresponding intents. The dataset contains 13,083 queries labeled across 77 distinct intent categories (such as 'activate_my_card', 'apple_pay', 'bank_transfer', etc.), making it significantly more challenging than previous intent detection benchmarks that typically contain fewer than 10 classes.
+./blacksmith/experiments/torch/gpt_oss/README.md:88:GLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a
+./blacksmith/experiments/torch/gemma/README.md:20:GLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.
+./blacksmith/experiments/torch/qwen/README.md:144:GLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/README.md:57:A golden-loss regression case (`tt-gatv2_pubmed-pubmed-n150`, config under
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/README.md:59:commented out until the experiment dependency and a TT runner are wired into CI.
+./blacksmith/experiments/torch/gemma11/dpo/configs.py:121:    # Testing utils (used to limit training duration during CI runs).
+./blacksmith/experiments/torch/gemma11/lora/README.md:48:GLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.
+./blacksmith/experiments/torch/gemma11/lora/README.md:67:The Stanford Question Answering Dataset V2.0 (SQuAD V2.0) is a challenging benchmark for extractive Question Answering (QA) models.
+./blacksmith/experiments/torch/phi/README.md:22:GLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.
+./blacksmith/experiments/torch/phi/README.md:41:The Stanford Question Answering Dataset V2.0 (SQuAD V2.0) is a challenging benchmark for extractive Question Answering (QA) models.
+./blacksmith/experiments/torch/llama/xla/adapters/README.md:20:GLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.
+./blacksmith/experiments/torch/llama/xla/lora/README.md:192:GLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.
+./blacksmith/experiments/torch/llama/ffe/README.md:20:GLUE, the General Language Understanding Evaluation benchmark (https://gluebenchmark.com/) is a collection of resources for training, evaluating, and analyzing natural language understanding systems.
+./blacksmith/experiments/jax/distil_bert/README.md:33:The **GLUE SST-2 (Stanford Sentiment Treebank 2)** dataset is a benchmark for **binary sentiment classification**.
+./blacksmith/experiments/jax/llama/lora/lorax/helpers.py:86:# NOTE: Optional helper for single-tree workflows. Not used in the current
+./CONTRIBUTING.md:10:* Reviewing the PR for CI/CD readiness, making sure that the code and PR at a high level make sense for the project.
+./CONTRIBUTING.md:11:* Once approved for CI/CD readiness, a Tenstorrent developer will kick off our CI/CD pipeline on your behalf.
+./CONTRIBUTING.md:17:* Green CI (right now we don't have full CI setup, e.g. running tests, we will update the doc when is setup)
+./scripts/index_remote_search.py:9:as a step in the Pages deploy workflow after `python build_docs.py`."""
+./.github/workflows/docs-deploy.yml:6:  workflow_dispatch:
+./.github/workflows/push-main.yml:16:    uses: ./.github/workflows/call-test.yml
+./.github/workflows/push-main.yml:24:    uses: ./.github/workflows/call-build-docs.yml
+./.github/workflows/call-pre-commit.yml:4:  workflow_dispatch:
+./.github/workflows/call-pre-commit.yml:5:  workflow_call:
+./.github/workflows/call-test.yml:4:  workflow_call:
+./.github/workflows/call-test.yml:26:    uses: ./.github/workflows/call-generate-matrix.yml
+./.github/workflows/call-test.yml:77:        pytest -svv -m '${{ matrix.build.marks }}' tests/
+./.github/workflows/codeql.yml:12:      # Required for all workflows.
+./.github/workflows/workflow-run-collect-data.yml:1:name: "[internal] Collect workflow data"
+./.github/workflows/workflow-run-collect-data.yml:3:run-name: "Collect data for run_id ${{ github.event.workflow_run.id }} attempt ${{ github.event.workflow_run.run_attempt }}"
+./.github/workflows/workflow-run-collect-data.yml:6:  workflow_run:
+./.github/workflows/workflow-run-collect-data.yml:7:    workflows: # List workflow that we want to collect data for
+./.github/workflows/workflow-run-collect-data.yml:11:      # Future workflows to add:
+./.github/workflows/workflow-run-collect-data.yml:17:  workflow_dispatch:
+./.github/workflows/workflow-run-collect-data.yml:35:      - name: Collect CI/CD data (from workflow run)
+./.github/workflows/workflow-run-collect-data.yml:37:        if: ${{ github.event_name == 'workflow_run' }}
+./.github/workflows/workflow-run-collect-data.yml:40:          run_id: ${{ github.event.workflow_run.id }}
+./.github/workflows/workflow-run-collect-data.yml:41:          run_attempt: ${{ github.event.workflow_run.run_attempt }}
+./.github/workflows/workflow-run-collect-data.yml:42:          sftp_host: ${{ secrets.SFTP_CICD_WRITER_HOSTNAME }}
+./.github/workflows/workflow-run-collect-data.yml:43:          sftp_user: ${{ secrets.SFTP_CICD_WRITER_USERNAME }}
+./.github/workflows/workflow-run-collect-data.yml:46:          ssh-private-key: ${{ secrets.SFTP_CICD_WRITER_KEY }}
+./.github/workflows/workflow-run-collect-data.yml:48:      - name: Collect CI/CD data (from workflow_dispatch)
+./.github/workflows/workflow-run-collect-data.yml:50:        if: ${{ github.event_name == 'workflow_dispatch' }}
+./.github/workflows/workflow-run-collect-data.yml:55:          sftp_host: ${{ secrets.SFTP_CICD_WRITER_HOSTNAME }}
+./.github/workflows/workflow-run-collect-data.yml:56:          sftp_user: ${{ secrets.SFTP_CICD_WRITER_USERNAME }}
+./.github/workflows/workflow-run-collect-data.yml:59:          ssh-private-key: ${{ secrets.SFTP_CICD_WRITER_KEY }}
+./.github/workflows/schedule-uplift.yml:1:# This workflow automates creation of uplift pull requests.
+./.github/workflows/schedule-uplift.yml:9:  workflow_dispatch:  # Manual trigger
+./.github/workflows/call-build-docs.yml:4:  workflow_call:
+./.github/workflows/manual-test.yml:4:  workflow_dispatch:
+./.github/workflows/manual-test.yml:28:    uses: ./.github/workflows/call-test.yml
+./.github/workflows/pr-main.yml:4:  workflow_dispatch:
+./.github/workflows/pr-main.yml:9:  group: ${{ github.workflow }}-${{ github.ref }}
+./.github/workflows/pr-main.yml:14:    uses: ./.github/workflows/call-pre-commit.yml
+./.github/workflows/pr-main.yml:19:    uses: ./.github/workflows/call-test.yml
+./.github/workflows/pr-main.yml:28:    uses: ./.github/workflows/call-test.yml
+./.github/workflows/call-generate-matrix.yml:4:# This workflow generates a test matrix based on the provided test suite JSON file.
+./.github/workflows/call-generate-matrix.yml:8:  workflow_call:
+./.github/workflows/call-generate-matrix.yml:35:          matrix=$(cat .github/workflows/test-matrix-presets/${{ inputs.test_suite }})
+./.github/PULL_REQUEST_TEMPLATE/adding_an_experiment.md:23:- [ ] Main training workflow
+./.github/PULL_REQUEST_TEMPLATE/adding_an_experiment.md:27:- [ ] CI testing
+./.github/PULL_REQUEST_TEMPLATE/adding_an_experiment.md:29:    - [ ] Register test to CI
+
+===== patch surface hits =====
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:3:description: Run device performance benchmarks for tt-blacksmith single-chip training workloads. Use when the user asks to benchmark, profile, or measure performance of a training workload on Tenstorrent hardware, or mentions tracy, tt-perf-report, or device time analysis.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:27:Before running any workload, ensure no stale processes are holding the TT device. A previous process that was force-killed (kill -9) leaves the device in a bad state, causing "Timeout waiting for Ethernet core service" or "Waiting for lock 'CHIP_IN_USE_*_PCIe'" errors.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:38:Always reset devices between runs (after a crash or kill) to avoid "Timeout waiting for Ethernet core" errors. Wait a few seconds after reset before starting a new process.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:81:2. **Skip initial validation** -- Comment out or skip the initial `validate()` / `model.eval()` block before the training loop.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:111:**Gradient accumulation:** If the loop accumulates gradients over multiple micro-steps before an optimizer step, place the signpost/timer around each individual fwd+bwd+sync micro-step (not the full accumulation cycle). The early stopping check (step 4 below) should go inside the accumulation-complete branch, **immediately after `global_step` is incremented** and before any validation, logging, or checkpointing. Make sure `BENCH_MAX_STEPS` is large enough to include at least one full optimizer step (i.e., `BENCH_MAX_STEPS >= gradient_accumulation_steps + 1`) so the trace captures the optimizer update as well.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:133:Then in the training loop, place the early stopping check **immediately after `global_step` is incremented** -- before any logging, validation, metric commits, cache clearing, or checkpointing. If early stopping comes after these, a validation pass at the final step will run unnecessarily, wasting minutes and polluting the Tracy trace.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:142:5. **Disable `xr.clear_computation_cache()`** -- If the training script calls `xr.clear_computation_cache()` between steps, comment it out. It forces XLA to recompile the graph every step, which invalidates steady-state measurements and can cause OOM.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:178:| `ops_perf_results_<timestamp>.csv` | Per-op device performance data |
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:228:After Tracy and tt-perf-report are done, revert all instrumentation changes from Step 1 (imports, signposts, timers, early stopping, skipped validation). The training script must be restored to its original state so it remains usable for actual training.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:253:- **Tracy crashes with `TypeError: Invalid value ... for dtype 'str'` during report generation**: Pandas version incompatibility in `process_device_log.py`. Fix by replacing `df.iloc[:, 8] = ...` with column-name-based assignment: `col8 = df.columns[8]; df[col8] = pd.to_numeric(df[col8], errors="coerce").fillna(-1).astype(int)` (same for column 9).
+./.pre-commit-config.yaml:36:        # Do not fail the commit on flake8 errors.
+./tests/training_test_cases.py:52:    # torch_geometric dependency and a TT runner are wired into the regression pipeline;
+./tests/training_test_cases.py:214:            # TODO(agobeljic): Reactivate in uplift-test.json after qb2-blackhole is supported on uplift.
+./tests/training_test_cases.py:369:            # TODO(agobeljic): https://github.com/tenstorrent/tt-metal/issues/41127
+./tests/conftest.py:6:        "--debug-experiment",
+./tests/conftest.py:9:        help="For debugging purposes, show stdout and stderr of the tests.",
+./tests/test_all.py:72:def run_cmd(cmd: list[str], test_id: str, setup_dict: dict, debug: bool):
+./tests/test_all.py:78:            capture_output=not debug,
+./tests/test_all.py:154:    debug = request.config.getoption("--debug-experiment", default=False)
+./tests/test_all.py:155:    run_cmd(cmd, test_id, setup_dict, debug)
+./tests/trainer/test_callbacks_handler.py:8:# TODO(mmilosevicTT): Add tests to CI once we have trainings through trainer class. See https://github.com/tenstorrent/tt-blacksmith/issues/629.
+./docs/shared/_templates/layout.html:144:          <li><button type="button" class="tt-ai-example">How to debug TT-Forge compile errors?</button></li>
+./docs/shared/_templates/feedback_widget.html:15:    <form id="ttfb-form" class="ttfb-hidden" novalidate>
+./docs/shared/_templates/feedback_widget.html:41:    <div id="ttfb-error" class="ttfb-hidden ttfb-center"><p class="ttfb-error-text">Sorry, something went wrong. Please try again later.</p></div>
+./docs/shared/_templates/feedback_widget.html:80:.ttfb-error-text { color: #dc2626; font-weight: 600; }
+./docs/shared/_templates/feedback_widget.html:107:  const error = root.querySelector('#ttfb-error');
+./docs/shared/_templates/feedback_widget.html:129:  function validateEmail(email) {
+./docs/shared/_templates/feedback_widget.html:142:      console.error('Feedback submit error', e);
+./docs/shared/_templates/feedback_widget.html:181:    if (canContactVal && emailVal && !validateEmail(emailVal)) {
+./docs/shared/_templates/feedback_widget.html:205:      show(error);
+./docs/src/introduction.md:3:The **TT-Blacksmith** project contains optimized training recipes for a variety of machine learning models on [Tenstorrent](https://tenstorrent.com/) hardware, powered by the [TT-Forge](https://github.com/tenstorrent/tt-forge) compiler stack. Showcasing the compiler's flexibility, it enables the use of popular [AI frameworks](https://github.com/tenstorrent/tt-forge?tab=readme-ov-file#current-ai-framework-front-end-projects) like PyTorch and JAX for training workflows.
+./docs/src/getting-started.md:32:> **NOTE:** You cannot isolate devices in containers. You must pass through all devices even if you are only using one. You can do this by passing `--device /dev/tenstorrent`. Do not try to pass `--device /dev/tenstorrent/1` or similar, as this type of device-in-container isolation will result in fatal errors later on during execution.
+./docs/src/coding-guidelines.md:15:- flake8: A linting tool that checks for style violations and potential errors.
+./docs/src/coding-guidelines.md:23:Once installed, these tools will run automatically every time you execute git commit. If a tool finds an issue, it will either fix it automatically or block the commit until you address the error.
+./docs/src/coding-guidelines.md:78:- Always implement the `__repr__` method for classes to provide a clear string representation, which aids in debugging.
+./docs/src/coding-guidelines.md:115:Use `pathlib` over `os.path` for all path manipulations. The `os` module treats paths as strings, which can lead to errors and less readable code. `pathlib` provides an object-oriented approach to handle filesystem paths.
+./docs/src/coding-guidelines.md:136:Use `pydantic` models for data validation and configurations. Use `dataclasses` for simple data containers that do not require validation.
+./docs/src/coding-guidelines.md:163:Use the provided logging utilities from `blacksmith.tools.logging` for all logging purposes. Avoid using print statements for debugging or information output.
+./docs/src/coding-guidelines.md:230:## Comments and TODOs
+./docs/src/coding-guidelines.md:243:# TODO: Fix this later (written 2 years ago, never fixed)
+./docs/src/coding-guidelines.md:248:# optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+./docs/src/coding-guidelines.md:286:Use a consistent TODO format that is searchable and includes your GitHub username as well as the issue for accountability:
+./docs/src/coding-guidelines.md:289:# TODO(pglusacTT): Support sharded training checkpoints. See https://github.com/tenstorrent/tt-blacksmith/issues/...
+./README.md:20:The **TT-Blacksmith** project contains optimized training recipes for a variety of machine learning models on [Tenstorrent](https://tenstorrent.com/) hardware, powered by the [TT-Forge](https://github.com/tenstorrent/tt-forge) compiler stack. Showcasing the compiler's flexibility, it enables the use of popular [AI frameworks](https://github.com/tenstorrent/tt-forge?tab=readme-ov-file#current-ai-framework-front-end-projects) like PyTorch and JAX for training workflows.
+./README.md:33:TT-Blacksmith shows demonstrations of models using the TT-Forge compiler stack. The repo contains a collection of optimized training examples that show developers how to train machine learning models on Tenstorrent hardware using popular frameworks like PyTorch and JAX via thet TT-Forge compiler.
+./env/activate:107:    # If a debug pjrt-plugin-tt wheel is installed, just tag the prompt
+./env/download_debug_wheel.sh:5:# Downloads and installs the debug PJRT plugin wheel from GitHub Actions,
+./env/download_debug_wheel.sh:7:# TODO(ndrakulic): Right now this is workaround, we should have some proper place from where we can pull the debug wheel
+./env/download_debug_wheel.sh:63:# Step 3: Download the debug wheel artifact (skip if already downloaded)
+./env/download_debug_wheel.sh:68:    echo "Downloading debug wheel..."
+./env/download_debug_wheel.sh:76:echo "Installing debug wheel: $WHEEL"
+./env/download_debug_wheel.sh:79:echo "Done. Debug wheel installed."
+./.gitignore:18:!env/download_debug_wheel.sh
+./blacksmith/tools/torch_lightning.py:100:    def validation_step(self, batch, batch_idx):
+./blacksmith/tools/torch_lightning.py:110:    def configure_optimizers(self):
+./blacksmith/tools/hf_callbacks.py:32:    def on_optimizer_step(self, args, state, control, model, **kwargs):
+./blacksmith/tools/device_manager.py:142:        # TODO(pglusac): Add support for FSDP granularity configuration.
+./blacksmith/tools/device_manager.py:154:        # TODO(pglusac): Investigate if shard_output is necessary.
+./blacksmith/tools/device_manager.py:158:    def shard_optimizer(self, optimizer: torch.optim.Optimizer):
+./blacksmith/tools/device_manager.py:173:    def optimizer_step(self, optimizer: torch.optim.Optimizer):
+./blacksmith/tools/device_manager.py:174:        """Perform optimizer step with appropriate synchronization."""
+./blacksmith/tools/device_manager.py:177:            optimizer.step()
+./blacksmith/tools/device_manager.py:181:            # For multichip - xm.optimizer_step forces execution and ensures correct all-reduce operations
+./blacksmith/tools/device_manager.py:182:            xm.optimizer_step(optimizer, barrier=True)
+./blacksmith/tools/cli.py:52:    return config.model_validate(config_data)
+./blacksmith/tools/logging_manager.py:67:            self.std_logger.error(f"Failed to initialize W&B: {e}")
+./blacksmith/tools/logging_manager.py:78:    def error(self, message: str, traceback_str: Optional[str] = None):
+./blacksmith/tools/logging_manager.py:79:        """Log error message to stdout"""
+./blacksmith/tools/logging_manager.py:80:        self.std_logger.error(message)
+./blacksmith/tools/logging_manager.py:84:            self.wandb_run.log({"error": message, "traceback": traceback_str})
+./blacksmith/tools/logging_manager.py:86:    def debug(self, message: str):
+./blacksmith/tools/logging_manager.py:87:        """Log debug message to stdout"""
+./blacksmith/tools/logging_manager.py:88:        self.std_logger.debug(message)
+./blacksmith/tools/logging_manager.py:216:            self.std_logger.info(f"Training and validation logs saved to {self.csv_path_train} and {self.csv_path_val}")
+./blacksmith/tools/templates/test_model_template.py:22:def validate(
+./blacksmith/tools/templates/test_model_template.py:25:    logger.info("Starting validation...")
+./blacksmith/tools/templates/test_model_template.py:72:    # Init training components (optimizer, lr scheduler, etc.)
+./blacksmith/tools/templates/test_model_template.py:74:    optimizer = torch.optim.AdamW(trainable_params, capturable=True, lr=config.learning_rate)
+./blacksmith/tools/templates/test_model_template.py:79:        # Initial validation
+./blacksmith/tools/templates/test_model_template.py:81:        valid_loss = validate(model, eval_dataloader, logger, device)
+./blacksmith/tools/templates/test_model_template.py:88:                optimizer.zero_grad()
+./blacksmith/tools/templates/test_model_template.py:107:                optimizer.step()
+./blacksmith/tools/templates/test_model_template.py:119:                    valid_loss = validate(model, eval_dataloader, logger, device)
+./blacksmith/tools/templates/test_model_template.py:128:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/tools/templates/test_model_template.py:131:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/tools/templates/test_model_template.py:134:        final_model_path = checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/tools/templates/test_model_template.py:139:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/tools/checkpoints_manager.py:108:        optimizer: Optional[torch.optim.Optimizer] = None,
+./blacksmith/tools/checkpoints_manager.py:119:            optimizer: Optimizer state (optional)
+./blacksmith/tools/checkpoints_manager.py:145:        if self.config.save_optim and optimizer is not None:
+./blacksmith/tools/checkpoints_manager.py:146:            checkpoint_data["optimizer_state_dict"] = optimizer.state_dict()
+./blacksmith/tools/checkpoints_manager.py:204:    def load_checkpoint(self, model: torch.nn.Module, optimizer: Optional[torch.optim.Optimizer] = None):
+./blacksmith/tools/checkpoints_manager.py:207:            return self.load_latest_checkpoint(model, optimizer)
+./blacksmith/tools/checkpoints_manager.py:209:            return self.load_best_checkpoint(model, optimizer)
+./blacksmith/tools/checkpoints_manager.py:213:            return self.load_checkpoint_path(self.config.checkpoint_path, model, optimizer)
+./blacksmith/tools/checkpoints_manager.py:221:        optimizer: Optional[torch.optim.Optimizer] = None,
+./blacksmith/tools/checkpoints_manager.py:229:            optimizer: Optimizer to load state into (optional)
+./blacksmith/tools/checkpoints_manager.py:244:        if optimizer is not None and "optimizer_state_dict" in checkpoint:
+./blacksmith/tools/checkpoints_manager.py:245:            optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+./blacksmith/tools/checkpoints_manager.py:246:            self.logger.info("Loaded optimizer state")
+./blacksmith/tools/checkpoints_manager.py:259:        optimizer: Optional[torch.optim.Optimizer] = None,
+./blacksmith/tools/checkpoints_manager.py:265:            optimizer: Optimizer to load state into (optional)
+./blacksmith/tools/checkpoints_manager.py:271:        return self.load_checkpoint_path(latest_checkpoint["path"], model, optimizer)
+./blacksmith/tools/checkpoints_manager.py:274:        self, model: torch.nn.Module, optimizer: Optional[torch.optim.Optimizer] = None
+./blacksmith/tools/checkpoints_manager.py:280:            optimizer: Optimizer to load state into (optional)
+./blacksmith/tools/checkpoints_manager.py:287:        return self.load_checkpoint_path(best_checkpoint["path"], model, optimizer)
+./blacksmith/tools/jax/easydel/workaround_utils.py:72:        aw = jnp.einsum("bshd,bmhd->bhsm", q * sm_scale, k, optimize=True)
+./blacksmith/tools/jax/easydel/workaround_utils.py:134:    attention = jnp.einsum("bhsm,bmhd->bshd", aw, v, optimize=True)
+./blacksmith/tools/jax/easydel/workaround_utils.py:147:    # TODO(ndimicTT): drop once tt-mlir lowers EasyDeL's default 5D GQA path.
+./blacksmith/tools/jax/easydel/train_steps.py:58:    """JIT-compiled forward + backward + optimizer step.
+./blacksmith/tools/jax/easydel/train_steps.py:143:    # TODO(ndimicTT): remove once TT partitions 0-D scalar outputs correctly.
+./blacksmith/tools/jax/easydel/train_steps.py:160:    """Run evaluation over validation batches and return the average loss.
+./blacksmith/tools/jax/easydel/helpers.py:118:def build_optimizer(
+./blacksmith/tools/jax/easydel/helpers.py:123:    """Build an AdamW optimizer with a warmup-cosine-decay schedule.
+./blacksmith/tools/jax/easydel/helpers.py:134:        total_opt_steps: Total number of optimizer updates after accumulation.
+./blacksmith/tools/jax/easydel/helpers.py:137:        (optimizer, schedule) tuple.
+./blacksmith/tools/jax/easydel/helpers.py:152:    base_optimizer = optax.chain(*transforms)
+./blacksmith/tools/jax/easydel/helpers.py:156:        optimizer = optax.MultiSteps(base_optimizer, every_k_schedule=accum)
+./blacksmith/tools/jax/easydel/helpers.py:158:        optimizer = base_optimizer
+./blacksmith/tools/jax/easydel/helpers.py:160:    return optimizer, schedule
+./blacksmith/tools/jax/checkpoint_manager.py:230:            self.logger.info("Loaded optimizer state")
+./blacksmith/tools/jax/checkpoint_manager.py:249:            opt_state_target: Optional optimizer-state template
+./blacksmith/tools/jax/checkpoint_manager.py:269:            opt_state_target: Optional optimizer-state template
+./blacksmith/tools/logging/configs.py:36:    log_optimizer: Union[None, str] = Field(default=None)
+./blacksmith/tools/trainer/callback.py:28:    def on_validation_start(self, trainer):
+./blacksmith/tools/trainer/callback.py:31:    def on_validation_batch_start(self, trainer, batch):
+./blacksmith/tools/trainer/callback.py:34:    def on_validation_batch_end(self, trainer, batch, loss):
+./blacksmith/tools/trainer/callback.py:37:    def on_validation_end(self, trainer, val_loss):
+./blacksmith/tools/trainer/callback.py:53:    def on_optimizer_step_start(self, trainer):
+./blacksmith/tools/trainer/callback.py:56:    def on_optimizer_step_end(self, trainer):
+./blacksmith/tools/trainer/callback.py:60:    def on_error(self, trainer, exception):
+./blacksmith/tools/trainer/strategies/lora_llm_trainer.py:26:        val_dataset = get_dataset(config=self.config, split="validation", collate_fn=collate_fn_for_causal_lm)
+./blacksmith/tools/trainer/strategies/sft_llm_trainer.py:8:# TODO(mmilosevicTT): Implement full model SFT LLM Trainer. See https://github.com/tenstorrent/tt-blacksmith/issues/618
+./blacksmith/tools/trainer/trainer.py:51:        self.optimizer = self._load_optimizer()
+./blacksmith/tools/trainer/trainer.py:65:        ``val_dataloader`` may be ``None`` if there is no validation set.
+./blacksmith/tools/trainer/trainer.py:69:    def _load_optimizer(self) -> torch.optim.Optimizer:
+./blacksmith/tools/trainer/trainer.py:71:        Build and return the optimizer over the model's trainable parameters.
+./blacksmith/tools/trainer/trainer.py:73:        Defaults to AdamW; override for a different optimizer.
+./blacksmith/tools/trainer/trainer.py:90:        # TODO(mmilosevicTT): Temporary running loss for debug prints; remove once
+./blacksmith/tools/trainer/trainer.py:95:            # Initial validation pass before any optimizer steps.
+./blacksmith/tools/trainer/trainer.py:97:                self.validate()
+./blacksmith/tools/trainer/trainer.py:104:                self.optimizer.zero_grad()
+./blacksmith/tools/trainer/trainer.py:121:                    # _forward can stay identical between training and validation.
+./blacksmith/tools/trainer/trainer.py:130:                    # Step the optimizer only after accumulating gradients.
+./blacksmith/tools/trainer/trainer.py:132:                        self.callback_handler("on_optimizer_step_start")
+./blacksmith/tools/trainer/trainer.py:133:                        self._optimizer_step()
+./blacksmith/tools/trainer/trainer.py:134:                        self.callback_handler("on_optimizer_step_end")
+./blacksmith/tools/trainer/trainer.py:139:                        # TODO(mmilosevicTT): Temporary debug print (avg over 10 steps); remove once
+./blacksmith/tools/trainer/trainer.py:148:                        # Periodic inline validation.
+./blacksmith/tools/trainer/trainer.py:154:                            self.validate()
+./blacksmith/tools/trainer/trainer.py:160:            self.callback_handler("on_error", trainer=self, exception=exception)
+./blacksmith/tools/trainer/trainer.py:164:    def validate(self) -> None:
+./blacksmith/tools/trainer/trainer.py:166:        self.callback_handler("on_validation_start")
+./blacksmith/tools/trainer/trainer.py:172:                self.callback_handler("on_validation_batch_start", batch)
+./blacksmith/tools/trainer/trainer.py:183:                self.callback_handler("on_validation_batch_end", batch, loss)
+./blacksmith/tools/trainer/trainer.py:186:        # TODO(mmilosevicTT): Temporary debug print; remove once default logging
+./blacksmith/tools/trainer/trainer.py:189:        self.callback_handler("on_validation_end", val_loss)
+./blacksmith/tools/trainer/trainer.py:197:        Shared by both ``train`` and ``validate``; gradient-accumulation scaling
+./blacksmith/tools/trainer/trainer.py:208:    def _optimizer_step(self) -> None:
+./blacksmith/tools/trainer/trainer.py:210:        Step the optimizer and reset gradients. Override for custom behaviour.
+./blacksmith/tools/trainer/trainer.py:212:        self.device_manager.optimizer_step(self.optimizer)
+./blacksmith/tools/trainer/trainer.py:213:        self.optimizer.zero_grad()
+./blacksmith/experiments/lightning/mnist/README.md:34:| `training_config.lr` | Learning rate used by the optimizer. | 0.001 |
+./blacksmith/experiments/lightning/nerf/configs.py:43:    optimizer: str = "radam"
+./blacksmith/experiments/lightning/nerf/configs.py:44:    optimizer_kwargs: Optional[dict] = None
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:9:from blacksmith.experiments.lightning.nerf.utils.optimizers import RAdam
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:15:def get_optimizer(hparams: NerfConfig, models: list[torch.nn.Module]):
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:16:    assert hparams.training.optimizer in ["sgd", "adam", "radam", "adamw"], "Invalid optimizer"
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:22:    optimizers = {
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:28:    optimizer = optimizers[hparams.training.optimizer](
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:30:        **hparams.training.optimizer_kwargs,
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:32:    return optimizer
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:35:def get_scheduler(hparams, optimizer):
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:44:        optimizer,
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:48:    if hparams.training.warmup_epochs > 0 and hparams.training.optimizer != "radam":
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:50:            optimizer,
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:59:def get_learning_rate(optimizer):
+./blacksmith/experiments/lightning/nerf/utils/__init__.py:60:    for param_group in optimizer.param_groups:
+./blacksmith/experiments/lightning/nerf/utils/optimizers.py:7:from torch.optim.optimizer import Optimizer
+./blacksmith/experiments/lightning/nerf/utils/warmup_scheduler.py:8:    """Gradually warm-up(increasing) learning rate in optimizer.
+./blacksmith/experiments/lightning/nerf/utils/warmup_scheduler.py:12:        optimizer (Optimizer): Wrapped optimizer.
+./blacksmith/experiments/lightning/nerf/utils/warmup_scheduler.py:18:    def __init__(self, optimizer, multiplier, total_epoch, after_scheduler=None):
+./blacksmith/experiments/lightning/nerf/utils/warmup_scheduler.py:25:        super().__init__(optimizer)
+./blacksmith/experiments/lightning/nerf/utils/warmup_scheduler.py:51:            for param_group, lr in zip(self.optimizer.param_groups, warmup_lr):
+./blacksmith/experiments/lightning/nerf/README.md:61:| `training.val_only` | To run training or validation | False |
+./blacksmith/experiments/lightning/nerf/README.md:64:| `training.optimizer` | The optimizer to use for training. | "radam" |
+./blacksmith/experiments/lightning/nerf/README.md:65:| `training.optimizer_kwargs` | Optimizer kwargs. | None |
+./blacksmith/experiments/lightning/nerf/train.py:23:from blacksmith.experiments.lightning.nerf.utils import get_learning_rate, get_optimizer
+./blacksmith/experiments/lightning/nerf/train.py:95:        self.optimizer = get_optimizer(config, self.framework_models)
+./blacksmith/experiments/lightning/nerf/train.py:129:                optimizer=self.optimizer,
+./blacksmith/experiments/lightning/nerf/train.py:139:                optimizer=self.optimizer,
+./blacksmith/experiments/lightning/nerf/train.py:170:        self.validation_step_outputs = []
+./blacksmith/experiments/lightning/nerf/train.py:242:        self.log("train/lr", get_learning_rate(self.optimizer), on_step=True, prog_bar=True)
+./blacksmith/experiments/lightning/nerf/train.py:308:    def configure_optimizers(self):
+./blacksmith/experiments/lightning/nerf/train.py:309:        return self.optimizer
+./blacksmith/experiments/lightning/nerf/train.py:311:    def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_closure=None):
+./blacksmith/experiments/lightning/nerf/train.py:312:        self.optimizer.step(optimizer_closure)
+./blacksmith/experiments/lightning/nerf/train.py:313:        super().optimizer_step(epoch, batch_idx, optimizer, optimizer_closure)
+./blacksmith/experiments/lightning/nerf/train.py:315:    def validation_step(self, batch, batch_idx):
+./blacksmith/experiments/lightning/nerf/train.py:348:        self.validation_step_outputs.append(log)
+./blacksmith/experiments/lightning/nerf/train.py:352:    def on_validation_epoch_end(self):
+./blacksmith/experiments/lightning/nerf/train.py:353:        mean_loss = torch.stack([x["val_loss"] for x in self.validation_step_outputs]).mean()
+./blacksmith/experiments/lightning/nerf/train.py:354:        mean_psnr = torch.stack([x["val_psnr"] for x in self.validation_step_outputs]).mean()
+./blacksmith/experiments/lightning/nerf/train.py:461:        trainer.validate(system, ckpt_path=config.training.ckpt_path)
+./blacksmith/experiments/lightning/nerf/nerf.yaml:39:  optimizer: radam
+./blacksmith/experiments/lightning/nerf/nerf.yaml:40:  optimizer_kwargs:
+./blacksmith/experiments/easydel/setup_gpu_requirements.sh:3:# TODO(pglusacTT): This is a temporary workaround due to triton conflict with torch.
+./blacksmith/experiments/easydel/qwen/lora/README.md:34:EasyDel is pulled in automatically by `env/xla_requirements.txt`, pinned to the validated commit.
+./blacksmith/experiments/easydel/qwen/lora/README.md:112:> **TODO:** emit per-token predictions / accuracy from the eval step once multi-output flatbuffers are validated under the mesh-reopen workaround (https://github.com/tenstorrent/tt-xla/issues/1993, https://github.com/tenstorrent/tt-xla/issues/4809).
+./blacksmith/experiments/easydel/qwen/lora/README.md:150:| `learning_rate`               | Peak learning rate for the AdamW optimizer.                        | 2e-4          |
+./blacksmith/experiments/easydel/qwen/lora/README.md:154:| `gradient_accumulation_steps` | Number of mini-batches to accumulate before an optimizer step.     | 1             |
+./blacksmith/experiments/easydel/qwen/lora/README.md:156:| `val_steps_freq`              | Run validation every N steps (null = disabled).                    | null          |
+./blacksmith/experiments/easydel/qwen/lora/README.md:157:| `max_val_batches`             | Limit number of validation batches per eval pass (null = use all). | null          |
+./blacksmith/experiments/easydel/qwen/lora/README.md:184:| `save_optim`             | Whether to save optimizer state.                              | False                                        |
+./blacksmith/experiments/easydel/qwen/lora/train.py:18:    build_optimizer,
+./blacksmith/experiments/easydel/qwen/lora/train.py:31:def validate(
+./blacksmith/experiments/easydel/qwen/lora/train.py:35:    validation_batches,
+./blacksmith/experiments/easydel/qwen/lora/train.py:40:    """Run evaluation on validation batches and log the result."""
+./blacksmith/experiments/easydel/qwen/lora/train.py:41:    logger.info("Starting validation...")
+./blacksmith/experiments/easydel/qwen/lora/train.py:42:    validation_loss = evaluate(
+./blacksmith/experiments/easydel/qwen/lora/train.py:46:        validation_batches,
+./blacksmith/experiments/easydel/qwen/lora/train.py:50:    logger.info(f"Average validation loss: {validation_loss:.4f}")
+./blacksmith/experiments/easydel/qwen/lora/train.py:51:    return validation_loss
+./blacksmith/experiments/easydel/qwen/lora/train.py:83:    validation_input_ids, validation_labels, validation_attention_masks = load_batches(config, split="validation")
+./blacksmith/experiments/easydel/qwen/lora/train.py:95:    validation_batches = [
+./blacksmith/experiments/easydel/qwen/lora/train.py:96:        _make_batch(validation_input_ids[i], validation_labels[i], validation_attention_masks[i])
+./blacksmith/experiments/easydel/qwen/lora/train.py:97:        for i in range(len(validation_input_ids))
+./blacksmith/experiments/easydel/qwen/lora/train.py:101:        f"Train batches: {len(train_batches)}, Validation batches: {len(validation_batches)}"
+./blacksmith/experiments/easydel/qwen/lora/train.py:122:    # Build optimizer.
+./blacksmith/experiments/easydel/qwen/lora/train.py:126:    total_optimizer_steps = total_train_batches // accumulation_steps
+./blacksmith/experiments/easydel/qwen/lora/train.py:128:    optimizer, _learning_rate_schedule = build_optimizer(config, total_opt_steps=total_optimizer_steps)
+./blacksmith/experiments/easydel/qwen/lora/train.py:130:        f"  LR schedule: warmup {config.warmup_steps} optimizer steps, "
+./blacksmith/experiments/easydel/qwen/lora/train.py:131:        f"cosine decay over {total_optimizer_steps} optimizer steps "
+./blacksmith/experiments/easydel/qwen/lora/train.py:140:    # Initialize optimizer state on CPU (avoids eager compilation on TT),
+./blacksmith/experiments/easydel/qwen/lora/train.py:144:        optimizer_state = optimizer.init(lora_params_cpu)
+./blacksmith/experiments/easydel/qwen/lora/train.py:145:    optimizer_state = device_manager.apply_sharding_patterns(optimizer_state, sharding_patterns)
+./blacksmith/experiments/easydel/qwen/lora/train.py:149:        optimizer,
+./blacksmith/experiments/easydel/qwen/lora/train.py:162:            opt_state_target=optimizer_state,
+./blacksmith/experiments/easydel/qwen/lora/train.py:166:            optimizer_state = checkpoint.get("opt_state", optimizer_state)
+./blacksmith/experiments/easydel/qwen/lora/train.py:170:        original_validation_batch_count = len(validation_batches)
+./blacksmith/experiments/easydel/qwen/lora/train.py:171:        validation_batches = validation_batches[: config.max_val_batches]
+./blacksmith/experiments/easydel/qwen/lora/train.py:172:        logger.info(f"  Using {len(validation_batches)} of {original_validation_batch_count} validation batches")
+./blacksmith/experiments/easydel/qwen/lora/train.py:174:    # Pre-shard validation batches; the model embeds input_ids on device.
+./blacksmith/experiments/easydel/qwen/lora/train.py:175:    validation_batches = [device_manager.prepare_batch(batch) for batch in validation_batches]
+./blacksmith/experiments/easydel/qwen/lora/train.py:187:        # Initial validation.
+./blacksmith/experiments/easydel/qwen/lora/train.py:188:        validation_loss = validate(
+./blacksmith/experiments/easydel/qwen/lora/train.py:189:            jit_eval_step, lora_params, frozen_state, validation_batches, logger, **inspect_kwargs
+./blacksmith/experiments/easydel/qwen/lora/train.py:191:        logger.log_metrics({"val/loss": validation_loss}, commit=True, step=global_step)
+./blacksmith/experiments/easydel/qwen/lora/train.py:206:                # lora_params, optimizer_state, loss, gradient_stats = jit_fused_train_step(
+./blacksmith/experiments/easydel/qwen/lora/train.py:207:                lora_params, optimizer_state, loss = jit_fused_train_step(
+./blacksmith/experiments/easydel/qwen/lora/train.py:210:                    optimizer_state,
+./blacksmith/experiments/easydel/qwen/lora/train.py:215:                jax.block_until_ready((lora_params, optimizer_state))
+./blacksmith/experiments/easydel/qwen/lora/train.py:247:                # Periodic validation.
+./blacksmith/experiments/easydel/qwen/lora/train.py:250:                    and validation_batches
+./blacksmith/experiments/easydel/qwen/lora/train.py:253:                    validation_loss = validate(
+./blacksmith/experiments/easydel/qwen/lora/train.py:257:                        validation_batches,
+./blacksmith/experiments/easydel/qwen/lora/train.py:261:                    logger.log_metrics({"val/loss": validation_loss}, step=global_step, commit=False)
+./blacksmith/experiments/easydel/qwen/lora/train.py:272:                        opt_state=optimizer_state,
+./blacksmith/experiments/easydel/qwen/lora/train.py:279:            # End-of-epoch validation.
+./blacksmith/experiments/easydel/qwen/lora/train.py:281:            if validation_batches:
+./blacksmith/experiments/easydel/qwen/lora/train.py:283:                validation_loss = validate(
+./blacksmith/experiments/easydel/qwen/lora/train.py:284:                    jit_eval_step, lora_params, frozen_state, validation_batches, logger, **inspect_kwargs
+./blacksmith/experiments/easydel/qwen/lora/train.py:286:                logger.log_metrics({"val/loss": validation_loss}, step=global_step)
+./blacksmith/experiments/easydel/qwen/lora/train.py:287:                end_of_epoch_metrics = {"val/loss": validation_loss}
+./blacksmith/experiments/easydel/qwen/lora/train.py:295:                    opt_state=optimizer_state,
+./blacksmith/experiments/easydel/qwen/lora/train.py:309:        logger.error(f"Training failed with error: {exception}", traceback_string)
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:23:def validate(
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:26:    logger.info("Starting validation...")
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:76:    optimizer = torch.optim.SGD(trainable_params, lr=config.learning_rate)
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:81:    val_dataset = get_dataset(config=config, split="validation")
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:87:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:93:        # Initial validation
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:95:        val_loss, val_acc = validate(model, val_loader, device_manager.device, logger, config)
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:111:                optimizer.zero_grad()
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:124:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:135:                    val_loss, val_acc = validate(model, val_loader, device_manager.device, logger, config)
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:144:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:149:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:153:            model, global_step, config.num_epochs - 1, optimizer, checkpoint_name="final_model.pth"
+./blacksmith/experiments/torch/mnist/data_parallel/train.py:159:        logger.error(f"Training failed with error: {e}", traceback.format_exc())
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:23:def validate(
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:30:    logger.info("Starting validation...")
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:83:    optimizer = torch.optim.SGD(trainable_params, lr=config.learning_rate)
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:88:    val_dataset = get_dataset(config=config, split="validation")
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:94:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:100:        # Initial validation
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:102:        val_loss, val_acc = validate(model, val_loader, device_manager, logger, config)
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:119:                optimizer.zero_grad()
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:132:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:143:                    val_loss, val_acc = validate(model, val_loader, device_manager, logger, config)
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:152:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:157:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:161:            model, global_step, config.num_epochs - 1, optimizer, checkpoint_name="final_model.pth"
+./blacksmith/experiments/torch/mnist/tensor_parallel/train.py:168:        logger.error(f"Training failed with error: {e}", tb)
+./blacksmith/experiments/torch/mnist/README.md:64:| `learning_rate` | Learning rate used by the optimizer. | 0.01 |
+./blacksmith/experiments/torch/mnist/README.md:82:| `val_steps_freq` | Frequency of step validations. | 100 |
+./blacksmith/experiments/torch/mnist/README.md:94:| `save_optim` | Whether to save optimizer state. | false |
+./blacksmith/experiments/torch/mnist/train.py:22:def validate(
+./blacksmith/experiments/torch/mnist/train.py:30:    logger.info("Starting validation...")
+./blacksmith/experiments/torch/mnist/train.py:80:    optimizer = torch.optim.SGD(trainable_params, lr=config.learning_rate)
+./blacksmith/experiments/torch/mnist/train.py:86:    val_dataset = get_dataset(config, split="validation")
+./blacksmith/experiments/torch/mnist/train.py:92:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/mnist/train.py:98:        # Initial validation
+./blacksmith/experiments/torch/mnist/train.py:100:        val_loss, val_acc = validate(model, val_loader, logger, device_manager, loss_fn)
+./blacksmith/experiments/torch/mnist/train.py:118:                optimizer.zero_grad()
+./blacksmith/experiments/torch/mnist/train.py:128:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/mnist/train.py:143:                    val_loss, val_acc = validate(model, val_loader, logger, device_manager, loss_fn)
+./blacksmith/experiments/torch/mnist/train.py:155:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/mnist/train.py:159:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/mnist/train.py:163:            model, global_step, config.num_epochs - 1, optimizer, checkpoint_name="final_model.pth"
+./blacksmith/experiments/torch/mnist/train.py:170:        logger.error(f"Training failed with error: {e}", tb)
+./blacksmith/experiments/torch/albert/single_chip/albert_banking77.yaml:6:max_length: 64 # TODO(agobeljicTT): https://github.com/tenstorrent/tt-blacksmith/issues/437
+./blacksmith/experiments/torch/albert/README.md:48:| `learning_rate`               | Learning rate for the optimizer.                       | 1e-3                                 |
+./blacksmith/experiments/torch/albert/README.md:64:| `val_steps_freq`              | Frequency (in steps) for performing validation actions.| 25                                   |
+./blacksmith/experiments/torch/albert/README.md:75:| `save_optim`                  | Whether to save optimizer state.                       | False                                |
+./blacksmith/experiments/torch/albert/train.py:23:def validate(
+./blacksmith/experiments/torch/albert/train.py:30:    logger.info("Starting validation...")
+./blacksmith/experiments/torch/albert/train.py:80:    # TODO(agobeljic): https://github.com/tenstorrent/tt-metal/issues/41127
+./blacksmith/experiments/torch/albert/train.py:92:    # Init training components (optimizer, lr scheduler, etc.)
+./blacksmith/experiments/torch/albert/train.py:94:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/albert/train.py:100:        # Initial validation
+./blacksmith/experiments/torch/albert/train.py:102:        valid_loss, metrics = validate(model, eval_dataloader, logger, device_manager, loss_fn)
+./blacksmith/experiments/torch/albert/train.py:113:                optimizer.zero_grad()
+./blacksmith/experiments/torch/albert/train.py:130:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/albert/train.py:140:                    valid_loss, metrics = validate(model, eval_dataloader, logger, device_manager, loss_fn)
+./blacksmith/experiments/torch/albert/train.py:153:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/albert/train.py:156:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/albert/train.py:159:        final_model_path = checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/albert/train.py:164:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/gpt_oss/README.md:96:This dataset is commonly used to evaluate the performance of natural language understanding models
+./blacksmith/experiments/torch/gpt_oss/README.md:129:| `learning_rate` | Learning rate for the optimizer. | `1e-4` |
+./blacksmith/experiments/torch/gpt_oss/README.md:142:| `val_steps_freq` | Frequency (in steps) for performing validation actions. | `10` |
+./blacksmith/experiments/torch/gpt_oss/README.md:149:| `save_optim` | Whether to save optimizer state. | `True` |
+./blacksmith/experiments/torch/gpt_oss/README.md:161:| `print_examples` | Whether to print validation examples. | `True` |
+./blacksmith/experiments/torch/gpt_oss/train.py:27:def validate(model, val_data_loader, loss_fn, logger, device, config, tokenizer=None):
+./blacksmith/experiments/torch/gpt_oss/train.py:28:    logger.info("Starting validation...")
+./blacksmith/experiments/torch/gpt_oss/train.py:82:        logger.info("Printing validation examples...")
+./blacksmith/experiments/torch/gpt_oss/train.py:86:    logger.info(f"Average validation loss: {avg_val_loss}")
+./blacksmith/experiments/torch/gpt_oss/train.py:122:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/gpt_oss/train.py:126:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/gpt_oss/train.py:133:    eval_dataset = get_dataset(config=config, split="validation", collate_fn=collate_fn_for_causal_lm)
+./blacksmith/experiments/torch/gpt_oss/train.py:145:        # Initial validation
+./blacksmith/experiments/torch/gpt_oss/train.py:147:        val_loss = validate(
+./blacksmith/experiments/torch/gpt_oss/train.py:167:                    optimizer.zero_grad()
+./blacksmith/experiments/torch/gpt_oss/train.py:169:                # TODO: Refactor when https://github.com/tenstorrent/tt-blacksmith/issues/327 is resolved.
+./blacksmith/experiments/torch/gpt_oss/train.py:200:                # Only step the optimizer after accumulating gradients.
+./blacksmith/experiments/torch/gpt_oss/train.py:202:                    device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/gpt_oss/train.py:215:                        val_loss = validate(
+./blacksmith/experiments/torch/gpt_oss/train.py:232:                        checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/gpt_oss/train.py:236:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/gpt_oss/train.py:240:            model, global_step, epoch, optimizer, checkpoint_name="final_model.pth"
+./blacksmith/experiments/torch/gpt_oss/train.py:246:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/gpt_oss/lora/loudbox/fsdp_gpt_oss_20b_sst2.yaml:2:# TODO(pglusac): https://github.com/tenstorrent/tt-blacksmith/issues/542
+./blacksmith/experiments/torch/gemma/README.md:23:This dataset is commonly used to evaluate the performance of natural language understanding models on sentiment analysis tasks.
+./blacksmith/experiments/torch/gemma/README.md:51:| `learning_rate` | Learning rate for the optimizer. | 2e-5 |
+./blacksmith/experiments/torch/gemma/README.md:66:| `val_steps_freq` | Frequency of validation (in steps). | 50 |
+./blacksmith/experiments/torch/gemma/README.md:76:| `save_optim` | Whether to save optimizer state. | False |
+./blacksmith/experiments/torch/gemma/train.py:26:def validate(model, val_data_loader, loss_fn, device_manager, config, logger, tokenizer=None):
+./blacksmith/experiments/torch/gemma/train.py:73:    logger.info(f"Average validation loss: {avg_val_loss}")
+./blacksmith/experiments/torch/gemma/train.py:101:    eval_dataset = get_dataset(config=config, split="validation", collate_fn=collate_fn_for_causal_lm)
+./blacksmith/experiments/torch/gemma/train.py:107:    # Init training components (optimizer, lr scheduler, etc.)
+./blacksmith/experiments/torch/gemma/train.py:109:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/gemma/train.py:115:        # Initial validation
+./blacksmith/experiments/torch/gemma/train.py:117:        avg_val_loss = validate(model, eval_dataloader, loss_fn, device_manager, config, logger, tokenizer)
+./blacksmith/experiments/torch/gemma/train.py:124:                optimizer.zero_grad()
+./blacksmith/experiments/torch/gemma/train.py:150:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/gemma/train.py:160:                    avg_val_loss = validate(model, eval_dataloader, loss_fn, device_manager, config, logger, tokenizer)
+./blacksmith/experiments/torch/gemma/train.py:168:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/gemma/train.py:171:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/gemma/train.py:174:        final_model_path = checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/gemma/train.py:179:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/wan2_2/configs.py:19:    # Video generation (used by infer.py and by in-training validation).
+./blacksmith/experiments/torch/wan2_2/configs.py:36:    def _validate_shapes(self):
+./blacksmith/experiments/torch/wan2_2/configs.py:69:    # Inference / validation params (decomposed from the training params).
+./blacksmith/experiments/torch/wan2_2/configs.py:145:    def _validate_shapes(self):
+./blacksmith/experiments/torch/wan2_2/configs.py:148:        (infer_* shapes are validated on InferenceConfig.)"""
+./blacksmith/experiments/torch/wan2_2/generate.py:31:def build_pipeline_for_validation(transformer, config: TrainingConfig, device_manager: WanDeviceManager):
+./blacksmith/experiments/torch/wan2_2/generate.py:195:def generate_validation_sample(transformer, config: TrainingConfig, device_manager: WanDeviceManager, step: int):
+./blacksmith/experiments/torch/wan2_2/generate.py:198:    pipe = build_pipeline_for_validation(transformer, config, device_manager)
+./blacksmith/experiments/torch/wan2_2/README.md:73:The experiment is configured with the YAML files under `lora/`. Inference/validation params are
+./blacksmith/experiments/torch/wan2_2/README.md:77:both are validated at config load.
+./blacksmith/experiments/torch/wan2_2/README.md:108:| `gradient_accumulation_steps` | Micro-batches per optimizer step. | `4` |
+./blacksmith/experiments/torch/wan2_2/README.md:109:| `max_steps` | Total optimizer steps. | `3000` |
+./blacksmith/experiments/torch/wan2_2/README.md:112:| `inference.val_prompt` | Prompt used for validation/inference. | see YAML |
+./blacksmith/experiments/torch/wan2_2/README.md:113:| `inference.val_img_steps` | Denoise steps for validation sample. | `40` |
+./blacksmith/experiments/torch/wan2_2/README.md:114:| `inference.val_img_frames` | Frames for validation sample (`1` = image-only). | `1` |
+./blacksmith/experiments/torch/wan2_2/README.md:120:| `val_steps_freq` | Frequency (steps) for validation + checkpoint. | `300` |
+./blacksmith/experiments/torch/wan2_2/README.md:126:| `save_optim` | Save optimizer state in checkpoints. | `True` |
+./blacksmith/experiments/torch/wan2_2/train.py:22:    build_pipeline_for_validation,
+./blacksmith/experiments/torch/wan2_2/train.py:23:    generate_validation_sample,
+./blacksmith/experiments/torch/wan2_2/train.py:80:def validate(transformer, config: TrainingConfig, device_manager: WanDeviceManager, logger: TrainingLogger, step: int):
+./blacksmith/experiments/torch/wan2_2/train.py:81:    logger.info(f"Generating validation sample at step {step} ...")
+./blacksmith/experiments/torch/wan2_2/train.py:82:    img, video_np = generate_validation_sample(transformer, config, device_manager, step)
+./blacksmith/experiments/torch/wan2_2/train.py:126:    optimizer = torch.optim.AdamW(
+./blacksmith/experiments/torch/wan2_2/train.py:131:        checkpoint_manager.load_checkpoint(transformer, optimizer)
+./blacksmith/experiments/torch/wan2_2/train.py:141:    optimizer.zero_grad(set_to_none=True)
+./blacksmith/experiments/torch/wan2_2/train.py:144:    validate(transformer, config, device_manager, logger, 0)
+./blacksmith/experiments/torch/wan2_2/train.py:163:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/wan2_2/train.py:164:                optimizer.zero_grad()
+./blacksmith/experiments/torch/wan2_2/train.py:180:                            "train/lr": optimizer.param_groups[0]["lr"],
+./blacksmith/experiments/torch/wan2_2/train.py:189:                        transformer, global_step, 0, optimizer, metrics={"train/loss": avg_loss}
+./blacksmith/experiments/torch/wan2_2/train.py:191:                    validate(transformer, config, device_manager, logger, global_step)
+./blacksmith/experiments/torch/wan2_2/train.py:199:            transformer, global_step, 0, optimizer, metrics={"train/loss": avg_loss}, checkpoint_name="final_model.pt"
+./blacksmith/experiments/torch/wan2_2/train.py:204:        logger.error(f"Training failed with error: {str(e)}", traceback.format_exc())
+./blacksmith/experiments/torch/wan2_2/train.py:224:    pipe = build_pipeline_for_validation(transformer, config, device_manager)
+./blacksmith/experiments/torch/wan2_2/lora/quietbox/wan2_2_ti2v_5b_diffusiondb.yaml:20:# Inference / validation video generation (decomposed from the training params)
+./blacksmith/experiments/torch/mnist_cnn/README.md:41:| `learning_rate` | Learning rate used by the optimizer. | 0.01 |
+./blacksmith/experiments/torch/mnist_cnn/README.md:59:| `val_steps_freq` | Frequency of step validations. | 100 |
+./blacksmith/experiments/torch/mnist_cnn/README.md:71:| `save_optim` | Whether to save optimizer state. | false |
+./blacksmith/experiments/torch/mnist_cnn/train.py:22:def validate(
+./blacksmith/experiments/torch/mnist_cnn/train.py:30:    logger.info("Starting validation...")
+./blacksmith/experiments/torch/mnist_cnn/train.py:80:    optimizer = torch.optim.SGD(trainable_params, lr=config.learning_rate)
+./blacksmith/experiments/torch/mnist_cnn/train.py:86:    val_dataset = get_dataset(config, split="validation")
+./blacksmith/experiments/torch/mnist_cnn/train.py:92:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/mnist_cnn/train.py:98:        # Initial validation
+./blacksmith/experiments/torch/mnist_cnn/train.py:100:        val_loss, val_acc = validate(model, val_loader, logger, device_manager, loss_fn)
+./blacksmith/experiments/torch/mnist_cnn/train.py:118:                optimizer.zero_grad()
+./blacksmith/experiments/torch/mnist_cnn/train.py:128:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/mnist_cnn/train.py:139:                    val_loss, val_acc = validate(model, val_loader, logger, device_manager, loss_fn)
+./blacksmith/experiments/torch/mnist_cnn/train.py:147:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/mnist_cnn/train.py:151:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/mnist_cnn/train.py:155:            model, global_step, config.num_epochs - 1, optimizer, checkpoint_name="final_model.pth"
+./blacksmith/experiments/torch/mnist_cnn/train.py:162:        logger.error(f"Training failed with error: {e}", tb)
+./blacksmith/experiments/torch/qwen/single_chip/qwen_3_4b_instruct_2507_sst2.yaml:59:do_validation: True
+./blacksmith/experiments/torch/qwen/README.md:147:This dataset is commonly used to evaluate the performance of natural language understanding models on sentiment analysis tasks.
+./blacksmith/experiments/torch/qwen/README.md:170:| `learning_rate`               | Learning rate for the optimizer.                       | 2e-5                                |
+./blacksmith/experiments/torch/qwen/README.md:185:| `val_steps_freq`              | Frequency (in steps) for performing validation actions.| 25                                  |
+./blacksmith/experiments/torch/qwen/README.md:198:| `save_optim`                  | Whether to save optimizer state.                       | False                               |
+./blacksmith/experiments/torch/qwen/train.py:29:def validate(
+./blacksmith/experiments/torch/qwen/train.py:38:    logger.info("Starting validation...")
+./blacksmith/experiments/torch/qwen/train.py:82:        logger.info("Printing validation examples...")
+./blacksmith/experiments/torch/qwen/train.py:86:    logger.info(f"Average validation loss: {avg_val_loss}")
+./blacksmith/experiments/torch/qwen/train.py:104:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/qwen/train.py:110:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/qwen/train.py:117:    eval_dataset = get_dataset(config=config, split="validation", collate_fn=collate_fn_for_causal_lm)
+./blacksmith/experiments/torch/qwen/train.py:124:        # Initial validation
+./blacksmith/experiments/torch/qwen/train.py:126:        valid_loss = validate(
+./blacksmith/experiments/torch/qwen/train.py:138:        # TODO: Refactor when https://github.com/tenstorrent/tt-blacksmith/issues/602#issue-4596214372 is resolved.
+./blacksmith/experiments/torch/qwen/train.py:149:                optimizer.zero_grad()
+./blacksmith/experiments/torch/qwen/train.py:166:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/qwen/train.py:181:                    valid_loss = validate(
+./blacksmith/experiments/torch/qwen/train.py:198:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/qwen/train.py:202:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/qwen/train.py:210:            model, global_step, epoch, optimizer, checkpoint_name="final_model.pth"
+./blacksmith/experiments/torch/qwen/train.py:216:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/qwen/quietbox/qwen_3_4b_instruct_2507_sst2.yaml:79:do_validation: True
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/README.md:8:GATv2 improves upon the original GAT by using a modified attention mechanism that is strictly more expressive — it can compute dynamic attention over any pair of nodes, whereas GAT's attention is effectively static. This experiment trains a 2-layer GATv2 model for semi-supervised node classification on the PubMed citation network.
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/README.md:57:A golden-loss regression case (`tt-gatv2_pubmed-pubmed-n150`, config under
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/README.md:72:| `learning_rate` | Learning rate for Adam optimizer. | 0.005 |
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/README.md:130:TTIR proof graph (`module @SyncTensorsGraph`, zero scatter) is emitted under
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/README.md:149:- `loss_curves.png` — Training and validation loss over epochs
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/README.md:154:- `best_model.pt` — Best model by validation accuracy
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/RESULTS.md:33:Loss and validation-accuracy curves for both runs track each other closely
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/RESULTS.md:46:| TTIR proof graph | `module @SyncTensorsGraph` / `func.func @main`, emitted under `TTXLA_LOGGER_LEVEL=DEBUG` |
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:28:def train_step(model, data, optimizer, device_manager):
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:31:    optimizer.zero_grad()
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:36:    # dynamic-shape backward that ttnn rejects. Mathematically identical on CPU.
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:39:    device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:89:    optimizer_step,
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:106:    logger.log_metrics({"test/loss": test_loss, "test/accuracy": test_acc}, commit=True, step=optimizer_step + 1)
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:148:    optimizer = torch.optim.Adam(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:151:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:164:        # Initial validation
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:170:            train_loss = train_step(model, data, optimizer, device_manager)
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:194:                        optimizer=optimizer,
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:209:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:216:            optimizer_step=global_step,
+./blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py:229:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/configs.py:71:    # LoRA setup - optimized for better learning
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/single_chip/falcon3_1b_wikitext.yaml:10:# Training hyperparameters - optimized for better learning
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/README.md:56:| `learning_rate` | Learning rate for the optimizer. | 5e-5 |
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/README.md:71:| `val_steps_freq` | Frequency of validation (in steps). | 50 |
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/README.md:81:| `save_optim` | Whether to save optimizer state. | False |
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:26:def validate(model, val_data_loader, loss_fn, device, config, logger, tokenizer=None):
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:73:    logger.info(f"Average validation loss: {avg_val_loss}")
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:109:    eval_dataset = get_dataset(config=config, split="validation", collate_fn=collate_fn_for_causal_lm)
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:114:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:122:        optimizer,
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:136:    model, train_dataloader, eval_dataloader, tokenizer, optimizer, loss_fn = setup_training(
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:144:        # Initial validation.
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:146:        val_loss = validate(
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:163:                optimizer.zero_grad()
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:168:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:181:                    val_loss = validate(
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:196:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:199:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:201:        final_model_path = checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/BOUNTIES/falcon3_1b/train.py:206:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/model.py:44:        dist = Categorical(logits=logits, validate_args=False)
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/README.md:42:| `learning_rate` | Learning rate for Adam optimizer. | 2.5e-4 |
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/README.md:77:| `save_optim` | Whether to save optimizer state. | True |
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:122:def ppo_update(agent, optimizer, buffer, advantages, returns, config: TrainingConfig):
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:164:            optimizer.zero_grad()
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:167:            optimizer.step()
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:208:def resume_from_checkpoint(config, checkpoint_manager, agent, optimizer, logger):
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:212:        checkpoint_info = checkpoint_manager.load_checkpoint(agent, optimizer)
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:233:    optimizer = torch.optim.Adam(agent.parameters(), lr=config.learning_rate, eps=1e-5, capturable=config.use_tt)
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:238:    start_update, global_step = resume_from_checkpoint(config, checkpoint_manager, agent, optimizer, logger)
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:261:                optimizer.param_groups[0]["lr"] = config.learning_rate * frac
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:275:                agent, optimizer, buffer, advantages, returns, config
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:303:                    optimizer=optimizer,
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:313:            optimizer=optimizer,
+./blacksmith/experiments/torch/BOUNTIES/ppo_breakout/test_breakout_ppo_training.py:321:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/gemma11/dpo/configs.py:119:    do_validation: bool = Field(default=True)
+./blacksmith/experiments/torch/gemma11/dpo/single_chip/gemma11_math_preferences_dpo.yaml:51:do_validation: True
+./blacksmith/experiments/torch/gemma11/dpo/README.md:82:| `learning_rate` | Learning rate for the optimizer. | 1e-5 |
+./blacksmith/experiments/torch/gemma11/dpo/README.md:86:| `weight_decay` | Weight decay for the optimizer. | 0.0 |
+./blacksmith/experiments/torch/gemma11/dpo/README.md:88:| `max_steps` | Maximum number of optimizer steps (-1 means use `num_epochs`). | -1 |
+./blacksmith/experiments/torch/gemma11/dpo/README.md:101:| `val_steps_freq` | Frequency of validation (in steps). | 32 |
+./blacksmith/experiments/torch/gemma11/dpo/README.md:103:| `do_validation` | Whether to run validation during training. | True |
+./blacksmith/experiments/torch/gemma11/dpo/README.md:114:| `save_optim` | Whether to save optimizer state. | False |
+./blacksmith/experiments/torch/gemma11/dpo/train.py:45:def validate_dpo(
+./blacksmith/experiments/torch/gemma11/dpo/train.py:53:    """Evaluate DPO accuracy and average reward margin on the validation set."""
+./blacksmith/experiments/torch/gemma11/dpo/train.py:85:        logger.warning("Validation dataloader is empty; skipping validation metrics.")
+./blacksmith/experiments/torch/gemma11/dpo/train.py:173:    if config.do_validation:
+./blacksmith/experiments/torch/gemma11/dpo/train.py:174:        val_dataset = get_dataset(config=config, split="validation")
+./blacksmith/experiments/torch/gemma11/dpo/train.py:176:        logger.info(f"Loaded {config.dataset_id} validation split. Val samples: {len(val_dataset)}")
+./blacksmith/experiments/torch/gemma11/dpo/train.py:178:    # Initialize optimizer
+./blacksmith/experiments/torch/gemma11/dpo/train.py:179:    optimizer = torch.optim.AdamW(
+./blacksmith/experiments/torch/gemma11/dpo/train.py:185:    optimizer.zero_grad()
+./blacksmith/experiments/torch/gemma11/dpo/train.py:200:        if config.do_validation and val_dataloader is not None:
+./blacksmith/experiments/torch/gemma11/dpo/train.py:201:            last_val_metrics = validate_dpo(
+./blacksmith/experiments/torch/gemma11/dpo/train.py:244:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/gemma11/dpo/train.py:245:                optimizer.zero_grad()
+./blacksmith/experiments/torch/gemma11/dpo/train.py:276:                if config.do_validation and val_dataloader is not None:
+./blacksmith/experiments/torch/gemma11/dpo/train.py:280:                        last_val_metrics = validate_dpo(
+./blacksmith/experiments/torch/gemma11/dpo/train.py:294:                            policy_model, global_step, epoch, optimizer, metrics=checkpoint_metrics
+./blacksmith/experiments/torch/gemma11/dpo/train.py:299:                optimizer.zero_grad()
+./blacksmith/experiments/torch/gemma11/dpo/train.py:310:                    policy_model, global_step, epoch, optimizer, metrics=checkpoint_metrics
+./blacksmith/experiments/torch/gemma11/dpo/train.py:320:            optimizer,
+./blacksmith/experiments/torch/gemma11/dpo/train.py:338:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/gemma11/lora/README.md:51:This dataset is commonly used to evaluate the performance of natural language understanding models on sentiment analysis tasks.
+./blacksmith/experiments/torch/gemma11/lora/README.md:121:| `learning_rate` | Learning rate for the optimizer. | 6e-5 |
+./blacksmith/experiments/torch/gemma11/lora/README.md:136:| `val_steps_freq` | Frequency of validation (in steps). | 50 |
+./blacksmith/experiments/torch/gemma11/lora/README.md:146:| `save_optim` | Whether to save optimizer state. | False |
+./blacksmith/experiments/torch/gemma11/lora/train.py:27:def validate(model, val_data_loader, loss_fn, device_manager, config, logger, tokenizer=None):
+./blacksmith/experiments/torch/gemma11/lora/train.py:84:    logger.info(f"Average validation loss: {avg_val_loss}")
+./blacksmith/experiments/torch/gemma11/lora/train.py:112:    eval_dataset = get_dataset(config=config, split="validation", collate_fn=collate_fn_for_causal_lm)
+./blacksmith/experiments/torch/gemma11/lora/train.py:116:    # Init training components (optimizer, lr scheduler, etc.)
+./blacksmith/experiments/torch/gemma11/lora/train.py:118:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/gemma11/lora/train.py:124:        # Initial validation
+./blacksmith/experiments/torch/gemma11/lora/train.py:126:        avg_val_loss = validate(
+./blacksmith/experiments/torch/gemma11/lora/train.py:135:                optimizer.zero_grad()
+./blacksmith/experiments/torch/gemma11/lora/train.py:160:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/gemma11/lora/train.py:170:                    avg_val_loss = validate(
+./blacksmith/experiments/torch/gemma11/lora/train.py:180:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/gemma11/lora/train.py:183:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/gemma11/lora/train.py:186:        final_model_path = checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/gemma11/lora/train.py:191:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/vit/README.md:38:| `learning_rate` | Learning rate for the optimizer. | 1e-3 |
+./blacksmith/experiments/torch/vit/README.md:52:| `val_steps_freq` | Frequency of validation (in steps). | 50 |
+./blacksmith/experiments/torch/vit/README.md:62:| `save_optim` | Whether to save optimizer state. | False |
+./blacksmith/experiments/torch/vit/train.py:22:def validate(model, val_data_loader, loss_fn, device_manager, config, logger):
+./blacksmith/experiments/torch/vit/train.py:53:    logger.info(f"Average validation loss: {avg_val_loss}, Accuracy: {accuracy:.2f}%")
+./blacksmith/experiments/torch/vit/train.py:81:    # TODO(agobeljicTT): Use get_model function from models/torch/huggingface/hf_models.py. (https://github.com/tenstorrent/tt-blacksmith/issues/403)
+./blacksmith/experiments/torch/vit/train.py:105:    # Initialize the optimizer.
+./blacksmith/experiments/torch/vit/train.py:107:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/vit/train.py:112:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/vit/train.py:117:        # Initial validation
+./blacksmith/experiments/torch/vit/train.py:119:        avg_val_loss, accuracy = validate(
+./blacksmith/experiments/torch/vit/train.py:137:                optimizer.zero_grad()
+./blacksmith/experiments/torch/vit/train.py:161:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/vit/train.py:175:                    avg_val_loss, accuracy = validate(
+./blacksmith/experiments/torch/vit/train.py:194:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/vit/train.py:197:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/vit/train.py:200:        final_model_path = checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/vit/train.py:205:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/phi/README.md:25:This dataset is commonly used to evaluate the performance of natural language understanding models on sentiment analysis tasks.
+./blacksmith/experiments/torch/phi/README.md:80:| `learning_rate` | Learning rate for the optimizer. | 6e-5 |
+./blacksmith/experiments/torch/phi/README.md:95:| `val_steps_freq` | Frequency of validation (in steps). | 50 |
+./blacksmith/experiments/torch/phi/README.md:105:| `save_optim` | Whether to save optimizer state. | False |
+./blacksmith/experiments/torch/phi/train.py:26:def validate(model, val_data_loader, loss_fn, device_manager, config, logger, tokenizer=None):
+./blacksmith/experiments/torch/phi/train.py:73:    logger.info(f"Average validation loss: {avg_val_loss}")
+./blacksmith/experiments/torch/phi/train.py:100:    eval_dataset = get_dataset(config=config, split="validation", collate_fn=collate_fn_for_causal_lm)
+./blacksmith/experiments/torch/phi/train.py:104:    # Init training components (optimizer, lr scheduler, etc.)
+./blacksmith/experiments/torch/phi/train.py:106:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/phi/train.py:112:        # Initial validation
+./blacksmith/experiments/torch/phi/train.py:114:        avg_val_loss = validate(
+./blacksmith/experiments/torch/phi/train.py:123:                optimizer.zero_grad()
+./blacksmith/experiments/torch/phi/train.py:148:                device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/phi/train.py:158:                    val_loss = validate(
+./blacksmith/experiments/torch/phi/train.py:168:                    checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/phi/train.py:171:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/phi/train.py:174:        final_model_path = checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/phi/train.py:179:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/llama/xla/adapters/README.md:23:This dataset is commonly used to evaluate the performance of natural language understanding models on sentiment analysis tasks.
+./blacksmith/experiments/torch/llama/xla/adapters/README.md:53:| `learning_rate`               | Learning rate for the optimizer.                       | 2e-5                                |
+./blacksmith/experiments/torch/llama/xla/adapters/README.md:68:| `val_steps_freq`              | Frequency (in steps) for performing validation actions.| 25                                  |
+./blacksmith/experiments/torch/llama/xla/adapters/README.md:75:| `save_optim`                  | Whether to save optimizer state.                       | False                               |
+./blacksmith/experiments/torch/llama/xla/train.py:28:def validate(model, val_data_loader, loss_fn, logger, device, config, tokenizer=None):
+./blacksmith/experiments/torch/llama/xla/train.py:29:    logger.info("Starting validation...")
+./blacksmith/experiments/torch/llama/xla/train.py:82:        logger.info("Printing validation examples...")
+./blacksmith/experiments/torch/llama/xla/train.py:86:    logger.info(f"Average validation loss: {avg_val_loss}")
+./blacksmith/experiments/torch/llama/xla/train.py:114:    optimizer = torch.optim.AdamW(trainable_params, capturable=config.use_tt, lr=config.learning_rate)
+./blacksmith/experiments/torch/llama/xla/train.py:118:        checkpoint_manager.load_checkpoint(model, optimizer)
+./blacksmith/experiments/torch/llama/xla/train.py:125:    eval_dataset = get_dataset(config=config, split="validation", collate_fn=collate_fn_for_causal_lm)
+./blacksmith/experiments/torch/llama/xla/train.py:146:        # Initial validation
+./blacksmith/experiments/torch/llama/xla/train.py:148:        val_loss = validate(
+./blacksmith/experiments/torch/llama/xla/train.py:160:        # TODO: Refactor when https://github.com/tenstorrent/tt-blacksmith/issues/602#issue-4596214372 is resolved.
+./blacksmith/experiments/torch/llama/xla/train.py:175:                    optimizer.zero_grad()
+./blacksmith/experiments/torch/llama/xla/train.py:177:                # TODO: Refactor when https://github.com/tenstorrent/tt-blacksmith/issues/327 is resolved.
+./blacksmith/experiments/torch/llama/xla/train.py:205:                # Only step the optimizer after accumulating gradients.
+./blacksmith/experiments/torch/llama/xla/train.py:207:                    device_manager.optimizer_step(optimizer)
+./blacksmith/experiments/torch/llama/xla/train.py:224:                        val_loss = validate(
+./blacksmith/experiments/torch/llama/xla/train.py:241:                        checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/llama/xla/train.py:245:                checkpoint_manager.save_checkpoint(model, global_step, epoch, optimizer)
+./blacksmith/experiments/torch/llama/xla/train.py:253:            model, global_step, epoch, optimizer, checkpoint_name="final_model.pth"
+./blacksmith/experiments/torch/llama/xla/train.py:259:        logger.error(f"Training failed with error: {str(e)}", traceback_str)
+./blacksmith/experiments/torch/llama/xla/lora/README.md:195:This dataset is commonly used to evaluate the performance of natural language understanding models on sentiment analysis tasks.
+./blacksmith/experiments/torch/llama/xla/lora/README.md:224:| `learning_rate`               | Learning rate for the optimizer.                       | 2e-5                                |
+./blacksmith/experiments/torch/llama/xla/lora/README.md:239:| `val_steps_freq`              | Frequency (in steps) for performing validation actions.| 25                                  |
+./blacksmith/experiments/torch/llama/xla/lora/README.md:246:| `save_optim`                  | Whether to save optimizer state.                       | False                               |
+./blacksmith/experiments/torch/llama/ffe/README.md:23:This dataset is commonly used to evaluate the performance of natural language understanding models on sentiment analysis tasks.
+./blacksmith/experiments/torch/llama/ffe/README.md:52:| `learning_rate` | Learning rate for the optimizer. | 2e-5 |
+./blacksmith/experiments/torch/llama/ffe/train.py:55:def validate(model, val_data_loader, loss_fn, device, config, vocab_size, dtype, tokenizer=None):
+./blacksmith/experiments/torch/llama/ffe/train.py:109:    print(f"Average validation loss: {avg_val_loss}")
+./blacksmith/experiments/torch/llama/ffe/train.py:170:        tt_optimizer = forge.optimizers.Adam(learning_rate=config.learning_rate)
+./blacksmith/experiments/torch/llama/ffe/train.py:172:            framework_model, sample_inputs, optimizer=tt_optimizer, training=True, compiler_cfg=compiler_cfg
+./blacksmith/experiments/torch/llama/ffe/train.py:176:        torch_optimizer = torch.optim.AdamW(trainable_params, lr=config.learning_rate)
+./blacksmith/experiments/torch/llama/ffe/train.py:183:        # TODO: Remove this once softmax is fixed
+./blacksmith/experiments/torch/llama/ffe/train.py:227:                    tt_optimizer.step()
+./blacksmith/experiments/torch/llama/ffe/train.py:242:                    torch_optimizer.step()
+./blacksmith/experiments/torch/llama/ffe/train.py:243:                    torch_optimizer.zero_grad()
+./blacksmith/experiments/torch/llama/ffe/train.py:255:                        avg_val_loss = validate(
+./blacksmith/experiments/torch/llama/ffe/train.py:260:                        avg_val_loss = validate(
+./blacksmith/experiments/torch/llama/ffe/train.py:285:        error_msg = f"Training failed with error: {str(e)}"
+./blacksmith/experiments/torch/llama/ffe/train.py:287:        print(error_msg)
+./blacksmith/experiments/torch/llama/ffe/train.py:289:        run.alert(title="Training Failed", text=error_msg, level=wandb.AlertLevel.ERROR)
+./blacksmith/experiments/torch/llama/ffe/train.py:290:        run.log({"error": error_msg, "traceback": traceback_str})
+./blacksmith/experiments/torch/llama/ffe/train.py:309:    eval_dataset = get_dataset(config=config, split="validation")
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:109:    def validation_loss(params, x_batch, y_batch):
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:185:        def optimizer_step(params, grads):
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:194:        optimizer_step_jit = jax.jit(
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:195:            optimizer_step,
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:227:                params = optimizer_step_jit(params, grads)
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:247:            wandb.log({"validation loss": val_loss, "validation accuracy": val_accuracy})
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:275:        def validation_step(params, x_batch, y_batch):
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:277:                lambda params, local_x, local_y: validation_loss(params, local_x, local_y),
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:284:        validation_step_jit = jax.jit(
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:285:            validation_step, out_shardings=(sharding_config.scalar_sharding, sharding_config.param_sharding)
+./blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py:296:            loss, logits = validation_step_jit(params, x_batch, y_batch)
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:132:def validation_loss(params, x_batch, y_batch_sharded):
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:217:    def optimizer_step(params, grads, learning_rate):
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:226:    optimizer_step_jit = jax.jit(
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:227:        optimizer_step,
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:272:            params = optimizer_step_jit(params, grads_frag, learning_rate)
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:296:        wandb.log({"validation loss": val_loss_global, "validation accuracy": val_acc})
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:327:    def validation_step(params_sharded, x_batch_replicated, y_batch_sharded):
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:329:            lambda p, x, y: validation_loss(p, x, y),
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:343:    validation_step_jit = jax.jit(
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:344:        validation_step,
+./blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py:371:        logits_frag, loss = validation_step_jit(params, x_batch, y_batch_sharded)
+./blacksmith/experiments/jax/mnist/single_chip/train_utils/train_functions.py:33:def optimizer_step(state, grads):
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:111:def setup_model_and_optimizer(
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:114:    """Initialize model and optimizer."""
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:138:        optimizer_fn = optax.chain(
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:141:        optimizer = nnx.Optimizer(model_cpu, optimizer_fn)
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:143:    return model, optimizer
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:156:def run_validation(
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:166:    """Run validation and add results to epoch logs."""
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:183:    """Setup wandb with error handling."""
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:195:def update_model_with_optimizer(
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:198:    optimizer: nnx.Optimizer,
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:201:    """Apply optimizer update and return updated model state.
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:206:    # Optimizer step is done on CPU because TT device doesn't support optimizer state operations
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:208:    optimizer.model = nnx.merge(graphdef, state_cpu)
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:209:    optimizer.update(grads_cpu)
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:211:    _, updated_state_cpu = nnx.split(optimizer.model)
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:258:        model, optimizer = setup_model_and_optimizer(config, cpu_device, tt_device)
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:279:                # Transfer everything to CPU before optimizer update
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:284:                # Pure optimizer update on CPU (JIT compiled)
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:285:                updated_state_cpu = update_model_with_optimizer(graphdef, state_cpu, optimizer, grads_cpu)
+./blacksmith/experiments/jax/mnist/single_chip/train_nnx.py:295:            run_validation(model, metrics, val_images, val_labels, batch_size, cpu_device, tt_device, epoch_logs)
+./blacksmith/experiments/jax/mnist/single_chip/train.py:87:    def validation_loss(params, x_val, y_val):
+./blacksmith/experiments/jax/mnist/single_chip/train.py:178:                wandb.log({"validation loss": val_loss, "validation accuracy": val_accuracy})
+./blacksmith/experiments/jax/mnist/single_chip/train.py:220:            batch_loss, logits = validation_loss(params, x_batch, y_batch)
+./blacksmith/experiments/jax/mnist/single_chip/train_flax.py:30:    optimizer_step,
+./blacksmith/experiments/jax/mnist/single_chip/train_flax.py:148:            state = optimizer_step(state, grads)
+./blacksmith/experiments/jax/mnist/single_chip/train_flax.py:243:        export_it.export_optimizer_to_StableHLO_and_get_ops(optimizer_step, state, grads, print_stablehlo=False)
+./blacksmith/experiments/jax/mnist/README.md:34:- ```export_shlo``` extracts [StableHLO](https://openxla.org/stablehlo) ops used in various training functions of interest (optimizer, forward pass...).
+./blacksmith/experiments/jax/mnist/logging/logger_config.py:40:    log_optimizer: Union[None, str] = Field(default=None)
+./blacksmith/experiments/jax/mnist/logging/shlo_ops_logging.py:45:    def export_optimizer_to_StableHLO_and_get_ops(update_params, state, grads, print_stablehlo=True):
+./blacksmith/experiments/jax/mnist/logging/shlo_ops_logging.py:46:        exported_optimizer: export.Exported = export.export(update_params)(state, grads)
+./blacksmith/experiments/jax/mnist/logging/shlo_ops_logging.py:47:        ExportSHLO.export_and_get_ops(exported_optimizer, "Optimizer StableHLO:", print_stablehlo)
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:18:def log_metrics(grads, state, train_loss, train_accuracy, val_loss, val_accuracy, epoch, show_optimizer=False):
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:31:    if show_optimizer:
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:32:        log_optimizer_state(state.opt_state, state.params, epoch)
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:44:def log_optimizer_state(opt_state, params, epoch, prefix=""):
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:50:            log_optimizer_state(v, params.get(k, {}), new_prefix)
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:56:                log_optimizer_state(v, params, new_prefix)
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:58:                log_optimizer_state(v, params, prefix)
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:68:    # TODO(agobeljicTT): Remove offline check once the checkpointing is implemented.
+./blacksmith/experiments/jax/mnist/logging/wandb_utils.py:80:    # TODO(agobeljicTT): Remove offline check once the checkpointing is implemented.
+./blacksmith/experiments/jax/nerf/configs.py:45:    optimizer: str = "radam"
+./blacksmith/experiments/jax/nerf/utils/optimizers.py:10:def get_optimizer(config, models: List[Any]) -> optax.GradientTransformation:
+./blacksmith/experiments/jax/nerf/utils/optimizers.py:11:    if config.training.optimizer == "radam":
+./blacksmith/experiments/jax/nerf/utils/optimizers.py:18:    elif config.training.optimizer == "adam":
+./blacksmith/experiments/jax/nerf/utils/optimizers.py:26:        raise ValueError(f"Unsupported optimizer: {config.training.optimizer}")
+./blacksmith/experiments/jax/nerf/README.md:62:| `training.optimizer` | The optimizer to use for training. | "radam" |
+./blacksmith/experiments/jax/nerf/README.md:64:| `training.betas` | Beta parameters used in adam or radam optimizer. | [0.9, 0.999] |
+./blacksmith/experiments/jax/nerf/README.md:65:| `training.eps` | Epsilon parameter for numeric stability used in adam or radam optimizer. | 1e-8 |
+./blacksmith/experiments/jax/nerf/README.md:66:| `training.log_every` | The number of steps to perform validation. | 200 |
+./blacksmith/experiments/jax/nerf/nerf_blender.yaml:31:  optimizer: radam
+./blacksmith/experiments/jax/nerf/train.py:26:from blacksmith.experiments.jax.nerf.utils.optimizers import get_optimizer
+./blacksmith/experiments/jax/nerf/train.py:66:        self.optimizer = get_optimizer(config, [self.nerf_coarse, self.nerf_fine])
+./blacksmith/experiments/jax/nerf/train.py:81:            apply_fn=self.nerf_coarse.apply, params=self.params["nerf_coarse"], tx=self.optimizer
+./blacksmith/experiments/jax/nerf/train.py:84:            apply_fn=self.nerf_fine.apply, params=self.params["nerf_fine"], tx=self.optimizer
+./blacksmith/experiments/jax/nerf/train.py:423:    def validation_step(self, batch, batch_idx, global_step, key):
+./blacksmith/experiments/jax/nerf/train.py:476:            self.validation_step_outputs.append(
+./blacksmith/experiments/jax/nerf/train.py:488:            self.validation_step_outputs.append(log)
+./blacksmith/experiments/jax/nerf/train.py:491:    def on_validation_epoch_end(self):
+./blacksmith/experiments/jax/nerf/train.py:493:            if not self.validation_step_outputs:
+./blacksmith/experiments/jax/nerf/train.py:494:                print(f"Step {self.global_step} - No validation data")
+./blacksmith/experiments/jax/nerf/train.py:497:            mean_loss = jnp.mean(jnp.array([x["val_loss"] for x in self.validation_step_outputs if "val_loss" in x]))
+./blacksmith/experiments/jax/nerf/train.py:498:            mean_psnr = jnp.mean(jnp.array([x["val_psnr"] for x in self.validation_step_outputs if "val_psnr" in x]))
+./blacksmith/experiments/jax/nerf/train.py:507:            for output in self.validation_step_outputs:
+./blacksmith/experiments/jax/nerf/train.py:560:            self.validation_step_outputs = []
+./blacksmith/experiments/jax/nerf/train.py:778:                    system.validation_step_outputs = []
+./blacksmith/experiments/jax/nerf/train.py:783:                        system.validation_step(batch, batch_idx, start_step, subkey)
+./blacksmith/experiments/jax/nerf/train.py:784:                    system.on_validation_epoch_end()
+./blacksmith/experiments/jax/nerf/train.py:818:                        system.validation_step_outputs = []
+./blacksmith/experiments/jax/nerf/train.py:823:                            system.validation_step(batch, batch_idx, global_step, subkey)
+./blacksmith/experiments/jax/nerf/train.py:824:                        system.on_validation_epoch_end()
+./blacksmith/experiments/jax/nerf/train.py:827:            system.validation_step_outputs = []
+./blacksmith/experiments/jax/nerf/train.py:831:                system.validation_step(batch, batch_idx, total_steps, subkey)
+./blacksmith/experiments/jax/nerf/train.py:832:            system.on_validation_epoch_end()
+./blacksmith/experiments/jax/nerf/train.py:857:            system.validation_step_outputs = []
+./blacksmith/experiments/jax/nerf/train.py:863:                system.validation_step(batch, batch_idx, loaded_step, subkey)
+./blacksmith/experiments/jax/nerf/train.py:874:        if not system.validation_step_outputs:
+./blacksmith/experiments/jax/nerf/train.py:875:            print("No validation data to render")
+./blacksmith/experiments/jax/nerf/train.py:879:        for output in system.validation_step_outputs:
+./blacksmith/experiments/jax/nerf/train.py:901:        system.validation_step_outputs = []
+./blacksmith/experiments/jax/distil_bert/multi_chip/data_parallel/train.py:338:        optimizer = optax.chain(
+./blacksmith/experiments/jax/distil_bert/multi_chip/data_parallel/train.py:345:        opt_state = optimizer.init(trainable_params_cpu)
+./blacksmith/experiments/jax/distil_bert/multi_chip/data_parallel/train.py:367:            # Move grads and params to CPU for optimizer step.
+./blacksmith/experiments/jax/distil_bert/multi_chip/data_parallel/train.py:374:                updates, new_opt_state = optimizer.update(grads_cpu, opt_state, trainable_params_cpu)
+./blacksmith/experiments/jax/distil_bert/multi_chip/data_parallel/train.py:408:            # Log validation metrics at configured frequency.
+./blacksmith/experiments/jax/distil_bert/multi_chip/data_parallel/train.py:413:                print(f"→ step {global_step}: validation accuracy={val_acc * 100:.2f}%")
+./blacksmith/experiments/jax/distil_bert/multi_chip/data_parallel/train.py:415:                # Log validation to wandb.
+./blacksmith/experiments/jax/distil_bert/configs.py:24:    optimizer: str = Field(default="adamw")
+./blacksmith/experiments/jax/distil_bert/single_chip/train.py:190:        optimizer = optax.chain(
+./blacksmith/experiments/jax/distil_bert/single_chip/train.py:197:        opt_state = optimizer.init(trainable_params_cpu)
+./blacksmith/experiments/jax/distil_bert/single_chip/train.py:209:            # Move grads and params to CPU for optimizer step.
+./blacksmith/experiments/jax/distil_bert/single_chip/train.py:217:                updates, new_opt_state = optimizer.update(grads_cpu, opt_state, trainable_params_cpu)
+./blacksmith/experiments/jax/distil_bert/single_chip/train.py:253:            # Log validation metrics at configured frequency.
+./blacksmith/experiments/jax/distil_bert/single_chip/train.py:258:                print(f"→ step {global_step}: validation accuracy={val_acc * 100:.2f}%")
+./blacksmith/experiments/jax/distil_bert/single_chip/train.py:260:                # Log validation to wandb.
+./blacksmith/experiments/jax/distil_bert/README.md:4:The goal of this experiment is to train a smaller *student* model (DistilBERT) to mimic a larger *teacher* model (BERT-base) while maintaining high performance on sentiment classification.
+./blacksmith/experiments/jax/distil_bert/README.md:74:|  | `optimizer` | Optimizer used for training. | `"adamw"` |
+./blacksmith/experiments/jax/distil_bert/README.md:86:|  | `log_val_every` | Steps between validation runs. | `100` |
+./blacksmith/experiments/jax/distil_bert/checkpoint_utils.py:10:    # Save checkpoint with student params (only trainable), optimizer state, and training metadata.
+./blacksmith/experiments/jax/distil_bert/distil_bert_sst2.yaml:17:optimizer: "adamw"
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train_sp.py:76:optimizer = optax.chain(optax.clip_by_global_norm(1.0), optax.adamw(learning_rate=learning_rate, weight_decay=1e-1))
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train_sp.py:77:opt_state = optimizer.init(params)
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train_sp.py:136:val_iters = []  # Store iterations where validation happened.
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train_sp.py:156:        # Perform optimizer step on CPU because of tt-metal #27072 (pow/exp accuracy).
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train_sp.py:163:            # Debugging check if instability in tt comipler (e. g. pow and mul) caused
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train_sp.py:171:            updates, opt_state = optimizer.update(grads_cpu, opt_state, params_cpu)
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/model_jax.py:45:        # This consumes memory, but JAX/XLA optimizes the lifetime better than PyTorch.
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/README.md:15:* **CPU-Offloaded Optimizer:** Due to known precision issues with power/exponent operations in the current `tt-metal` compiler (Issue #27072), the AdamW optimizer step is offloaded to the host CPU. Gradients are computed on the TT device, pulled to the host for the update, cast strictly back to `float32`, and pushed to the TT device.
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/README.md:17:* **Hardware-Safe GELU:** The MLP blocks enforce `approximate=True` for GELU activations to utilize hardware-friendly Tanh approximations instead of the exact error function (`erf`).
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/README.md:66:| `learning_rate` | Peak learning rate for the AdamW optimizer. | 3e-4 |
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train.py:97:    """Load and preprocess the dataset for training and validation."""
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train.py:192:        optimizer = optax.chain(
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train.py:195:        opt_state = optimizer.init(params)
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train.py:222:                # Perform optimizer step on CPU because of tt-metal #27072 (pow/exp accuracy).
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train.py:229:                    updates, new_opt_state = optimizer.update(grads_cpu, opt_state, params_cpu)
+./blacksmith/experiments/jax/BOUNTIES/nanogpt/train.py:276:        log_to_wandb({"error": str(e), "training_failed": True})
+./blacksmith/experiments/jax/llama/dora/README.md:39:| `learning_rate` | `1e-4` | Learning rate for optimizer |
+./blacksmith/experiments/jax/llama/dora/train.py:219:    # are optimized during training, while the base model weights remain fixed.
+./blacksmith/experiments/jax/llama/dora/train.py:225:        optimizer = optax.adamw(learning_rate=config.learning_rate, weight_decay=config.weight_decay)
+./blacksmith/experiments/jax/llama/dora/train.py:229:        opt_state = optimizer.init(trainable_params_cpu)
+./blacksmith/experiments/jax/llama/dora/train.py:252:                # Perform optimizer step on CPU because of tt-metal #27072 (pow/exp accuracy).
+./blacksmith/experiments/jax/llama/dora/train.py:260:                    updates, new_opt_state = optimizer.update(grads_cpu, opt_state, trainable_params_cpu)
+./blacksmith/experiments/jax/llama/dora/train.py:300:        wandb.log({"error": str(e), "training_failed": True})
+./blacksmith/experiments/jax/llama/dora/lorax/__init__.py:23:    "wrap_optimizer",
+./blacksmith/experiments/jax/llama/lora/README.md:41:| `learning_rate` | `1e-4` | Learning rate for optimizer |
+./blacksmith/experiments/jax/llama/lora/train.py:218:    # are optimized during training, while the base model weights remain fixed.
+./blacksmith/experiments/jax/llama/lora/train.py:222:        optimizer = optax.adamw(learning_rate=training_config.learning_rate, weight_decay=0.01)
+./blacksmith/experiments/jax/llama/lora/train.py:224:        opt_state = optimizer.init(trainable_params_cpu)
+./blacksmith/experiments/jax/llama/lora/train.py:247:                # Perform optimizer step on CPU because of tt-metal #27072 (pow/exp accuracy).
+./blacksmith/experiments/jax/llama/lora/train.py:255:                    updates, new_opt_state = optimizer.update(grads_cpu, opt_state, trainable_params_cpu)
+./blacksmith/experiments/jax/llama/lora/train.py:304:        log_to_wandb({"error": str(e), "training_failed": True})
+./blacksmith/experiments/jax/llama/lora/lorax/__init__.py:16:    wrap_optimizer,
+./blacksmith/experiments/jax/llama/lora/lorax/__init__.py:29:    "wrap_optimizer",
+./blacksmith/experiments/jax/llama/lora/lorax/helpers.py:130:# NOTE: Optional helper for single-tree optimizer updates. Not used in the
+./blacksmith/experiments/jax/llama/lora/lorax/helpers.py:133:# optimizer to zero-out updates on frozen parts according to the spec.
+./blacksmith/experiments/jax/llama/lora/lorax/helpers.py:134:def wrap_optimizer(
+./blacksmith/experiments/jax/llama/lora/lorax/helpers.py:135:    optimizer: optax.GradientTransformation, spec, scalar_frozen_grads=False
+./blacksmith/experiments/jax/llama/lora/lorax/helpers.py:138:    Wrap the optimizer to freeze parameters according to the LoRA spec.
+./blacksmith/experiments/jax/llama/lora/lorax/helpers.py:163:    # Chain the freezing with the original optimizer
+./blacksmith/experiments/jax/llama/lora/lorax/helpers.py:169:        optimizer,
+./blacksmith/datasets/torch/nerf/blender.py:37:    # TODO: move this out when refactoring training script to use reproducibilty manager
+./blacksmith/datasets/torch/sst2/sst2_dataset.py:24:            split: Dataset split to use ("train", "validation")
+./blacksmith/datasets/torch/fusechat/fusechat_dataset.py:18:    # FuseChat dataset only has train split, so we create validation/test from it.
+./blacksmith/datasets/torch/fusechat/fusechat_dataset.py:64:        # FuseChat only has train split, so we create validation/test from it.
+./blacksmith/datasets/torch/fusechat/fusechat_dataset.py:81:        elif self.split == "validation":
+./blacksmith/datasets/torch/fusechat/fusechat_dataset.py:85:                f"Invalid split '{self.split}' for AlpacaDataset. Only 'train' and 'validation' are supported."
+./blacksmith/datasets/torch/alpaca/alpaca_dataset.py:46:    # Alpaca dataset only has train split, so we create validation/test from it.
+./blacksmith/datasets/torch/alpaca/alpaca_dataset.py:54:            split: Dataset split to use ("train" or "validation")
+./blacksmith/datasets/torch/alpaca/alpaca_dataset.py:113:        elif self.split == "validation":
+./blacksmith/datasets/torch/alpaca/alpaca_dataset.py:117:                f"Invalid split '{self.split}' for AlpacaDataset. Only 'train' and 'validation' are supported."
+./blacksmith/datasets/torch/text2sql/text2sql_dataset.py:33:            split: Dataset split to use ("train", "validation")
+./blacksmith/datasets/torch/text2sql/text2sql_dataset.py:34:                   Note: "validation" is mapped to "test" since this dataset only has "train"/"test" splits.
+./blacksmith/datasets/torch/text2sql/text2sql_dataset.py:40:        if split == "validation":
+./blacksmith/datasets/torch/mathpreference/math_preference_dataset.py:77:    # across the train/validation instances to avoid re-tokenizing per run.
+./blacksmith/datasets/torch/mathpreference/math_preference_dataset.py:91:            split: Dataset split to use ("train", "validation")
+./blacksmith/datasets/torch/mathpreference/math_preference_dataset.py:172:        """Split a mode-specific pool into train/validation subsets."""
+./blacksmith/datasets/torch/mathpreference/math_preference_dataset.py:178:        if self.split == "validation":
+./blacksmith/datasets/torch/mathpreference/math_preference_dataset.py:181:            f"Invalid split '{self.split}' for MathPreferenceDataset. Only 'train' and 'validation' are supported."
+./blacksmith/datasets/torch/mathpreference/math_preference_dataset.py:185:        """Load and prepare dataset with SFT/DPO and train/validation splitting.
+./blacksmith/datasets/torch/mathpreference/math_preference_dataset.py:193:        train and validation instances share this phase-selected pool.
+./blacksmith/datasets/torch/mathpreference/math_preference_utils.py:18:# Fraction of each mode-specific pool used for the train split (rest is validation).
+./blacksmith/datasets/torch/squadV2/squadV2_dataset.py:28:            split: Dataset split to use ("train", "validation")
+./blacksmith/datasets/torch/squadV2/squadV2_dataset.py:76:        # reduce the size of the validation dataset
+./blacksmith/datasets/torch/squadV2/squadV2_dataset.py:77:        if self.split == "validation":
+./blacksmith/datasets/torch/metamathqa/metamathqa_dataset.py:35:    # MetaMathQA dataset only has train split, so we create validation/test from it.
+./blacksmith/datasets/torch/metamathqa/metamathqa_dataset.py:43:            split: Dataset split to use ("train", "validation")
+./blacksmith/datasets/torch/metamathqa/metamathqa_dataset.py:91:        elif self.split == "validation":
+./blacksmith/datasets/torch/metamathqa/metamathqa_dataset.py:95:                f"Invalid split '{self.split}' for MetaMathQADataset. Only 'train' and 'validation' are supported."
+./blacksmith/datasets/torch/torch_dataset.py:49:            split: Dataset split to use ("train", "validation", "test", etc.)
+./blacksmith/datasets/jax/mnist/dataloader.py:49:    # Split the training data into training and validation sets (80% train, 20% validation)
+./blacksmith/datasets/jax/distil_bert/sst2_dataset.py:25:    return tokenized["train"], tokenized["validation"], columns
+./blacksmith/models/torch/gpt_oss/model_overrides.py:14:# TODO(pglusac): Align get_model signatures between hf_models.py and this function.
+./blacksmith/models/torch/wan2_2/device.py:28:    Mesh/device/optimizer_step and the regex-based `shard_model` come from the
+./blacksmith/models/torch/wan2_2/model_overrides.py:14:# --- Generality patches (correctness; the model will not run on TT without these) ---
+./blacksmith/models/torch/wan2_2/model_overrides.py:220:# --- Perf patches (graph-break removals; no correctness impact) ---
+./blacksmith/models/torch/gatv2_pubmed/spmm_gatv2.py:31:#                                                         dynamic-shape backward that
+./blacksmith/models/torch/gatv2_pubmed/spmm_gatv2.py:168:    indexing, whose dynamic-shape backward ttnn rejects). Equivalent to
+./blacksmith/models/torch/huggingface/hf_models.py:75:        # which freezes XLA storage. If the target is trainable, the optimizer
+./blacksmith/models/torch/huggingface/hf_models.py:83:                "their storage and optimizer.step() will fail). Restrict the "
+./scripts/index_remote_search.py:9:as a step in the Pages deploy workflow after `python build_docs.py`."""
+./scripts/index_remote_search.py:18:import urllib.error
+./scripts/index_remote_search.py:72:        raw = html_file.read_text(encoding="utf-8", errors="ignore")
+./scripts/index_remote_search.py:100:            return response.getcode(), response.read().decode("utf-8", errors="replace")
+./scripts/index_remote_search.py:101:    except urllib.error.HTTPError as err:
+./scripts/index_remote_search.py:102:        return err.code, err.read().decode("utf-8", errors="replace")
+./scripts/index_remote_search.py:106:    """Read and validate required environment variables. Returns (config, exit_code)."""
+./.github/workflows/docs-deploy.yml:47:      - name: Setup Pages
+./.github/workflows/docs-deploy.yml:76:      - name: Deploy to GitHub Pages
+./.github/workflows/schedule-uplift.yml:41:            echo "::error::Unable to determine latest tt-xla nightly" >&2
+./.github/workflows/call-build-docs.yml:6:# Sets permissions to allow deployment to GitHub Pages
+./.github/workflows/call-build-docs.yml:32:    - name: Setup Pages
+./.github/workflows/call-build-docs.yml:56:      - name: Deploy to GitHub Pages
+./.github/pull_request_template.md:5:* [Bugfix](?expand=1&template=bugfix.md)
+./.github/PULL_REQUEST_TEMPLATE/bugfix.md:5:Brief description of the bug being fixed.
+./.github/PULL_REQUEST_TEMPLATE/bugfix.md:8:Describe how this PR fixes the bug.
+./.github/PULL_REQUEST_TEMPLATE/bugfix.md:16:- [ ] Fix resolves the bug
+./.github/PULL_REQUEST_TEMPLATE/bugfix.md:18:- [ ] No new bugs introduced
+./.github/ISSUE_TEMPLATE/bug_report.yml:2:description: File a bug or issue
+./.github/ISSUE_TEMPLATE/bug_report.yml:3:labels: ["bug"]
+./.github/ISSUE_TEMPLATE/bug_report.yml:10:    id: describe-bug
+./.github/ISSUE_TEMPLATE/bug_report.yml:12:      label: Describe the bug
+./.github/ISSUE_TEMPLATE/bug_report.yml:14:        A clear and concise description of what the bug is and how to reproduce it.
+./.github/ISSUE_TEMPLATE/bug_report.yml:16:    validations:
+./.github/ISSUE_TEMPLATE/bug_report.yml:19:    id: reproduce-bug
+./.github/ISSUE_TEMPLATE/bug_report.yml:28:        4. See error
+./CLAUDE.md:26:## Debugging
+./CLAUDE.md:27:For debugging use following environment variables:

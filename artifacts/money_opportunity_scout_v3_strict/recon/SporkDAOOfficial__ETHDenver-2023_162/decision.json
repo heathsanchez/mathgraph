@@ -1,0 +1,17 @@
+{
+  "verdict": "PATCH_CANDIDATE",
+  "issue": {
+    "url": "https://github.com/SporkDAOOfficial/ETHDenver-2023/issues/162",
+    "title": "Ceramic: Best knowledge management applications built on ComposeDB",
+    "state": "OPEN",
+    "labels": [],
+    "comment_count": 0,
+    "updatedAt": "2023-02-24T15:01:05Z"
+  },
+  "has_explicit_acceptance": true,
+  "has_local_command": false,
+  "has_ci": true,
+  "has_concrete_error": true,
+  "has_money": true,
+  "risk": false
+}

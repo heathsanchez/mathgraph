@@ -1,0 +1,20 @@
+{
+  "verdict": "PARK_RISK",
+  "issue": {
+    "url": "https://github.com/tenstorrent/tt-blacksmith/issues/529",
+    "title": "[Bounty $2000] GraphSAGE training workload on Tenstorrent",
+    "state": "OPEN",
+    "labels": [
+      "bounty_difficulty/hard",
+      "task"
+    ],
+    "comment_count": 4,
+    "updatedAt": "2026-06-15T08:39:07Z"
+  },
+  "has_explicit_acceptance": true,
+  "has_local_command": true,
+  "has_ci": true,
+  "has_concrete_error": true,
+  "has_money": true,
+  "risk": true
+}

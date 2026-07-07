@@ -1,0 +1,98 @@
+[
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v3_strict/recon/SporkDAOOfficial__ETHDenver-2023_159",
+    "verdict": "PATCH_CANDIDATE",
+    "url": "https://github.com/SporkDAOOfficial/ETHDenver-2023/issues/159",
+    "title": "Ceramic: Best identity or reputation applications built on ComposeDB",
+    "acceptance": true,
+    "local": false,
+    "ci": true,
+    "error": true,
+    "money": true,
+    "risk": false
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v3_strict/recon/SporkDAOOfficial__ETHDenver-2023_160",
+    "verdict": "PATCH_CANDIDATE",
+    "url": "https://github.com/SporkDAOOfficial/ETHDenver-2023/issues/160",
+    "title": "Ceramic: Best Web3 Social Apps built using ComposeDB",
+    "acceptance": true,
+    "local": false,
+    "ci": true,
+    "error": true,
+    "money": true,
+    "risk": false
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v3_strict/recon/SporkDAOOfficial__ETHDenver-2023_161",
+    "verdict": "PATCH_CANDIDATE",
+    "url": "https://github.com/SporkDAOOfficial/ETHDenver-2023/issues/161",
+    "title": "Ceramic: Best application built using ComposeDB on Ceramic",
+    "acceptance": true,
+    "local": false,
+    "ci": true,
+    "error": true,
+    "money": true,
+    "risk": false
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v3_strict/recon/SporkDAOOfficial__ETHDenver-2023_162",
+    "verdict": "PATCH_CANDIDATE",
+    "url": "https://github.com/SporkDAOOfficial/ETHDenver-2023/issues/162",
+    "title": "Ceramic: Best knowledge management applications built on ComposeDB",
+    "acceptance": true,
+    "local": false,
+    "ci": true,
+    "error": true,
+    "money": true,
+    "risk": false
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v3_strict/recon/ClankerNation__OpenAgents_21",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/ClankerNation/OpenAgents/issues/21",
+    "title": "[ Bounty $6k ] [ Solidity ] Fix donation attack on YieldAggregator deposit",
+    "acceptance": true,
+    "local": true,
+    "ci": true,
+    "error": true,
+    "money": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v3_strict/recon/ClankerNation__OpenAgents_43",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/ClankerNation/OpenAgents/issues/43",
+    "title": "[ Bounty $9k ] [ API ] Add agent reputation scoring system",
+    "acceptance": true,
+    "local": true,
+    "ci": true,
+    "error": true,
+    "money": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v3_strict/recon/ClankerNation__OpenAgents_59",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/ClankerNation/OpenAgents/issues/59",
+    "title": "[ Bounty $7k ] [ API ] Add agent reputation scoring system \u2014 high priority",
+    "acceptance": true,
+    "local": true,
+    "ci": true,
+    "error": true,
+    "money": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v3_strict/recon/tenstorrent__tt-blacksmith_529",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/tenstorrent/tt-blacksmith/issues/529",
+    "title": "[Bounty $2000] GraphSAGE training workload on Tenstorrent",
+    "acceptance": true,
+    "local": true,
+    "ci": true,
+    "error": true,
+    "money": true,
+    "risk": true
+  }
+]
