@@ -1,0 +1,294 @@
+author:	Krastanov
+association:	member
+edited:	false
+status:	none
+--
+Sounds good! A few suggestions:
+
+- Check out the benchmarks setup of QuantumClifford.jl for reference
+- Be careful with the eval and samples keywords: in some situations, especially if you are modifying/deleting things, you have to have eval=1, otherwise you get very misleading results
+- Make sure the code is relatively easy to execute interactively benchmark by benchmark (i.e. factor out neatly potential setup/prepartion routines so a dev who wants to experiment knows what they need to load in their REPL)
+- Have benchmarks both for large number of entities and for small number of entities (e.g. both large networks and small networks, large registers and registers with only a few slots, queries on large number of prerecorded tags and just a few tags)
+- Be careful with setting things up that might require the discrete event simulator. There are many functions that just "set up an event" and the event does not run until you execute the simulator. Particularly around locks. I would suggest grouping this separately from the tag/query topic.
+- For import time, it might be a bit awkward, because the benchmark will basically have to launch a separate julia instance. That also probably should have a limited number of eval and samples. Make sure that you actually wait on the newly started process (otherwise you might just launch it in the background and get a report that it is incredibly fast)
+- Testing duration of examples might also be difficult (this is actually why this project is 200$ instead of 50$). No need to test all of them, especially ones that contain plots are probably a bad idea. You can see in the test_examples how we run them for tests, that would probably be a good reference (and it will make it more obvious which ones involve plotting and should be skipped). These should probably have just one eval and one sample given how incredibly slow they can be. It would be important to run these in a separate module (e.g. the way they are done in the tests). I suspect you will need something like `eval(Module(), :(include("example file")))` to run this benchmark.
+- Make sure that you also run each benchmark you define interactively (by changing `@benchmarkable` to `@benchmark`) just to see what would be the dev experience of someone who is running a single benchmark manually to explore why there is a slowdown in some future PR
+- avoid using loops to generate benchmark instances (e.g. if you are just changing a single parameter). Sure, that would lead to more repetitive code and duplication, but it will help when in the future someone wants to play with a specific benchmark
+
+I will make this reserved for 1month, but we can extend if necessary. Thank you for taking this on.
+--
+author:	aaryansinhaa
+association:	none
+edited:	false
+status:	none
+--
+Hi @Krastanov ,
+
+I am new to Julia, and I would like to take this on as a challenge.
+I checked the `benchmark.jl` file and reviewed the benchmark setup of `QuantumClifford.jl` for reference.
+
+Before starting, I plan to spend some time learning the `BenchmarkTools.jl` package in detail to ensure accurate and consistent results.
+
+I saw the features proposed earlier by @coderight1  and would like to implement those, including:
+- Micro-benchmarks for basic register operations, queries, tags, and locks
+- Import time measurements
+- Example run time measurements and expansions
+
+In addition, I plan to split the current monolithic `benchmark.jl` into smaller, focused files for better organization:
+- `bench_register_operations.jl` → create, update, delete registers on different back-ends.
+- `bench_queries_tags.jl` → querying, adding/removing tags, and related operations
+- `bench_locks.jl` → locking/unlocking registers and channels
+- `bench_import.jl` → measuring import time across environments
+- `bench_examples.jl` → runtime measurement of current and newly added usage examples
+
+I plan to incrementally add these benchmarks while optimizing the setup to reduce noise in the measurements. I understand that benchmarks need to have a very thorough coverage, and hence I would really appreciate if you could provide me with some pointers and documentations to refer, before I start to work on this bounty.
+
+Could you also please confirm if the bounty is still open?
+
+
+--
+author:	Krastanov
+association:	member
+edited:	false
+status:	none
+--
+The bounty is indeed still open, thanks for expressing interest in it! Your suggested plan sounds good. Just be careful when splitting the benchmark file -- it is structured so that other benchmarking tools in Julia can interact with it directly, so you will need to be careful not to break that while retaining the capability to run your smaller files independently.
+--
+author:	aaryansinhaa
+association:	none
+edited:	false
+status:	none
+--
+Hey @Krastanov ,
+
+I spent some time with the codebase, and I feel that I will be able to complete this task within 1-1.5 month. 
+Here is the plan that I am proposing for the next two weeks:
+
+## Week 1:
+- Understand the Codebase.
+- Understand the working and examples in Quantum Savory, fully understand the concepts, structures and functions in the library.
+- Study the benchmarks of Quantum Clifford.
+-  I'll carefully split the existing `benchmark.jl` into the new, modular files, ensuring that the `BenchmarkGroup` structure remains compatible with other Julia benchmarking tools. This will be my primary focus.
+
+
+## Week 2: 
+- Make the benchmarks for register related operations in `bench_register_operations.jl`.
+- Ensure that the benchmarks don't break, so that the new benchmarks are accurate and do not produce misleading results, especially when dealing with state-modifying operations.
+- Focus on micro benchmarking for register operations.
+
+To allow me to focus entirely on the task, could you please reserve this bounty for me?
+I'd also like to ask for your permission to reach out to you on the Julia Slack. It would allow for a more direct and efficient conversation if I have any quick questions during the development process.
+
+Thank you for this opportunity!
+--
+author:	Krastanov
+association:	member
+edited:	false
+status:	none
+--
+Sounds great! Marking it as reserved.
+
+If you use LLMs please mark that in your commit messages and in the opening message for PRs. These tools are great, but it is really important to know when they are used as it informs how the review is done.
+
+It would be really helpful to submit many small PRs instead of one large one -- a large PR might never get reviewed.
+--
+author:	aaryansinhaa
+association:	none
+edited:	true
+status:	none
+--
+Hey @Krastanov ,
+
+I have worked on spliting the `register operations`, specifically `create_register` and `initialize_register`.
+I have split the `register_creation_and_initialization()` in the master branch in 4 separate functions, for micro benchmarking.
+
+- `function create_register_net(traits, qc_reprs)`
+- `function create_register_net_with_backgrounds(traits, qc_reprs)`
+- `function initialize_register_net(traits, qc_reprs)`
+- `function initialize_register_net_with_backgrounds(traits, qc_reprs)`
+
+The function names are pretty self-explanatory, and I have made sure to 
+
+> avoid using loops to generate benchmark instances (e.g. if you are just changing a single parameter). Sure, that would lead to more repetitive code and duplication, but it will help when in the future someone wants to play with a specific benchmark.
+
+
+Before submitting my first PR to this project, I wanted you to review my code, and If there is anything to improve.
+``` julia
+module benchmark_register_operations
+
+
+export create_register_net, create_register_net_with_backgrounds, initialize_register_net, initialize_register_net_with_backgrounds
+
+
+using QuantumSavory
+using QuantumSavory.ProtocolZoo
+using QuantumSavory: tag_types
+using QuantumOpticsBase: Ket, Operator
+using QuantumClifford: MixedDestabilizer, ghz
+using BenchmarkTools
+
+
+# Variables
+
+
+
+traits = [Qubit(), Qubit(), Qubit()]
+qc_reprs = [QuantumOpticsRepr(), CliffordRepr(), CliffordRepr()]
+
+# Function to create a RegisterNet based on specified parameters with no backgrounds
+function create_register_net()
+    reg1 = Register(traits)
+    reg2 = Register(traits, qc_reprs)
+    qmc_reprs = [QuantumOpticsRepr(), QuantumMCRepr(), QuantumMCRepr()]
+    reg3 = Register(traits, qmc_reprs)
+    return RegisterNet([reg1, reg2, reg3])
+end
+
+# Function to create a RegisterNet based on specified parameters with backgrounds
+function create_register_net_with_backgrounds()
+    backgrounds = [T2Dephasing(1.0), T2Dephasing(1.0), T2Dephasing(1.0)]
+    reg1 = Register(traits, backgrounds)
+    reg2 = Register(traits, qc_reprs, backgrounds)
+    qmc_reprs = [QuantumOpticsRepr(), QuantumMCRepr(), QuantumMCRepr()]
+    reg3 = Register(traits, qmc_reprs, backgrounds)
+    return RegisterNet([reg1, reg2, reg3])
+end
+
+
+
+# Function to Initialize a RegisterNet without backgrounds
+function initialize_register_net()
+    net = create_register_net()
+    i = 1
+    initialize!(net[i,2])
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    initialize!(net[i,3],X1)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    apply!([net[i,2], net[i,3]], CNOT)
+    @assert net[i].staterefs[2].state[] isa Ket
+    @assert nsubsystems(net[i].staterefs[2]) == 2
+
+    i = 2
+    initialize!(net[i,2])
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    initialize!(net[i,3],X1)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    apply!([net[i,2], net[i,3]], CNOT)
+    @assert net[i].staterefs[2].state[] isa MixedDestabilizer
+    @assert nsubsystems(net[i].staterefs[2]) == 2
+
+    i = 3
+    initialize!(net[i,2])
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    initialize!(net[i,3],X1)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    apply!([net[i,2], net[i,3]], CNOT)
+    @assert net[i].staterefs[2].state[] isa Ket
+    @assert nsubsystems(net[i].staterefs[2]) == 2
+end
+
+# Function to initialize a RegisterNet with backgrounds
+function initialize_register_net_with_backgrounds()
+    net = create_register_net_with_backgrounds()
+    i = 1
+    initialize!(net[i,2], time=1.0)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    initialize!(net[i,3],X1, time=2.0)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    apply!([net[i,2], net[i,3]], CNOT, time=3.0)
+    @assert net[i].staterefs[2].state[] isa Operator
+    @assert nsubsystems(net[i].staterefs[2]) == 2
+
+    i = 2
+    initialize!(net[i,2], time=1.0)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    initialize!(net[i,3],X1, time=2.0)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    apply!([net[i,2], net[i,3]], CNOT, time=3.0)
+    @assert net[i].staterefs[2].state[] isa MixedDestabilizer
+    @assert nsubsystems(net[i].staterefs[2]) == 2
+
+    i = 3
+    initialize!(net[i,2], time=1.0)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    initialize!(net[i,3],X1, time=2.0)
+    @assert nsubsystems(net[i].staterefs[2]) == 1
+    apply!([net[i,2], net[i,3]], CNOT, time=3.0)
+    @assert nsubsystems(net[i].staterefs[2]) == 2
+end
+
+
+end
+```
+
+and 
+``` julia
+
+
+SUITE["register"] = BenchmarkGroup(["register"])
+SUITE["register"]["create"] = BenchmarkGroup(["create"])
+
+
+SUITE["register"]["create"]["no_backgrounds"] = @benchmarkable benchmark_register_operations.create_register_net()
+SUITE["register"]["create"]["with_backgrounds"] = @benchmarkable benchmark_register_operations.create_register_net_with_backgrounds()
+
+SUITE["register"]["initialize"] = BenchmarkGroup(["initialize"])
+SUITE["register"]["initialize"]["no_backgrounds"] = @benchmarkable benchmark_register_operations.initialize_register_net()
+SUITE["register"]["initialize"]["with_backgrounds"] = @benchmarkable benchmark_register_operations.initialize_register_net_with_backgrounds()
+
+```
+
+
+The main purpose of this PR is to slowly start towards modularizing and restructuring the benchmarking code.
+
+I would really appreciate criticism and feedbacks.
+
+Thanks!
+
+--
+author:	zt12341
+association:	none
+edited:	false
+status:	none
+--
+Hi, I’d like to claim time to work on this bounty.
+
+GitHub username: @zt12341
+Relevant experience: I can work on codebase analysis, tests/benchmarks, CI-oriented validation, and structured documentation. I plan to first inspect the existing benchmark folder, propose a small benchmark expansion plan, then open a PR with focused, legible benchmark additions.
+
+Please let me know if this issue is still available before I begin.
+--
+author:	Krastanov
+association:	member
+edited:	false
+status:	none
+--
+Hi, Zhou! Thanks for expressing interest. Have you worked with Julia before and have you done anything related to quantum information science in the past? I am asking so I know whether this is a good first issue or whether we should discuss other onboarding options.
+--
+author:	qdwg
+association:	none
+edited:	true
+status:	none
+--
+I would like to claim a narrow work window for this bounty.
+
+GitHub username: @qdwg
+
+Planned scope: a small, non-overlapping benchmark slice for quantumstates / observable performance. I noticed the current benchmark suite has only a single observable benchmark, while recent discussion already covers register locks, query/tag paths, import/example paths, and QTCP. I plan to add a few focused observable benchmarks across small subsystem counts and available state representations, keep them under the existing benchmark_quantumstates.jl group, and avoid touching protocol behavior or unrelated benchmark groups.
+
+I will validate that the benchmark suite loads locally and include exact run notes in the PR. AI-assisted with manual review.
+--
+author:	yanyishuai
+association:	none
+edited:	false
+status:	none
+--
+Claiming this bounty — preparing expanded benchmark suite PR.
+--
+author:	yanyishuai
+association:	none
+edited:	false
+status:	none
+--
+Submitted PR expanding the benchmark suite per #131 — imports, register backends, locks, channels, and examples.
+--

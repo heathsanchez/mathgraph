@@ -1,0 +1,29 @@
+===== hledger tools =====
+/usr/bin/make
+
+===== hledger README test hints =====
+doc/DEVWORKFLOWS.md:72:    stack test    # hledger ...
+doc/DEVWORKFLOWS.md:218:    stack test hledger --file-watch
+doc/CREDITS.md:65:| 6       | Clint Adams                    | CSV account2 setting; dep updates; cabal test suites                                                                                                                                          |
+doc/relnotes.md:1632:- `--watch` mode now also detects changes from apps which overwrite the file, such as VS Code.
+doc/relnotes.md:1745:  eg when using the `E` or `g` keys or `--watch`.
+doc/relnotes.md:1748:- When the journal is reloaded by the `g` key or `--watch`, the
+doc/relnotes.md:2339:  possibly making hledger-ui --watch more reliable in this regard.
+doc/relnotes.md:2349:- Update --watch docs.
+doc/relnotes.md:2489:  which should help `hledger-ui --watch` a little.
+doc/relnotes.md:2495:- Update --watch notes
+doc/relnotes.md:5188:- A possible bug with detecting change of date while in --watch mode has been fixed.
+doc/relnotes.md:5888:- The `--watch` feature now has a convenient short flag, `-w`.
+doc/relnotes.md:6524:  or `--watch`. (Stephen Morgan)
+doc/relnotes.md:6546:  reloading with `g` or `--watch` in the Transaction screen. ([#1556](https://github.com/simonmichael/hledger/issues/1556))
+doc/relnotes.md:9646:`hledger-ui --watch`,
+doc/relnotes.md:9727:-   with [`--watch`](/hledger-ui.html#options), the display updates automatically to show file or date changes
+doc/relnotes.md:9729:    `hledger-ui --watch` will reload data when the journal file (or any included file) changes.
+doc/relnotes.md:10646:- add missing modules to fix cabal tests ([#232](http://bugs.hledger.org/232))
+doc/relnotes.md:11118:  - add basic cabal test suites for hledger-lib and hledger
+doc/TESTS.md:137:    `stack test`, `cabal test` etc., and they are required to build and
+doc/TESTS.md:194:$ stack test [PKG]
+doc/ROADMAP.md:11:- fix hledger-ui --watch memory leak
+doc/MOCKUPS.md:41:ui --watch
+doc/MOCKUPS.md:75:- hledger-ui --watch: on change, like journals
+doc/tldr/hledger-ui.md:20:`hledger-ui --register {{assets:bank:checking}} --cleared --watch`

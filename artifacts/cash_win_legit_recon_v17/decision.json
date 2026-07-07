@@ -1,0 +1,29 @@
+[
+  {
+    "repo": "simonmichael/hledger",
+    "issue": 1825,
+    "url": "https://github.com/simonmichael/hledger/issues/1825",
+    "score": 75,
+    "verdict": "CLAIM_OR_REPRO_NEXT",
+    "reasons": [
+      "cash visible",
+      "watch implementation surface found",
+      "local verifier tools/hints found",
+      "clear repro target"
+    ],
+    "next": "Ask to claim one $150 sub-bounty or build minimal --watch CPU/RAM repro harness."
+  },
+  {
+    "repo": "QuantumSavory/QuantumSavory.jl",
+    "issue": 131,
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/131",
+    "score": 65,
+    "verdict": "CLAIM_NEXT",
+    "reasons": [
+      "cash visible",
+      "benchmark surface found",
+      "local Julia verifier likely"
+    ],
+    "next": "Post claim comment, then make benchmark-suite PR."
+  }
+]

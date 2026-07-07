@@ -1,0 +1,1052 @@
+===== top files =====
+.agents/channels/classical-and-quantum-channels-dev.md
+.agents/channels/classical-and-quantum-channels-user.md
+.agents/evals/anythingllm-eval-results.csv
+.agents/evals/anythingllm-eval-results.md
+.agents/evals/anythingllm-eval-results.png
+.agents/evals/codex-grade-schema.json
+.agents/evals/evaluate_anythingllm.jl
+.agents/evals/Project.toml
+.agents/evals/README.md
+.agents/metadata/tags-queries-dev.md
+.agents/metadata/tags-queries-user.md
+.agents/registers/register-interface-user.md
+.agents/registers/register-internals-and-backend-hooks.md
+.agents/zoos/circuit-zoo-dev.md
+.agents/zoos/circuit-zoo-user.md
+.agents/zoos/protocol-zoo-dev.md
+.agents/zoos/protocol-zoo-user.md
+.agents/zoos/states-zoo-dev.md
+.agents/zoos/states-zoo-user.md
+.buildkite/pipeline.yml
+.git/config
+.git/description
+.git/HEAD
+.git/hooks/applypatch-msg.sample
+.git/hooks/commit-msg.sample
+.git/hooks/fsmonitor-watchman.sample
+.git/hooks/post-update.sample
+.git/hooks/pre-applypatch.sample
+.git/hooks/pre-commit.sample
+.git/hooks/pre-merge-commit.sample
+.git/hooks/pre-push.sample
+.git/hooks/pre-rebase.sample
+.git/hooks/pre-receive.sample
+.git/hooks/prepare-commit-msg.sample
+.git/hooks/push-to-checkout.sample
+.git/hooks/update.sample
+.git/index
+.git/info/exclude
+.git/logs/HEAD
+.git/packed-refs
+.github/dependabot.yml
+.github/workflows/benchmark.yml
+.github/workflows/changelog-enforcer.yml
+.github/workflows/ci.yml
+.github/workflows/downgrade.yml
+.github/workflows/spelling.yml
+.github/workflows/TagBot.yml
+.gitignore
+.typos.toml
+AGENTS.md
+benchmark/AGENTS.md
+benchmark/benchmark_onchange.jl
+benchmark/benchmark_quantumstates.jl
+benchmark/benchmark_querywait.jl
+benchmark/benchmark_register.jl
+benchmark/benchmark_semaphore.jl
+benchmark/benchmark_tagquery.jl
+benchmark/benchmarks.jl
+benchmark/Project.toml
+CHANGELOG.md
+CLAUDE.md
+docs/.gitignore
+docs/make.jl
+docs/outdated/depolarization_and_pauli.md
+docs/outdated/message_queues.md
+docs/Project.toml
+docs/src/API_CircuitZoo.md
+docs/src/API_Interface.md
+docs/src/API_ProtocolZoo.md
+docs/src/API_StatesZoo.md
+docs/src/API_Symbolics.md
+docs/src/API.md
+docs/src/architecture.md
+docs/src/backendsimulator.md
+docs/src/backgrounds.md
+docs/src/bibliography.md
+docs/src/classical_messaging.md
+docs/src/discreteeventsimulator.md
+docs/src/explanations.md
+docs/src/howto.md
+docs/src/index.md
+docs/src/manual.md
+docs/src/metadata_plane.md
+docs/src/modeling_registers_and_time.md
+docs/src/modeling_tradeoffs.md
+docs/src/properties.md
+docs/src/references.bib
+docs/src/references.md
+docs/src/register_interface.md
+docs/src/restricted_formalisms.md
+docs/src/standard_protocol_tags.md
+docs/src/state_visualization.md
+docs/src/symbolic_frontend.md
+docs/src/symbolics.md
+docs/src/tag_query.md
+docs/src/tutorial.md
+docs/src/visualizations.md
+docs/src/why_quantumsavory.md
+docs/src/zoos_as_building_blocks.md
+examples/areweentangledyet/index.html
+examples/assisted_cvteleportation/README.md
+examples/assisted_cvteleportation/setup.jl
+examples/colorcentermodularcluster/1_time_to_connected.jl
+examples/colorcentermodularcluster/2_real_time_visualization.jl
+examples/colorcentermodularcluster/3_makie_interactive.jl
+examples/colorcentermodularcluster/README.md
+examples/colorcentermodularcluster/setup.jl
+examples/congestionchain/1_visualization.jl
+examples/congestionchain/2_makie_interactive.jl
+examples/congestionchain/3_aggregate_of_multiple_simulations.jl
+examples/congestionchain/README.md
+examples/congestionchain/setup.jl
+examples/distributed_ghz_sensors/f_tmbl.jl
+examples/distributed_ghz_sensors/plots.jl
+examples/distributed_ghz_sensors/README.md
+examples/distributed_ghz_sensors/setup.jl
+examples/distributed_ghz_sensors/v_tmbl.jl
+examples/firstgenrepeater_lowlevel/1_entangler_example.jl
+examples/firstgenrepeater_lowlevel/2_swapper_example.jl
+examples/firstgenrepeater_lowlevel/3_purifier_example.jl
+examples/firstgenrepeater_lowlevel/4_visualization.jl
+examples/firstgenrepeater_lowlevel/5_clifford_full_example.jl
+examples/firstgenrepeater_lowlevel/6_compare_formalisms.jl
+examples/firstgenrepeater_lowlevel/6.1_compare_formalisms_noplot.jl
+examples/firstgenrepeater_lowlevel/clifford_setup.jl
+examples/firstgenrepeater_lowlevel/README.md
+examples/firstgenrepeater_lowlevel/setup.jl
+examples/firstgenrepeater/1_entangler_example.jl
+examples/firstgenrepeater/2_swapper_example.jl
+examples/firstgenrepeater/3_purifier_example.jl
+examples/firstgenrepeater/README.md
+examples/firstgenrepeater/setup.jl
+examples/graphstate/graph_preparer.jl
+examples/myswapper_tutorial/my_swapper_prot.jl
+examples/myswapper_tutorial/README.md
+examples/piecemakerswitch/1_simple_run.jl
+examples/piecemakerswitch/2_static_viz.jl
+examples/piecemakerswitch/README.md
+examples/piecemakerswitch/setup.jl
+examples/Project.toml
+examples/purificationMBQC/full_purification_example.jl
+examples/purificationMBQC/plots.jl
+examples/purificationMBQC/README.md
+examples/qtcp_tutorial/1_chain_basic.jl
+examples/qtcp_tutorial/2_chain_visualization.jl
+examples/qtcp_tutorial/3_grid_multiflow.jl
+examples/qtcp_tutorial/4_custom_endnode.jl
+examples/qtcp_tutorial/README.md
+examples/qtcp_tutorial/setup.jl
+examples/README.md
+examples/repeatergrid/1a_async_interactive_visualization.jl
+examples/repeatergrid/1b_async_wglmakie_interactive.jl
+examples/repeatergrid/2a_sync_interactive_visualization.jl
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl
+examples/repeatergrid/README.md
+examples/repeatergrid/setup.jl
+examples/simpleswitch/1_interactive_visualization.jl
+examples/simpleswitch/2_wglmakie_interactive.jl
+examples/simpleswitch/README.md
+examples/simpleswitch/setup.jl
+examples/state_explorer/README.md
+examples/state_explorer/state_explorer.jl
+examples/states_rest_server/Project.toml
+examples/states_rest_server/README.md
+examples/states_rest_server/server.jl
+ext/QuantumSavoryInteractiveUtils/QuantumSavoryInteractiveUtils.jl
+ext/QuantumSavoryMakie/QuantumSavoryMakie.jl
+ext/QuantumSavoryMakie/show_protocol.jl
+ext/QuantumSavoryMakie/show_state.jl
+ext/QuantumSavoryMakie/state_explorer.jl
+ext/QuantumSavoryTylerMakie/QuantumSavoryTylerMakie.jl
+firstgenrepeater-02.swapper.mp4
+LICENSE
+Project.toml
+README.md
+src/ambiguity_fix.jl
+src/backgrounds.jl
+src/baseops/apply.jl
+src/baseops/initialize.jl
+src/baseops/observable.jl
+src/baseops/subsystemcompose.jl
+src/baseops/traceout.jl
+src/baseops/uptotime.jl
+src/CircuitZoo/CircuitZoo.jl
+src/concurrentsim.jl
+src/measurements.jl
+src/messagebuffer.jl
+src/networks.jl
+src/noninstant.jl
+src/plots.jl
+src/precompile.jl
+src/ProtocolZoo/cutoff.jl
+src/ProtocolZoo/entanglement_ids.jl
+src/ProtocolZoo/mbqc.jl
+src/ProtocolZoo/ProtocolZoo.jl
+src/ProtocolZoo/qtcp.jl
+src/ProtocolZoo/show.jl
+src/ProtocolZoo/swapping.jl
+src/ProtocolZoo/switches.jl
+src/quantumchannel.jl
+src/QuantumSavory.jl
+src/queries.jl
+src/querywait.jl
+src/representations.jl
+src/semaphore.jl
+src/should_upstream.jl
+src/show.jl
+src/states_registers_networks_getset.jl
+src/states_registers_networks_shows.jl
+src/states_registers.jl
+src/StatesZoo/barrett_kok.jl
+src/StatesZoo/depolarized.jl
+src/StatesZoo/genqo.jl
+src/StatesZoo/state_explorer.jl
+src/StatesZoo/StatesZoo.jl
+src/tags.jl
+src/traits_and_defaults.jl
+test/.gitignore
+test/examples/assisted_cvteleportation_tests.jl
+test/examples/colorcentermodularcluster_1_tests.jl
+test/examples/colorcentermodularcluster_2_tests.jl
+test/examples/colorcentermodularcluster_3_tests.jl
+test/examples/congestionchain_2_tests.jl
+test/examples/congestionchain_tests.jl
+test/examples/distributed_ghz_sensors_plots_tests.jl
+test/examples/distributed_ghz_sensors_tests.jl
+test/examples/distributed_ghz_sensors_v_tmbl_tests.jl
+test/examples/firstgenrepeater_1_tests.jl
+test/examples/firstgenrepeater_2_tests.jl
+test/examples/firstgenrepeater_3_tests.jl
+test/examples/firstgenrepeater_lowlevel_1_tests.jl
+test/examples/firstgenrepeater_lowlevel_2_tests.jl
+test/examples/firstgenrepeater_lowlevel_3_tests.jl
+test/examples/firstgenrepeater_lowlevel_4_tests.jl
+test/examples/firstgenrepeater_lowlevel_5_tests.jl
+test/examples/firstgenrepeater_lowlevel_6_1_tests.jl
+test/examples/firstgenrepeater_lowlevel_6_tests.jl
+test/examples/myswapper_tutorial_tests.jl
+test/examples/piecemakerswitch_1_tests.jl
+test/examples/piecemakerswitch_2_tests.jl
+test/examples/purificationmbqc_plots_tests.jl
+test/examples/purificationmbqc_tests.jl
+test/examples/qtcp_tutorial_1_tests.jl
+test/examples/qtcp_tutorial_2_tests.jl
+test/examples/qtcp_tutorial_3_tests.jl
+test/examples/qtcp_tutorial_4_tests.jl
+test/examples/repeatergrid_1a_tests.jl
+test/examples/repeatergrid_1b_tests.jl
+test/examples/repeatergrid_2a_tests.jl
+test/examples/repeatergrid_2b_tests.jl
+test/examples/simpleswitch_2_tests.jl
+test/examples/simpleswitch_tests.jl
+test/examples/state_explorer_tests.jl
+test/general/apply_tests.jl
+test/general/aqua_tests.jl
+test/general/circuitzoo_api_tests.jl
+test/general/circuitzoo_ent_swap_tests.jl
+test/general/circuitzoo_fusion_tests.jl
+test/general/circuitzoo_purification_tests.jl
+test/general/circuitzoo_superdense_tests.jl
+test/general/concurrentsim_helpers_tests.jl
+test/general/interactiveutils_tests.jl
+test/general/messagebuffer_tests.jl
+test/general/noninstant_and_backgrounds_clifford_tests.jl
+test/general/noninstant_and_backgrounds_qubit_tests.jl
+test/general/noninstant_and_backgrounds_qumode_tests.jl
+test/general/observable_tests.jl
+test/general/project_traceout_gabs_homodyne_tests.jl
+test/general/project_traceout_tests.jl
+test/general/protocol_show_html_contracts_tests.jl
+test/general/protocolzoo_cutoff_cleanup_tests.jl
+test/general/protocolzoo_cutoffprot_tests.jl
+test/general/protocolzoo_entanglement_consumer_stale_query_tests.jl
+test/general/protocolzoo_entanglement_consumer_tests.jl
+test/general/protocolzoo_entanglement_counterpart_invariant_tests.jl
+test/general/protocolzoo_entanglement_id_tests.jl
+test/general/protocolzoo_entanglement_tracker_grid_tests.jl
+test/general/protocolzoo_entanglement_tracker_lock_gap_tests.jl
+test/general/protocolzoo_entanglement_tracker_tests.jl
+test/general/protocolzoo_entangler_tests.jl
+test/general/protocolzoo_mbqc_tests.jl
+test/general/protocolzoo_qtcp_tests.jl
+test/general/protocolzoo_shorthand_constructors_tests.jl
+test/general/protocolzoo_surface_contracts_tests.jl
+test/general/protocolzoo_swapper_chooseslots_tests.jl
+test/general/protocolzoo_swapper_stale_query_tests.jl
+test/general/protocolzoo_switch_algorithms_tests.jl
+test/general/protocolzoo_switch_stale_match_accounting_tests.jl
+test/general/protocolzoo_switch_stale_reciprocal_delete_tests.jl
+test/general/protocolzoo_switch_tests.jl
+test/general/protocolzoo_throws_tests.jl
+test/general/protocolzoo_virtual_edge_tests.jl
+test/general/quantumchannel_tests.jl
+test/general/querywait_tests.jl
+test/general/register_interface_tests.jl
+test/general/registernet_interface_tests.jl
+test/general/registernet_metadata_access_tests.jl
+test/general/representations_dispatch_tests.jl
+test/general/semaphore_2_tests.jl
+test/general/semaphore_3_tests.jl
+
+===== julia/project files =====
+./.agents/evals/dataset/abstraction-boundaries.yaml
+./.agents/evals/dataset/async-timing.yaml
+./.agents/evals/dataset/backend-extension.yaml
+./.agents/evals/dataset/channel-modeling.yaml
+./.agents/evals/dataset/choose-backend-bosonic.yaml
+./.agents/evals/dataset/choose-backend-stabilizer.yaml
+./.agents/evals/dataset/classical-coordination.yaml
+./.agents/evals/dataset/classical-vs-quantum-transport.yaml
+./.agents/evals/dataset/debugging-inspection.yaml
+./.agents/evals/dataset/delayed-quantum-channel.yaml
+./.agents/evals/dataset/factorization-time-noise.yaml
+./.agents/evals/dataset/first-steps.yaml
+./.agents/evals/dataset/live-visualization.yaml
+./.agents/evals/dataset/modeling-limitations.yaml
+./.agents/evals/dataset/noninstant-gates.yaml
+./.agents/evals/dataset/performance-bottlenecks.yaml
+./.agents/evals/dataset/qchannel-routing.yaml
+./.agents/evals/dataset/register-vs-regnet.yaml
+./.agents/evals/dataset/repeater-stack-plan.yaml
+./.agents/evals/dataset/representable-hardware.yaml
+./.agents/evals/dataset/scope-overview.yaml
+./.agents/evals/dataset/state-explorer.yaml
+./.agents/evals/dataset/stateszoo-extension.yaml
+./.agents/evals/dataset/supported-protocols.yaml
+./.agents/evals/dataset/symbolic-frontend.yaml
+./.agents/evals/dataset/wait-for-tags.yaml
+./.agents/evals/dataset/weighted-states.yaml
+./.agents/evals/dataset/zoo-selection.yaml
+./.agents/evals/evaluate_anythingllm.jl
+./.agents/evals/Project.toml
+./.buildkite/pipeline.yml
+./.github/dependabot.yml
+./.github/workflows/benchmark.yml
+./.github/workflows/changelog-enforcer.yml
+./.github/workflows/ci.yml
+./.github/workflows/downgrade.yml
+./.github/workflows/spelling.yml
+./.github/workflows/TagBot.yml
+./benchmark/benchmark_onchange.jl
+./benchmark/benchmark_quantumstates.jl
+./benchmark/benchmark_querywait.jl
+./benchmark/benchmark_register.jl
+./benchmark/benchmark_semaphore.jl
+./benchmark/benchmark_tagquery.jl
+./benchmark/benchmarks.jl
+./benchmark/Project.toml
+./docs/make.jl
+./docs/Project.toml
+./examples/assisted_cvteleportation/setup.jl
+./examples/colorcentermodularcluster/1_time_to_connected.jl
+./examples/colorcentermodularcluster/2_real_time_visualization.jl
+./examples/colorcentermodularcluster/3_makie_interactive.jl
+./examples/colorcentermodularcluster/setup.jl
+./examples/congestionchain/1_visualization.jl
+./examples/congestionchain/2_makie_interactive.jl
+./examples/congestionchain/3_aggregate_of_multiple_simulations.jl
+./examples/congestionchain/setup.jl
+./examples/distributed_ghz_sensors/f_tmbl.jl
+./examples/distributed_ghz_sensors/plots.jl
+./examples/distributed_ghz_sensors/setup.jl
+./examples/distributed_ghz_sensors/v_tmbl.jl
+./examples/firstgenrepeater_lowlevel/1_entangler_example.jl
+./examples/firstgenrepeater_lowlevel/2_swapper_example.jl
+./examples/firstgenrepeater_lowlevel/3_purifier_example.jl
+./examples/firstgenrepeater_lowlevel/4_visualization.jl
+./examples/firstgenrepeater_lowlevel/5_clifford_full_example.jl
+./examples/firstgenrepeater_lowlevel/6_compare_formalisms.jl
+./examples/firstgenrepeater_lowlevel/6.1_compare_formalisms_noplot.jl
+./examples/firstgenrepeater_lowlevel/clifford_setup.jl
+./examples/firstgenrepeater_lowlevel/setup.jl
+./examples/firstgenrepeater/1_entangler_example.jl
+./examples/firstgenrepeater/2_swapper_example.jl
+./examples/firstgenrepeater/3_purifier_example.jl
+./examples/firstgenrepeater/setup.jl
+./examples/graphstate/graph_preparer.jl
+./examples/myswapper_tutorial/my_swapper_prot.jl
+./examples/piecemakerswitch/1_simple_run.jl
+./examples/piecemakerswitch/2_static_viz.jl
+./examples/piecemakerswitch/setup.jl
+./examples/Project.toml
+./examples/purificationMBQC/full_purification_example.jl
+./examples/purificationMBQC/plots.jl
+./examples/qtcp_tutorial/1_chain_basic.jl
+./examples/qtcp_tutorial/2_chain_visualization.jl
+./examples/qtcp_tutorial/3_grid_multiflow.jl
+./examples/qtcp_tutorial/4_custom_endnode.jl
+./examples/qtcp_tutorial/setup.jl
+./examples/repeatergrid/1a_async_interactive_visualization.jl
+./examples/repeatergrid/1b_async_wglmakie_interactive.jl
+./examples/repeatergrid/2a_sync_interactive_visualization.jl
+./examples/repeatergrid/2b_sync_wglmakie_interactive.jl
+./examples/repeatergrid/setup.jl
+./examples/simpleswitch/1_interactive_visualization.jl
+./examples/simpleswitch/2_wglmakie_interactive.jl
+./examples/simpleswitch/setup.jl
+./examples/state_explorer/state_explorer.jl
+./examples/states_rest_server/Project.toml
+./examples/states_rest_server/server.jl
+./ext/QuantumSavoryInteractiveUtils/QuantumSavoryInteractiveUtils.jl
+./ext/QuantumSavoryMakie/QuantumSavoryMakie.jl
+./ext/QuantumSavoryMakie/show_protocol.jl
+./ext/QuantumSavoryMakie/show_state.jl
+./ext/QuantumSavoryMakie/state_explorer.jl
+./ext/QuantumSavoryTylerMakie/QuantumSavoryTylerMakie.jl
+./Project.toml
+./src/ambiguity_fix.jl
+./src/backends/clifford/clifford.jl
+./src/backends/clifford/express.jl
+./src/backends/clifford/uptotime.jl
+./src/backends/gabs/gabs.jl
+./src/backends/gabs/should_upstream.jl
+./src/backends/gabs/show.jl
+./src/backends/quantumoptics/express.jl
+./src/backends/quantumoptics/noninstant.jl
+./src/backends/quantumoptics/quantumoptics.jl
+./src/backends/quantumoptics/should_upstream.jl
+./src/backends/quantumoptics/uptotime.jl
+./src/backgrounds.jl
+./src/baseops/apply.jl
+./src/baseops/initialize.jl
+./src/baseops/observable.jl
+./src/baseops/subsystemcompose.jl
+./src/baseops/traceout.jl
+./src/baseops/uptotime.jl
+./src/CircuitZoo/CircuitZoo.jl
+./src/concurrentsim.jl
+./src/measurements.jl
+./src/messagebuffer.jl
+./src/networks.jl
+./src/noninstant.jl
+./src/plots.jl
+./src/precompile.jl
+./src/ProtocolZoo/cutoff.jl
+./src/ProtocolZoo/entanglement_ids.jl
+./src/ProtocolZoo/mbqc.jl
+./src/ProtocolZoo/ProtocolZoo.jl
+./src/ProtocolZoo/qtcp.jl
+./src/ProtocolZoo/show.jl
+./src/ProtocolZoo/swapping.jl
+./src/ProtocolZoo/switches.jl
+./src/quantumchannel.jl
+./src/QuantumSavory.jl
+./src/queries.jl
+./src/querywait.jl
+./src/representations.jl
+./src/semaphore.jl
+./src/should_upstream.jl
+./src/show.jl
+./src/states_registers_networks_getset.jl
+./src/states_registers_networks_shows.jl
+./src/states_registers.jl
+./src/StatesZoo/barrett_kok.jl
+./src/StatesZoo/depolarized.jl
+./src/StatesZoo/genqo.jl
+./src/StatesZoo/state_explorer.jl
+./src/StatesZoo/StatesZoo.jl
+./src/tags.jl
+./src/traits_and_defaults.jl
+./test/examples/assisted_cvteleportation_tests.jl
+./test/examples/colorcentermodularcluster_1_tests.jl
+./test/examples/colorcentermodularcluster_2_tests.jl
+./test/examples/colorcentermodularcluster_3_tests.jl
+./test/examples/congestionchain_2_tests.jl
+./test/examples/congestionchain_tests.jl
+./test/examples/distributed_ghz_sensors_plots_tests.jl
+./test/examples/distributed_ghz_sensors_tests.jl
+./test/examples/distributed_ghz_sensors_v_tmbl_tests.jl
+./test/examples/firstgenrepeater_1_tests.jl
+./test/examples/firstgenrepeater_2_tests.jl
+./test/examples/firstgenrepeater_3_tests.jl
+./test/examples/firstgenrepeater_lowlevel_1_tests.jl
+./test/examples/firstgenrepeater_lowlevel_2_tests.jl
+./test/examples/firstgenrepeater_lowlevel_3_tests.jl
+./test/examples/firstgenrepeater_lowlevel_4_tests.jl
+./test/examples/firstgenrepeater_lowlevel_5_tests.jl
+./test/examples/firstgenrepeater_lowlevel_6_1_tests.jl
+./test/examples/firstgenrepeater_lowlevel_6_tests.jl
+./test/examples/myswapper_tutorial_tests.jl
+./test/examples/piecemakerswitch_1_tests.jl
+./test/examples/piecemakerswitch_2_tests.jl
+./test/examples/purificationmbqc_plots_tests.jl
+./test/examples/purificationmbqc_tests.jl
+./test/examples/qtcp_tutorial_1_tests.jl
+./test/examples/qtcp_tutorial_2_tests.jl
+./test/examples/qtcp_tutorial_3_tests.jl
+./test/examples/qtcp_tutorial_4_tests.jl
+./test/examples/repeatergrid_1a_tests.jl
+./test/examples/repeatergrid_1b_tests.jl
+./test/examples/repeatergrid_2a_tests.jl
+./test/examples/repeatergrid_2b_tests.jl
+./test/examples/simpleswitch_2_tests.jl
+./test/examples/simpleswitch_tests.jl
+./test/examples/state_explorer_tests.jl
+./test/general/apply_tests.jl
+./test/general/aqua_tests.jl
+./test/general/circuitzoo_api_tests.jl
+./test/general/circuitzoo_ent_swap_tests.jl
+./test/general/circuitzoo_fusion_tests.jl
+./test/general/circuitzoo_purification_tests.jl
+./test/general/circuitzoo_superdense_tests.jl
+./test/general/concurrentsim_helpers_tests.jl
+./test/general/interactiveutils_tests.jl
+./test/general/messagebuffer_tests.jl
+./test/general/noninstant_and_backgrounds_clifford_tests.jl
+./test/general/noninstant_and_backgrounds_qubit_tests.jl
+./test/general/noninstant_and_backgrounds_qumode_tests.jl
+./test/general/observable_tests.jl
+./test/general/project_traceout_gabs_homodyne_tests.jl
+./test/general/project_traceout_tests.jl
+./test/general/protocol_show_html_contracts_tests.jl
+./test/general/protocolzoo_cutoff_cleanup_tests.jl
+./test/general/protocolzoo_cutoffprot_tests.jl
+./test/general/protocolzoo_entanglement_consumer_stale_query_tests.jl
+./test/general/protocolzoo_entanglement_consumer_tests.jl
+./test/general/protocolzoo_entanglement_counterpart_invariant_tests.jl
+./test/general/protocolzoo_entanglement_id_tests.jl
+./test/general/protocolzoo_entanglement_tracker_grid_tests.jl
+./test/general/protocolzoo_entanglement_tracker_lock_gap_tests.jl
+./test/general/protocolzoo_entanglement_tracker_tests.jl
+./test/general/protocolzoo_entangler_tests.jl
+./test/general/protocolzoo_mbqc_tests.jl
+./test/general/protocolzoo_qtcp_tests.jl
+./test/general/protocolzoo_shorthand_constructors_tests.jl
+./test/general/protocolzoo_surface_contracts_tests.jl
+./test/general/protocolzoo_swapper_chooseslots_tests.jl
+./test/general/protocolzoo_swapper_stale_query_tests.jl
+./test/general/protocolzoo_switch_algorithms_tests.jl
+./test/general/protocolzoo_switch_stale_match_accounting_tests.jl
+./test/general/protocolzoo_switch_stale_reciprocal_delete_tests.jl
+./test/general/protocolzoo_switch_tests.jl
+./test/general/protocolzoo_throws_tests.jl
+./test/general/protocolzoo_virtual_edge_tests.jl
+./test/general/quantumchannel_tests.jl
+./test/general/querywait_tests.jl
+./test/general/register_interface_tests.jl
+./test/general/registernet_interface_tests.jl
+./test/general/registernet_metadata_access_tests.jl
+./test/general/representations_dispatch_tests.jl
+./test/general/semaphore_2_tests.jl
+./test/general/semaphore_3_tests.jl
+./test/general/semaphore_tests.jl
+./test/general/setup_circuitzoo_purification.jl
+./test/general/show_gabs_tests.jl
+./test/general/show_html_tests.jl
+./test/general/stateszoo_api_tests.jl
+./test/general/tags_and_queries_tests.jl
+./test/jet_tests.jl
+./test/plotting/cairo_tests.jl
+./test/plotting/doctests_tests.jl
+./test/plotting/gl_tests.jl
+./test/plotting/plotting_maps.jl
+./test/plotting/plotting_regcoords.jl
+./test/plotting/plotting_tags_observables.jl
+./test/plotting/show_png_tests.jl
+./test/Project.toml
+./test/projects/jet/Project.toml
+./test/projects/plotting/Project.toml
+./test/runtests.jl
+./test/test_stateszoo_depolarized.jl
+
+===== benchmark references =====
+./benchmark/benchmark_tagquery.jl:33:SUITE["tagquery"]["misc"]["from_tests"] = @benchmarkable tagquery_interfacetest()
+./benchmark/benchmark_tagquery.jl:45:SUITE["tagquery"]["register"]["query"] = @benchmarkable @benchmark query(reg, EntanglementCounterpart, 6, ❓; filo=true)
+./benchmark/benchmark_tagquery.jl:46:SUITE["tagquery"]["register"]["queryall"] = @benchmarkable @benchmark queryall(reg, EntanglementCounterpart, 6, ❓; filo=true)
+./benchmark/benchmark_tagquery.jl:59:SUITE["tagquery"]["messagebuffer"]["query"] = @benchmarkable query(mb, EntanglementCounterpart, 6, ❓)
+./benchmark/benchmark_tagquery.jl:60:SUITE["tagquery"]["messagebuffer"]["querydelete"] = @benchmarkable querydelete!(_mb, EntanglementCounterpart, 6, ❓) setup=(_mb = deepcopy(mb))  evals=1
+./benchmark/benchmark_tagquery.jl:78:SUITE["tagquery"]["register"]["query_exact_filo"] = @benchmarkable query(reg_mixed, EntanglementCounterpart, 1, 12)
+./benchmark/benchmark_tagquery.jl:79:SUITE["tagquery"]["register"]["query_exact_fifo"] = @benchmarkable query(reg_mixed, EntanglementCounterpart, 1, 12; filo=false)
+./benchmark/benchmark_tagquery.jl:80:SUITE["tagquery"]["register"]["query_predicate"] = @benchmarkable query(reg_mixed, EntanglementCounterpart, ==(2), >(120))
+./benchmark/benchmark_tagquery.jl:81:SUITE["tagquery"]["register"]["query_tag_dispatch"] = @benchmarkable query(reg_mixed, Tag(EntanglementCounterpart, 1, 12))
+./benchmark/benchmark_tagquery.jl:82:SUITE["tagquery"]["register"]["query_miss"] = @benchmarkable query(reg_mixed, EntanglementCounterpart, 99, ❓)
+./benchmark/benchmark_tagquery.jl:83:SUITE["tagquery"]["register"]["query_assigned"] = @benchmarkable query(reg_mixed, EntanglementCounterpart, 1, ❓; assigned=true, locked=false)
+./benchmark/benchmark_tagquery.jl:84:SUITE["tagquery"]["register"]["query_unassigned"] = @benchmarkable query(reg_mixed, EntanglementCounterpart, 1, ❓; assigned=false, locked=false)
+./benchmark/benchmark_tagquery.jl:85:SUITE["tagquery"]["register"]["query_locked"] = @benchmarkable query(reg_mixed, EntanglementCounterpart, 1, ❓; locked=true)
+./benchmark/benchmark_tagquery.jl:86:SUITE["tagquery"]["register"]["queryall_filo"] = @benchmarkable queryall(reg_mixed, EntanglementCounterpart, 1, ❓; filo=true)
+./benchmark/benchmark_tagquery.jl:87:SUITE["tagquery"]["register"]["queryall_fifo"] = @benchmarkable queryall(reg_mixed, EntanglementCounterpart, 1, ❓; filo=false)
+./benchmark/benchmark_tagquery.jl:88:SUITE["tagquery"]["register"]["queryall_tag_dispatch"] = @benchmarkable queryall(reg_mixed, Tag(EntanglementCounterpart, 2, 22))
+./benchmark/benchmark_tagquery.jl:91:# benchmark RegRef dispatch separately because it skips cross-slot checks.
+./benchmark/benchmark_tagquery.jl:100:SUITE["tagquery"]["register_ref"]["query_filo"] = @benchmarkable query(reg_ref[1], EntanglementCounterpart, 4, 9)
+./benchmark/benchmark_tagquery.jl:101:SUITE["tagquery"]["register_ref"]["query_fifo"] = @benchmarkable query(reg_ref[1], EntanglementCounterpart, 4, 9; filo=false)
+./benchmark/benchmark_tagquery.jl:102:SUITE["tagquery"]["register_ref"]["queryall_filo"] = @benchmarkable queryall(reg_ref[1], EntanglementCounterpart, 4, 9)
+./benchmark/benchmark_tagquery.jl:103:SUITE["tagquery"]["register_ref"]["queryall_fifo"] = @benchmarkable queryall(reg_ref[1], EntanglementCounterpart, 4, 9; filo=false)
+./benchmark/benchmark_tagquery.jl:104:SUITE["tagquery"]["register_ref"]["query_tag_dispatch"] = @benchmarkable query(reg_ref[1], Tag(EntanglementCounterpart, 4, 9))
+./benchmark/benchmark_tagquery.jl:106:# Mutating tag operations are performance-critical in protocol loops.
+./benchmark/benchmark_tagquery.jl:107:# These benchmarks use deepcopy in setup so each evaluation runs on a fresh state.
+./benchmark/benchmark_tagquery.jl:109:SUITE["tagquery"]["register_mutating"]["querydelete_regref_filo"] = @benchmarkable querydelete!(_slot, EntanglementCounterpart, 4, 9) setup=(_reg = deepcopy(reg_ref); _slot = _reg[1]) evals=1
+./benchmark/benchmark_tagquery.jl:110:SUITE["tagquery"]["register_mutating"]["querydelete_regref_fifo"] = @benchmarkable querydelete!(_slot, EntanglementCounterpart, 4, 9; filo=false) setup=(_reg = deepcopy(reg_ref); _slot = _reg[1]) evals=1
+./benchmark/benchmark_tagquery.jl:111:SUITE["tagquery"]["register_mutating"]["querydelete_register"] = @benchmarkable querydelete!(_reg, EntanglementCounterpart, 4, 9) setup=(_reg = deepcopy(reg_ref)) evals=1
+./benchmark/benchmark_tagquery.jl:112:SUITE["tagquery"]["register_mutating"]["untag_by_id"] = @benchmarkable untag!(_reg, _id) setup=(_reg = deepcopy(reg_ref); _id = query(_reg[1], EntanglementCounterpart, 4, 9).id) evals=1
+./benchmark/benchmark_tagquery.jl:120:SUITE["tagquery"]["register_high_arity"]["query_exact"] = @benchmarkable query(reg_long, :longtag, 1, 2, 3, 4, 5, 6)
+./benchmark/benchmark_tagquery.jl:121:SUITE["tagquery"]["register_high_arity"]["query_predicate"] = @benchmarkable query(reg_long, :longtag, ==(1), ==(2), ==(3), ==(4), ==(5), >(5))
+./benchmark/benchmark_tagquery.jl:122:SUITE["tagquery"]["register_high_arity"]["queryall"] = @benchmarkable queryall(reg_long, :longtag, 1, 2, 3, 4, 5, ❓)
+./benchmark/benchmark_tagquery.jl:125:# We benchmark fast-hit and deep-scan cases, plus mutating deletes.
+./benchmark/benchmark_tagquery.jl:140:SUITE["tagquery"]["messagebuffer"]["query_tag_dispatch"] = @benchmarkable query(mb_back, Tag(:flow, 1, 2, 3, 4, 5, 6))
+./benchmark/benchmark_tagquery.jl:141:SUITE["tagquery"]["messagebuffer"]["query_high_arity"] = @benchmarkable query(mb_back, :flow, 1, 2, 3, 4, 5, 6)
+./benchmark/benchmark_tagquery.jl:142:SUITE["tagquery"]["messagebuffer"]["query_high_arity_predicate"] = @benchmarkable query(mb_back, :flow, ==(1), ==(2), >(2), >(3), >(4), >(5))
+./benchmark/benchmark_tagquery.jl:143:SUITE["tagquery"]["messagebuffer"]["query_miss"] = @benchmarkable query(mb_back, :flow, 10, 20, 30, 40, 50, 60)
+./benchmark/benchmark_tagquery.jl:144:SUITE["tagquery"]["messagebuffer"]["querydelete_front"] = @benchmarkable querydelete!(_mb, :flow, 1, 2, 3, 4, 5, 6) setup=(_mb = deepcopy(mb_front)) evals=1
+./benchmark/benchmark_tagquery.jl:145:SUITE["tagquery"]["messagebuffer"]["querydelete_back"] = @benchmarkable querydelete!(_mb, :flow, 1, 2, 3, 4, 5, 6) setup=(_mb = deepcopy(mb_back)) evals=1
+./benchmark/benchmark_tagquery.jl:146:SUITE["tagquery"]["messagebuffer"]["querydelete_miss"] = @benchmarkable querydelete!(_mb, :flow, 10, 20, 30, 40, 50, 60) setup=(_mb = deepcopy(mb_back)) evals=1
+./benchmark/benchmark_tagquery.jl:212:SUITE["tagquery"]["index_selectivity"]["register_head_query_rare"] = @benchmarkable query(reg_head_selective, :distilled, 1)
+./benchmark/benchmark_tagquery.jl:213:SUITE["tagquery"]["index_selectivity"]["register_head_queryall_rare"] = @benchmarkable queryall(reg_queryall_selective, :distilled, ❓)
+./benchmark/benchmark_tagquery.jl:214:SUITE["tagquery"]["index_selectivity"]["register_slot_query_rare"] = @benchmarkable query(reg_slot_selective[1], :entangled, 1)
+./benchmark/benchmark_tagquery.jl:215:SUITE["tagquery"]["index_selectivity"]["register_slot_queryall_rare"] = @benchmarkable queryall(reg_slot_selective[1], :entangled, ❓)
+./benchmark/benchmark_tagquery.jl:216:SUITE["tagquery"]["index_selectivity"]["messagebuffer_query_rare_back"] = @benchmarkable query(mb_head_selective, :distilled, 1)
+./benchmark/benchmark_tagquery.jl:217:SUITE["tagquery"]["index_selectivity"]["messagebuffer_query_rare_miss"] = @benchmarkable query(mb_head_selective_miss, :distilled, 999)
+./benchmark/benchmark_tagquery.jl:218:SUITE["tagquery"]["index_selectivity"]["messagebuffer_query_missing_head"] = @benchmarkable query(mb_missing_head_selective, :error_corrected, ❓)
+./benchmark/benchmark_tagquery.jl:219:SUITE["tagquery"]["index_selectivity"]["messagebuffer_querydelete_rare_back"] = @benchmarkable querydelete!(_mb, :distilled, 1) setup=(_mb = deepcopy(mb_head_selective)) evals=1
+./benchmark/benchmark_semaphore.jl:59:SUITE["change_notifier"]["api"]["lock_direct"] = @benchmarkable lock(notifier) setup=(sim = Simulation(); notifier = QuantumSavory.ChangeNotifier(sim)) evals=1
+./benchmark/benchmark_semaphore.jl:60:SUITE["change_notifier"]["api"]["onchange_register"] = @benchmarkable onchange(reg) setup=(reg = Register(1)) evals=1
+./benchmark/benchmark_semaphore.jl:61:SUITE["change_notifier"]["api"]["onchange_regref"] = @benchmarkable onchange(slot, Tag) setup=(reg = Register(1); slot = reg[1]) evals=1
+./benchmark/benchmark_semaphore.jl:66:    SUITE["change_notifier"]["broadcast_direct"][label] = @benchmarkable run(sim) setup=(sim = prepare_change_notifier_broadcast(; n_waiters=$n_waiters, rounds=1)) evals=1
+./benchmark/benchmark_semaphore.jl:70:    SUITE["change_notifier"]["broadcast_direct"][label] = @benchmarkable run(sim) setup=(sim = prepare_change_notifier_broadcast(; n_waiters=$n_waiters, rounds=4)) evals=1
+./benchmark/benchmark_semaphore.jl:76:    SUITE["change_notifier"]["broadcast_register"][label] = @benchmarkable run(sim) setup=(sim = prepare_register_broadcast(; n_waiters=$n_waiters, rounds=1, wait_on_regref=false)) evals=1
+./benchmark/benchmark_semaphore.jl:80:    SUITE["change_notifier"]["broadcast_register"][label] = @benchmarkable run(sim) setup=(sim = prepare_register_broadcast(; n_waiters=$n_waiters, rounds=4, wait_on_regref=false)) evals=1
+./benchmark/benchmark_semaphore.jl:86:    SUITE["change_notifier"]["broadcast_regref"][label] = @benchmarkable run(sim) setup=(sim = prepare_register_broadcast(; n_waiters=$n_waiters, rounds=1, wait_on_regref=true)) evals=1
+./benchmark/benchmark_register.jl:76:SUITE["register"]["creation_and_initialization"]["from_tests"] = @benchmarkable register_creation_and_initialization()
+./benchmark/benchmarks.jl:1:using BenchmarkTools
+./benchmark/benchmarks.jl:18:include("benchmark_register.jl")
+./benchmark/benchmarks.jl:19:include("benchmark_tagquery.jl")
+./benchmark/benchmarks.jl:20:include("benchmark_semaphore.jl")
+./benchmark/benchmarks.jl:21:include("benchmark_onchange.jl")
+./benchmark/benchmarks.jl:22:include("benchmark_querywait.jl")
+./benchmark/benchmarks.jl:23:include("benchmark_quantumstates.jl")
+./benchmark/benchmark_quantumstates.jl:7:SUITE["quantumstates"]["observable"]["quantumoptics"] = @benchmarkable observable(reg[1:5], proj) setup=(reg=Register(10); initialize!(reg[1:5], state)) evals=1
+./benchmark/benchmark_onchange.jl:6:# These benchmarks isolate the scheduling/wakeup cost of waiting on
+./benchmark/benchmark_onchange.jl:8:# Each benchmark prepares a fresh simulation in setup and then measures `run(sim)`.
+./benchmark/benchmark_onchange.jl:156:    SUITE["onchange"]["shared_register"][label] = @benchmarkable run(sim) setup=(sim = prepare_onchange_shared_register(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=32, wait_on_regref=false)) evals=1
+./benchmark/benchmark_onchange.jl:163:    SUITE["onchange"]["shared_regref"][label] = @benchmarkable run(sim) setup=(sim = prepare_onchange_shared_register(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=32, wait_on_regref=true)) evals=1
+./benchmark/benchmark_onchange.jl:170:    SUITE["onchange"]["sharded_registers"][label] = @benchmarkable run(sim) setup=(sim = prepare_onchange_sharded_registers(; n_pairs=$n_pairs, events_per_writer=32, wait_on_regref=false)) evals=1
+./benchmark/benchmark_onchange.jl:177:    SUITE["onchange"]["shared_messagebuffer_direct"][label] = @benchmarkable run(sim) setup=(sim = prepare_onchange_shared_messagebuffer_direct(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=16)) evals=1
+./benchmark/benchmark_onchange.jl:184:    SUITE["onchange"]["shared_messagebuffer_channel"][label] = @benchmarkable run(sim) setup=(sim = prepare_onchange_shared_messagebuffer_channel(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=16)) evals=1
+./benchmark/benchmark_onchange.jl:191:    SUITE["onchange"]["dual_messagebuffer_any"][label] = @benchmarkable run(sim) setup=(sim = prepare_onchange_dual_messagebuffer_any(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=16)) evals=1
+./benchmark/Project.toml:2:BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+./benchmark/AGENTS.md:3:This folder contains the BenchmarkTools suite for `QuantumSavory.jl`.
+./benchmark/AGENTS.md:6:- `benchmarks.jl` is the entrypoint (shared imports/setup + `include(...)` calls).
+./benchmark/AGENTS.md:7:- `benchmark_*.jl` files contain benchmark definitions grouped by top-level `SUITE` key.
+./benchmark/AGENTS.md:8:- Keep related benchmarks together and add short comments when introducing a new subgroup.
+./benchmark/AGENTS.md:11:- For mutating benchmarks (`querydelete!`, `untag!`, etc.), use `setup` with `deepcopy(...)` and `evals=1`.
+./benchmark/AGENTS.md:12:- Add new benchmarks without deleting existing coverage unless explicitly requested.
+./benchmark/benchmark_querywait.jl:6:# These benchmarks measure the combined cost of waiting (onchange) and querying
+./benchmark/benchmark_querywait.jl:8:# Each benchmark prepares a fresh simulation in setup and then measures `run(sim)`.
+./benchmark/benchmark_querywait.jl:10:# -- Register benchmarks --
+./benchmark/benchmark_querywait.jl:61:# -- MessageBuffer benchmarks --
+./benchmark/benchmark_querywait.jl:136:    SUITE["querywait"]["register_query_wait"][label] = @benchmarkable run(sim) setup=(sim = prepare_querywait_register(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=16, use_querydelete=false)) evals=1
+./benchmark/benchmark_querywait.jl:143:    SUITE["querywait"]["register_querydelete_wait"][label] = @benchmarkable run(sim) setup=(sim = prepare_querywait_register(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=16, use_querydelete=true)) evals=1
+./benchmark/benchmark_querywait.jl:150:    SUITE["querywait"]["messagebuffer_direct"][label] = @benchmarkable run(sim) setup=(sim = prepare_querywait_messagebuffer(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=16)) evals=1
+./benchmark/benchmark_querywait.jl:157:    SUITE["querywait"]["messagebuffer_channel"][label] = @benchmarkable run(sim) setup=(sim = prepare_querywait_messagebuffer_channel(; n_writers=$n_writers, n_waiters=$n_waiters, events_per_writer=16)) evals=1
+./test/general/tags_and_queries_tests.jl:215:#using BenchmarkTools
+./test/general/tags_and_queries_tests.jl:216:#@benchmark f()
+./CHANGELOG.md:39:- Significant performance improvements to queries on registers or buffers that already contain many tags.
+./CHANGELOG.md:74:- Fixes and performance improvements to `observable`.
+./CHANGELOG.md:94:- Significant improvements to the performance of `query`.
+./.agents/evals/dataset/performance-bottlenecks-A.md:1:The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/dataset/performance-bottlenecks.yaml:2:  - performance
+./.agents/evals/dataset/performance-bottlenecks-Q.md:1:Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:1955:2026-04-03T02:34:39.218,https://anythingllm.krastanov.org/api,quantumsavory-dev,qwen3.5:35b,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:1956:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:1995:    *   User Question: ""Which performance bottlenecks should I expect as the network size or protocol complexity grows?""
+./.agents/evals/anythingllm-eval-results.csv:1998:    *   Keywords: ""performance"", ""bottlenecks"", ""network size"", ""protocol complexity"", ""grows"", ""scalability"", ""resources"".
+./.agents/evals/anythingllm-eval-results.csv:2001:    *   *CONTEXT 1 (api_protocolzoo.txt):* Discusses `QuantumSavory.ProtocolZoo`, reusable protocols (entangler, swapper, etc.), packaging of simulation handles. No explicit mention of performance bottlenecks.
+./.agents/evals/anythingllm-eval-results.csv:2005:        *   Calibrating purification vs swap timing for *performance*.
+./.agents/evals/anythingllm-eval-results.csv:2011:    *   None of the provided context snippets explicitly list ""performance bottlenecks"" that arise as ""network size or protocol complexity grows"".
+./.agents/evals/anythingllm-eval-results.csv:2012:    *   CONTEXT 3 mentions ""performance of the network"" in the context of calibrating purification vs swap, and ""resource requirements"" in the context of purification types.
+./.agents/evals/anythingllm-eval-results.csv:2015:    *   Wait, looking closely at CONTEXT 3: It lists ""improvements"" for the first genrepeater. It says ""Calibrating when to perform a purification versus a swap would be important for the performance of the network."" It also says ""Balancing what types of entanglement purification is performed... can drastically lower resource requirements.""
+./.agents/evals/anythingllm-eval-results.csv:2016:    *   Does this answer ""Which performance bottlenecks should I expect as the network size or protocol complexity grows?"" Not directly. It talks about *optimizations* for a specific repeater example.
+./.agents/evals/anythingllm-eval-results.csv:2019:    *   There is no explicit section in the provided context that lists performance bottlenecks related to scaling (network size or complexity).
+./.agents/evals/anythingllm-eval-results.csv:2022:    *   Since the provided context does not contain specific information about performance bottlenecks related to network size or protocol complexity growth, I must state that based on the provided text, there is no explicit information on this.
+./.agents/evals/anythingllm-eval-results.csv:2026:    *   Let's look for any hint. CONTEXT 3 says ""Calibrating when to perform a purification versus a swap would be important for the performance of the network."" This implies that *incorrect calibration* is a bottleneck for performance.
+./.agents/evals/anythingllm-eval-results.csv:2029:    *   Best approach: State that the provided context does not explicitly list performance bottlenecks associated with scaling network size or protocol complexity, though it mentions factors like classical latency and resource requirements that affect performance.
+./.agents/evals/anythingllm-eval-results.csv:2036:    *   There is no direct answer. I will state that the provided context does not contain specific information regarding performance bottlenecks related to network size or complexity growth, but it does highlight performance factors like classical latency, resource requirements, and calibration of protocol events.
+./.agents/evals/anythingllm-eval-results.csv:2040:    *   Safest and most accurate response: The provided context does not explicitly identify specific performance bottlenecks related to network size or protocol complexity growth. It mentions that classical latency, transport delay, and resource requirements affect performance, but does not detail scaling behaviors.
+./.agents/evals/anythingllm-eval-results.csv:2042:    *   *Refinement:* I should check if I can just answer based on what *is* there that relates to performance.
+./.agents/evals/anythingllm-eval-results.csv:2043:    *   CONTEXT 3 mentions: ""Calibrating when to perform a purification versus a swap would be important for the performance of the network.""
+./.agents/evals/anythingllm-eval-results.csv:2050:    *   *Decision:* Since I must answer the question based on the context, and the context doesn't explicitly answer it, I will summarize what *is* mentioned regarding performance factors, while noting the lack of specific scaling information. Or, more strictly, I should say the context doesn't provide this specific information.
+./.agents/evals/anythingllm-eval-results.csv:2052:    *   If the information is not there, I cannot invent it. I will state that the provided documentation does not specify bottlenecks related to scaling, but mentions performance factors like latency and resource usage.
+./.agents/evals/anythingllm-eval-results.csv:2055:    *   Okay, I will state that the context does not explicitly list bottlenecks for scaling, but mentions performance dependencies.
+./.agents/evals/anythingllm-eval-results.csv:2058:    *   Let's draft a response that acknowledges the lack of explicit scaling info but highlights the performance factors mentioned (latency, resources, calibration).
+./.agents/evals/anythingllm-eval-results.csv:2060:    *   *Draft:* Based on the provided context, there is no explicit mention of performance bottlenecks specifically tied to network size or protocol complexity growth. However, the context notes that performance depends on factors such as classical latency (which affects waiting for heralding results and timeouts), transport delay, and resource requirements (particularly regarding entanglement purification and swap calibration).
+./.agents/evals/anythingllm-eval-results.csv:2062:    *   *Refining for brevity and directness:* The provided text does not explicitly detail performance bottlenecks associated with network size or protocol complexity growth. It does highlight that network performance depends on classical latency, transport delays, and resource requirements, specifically noting that calibrating purification versus swap timing is important for network performance.
+./.agents/evals/anythingllm-eval-results.csv:2064:    *   *Final Polish:* Ensure I don't hallucinate. Stick to CONTEXT 3 for ""performance"" mentions.
+./.agents/evals/anythingllm-eval-results.csv:2068:5.  **Final Decision:** State that the context does not explicitly address scaling bottlenecks, but mention the performance factors that are discussed (latency, resource requirements, calibration).
+./.agents/evals/anythingllm-eval-results.csv:2073:    CONTEXT 3: ""Calibrating when to perform a purification versus a swap would be important for the performance of the network.""
+./.agents/evals/anythingllm-eval-results.csv:2077:    So the answer is: The provided context does not contain specific information about performance bottlenecks related to network size or protocol complexity growth.
+./.agents/evals/anythingllm-eval-results.csv:2083:    But I can combine the performance factors mentioned.
+./.agents/evals/anythingllm-eval-results.csv:2084:    ""The provided context does not explicitly identify performance bottlenecks related to network size or protocol complexity growth. It does indicate that network performance is influenced by classical latency (affecting waiting for heralding results and timeouts), transport delays, and resource requirements, such as those involved in entanglement purification and swap calibration.""
+./.agents/evals/anythingllm-eval-results.csv:2091:    *Final Plan:* State that the text doesn't explicitly list scaling bottlenecks, but mention the performance factors it *does* discuss.
+./.agents/evals/anythingllm-eval-results.csv:2097:    ""Based on the provided context, there is no explicit information regarding specific performance bottlenecks expected as network size or protocol complexity grows. The text mentions that performance depends on classical latency, transport delay, and resource requirements (such as purification and swap calibration), but does not detail scaling behaviors.""
+./.agents/evals/anythingllm-eval-results.csv:2102:    The user asks ""Which performance bottlenecks..."".
+./.agents/evals/anythingllm-eval-results.csv:2106:    *Final check:* Does CONTEXT 3 imply bottlenecks? ""trigger the various events... instead of having them all randomly wait and hope the necessary resources are available."" This implies ""randomly waiting"" is a bottleneck (inefficiency). ""Calibrating... important for performance"". ""Balancing... lower resource requirements"".
+./.agents/evals/anythingllm-eval-results.csv:2107:    So I can say: While the context does not explicitly list bottlenecks for scaling, it identifies inefficiencies like random waiting for resources and the need for calibrating purification versus swap timing to optimize performance and lower resource requirements.
+./.agents/evals/anythingllm-eval-results.csv:2109:    This is better. It uses the text to answer the ""performance"" aspect even if the ""scaling"" aspect is not explicit.
+./.agents/evals/anythingllm-eval-results.csv:2116:    The provided context does not explicitly identify performance bottlenecks specifically related to network size or protocol complexity growth. However, it notes that network performance is influenced by classical latency (affecting waiting for heralding results, timeouts, and retries) and resource requirements. Specifically, for repeaters, performance depends on calibrating when to perform purification versus a swap, and balancing purification types to lower resource requirements. Inefficient resource management, such as protocols randomly waiting for resources rather than triggering events from each other, is also highlighted as an area for improvement.
+./.agents/evals/anythingllm-eval-results.csv:2123:    The provided context does not explicitly detail performance bottlenecks specifically tied to network size or protocol complexity growth. However, it indicates that network performance depends on classical latency, which affects waiting for heralding results, propagating swap outcomes, and reacting to timeouts. Additionally, performance can be impacted by resource requirements, such as the need to calibrate purification versus swap timing and balance purification types to lower resource usage. Inefficient behaviors, like protocols randomly waiting for resources instead of triggering events from one another, are also identified as improvements needed for better performance.
+./.agents/evals/anythingllm-eval-results.csv:2125:    This is good. It answers the question by saying ""not explicitly, but here is what affects performance"".
+./.agents/evals/anythingllm-eval-results.csv:2138:    ""The provided context does not explicitly list performance bottlenecks related to network size or protocol complexity growth. It does highlight that performance depends on classical latency (impacting waits for heralding, timeouts, and retries), transport delays, and resource requirements. For instance, calibrating purification versus swap timing is noted as important for network performance, and balancing purification types can lower resource requirements. Additionally, inefficient practices such as protocols randomly waiting for resources rather than triggering events from each other are identified as areas for improvement.""
+./.agents/evals/anythingllm-eval-results.csv:2143:    ""Based on the provided context, there is no explicit information regarding performance bottlenecks associated with network size or protocol complexity growth. The text does note that performance depends on classical latency (affecting waits for heralding results and timeouts), transport delays, and resource requirements. Specific optimizations mentioned include calibrating purification versus swap timing and reducing resource requirements through balanced purification schemes, as well as avoiding inefficient random waiting for resources.""
+./.agents/evals/anythingllm-eval-results.csv:2152:    Okay, I'm confident the answer is ""Not explicitly stated, but performance factors are..."".
+./.agents/evals/anythingllm-eval-results.csv:2157:    Let's write it.</think>Based on the provided context, there is no explicit information regarding specific performance bottlenecks associated with network size or protocol complexity growth. However, the text indicates that network performance depends on classical latency (which affects waiting for heralding results, propagating swap outcomes, and reacting to timeouts) and transport delays. Additionally, performance is influenced by resource requirements; for example, calibrating when to perform purification versus a swap is noted as important for performance, and balancing purification types can drastically lower resource requirements. Inefficiencies such as protocols randomly waiting for resources instead of triggering events from each other are also identified as areas for improvement.","Based on the provided context, there is no explicit information regarding specific performance bottlenecks associated with network size or protocol complexity growth. However, the text indicates that network performance depends on classical latency (which affects waiting for heralding results, propagating swap outcomes, and reacting to timeouts) and transport delays. Additionally, performance is influenced by resource requirements; for example, calibrating when to perform purification versus a swap is noted as important for performance, and balancing purification types can drastically lower resource requirements. Inefficiencies such as protocols randomly waiting for resources instead of triggering events from each other are also identified as areas for improvement.",textResponse,,4,query,73.18985986709595,11.689614057540894,84.87947392463684,-1,-1,"The answer misses the core documented point that scaling bottlenecks are mainly about backend choice and state structure: restricted vs general backends, loss of factorization from large entangled clusters, dense wavefunction simulation, and richer subsystem models. It also incorrectly claims there is no explicit information, and substitutes largely unrelated specifics about classical latency, purification timing, and protocol event wiring, which would mislead the user about the primary scaling tradeoffs.",1662.3059890270233,14,5,9,5
+./.agents/evals/anythingllm-eval-results.csv:4722:2026-04-03T03:00:58.872,https://anythingllm.krastanov.org/api,quantumsavory-dev,gemma4:31b,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:4723:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:4756:   restricted formalism.","<think>*   User Question: ""Which performance bottlenecks should I expect as the network size or protocol complexity grows?""
+./.agents/evals/anythingllm-eval-results.csv:4768:    *   The provided text does *not* explicitly list ""performance bottlenecks"" in a general sense (e.g., CPU, memory, O-notation).
+./.agents/evals/anythingllm-eval-results.csv:4771:    *   From [CONTEXT 3]: The current implementation (in the example) has a bottleneck where events are triggered randomly rather than being coordinated (""instead of having them all randomly wait and hope the necessary resources are available""). It also notes that calibrating purification vs. swaps and choosing purification schemes based on noise are critical for network performance.
+./.agents/evals/anythingllm-eval-results.csv:4773:    *   The user is asking about performance bottlenecks as network size/complexity grows.
+./.agents/evals/anythingllm-eval-results.csv:4777:        3.  Resource Management: Performance is impacted by the calibration of purification versus swaps and the choice of purification schemes based on the noise experienced [CONTEXT 3].</think>Based on the provided text, you should expect the following performance considerations and potential bottlenecks as network size or protocol complexity grows:
+./.agents/evals/anythingllm-eval-results.csv:4781:*   **Resource Calibration:** Network performance is heavily influenced by the calibration of when to perform purification versus a swap.
+./.agents/evals/anythingllm-eval-results.csv:4782:*   **Purification Efficiency:** The type of entanglement purification performed relative to the type of noise experienced can significantly impact resource requirements.","Based on the provided text, you should expect the following performance considerations and potential bottlenecks as network size or protocol complexity grows:
+./.agents/evals/anythingllm-eval-results.csv:4786:*   **Resource Calibration:** Network performance is heavily influenced by the calibration of when to perform purification versus a swap.
+./.agents/evals/anythingllm-eval-results.csv:4787:*   **Purification Efficiency:** The type of entanglement purification performed relative to the type of noise experienced can significantly impact resource requirements.",textResponse,,4,query,38.889349937438965,8.9497389793396,47.839088916778564,-1,-1,"The answer misses the core point of the reference: performance bottlenecks are mainly about backend choice, loss of factorization, entangled cluster size, dense/general representations, and richer subsystem models. Instead it introduces unrelated specifics about classical latency, event coordination, purification timing, and swap calibration, which are not the authoritative answer here and are misleading as the main scaling guidance.",1649.7104148864746,14,7,7,7
+./.agents/evals/anythingllm-eval-results.csv:7324:2026-04-03T03:25:13.849,https://anythingllm.krastanov.org/api,quantumsavory-dev,glm-4.7-flash:q8_0,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:7325:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:7359:    *   **Question:** ""Which performance bottlenecks should I expect as the network size or protocol complexity grows?""
+./.agents/evals/anythingllm-eval-results.csv:7367:    *   Keywords: ""performance"", ""bottlenecks"", ""network size"", ""complexity"", ""latency"", ""delays"", ""locality"", ""centralized"", ""callbacks"".
+./.agents/evals/anythingllm-eval-results.csv:7374:    *   *Context 3:* Discusses ""triggering events from each other,"" ""calibrating when to perform a purification versus a swap,"" and ""balancing what types of entanglement purification."" This suggests that as complexity grows, managing the timing and resource allocation (swapping vs. purifying) becomes a performance bottleneck.
+./.agents/evals/anythingllm-eval-results.csv:7380:    *   *Point 3: Event Triggering and Resource Management.* From Context 3, as complexity grows, ""triggering events from each other"" (reducing random waiting) and ""calibrating when to perform a purification versus a swap"" are crucial for performance. Improper balancing of these operations can lead to resource waste and delays.
+./.agents/evals/anythingllm-eval-results.csv:7389:        Based on the context provided, as the network size or protocol complexity grows, you should expect the following performance bottlenecks:
+./.agents/evals/anythingllm-eval-results.csv:7391:        *   **Centralized Inspection:** While the framework does not enforce locality, simulations requiring centralized controllers that inspect the entire network immediately may face performance challenges as the network scales.
+./.agents/evals/anythingllm-eval-results.csv:7396:    *   The response looks accurate based on the text.</think>Based on the provided context, as the network size or protocol complexity grows, you should expect the following performance bottlenecks:
+./.agents/evals/anythingllm-eval-results.csv:7399:*   **Centralized Inspection Overhead:** While the framework does not enforce locality, simulations that rely on centralized controllers to inspect the whole network immediately may face performance challenges as the network scales.
+./.agents/evals/anythingllm-eval-results.csv:7400:*   **Resource Calibration:** With complex protocols, inefficiently managing the timing of operations—such as deciding when to perform a purification versus a swap—can lead to resource waste and delays.","Based on the provided context, as the network size or protocol complexity grows, you should expect the following performance bottlenecks:
+./.agents/evals/anythingllm-eval-results.csv:7403:*   **Centralized Inspection Overhead:** While the framework does not enforce locality, simulations that rely on centralized controllers to inspect the whole network immediately may face performance challenges as the network scales.
+./.agents/evals/anythingllm-eval-results.csv:7404:*   **Resource Calibration:** With complex protocols, inefficiently managing the timing of operations—such as deciding when to perform a purification versus a swap—can lead to resource waste and delays.",textResponse,,4,query,20.65206289291382,10.202790975570679,30.854853868484497,-1,-1,"The answer misses the core documented bottlenecks entirely. The reference says performance is driven mainly by backend choice and state structure: falling back to general backends, loss of factorization from large entangled clusters, dense wavefunction-style simulation, and richer subsystem models. The candidate instead focuses on protocol-level notions like classical latency, centralized inspection, and timing/calibration, which do not answer the question as documented and are misleading because they conflate simulated network delays with computational performance bottlenecks.",1192.9774341583252,13,6,9,4
+./.agents/evals/anythingllm-eval-results.csv:8837:The choice of backend enters the model by selecting the appropriate representation during model definition. For example, you would specify `GabsRepr()` when defining your model to use the Gaussian backend from Gabs.jl. This is more efficient for your use case than using the general `QuantumOptics` backend, as it leverages the Gaussian phase space formalism for better performance with bosonic modes and Gaussian operations.","For your model, which includes bosonic modes and stays in the Gaussian regime, you should use `Gabs` (`GabsRepr(...)`).
+./.agents/evals/anythingllm-eval-results.csv:8839:The choice of backend enters the model by selecting the appropriate representation during model definition. For example, you would specify `GabsRepr()` when defining your model to use the Gaussian backend from Gabs.jl. This is more efficient for your use case than using the general `QuantumOptics` backend, as it leverages the Gaussian phase space formalism for better performance with bosonic modes and Gaussian operations.",textResponse,,4,query,4.390411138534546,79.8260760307312,84.21648716926575,1,+1,"The answer gets the main point right: for bosonic modes that remain Gaussian, `Gabs`/`GabsRepr(...)` is the appropriate choice, and the backend is selected through the representation attached to the model/register. It is incomplete because it does not show the actual `Register(..., [GabsRepr(QuadBlockBasis)])` pattern, does not mention when `QuantumOpticsRepr()` is preferable, and is slightly imprecise in saying `GabsRepr()` instead of the documented `GabsRepr(...)` form.",1198.2116420269012,13,1,14,-1
+./.agents/evals/anythingllm-eval-results.csv:9424:   - QuantumSavory assumes that device noise, subsystem type, protocol logic, and classical control are modeled together. If these layers are not properly integrated, results may not reflect real-world performance.
+./.agents/evals/anythingllm-eval-results.csv:9448:   - QuantumSavory assumes that device noise, subsystem type, protocol logic, and classical control are modeled together. If these layers are not properly integrated, results may not reflect real-world performance.
+./.agents/evals/anythingllm-eval-results.csv:9518:2026-04-03T03:42:21.498,https://anythingllm.krastanov.org/api,quantumsavory-dev,devstral-small-2:latest,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:9519:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:9552:   restricted formalism.","As the network size or protocol complexity grows, you should expect the following performance bottlenecks:
+./.agents/evals/anythingllm-eval-results.csv:9560:4. **Global State Inspection**: While the framework allows for localized protocol design, simulations that require centralized controllers or global schedulers may face performance issues. Inspecting the entire network state can be costly, especially as the network grows, and may not scale well with complex protocols.
+./.agents/evals/anythingllm-eval-results.csv:9564:To mitigate these bottlenecks, consider optimizing classical messaging paths, minimizing unnecessary message passing, and ensuring protocols are well-coordinated to avoid excessive waiting or retries. Additionally, profiling the simulation to identify specific bottlenecks can help guide optimizations.","As the network size or protocol complexity grows, you should expect the following performance bottlenecks:
+./.agents/evals/anythingllm-eval-results.csv:9572:4. **Global State Inspection**: While the framework allows for localized protocol design, simulations that require centralized controllers or global schedulers may face performance issues. Inspecting the entire network state can be costly, especially as the network grows, and may not scale well with complex protocols.
+./.agents/evals/anythingllm-eval-results.csv:9576:To mitigate these bottlenecks, consider optimizing classical messaging paths, minimizing unnecessary message passing, and ensuring protocols are well-coordinated to avoid excessive waiting or retries. Additionally, profiling the simulation to identify specific bottlenecks can help guide optimizations.",textResponse,,4,query,13.08719801902771,9.643128871917725,22.730326890945435,-1,-1,"The answer misses the core documented performance story and replaces it with different, unsupported specifics. The reference says bottlenecks are mainly about backend choice and state structure: falling back to general backends, loss of factorization from large entangled clusters, dense wavefunction-style simulation, and richer subsystem models. It also calls out the tradeoffs between `CliffordRepr()`, `QuantumOpticsRepr()`, and `GabsRepr(...)`. The candidate instead focuses on classical messaging, buffer management, synchronization, global inspection, and discrete-event overhead, which is misleading relative to the authoritative answer.",1198.2116420269012,13,1,14,-1
+./.agents/evals/anythingllm-eval-results.csv:11382:2026-04-03T04:02:36.415,https://anythingllm.krastanov.org/api,quantumsavory-dev,qwen3:30b-instruct,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:11383:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:11416:   restricted formalism.","As network size or protocol complexity grows, you should expect the following performance bottlenecks:
+./.agents/evals/anythingllm-eval-results.csv:11426:5. **Resource Scheduling Conflicts**: In large networks, competing protocols may contend for limited resources (e.g., entangled pairs, qubits, or channel bandwidth). Poorly timed or uncoordinated actions (e.g., swapping before purification) can degrade performance, as noted in the `firstgenrepeater` example.
+./.agents/evals/anythingllm-eval-results.csv:11434:- Avoiding global state inspections unless necessary, and favoring localized, event-driven coordination.","As network size or protocol complexity grows, you should expect the following performance bottlenecks:
+./.agents/evals/anythingllm-eval-results.csv:11444:5. **Resource Scheduling Conflicts**: In large networks, competing protocols may contend for limited resources (e.g., entangled pairs, qubits, or channel bandwidth). Poorly timed or uncoordinated actions (e.g., swapping before purification) can degrade performance, as noted in the `firstgenrepeater` example.
+./.agents/evals/anythingllm-eval-results.csv:11724:- You require high-performance, low-level control over simulation kernels (e.g., custom GPU-accelerated tensor networks) and don’t need the abstraction layer.
+./.agents/evals/anythingllm-eval-results.csv:11738:- You require high-performance, low-level control over simulation kernels (e.g., custom GPU-accelerated tensor networks) and don’t need the abstraction layer.
+./.agents/evals/anythingllm-eval-results.csv:12239:   *Output*: simulation results (measurement records, state snapshots, performance metrics).
+./.agents/evals/anythingllm-eval-results.csv:12281:   *Output*: simulation results (measurement records, state snapshots, performance metrics).
+./.agents/evals/anythingllm-eval-results.csv:12795:If all of the above are true, **use `GabsRepr()`** and you’ll get the best performance and the clearest physical interpretation. If you later add a non‑Gaussian gate (photon‑number resolving detector, Kerr nonlinearity, etc.), you can simply switch to a different representation without rewriting the model.","Because your system is **strictly bosonic and stays in the Gaussian regime**, the most efficient and natural choice is the **Gaussian backend** – `GabsRepr()` (or the underlying `GabsBackend`).  
+./.agents/evals/anythingllm-eval-results.csv:12849:If all of the above are true, **use `GabsRepr()`** and you’ll get the best performance and the clearest physical interpretation. If you later add a non‑Gaussian gate (photon‑number resolving detector, Kerr nonlinearity, etc.), you can simply switch to a different representation without rewriting the model.",textResponse,,4,query,11.270596027374268,33.74957799911499,45.02017402648926,-1,-1,"The core recommendation is right (`Gabs`/`GabsRepr(...)` for genuinely Gaussian bosonic models, `QuantumOpticsRepr()` for more general/non-Gaussian cases), but the answer invents a modeling API that does not match QuantumSavory. The `@model`, `bosonic(...)`, `Simulator(model)`, `run(sim, ...)`, `repr=GabsRepr()` on a model, and `backend=GabsBackend()` specifics are confabulated/misleading here. In QuantumSavory, the backend choice enters through the register representation, e.g. `Register([Qumode()], [GabsRepr(QuadBlockBasis)])`, and `Qumode()` defaults to `QuantumOpticsRepr()` unless you set `GabsRepr(...)` explicitly.",1856.025535106659,2,0,26,-24
+./.agents/evals/anythingllm-eval-results.csv:13691:- **Profile performance**: Count events to see if a protocol is bottlenecked by noise application or gate scheduling.
+./.agents/evals/anythingllm-eval-results.csv:13828:- **Profile performance**: Count events to see if a protocol is bottlenecked by noise application or gate scheduling.
+./.agents/evals/anythingllm-eval-results.csv:13954:| **4. How‑To Guides – Advanced Tasks** | Once you’re comfortable, read the *How‑To Guides* that tackle larger workflows (e.g., scaling a network, integrating custom noise models, or interfacing with a real hardware backend). | They show how to structure more complex projects and manage performance trade‑offs. |
+./.agents/evals/anythingllm-eval-results.csv:13965:| **4. How‑To Guides – Advanced Tasks** | Once you’re comfortable, read the *How‑To Guides* that tackle larger workflows (e.g., scaling a network, integrating custom noise models, or interfacing with a real hardware backend). | They show how to structure more complex projects and manage performance trade‑offs. |
+./.agents/evals/anythingllm-eval-results.csv:14476:2026-04-03T04:26:32.544,https://anythingllm.krastanov.org/api,quantumsavory-dev,gpt-oss:20b,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:14477:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:14510:   restricted formalism.","<think>We need to answer the question: ""Which performance bottlenecks should I expect as the network size or protocol complexity grows?"" We have context about QuantumSavory, network locality, message buffers, protocols, etc. We need to discuss potential performance bottlenecks: simulation time scaling, memory usage, message buffering, event scheduling overhead, network transport delays, concurrency, etc. Perhaps mention that as network size grows, the number of nodes increases, leading to more message queues, more events, more state to maintain. Complexity of protocols might increase branching, logic, event dependencies, leading to more event scheduling overhead. Also, if protocols trigger each other, then the number of events may explode. Also, message passing overhead, memory usage for buffers, garbage collection. Also, simulation clock resolution and discrete event simulation overhead. Also, global schedulers vs localized protocols can cause overhead. Also, potential bottlenecks in entanglement generation, swapping, purification rates, queuing delays. Also, resource contention, e.g., limited qubits per node. Also, I/O overhead for logging. Also, the use of Julia's macro @process, overhead of process scheduling.
+./.agents/evals/anythingllm-eval-results.csv:14524:Also, performance bottlenecks may include: simulation time per event, memory overhead per node, per protocol instance.
+./.agents/evals/anythingllm-eval-results.csv:14632:When you start adding a second layer of protocols (e.g., a “switch” that routes entanglement or a global scheduler that triggers local protocols), the interaction of the above factors can amplify. In practice, the first 20–30 nodes usually run fine with a few protocols, but once you hit 100+ nodes or you stack three or more heavy protocols per node, the event‑queue and GC become the most common culprits. Tailor the mitigation strategy to the specific bottleneck your profiling data points to.",textResponse,,4,query,25.195558071136475,13.629057168960571,38.824615240097046,-1,-1,"The answer misses the core point of the reference: performance in QuantumSavory is primarily about backend choice and state structure, especially factorization vs. large entangled clusters, and the tradeoffs among `CliffordRepr()`, `QuantumOpticsRepr()`, and `GabsRepr(...)`. Instead it invents a detailed story about event queues, heap operations, `@process` task overhead, GC tuning, multithreading, and specific node-count thresholds. Those are unsupported false specifics relative to the reference and make the guidance misleading.",1856.025535106659,2,0,26,-24
+./.agents/evals/anythingllm-eval-results.csv:14789:default.","<think>We need to provide an idiomatic answer: when to use Register vs RegisterNet. Provide reasoning. Use context from docs. Provide suggestions: Register is a single register (slot group) with particular backend, background etc. RegisterNet groups multiple registers into a network simulation. Use Register when modeling a single composite system or a small set of subsystems that share same backend? Actually Register groups registers into a network? Let's parse docs: The Register stores local quantum subsystems such as qubits or modes. Each slot can carry its own physical properties and background processes. RegisterNet groups registers into a networked simulation. So RegisterNet is a collection of registers that interact/connected, maybe with coupling, gates, etc. Use Register when modeling a single set of subsystems that are isolated or you want to treat them as a single unit. Use RegisterNet when you have multiple registers that interact, e.g., multiple qubits in a circuit, or separate devices that need to exchange signals or be simulated together. Also can be used to group registers with different backends? Actually each Register can have its own backends, but RegisterNet might allow different backends per register? Provide guidance: Use Register for local devices, e.g., a memory qubit or a photonic mode. Use RegisterNet when you need to simulate interactions, gates, or network-level dynamics: e.g., quantum circuits, multi-register entanglement, time evolution across registers, network protocols. Also for performance: RegisterNet might use efficient backend families across registers. Provide idiomatic usage: Initialize a Register for each hardware component, then build a RegisterNet to represent the whole system. RegisterNet provides methods to apply operations across registers, propagate time, etc. Use Register for modeling a single subsystem's state and processes. Use RegisterNet when you want to simulate multiple registers together, apply gates between them, or use a global backend. Also mention that RegisterNet is needed when using the high-level symbolic frontend across multiple registers; it manages the global representation and ensures consistency.
+./.agents/evals/anythingllm-eval-results.csv:14823:3. **Backend sharing and performance**
+./.agents/evals/anythingllm-eval-results.csv:14891:3. **Backend sharing and performance**
+./.agents/evals/anythingllm-eval-results.csv:15206:Exists"", and ""Choosing a Backend and Modeling Tradeoffs"".","<think>We must answer directly, no marketing. Provide clear description: what problem solves, simulation types, when wrong. Use context: multi-formalism, symbolic, discrete-event control, noise models, backend selection. Provide concrete examples: noisy quantum network protocols, hybrid systems, bosonic modes, distributed control. Mention wrong tool: resource-intensive large-scale circuits needing only stabilizer or simple gate-level simulation; if you need only a specific backend, could use that directly; if you don't need symbolic modeling or discrete-event simulation. Also mention that it's a framework, not a full-blown hardware simulator; performance may be lower than specialized simulators for specific tasks; not ideal for very large-scale or purely gate-level simulation.
+./.agents/evals/anythingllm-eval-results.csv:15208:Also mention that it's good for studying protocols with waiting, retries, resource contention, and for noisy hardware modeling across heterogeneous subsystems. Provide when wrong: simple small circuits, only unitary gates, no noise, no classical control, no need for symbolic; or if you need very high-performance classical simulation like tensor network for many qubits.
+./.agents/evals/anythingllm-eval-results.csv:15225:* **Noise‑aware performance studies** where you want to try different noise models on the same protocol.  
+./.agents/evals/anythingllm-eval-results.csv:15235:| **Real‑time or low‑latency simulation** | The discrete‑event engine is powerful for modeling control flow, but not designed for ultra‑high‑performance real‑time simulation of large systems. |
+./.agents/evals/anythingllm-eval-results.csv:15240:QuantumSavory is a *model‑first* framework that lets you write physics once, attach noise and control logic, and then run the same model on multiple simulation backends. It is ideal for noisy, heterogeneous, protocol‑heavy quantum systems, but for simple, large‑scale gate‑only circuits or highly optimised hardware‑level simulations you’ll probably get better performance by using a specialized simulator directly.","**What QuantumSavory actually does**
+./.agents/evals/anythingllm-eval-results.csv:15253:* **Noise‑aware performance studies** where you want to try different noise models on the same protocol.  
+./.agents/evals/anythingllm-eval-results.csv:15263:| **Real‑time or low‑latency simulation** | The discrete‑event engine is powerful for modeling control flow, but not designed for ultra‑high‑performance real‑time simulation of large systems. |
+./.agents/evals/anythingllm-eval-results.csv:15268:QuantumSavory is a *model‑first* framework that lets you write physics once, attach noise and control logic, and then run the same model on multiple simulation backends. It is ideal for noisy, heterogeneous, protocol‑heavy quantum systems, but for simple, large‑scale gate‑only circuits or highly optimised hardware‑level simulations you’ll probably get better performance by using a specialized simulator directly.",textResponse,,4,query,11.333296060562134,94.9469211101532,106.28021717071533,-1,-1,"The answer gets the broad positioning mostly right, but it includes misleading specifics. In particular it implies current tensor-network backend support, conflates symbolic modeling with classical control logic, overstates tagging as applying to every object, and swaps the reference answer's concrete 'use QuantumClifford or QuantumOptics directly when that's all you need' guidance for broader unsupported claims.",1856.025535106659,2,0,26,-24
+./.agents/evals/anythingllm-eval-results.csv:15927:Tradeoffs"", and ""Symbolic Expressions Reference"".","<think>We need to answer: what does symbolic frontend buy in practice, and what limits. Use context: symbolic frontend lets describe states, operators, observables, protocol inputs symbolically before choosing a numerical backend. Keeps model stable while changing simulation backend. Avoids rewriting model for each backend-specific language. Symbolic layer useful for: describing resource states, gates, noisy mixed states, reusable states from StateZoo. Symbolic layer is backend-agnostic but may hide modeling limits. It reduces friction of changing backends, maintains correctness, consistency across hardware assumptions, protocol logic, noise, classical control. Limits: might not capture all backend-specific features; some approximations; can't express certain low-level details; may need to eventually lower to numeric representation and lose some symbolic expressiveness; might not support all noise models; may not handle extremely large systems fully symbolically due to computational overhead; might require explicit backend selection for certain optimizations. Provide practical benefits: rapid prototyping, easier debugging, easier comparison across backends, consistent definitions of states/gates, easier composition of protocols, easier maintainability. Limits: backend-specific features hidden, may not support all types of gates or noise models, may not capture resource constraints like qubit connectivity, may not handle certain non-linear features, might require manual intervention to lower to numeric representation, may lose performance optimizations, may not support all classical control features.
+./.agents/evals/anythingllm-eval-results.csv:15944:| **Backend‑specific features are hidden** | If a particular backend offers a custom gate, a special noise model, or a performance‑specific optimization (e.g., native support for a particular hardware connectivity), that feature is not exposed in the symbolic layer.  You’ll need to drop down to the backend API to use it. |
+./.agents/evals/anythingllm-eval-results.csv:15945:| **Expressiveness vs. performance trade‑off** | The symbolic layer is designed to be generic; it may not capture very low‑level details that affect performance (e.g., qubit layout constraints, gate‑level error budgets, or timing schedules).  For highly performance‑critical simulations, you may still need to hand‑craft a backend‑specific implementation. |
+./.agents/evals/anythingllm-eval-results.csv:15971:| **Backend‑specific features are hidden** | If a particular backend offers a custom gate, a special noise model, or a performance‑specific optimization (e.g., native support for a particular hardware connectivity), that feature is not exposed in the symbolic layer.  You’ll need to drop down to the backend API to use it. |
+./.agents/evals/anythingllm-eval-results.csv:15972:| **Expressiveness vs. performance trade‑off** | The symbolic layer is designed to be generic; it may not capture very low‑level details that affect performance (e.g., qubit layout constraints, gate‑level error budgets, or timing schedules).  For highly performance‑critical simulations, you may still need to hand‑craft a backend‑specific implementation. |
+./.agents/evals/anythingllm-eval-results.csv:17893:Perhaps I can also mention that ""QuantumSavory's architecture ensures that even if you change the backend (e.g., from a dense state vector simulator to a stabilizer-based one), your overall simulation model remains consistent because these aspects are abstracted away from numerical details. This separation of concerns is key: you write once, then simulate with different tradeoffs in performance and generality.""
+./.agents/evals/anythingllm-eval-results.csv:17941:By adopting this layered approach, you gain flexibility: you can swap out backends to optimize performance for specific hardware models or adjust noise parameters as needed—all while preserving the integrity of your simulation logic.""
+./.agents/evals/anythingllm-eval-results.csv:18187:Also I'll note: ""This efficient update mechanism is important for live simulations where you want to continuously monitor changes without significant performance overhead.""
+./.agents/evals/anythingllm-eval-results.csv:18513:2026-04-03T04:58:36.871,https://anythingllm.krastanov.org/api,quantumsavory-dev,phi4-reasoning:plus,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:18514:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:18547:   restricted formalism.","<think>User: ""Which performance bottlenecks should I expect as the network size or protocol complexity grows?"" The user likely references document content about simulation, network locality, classical messaging delays, protocols and message buffers. Possibly in context of QuantumSavory simulation framework.
+./.agents/evals/anythingllm-eval-results.csv:18561:CONTEXT 3: ""firstgenrepeater.txt"": Improvements suggestions for event triggers, calibration of purification vs swap timing, balancing types of entanglement purification. So it's about performance improvements and resource management in network repeaters.
+./.agents/evals/anythingllm-eval-results.csv:18563:User asks: ""Which performance bottlenecks should I expect as the network size or protocol complexity grows?"" We need to answer this question referencing simulation performance issues.
+./.agents/evals/anythingllm-eval-results.csv:18569:2. Buffer querying performance: As the number of messages increases, the query operations on buffers might slow down simulation if they're not optimized or if the protocol uses blocking queries like querydelete_wait! which can lead to long wait times.
+./.agents/evals/anythingllm-eval-results.csv:18579:7. Simulation clock resolution vs event granularity: The discrete-event simulation approach requires careful handling of simulation time steps; if many events are scheduled closely together, the simulation engine might struggle with precision or performance issues due to overhead in managing small time increments.
+./.agents/evals/anythingllm-eval-results.csv:18591:13. Debugging complexity: Although not a performance bottleneck per se, increased protocol complexity can lead to hard-to-debug issues that indirectly affect performance optimization.
+./.agents/evals/anythingllm-eval-results.csv:18593:I can now answer by summarizing these performance bottlenecks. I'll also reference some parts of the provided context text if possible, such as ""classical messaging delays"" from CONTEXT 0 and ""metadata plane"" etc from CONTEXT 2.
+./.agents/evals/anythingllm-eval-results.csv:18597:Additionally, protocol complexity that involves multiple events (e.g., entanglement generation, purification, swapping) may require careful resource management and synchronization which could become a bottleneck as more nodes and interactions are added. The simulation must coordinate among many events, so increased message buffering and event scheduling overhead might slow down overall simulation performance.
+./.agents/evals/anythingllm-eval-results.csv:18603:I'll check question context: ""Which performance bottlenecks should I expect as the network size or protocol complexity grows?"" So my answer is not referencing any specific code but general design tradeoffs in simulation frameworks like QuantumSavory. I can mention that classical messaging delays are assigned at construction time and may slow down protocols waiting for messages, also more complex event scheduling can cause overhead.
+./.agents/evals/anythingllm-eval-results.csv:18605:I'll produce a final answer now.</think>As you scale up either the number of nodes (network size) or add layers of protocol complexity, several performance bottlenecks tend to emerge:
+./.agents/evals/anythingllm-eval-results.csv:18611:• Event scheduling and dispatching load – The discrete-event simulation engine must manage an ever-increasing number of events and state transitions. As protocol complexity grows, the overhead of accurately scheduling, coordinating, and resolving these events (especially when they’re interdependent) can become a significant performance challenge.
+./.agents/evals/anythingllm-eval-results.csv:18619:In summary, while the modular design of the protocol components (as seen in ProtocolZoo) helps maintain clarity and reusability, the performance bottlenecks you’ll likely encounter as your system scales include increased latency from built‐in classical delays, higher overhead from managing numerous messages and events, resource contention between competing protocols, and added complexity in synchronizing state across a larger network.","As you scale up either the number of nodes (network size) or add layers of protocol complexity, several performance bottlenecks tend to emerge:
+./.agents/evals/anythingllm-eval-results.csv:18625:• Event scheduling and dispatching load – The discrete-event simulation engine must manage an ever-increasing number of events and state transitions. As protocol complexity grows, the overhead of accurately scheduling, coordinating, and resolving these events (especially when they’re interdependent) can become a significant performance challenge.
+./.agents/evals/anythingllm-eval-results.csv:18633:In summary, while the modular design of the protocol components (as seen in ProtocolZoo) helps maintain clarity and reusability, the performance bottlenecks you’ll likely encounter as your system scales include increased latency from built‐in classical delays, higher overhead from managing numerous messages and events, resource contention between competing protocols, and added complexity in synchronizing state across a larger network.",textResponse,,4,query,36.092342138290405,29.795165061950684,65.88750720024109,-1,-1,"The answer is misleading relative to the docs. It misses the core documented bottlenecks entirely: backend choice, loss of factorization when entangled clusters grow, dense wavefunction simulation costs, and richer subsystem representations. Instead it invents or overemphasizes specifics like classical-delay accumulation, buffer contention/polling, graph-topology overhead, and race-condition/concurrency issues, which are not the documented performance guidance here. Because it substitutes unsupported specifics for the actual backend/factorization tradeoffs, this should be graded as confabulatory/misleading rather than merely incomplete.",1787.5297429561615,18,0,10,8
+./.agents/evals/anythingllm-eval-results.csv:19093:In essence, QuantumSavory solves the problem of keeping all these layers—hardware noise models, protocol control, heterogeneous subsystems, and simulation accuracy—in sync as your study evolves. It lets you write one symbolic description of your quantum system and then “lower” that description to different concrete representations for various simulations. This makes it easier to build digital twins of real devices or protocols and compare how different assumptions affect performance.
+./.agents/evals/anythingllm-eval-results.csv:19108:In essence, QuantumSavory solves the problem of keeping all these layers—hardware noise models, protocol control, heterogeneous subsystems, and simulation accuracy—in sync as your study evolves. It lets you write one symbolic description of your quantum system and then “lower” that description to different concrete representations for various simulations. This makes it easier to build digital twins of real devices or protocols and compare how different assumptions affect performance.
+./.agents/evals/anythingllm-eval-results.csv:19497:I must also mention that there is tradeoff between expressiveness and performance: the symbolic frontend offers a unified description but might have overhead when lowering to numerical representation; sometimes certain backends require rewriting parts of your model.
+./.agents/evals/anythingllm-eval-results.csv:19509:I should also mention that it's important to note that the symbolic layer doesn't automatically solve numerical stability issues; you still need to choose a backend that suits your simulation needs. The limitations are mainly in how expressive the symbolic language is and what backends support, plus possible performance overhead when lowering.
+./.agents/evals/anythingllm-eval-results.csv:19519:""In addition, performance overhead can occur during the lowering process, and some modeling tradeoffs may arise depending on which numerical backend you choose. The symbolic layer is designed for flexibility, but it does not automatically optimize every aspect of your simulation; careful consideration is still required when designing models that cross multiple abstraction layers.""
+./.agents/evals/anythingllm-eval-results.csv:19533:• Modeling Tradeoffs and Performance Overhead: The process of “lowering” your symbolic description into a numerical one can introduce some overhead or constraints. Depending on the backend you choose, certain approximations or limitations may arise that affect performance or fidelity. In other words, while the abstraction makes it easier to switch between simulation approaches, you still need to be mindful of the tradeoffs in accuracy and speed.
+./.agents/evals/anythingllm-eval-results.csv:19547:• Modeling Tradeoffs and Performance Overhead: The process of “lowering” your symbolic description into a numerical one can introduce some overhead or constraints. Depending on the backend you choose, certain approximations or limitations may arise that affect performance or fidelity. In other words, while the abstraction makes it easier to switch between simulation approaches, you still need to be mindful of the tradeoffs in accuracy and speed.
+./.agents/evals/anythingllm-eval-results.csv:19992:Invariants to consider: The user must ensure their backend doesn't break the consistency between the high-level symbolic objects and the low-level representations. They should maintain compatibility with the register structure and protocol flow as per Context 3. Also, avoiding performance regressions by matching the efficiency expected for their backend type.
+./.agents/evals/anythingllm-eval-results.csv:20010:2.  **Register and Network Structure:** Do *not* change how the register structure or network of gates is interpreted. The backend should only affect the *internal representation* and *performance* of the existing symbolic objects and operations.
+./.agents/evals/anythingllm-eval-results.csv:20013:5.  **Performance Profile:** While the specific performance characteristics might differ (e.g., a fast simulator vs. a slow noisy simulator), avoid making your backend dramatically *slower* or *more resource-intensive* than expected for its capabilities, unless that is the intended design and clearly documented.","To add a new backend representation, you need to implement the following extension hooks:
+./.agents/evals/anythingllm-eval-results.csv:20026:2.  **Register and Network Structure:** Do *not* change how the register structure or network of gates is interpreted. The backend should only affect the *internal representation* and *performance* of the existing symbolic objects and operations.
+./.agents/evals/anythingllm-eval-results.csv:20029:5.  **Performance Profile:** While the specific performance characteristics might differ (e.g., a fast simulator vs. a slow noisy simulator), avoid making your backend dramatically *slower* or *more resource-intensive* than expected for its capabilities, unless that is the intended design and clearly documented.",textResponse,,4,query,12.166852951049805,54.92446517944336,67.09131813049316,0,0,"The hook list is mostly right, but the answer misses the key internal invariants the user asked about: `staterefs[i]`/`stateindices[i]` consistency, `StateRef.registers`/`registerindices` backreferences, no backward time movement, and ensuring symbolic `apply!`/`observable` lower to concrete backend state methods before state-level dispatch. Instead it substitutes generic architecture advice about protocols, metadata, interoperability, and performance. That makes it incomplete and not really responsive on the invariants, but not clearly false enough for `-1`.",956.0526628494263,10,4,14,-4
+./.agents/evals/anythingllm-eval-results.csv:20130:So the user's explicit need is choosing between two backends. But deeper down, they might be looking for efficiency and correctness. If they use `QuantumOptics` here, they might face performance issues because it's not specialized for Gaussian states. `Gabs` is tailored for Gaussian regimes, so operations would be faster and more accurate. 
+./.agents/evals/anythingllm-eval-results.csv:20134:The answer should clearly recommend `Gabs` based on the backend's purpose and performance benefits. The user probably wants the most efficient and appropriate backend without unnecessary overhead. They might not have considered that `QuantumOptics` is a more general-purpose tool, which could lead to inefficiencies in their specific case. 
+./.agents/evals/anythingllm-eval-results.csv:20136:So the response should highlight that `Gabs` is specifically designed for Gaussian regimes, ensuring better performance and correctness, while `QuantumOptics` is more flexible but less optimized here. This aligns with the user's need for an efficient solution tailored to their model's characteristics.
+./.agents/evals/anythingllm-eval-results.csv:20176:I should make sure the answer recommends `QuantumClifford` initially and suggests upgrading later if necessary. Need to check if there's any context about switching. Context 3 does mention near-Clifford methods as a middle ground, which aligns with the user's possible need to scale up complexity without losing performance.
+./.agents/evals/anythingllm-eval-results.csv:20177:</think>For your qubit repeater network simulation with Clifford gates, Pauli-like noise, and a focus on scale over generality, start with the **`QuantumClifford`** backend. It is optimized for these conditions and provides the best performance.
+./.agents/evals/anythingllm-eval-results.csv:20179:Switch to a more general backend (like near-Clifford methods) if your model requires non-Clifford operations or more complex noise models.","For your qubit repeater network simulation with Clifford gates, Pauli-like noise, and a focus on scale over generality, start with the **`QuantumClifford`** backend. It is optimized for these conditions and provides the best performance.
+./.agents/evals/anythingllm-eval-results.csv:20686:So the answer should emphasize the separation of symbolic modeling from backend choices, explaining how factorization allows using specialized methods, simulated time is managed through the backend's temporal handling, and background noise is integrated symbolically. The key takeaway is to define the physics once and then select the appropriate backend for performance and accuracy.
+./.agents/evals/anythingllm-eval-results.csv:20825:The user's deeper need is likely about efficiency and real-time monitoring during simulations. They want to avoid performance hits from full redraws and have a way to peek at register details without disrupting the simulation. So, the answer should focus on using `notify` for updates and accessing metadata or state via specific functions mentioned in Context 1.
+./.agents/evals/anythingllm-eval-results.csv:20875:Context 1 mentions that `QuantumOptics` is the most general but has exponential scaling. So, when using `QuantumOptics`, the user might face performance issues if the system is too large. Also, `Gabs` is for Gaussian systems, so if the system isn't naturally Gaussian, using `Gabs` could lead to inaccuracies.
+./.agents/evals/anythingllm-eval-results.csv:20997:2026-04-03T05:19:38.956,https://anythingllm.krastanov.org/api,quantumsavory-dev,deepseek-r1:8b,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:20998:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:21031:   restricted formalism.","<think>Okay, the user is asking about performance bottlenecks as the network size or protocol complexity grows. Let me look through the provided contexts to find relevant information.
+./.agents/evals/anythingllm-eval-results.csv:21033:First, in Context 0, it mentions that classical latency (`classical_delay`) is assigned at construction time and affects message arrival on the simulation clock. This could be a bottleneck because waiting for messages can slow things down, especially in larger networks with more messages and delays. The query operations (`query`, `querydelete!`) are common, so if there's a lot of waiting for messages, that might become a performance issue.
+./.agents/evals/anythingllm-eval-results.csv:21039:Context 3 discusses improving event triggers in protocols like entanglers and swappers. It mentions balancing purification vs. swap operations, which is crucial for performance. If not optimized, the repeated checks or waits for certain conditions could slow down the network. Also, sophisticated purification schemes might add computational overhead if not managed properly.
+./.agents/evals/anythingllm-eval-results.csv:21048:The user might be designing a larger quantum network simulation and wants to anticipate where performance issues might arise. They might be looking to optimize their protocols or adjust simulation parameters to avoid these bottlenecks. The answer should address both the technical aspects (like delays and protocol complexity) and the design choices (like avoiding centralized controllers). Also, highlighting the need for efficient event triggering and resource balancing could help them optimize their setup.
+./.agents/evals/anythingllm-eval-results.csv:21049:</think>As the network size or protocol complexity grows, you should expect performance bottlenecks related to increased classical messaging latency and the overhead of more complex, nested protocols. Specifically, protocols may experience delays due to waiting for message arrivals or the execution of more sophisticated operations like entanglement purification and swap scheduling. Additionally, the overhead of running multiple `ProtocolZoo` components and managing their interactions could become significant if not properly optimized.","As the network size or protocol complexity grows, you should expect performance bottlenecks related to increased classical messaging latency and the overhead of more complex, nested protocols. Specifically, protocols may experience delays due to waiting for message arrivals or the execution of more sophisticated operations like entanglement purification and swap scheduling. Additionally, the overhead of running multiple `ProtocolZoo` components and managing their interactions could become significant if not properly optimized.",textResponse,,4,query,8.21430516242981,8.441256999969482,16.655562162399292,-1,-1,"The answer misses the core documented bottlenecks and replaces them with unsupported specifics. The reference says scaling cost is driven mainly by backend choice, loss of factorization, growth of entangled clusters, and richer subsystem representations. The candidate instead emphasizes classical messaging latency, nested protocol overhead, and `ProtocolZoo` interaction costs, which is a misleading framing relative to the reference.",956.0526628494263,10,4,14,-4
+./.agents/evals/anythingllm-eval-results.csv:21570:- Limits might include performance or applicability if the problem doesn't need symbolic abstraction.
+./.agents/evals/anythingllm-eval-results.csv:21588:1.  **Performance Overhead:** There might be a performance cost associated with the layer of abstraction required to translate the symbolic description into a numerical representation for the specific backend. For extremely simple or highly optimized tasks, a direct numerical approach might be faster.
+./.agents/evals/anythingllm-eval-results.csv:21604:1.  **Performance Overhead:** There might be a performance cost associated with the layer of abstraction required to translate the symbolic description into a numerical representation for the specific backend. For extremely simple or highly optimized tasks, a direct numerical approach might be faster.
+./.agents/evals/anythingllm-eval-results.csv:21607:In summary, the symbolic frontend primarily buys you **portability between numerical backends** and **enhanced ability to manage complex, multi-layer quantum models**. The main limit seems to be its overhead might not be ideal for trivial or highly specialized, backend-specific tasks, but its strength lies in preventing model rewriting for backend changes and maintaining consistency in complex studies.",textResponse,,4,query,11.826056003570557,48.425328969955444,60.251384973526,-1,-1,"It captures the main upside reasonably well: symbolic descriptions make states/operators/observables more portable across backends and reduce backend-specific rewrites. But it misstates the important limit. The reference answer says the real limit is that symbolic is not backend-universal: backends still differ in what they can represent efficiently, or at all. The candidate instead speculates about abstraction/performance overhead and presents that as the main limit, which is misleading. It also misses the `express` boundary that the reference highlights.",956.0526628494263,10,4,14,-4
+./.agents/evals/anythingllm-eval-results.csv:22683:2026-04-03T05:34:21.745,https://anythingllm.krastanov.org/api,quantumsavory-dev,magistral:24b,ollama,OllamaLLMModelPref,api,performance-bottlenecks,performance;scaling;backends;tradeoffs,"Which performance bottlenecks should I expect as the network size or protocol
+./.agents/evals/anythingllm-eval-results.csv:22684:complexity grows?","The docs frame performance mainly as a backend and state-structure question,
+./.agents/evals/anythingllm-eval-results.csv:22717:   restricted formalism.","One performance bottleneck to expect as the network size or protocol complexity grows is the management of message buffers and the handling of classical messages with delays. As more nodes and protocols are added, the number of messages being passed around increases, and managing these messages efficiently becomes crucial.
+./.agents/evals/anythingllm-eval-results.csv:22729:In summary, expect to focus on optimizing message handling and managing network locality as your network size or protocol complexity grows.","One performance bottleneck to expect as the network size or protocol complexity grows is the management of message buffers and the handling of classical messages with delays. As more nodes and protocols are added, the number of messages being passed around increases, and managing these messages efficiently becomes crucial.
+./.agents/evals/anythingllm-eval-results.csv:22741:In summary, expect to focus on optimizing message handling and managing network locality as your network size or protocol complexity grows.",textResponse,,4,query,9.839452981948853,10.782267093658447,20.6217200756073,-1,-1,"The answer misses the core documented bottlenecks and gives misleading guidance. The reference says performance is mainly driven by backend choice and state structure: falling back to general backends, losing factorization through large entangled clusters, using dense wavefunction simulation, and richer subsystem models. The candidate instead focuses on message buffers and network locality, which are not the main performance story in the reference and are inferred from unrelated quotes. That shifts the user toward the wrong optimization concerns.",772.0647871494293,12,4,12,0
+./.agents/evals/anythingllm-eval-results.csv:23252:1. **Backend Dependence**: While the symbolic frontend provides a high-level description, it still relies on backends for numerical simulation. The performance and capabilities of your simulation will depend on the chosen backend.
+./.agents/evals/anythingllm-eval-results.csv:23258:In summary, the symbolic frontend buys you flexibility, stability, and efficiency in model development while keeping complexity manageable across different backends. However, it still depends on the underlying numerical backends for actual simulation performance and capabilities.","The symbolic frontend in QuantumSavory allows you to describe states, operators, observables, and protocol inputs symbolically before choosing a numerical backend. This provides several practical benefits:
+./.agents/evals/anythingllm-eval-results.csv:23268:1. **Backend Dependence**: While the symbolic frontend provides a high-level description, it still relies on backends for numerical simulation. The performance and capabilities of your simulation will depend on the chosen backend.
+./.agents/evals/anythingllm-eval-results.csv:23274:In summary, the symbolic frontend buys you flexibility, stability, and efficiency in model development while keeping complexity manageable across different backends. However, it still depends on the underlying numerical backends for actual simulation performance and capabilities.",textResponse,,4,query,10.959357976913452,31.563018083572388,42.52237606048584,1,+1,"The answer is mostly correct. It correctly explains that the symbolic frontend lets users describe states/operators/observables/protocol inputs symbolically before choosing a backend, and it correctly states the main practical benefit and the key limit that backend capabilities still constrain what can be simulated well. It is less precise than the reference because it omits the explicit `express` conversion boundary and does not clearly state the stronger 'backend-agnostic, not backend-universal' mental model. The added points about complexity management and learning curve are generic and not central, but they are not misleading enough to lower the grade.",772.0647871494293,12,4,12,0
+./.agents/evals/anythingllm-eval-results.md:16:| performance-bottlenecks        |         -1         |             -1              |       -1       |           -1            |       -1        |        -1         |           -1            |       -1        |           -1           |       -1.00 |
+./.agents/zoos/states-zoo-user.md:72:- Treating the explorer as a backend benchmark rather than a parameter-sweep tool for predefined families.
+./.agents/registers/register-internals-and-backend-hooks.md:67:- Do not present `default_repr(::Qubit)` or `default_repr(::Qumode)` as a performance recommendation. They currently default to `QuantumOpticsRepr()`.
+./.agents/registers/register-interface-user.md:13:- performance or representation internals.
+./.agents/registers/register-interface-user.md:91:- Picking the default representation and assuming it is the best performance choice for every workload.
+./docs/src/howto/firstgenrepeater/firstgenrepeater.md:234:These simulations are not particularly useful if we do not track the performance of the quantum network.
+./docs/src/howto/firstgenrepeater/firstgenrepeater.md:283:- Calibrating when to perform a purification versus a swap would be important for the performance of the network.
+./docs/src/howto/repeatergrid/repeatergrid.md:134:# the performance log part of the visualization
+./docs/src/howto/firstgenrepeater_lowlevel/firstgenrepeater_lowlevel.md:511:These simulations are not particularly useful if we do not track the performance of the quantum network.
+./docs/src/howto/firstgenrepeater_lowlevel/firstgenrepeater_lowlevel.md:560:- Calibrating when to perform a purification versus a swap would be important for the performance of the network.
+./examples/state_explorer/state_explorer.jl:50:    This is provided as a free visualization and study tool and might be slow to render for particularly complex models. Please run the app locally if you need lower latency and higher performance.
+./examples/congestionchain/2_makie_interactive.jl:13:# Demo visualizations of the performance of the network
+./examples/congestionchain/1_visualization.jl:7:# Demo visualizations of the performance of the network
+./examples/congestionchain/3_aggregate_of_multiple_simulations.jl:7:# Demo visualizations of the performance of the network
+./examples/repeatergrid/2b_sync_wglmakie_interactive.jl:21:    # the performance log part of the visualization
+./examples/repeatergrid/1b_async_wglmakie_interactive.jl:21:    # the performance log part of the visualization
+./examples/repeatergrid/2a_sync_interactive_visualization.jl:14:# the performance log part of the visualization
+./examples/repeatergrid/1a_async_interactive_visualization.jl:14:# the performance log part of the visualization
+./examples/firstgenrepeater_lowlevel/4_visualization.jl:7:# Demo visualizations of the performance of the network
+./examples/firstgenrepeater_lowlevel/5_clifford_full_example.jl:7:# Demo visualizations of the performance of the network
+./.github/workflows/benchmark.yml:16:  benchmark:
+./.github/workflows/benchmark.yml:19:      - uses: MilesCranmer/AirspeedVelocity.jl@action-v1
+./Project.toml:7:projects = ["docs", "test", "test/projects/plotting", "test/projects/examples", "benchmark", "examples", "examples/states_rest_server"]
+./src/queries.jl:272:    ) where {allB, filoB} # queryargs is so specifically typed in order to trigger the compiler heuristics for specialization, leading to very significant performance improvements
+
+===== workflow references =====
+.github/workflows/changelog-enforcer.yml
+name: "Changelog Enforcer"
+on:
+  pull_request:
+    # The specific activity types are listed here to include "labeled" and "unlabeled"
+    # (which are not included by default for the "pull_request" trigger).
+    # This is needed to allow skipping enforcement of the changelog in PRs with specific labels,
+    # as defined in the (optional) "skipLabels" property.
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+jobs:
+  # Enforces the update of a changelog file on every pull request 
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: dangoslen/changelog-enforcer@v3.github/workflows/TagBot.yml
+name: TagBot
+on:
+  issue_comment:
+    types:
+      - created
+  workflow_dispatch:
+jobs:
+  TagBot:
+    if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: JuliaRegistries/TagBot@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ssh: ${{ secrets.DOCUMENTER_KEY }}.github/workflows/downgrade.yml
+name: Downgrade
+on:
+  pull_request:
+    branches: [master, main]
+    paths-ignore:
+      - 'docs/**'
+  push:
+    branches: [master, main]
+    paths-ignore:
+      - 'docs/**'
+
+concurrency:
+  # group by workflow and ref; the last slightly strange component ensures that for pull
+  # requests, we limit to 1 concurrent job, but for the master branch we don't
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+  # Cancel intermediate builds, but only if it is a pull request build.
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+env:
+  QUANTUMSAVORY_DOWNGRADE_TEST: "true"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['1.12']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: ${{ matrix.version }}
+      - name: Disable workspace directives for downgrade run
+        run: |
+          julia --color=yes -e '
+            using TOML
+            project = TOML.parsefile("Project.toml")
+            if haskey(project, "workspace")
+              delete!(project, "workspace")
+              open("Project.toml", "w") do io
+                TOML.print(io, project)
+              end
+            end
+          '
+      - uses: julia-actions/julia-downgrade-compat@v2
+        with:
+          skip: Combinatorics,InteractiveUtils,LinearAlgebra,PrecompileTools,Printf,Pkg,REPL,Random,Statistics,TOML
+          mode: 'forcedeps'
+          julia_version: ${{ matrix.version }}
+      - uses: julia-actions/cache@v3
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-runtest@v1
+        with:
+          allow_reresolve: false
+          force_latest_compatible_version: false
+          test_args: general
+.github/workflows/benchmark.yml
+name: Benchmarks
+on:
+  pull_request_target:
+    branches: [master, main]
+permissions:
+  pull-requests: write
+
+concurrency:
+  # group by workflow and ref; the last slightly strange component ensures that for pull
+  # requests, we limit to 1 concurrent job, but for the master branch we don't
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+  # Cancel intermediate builds, but only if it is a pull request build.
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: MilesCranmer/AirspeedVelocity.jl@action-v1
+        with:
+          julia-version: '1'
+          tune: 'false'.github/workflows/spelling.yml
+name: Spell Check
+
+on: [pull_request]
+
+jobs:
+  typos-check:
+    name: Spell Check with Typos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Actions Repository
+        uses: actions/checkout@v7
+      - name: Check spelling
+        uses: crate-ci/typos@master
+        with:
+            config: .typos.toml.github/workflows/ci.yml
+name: CI
+on:
+  push:
+    branches: [master, main]
+    tags: ["*"]
+  pull_request:
+
+concurrency:
+  # group by workflow and ref; the last slightly strange component ensures that for pull
+  # requests, we limit to 1 concurrent job, but for the master branch we don't
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+  # Cancel intermediate builds, but only if it is a pull request build.
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  test:
+    name: Julia ${{ matrix.version }} - t=${{ matrix.threads }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - '1'
+        os:
+          - ubuntu-latest
+        threads:
+          - '5'
+        arch:
+          - x64
+        include:
+          - arch: aarch64
+            os: macos-latest
+            version: '1'
+            threads: '1'
+          - arch: x64
+            os: windows-latest
+            version: '1'
+            threads: '1'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+      - uses: julia-actions/cache@v3
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-runtest@v1
+        with:
+          test_args: general
+        env:
+          JULIA_NUM_THREADS: ${{ matrix.threads }}
+      - uses: julia-actions/julia-processcoverage@v1
+      - uses: codecov/codecov-action@v7
+        with:
+          files: lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+.github/dependabot.yml
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: "julia"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
