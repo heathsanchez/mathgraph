@@ -1,0 +1,19 @@
+Unknown JSON field: "comments"
+Available fields:
+  assignees
+  author
+  authorAssociation
+  body
+  closedAt
+  commentsCount
+  createdAt
+  id
+  isLocked
+  isPullRequest
+  labels
+  number
+  repository
+  state
+  title
+  updatedAt
+  url

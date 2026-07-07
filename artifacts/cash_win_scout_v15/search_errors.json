@@ -1,0 +1,102 @@
+[
+  {
+    "query": "is:issue is:open bounty in:title,body archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"$\" bounty in:title,body archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"bug bounty\" in:title,body archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"bounty:\" in:title,body archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"Bounty $\" in:title,body archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"reward\" \"PR\" in:title,body archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"cash\" \"pull request\" in:title,body archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"paid\" \"issue\" \"PR\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"NumFOCUS\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"bounty_difficulty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"good first issue\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"performance\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"benchmark\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"optimization\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"pytest\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"CI\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"Julia\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"Lean\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"formal verification\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  },
+  {
+    "query": "is:issue is:open \"solver\" \"bounty\" archived:false",
+    "rc": 1,
+    "err": "Unknown JSON field: \"comments\"\nAvailable fields:\n  assignees\n  author\n  authorAssociation\n  body\n  closedAt\n  commentsCount\n  createdAt\n  id\n  isLocked\n  isPullRequest\n  labels\n  number\n  repository\n  state\n  title\n  updatedAt\n  url\n"
+  }
+]
