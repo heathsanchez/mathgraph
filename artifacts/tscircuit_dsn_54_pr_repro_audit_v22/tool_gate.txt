@@ -1,0 +1,9 @@
+===== paths =====
+/opt/homebrew/bin/node
+/opt/homebrew/bin/npm
+/opt/homebrew/bin/npx
+
+===== versions =====
+v23.7.0
+10.9.2
+10.9.2

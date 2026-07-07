@@ -1,0 +1,3 @@
+?? artifacts/tscircuit_dsn_54_pr_repro_audit_v22/
+?? strata_specimen_issue45_recon_v1.sh
+?? tscircuit_dsn_54_pr_repro_audit_v22.sh

@@ -1,0 +1,2531 @@
+author:	Anshgrover23
+association:	none
+edited:	false
+status:	none
+--
+@seveibar How to solve this error i have tried this reference [sharp fails when installing with bun](https://github.com/oven-sh/bun/issues/4549) but nothing worked out.
+![Image](https://github.com/user-attachments/assets/620f2cf5-7db8-4132-83a2-1d1a66dc9144)
+
+--
+author:	seveibar
+association:	contributor
+edited:	false
+status:	none
+--
+@Anshgrover23 what version of bun are you using? Have you tried upgrading?
+--
+author:	Anshgrover23
+association:	none
+edited:	false
+status:	none
+--
+➜  ~ bun -v
+1.1.38
+@seveibar i have latest version of bun 
+--
+author:	Abse2001
+association:	contributor
+edited:	true
+status:	none
+--
+/attempt #54
+
+<div id="algora-attempt" />
+
+| [Algora profile](https://console.algora.io/@/Abse2001) | Completed bounties | Tech | Active attempts | Options |
+| --- | --- | --- | --- | --- |
+| @Abse2001 | 16 tscircuit bounties | <div align="center">TypeScript</div> | <div align="center"></div> | [Cancel attempt](https://console.algora.io/api/bounties/cm4eabtxs0002i803oprh84l8/cancel-attempt) |
+--
+author:	algora-pbc
+association:	none
+edited:	false
+status:	none
+--
+@Abse2001: Reminder that in 2 days the bounty will become up for grabs, so please submit a pull request before then 🙏
+--
+author:	algora-pbc
+association:	none
+edited:	false
+status:	none
+--
+The bounty is up for grabs! Everyone is welcome to `/attempt #54` 🙌
+--
+author:	Abse2001
+association:	contributor
+edited:	false
+status:	none
+--
+@seveibar when this issue is complete is there a final goal to reach?
+--
+author:	Abse2001
+association:	contributor
+edited:	false
+status:	none
+--
+/attempt #54
+--
+author:	agent-steven
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan:
+1. Download the Smoothie Board DSN file and analyze its structure
+2. Compare with freerouting to understand expected output
+3. Identify parsing issues in the converter
+4. Fix issues incrementally with tests
+5. Submit PR with snapshot tests
+
+Starting analysis now.
+--
+author:	steven94kr
+association:	none
+edited:	false
+status:	none
+--
+## Analysis Update
+
+I've analyzed the Smoothieboard DSN conversion:
+
+### Findings:
+1. **DSN Parsing**: ✅ Working correctly
+   - 42 vias parsed from wiring section
+   - 1055 pads parsed from components
+   
+2. **Circuit JSON Conversion**: ✅ Working correctly
+   - 42 `pcb_via` elements generated
+   - All pads converted to `pcb_smtpad`
+   
+3. **SVG Rendering**: ⚠️ Issue found
+   - `circuit-to-svg` doesn't render `pcb_via` elements
+   - SVG shows pads but no vias
+
+### Note:
+The DSN file (Issue145-smoothieboard.dsn) contains **no wire traces** - only vias. This is an un-routed board with pre-placed vias for ground planes.
+
+### Question:
+Is the issue about:
+1. Via rendering (which requires changes to `circuit-to-svg`)?
+2. Component positions/orientations?
+3. Something else specific to how Freerouting displays this board?
+
+Happy to continue once clarified! 🔧
+--
+author:	aifunmobi
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Submitted PR #119 with three fixes for the Smoothie Board conversion:
+
+1. **Component rotation applied to pin positions** — 206 of 322 components have non-zero rotation but pin offsets were being added without rotation transform
+2. **Non-numeric pin number handling** — 144 pins (GND2, rotate, A, C, +, -) caused NaN in IDs and null pin_number
+3. **Unique via/pad IDs** — multiple vias on same net and pads with duplicate pin_number no longer collide
+
+Result: NaN elements went from 920 → 0, all 1055 pad IDs and 42 via IDs are now unique. 47 existing tests pass with zero regressions.
+--
+author:	lmee
+association:	none
+edited:	false
+status:	none
+--
+Hi maintainers, I would like to take "We can't convert Smoothie Board to Circuit JSON". I can start immediately and keep updates in-thread so progress is easy to track. First PR plan: reproduce the issue against acceptance criteria, ship a minimal fix, and include focused tests in the first PR. First PR deliverable: reproducible steps, scoped code changes, and targeted tests. I will add a short risk/checklist section so review and merge are faster. You can reach me at lmee_mail@163.com. Best, Jerry Li
+--
+author:	EnzoGaillardSystems
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+--
+author:	EnzoGaillardSystems
+association:	none
+edited:	false
+status:	none
+--
+/attempt
+--
+author:	sypherin
+association:	none
+edited:	false
+status:	none
+--
+## 🎯 Proposal: Smoothie Board to Circuit JSON Conversion (0)
+
+### Issue Analysis
+Smoothie Board files (proprietary board format) cannot be converted to Circuit JSON, blocking users from migrating Smoothie designs.
+
+### Implementation Plan (5 days)
+
+**Phase 1: Format Investigation (Day 1)**
+- Analyze Smoothie Board file format structure
+- Identify component, net, and layout data sections
+- Document format specification (reverse-engineer if undocumented)
+
+**Phase 2: Parser Implementation (Day 2-3)**
+- Build Smoothie file parser in TypeScript
+- Extract component definitions (footprints, values, positions)
+- Extract netlist (connections, net names)
+- Extract PCB layout (traces, vias, dimensions)
+
+**Phase 3: Circuit JSON Mapping (Day 4)**
+- Map Smoothie components to tscircuit component schema
+- Convert netlist to Circuit JSON ports
+- Convert traces to `trace` elements
+- Handle special cases (unmapped components, custom footprints)
+
+**Phase 4: Validation (Day 5)**
+- Test conversion on sample Smoothie files
+- Verify round-trip conversion (if possible)
+- Generate documentation and examples
+
+### Deliverables
+- Smoothie Board file parser
+- Circuit JSON converter
+- Test suite with sample files
+- Documentation for conversion process
+
+### Risk Mitigation
+If format is undocumented, will reverse-engineer from sample files.
+--
+author:	Iceshen87
+association:	none
+edited:	false
+status:	none
+--
+Hi tscircuit team! 👋
+
+**I can fix the Smoothie Board to Circuit JSON conversion!**
+
+**My Plan:**
+1. Analyze Smoothie Board format
+2. Identify conversion blockers
+3. Implement missing conversion logic
+4. Test with Smoothie Board files
+5. Add test cases
+
+**Timeline:** 2-3 days
+**Bounty:** $70 works for me!
+
+**Why I am a good fit:**
+- Experience with file format conversion
+- Familiar with Circuit JSON
+- Strong parsing/conversion skills
+
+Ready to start!
+
+- Ethan (Iceshen87)
+--
+author:	Iceshen87
+association:	none
+edited:	false
+status:	none
+--
+Hi tscircuit team! 👋
+
+**I can fix the Smoothie Board to Circuit JSON conversion!**
+
+**My Plan:**
+1. Analyze Smoothie Board format
+2. Identify conversion blockers
+3. Implement missing conversion logic
+4. Test with Smoothie Board files
+5. Add test cases
+
+**Timeline:** 2-3 days
+**Bounty:** $70 works for me!
+
+**Why I am a good fit:**
+- Experience with file format conversion
+- Familiar with Circuit JSON
+- Strong parsing/conversion skills
+
+Ready to start!
+
+- Ethan (Iceshen87)
+--
+author:	chinahubbei-cell
+association:	none
+edited:	false
+status:	none
+--
+Hi @seveibar — I can work on this $70 bounty.
+
+Proposed approach:
+1) Reproduce Smoothie Board DSN conversion failure locally
+2) Isolate parser/conversion breakpoints with minimal failing test case
+3) Implement fix and validate output in DSN Viewer + freerouting comparison
+4) Submit incremental PR(s) if you prefer step-by-step review
+
+Deliverables:
+- Repro steps + failing test
+- Fix PR with validation artifacts/screenshots
+- Notes on edge cases and rollback strategy
+
+Before I start coding, please confirm payout method is fiat (PayPal supported) and acceptance criteria for merge/payment.
+
+If approved, I’ll start with reproducible diagnostics first.
+
+--
+author:	chinahubbei-cell
+association:	none
+edited:	false
+status:	none
+--
+Quick follow-up on #54: I’m still available to take this and push a PR.
+
+Proposed fix path:
+1) reproduce with the provided Smoothie Board sample,
+2) identify parser/conversion mismatch,
+3) add targeted conversion patch + regression test fixture.
+
+If unassigned, I can begin now and share ETA once reproduction is confirmed.
+--
+author:	chinahubbei-cell
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan:
+1) reproduce Smoothie Board conversion locally with the provided sample,
+2) pinpoint the remaining mismatch between expected freerouting view and generated Circuit JSON,
+3) patch converter + add a regression fixture/test,
+4) submit PR with `/claim #54` and validation notes/screenshots.
+--
+author:	realmpastai-web
+association:	none
+edited:	false
+status:	none
+--
+/bounty 
+
+Hi! I'd like to work on this Smoothie Board to Circuit JSON conversion issue. I have experience with:
+
+- TypeScript and circuit data structures
+- JSON parsing and conversion
+- PCB design file formats
+
+I can investigate the conversion issue and implement a fix to properly convert the Smoothie Board to Circuit JSON format.
+
+ETA: 24-48 hours
+
+Please assign this to me!
+--
+author:	apexlj1130
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan:
+1. Reproduce the failure locally using `Issue145-smoothieboard.dsn` and capture the exact symptom.
+2. Isolate the converter stage causing divergence from expected board output.
+3. Implement the smallest possible fix.
+4. Add a focused regression test against the Smoothie Board fixture.
+5. Validate output and then open a PR with `/claim #54` in the body.
+--
+author:	apexlj1130
+association:	none
+edited:	false
+status:	none
+--
+PR submitted: #123 — fixes the NaN pin_number issue for Smoothieboard DSN. Before: pinNumNan=456, After: pinNumNan=0. All CI green. /claim #54
+--
+author:	rhyk7
+association:	none
+edited:	false
+status:	none
+--
+I noticed you need Smoothie Board converted to Circuit JSON and uploaded to DSN Viewer, specifically using freerouting and handling a multi-step issue. I'll download the freerouting repository and ensure the snapshot resembles the DSN file. I'll then proceed with the conversion to Circuit JSON. I'll start immediately and submit a PR with my progress, breaking it down into manageable steps to facilitate a smooth and efficient resolution.
+--
+author:	aifunmobi
+association:	none
+edited:	false
+status:	none
+--
+Check this out:Codereviewbot.devFree beta nowSent from my iPhoneOn Mar 9, 2026, at 22:11, rhyk7 ***@***.***> wrote:﻿rhyk7 left a comment (tscircuit/dsn-converter#54)
+I noticed you need Smoothie Board converted to Circuit JSON and uploaded to DSN Viewer, specifically using freerouting and handling a multi-step issue. I'll download the freerouting repository and ensure the snapshot resembles the DSN file. I'll then proceed with the conversion to Circuit JSON. I'll start immediately and submit a PR with my progress, breaking it down into manageable steps to facilitate a smooth and efficient resolution.
+
+—Reply to this email directly, view it on GitHub, or unsubscribe.You are receiving this because you were mentioned.Message ID: ***@***.***>
+--
+author:	chengyixu
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+## Implementation Plan
+
+I'd like to work on this bounty for Smoothie Board DSN conversion.
+
+### Approach
+1. **Analyze the DSN file**: Download the Smoothie Board DSN from freerouting and identify which elements fail during parsing/conversion.
+2. **Fix parser**: Systematically fix the DSN parser to handle the structures used in the Smoothie Board file — likely complex multi-layer board, mixed pad types, and advanced routing features.
+3. **Incremental PRs**: Submit fixes in smaller PRs as suggested, since this is a multi-step issue.
+4. **Validation**: Compare output against freerouting's rendering to ensure the Circuit JSON accurately represents the board.
+
+### Timeline
+First incremental PR within 2-3 days.
+
+**GitHub**: [@chengyixu](https://github.com/chengyixu)
+--
+author:	codesensei-tushar
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+--
+author:	chengyixu
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+## Implementation Plan
+
+Working on 3 root-cause fixes for the Smoothie Board DSN conversion (#54):
+
+**Root causes found:**
+1. **Tokenizer bug** - A lone `-` pin label (e.g. PANASONIC_E electrolytic capacitor `(pin padstack - -3000 0)`) is misread as a negative number prefix, producing NaN
+2. **Rotation modifier not skipped** - Pins like `(pin padstack (rotate 90) A 1400 0)` (EIA3216 caps) have their identifier at `nodes[3]`, not `nodes[2]`. Current code grabs `"rotate"` as the pin number
+3. **Forced Number() coercion** - Named pins like `GND1`, `GND2`, `+`, `-`, `A`, `C` get `Number()`-coerced to NaN in source_port creation
+
+**Result:** 0 NaN pin_numbers (down from 456) for full Smoothie Board DSN, 4 new regression tests
+--
+author:	bcornish1797
+association:	none
+edited:	false
+status:	none
+--
+Hi @seveibar — PR #130 addresses this issue with the most comprehensive fix so far:
+
+**Results**: 920 broken elements → 24 (97% reduction)
+
+Two root causes fixed in one PR:
+1. **(rotate angle) offset** — pin index shifted from nodes[2] to nodes[3] when rotation list is present (same root cause as #131, but combined with fix #2)
+2. **Named pins (GND1, A, C, +)** — treated as strings instead of forced Number conversion; `pin_number` set to `undefined` (not `NaN`) per circuit-json types
+
+The remaining 24 come from a tokenizer-level issue (standalone `-` symbol tokenized as `{value: null}`) — left intentionally for a separate follow-up PR as it's a different layer.
+
+All CI green. Would appreciate a review when you get a chance!
+--
+author:	bcornish1797
+association:	none
+edited:	false
+status:	none
+--
+Update on PR #130 — verified locally against the freerouting [Issue145-smoothieboard.dsn](https://github.com/freerouting/freerouting/blob/master/tests/Issue145-smoothieboard.dsn) reference:
+
+| Branch | NaN tokens | NaN fields in circuit-json output |
+|--------|-----------|------------------------------------|
+| `main` | 2 | 456 (all on `source_port.pin_number`) |
+| PR #130 | **0** | **0** out of 4 020 elements |
+
+The earlier PR description said "920 → 24" — I re-tested on the freerouting reference today and the conversion is now fully clean (zero NaN, zero null) end-to-end. Updated the PR body to reflect the verified numbers.
+
+Happy to rebase or extend if you'd like a focused testcase added to the suite. Thanks for the patient bounty pool here.
+--
+author:	orbitwebsites-cloud
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+**Implementation plan:**
+Modify freerouting to export Circuit JSON
+
+Will submit a PR shortly.
+--
+author:	Petoverflow
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a remaining DSN-to-Circuit JSON connection gap that is separate from the recent NaN pin-number, rotation, and copper-plane fixes: quoted pin references in net declarations such as `X14-"D-"` and `RJ1-"RD-"` are not normalized before matching against source ports parsed from quoted pin declarations, so the resulting source traces can miss connected source ports. I will add a focused regression test and normalize only the network pin reference matching path.
+
+--
+author:	coreymull
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Found a distinct remaining parser/converter edge case: unquoted DSN labels that start numeric but are not numbers, e.g. net `3.3V` and pin labels `1A` / `2B`, are currently tokenized/truncated as numbers. That causes port names, source trace connections, and SMT pad ids to lose the suffix or become `NaN`.
+
+I have a focused regression and fix ready: classify whole bare DSN tokens before deciding number vs symbol, preserve alphanumeric pin labels in source ports/port_hints, and generate stable SMT pad IDs for nonnumeric labels.
+--
+author:	dclawd88
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN-to-Circuit JSON conversion gap: multiple `wire` or `via` records on the same net currently produce duplicate `pcb_trace_id` / `pcb_via_id` values, which can collapse or overwrite same-net route elements downstream.
+
+Scope: add deterministic per-net/per-element ID suffixing while preserving the original net/source trace linkage. This does not touch the already-contested Smoothie pin parsing, rotation, quoted-reference, or plane conversion paths.
+--
+author:	vegapunk9527
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN session conversion gap separate from the recent Smoothie pin parsing, rotation, quoted-reference, copper-plane, numeric-prefix, and duplicate-ID fixes: `convertDsnSessionToCircuitJson` only converts session vias when `library_out` contains the hard-coded two-layer padstack name `Via[0-1]_600:300_um`. Four-layer sessions commonly emit names like `Via[0-3]_600:300_um`, so valid session vias at routed wire endpoints are silently dropped.
+
+Plan: replace the hard-coded padstack gate with a via-like padstack check and add a focused regression test using a four-layer session via padstack.
+--
+author:	vegapunk9527
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN session conversion gap separate from the recent Smoothie pin parsing, rotation, quoted-reference, copper-plane, numeric-prefix, duplicate-ID, and via-padstack-name fixes: session `(via padstack x y)` records currently drop the per-via padstack name during parsing, so `convertDsnSessionToCircuitJson` cannot select the actual padstack used by that via. When a session contains multiple via padstacks, the emitted `pcb_via` still uses the hard-coded default 0.6/0.3 mm dimensions instead of the selected padstack geometry.
+
+Plan: preserve each session via padstack name, match it against `library_out.padstacks`, derive the emitted via dimensions from the selected padstack/name, and add focused regression coverage for a session containing both 600/300 and 800/400 via padstacks.
+--
+author:	vegapunk9527
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found another distinct DSN-to-Circuit JSON conversion gap, separate from the recent session via padstack-name/dimension fixes: direct DSN PCB `wiring` vias such as `(via "Via[0-3]_800:400_um" ... (net AGND))` currently drop the via padstack name during `processVia`, so `convertWiringViaToPcbVias` cannot look up the selected padstack and emits every direct wiring via with the hard-coded 0.6/0.3 mm dimensions.
+
+Plan: preserve the wiring via padstack name in parsed DSN JSON, pass PCB library padstacks into the wiring-via converter, derive emitted `pcb_via` dimensions from the matched padstack/name, and add focused regression coverage plus the expected SmoothieBoard snapshot update for its 800/400 wiring vias.
+--
+author:	worjs
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN-to-Circuit JSON conversion gap that is separate from the active Smoothie pin parsing, rotation, quoted-reference, numeric-prefix, duplicate-ID, copper-plane, and via-padstack work: board boundaries encoded as `(rect ...)` or `(polygon ...)` are currently routed through the path parser, which produces bogus/empty boundary coordinates and wrong board dimensions.
+
+Plan: parse `rect` and `polygon` boundary shapes explicitly, compute `pcb_board` bounds from any supported boundary shape, preserve those shapes during stringify, and add focused regression coverage for rectangular and polygon board boundaries.
+--
+author:	dustinvali
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN-to-Circuit JSON pad geometry gap that is separate from the active pin parsing, rotation, quoted-reference, numeric-prefix, duplicate-ID, copper-plane, via-padstack, and boundary-shape work: DSN padstack `path` shapes are stroked paths, so their rendered pad extents are the centerline delta plus the stroke width. The current converter uses only the stroke width and centerline length, which turns Smoothie-style oval padstacks such as `Oval[A]Pad_2844.8x1422.4_um` into square `1.4224mm x 1.4224mm` SMT pads instead of `2.8448mm x 1.4224mm`.
+
+Plan: derive path pad dimensions from the stroked-path bounding box, add focused regression coverage for a Smoothie-style oval padstack, and keep the change limited to DSN PCB padstack-to-SMT-pad conversion.
+--
+author:	J3d1-fm
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found one remaining scoped geometry issue that appears separate from the active PRs: padstack shape coordinates can be offset from the pin origin, but the DSN -> Circuit JSON SMT pad conversion currently uses only the shape dimensions and places every pad at the pin coordinates. I'll add a focused regression for an off-center padstack shape and adjust the emitted pcb_smtpad center by the shape-local center offset, without touching the active rotation/path-extents/via/pin-parsing work.
+--
+author:	DanielButler1
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a remaining Smoothie Board conversion gap that is separate from the active pin parsing, via, boundary, path-extents, and off-center padstack fixes: back-side components can reference padstacks whose shape layer is `Top`, but the DSN placement side is `back`. The converter currently emits those rectangular SMT pads on `top`, while the corresponding ports are on `bottom`.
+
+Plan: add a focused regression for back-side rectangular padstacks, verify it against the Smoothie Board solder jumper fixture, and map top-relative SMT padstack shapes to `bottom` when the component placement side is back.
+--
+author:	lampten
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN-to-Circuit JSON metadata gap that is separate from the active pin parsing, via, boundary, pad-geometry, and layer fixes: `pcb_port.pcb_component_id` is currently set to the shared image/library name, while the matching `pcb_smtpad.pcb_component_id` is scoped to the concrete placement refdes. With multiple placements of the same image, ports collapse under `U_LIB` while pads correctly use `U_LIB_U1`, `U_LIB_U2`, etc.
+
+I have a focused patch with a two-placement regression test and local verification ready.
+--
+author:	AntDags
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN-to-Circuit JSON data-loss gap that appears separate from the existing Smoothie pin parsing, placement rotation, pad geometry, via, boundary, and copper-plane PRs: DSN library images can contain `keepout` shapes, and the Smoothie Board fixture includes multiple circular keepouts, but the parser currently keeps only `outline` and `pin` entries for images. Those routing exclusion zones are silently dropped before conversion.
+
+Plan: parse image-level circular `keepout` records, map their DSN layers into Circuit JSON layer names, emit `pcb_keepout` elements for each placed image, and add focused coverage proving both a tiny fixture and the Smoothie Board fixture produce keepouts.
+--
+author:	maxrross
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN-to-Circuit JSON round-trip gap separate from the active Smoothie pin parsing, rotation, via-padstack, boundary, keepout, and SMT pad geometry work: padstacks generated from `pcb_plated_hole` elements, e.g. `Round[A]Pad_<hole>_<outer>_um` and oval/pill all-layer padstacks, currently import back as plain `pcb_smtpad` elements. That loses the drill/hole semantics on round-trip.
+
+Plan: detect all-layer plated-hole padstack names/shapes during DSN import, emit `pcb_plated_hole` with preserved `pcb_port_id`/component linkage, add circular and pill regression coverage, and keep one-dimension Smoothie-style all-layer pads as SMT pads when no drill size can be inferred.
+--
+author:	maxrross
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found another distinct DSN import metadata gap separate from the active pin, pad geometry, plated-hole, via, boundary, keepout, and rotation work: `convertDsnPcbToCircuitJson` hard-codes `pcb_board.num_layers` to `4` even when the DSN `structure.layers` section describes a 2-layer, 6-layer, or other board. This makes imported board metadata wrong and can mislead downstream routing/rendering.
+
+Plan: set `pcb_board.num_layers` from `dsnPcb.structure.layers.length`, keep the current fallback for malformed DSNs, and add focused 2-layer/6-layer regression coverage for DSN-to-Circuit JSON board metadata.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN-to-Circuit JSON data-loss gap separate from the active pin parsing, rotation, via-padstack, boundary, keepout, plated-hole, and duplicate-ID work: Freerouting can emit routed wires with `(type shove_fixed)`, and the converter currently returns before converting those wires.
+
+Scope: stop dropping fixed/shove-fixed routed wires, add a focused regression proving such a wire emits a `pcb_trace`, and update the existing Freerouting SVG snapshots that now show the previously missing fixed segments.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found another small DSN-to-Circuit JSON layer-mapping gap separate from the active pin, via, keepout, boundary, plated-hole, duplicate-ID, and fixed-wire work: routed wires can use DSN layer names like `Top` and `Bottom`, but the direct path converter treats `Top` as bottom, while the polyline converter treats `Bottom` as top.
+
+Scope: add a shared DSN layer-name mapper for routed wire conversion, cover `Top` path wires and `Bottom` polyline wires with a focused regression, and leave broader inner-layer mapping unchanged unless the DSN name already uses Circuit JSON-style `InN.Cu`.
+--
+author:	SimoneMariaRomeo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN coordinate export bug already captured by repro15: the converter emits (resolution um 10) but still multiplies mm coordinates by 1000, so placement, boundary, pad, trace, and drill coordinates are 10x too small for that declared resolution.
+
+Scope: add a shared mm-to-DSN-unit scale helper, apply it to Circuit JSON -> DSN geometry, and update the existing repro to assert the corrected coordinates. This avoids the crowded Smoothie import fixes already active in the thread.
+--
+author:	Shriram-Vasudevan
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN-to-Circuit JSON visual data-loss gap that appears separate from the active pin parsing, pad geometry, rotation, via, boundary, copper-plane, component-placement, plated-hole, layer, and keepout PRs: DSN library image `outline` paths are parsed but never emitted. The Smoothie Board fixture contains hundreds of footprint outline paths, so the converted Circuit JSON/SVG loses a large part of the board’s visible component geometry.
+
+Scope: convert placed image outlines into `pcb_silkscreen_path` elements with placement transforms, add focused regression coverage for a tiny fixture plus the Smoothie Board fixture, and keep this limited to DSN PCB import.
+--
+author:	maxrross
+association:	none
+edited:	false
+status:	none
+--
+I found a distinct DSN-to-Circuit JSON data-loss gap separate from the active keepout, rotation, pad geometry, via, boundary, plated-hole, and layer-count work: DSN library image `outline` paths are parsed but never converted into Circuit JSON, so footprint silkscreen/body outlines from Smoothie-style images disappear from imported boards.
+
+Plan: emit each placed image outline as a `pcb_silkscreen_path`, apply the placement translation/rotation into board coordinates, map front/back placements to top/bottom silkscreen layers, add focused regression coverage, and update the affected visual snapshots.
+
+/attempt #54
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a small DSN-to-Circuit JSON data-loss gap separate from the active pin, via, keepout, boundary, plated-hole, layer-name, duplicate-ID, fixed-wire, outline, and scaling work: a `polyline_path` with a single segment currently emits a `pcb_trace` with an empty route because the converter only records intersections between adjacent polyline segments.
+
+Scope: preserve single-segment `polyline_path` wires by converting their two segment endpoints into route points, add focused regression coverage proving the emitted trace has two wire points and nonzero length, and leave multi-segment Freerouting intersection behavior unchanged.
+--
+author:	SimoneMariaRomeo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct Circuit JSON -> DSN export bug separate from the active import rotation and unit-scaling work: component placement rotations are emitted as \\otation % 90\\, so valid 90, 180, and 270 degree placements are written as 0 degrees in the DSN placement section.
+
+Scope: preserve component placement rotation modulo 360 for SMT and plated-hole export paths, and add a focused regression proving a rotated Circuit JSON component keeps its DSN placement angle.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a small DSN session linkage gap separate from the active via padstack, duplicate-ID, fixed-wire, layer-name, outline, keepout, plated-hole, and scaling work: `convertDsnSessionToCircuitJson` inserts a session via route point into an emitted trace, but the emitted `pcb_via.pcb_trace_id` still points at `pcb_trace_<net>` even though session wire traces are emitted as `pcb_trace_<net>_<wireIdx>`. That leaves the via linked to a non-existent trace id.
+
+Scope: remember the concrete `pcb_trace_id` that received the session via route point, assign that id to the emitted `pcb_via`, and add focused regression coverage proving the via links to an existing emitted trace. This does not change via dimensions, padstack-name parsing, route counts, or duplicate-ID generation.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a small Circuit JSON -> DSN/session export gap separate from the active import fixes, coordinate scaling, rotation export, via padstack, fixed-wire, layer-name, outline, keepout, plated-hole, and session-via linkage work: `processPcbTraces` detects an implicit layer change between adjacent `wire` route points and emits a via marker, but it never starts a new wire on the destination layer. The post-via segment is therefore dropped unless the route contains an explicit `via` point.
+
+Scope: when a wire point changes layers, close the previous wire at the transition coordinate, emit the via marker, start a fresh wire on the new layer from that same coordinate, and add focused session/export regression coverage proving both top and bottom wires are retained.
+--
+author:	BoSuYxxxOfficial
+association:	none
+edited:	false
+status:	none
+--
+ /attempt #54
+
+I found a distinct DSN parser gap separate from the active padstack, layer, outline, keepout, via, and rotation-export work: `(place ref x y side)` records can omit the optional rotation field, but `processPlace` currently only parses coordinates when a numeric rotation token is present. That drops `x/y/side` and can produce broken placement data downstream.
+
+Scope: parse x/y/side independently, keep the existing default `rotation: 0` fallback when rotation is omitted, and add a focused regression test for a rotationless placement.
+--
+author:	dsabbagh22
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a small DSN session parser data-loss gap separate from the active pin, pad, via, boundary, keepout, outline, fixed-wire, layer-name, rotation, and coordinate-scaling work: session files parse `placement` resolution, but `processSessionNode` leaves `routes.resolution` and `routes.parser` at defaults instead of reading the `routes` section metadata.
+
+Scope: parse `(routes (resolution ...))` and `(routes (parser ...))` into `DsnSession.routes`, keep existing defaults for missing metadata, and add focused regression coverage proving non-default route resolution/parser fields are preserved.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: add a focused regression for Circuit JSON -> DSN session export when a pcb_trace has an explicit via point, then resume the destination-layer route from the via coordinate itself so the segment immediately after the via is not dropped. This is separate from implicit layer-change export and from session via import/linkage work.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: add regression coverage for DSN session stringification preserving via records, then emit `(via "Padstack" x y)` lines from both parsed `net.vias` records and session wire entries marked `type: "via"`. This is separate from session-via import dimensions/linkage and from explicit-via route continuation.
+--
+author:	nsteve-one
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN JSON round-trip gap that appears separate from the active Smoothie import/export claims: `parseDsnToDsnJson` supports padstack `(shape (rect ...))`, but `stringifyDsnJson` only serializes polygon/circle/path padstack shapes. That means a parsed DSN with rectangular padstack shapes stringifies back with those shapes silently omitted.
+
+Plan: add a focused regression test for parse -> stringify -> parse preserving a rectangular padstack shape, then add the missing rect branch to the DSN stringifier. Verification will include the targeted test, full `bun test`, format check, and build.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: add a regression for 4-layer Circuit JSON export where a source trace creates a custom trace-width net class, then pass the board default via padstack into processNets so generated trace-width classes use `Via[0-3]_600:300_um` instead of the hard-coded 2-layer via name. This is separate from imported layer counts, via padstack dimensions, and route/session via fixes.
+--
+author:	dsabbagh22
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Submitting a separate fix for DSN network class routing constraints: PR #271 preserves `(use_layer ...)` entries in class `circuit` blocks through parse and stringify, with a regression test.
+--
+author:	zzhang82
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+--
+author:	zzhang82
+association:	none
+edited:	false
+status:	none
+--
+Submitted a targeted Smoothie Board fidelity improvement in PR #272: imported vias now use the DSN via padstack dimensions (`Via[0-3]_800:400_um` -> 0.8mm outer / 0.4mm drill) instead of the previous hardcoded 0.6mm / 0.3mm defaults. Validation: focused repro test, full `bun test`, and `bun run build` passed.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN session merge placement-scaling gap separate from the active parser, via, route, stringify, class, and net-class work. Freerouting-style session routes are already scaled down by 10 when merging into the DSN PCB, but session placement coordinates are copied directly, so components can land 10x too far away. I will add a focused regression that preserves internally generated unscaled sessions while scaling Freerouting-style placements only when they match the 10x convention.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: add a focused regression for DSN session merge preserving `network_out` vias, then merge those session via records into `dsnPcb.wiring.wires` as `type: "via"` entries with the same /10 session-to-DSN coordinate scaling already used for session wires. This is separate from session-via import/stringification/export work because it fixes the merge path itself.
+--
+author:	hobyt-aluzar
+association:	none
+edited:	false
+status:	none
+--
+Submitted another focused DSN round-trip fix in #275: parser string_quote handling and escaped string output.
+--
+author:	hobyt-aluzar
+association:	none
+edited:	false
+status:	none
+--
+﻿/attempt #54
+
+Submitted #275 as a focused DSN JSON round-trip fix: parse `string_quote` as a literal quote instead of absorbing following parser fields, escape string values during stringification, and preserve parser metadata instead of hard-coded values.
+
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN PCB stringification gap separate from session-via stringification, wiring-via dimension import, and merge/session-via work. `stringifyDsnJson` currently emits direct wiring vias as `(via (path ...)(net ...))`, but DSN PCB files use `(via "Padstack" x y (net ...))`. I will emit standard via records using the board default via padstack, add a round-trip regression, and keep this scoped to DSN PCB `wiring` stringification.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN JSON stringification gap separate from the active `polyline_path` import-to-Circuit-JSON work. The parser preserves DSN PCB wiring `polyline_path` records, but `stringifyDsnJson` only serializes `wire.path`, so parsed polyline wires cannot round-trip. I will emit `(polyline_path layer width ...)` records for wires that carry `polyline_path`, add a round-trip regression, and keep this scoped to DSN PCB stringification.
+--
+author:	EirikViking
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN class metadata round-trip gap separate from the active `use_layer` PR #271 and the string-quote/string escaping work: network class `circuit` blocks can include `clearance_class` and `via_rule`, but the parser/stringifier currently ignore those fields, so Freerouting class constraints are lost on parse -> stringify.
+
+Plan:
+- Parse `clearance_class` and `via_rule` from class `circuit` blocks.
+- Preserve them when stringifying DSN JSON back to DSN text.
+- Add a focused round-trip regression for those fields without touching broader Smoothie geometry, via, layer, or `use_layer` scopes.
+--
+author:	EirikViking
+association:	none
+edited:	false
+status:	none
+--
+Submitted PR #278: https://github.com/tscircuit/dsn-converter/pull/278
+
+It preserves DSN network class `circuit` metadata for `clearance_class` and `via_rule` through parse -> stringify -> parse, separate from the active `use_layer` and string escaping scopes.
+
+Verification:
+- `bun test dsn-class-circuit-metadata.test.ts` from `tests/dsn-pcb`
+- `bun x biome check lib/dsn-pcb/types.ts lib/dsn-pcb/dsn-json-to-circuit-json/parse-dsn-to-dsn-json.ts lib/dsn-pcb/circuit-json-to-dsn-json/stringify-dsn-json.ts tests/dsn-pcb/dsn-class-circuit-metadata.test.ts`
+- `bun x tsc --noEmit`
+- `bun run build`
+- `git diff --check`
+
+Note: full `bun test` was not run locally because the Windows environment could not build/load `sharp` for the repo preload; the focused parser round-trip test was run from `tests/dsn-pcb` to avoid that unrelated preload.
+--
+author:	EirikViking
+association:	none
+edited:	false
+status:	none
+--
+Updated PR #278 to keep the metadata scope in one PR instead of opening a second claim: it now also preserves wire-level `(clearance_class ...)` records during DSN JSON stringification. This is related round-trip metadata preservation, but still separate from `use_layer`, string escaping, geometry, via dimensions, and placement-rotation work.
+
+Additional verification after the update:
+- `bun test dsn-class-circuit-metadata.test.ts` from `tests/dsn-pcb` (2 tests, 11 assertions)
+- `bun x biome check lib/dsn-pcb/types.ts lib/dsn-pcb/dsn-json-to-circuit-json/parse-dsn-to-dsn-json.ts lib/dsn-pcb/circuit-json-to-dsn-json/stringify-dsn-json.ts tests/dsn-pcb/dsn-class-circuit-metadata.test.ts`
+- `bun x tsc --noEmit`
+- `bun run build`
+- `git diff --check`
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN session stringification gap separate from PR #268 session-via stringification and PR #269 DSN PCB padstack rect stringification. `stringifyDsnSession` currently emits only `circle` shapes from `routes.library_out.padstacks`, so parsed session padstacks with `rect`, `path`, or `polygon` shapes lose those shapes on stringify. I will add focused round-trip coverage for non-circle session padstack shapes and emit all supported padstack shape types from `library_out`.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a small DSN session placement round-trip gap separate from the active placement-scaling, rotation, parser-metadata, and padstack-shape PRs. `processPlace` already parses optional `(PN ...)` part-number metadata on placement records, but `stringifyDsnSession` drops `place.PN` when writing session placement blocks. I will add focused coverage proving session placement `PN` survives parse -> stringify -> parse and emit the optional `PN` field when present.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN session round-trip metadata gap separate from the active session placement PN, padstack-shape, via, route-parser, and placement-scaling PRs. Session files carry a `(base_design ...)` value that can differ from the `.ses` filename, and this repo has fixtures with that pattern, but `processSessionNode` does not preserve it and `stringifyDsnSession` always writes `session.filename` as the base design. I will parse `base_design`, stringify the preserved value when present, and add a focused regression proving it survives parse -> stringify -> parse.
+--
+author:	SimoneMariaRomeo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN parser numeric gap separate from the active shape, session, class metadata, layer, via, boundary, outline, keepout, and stringifier work: the shared tokenizer splits scientific-notation numbers like 1e-3 and -2.5E+4 into a number token plus a symbol token, so path and wire coordinates silently lose the exponent outside the current ad-hoc pin-coordinate repair path.
+
+Scope: parse signed exponent notation as one numeric atom in the shared S-expression tokenizer and add focused coverage proving DSN boundary/wire coordinates retain exponent values. No shape, session, metadata, or stringifier behavior changes.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN session `library_out` round-trip gap separate from the active session padstack-shape, placement PN, base_design, and DSN PCB image-outline PRs. `DsnSession.routes.library_out` is typed to contain `images`, but `processSessionNode` only parses padstacks from `library_out` and `stringifyDsnSession` only emits padstacks, so any session-level image definitions are silently dropped. I will parse and stringify `library_out.image` entries using the existing DSN image shape, and add a focused parse -> stringify -> parse regression.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN session stringification gap separate from PR #275 string-quote handling for DSN PCB JSON and the active session base_design/placement/library_out PRs. `parseDsnToDsnJson` preserves a quoted session filename such as `(session "routed output.ses" ...)`, but `stringifyDsnSession` writes `session.filename` without quoting, so parse -> stringify -> parse truncates filenames containing spaces. I will quote the session filename with `JSON.stringify` and add focused round-trip coverage for a spaced session filename.
+--
+author:	sftwrstef
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN JSON round-trip gap separate from the active shape, via, session, class, string escaping, and Smoothie geometry work: `Padstack` already has a typed `hole` field, but `parseDsnToDsnJson` ignores padstack `(hole ...)` records and `stringifyDsnJson` cannot emit them. That loses drill metadata when DSN padstacks round-trip through JSON.
+
+Scope: parse circle/square/oval padstack hole records, stringify preserved hole metadata back into DSN, and add focused parse -> stringify -> parse regression coverage for circular and oval holes.
+--
+author:	sftwrstef
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Refining my scope after checking the SPECCTRA reference against the repo: the confirmed parser gap is `circ` shape aliases, not a nonstandard padstack `hole` descriptor. The SPECCTRA samples use `(shape (circ ...))`, but `processShape`/`processCircleShape` only accept `circle`, so valid DSN padstack or shape data can fail before conversion.
+
+Scope: accept `circ` wherever the existing circle shape parser is used, normalize it to the existing `CircleShape` JSON representation, and add a focused regression proving `circ` padstack shapes parse and round-trip through `stringifyDsnJson`.
+--
+author:	Kajdep
+association:	none
+edited:	true
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN JSON round-trip gap separate from the active shape, via, session, class, layer, string escaping, and Smoothie geometry work: parseDsnToDsnJson ignores structure `(autoroute_settings ...)` blocks, including per-layer `(layer_rule ...)` routing preferences from Freerouting/KiCad DSN output, and stringifyDsnJson cannot emit them. That loses routing metadata on parse -> stringify -> parse.
+
+Scope: parse the known autoroute settings fields and layer rules, stringify preserved metadata back into DSN, and add focused parse -> stringify -> parse regression coverage. This does not touch geometry conversion, session handling, via dimensions, net classes, or padstack shapes.
+--
+author:	synoxa-sys
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a distinct Freerouting DSN metadata round-trip gap. The current `processNetwork` parser only preserves `net` and `class` entries, so top-level network `(via_rule name padstack)` definitions are dropped even though class circuits can reference those via rules. I will add a small `via_rules` field to DSN network JSON, parse those top-level definitions, emit them from `stringifyDsnJson`, and add a focused parse -> stringify -> parse regression using the Freerouting-style shape. This stays separate from the existing class-level `via_rule` reference work and via padstack dimension/import work.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN PCB stringification gap separate from PR #286 session filename quoting and PR #275 parser string-quote/string escaping work. `parseDsnToDsnJson` preserves a quoted PCB filename such as `(pcb "routed board.dsn" ...)`, but `stringifyDsnJson` writes the top-level `dsnJson.filename` without quoting, so parse -> stringify -> parse truncates filenames containing spaces. I will quote only the top-level PCB filename and add focused round-trip coverage for a spaced PCB filename.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN session placement stringification gap separate from PR #286 session filename quoting, PR #275 DSN PCB string escaping, and PR #280 placement PN metadata. `parseDsnToDsnJson` preserves quoted session component names and placement refdes values, but `stringifyDsnSession` writes `component.name` and `place.refdes` without quotes, so parse -> stringify -> parse truncates identifiers containing spaces and can break placement coordinates. I will quote only those session placement identifiers and add focused round-trip coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN PCB placement stringification gap separate from PR #290 session placement identifiers and PR #275 parser string-quote/string escaping work. `parseDsnToDsnJson` preserves quoted PCB placement refdes values, but `stringifyDsnJson` writes `place.refdes` without quotes, so parse -> stringify -> parse truncates refdes values containing spaces and can break placement coordinates. I will quote only DSN PCB placement refdes values and add focused round-trip coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN PCB network stringification gap separate from the older quoted-pin connection/import work, PR #292 top-level network via_rule metadata, and PR #275 generic parser string-quote handling. `parseDsnToDsnJson` preserves quoted entries in a net `(pins ...)` list, but `stringifyDsnJson` joins `net.pins` without quoting each pin token, so parse -> stringify -> parse splits pin references that contain spaces. I will quote only DSN PCB network pin references during stringification and add focused round-trip coverage.
+--
+author:	ElRobaMichis
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN placement metadata round-trip gap separate from the active class/wire `clearance_class`, string escaping, session placement quoting/PN, via, shape, and autoroute scopes: Freerouting/KiCad DSN placement records can include nested per-pin metadata such as `(pin 1 (clearance_class "kicad_default"))`, and the current `processPlace`/`stringifyDsnJson` path drops those pin records.
+
+Scope: preserve placement-level pin `clearance_class` metadata through parse -> stringify -> parse for DSN PCB placement blocks, with a focused regression using the existing Freerouting-style fixture shape. No Circuit JSON geometry, routing, class metadata, or session behavior changes.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN PCB library image stringification gap separate from the active placement-pin metadata work and PR #294 network pin references. `parseDsnToDsnJson` preserves quoted image pin padstack names and string pin identifiers, but `stringifyDsnJson` emits `pin.padstack_name` and `pin.pin_number` without quoting, so parse -> stringify -> parse can split library image pin identifiers containing spaces. I will quote only DSN PCB library image pin identifiers and add focused round-trip coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN session merge data-loss gap separate from PR #285 session `library_out.image` parse/stringify work and the active DSN PCB image-outline/keepout work. `mergeDsnSessionIntoDsnPcb` copies `library_out.padstacks` from the session into the PCB library, but drops `library_out.images`, so any image definitions preserved in the session disappear during merge. I will merge missing session library images by name, keep existing PCB images unchanged, and add focused regression coverage for the merge path.
+--
+author:	brandontan
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: preserve DSN session `was_is` mappings through parse -> stringify -> parse without changing route or placement conversion semantics. I found that `parseDsnToDsnJson` currently drops the whole `was_is` section and `stringifyDsnSession` always emits it empty. I will keep the mapping child expressions as canonical DSN strings, add focused round-trip coverage, and verify with targeted session tests plus the repo test/build checks.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN session network_out wire metadata round-trip gap separate from PR #278 DSN PCB wire/class metadata and PR #268 session via stringification. `processSessionNode` currently parses session `wire` records by keeping only their `path` and hard-coding `type: "route"`, while `stringifyDsnSession` emits only the path. That drops session wire metadata such as `(clearance_class ...)` and non-default `(type ...)`. I will reuse the existing wire parser for session wires, emit preserved session wire metadata, and add focused parse -> stringify -> parse coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN PCB network round-trip crash separate from PR #294 pin quoting and the active class/metadata work. `processNet` leaves `net.pins` undefined when a `(net ...)` has no `(pins ...)` child, but `stringifyDsnJson` assumes every net has `pins.length`, so parse -> stringify crashes on valid empty-pin nets. I will default parsed nets to an empty pins array and add focused coverage proving empty-pin nets round-trip without emitting a bogus pins block.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN session merge scaling gap separate from PR #273 placement scaling and the existing route/via preservation PRs. `mergeDsnSessionIntoDsnPcb` already divides session wire coordinates by 10 when copying `network_out` wires back into PCB `wiring`, but it leaves `wire.path.width` in session units. That makes merged routes land in the right place but with 10x too-wide trace widths. I will scale the copied wire width by the same factor and add focused merge coverage.
+--
+author:	SimoneMariaRomeo
+association:	none
+edited:	false
+status:	none
+--
+/claim #54 https://github.com/tscircuit/dsn-converter/pull/284
+
+PR #284 is the focused scientific-notation tokenizer fix described in my attempt comment. It is open, merge-clean, and all GitHub checks are green.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a DSN session export scaling gap separate from PR #273, which handles merging placements back from session files. `convertCircuitJsonToDsnSession` writes routed wires in session units using the 10x session scale, but copies `placement.components` directly from the PCB DSN, leaving component placement coordinates in PCB units. I will scale exported session placement coordinates by the same 10x factor, keep the original PCB placement object unmutated, and add focused unit coverage.
+--
+author:	darshan-Jahagirdar
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN class parser round-trip gap separate from the active class metadata/use_layer/via_rule PRs: `processClass` only assigns `classObj.name` when the class has a string description node. Freerouting/KiCad DSN can emit classes like `(class default (clearance_class default) (via_rule default) ...)` with no explicit description, so the parser drops the class name and `stringifyDsnJson` later emits it as an empty class name.
+
+Scope: parse the class name independently, treat a missing description as an empty string, keep existing described-class behavior unchanged, and add focused coverage for a descriptionless class preserving its name through parse -> stringify -> parse. This does not touch class `circuit` metadata, top-level network via rules, layer constraints, or geometry conversion.
+--
+author:	SimoneMariaRomeo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a distinct DSN board-boundary round-trip gap separate from the active image-outline/keepout, class metadata, via, session, quoting, and geometry-conversion work: `processBoundary` only preserves path boundaries and `stringifyDsnJson` always emits `boundary.path`, even though DSN structure boundaries can be `rect` or `polygon` and the local type already models those variants.
+
+Scope: parse `structure.boundary` `rect`, `polygon`, and existing `path` records into the typed boundary shape, stringify the preserved shape back to DSN, and add focused parse -> stringify -> parse regression coverage. No Circuit JSON conversion, routing, session, net/class, or library behavior changes.
+--
+author:	Cosmhyccc
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: preserve DSN structure layer routing metadata through parse -> stringify -> parse. The parser currently keeps only layer type/property, so valid layer hints like `(direction horizontal)` and `(cost 7)` are dropped when Freerouting/SPECCTRA DSN files round-trip through JSON. I will add optional typed fields for those layer hints, emit them from `stringifyDsnJson`, and include focused regression coverage. This is separate from the active layer-count, missing-property, class use_layer, wire layer-name, autoroute_settings, and boundary-shape PRs.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a small DSN PCB library image metadata round-trip gap separate from the active image-outline/keepout, placement-pin, quoting, and session image PRs. Freerouting/KiCad DSN library images can include `(side front)` / `(side back)` metadata, and this repo has fixtures with that shape, but `processImage` drops the image-level side and `stringifyDsnJson` cannot emit it. I will parse and stringify optional image `side` metadata, and add focused parse -> stringify -> parse coverage proving it survives without changing pins, outlines, placement, or conversion geometry.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a small DSN PCB structure metadata round-trip gap separate from the active via-dimension, top-level network via_rule, session-via, and layer-routing PRs. Freerouting/KiCad DSN structure blocks can declare multiple via padstack names in one `(via ...)` record, and this repo has fixtures with that shape, but `processStructure` keeps only the first name and `stringifyDsnJson` emits only one. I will preserve the full structure via list while keeping the existing `structure.via` first-name field for compatibility, and add focused parse -> stringify -> parse coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a small DSN PCB structure metadata round-trip gap separate from the active autoroute_settings, layer-routing, boundary-shape, and structure-via-list PRs. Freerouting/KiCad DSN structure blocks can include `(snap_angle ...)` and `(control (via_at_smd ...))`, and this repo has fixtures with those records, but `processStructure` drops them and `stringifyDsnJson` cannot emit them. I will parse and stringify those optional structure metadata records, with focused parse -> stringify -> parse coverage and no geometry or routing conversion changes.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN PCB parser metadata round-trip gap separate from PR #275's string_quote/string escaping/parser value work and from the active structure metadata PRs. Freerouting DSN parser blocks can include a marker record `(generated_by_freerouting)`, and this repo has fixtures with that record, but `processParser` ignores marker-only parser records and `stringifyDsnJson` cannot emit the marker. I will preserve only this boolean parser marker, add focused parse -> stringify -> parse coverage, and avoid changing host_cad, host_version, string_quote, or general string escaping behavior.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN PCB parser metadata edge case separate from PR #275's string_quote/string escaping/general parser-value work and from my marker-only PR. Freerouting/KiCad fixtures in this repo contain empty `(host_version )` parser records; `processParser` currently leaves `parser.host_version` undefined, and `stringifyDsnJson` then emits `"undefined"` instead of preserving an empty value. I will handle only empty `host_version` records as an empty string, add focused parse -> stringify -> parse coverage, and avoid changing string_quote, host_cad, generated_by_freerouting, or generic string escaping behavior.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN PCB wiring stringification edge case separate from PR #278 wire `clearance_class` metadata, PR #301 session wire metadata, and the route/via preservation PRs. Parsed DSN PCB `wire` records can omit `(type ...)`, but `stringifyDsnJson` unconditionally writes `(type ${wire.type})`, which can emit `(type undefined)` during parse -> stringify. I will emit a wire type only when one is present, add focused parse -> stringify -> parse coverage, and leave existing typed wires unchanged.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a small DSN session merge library gap separate from PR #299 session image merging and the active padstack-hole/dimension PRs. `mergeDsnSessionIntoDsnPcb` skips padstacks already present in the PCB library, but it does not update its seen-name set after adding a new session `library_out.padstack`, so duplicate padstacks within the same session can be merged twice. I will dedupe session padstacks by name while preserving the first new definition, and add focused merge coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN `polyline_path` conversion gap separate from PR #258, which only targets single-segment polylines, and PR #277, which only targets stringification. Multi-segment `polyline_path` wires currently convert only their segment intersection points, dropping the first segment start and last segment end, so a two-segment route can collapse to a one-point trace. I will preserve the start, bend/intersection points, and final endpoint for multi-segment polylines, with focused conversion coverage.
+--
+author:	DDDDDGCSM
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a small DSN JSON round-trip gap separate from PR #292 top-level network via_rule metadata and the active structure-via/via-dimension work. `processNetwork` currently preserves only `net` and `class` entries, so top-level network `(via name padstack clearance_class)` definitions are dropped on parse -> stringify -> parse. I will add a small `network.vias` field, parse and stringify those via definitions, and include a focused regression test.
+--
+author:	DDDDDGCSM
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN JSON round-trip gap separate from PR #302 default parsed net pins, PR #294 network pin quoting, and the active via metadata work. Freerouting-style DSN nets can include an optional numeric token like `(net "NAME" 7 ...)`, but `processNet` currently drops that value and `stringifyDsnJson` cannot emit it. I will preserve the optional net number through parse -> stringify -> parse and add a focused regression test.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN export gap separate from the older DSN-import nonnumeric pin-label PRs. `processNets` currently picks only numeric `source_port.port_hints`; when a source port is labeled with a nonnumeric identifier such as `A`, `C`, `+`, or `-`, the exported net path can crash on `pinNumber.replace` and `createPinForImage` falls back to duplicate pin `1` labels. I will preserve nonnumeric source-port labels during DSN export for both library image pins and network pin references, with focused coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN placement export gap separate from the DSN-import back-side layer PRs and the component-rotation export PRs. `processComponentsAndPads` currently writes every exported component placement with `side: "front"`, even when the `pcb_component` or all of its SMT pads are on the bottom layer. I will export those placements as DSN `back` placements and add focused coverage for a bottom-layer SMT component.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN export padstack-layer gap separate from the plated-hole import/round-trip and rotation PRs. `createAndAddPadstackFromPcbSmtPad` currently uses the through-hole circular padstack helper for circular SMT pads, so a top-only `Round[T]...` SMT pad gets copper shapes on both `F.Cu` and `B.Cu` plus drill metadata. I will emit circular SMT padstacks only on the pad layer, without hole metadata, and update focused coverage for the existing circular-SMT regression.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN JSON plated-hole export bug separate from the padstack parse/stringify hole-metadata PRs and plated-hole import PRs. `processPlatedHoles` names circular plated-hole padstacks with both drill and outer diameter, but then calls `createCircularPadstack` with the outer diameter for both values, so the generated internal padstack `hole.diameter` is wrong before stringification. I will pass the actual drill diameter into the padstack helper and add focused coverage to the existing plated-hole export regression.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN export naming gap for oval/pill plated-hole padstacks, separate from the DSN import pad-geometry work and the padstack hole parse/stringify PRs. `processPlatedHoles` currently names oval/pill all-layer padstacks from the drill `hole_width`/`hole_height`, while the emitted copper shape uses `outer_width`/`outer_height`; this makes the DSN padstack name describe the wrong physical pad size. I will use the outer pad dimensions for the padstack name while keeping the drill dimensions in the generated padstack hole metadata, and add focused coverage.
+--
+author:	nexicturbo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN PCB wiring round-trip gap separate from PR #316, which preserves top-level network net numbers. Freerouting wire records can carry a numeric net id in `(net "NAME" 1)`, but `processWire` currently drops that second token and `stringifyDsnJson` cannot emit it back. I will preserve that optional wire-level net number through parse -> stringify -> parse with a focused regression test, without touching top-level network nets, pin quoting, wire type, or clearance-class handling.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	synoxa-sys
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I’m going to take a focused DSN round-trip fix: preserve quoted clearance type names when stringifying `rule` clearances, e.g. `(clearance 200.0 (type "kicad_default"))`. The parser already keeps the `type` value, but the stringifier currently writes it as a raw token. I’ll keep the patch scoped to structure/class rule clearance serialization with a regression test.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN export padstack dedupe gap for `circular_hole_with_rect_pad`, separate from PR #320 circular drill diameters and PR #321 oval/pill padstack naming. Rectangular plated-hole padstacks are currently named only from the rectangular pad size, so two holes with the same outer rectangular pad but different drill diameters collide and reuse one padstack. I will include the drill diameter in the generated rectangular plated-hole padstack name and add focused coverage proving both drill sizes get distinct padstacks.
+--
+author:	nexicturbo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN PCB wiring-via metadata round-trip gap separate from the active via padstack/dimension work and PR #276, which targets standard via record stringification. Smoothie/Freerouting DSN wiring vias can carry metadata like `(type protect)`, and the local Smoothie fixture has many of these records, but `processVia` currently drops the via type and `stringifyDsnJson` cannot emit it back. I will preserve only this optional wiring-via type as `via_type`, keep the internal `type: "via"` marker unchanged, and add focused parse -> stringify -> parse coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN export gap for pill-shaped SMT pads, separate from the DSN import oval-pad geometry work and from the plated-hole oval/pill naming PRs. `createAndAddPadstackFromPcbSmtPad` currently treats every non-circle SMT pad as rectangular, so a `pcb_smtpad` with `shape: "pill"` exports as a RoundRect polygon padstack instead of an Oval/path padstack. I will emit pill SMT pads as layer-specific oval path padstacks without hole metadata, keep image pins pointing at the same generated padstack name, and add focused export coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN export gap for rotated SMT pads, separate from component-placement rotation PRs and from DSN import rotation work. `pcb_smtpad` entries with `shape: "rotated_rect"` already get a rectangular padstack, but `createPinForImage` drops `ccw_rotation`, and `stringifyDsnJson` cannot emit a pin-level `(rotate ...)` record. I will preserve this as optional image-pin rotation during export, stringify it only when present, and add focused coverage proving a rotated SMT pad emits `(rotate 90)` on the DSN image pin.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN export gap for `source_port.pin_number`, separate from the nonnumeric label/port_hints export PR. `createPinForImage` and `processNets` currently look only at numeric `port_hints`; when a source port uses the dedicated numeric `pin_number` field with no hints, image pins fall back to `1` and network pins can become `undefined`. I will use `source_port.pin_number` as the numeric fallback for image pins and network pin references, with focused coverage for connected SMT pads that only define `pin_number`.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN plated-hole export gap for `source_port.pin_number`, separate from the SMT/network pin-number PR. `processPlatedHoles` currently reads only numeric `port_hints` when assigning library image pin numbers; if a plated-hole source port uses the dedicated `pin_number` field with no hints, the image pin falls back to generated 1/2 labels. I will use `source_port.pin_number` as the numeric fallback for plated-hole image pins and add focused coverage for plated-hole-only components.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN placement export gap for explicit component values, separate from the session placement PN round-trip PRs. `getComponentValue` currently derives PN only from resistor/capacitor fields, so source components with an explicit `display_value` export empty DSN placement `(PN ...)` metadata. I will prefer `source_component.display_value` when present, keep the existing resistor/capacitor fallbacks, and add focused Circuit JSON -> DSN JSON coverage proving placement PN preserves the explicit display value.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a Circuit JSON -> DSN placement PN fallback gap separate from the explicit `display_value` PR. Many Circuit JSON source components carry `supplier_part_numbers`, but `getComponentValue` returns an empty PN for non-resistor/capacitor components unless a derived electrical value exists. I will use the first available supplier part number as a final PN fallback, keep resistance/capacitance behavior unchanged, and add focused export coverage for a source component with only supplier metadata.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a tiny DSN rule stringification edge case separate from PR #323, which only quotes clearance type names. Parsed DSN `rule` blocks can contain clearances without an explicit `(width ...)`, leaving `rule.width` absent, but `stringifyDsnJson` currently emits `(width undefined)` for both structure and class rules. I will omit the width record only when it is missing, keep existing numeric width output unchanged, and add focused parse -> stringify coverage proving no `undefined` width is emitted.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix another focused Circuit JSON -> DSN placement PN fallback gap separate from the explicit `display_value` and `supplier_part_numbers` PRs. Several repo fixtures carry `source_component.manufacturer_part_number` for ICs/connectors, but `getComponentValue` returns an empty placement PN for non-resistor/capacitor components unless another value source exists. I will use `manufacturer_part_number` as a final PN fallback, keep resistance/capacitance behavior unchanged, and add focused export coverage for a source component with only manufacturer metadata.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN placement value formatting gap separate from the placement metadata fallback PRs. `getComponentValue` formats capacitance only in microfarads, so very small capacitor values such as 15pF can round down to `0.000uF` in exported placement PN metadata. I will keep the existing uF formatting for normal values, format sub-0.001uF values as pF instead of zero, and add focused export coverage for a picofarad capacitor.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN net-class export gap separate from PR #270, which only changes the via padstack used by custom trace-width classes. The generated default network class has rule width 150um, but `processNets` treats 200um as the default trace width, so a source trace with `min_trace_thickness: 0.15` incorrectly creates a redundant `trace_width_150um` class instead of using `kicad_default`. I will align the default trace-width comparison with the generated default class width and add focused export coverage.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN class stringification crash separate from PR #278 class `circuit` metadata and PR #304 descriptionless class parsing. Parsed DSN network classes can carry a `(rule ...)` block without a `(circuit ...)` block, but `stringifyDsnJson` currently assumes every class has `cls.circuit.use_via` and crashes. I will emit the class circuit block only when a use_via value exists, keep existing classes with use_via unchanged, and add focused parse -> stringify coverage for a rule-only class.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN placement value formatting gap separate from the picofarad PR. Repo fixtures contain 10uF capacitors represented as floating-point values like `0.000009999999999999999`; `getComponentValue` currently multiplies and stringifies directly, which can export placement PN values like `9.999999999999998uF`. I will normalize uF capacitance formatting to a compact decimal string, keep existing pF/sub-uF behavior unchanged on this branch, and add focused export coverage for a 10uF capacitor value.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN placement value gap separate from the explicit `display_value` PR and the numeric capacitance formatting PRs. Many repo fixtures carry `source_component.symbol_display_value` values such as `1nF`, `10µF`, and `27.4Ω`, but `getComponentValue` ignores that explicit display string and re-derives placement PN values from raw resistance/capacitance fields. I will prefer `symbol_display_value` when present, keep derived numeric fallbacks unchanged otherwise, and add focused export coverage proving the explicit symbol display value is preserved.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN placement value formatting gap separate from the `symbol_display_value`, pF, and >=1uF formatting PRs. When a source capacitor has raw `capacitance: 1e-9` but no explicit display string, `getComponentValue` currently exports placement PN as `0.001uF`; that is correct but much less readable than `1nF`. I will format capacitance values between 1nF and 1uF as nF, leave >=1uF behavior unchanged on this branch, and add focused export coverage for a 1nF capacitor without symbol metadata.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN placement value formatting gap for resistor values, separate from the capacitor formatting and explicit display-value PRs. `getComponentValue` currently formats every resistance >= 1000 as kilo-ohms, so a 1,000,000 ohm resistor exports placement PN as `1000k` instead of the more readable `1M`. I will format megaohm-and-up values as M, keep existing k/ohm behavior unchanged for smaller resistors, and add focused export coverage for a 1M resistor.
+--
+author:	obmakesomething
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN placement value gap separate from the existing `display_value`, `symbol_display_value`, supplier/manufacturer PN, and raw capacitance-formatting PRs. Repo fixtures already include `source_component.display_resistance` / `display_capacitance` strings such as `1kΩ` and `1nF`, but `getComponentValue` ignores them and re-derives less readable PN values from raw numeric fields. I will prefer those explicit passive display fields before numeric fallbacks, keep existing numeric behavior unchanged otherwise, and add focused coverage for resistor/capacitor placement PN export.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow Circuit JSON -> DSN trace export naming edge case separate from the source-port, source-net, trace-width, and placement-value PRs. `processPcbTraces` intends to fall back to `getNextNetId()` when a `pcb_trace` has no source net and no connected source ports, but the template string fallback is always truthy and can emit names like `trace1--` instead of `Net-1`. I will use the source-trace/port-derived name only when it has connected-port content, otherwise use the generated net id, and add focused DSN/session export coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	NguyenCong2k
+association:	none
+edited:	false
+status:	none
+--
+\/attempt #54
+
+Plan: preserve non-path DSN library image outlines through parse -> stringify -> parse. The parser currently keeps path outlines only, so valid image outlines such as rect/circle/polygon are dropped during DSN JSON round-trip. I will keep the patch scoped to image outline parsing/stringification, add focused regression coverage, and avoid changing Circuit JSON conversion or padstack shape behavior.
+--
+author:	nexicturbo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a small DSN placement metadata round-trip gap separate from the active placement PN, placement pin clearance, quoting, rotation, and rotationless-place PRs: SPECCTRA placement records may include optional `(lock_type position|gate|subgate|pin)` metadata, but `processPlace` currently drops that nested record and `stringifyDsnJson` cannot emit it back.
+
+Scope: preserve only optional DSN PCB placement `lock_type` metadata through parse -> stringify -> parse with focused coverage. No Circuit JSON geometry, routing, pin, PN, session, or placement-coordinate behavior changes.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	nexicturbo
+association:	none
+edited:	false
+status:	none
+--
+Submitted the focused placement lock metadata fix: https://github.com/tscircuit/dsn-converter/pull/343
+
+Scope stayed limited to DSN PCB placement `(lock_type ...)` parse -> stringify -> parse preservation, with local focused/full verification passing.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow Circuit JSON -> DSN placement-side export gap for plated-hole-only components, separate from PR #318 which only touches SMT component placement export. `processPlatedHoles` records placements for components that have plated holes but no SMT pads, but it always writes `side: "front"` even when the `pcb_component.layer` is `bottom`. I will preserve bottom-layer plated-hole-only component placements as DSN `back` placements and add focused export coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	newmattock
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN placement value gap for simple inductors, separate from the resistor/capacitor formatting and explicit display metadata PRs. `getComponentValue` currently derives DSN placement PN values only from resistance/capacitance, so `source_component` entries with `ftype: "simple_inductor"` and `inductance` export an empty PN. I will format inductance into readable H/mH/uH/nH values and add focused DSN JSON export coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	newmattock
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Circuit JSON -> DSN placement value gap for crystal/resonator frequency metadata, separate from the existing resistor/capacitor/inductor formatting and explicit display metadata PRs. `getComponentValue` currently derives placement PN values from resistor/capacitor fields only, so `source_component` entries with `ftype: "simple_crystal"` or `ftype: "simple_resonator"` and raw `frequency` export an empty PN unless another display value exists. I will format crystal/resonator frequency into readable Hz/kHz/MHz/GHz values and add focused Circuit JSON -> DSN JSON export coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN -> Circuit JSON padstack layer import gap separate from the back-side Top-relative padstack PR and the wire layer-name PRs. `convertPadstacksToSmtPads` maps rectangular/path/polygon pad layers to bottom only when the DSN layer string contains `B.`, so valid SPECCTRA-style shape layers named `Bottom` import as top-layer SMT pads. I will recognize `Bottom` as a bottom copper layer for padstack shape conversion, leave `Top` and inner/route layers unchanged, and add focused conversion coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	Iineman2
+association:	none
+edited:	false
+status:	none
+--
+﻿/attempt #54
+
+Plan: fix a focused Smoothie DSN round-trip gap for library image `keepout` records, separate from the active outline, padstack, placement PN, via, and rule/class metadata PRs. The Smoothie fixture contains many image-level `(keepout "" (circle ...))` records, but the current parser/stringifier ignores them, so parse -> stringify drops keepout geometry entirely. I will preserve image keepouts with circle shape metadata, emit them during DSN JSON stringification, and add focused regression coverage proving Smoothie-style keepouts survive parse -> stringify -> parse.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+
+--
+author:	suhail-ak-2
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN stringification round-trip gap separate from the active quote/identifier PRs. `stringifyDsnJson` currently wraps string values in quotes but does not escape embedded quotes or backslashes, so valid names/PN values can produce invalid DSN text and fail parse -> stringify -> parse. I will add a small escaping helper for quoted string values and focused coverage proving embedded quote/backslash values survive round-trip.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	soongyintong
+association:	none
+edited:	false
+status:	none
+--
+Hey, I can help with this one. I've worked with PCB design file formats before and can dig into why Smoothie Board isn't converting properly. Will have a fix for you shortly 👍
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN -> Circuit JSON trace linkage gap separate from PR #149 duplicate wire/via IDs and from the session-via linkage PR. `convertWiringPathToPcbTraces` emits both a `pcb_trace` and a companion `source_trace`, but for ordinary DSN net names containing hyphens, such as `Net-(R1-Pad1)`, the PCB trace uses `netName.split("-")[0]` while the source trace uses the full non-`--` name. That leaves the emitted trace pointing at a non-existent source trace. I will make the two emitted IDs agree without changing duplicate-ID behavior, and add focused converter coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	JustABiologist
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN round-trip gap for padstack rectangle shapes. The parser already reads `(shape (rect ...))` records and the Smoothie fixture contains many of them, but `stringifyDsnJson` only emits polygon, circle, and path shapes, so rect padstack geometry is silently dropped during parse -> stringify -> parse. I will add rect shape stringification and focused coverage proving rect padstack shapes survive the round trip.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and ran local verification before opening the claim PR.
+
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN session parsing gap separate from the active base_design, was_is, library_out, placement, and session stringification PRs. `processSessionNode` currently ignores the routes-level `(resolution ...)` and `(parser ...)` blocks, so parsed sessions keep default route resolution values and empty parser metadata even when the SES file declares them. I will parse those existing blocks into `session.routes.resolution` and `session.routes.parser`, add focused session parser coverage, and avoid changing network_out wires/vias or library_out behavior.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN padstack round-trip gap separate from the active rect-shape stringifier, generic string escaping, padstack hole metadata, and Smoothie through-hole PRs. SPECCTRA circle padstack shapes may include optional center offsets, for example `(shape (circle F.Cu 600 25 -50))`, but `processCircleShape` keeps only the layer and diameter and `stringifyDsnJson` cannot emit the offset back. I will preserve optional circle shape `x`/`y` offsets through parse -> stringify -> parse with focused coverage, without changing hole metadata or rect/path/polygon behavior.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN PCB parser metadata stringification gap separate from the active empty host_version, generated_by_freerouting, and generic string-escaping PRs. `stringifyDsnJson` currently hard-codes parser metadata such as `(space_in_quoted_tokens on)` and `(host_cad "KiCad's Pcbnew")` instead of emitting the already-parsed `dsnJson.parser` values. I will preserve the parsed `string_quote`, `space_in_quoted_tokens`, and `host_cad` fields during DSN JSON stringification, add focused round-trip coverage, and avoid changing host_version empty handling or quoted string escaping.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN library metadata round-trip gap separate from the active via_rule, structure via-list, session via, and wiring-via PRs. Some DSN files include a bare library default via entry such as `default "Via[0-1]_600:300_um"` inside `(library ...)`, but `processLibrary` currently ignores that atom pair and `stringifyDsnJson` cannot emit it back. I will preserve this library default via metadata through parse -> stringify -> parse with focused coverage, without changing network via_rule records, structure via lists, or actual routed vias.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN session stringification metadata gap separate from the active routes-parser parsing PR and the DSN PCB parser metadata PR. `convertCircuitJsonToDsnSession` carries the full `dsnPcb.parser` object into `session.routes.parser`, but `stringifyDsnSession` currently emits only `host_cad` and `host_version`, dropping `string_quote` and `space_in_quoted_tokens` when session output is written. I will emit those existing parser fields when present, add focused session stringifier coverage, and avoid changing session route parsing, DSN PCB string escaping, or generic parser behavior.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	loganoe
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Smoothie DSN round-trip gap for existing library image pin rotation metadata, separate from the active Circuit JSON -> DSN rotated SMT pad export PR. The Smoothie fixture contains many pins such as `(pin ... (rotate 90) ...)`, but `processPin` currently extracts the pin number and coordinates while dropping the `(rotate ...)` record, so parse -> stringify -> parse loses that metadata. I will parse optional pin-level rotation into `Pin.rotation`, emit it during DSN JSON stringification, and add focused regression coverage proving rotated DSN image pins survive a round trip.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	suhail-ak-2
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a parser-side quoted-string gap that is separate from the current stringifier quoting PRs: quoted DSN values containing Windows-style backslashes lose those backslashes when the tokenizer sees a non-special escaped character, e.g. `"F:\Spiwocoal\..."` becomes `F:Spiwocoal...`. I am adding a focused tokenizer regression so literal backslashes are preserved unless they escape another backslash or a quote.
+--
+author:	haim1120
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN -> Circuit JSON circular padstack layer import gap separate from PR #348, which targets Bottom/B.Cu layer-name recognition for rectangular/path/polygon pad shapes. `convertPadstacksToSmtPads` uses the padstack shape layer for rect/polygon/path pads, but the circle branch ignores the circle shape layer and chooses top/bottom only from the placement side. A layer-specific circular padstack on `B.Cu` can therefore import as a top SMT pad. I will derive circular SMT pad layers from the circle shape layer when it is layer-specific, keep all-layer/placement-side behavior unchanged, and add focused conversion coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	loganoe
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused Smoothie DSN parser tokenization gap separate from the active quoted-string/backslash and pin-rotation PRs. The Smoothie fixture contains valid image pins named `-`, for example `(pin Rect[T]Pad_3000x1400_um - -2400 0)`, but `tokenizeDsn` currently treats a standalone `-` as the start of a number and emits `NaN` instead of a symbol. I will only parse `-` as a number when it is followed by numeric content, preserve bare `-` as a pin label, and add focused parser/stringify round-trip coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	contlg
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+--
+author:	keshav55
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN wiring via round-trip gap separate from the active via type and via dimension PRs. Smoothie-style wiring vias carry a padstack name like `Via[0-3]_800:400_um`, but main currently parses only coordinates/net and stringifies via wires as a path-form record. I will preserve `via_name`, stringify canonical `(via "<padstack>" x y (net ...))`, add focused round-trip coverage, and avoid changing Circuit JSON conversion or via dimension behavior.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and ran local verification before opening the claim PR.
+--
+author:	keshav55
+association:	none
+edited:	false
+status:	none
+--
+Submitted the focused wiring via padstack-name round-trip fix: https://github.com/tscircuit/dsn-converter/pull/369
+
+Scope stayed limited to preserving the DSN wiring via padstack name through parse -> stringify -> parse, with focused and full local verification passing.
+--
+author:	keshav55
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN wiring metadata round-trip gap separate from PR #323, which only quotes rule clearance `type` names, and separate from placement pin clearance work. `processWire` already parses `(clearance_class ...)` into `wire.clearance_class`, but `stringifyDsnJson` drops that field when writing wires back out. I will emit existing wire clearance-class metadata during DSN JSON stringification, add focused parse -> stringify -> parse coverage, and avoid changing rule clearance, placement, or Circuit JSON conversion behavior.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	keshav55
+association:	none
+edited:	false
+status:	none
+--
+Submitted the focused wire clearance-class round-trip fix: https://github.com/tscircuit/dsn-converter/pull/370
+
+Scope stayed limited to preserving existing `wire.clearance_class` metadata during DSN JSON stringification, with focused and full local verification passing.
+--
+author:	greencantoed
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+plan: fix a small dsn pcb round-trip gap for layer blocks without `(property (index ...))`. the parser can leave `layer.property` absent, but the stringifier assumes `layer.property.index` exists and crashes. i will emit the property block only when an index is present, add focused parse -> stringify -> parse coverage, and keep this separate from the active via, pin, shape, parser, and wire metadata work.
+--
+author:	AidenPeerce
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow Circuit JSON -> DSN placement PN fallback gap separate from the active display-value, supplier/manufacturer part-number, and passive-value formatting PRs. For non-passive source components that only carry a `name`, `getComponentValue` currently returns an empty string, so exported DSN placement `(PN ...)` metadata is blank. I will use the source component name as the final fallback, keep existing resistor/capacitor behavior unchanged, and add focused export coverage.
+--
+author:	jorgeschulz
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN PCB round-trip gap separate from the active parser metadata, string-value escaping, base_design/session, and geometry/via PRs: `parseDsnToDsnJson` accepts quoted root PCB filenames, but `stringifyDsnJson` emits the top-level `(pcb ...)` filename as a raw token. A filename with spaces such as `"smoothie board.dsn"` reparses as only `smoothie`, losing the original design filename.
+
+Plan: quote/escape only the root PCB filename when stringifying, add focused parse -> stringify -> parse coverage, and leave generic string-value escaping/metadata behavior untouched.
+
+Transparency: AI-assisted with Codex; I will keep the patch scoped and run local verification before opening the claim PR.
+--
+author:	Iineman2
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN PCB wiring round-trip gap separate from the active via, wire metadata, layer-name, session, and geometry PRs. `processWire` already parses `(polyline_path ...)` records into `wire.polyline_path`, but `stringifyDsnJson` assumes every non-via wire has `wire.path`, so valid Freerouting-style polyline wires crash or disappear on parse -> stringify. I will stringify `polyline_path` wires, align the `DsnPcb.wiring.wires` type with the parser's `Wire` shape, and add focused parse -> stringify -> parse coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	Havarry
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: reproduce the Smoothie Board DSN conversion gap locally, compare converter output against the DSN structure/freerouting expectations, then submit the smallest verified parser/conversion fix first. Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	sososina
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN network net round-trip gap that is separate from the active net-number, pin quoting, class, and via-rule PRs. `net` records can carry optional nested metadata such as `(property (index ...))`, but current parse -> stringify drops those net properties. I will preserve parsed net properties during DSN JSON round-trips with focused coverage, keep the change scoped to network net metadata, and run local verification before opening a claim PR.
+
+Transparency: AI-assisted with Codex; I will review the diff and verification before submitting.
+--
+author:	INDICUMA
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN tokenizer numeric gap separate from the active scientific-notation, bare-minus, and quoted-string PRs. Valid signed numeric literals may use a leading plus sign such as `+100` or `+1.5`, but the tokenizer currently leaves plus-prefixed numeric tokens as symbols, so coordinate parsers can drop them while reading boundary or wire geometry. I will parse delimiter-bounded leading-plus numeric tokens as numbers, keep nonnumeric plus-prefixed symbols such as `+5V` untouched, and add focused parser coverage.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	svperior-jon
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN round-trip gap separate from the active Smoothie geometry, rotation, via, boundary, keepout, and generic quoting PRs: quoted numeric image pin identifiers such as \"01\" are parsed as strings by the tokenizer but then coerced to number `1` by `getPinNum`, so parse -> stringify -> parse loses the exact pin label. I will preserve quoted numeric pin identifiers as strings and quote numeric-looking string pin IDs when stringifying, with focused coverage only for that case.
+
+Transparency: I am using Codex to assist and will review the diff and verification before submitting.
+--
+author:	nam27062002
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I am checking current main for a narrow DSN round-trip or conversion gap that is distinct from the many active PR slices. I will only submit a focused PR if I can reproduce a real remaining issue locally, add regression coverage, and pass the repo checks. AI-assisted with Codex; I will keep the scope small and include verification evidence.
+--
+author:	richboyneedcash
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow tokenizer numeric gap separate from the active scientific-notation, leading-plus, bare-minus, quoted-string, and pin-label PRs. DSN coordinates can be written as leading-dot decimals such as `.5`, but current `tokenizeDsn` treats those as symbols, so path/boundary coordinates are silently dropped by coordinate parsers. I will parse delimiter-bounded leading-dot decimal numeric tokens as numbers, keep nonnumeric dot-prefixed symbols such as `.foo` untouched, and add focused parser coverage only for that case.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening a claim PR.
+--
+author:	svperior-jon
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN network parsing gap separate from the active quoted image-pin, numeric net-name, empty-pin-list, and tokenizer PRs: `(net ... (pins ...))` currently rejects atom values unless they are already strings. Some DSN exporters can emit numeric pin references as bare numeric atoms; those should be preserved as string pin references instead of throwing during parse. I will keep this scoped to network pin-list parsing, add focused coverage, and verify against the existing DSN parser/stringifier tests.
+
+Transparency: AI-assisted with Codex; I will review the diff and verification before submitting.
+--
+author:	jorgeschulz
+association:	none
+edited:	false
+status:	none
+--
+@algora-pbc /attempt #54
+
+I found a narrow DSN parser gap that appears separate from the active tokenizer work for scientific notation, leading-plus numbers, leading-dot decimals, bare minus labels, and quoted backslashes: the shared S-expression tokenizer does not skip semicolon line comments. Some DSN/SPECCTRA-style files include  comments between forms, and current parsing treats comment text as real symbols, causing invalid trailing tokens or malformed ASTs.
+
+Scope: skip  comments to end-of-line in , add focused parser coverage proving commented DSN files parse normally, and avoid changing numeric/string token behavior.
+--
+author:	jorgeschulz
+association:	none
+edited:	false
+status:	none
+--
+@algora-pbc /attempt #54
+
+I found a narrow DSN placement parser tolerance gap that is separate from the active rotationless-placement PR: `processPlace` has defaults for `side` and `rotation`, but it only assigns `x/y` when both a side token and numeric rotation token are present. That means a minimal placement record like `(place U1 100 200)` parses without coordinates even though defaults are available.
+
+Scope: parse required placement coordinates independently, keep existing default `side: "front"` and `rotation: 0` when those optional tokens are omitted, and add focused parser coverage for the minimal placement form. No stringifier, geometry conversion, or session behavior changes.
+--
+author:	jorgeschulz
+association:	none
+edited:	false
+status:	none
+--
+@algora-pbc /attempt #54
+
+I found a narrow DSN placement parser metadata gap separate from the active minimal-placement, rotationless-placement, placement-lock, placement-pin-clearance, and placement PN export work: `(place REF x y side (PN ...))` can omit the optional rotation value, but `processPlace` currently only scans for `PN` after a fixed rotation slot. That drops the part-number metadata even though rotation defaults to `0`.
+
+Scope: parse placement coordinates/side independently, scan optional placement metadata lists regardless of whether rotation is present, and add focused parser coverage for side+PN without explicit rotation. No stringifier, Circuit JSON export, session, or geometry behavior changes.
+--
+author:	jorgeschulz
+association:	none
+edited:	false
+status:	none
+--
+@algora-pbc /attempt #54
+
+I found a narrow DSN placement parser tolerance gap separate from the active minimal-placement, rotationless-side, placement-PN, lock metadata, and placement export work: if the side token is omitted but a rotation number is still present, e.g. `(place U1 125 250 90)`, `processPlace` currently misses the rotation because it only reads rotation from the fixed post-side slot.
+
+Scope: parse placement coordinates first, consume an optional side token only when present, then parse rotation from the next atom while keeping the existing default `side: "front"`. Adds focused parser coverage for rotation-without-side and leaves stringifier, session, export, and geometry conversion behavior unchanged.
+--
+author:	raunaqsingh
+association:	none
+edited:	false
+status:	none
+--
+//@algora-pbc /attempt #54
+
+I found a narrow DSN class parsing round-trip gap that appears separate from the active numeric-net, pin, tokenizer, placement, and metadata PRs: numeric net references inside a `(class ...)` are currently dropped because `processClass` only accepts string atoms for `net_names`. Scope: preserve string and numeric class net references through parse -> stringify -> parse, with focused coverage and no conversion behavior changes.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and ran local verification before opening the claim PR.
+--
+author:	raunaqsingh
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Working on the numeric class net reference round-trip gap described above: preserve numeric atoms in `(class ...)` net lists through parse -> stringify -> parse with focused coverage.
+--
+author:	zaixincheng174-ai
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a distinct DSN tokenizer numeric gap separate from the active scientific-notation, leading-plus, and bare-minus pin-label PRs. Coordinates written with a leading decimal point, such as `.5`, are currently tokenized as symbols, so path/boundary coordinates can be dropped by parsers that keep only numeric atoms. I will parse leading-dot decimal literals as numbers and add focused coverage proving DSN path coordinates survive parse -> stringify -> parse.
+--
+author:	dennywu2966
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN wiring round-trip gap separate from the active wire type, wire net-number, via padstack, polyline, and clearance-class PRs. `processWire` and `processVia` can produce wires with no `net` when a DSN record omits `(net ...)`, but `stringifyDsnJson` currently invents `(net "")`, so parse -> stringify -> parse changes missing net metadata into an empty-string net. I will emit a `(net ...)` child only when the parsed wire actually has `net`, add focused coverage for both wire and via records without nets, and keep the change scoped to DSN PCB stringification.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	CodeForFee
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Taking a narrow DSN network class round-trip gap that appears separate from the active shape, via, tokenizer, placement, and source-label PRs: `(class ... (circuit (use_layer ...)))` metadata is currently dropped because `processCircuit` only preserves `use_via`, and `stringifyDsnJson` only emits `use_via`.
+
+Plan: preserve `use_layer` lists in the `Circuit` type, parse them from class circuit blocks, emit them during DSN PCB stringification, and add focused parse -> stringify -> parse coverage. No conversion behavior changes outside class circuit metadata.
+
+AI-assisted with Codex; I will keep the patch scoped and run local verification before opening the PR.
+--
+author:	imaanmulji
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN structure round-trip gap that appears separate from the active boundary-shape, plane, keepout, control/snap-angle, and layer metadata PRs. SPECCTRA DSN structure blocks can include `(place_boundary (rect ...))` records, but current `processStructure` drops them entirely and `stringifyDsnJson` cannot emit them. I will preserve parsed place-boundary shapes through parse -> stringify -> parse with focused coverage and no Circuit JSON conversion behavior changes.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	xXGoziXx
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow Smoothie Board DSN import gap separate from the active placement-shape, optional-placement-token, tokenizer numeric-literal, and Circuit JSON -> DSN PN export PRs. Unquoted placement PN values that start with a number, such as `12pF`, `0.05R`, `5k6`, or `5MMCONN`, are tokenized as number+symbol atoms; `processPlace` currently stores only the first atom, so imported Circuit JSON display values lose the suffix. I will join the PN atoms inside the placement metadata list, add focused Smoothie coverage, and leave coordinate/tokenizer behavior unchanged.
+
+AI-assisted with Codex; I will review the diff and run local verification before submitting.
+--
+author:	johnsmith507
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN round-trip gap separate from the active parser/tokenizer/geometry PRs: padstacks that omit an `(attach ...)` clause are currently parsed as `attach: "off"` and stringified back with an explicit `(attach off)`, losing omitted-vs-explicit source fidelity.
+
+Scope: preserve missing `attach` separately from explicit values for PCB and session padstack round trips, with focused parser/stringifier coverage. Verified locally with the DSN stringifier test and package build.
+--
+author:	darshan-Jahagirdar
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54 Submitted PR #304 for this bounty: https://github.com/tscircuit/dsn-converter/pull/304. Implementation and validation details are in the PR.
+--
+author:	raunaqsingh
+association:	none
+edited:	false
+status:	none
+--
+Submitted two focused #54 bounty slices from this account:
+
+| PR | Target slice | Status |
+| --- | --- | --- |
+| #376 | preserve DSN structure plane polygons | `/claim #54`, bounty-claim label, GitHub checks green |
+| #393 | preserve numeric DSN net and class references | `/claim #54`, bounty-claim label, GitHub checks green |
+
+Both are scoped DSN parse/stringify round-trip fixes with regression coverage and no unrelated conversion behavior changes. Local validation and visible GitHub checks are included in each PR body.
+
+/claim #54
+--
+author:	ethever
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN placement round-trip gap that does not overlap with the active PN, lock, pin metadata, optional-token, rotation, or placement export PRs: SPECCTRA placement records can carry optional `(mirror ...)` descriptors, but the parser currently drops them and the PCB/session stringifiers cannot emit them. I will preserve parsed mirror descriptors in placement JSON and add focused parse -> stringify -> parse coverage.
+--
+author:	jynbil1
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Submitted PR #405 for a narrow DSN round-trip gap: parsed PCBs without a top-level `(parser ...)` block no longer crash during `stringifyDsnJson`, and the parserless shape is preserved through parse -> stringify -> parse.
+
+PR: https://github.com/tscircuit/dsn-converter/pull/405
+
+/claim #54
+--
+author:	himanalot
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a focused DSN session export scaling gap. `convertCircuitJsonToDsnSession` already emits routed wire coordinates in the 10x session coordinate space, but it currently copies PCB placement coordinates unchanged. I checked the open PR list; the related open PR #273 covers scaling session placements when merging back into PCB JSON, while this patch is only the export path. I will scale exported session placement x/y by the same 10x factor, keep the source PCB JSON immutable, and include focused unit coverage plus build/format verification.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and local verification before submitting.
+--
+author:	himanalot
+association:	none
+edited:	false
+status:	none
+--
+Submitted PR #406 for the focused DSN session export placement scaling slice: https://github.com/tscircuit/dsn-converter/pull/406
+
+Scope stays limited to `convertCircuitJsonToDsnSession`: placement x/y now use the same 10x session coordinate scale as routed wires, and the source PCB placement data is not mutated.
+
+Verification is listed in the PR body.
+
+/claim #54
+--
+author:	Treasure520520
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN session round-trip gap that appears separate from the active PCB wiring via, padstack, placement, tokenizer, and session wire metadata PRs: `parseDsnToDsnJson` already captures `network_out` vias from session files, but `stringifyDsnSession` drops them, so parse -> stringify -> parse loses routed via points. I will preserve session network vias, including their padstack name, add focused session round-trip coverage, and avoid changing PCB DSN stringification or Circuit JSON conversion behavior.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	Adysekus
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a small parser gap: valid DSN files with an uppercase `(PCB ...)` root are rejected before conversion. I’ll keep the fix scoped to accepting that root keyword and add a focused regression test.
+--
+author:	realkoreanbeef
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Implementation plan: I will look for a small, safe parser/conversion improvement around the Smoothieboard DSN path, add focused regression coverage, run the repo tests, and submit an incremental PR with `/claim #54` if it materially improves conversion fidelity.
+--
+author:	william08190
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN structure round-trip gap that appears separate from the active boundary, layer, control, place_boundary, via-list, and keepout PRs: SPECCTRA structure blocks can include grid descriptors such as `(grid via 1)` and `(grid wire 5)`, but the current parser/stringifier drops them during parse -> stringify -> parse.
+
+Scope: preserve parsed structure grid descriptors in DSN JSON, emit them during DSN PCB stringification, and add focused round-trip coverage. No Circuit JSON conversion, routing, placement, session, or geometry behavior changes.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and local verification before opening the claim PR.
+--
+author:	william08190
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found another narrow DSN structure round-trip gap that appears separate from the active image-keepout, boundary-shape, place_boundary, layer, control, and via-list PRs: SPECCTRA structure blocks can include board-level keepout descriptors such as `(keepout (rect signal ...))` and `(via_keepout (rect signal ...))`, but the current parser/stringifier drops them during parse -> stringify -> parse.
+
+Scope: preserve parsed structure-level keepout descriptors in DSN JSON, emit them during DSN PCB stringification, and add focused round-trip coverage for rect keepout/via_keepout records. No Circuit JSON conversion, image keepouts, routing, placement, session, or geometry conversion changes.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and local verification before opening the claim PR.
+--
+author:	CalyxNZ
+association:	none
+edited:	false
+status:	none
+--
+Opened a small PR toward this: https://github.com/tscircuit/dsn-converter/pull/414. It fixes a DSN parser/test blocker around `(string_quote ")` and keeps the Smoothie repro passing; not claiming it closes the full Smoothie Board issue.
+--
+author:	sureshchouksey8
+association:	none
+edited:	false
+status:	none
+--
+I opened PR #415 with a focused fix for one root cause I found while reproducing the Smoothie Board conversion problem: component placement rotation was not being applied to image pin offsets when generating `pcb_smtpad`s and `pcb_port`s.
+
+The PR rotates pin offsets by `place.rotation`, keeps ports aligned with pads, swaps rectangular/path pad dimensions for 90/270 degree placements, and adds a regression test for a rotated component placement. I verified the build locally with `npm run build` and a Node check against the generated `dist/index.js`.
+--
+author:	kingzzoov-ctrl
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: quote the top-level PCB filename when stringifying DSN so filenames with spaces round-trip correctly. Added focused regression coverage and verified with bun test. Transparency: AI-assisted with Codex.
+--
+author:	CalyxNZ
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I opened #414 for a narrow parser/test blocker found while checking this issue: `(string_quote ")` declarations were being consumed as unterminated quoted strings, and the debug-file helper also needed a Windows-safe synchronous write path for the test suite.
+
+Scope note: this is intentionally a small blocker fix, not a claim that the full Smoothie conversion is complete. The PR body includes `/claim #54` for this scoped contribution, and the current checks I ran are listed there.
+--
+author:	kodokushi444-commits
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN parser metadata round-trip gap that appears separate from the active string_quote, generated_by_freerouting, parserless, and broader metadata PRs: `(host_version 2024)` tokenizes the version as a number, but `processParser` only stores string host_version values, so parse -> stringify loses it.
+
+Scope: normalize numeric parser `host_version` atoms to strings during parsing and add focused parse -> stringify -> parse coverage. No conversion behavior changes.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and ran local verification before opening the claim PR.
+--
+author:	Gimyoonsoo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN library image round-trip gap that appears separate from the active image side/unit/keepout/outline and library directory PRs: image-level `(property ...)` metadata is currently dropped when parsing PCB library images and therefore cannot be emitted by `stringifyDsnJson`.
+
+Scope: preserve simple image property entries such as `(source_library "Connector.pretty")` and `(pin_count 8)` in the DSN JSON model, emit them during PCB DSN stringification, and add focused coverage. No Circuit JSON conversion, placement, routing, padstack, parser, or image geometry behavior changes.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and local verification before submitting.
+--
+author:	Gimyoonsoo
+association:	none
+edited:	false
+status:	none
+--
+Submitted PR #447 for the focused DSN library image property metadata preservation slice: https://github.com/tscircuit/dsn-converter/pull/447
+
+Scope stays limited to parsing and stringifying image-level `(property ...)` entries in PCB library images. Verification is listed in the PR body.
+
+/claim #54
+--
+author:	Gimyoonsoo
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: preserve DSN library image-level keepout metadata that current parsing drops. I found a non-overlapping gap from the earlier structure-keepout work: `(keepout ...)` / `(via_keepout ...)` records inside `(image ...)` are ignored even though the Smoothie Board fixture contains them. I will keep this scoped to DSN JSON round-tripping, add focused parse -> stringify -> parse coverage, run targeted Bun tests, Biome, typecheck, build, and submit a PR with `/claim #54`.
+--
+author:	Gimyoonsoo
+association:	none
+edited:	false
+status:	none
+--
+Submitted PR #448 for image-level keepout metadata round-tripping: https://github.com/tscircuit/dsn-converter/pull/448
+
+/claim #54
+--
+author:	felixbeyer99-design
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix DSN S-expression tokenization so unquoted atoms that start with digits are only parsed as numbers when the whole atom is numeric. This preserves Smoothieboard net names like `3.3V`, `5V`, and `12VREG` instead of splitting them into number + symbol tokens. I’ll add regression coverage for voltage-style net names and the Smoothieboard repro.
+
+--
+author:	noamsmall18
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN metadata round-trip gap that appears separate from the active parser, placement, library, network, structure, session, padstack, and Smoothie geometry PRs. SPECCTRA DSN supports a top-level `(colors ...)` descriptor with `(color ...)`, `(set_color ...)`, and `(set_pattern ...)` records, but the current parser drops the whole section and `stringifyDsnJson` cannot emit it. I will preserve those color descriptors in DSN JSON, emit them during PCB DSN stringification, and add focused coverage. No Circuit JSON conversion behavior changes.
+
+Source checked: SPECCTRA Design Language Reference describes the colors descriptor shape.
+--
+author:	Arthurescc
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow Smoothieboard DSN round-trip gap that appears separate from the active via padstack, via ID, via dimension, and wire metadata PRs: wiring via records can carry `(type protect)` metadata, but `processVia` currently drops the via type and `stringifyDsnJson` cannot emit it for via records.
+
+Scope: preserve the via `(type ...)` value during DSN parse -> stringify -> parse, add focused coverage using a wiring via shaped like the Smoothieboard fixture, and avoid changing Circuit JSON conversion or geometry behavior.
+
+Transparency: AI-assisted with OpenAI Codex; I will review the diff and run local verification before submitting.
+--
+author:	nikkkkj
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN session round-trip gap that appears separate from the active Smoothieboard geometry, via, padstack, placement, parser-token, and wiring PRs: session `(routes ...)` metadata currently falls back to defaults instead of preserving the declared route `resolution` and `parser` values. I will keep the patch scoped to parsing/preserving those route metadata fields, add focused stringify round-trip coverage, and run the targeted test before opening a claim PR.
+
+Transparency: AI-assisted with OpenAI Codex; I will review the diff and local verification before submitting.
+--
+author:	felixbeyer99-design
+association:	none
+edited:	false
+status:	none
+--
+Algora/maintainer cleanup note: the claim table currently points my attempt at closed duplicate PR #451. That PR was accidentally created by an auth watcher and closed immediately. The active PR for this `/attempt #54` is #450: https://github.com/tscircuit/dsn-converter/pull/450. Same branch/commit, with `/claim #54` in the PR body and the bounty-claim label present.
+--
+author:	Masih-0x3
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: fix a narrow DSN metadata round-trip gap that still has no matching PR: top-level `(colors ...)` descriptors are ignored by `parseDsnToDsnJson` and cannot be emitted by `stringifyDsnJson`, so parse -> stringify -> parse drops color metadata. I will preserve simple color records such as `(color ...)`, `(set_color ...)`, and `(set_pattern ...)` in DSN JSON, emit them during PCB DSN stringification, and add focused round-trip coverage. Scope is metadata-only; no Circuit JSON conversion, geometry, placement, library, network, wiring, or session behavior changes.
+
+AI-assisted with Codex; I will review the diff and run focused/full local verification before opening the claim PR.
+--
+author:	MAJINSI
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN placement round-trip gap that does not appear covered by the active parser, image, padstack, class, wiring, session, or place-level metadata PRs: `(property ...)` records nested directly under a placement `(component ...)` are currently ignored, so parse -> stringify -> parse drops component-level placement metadata. I will preserve those component property descriptors in DSN JSON, emit them from `stringifyDsnJson`, add focused round-trip coverage, and keep the change scoped away from Circuit JSON conversion behavior.
+
+Transparency: AI-assisted with OpenAI Codex; I will review the diff and run local verification before submitting.
+--
+author:	radiantjade
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow non-overlapping DSN round-trip gap: freerouting DSN files can include `autoroute_settings` via cost metadata such as `(via_costs 50)` and `(plane_via_costs 5)`, but current parse -> stringify drops those values. I will preserve just those numeric autoroute cost settings in DSN JSON, emit them during PCB stringification, and add focused round-trip coverage.
+
+Transparency: AI-assisted with Codex; I reviewed the diff and ran local verification before submitting.
+--
+author:	gshaowei6
+association:	none
+edited:	false
+status:	none
+--
+Submitted PR #458 for a narrow Smoothieboard DSN conversion bug: https://github.com/tscircuit/dsn-converter/pull/458
+
+Scope: preserve the real pin identifier after DSN rotation metadata, e.g. `(pin ... (rotate 90) A x y)` now resolves to pin `A` instead of `rotate`. The regression covers Smoothieboard `C7-A` / `C7-C` connectivity so converted traces connect to the expected nets.
+
+This is intentionally separate from the active tokenizer/net-name/metadata round-trip PRs. The PR body includes `/claim #54`, has the bounty-claim label, and GitHub checks are green: type-check, test, format-check, and Format code.
+--
+author:	nikkkkj
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow session parser round-trip gap that appears separate from the active numeric host_version and route metadata PRs: session files can contain an empty `(host_version )` parser entry, but current parsing drops it and stringifying can emit `undefined`. I will preserve empty parser values as empty strings and add focused session stringify coverage.
+
+Transparency: AI-assisted with OpenAI Codex; I reviewed the diff and ran local verification before submitting.
+--
+author:	ron1nrest
+association:	none
+edited:	true
+status:	none
+--
+/attempt #54
+
+@seveibar 
+--
+author:	Yang122333
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN session round-trip gap that appears separate from the active route metadata, via, parser, tokenizer, placement, and PCB metadata PRs: session `(was_is ...)` pin mappings are currently dropped during parse/stringify. I am submitting a focused PR that preserves those mappings through parse -> stringify -> parse with regression coverage.
+
+Transparency: AI-assisted with OpenAI Codex; I reviewed the diff and ran local verification before opening the PR.
+--
+author:	yeguacelestial
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Submitted PR #463 with the Smoothieboard fix. The root cause was rotated DSN pin declarations like '(pin ... (rotate 90) G+ ...)' being parsed as pin 'rotate', which disconnected non-numeric RJ1 pins such as RJ1-G+ and RJ1-NC. The PR preserves those labels and adds focused assertions.
+--
+author:	100more
+association:	none
+edited:	true
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN PCB round-trip gap that appears separate from the active parser, padstack, placement, image, keepout, plane, and session PRs: structure-level boundary descriptors can be `(rect ...)` or `(polygon ...)`, but current parsing/stringifying collapses any boundary list through the path parser and rewrites it as `(path ...)`.
+
+Scope: preserve structure boundary `rect` and `polygon` descriptors in `DsnPcb`, emit them from `stringifyDsnJson`, and add focused parse -> stringify -> parse coverage. No Circuit JSON conversion, Smoothie geometry, placement, routing, wiring, padstack, plane, keepout, or session behavior changes.
+
+I reviewed the diff and ran local verification before submitting.
+--
+author:	iFaceTheWind
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN structure round-trip gap that appears separate from the active boundary, autoroute, class, via, image, placement, and session PRs: freerouting DSN files can include structure-level (snap_angle ...) plus (control (via_at_smd ...)), but current parse -> stringify drops both descriptors.
+
+Scope: preserve structure.snap_angle and structure.control.via_at_smd in the DSN JSON model, emit them during PCB DSN stringification, and add focused round-trip coverage using the existing freerouting fixture shape. No Circuit JSON conversion, Smoothie geometry, placement, routing, wiring, padstack, or session behavior changes.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	shootingallday
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow Smoothieboard DSN gap on current main that appears separate from the active boundary, autoroute, via, placement, parser, and session PRs: structure-level (plane ...) copper-pour descriptors, including the Smoothieboard (plane AGND (polygon Route2 ...)), are currently ignored during parse and dropped by stringify.
+
+Scope: preserve structure plane polygons in the DSN JSON model, emit them from stringifyDsnJson, and add focused parse -> stringify -> parse coverage against the Smoothie fixture. No Circuit JSON geometry, padstack, placement, routing, or session behavior changes.
+
+Transparency: AI-assisted with Codex; I will review the diff and run local verification before opening the claim PR.
+--
+author:	justtryingtohelp46
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I am taking a narrow non-overlapping DSN conversion pass. Plan:
+- inspect current main and active comments/PRs for uncovered DSN parse/stringify or conversion gaps
+- implement only a focused improvement with regression coverage
+- avoid duplicating active Smoothieboard slices already claimed in the thread
+- run targeted tests plus formatting/build/type checks where available before opening the claim PR
+--
+author:	justtryingtohelp46
+association:	none
+edited:	false
+status:	none
+--
+Claim traceability update: I submitted PR #469 as a narrow, non-overlapping slice under this bounty: https://github.com/tscircuit/dsn-converter/pull/469
+
+Scope: preserve rectangular padstack shapes when stringifying DSN. The PR body includes `/claim #54`; it is open, mergeable, has the bounty-claim label, and the validation details are listed in the PR body.
+--
+author:	Shaidyk
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+--
+author:	bodyegypt
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I am taking a narrow non-overlapping DSN round-trip slice: net-level `(fromto ...)` records with optional `(circuit (length ...))` constraints are currently dropped during parse/stringify. I will preserve pin and `(virtual_pin ...)` endpoints plus length values in the DSN JSON model, emit them from `stringifyDsnJson`, and cover it with a focused parse -> stringify -> parse regression test. Scope is metadata preservation only; no Smoothie geometry, tokenizer, padstack, via, placement, or boundary behavior changes.
+--
+author:	monetizecompute
+association:	none
+edited:	false
+status:	none
+--
+/attempt
+--
+author:	monetizecompute
+association:	none
+edited:	false
+status:	none
+--
+/attempt
+--
+author:	pvbang
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan:
+1. Download the Smoothie Board DSN file from freerouting repo
+2. Analyze the parsing failures in the current dsn-converter
+3. Implement incremental fixes for each unsupported DSN construct
+4. Validate output against freerouting reference rendering
+5. Submit PR with tests for each fix step
+
+I have experience with parser development and circuit file formats. Will start with identifying which DSN constructs are causing the conversion failure.
+--
+author:	xnnnc
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: preserve DSN padstack hole descriptors during DSN JSON round-tripping. Current Padstack objects already model hole and export paths create circular/oval hole metadata, but parse/stringify drops (hole ...) records from DSN padstacks. I am keeping this scoped to padstack metadata: parse (hole (circle ...)), (hole (oval ...)), and (hole (square ...)), emit them from PCB/session stringifiers, and add focused parse -> stringify -> parse coverage. No Circuit JSON geometry or Smoothie placement behavior changes.
+--
+author:	xnnnc
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: preserve non-circle padstack shapes in DSN session library_out stringification. The parser already reads polygon, rect, and path padstack shapes, but stringifyDsnSession only emits circles, so parse -> stringify -> parse silently drops session padstack geometry. I will keep this limited to session library_out shape emission, add focused coverage, and avoid changing PCB stringification or circuit-json conversion behavior.
+--
+author:	xnnnc
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Plan: preserve DSN session library_out image descriptors. DsnSession.routes.library_out.images exists in the type model, but the session parser currently initializes it as an empty array and the stringifier never emits images, outlines, or pins. I will route session library_out through the existing library parser, emit image outlines/pins from stringifyDsnSession, and add focused parse -> stringify -> parse coverage. Scope is session library metadata only.
+--
+author:	codeboost-tr
+association:	none
+edited:	false
+status:	none
+--
+/claim #54
+--
+author:	singhaditya21
+association:	none
+edited:	false
+status:	none
+--
+/claim #54
+--
+author:	vagdotdev
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+Found a narrow PCB parser round-trip gap on current main: `parseDsnToDsnJson` stores PCB parser options, but `stringifyDsnJson` hardcodes them back to defaults, so non-default `string_quote`, `space_in_quoted_tokens`, and `host_cad` are dropped. I am keeping this scoped to PCB parser option round-tripping, with a tiny tokenizer guard for the standard `(string_quote ")` atom so existing KiCad DSN parser metadata is preserved correctly. Validation: full `bun test`, `bun run format:check`, and `bun run build`.
+--
+author:	vagdotdev
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN wiring round-trip gap separate from the active wire type, wire net-number, via padstack, polyline, and clearance-class PRs. `processWire` and `processVia` can produce wiring records with no `net` when a DSN omits `(net ...)`, but `stringifyDsnJson` currently emits `(net "")`, changing missing metadata into an empty-string net on parse -> stringify -> parse.
+
+Scope: emit a `(net ...)` child only when the parsed wire/via actually has `net`, add focused coverage for both a wire and via without nets, and keep this limited to DSN PCB stringification. Validation: `bun test`, `bun run format:check`, `bun run build`.
+
+AI-assisted with Codex; I reviewed the diff and local verification before opening the claim PR.
+--
+author:	vagdotdev
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+I found a narrow DSN network class round-trip gap on current main: `processClass` allows a `(class ...)` with no `(circuit ...)` block, but `stringifyDsnJson` unconditionally reads `cls.circuit.use_via` and crashes instead of preserving the class. I will keep this scoped to optional class circuit emission, add focused parse -> stringify -> parse coverage, and run the normal test/format/build checks before opening the claim PR.
+
+AI-assisted with OpenAI Codex; I will review the diff and validation before submitting.
+--
+author:	vagdotdev
+association:	none
+edited:	false
+status:	none
+--
+Claim traceability update: submitted PR #511 for this bounty: https://github.com/tscircuit/dsn-converter/pull/511
+
+Scope: preserve DSN network classes that omit a `(circuit ...)` block instead of crashing during stringify. The PR body includes `/claim #54`, CI is green, and local validation covered focused/full tests, type-check, format-check, and build.
+--
+author:	yasdhf
+association:	none
+edited:	false
+status:	none
+--
+/attempt #54
+
+The Smoothie Board parses on current main, but the *published* package can't even be imported by consumers (`Cannot find module '@tscircuit/math-utils'`) — dist imports two packages that aren't declared as dependencies. That packaging gap is consistent with the DSN viewer failure in the issue screenshot. Focused fix + clean-install verification incoming.
+--
+author:	stmr
+association:	none
+edited:	false
+status:	none
+--
+I can take this if still available/payable.
+
+Planned scope: Convert Smoothie Board to Circuit JSON.
+
+I will keep the PR/submission focused, include tests/docs where requested, run project checks, and wait for maintainer or bounty-platform confirmation before starting work.
+--

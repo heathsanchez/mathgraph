@@ -1,0 +1,512 @@
+===== smoothie files =====
+./tests/assets/fake-freerouting-example-1/fake-freerouting-example-1.dsn
+./tests/assets/freerouting-sessions/circuit1.dsn
+./tests/assets/freerouting-sessions/session1.ses
+./tests/assets/repro/arduino-nano.json
+./tests/assets/repro/chip-with-smtpads.json
+./tests/assets/repro/circuit-with-trace.json
+./tests/assets/repro/circuit.json
+./tests/assets/repro/different-sized-plated-holes.json
+./tests/assets/repro/motor-driver-breakout-circuit.json
+./tests/assets/repro/motor-driver-breakout-dsn.ses
+./tests/assets/repro/output_motor.ses
+./tests/assets/repro/output_water_counter.ses
+./tests/assets/repro/pill-shaped-plated-hole.json
+./tests/assets/repro/plated-hole-resistor-circuit.json
+./tests/assets/repro/repro13/input_dsn_local.dsn
+./tests/assets/repro/repro13/output_local.ses
+./tests/assets/repro/repro14/usb-c-flashlight.json
+./tests/assets/repro/repro15-scaling-bug.dsn
+./tests/assets/repro/rp2040-module.json
+./tests/assets/repro/smoothieboard-repro.dsn
+./tests/assets/repro/smtpad-with-custom-dimenstion.json
+./tests/assets/repro/subcircuit_input.dsn
+./tests/assets/repro/subcircuit_output.ses
+./tests/assets/repro/subcircuits-same-components.json
+./tests/assets/repro/thickness-of-trace.ses
+./tests/assets/repro/three-subcircuit-connected-to-same-ports.json
+./tests/assets/repro/trace-id-fix-circuit.json
+./tests/assets/repro/WaterCounter.json
+./tests/assets/repro/XIAO_S3.json
+./tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn
+./tests/assets/testkicadproject/freeroutingTraceAdded.dsn
+./tests/repros/__snapshots__/repro-6-subcircuit-group.snap.svg
+./tests/repros/__snapshots__/repro13-missing-traces-waterCounter.snap.svg
+./tests/repros/__snapshots__/repro16-polygon-smtpad-export.snap.svg
+./tests/repros/__snapshots__/repro7-smoothie-board.snap.svg
+./tests/repros/repro-4-arduino-nano.test.ts
+./tests/repros/repro-5-rp2040.test.tsx
+./tests/repros/repro-6-subcircuit-group.test.ts
+./tests/repros/repro-7-fixing-hover.test.ts
+./tests/repros/repro1-fake-freerouting-example-1.test.ts
+./tests/repros/repro10-via.test.ts
+./tests/repros/repro11-smtpad-circle-shape.test.ts
+./tests/repros/repro12-configuration-passed-to-converter.test.ts
+./tests/repros/repro13-missing-traces-waterCounter.test.ts
+./tests/repros/repro14-usb-c.test.ts
+./tests/repros/repro15-dsn-scaling.test.tsx
+./tests/repros/repro16-polygon-smtpad-export.test.ts
+./tests/repros/repro2-motor-driver.test.ts
+./tests/repros/repro3-fix-hover-trace.test.ts
+./tests/repros/repro7-smoothie-board.test.ts
+./tests/repros/repro8-multiple-traces-in-one-net.test.ts
+./tests/repros/repro9-water-counter.test.ts
+
+===== smoothie test references =====
+tests/dsn-pcb/parse-session-file.test.ts:4:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+tests/dsn-pcb/stringify-dsn-session.test.ts:4:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+tests/dsn-pcb/dsn-to-snapshot-1.test.ts:8:import traceAddedDsnFile from "../assets/testkicadproject/freeroutingTraceAdded.dsn" with {
+tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:7:import dsnFileWithFreeroutingTrace from "../assets/testkicadproject/freeroutingTraceAdded.dsn" with {
+tests/dsn-pcb/convert-session-to-circuit-json.test.ts:15:import pcbDsnFile from "../assets/freerouting-sessions/circuit1.dsn" with {
+tests/dsn-pcb/convert-session-to-circuit-json.test.ts:19:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+tests/repros/repro1-fake-freerouting-example-1.test.ts:5:import fakeFreeroutingExample1Dsn from "../assets/fake-freerouting-example-1/fake-freerouting-example-1.dsn" with {
+tests/repros/repro1-fake-freerouting-example-1.test.ts:9:test("repro1 fake-freerouting-example-1", () => {
+tests/repros/repro7-smoothie-board.test.ts:6:import dsnFileWithFreeroutingTrace from "../assets/repro/smoothieboard-repro.dsn" with {
+tests/repros/repro7-smoothie-board.test.ts:10:test("smoothieboard repro", async () => {
+tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn:1:(pcb "/Users/seve/w/tsc/dsn-converter/tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn"
+tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn:7:    (generated_by_freerouting)
+tests/assets/testkicadproject/freeroutingTraceAdded.dsn:7:    (generated_by_freerouting)
+tests/assets/repro/smoothieboard-repro.dsn:1:(pcb "B:\depot\CAD\KiCad\test\Smoothieboard-master\smoothieboard-5driver\smoothieboard-5driver.dsn"
+tests/assets/repro/smoothieboard-repro.dsn:72:    (component "smoothieboard-5driver:LQFP100"
+tests/assets/repro/smoothieboard-repro.dsn:75:    (component "smoothieboard-5driver:CRYSTAL_3.2X2.5"
+tests/assets/repro/smoothieboard-repro.dsn:79:    (component "smoothieboard-5driver:C0603"
+tests/assets/repro/smoothieboard-repro.dsn:146:    (component "smoothieboard-5driver:EIA3216"
+tests/assets/repro/smoothieboard-repro.dsn:158:    (component "smoothieboard-5driver:R0603"
+tests/assets/repro/smoothieboard-repro.dsn:253:    (component "smoothieboard-5driver:TACTILE_SWITCH_SMD"
+tests/assets/repro/smoothieboard-repro.dsn:257:    (component "smoothieboard-5driver:CHIP-LED0805"
+tests/assets/repro/smoothieboard-repro.dsn:271:    (component "smoothieboard-5driver:MOLEX-1X6"
+tests/assets/repro/smoothieboard-repro.dsn:274:    (component "smoothieboard-5driver:TACTILE-PTH-LED-12MM"
+tests/assets/repro/smoothieboard-repro.dsn:277:    (component "smoothieboard-5driver:MOLEX-1X3"
+tests/assets/repro/smoothieboard-repro.dsn:285:    (component "smoothieboard-5driver:1X04_NO_SILK"
+tests/assets/repro/smoothieboard-repro.dsn:297:    (component "smoothieboard-5driver:1X03_NO_SILK"
+tests/assets/repro/smoothieboard-repro.dsn:303:    (component "smoothieboard-5driver:1X03"
+tests/assets/repro/smoothieboard-repro.dsn:308:    (component "smoothieboard-5driver:1X02"
+tests/assets/repro/smoothieboard-repro.dsn:313:    (component "smoothieboard-5driver:ETSSOP24"
+tests/assets/repro/smoothieboard-repro.dsn:320:    (component "smoothieboard-5driver:R2512"
+tests/assets/repro/smoothieboard-repro.dsn:332:    (component "smoothieboard-5driver:08P"
+tests/assets/repro/smoothieboard-repro.dsn:335:    (component "smoothieboard-5driver:0603-ARV"
+tests/assets/repro/smoothieboard-repro.dsn:338:    (component "smoothieboard-5driver:TSSOP20"
+tests/assets/repro/smoothieboard-repro.dsn:342:    (component "smoothieboard-5driver:10X04MTA"
+tests/assets/repro/smoothieboard-repro.dsn:349:    (component "smoothieboard-5driver:180G-4"
+tests/assets/repro/smoothieboard-repro.dsn:356:    (component "smoothieboard-5driver:QFN24_4MM"
+tests/assets/repro/smoothieboard-repro.dsn:359:    (component "smoothieboard-5driver:0603"
+tests/assets/repro/smoothieboard-repro.dsn:362:    (component "smoothieboard-5driver:C0603K"
+tests/assets/repro/smoothieboard-repro.dsn:365:    (component "smoothieboard-5driver:SOT23-5"
+tests/assets/repro/smoothieboard-repro.dsn:368:    (component "smoothieboard-5driver:SOT223"
+tests/assets/repro/smoothieboard-repro.dsn:371:    (component "smoothieboard-5driver:SMADIODE"
+tests/assets/repro/smoothieboard-repro.dsn:380:    (component "smoothieboard-5driver:TO220BV"
+tests/assets/repro/smoothieboard-repro.dsn:385:    (component "smoothieboard-5driver:PANASONIC_E"
+tests/assets/repro/smoothieboard-repro.dsn:394:    (component "smoothieboard-5driver:MOLEX8981"
+tests/assets/repro/smoothieboard-repro.dsn:397:    (component "smoothieboard-5driver:SOT230P700X160-4N"
+tests/assets/repro/smoothieboard-repro.dsn:402:    (component "smoothieboard-5driver:POWER_JACK_SMD"
+tests/assets/repro/smoothieboard-repro.dsn:405:    (component "smoothieboard-5driver:180G-2"
+tests/assets/repro/smoothieboard-repro.dsn:417:    (component "smoothieboard-5driver:TO263AB"
+tests/assets/repro/smoothieboard-repro.dsn:420:    (component "smoothieboard-5driver:JP1"
+tests/assets/repro/smoothieboard-repro.dsn:425:    (component "smoothieboard-5driver:10X02MTA"
+tests/assets/repro/smoothieboard-repro.dsn:433:    (component "smoothieboard-5driver:MICRO-SD-SOCKET-PP"
+tests/assets/repro/smoothieboard-repro.dsn:436:    (component "smoothieboard-5driver:HR911105A"
+tests/assets/repro/smoothieboard-repro.dsn:439:    (component "smoothieboard-5driver:SOIC8"
+tests/assets/repro/smoothieboard-repro.dsn:443:    (component "smoothieboard-5driver:C0805"
+tests/assets/repro/smoothieboard-repro.dsn:446:    (component "smoothieboard-5driver:SOT89"
+tests/assets/repro/smoothieboard-repro.dsn:449:    (component "smoothieboard-5driver:USB-B-PTH"
+tests/assets/repro/smoothieboard-repro.dsn:452:    (component "smoothieboard-5driver:SJ_3"
+tests/assets/repro/smoothieboard-repro.dsn:457:    (component "smoothieboard-5driver:SC74_INFINEON"
+tests/assets/repro/smoothieboard-repro.dsn:460:    (component "smoothieboard-5driver:1715250000"
+tests/assets/repro/smoothieboard-repro.dsn:466:    (component "smoothieboard-5driver:TO252"
+tests/assets/repro/smoothieboard-repro.dsn:469:    (component "smoothieboard-5driver:SMB"
+tests/assets/repro/smoothieboard-repro.dsn:472:    (component "smoothieboard-5driver:1X05"
+tests/assets/repro/smoothieboard-repro.dsn:476:    (component "smoothieboard-5driver:R-78"
+tests/assets/repro/smoothieboard-repro.dsn:479:    (component "smoothieboard-5driver:OSHW-LOGO-HUGE"
+tests/assets/repro/smoothieboard-repro.dsn:485:    (component "smoothieboard-5driver:PANASONIC_D"
+tests/assets/repro/smoothieboard-repro.dsn:520:    (image "smoothieboard-5driver:LQFP100"
+tests/assets/repro/smoothieboard-repro.dsn:636:    (image "smoothieboard-5driver:CRYSTAL_3.2X2.5"
+tests/assets/repro/smoothieboard-repro.dsn:650:    (image "smoothieboard-5driver:C0603"
+tests/assets/repro/smoothieboard-repro.dsn:660:    (image "smoothieboard-5driver:EIA3216"
+tests/assets/repro/smoothieboard-repro.dsn:672:    (image "smoothieboard-5driver:R0603"
+tests/assets/repro/smoothieboard-repro.dsn:682:    (image "smoothieboard-5driver:TACTILE_SWITCH_SMD"
+tests/assets/repro/smoothieboard-repro.dsn:704:    (image "smoothieboard-5driver:CHIP-LED0805"
+tests/assets/repro/smoothieboard-repro.dsn:710:    (image "smoothieboard-5driver:MOLEX-1X6"
+tests/assets/repro/smoothieboard-repro.dsn:727:    (image "smoothieboard-5driver:TACTILE-PTH-LED-12MM"
+tests/assets/repro/smoothieboard-repro.dsn:792:    (image "smoothieboard-5driver:MOLEX-1X3"
+tests/assets/repro/smoothieboard-repro.dsn:806:    (image "smoothieboard-5driver:1X04_NO_SILK"
+tests/assets/repro/smoothieboard-repro.dsn:812:    (image "smoothieboard-5driver:1X03_NO_SILK"
+tests/assets/repro/smoothieboard-repro.dsn:817:    (image "smoothieboard-5driver:1X03"
+tests/assets/repro/smoothieboard-repro.dsn:842:    (image "smoothieboard-5driver:1X02"
+tests/assets/repro/smoothieboard-repro.dsn:860:    (image "smoothieboard-5driver:ETSSOP24"
+tests/assets/repro/smoothieboard-repro.dsn:893:    (image "smoothieboard-5driver:R2512"
+tests/assets/repro/smoothieboard-repro.dsn:899:    (image "smoothieboard-5driver:08P"
+tests/assets/repro/smoothieboard-repro.dsn:1114:    (image "smoothieboard-5driver:0603-ARV"
+tests/assets/repro/smoothieboard-repro.dsn:1128:    (image "smoothieboard-5driver:TSSOP20"
+tests/assets/repro/smoothieboard-repro.dsn:1162:    (image "smoothieboard-5driver:10X04MTA"
+tests/assets/repro/smoothieboard-repro.dsn:1175:    (image "smoothieboard-5driver:180G-4"
+tests/assets/repro/smoothieboard-repro.dsn:1206:    (image "smoothieboard-5driver:QFN24_4MM"
+tests/assets/repro/smoothieboard-repro.dsn:1246:    (image "smoothieboard-5driver:0603"
+tests/assets/repro/smoothieboard-repro.dsn:1260:    (image "smoothieboard-5driver:C0603K"
+tests/assets/repro/smoothieboard-repro.dsn:1266:    (image "smoothieboard-5driver:SOT23-5"
+tests/assets/repro/smoothieboard-repro.dsn:1286:    (image "smoothieboard-5driver:SOT223"
+tests/assets/repro/smoothieboard-repro.dsn:1296:    (image "smoothieboard-5driver:SMADIODE"
+tests/assets/repro/smoothieboard-repro.dsn:1317:    (image "smoothieboard-5driver:TO220BV"
+tests/assets/repro/smoothieboard-repro.dsn:1329:    (image "smoothieboard-5driver:PANASONIC_E"
+tests/assets/repro/smoothieboard-repro.dsn:1356:    (image "smoothieboard-5driver:MOLEX8981"
+tests/assets/repro/smoothieboard-repro.dsn:1382:    (image "smoothieboard-5driver:SOT230P700X160-4N"
+tests/assets/repro/smoothieboard-repro.dsn:1405:    (image "smoothieboard-5driver:POWER_JACK_SMD"
+tests/assets/repro/smoothieboard-repro.dsn:1434:    (image "smoothieboard-5driver:180G-2"
+tests/assets/repro/smoothieboard-repro.dsn:1453:    (image "smoothieboard-5driver:TO263AB"
+tests/assets/repro/smoothieboard-repro.dsn:1502:    (image "smoothieboard-5driver:JP1"
+tests/assets/repro/smoothieboard-repro.dsn:1520:    (image "smoothieboard-5driver:10X02MTA"
+tests/assets/repro/smoothieboard-repro.dsn:1531:    (image "smoothieboard-5driver:MICRO-SD-SOCKET-PP"
+tests/assets/repro/smoothieboard-repro.dsn:1555:    (image "smoothieboard-5driver:HR911105A"
+tests/assets/repro/smoothieboard-repro.dsn:1583:    (image "smoothieboard-5driver:SOIC8"
+tests/assets/repro/smoothieboard-repro.dsn:1600:    (image "smoothieboard-5driver:C0805"
+tests/assets/repro/smoothieboard-repro.dsn:1610:    (image "smoothieboard-5driver:SOT89"
+tests/assets/repro/smoothieboard-repro.dsn:1626:    (image "smoothieboard-5driver:USB-B-PTH"
+tests/assets/repro/smoothieboard-repro.dsn:1643:    (image "smoothieboard-5driver:SJ_3"
+tests/assets/repro/smoothieboard-repro.dsn:1652:    (image "smoothieboard-5driver:SC74_INFINEON"
+tests/assets/repro/smoothieboard-repro.dsn:1666:    (image "smoothieboard-5driver:1715250000"
+tests/assets/repro/smoothieboard-repro.dsn:1682:    (image "smoothieboard-5driver:TO252"
+tests/assets/repro/smoothieboard-repro.dsn:1701:    (image "smoothieboard-5driver:SMB"
+tests/assets/repro/smoothieboard-repro.dsn:1712:    (image "smoothieboard-5driver:1X05"
+tests/assets/repro/smoothieboard-repro.dsn:1751:    (image "smoothieboard-5driver:R-78"
+tests/assets/repro/smoothieboard-repro.dsn:1764:    (image "smoothieboard-5driver:OSHW-LOGO-HUGE"
+tests/assets/repro/smoothieboard-repro.dsn:1766:    (image "smoothieboard-5driver:PANASONIC_D"
+tests/assets/repro/smoothieboard-repro.dsn:2272:    (net "/smoothieboard-5driver_1/JTAG-RTCK"
+tests/assets/repro/smoothieboard-repro.dsn:2275:    (net "/smoothieboard-5driver_1/RX_0"
+tests/assets/repro/smoothieboard-repro.dsn:2278:    (net "/smoothieboard-5driver_1/TX_0"
+tests/assets/repro/smoothieboard-repro.dsn:2281:    (net "/smoothieboard-5driver_1/PLAY_LED"
+tests/assets/repro/smoothieboard-repro.dsn:2284:    (net "/smoothieboard-5driver_1/SD_CS"
+tests/assets/repro/smoothieboard-repro.dsn:2287:    (net "/smoothieboard-5driver_1/SD_SCK"
+tests/assets/repro/smoothieboard-repro.dsn:2290:    (net "/smoothieboard-5driver_1/SD_MISO"
+tests/assets/repro/smoothieboard-repro.dsn:2293:    (net "/smoothieboard-5driver_1/SD_MOSI"
+tests/assets/repro/smoothieboard-repro.dsn:2296:    (net "/smoothieboard-5driver_1/Z_MAX"
+tests/assets/repro/smoothieboard-repro.dsn:2299:    (net "/smoothieboard-5driver_1/Z_MIN"
+tests/assets/repro/smoothieboard-repro.dsn:2302:    (net "/smoothieboard-5driver_1/Y_MAX"
+tests/assets/repro/smoothieboard-repro.dsn:2305:    (net "/smoothieboard-5driver_1/Y_MIN"
+tests/assets/repro/smoothieboard-repro.dsn:2308:    (net "/smoothieboard-5driver_1/X_MAX"
+tests/assets/repro/smoothieboard-repro.dsn:2311:    (net "/smoothieboard-5driver_1/X_MIN"
+tests/assets/repro/smoothieboard-repro.dsn:2314:    (net "/smoothieboard-5driver_1/LED4"
+tests/assets/repro/smoothieboard-repro.dsn:2317:    (net "/smoothieboard-5driver_1/LED3"
+tests/assets/repro/smoothieboard-repro.dsn:2320:    (net "/smoothieboard-5driver_1/LED2"
+tests/assets/repro/smoothieboard-repro.dsn:2323:    (net "/smoothieboard-5driver_1/LED1"
+tests/assets/repro/smoothieboard-repro.dsn:2326:    (net "/smoothieboard-5driver_1/USB_D-"
+tests/assets/repro/smoothieboard-repro.dsn:2329:    (net "/smoothieboard-5driver_1/USB_D+"
+tests/assets/repro/smoothieboard-repro.dsn:2332:    (net "/smoothieboard-5driver_1/SD_IRQ"
+tests/assets/repro/smoothieboard-repro.dsn:2335:    (net "/smoothieboard-5driver_1/SD_WP"
+tests/assets/repro/smoothieboard-repro.dsn:2338:    (net "/smoothieboard-5driver_1/SDA"
+tests/assets/repro/smoothieboard-repro.dsn:2341:    (net "/smoothieboard-5driver_1/SCL"
+tests/assets/repro/smoothieboard-repro.dsn:2350:    (net "/smoothieboard-5driver_1/P1_30"
+tests/assets/repro/smoothieboard-repro.dsn:2353:    (net "/smoothieboard-5driver_1/P1_31"
+tests/assets/repro/smoothieboard-repro.dsn:2359:    (net "/smoothieboard-5driver_1/RESET"
+tests/assets/repro/smoothieboard-repro.dsn:2368:    (net "/smoothieboard-5driver_1/JTAG-TCK"
+tests/assets/repro/smoothieboard-repro.dsn:2371:    (net "/smoothieboard-5driver_1/JTAG-TRST"
+tests/assets/repro/smoothieboard-repro.dsn:2374:    (net "/smoothieboard-5driver_1/JTAG-TMS"
+tests/assets/repro/smoothieboard-repro.dsn:2377:    (net "/smoothieboard-5driver_1/JTAG-TDI"
+tests/assets/repro/smoothieboard-repro.dsn:2380:    (net "/smoothieboard-5driver_1/JTAG-TDO"
+tests/assets/repro/smoothieboard-repro.dsn:2383:    (net "/smoothieboard-5driver_1/PLAY"
+tests/assets/repro/smoothieboard-repro.dsn:2386:    (net "/smoothieboard-5driver_1/SD_CD"
+tests/assets/repro/smoothieboard-repro.dsn:2389:    (net "/smoothieboard-5driver_1/ISP_BOOT"
+tests/assets/repro/smoothieboard-repro.dsn:2392:    (net "/smoothieboard-5driver_1/MOSI1"
+tests/assets/repro/smoothieboard-repro.dsn:2395:    (net "/smoothieboard-5driver_1/MISO1"
+tests/assets/repro/smoothieboard-repro.dsn:2398:    (net "/smoothieboard-5driver_1/SCK1"
+tests/assets/repro/smoothieboard-repro.dsn:2401:    (net "/smoothieboard-5driver_1/SSEL1"
+tests/assets/repro/smoothieboard-repro.dsn:2404:    (net "/smoothieboard-5driver_1/P2.9"
+tests/assets/repro/smoothieboard-repro.dsn:2428:    (net "/smoothieboard-5driver_1/RTS"
+tests/assets/repro/smoothieboard-repro.dsn:2434:    (net "/smoothieboard-5driver_1/CTS"
+tests/assets/repro/smoothieboard-repro.dsn:2480:    (net "/smoothieboard-5driver_2/P0W"
+tests/assets/repro/smoothieboard-repro.dsn:2522:    (net "/smoothieboard-5driver_2/P1W"
+tests/assets/repro/smoothieboard-repro.dsn:2564:    (net "/smoothieboard-5driver_2/P2W"
+tests/assets/repro/smoothieboard-repro.dsn:2606:    (net "/smoothieboard-5driver_2/P3W"
+tests/assets/repro/smoothieboard-repro.dsn:2648:    (net "/smoothieboard-5driver_2/TH4_P"
+tests/assets/repro/smoothieboard-repro.dsn:2660:    (net "/smoothieboard-5driver_3/RD+"
+tests/assets/repro/smoothieboard-repro.dsn:2663:    (net "/smoothieboard-5driver_3/RD-"
+tests/assets/repro/smoothieboard-repro.dsn:2666:    (net "/smoothieboard-5driver_3/TD+"
+tests/assets/repro/smoothieboard-repro.dsn:2669:    (net "/smoothieboard-5driver_3/TD-"
+tests/assets/repro/smoothieboard-repro.dsn:2697:    (net "/smoothieboard-5driver_3/LED1/REGOFF"
+tests/assets/repro/smoothieboard-repro.dsn:2700:    (net "/smoothieboard-5driver_3/LED2/NINTSEL"
+tests/assets/repro/smoothieboard-repro.dsn:2715:    (net "/smoothieboard-5driver_3/+5V"
+tests/assets/repro/smoothieboard-repro.dsn:2724:    (net "/smoothieboard-5driver_3/PWM1_FET"
+tests/assets/repro/smoothieboard-repro.dsn:2730:    (net "/smoothieboard-5driver_3/GPIO_FET"
+tests/assets/repro/smoothieboard-repro.dsn:2745:    (net "/smoothieboard-5driver_3/MOSFET_DRIVE"
+tests/assets/repro/smoothieboard-repro.dsn:2749:    (net "/smoothieboard-5driver_3/VBB_IN"
+tests/assets/repro/smoothieboard-repro.dsn:2761:    (net "/smoothieboard-5driver_3/SMALL_MOSFET_POWER"
+tests/assets/repro/smoothieboard-repro.dsn:2791:    (net "/smoothieboard-5driver_4/THETA_CURRENT"
+tests/assets/repro/smoothieboard-repro.dsn:2797:    (net "/smoothieboard-5driver_4/PW5"
+tests/assets/repro/smoothieboard-repro.dsn:2800:    (net "/smoothieboard-5driver_4/ZETA_CURRENT"
+tests/assets/repro/smoothieboard-repro.dsn:2803:    (net "/smoothieboard-5driver_4/ETA_CURRENT"
+tests/assets/repro/smoothieboard-repro.dsn:2866:    (net "/smoothieboard-5driver_4/VBBREG"
+tests/assets/repro/smoothieboard-repro.dsn:2869:    (class kicad_default "" "/smoothieboard-5driver_1/CTS" "/smoothieboard-5driver_1/ISP_BOOT"
+tests/assets/repro/smoothieboard-repro.dsn:2870:      "/smoothieboard-5driver_1/JTAG-RTCK" "/smoothieboard-5driver_1/JTAG-TCK"
+tests/assets/repro/smoothieboard-repro.dsn:2871:      "/smoothieboard-5driver_1/JTAG-TDI" "/smoothieboard-5driver_1/JTAG-TDO"
+tests/assets/repro/smoothieboard-repro.dsn:2872:      "/smoothieboard-5driver_1/JTAG-TMS" "/smoothieboard-5driver_1/JTAG-TRST"
+tests/assets/repro/smoothieboard-repro.dsn:2873:      "/smoothieboard-5driver_1/LED1" "/smoothieboard-5driver_1/LED2" "/smoothieboard-5driver_1/LED3"
+tests/assets/repro/smoothieboard-repro.dsn:2874:      "/smoothieboard-5driver_1/LED4" "/smoothieboard-5driver_1/MISO1" "/smoothieboard-5driver_1/MOSI1"
+tests/assets/repro/smoothieboard-repro.dsn:2875:      "/smoothieboard-5driver_1/P1_30" "/smoothieboard-5driver_1/P1_31" "/smoothieboard-5driver_1/P2.9"
+tests/assets/repro/smoothieboard-repro.dsn:2876:      "/smoothieboard-5driver_1/PLAY" "/smoothieboard-5driver_1/PLAY_LED"
+tests/assets/repro/smoothieboard-repro.dsn:2877:      "/smoothieboard-5driver_1/RESET" "/smoothieboard-5driver_1/RTS" "/smoothieboard-5driver_1/RX_0"
+tests/assets/repro/smoothieboard-repro.dsn:2878:      "/smoothieboard-5driver_1/SCK1" "/smoothieboard-5driver_1/SCL" "/smoothieboard-5driver_1/SDA"
+tests/assets/repro/smoothieboard-repro.dsn:2879:      "/smoothieboard-5driver_1/SD_CD" "/smoothieboard-5driver_1/SD_CS" "/smoothieboard-5driver_1/SD_IRQ"
+tests/assets/repro/smoothieboard-repro.dsn:2880:      "/smoothieboard-5driver_1/SD_MISO" "/smoothieboard-5driver_1/SD_MOSI"
+tests/assets/repro/smoothieboard-repro.dsn:2881:      "/smoothieboard-5driver_1/SD_SCK" "/smoothieboard-5driver_1/SD_WP" "/smoothieboard-5driver_1/SSEL1"
+tests/assets/repro/smoothieboard-repro.dsn:2882:      "/smoothieboard-5driver_1/TX_0" "/smoothieboard-5driver_1/USB_D+" "/smoothieboard-5driver_1/USB_D-"
+tests/assets/repro/smoothieboard-repro.dsn:2883:      "/smoothieboard-5driver_1/X_MAX" "/smoothieboard-5driver_1/X_MIN" "/smoothieboard-5driver_1/Y_MAX"
+tests/assets/repro/smoothieboard-repro.dsn:2884:      "/smoothieboard-5driver_1/Y_MIN" "/smoothieboard-5driver_1/Z_MAX" "/smoothieboard-5driver_1/Z_MIN"
+tests/assets/repro/smoothieboard-repro.dsn:2885:      "/smoothieboard-5driver_2/P0W" "/smoothieboard-5driver_2/P1W" "/smoothieboard-5driver_2/P2W"
+tests/assets/repro/smoothieboard-repro.dsn:2886:      "/smoothieboard-5driver_2/P3W" "/smoothieboard-5driver_2/TH4_P" "/smoothieboard-5driver_3/+5V"
+tests/assets/repro/smoothieboard-repro.dsn:2887:      "/smoothieboard-5driver_3/GPIO_FET" "/smoothieboard-5driver_3/LED1/REGOFF"
+tests/assets/repro/smoothieboard-repro.dsn:2888:      "/smoothieboard-5driver_3/LED2/NINTSEL" "/smoothieboard-5driver_3/MOSFET_DRIVE"
+tests/assets/repro/smoothieboard-repro.dsn:2889:      "/smoothieboard-5driver_3/PWM1_FET" "/smoothieboard-5driver_3/RD+" "/smoothieboard-5driver_3/RD-"
+tests/assets/repro/smoothieboard-repro.dsn:2890:      "/smoothieboard-5driver_3/SMALL_MOSFET_POWER" "/smoothieboard-5driver_3/TD+"
+tests/assets/repro/smoothieboard-repro.dsn:2891:      "/smoothieboard-5driver_3/TD-" "/smoothieboard-5driver_3/VBB_IN" "/smoothieboard-5driver_4/ETA_CURRENT"
+tests/assets/repro/smoothieboard-repro.dsn:2892:      "/smoothieboard-5driver_4/PW5" "/smoothieboard-5driver_4/THETA_CURRENT"
+tests/assets/repro/smoothieboard-repro.dsn:2893:      "/smoothieboard-5driver_4/VBBREG" "/smoothieboard-5driver_4/ZETA_CURRENT"
+lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-json.ts:106:            width: 150, // trace width used in freerouting
+./tests/dsn-pcb/parse-session-file.test.ts:4:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+./tests/dsn-pcb/stringify-dsn-session.test.ts:4:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:8:import traceAddedDsnFile from "../assets/testkicadproject/freeroutingTraceAdded.dsn" with {
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:7:import dsnFileWithFreeroutingTrace from "../assets/testkicadproject/freeroutingTraceAdded.dsn" with {
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:15:import pcbDsnFile from "../assets/freerouting-sessions/circuit1.dsn" with {
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:19:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+./tests/repros/repro1-fake-freerouting-example-1.test.ts:5:import fakeFreeroutingExample1Dsn from "../assets/fake-freerouting-example-1/fake-freerouting-example-1.dsn" with {
+./tests/repros/repro1-fake-freerouting-example-1.test.ts:9:test("repro1 fake-freerouting-example-1", () => {
+./tests/repros/repro7-smoothie-board.test.ts:6:import dsnFileWithFreeroutingTrace from "../assets/repro/smoothieboard-repro.dsn" with {
+./tests/repros/repro7-smoothie-board.test.ts:10:test("smoothieboard repro", async () => {
+./tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn:1:(pcb "/Users/seve/w/tsc/dsn-converter/tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn"
+./tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn:7:    (generated_by_freerouting)
+./tests/assets/testkicadproject/freeroutingTraceAdded.dsn:7:    (generated_by_freerouting)
+./tests/assets/repro/smoothieboard-repro.dsn:1:(pcb "B:\depot\CAD\KiCad\test\Smoothieboard-master\smoothieboard-5driver\smoothieboard-5driver.dsn"
+./tests/assets/repro/smoothieboard-repro.dsn:72:    (component "smoothieboard-5driver:LQFP100"
+./tests/assets/repro/smoothieboard-repro.dsn:75:    (component "smoothieboard-5driver:CRYSTAL_3.2X2.5"
+./tests/assets/repro/smoothieboard-repro.dsn:79:    (component "smoothieboard-5driver:C0603"
+./tests/assets/repro/smoothieboard-repro.dsn:146:    (component "smoothieboard-5driver:EIA3216"
+./tests/assets/repro/smoothieboard-repro.dsn:158:    (component "smoothieboard-5driver:R0603"
+./tests/assets/repro/smoothieboard-repro.dsn:253:    (component "smoothieboard-5driver:TACTILE_SWITCH_SMD"
+./tests/assets/repro/smoothieboard-repro.dsn:257:    (component "smoothieboard-5driver:CHIP-LED0805"
+./tests/assets/repro/smoothieboard-repro.dsn:271:    (component "smoothieboard-5driver:MOLEX-1X6"
+./tests/assets/repro/smoothieboard-repro.dsn:274:    (component "smoothieboard-5driver:TACTILE-PTH-LED-12MM"
+./tests/assets/repro/smoothieboard-repro.dsn:277:    (component "smoothieboard-5driver:MOLEX-1X3"
+./tests/assets/repro/smoothieboard-repro.dsn:285:    (component "smoothieboard-5driver:1X04_NO_SILK"
+./tests/assets/repro/smoothieboard-repro.dsn:297:    (component "smoothieboard-5driver:1X03_NO_SILK"
+./tests/assets/repro/smoothieboard-repro.dsn:303:    (component "smoothieboard-5driver:1X03"
+./tests/assets/repro/smoothieboard-repro.dsn:308:    (component "smoothieboard-5driver:1X02"
+./tests/assets/repro/smoothieboard-repro.dsn:313:    (component "smoothieboard-5driver:ETSSOP24"
+./tests/assets/repro/smoothieboard-repro.dsn:320:    (component "smoothieboard-5driver:R2512"
+./tests/assets/repro/smoothieboard-repro.dsn:332:    (component "smoothieboard-5driver:08P"
+./tests/assets/repro/smoothieboard-repro.dsn:335:    (component "smoothieboard-5driver:0603-ARV"
+./tests/assets/repro/smoothieboard-repro.dsn:338:    (component "smoothieboard-5driver:TSSOP20"
+./tests/assets/repro/smoothieboard-repro.dsn:342:    (component "smoothieboard-5driver:10X04MTA"
+./tests/assets/repro/smoothieboard-repro.dsn:349:    (component "smoothieboard-5driver:180G-4"
+./tests/assets/repro/smoothieboard-repro.dsn:356:    (component "smoothieboard-5driver:QFN24_4MM"
+./tests/assets/repro/smoothieboard-repro.dsn:359:    (component "smoothieboard-5driver:0603"
+./tests/assets/repro/smoothieboard-repro.dsn:362:    (component "smoothieboard-5driver:C0603K"
+./tests/assets/repro/smoothieboard-repro.dsn:365:    (component "smoothieboard-5driver:SOT23-5"
+./tests/assets/repro/smoothieboard-repro.dsn:368:    (component "smoothieboard-5driver:SOT223"
+./tests/assets/repro/smoothieboard-repro.dsn:371:    (component "smoothieboard-5driver:SMADIODE"
+./tests/assets/repro/smoothieboard-repro.dsn:380:    (component "smoothieboard-5driver:TO220BV"
+./tests/assets/repro/smoothieboard-repro.dsn:385:    (component "smoothieboard-5driver:PANASONIC_E"
+./tests/assets/repro/smoothieboard-repro.dsn:394:    (component "smoothieboard-5driver:MOLEX8981"
+./tests/assets/repro/smoothieboard-repro.dsn:397:    (component "smoothieboard-5driver:SOT230P700X160-4N"
+./tests/assets/repro/smoothieboard-repro.dsn:402:    (component "smoothieboard-5driver:POWER_JACK_SMD"
+./tests/assets/repro/smoothieboard-repro.dsn:405:    (component "smoothieboard-5driver:180G-2"
+./tests/assets/repro/smoothieboard-repro.dsn:417:    (component "smoothieboard-5driver:TO263AB"
+./tests/assets/repro/smoothieboard-repro.dsn:420:    (component "smoothieboard-5driver:JP1"
+./tests/assets/repro/smoothieboard-repro.dsn:425:    (component "smoothieboard-5driver:10X02MTA"
+./tests/assets/repro/smoothieboard-repro.dsn:433:    (component "smoothieboard-5driver:MICRO-SD-SOCKET-PP"
+./tests/assets/repro/smoothieboard-repro.dsn:436:    (component "smoothieboard-5driver:HR911105A"
+./tests/assets/repro/smoothieboard-repro.dsn:439:    (component "smoothieboard-5driver:SOIC8"
+./tests/assets/repro/smoothieboard-repro.dsn:443:    (component "smoothieboard-5driver:C0805"
+./tests/assets/repro/smoothieboard-repro.dsn:446:    (component "smoothieboard-5driver:SOT89"
+./tests/assets/repro/smoothieboard-repro.dsn:449:    (component "smoothieboard-5driver:USB-B-PTH"
+./tests/assets/repro/smoothieboard-repro.dsn:452:    (component "smoothieboard-5driver:SJ_3"
+./tests/assets/repro/smoothieboard-repro.dsn:457:    (component "smoothieboard-5driver:SC74_INFINEON"
+./tests/assets/repro/smoothieboard-repro.dsn:460:    (component "smoothieboard-5driver:1715250000"
+./tests/assets/repro/smoothieboard-repro.dsn:466:    (component "smoothieboard-5driver:TO252"
+./tests/assets/repro/smoothieboard-repro.dsn:469:    (component "smoothieboard-5driver:SMB"
+./tests/assets/repro/smoothieboard-repro.dsn:472:    (component "smoothieboard-5driver:1X05"
+./tests/assets/repro/smoothieboard-repro.dsn:476:    (component "smoothieboard-5driver:R-78"
+./tests/assets/repro/smoothieboard-repro.dsn:479:    (component "smoothieboard-5driver:OSHW-LOGO-HUGE"
+./tests/assets/repro/smoothieboard-repro.dsn:485:    (component "smoothieboard-5driver:PANASONIC_D"
+./tests/assets/repro/smoothieboard-repro.dsn:520:    (image "smoothieboard-5driver:LQFP100"
+./tests/assets/repro/smoothieboard-repro.dsn:636:    (image "smoothieboard-5driver:CRYSTAL_3.2X2.5"
+./tests/assets/repro/smoothieboard-repro.dsn:650:    (image "smoothieboard-5driver:C0603"
+./tests/assets/repro/smoothieboard-repro.dsn:660:    (image "smoothieboard-5driver:EIA3216"
+./tests/assets/repro/smoothieboard-repro.dsn:672:    (image "smoothieboard-5driver:R0603"
+./tests/assets/repro/smoothieboard-repro.dsn:682:    (image "smoothieboard-5driver:TACTILE_SWITCH_SMD"
+./tests/assets/repro/smoothieboard-repro.dsn:704:    (image "smoothieboard-5driver:CHIP-LED0805"
+./tests/assets/repro/smoothieboard-repro.dsn:710:    (image "smoothieboard-5driver:MOLEX-1X6"
+./tests/assets/repro/smoothieboard-repro.dsn:727:    (image "smoothieboard-5driver:TACTILE-PTH-LED-12MM"
+./tests/assets/repro/smoothieboard-repro.dsn:792:    (image "smoothieboard-5driver:MOLEX-1X3"
+./tests/assets/repro/smoothieboard-repro.dsn:806:    (image "smoothieboard-5driver:1X04_NO_SILK"
+./tests/assets/repro/smoothieboard-repro.dsn:812:    (image "smoothieboard-5driver:1X03_NO_SILK"
+./tests/assets/repro/smoothieboard-repro.dsn:817:    (image "smoothieboard-5driver:1X03"
+./tests/assets/repro/smoothieboard-repro.dsn:842:    (image "smoothieboard-5driver:1X02"
+./tests/assets/repro/smoothieboard-repro.dsn:860:    (image "smoothieboard-5driver:ETSSOP24"
+./tests/assets/repro/smoothieboard-repro.dsn:893:    (image "smoothieboard-5driver:R2512"
+./tests/assets/repro/smoothieboard-repro.dsn:899:    (image "smoothieboard-5driver:08P"
+./tests/assets/repro/smoothieboard-repro.dsn:1114:    (image "smoothieboard-5driver:0603-ARV"
+./tests/assets/repro/smoothieboard-repro.dsn:1128:    (image "smoothieboard-5driver:TSSOP20"
+./tests/assets/repro/smoothieboard-repro.dsn:1162:    (image "smoothieboard-5driver:10X04MTA"
+./tests/assets/repro/smoothieboard-repro.dsn:1175:    (image "smoothieboard-5driver:180G-4"
+./tests/assets/repro/smoothieboard-repro.dsn:1206:    (image "smoothieboard-5driver:QFN24_4MM"
+./tests/assets/repro/smoothieboard-repro.dsn:1246:    (image "smoothieboard-5driver:0603"
+./tests/assets/repro/smoothieboard-repro.dsn:1260:    (image "smoothieboard-5driver:C0603K"
+./tests/assets/repro/smoothieboard-repro.dsn:1266:    (image "smoothieboard-5driver:SOT23-5"
+./tests/assets/repro/smoothieboard-repro.dsn:1286:    (image "smoothieboard-5driver:SOT223"
+./tests/assets/repro/smoothieboard-repro.dsn:1296:    (image "smoothieboard-5driver:SMADIODE"
+./tests/assets/repro/smoothieboard-repro.dsn:1317:    (image "smoothieboard-5driver:TO220BV"
+./tests/assets/repro/smoothieboard-repro.dsn:1329:    (image "smoothieboard-5driver:PANASONIC_E"
+./tests/assets/repro/smoothieboard-repro.dsn:1356:    (image "smoothieboard-5driver:MOLEX8981"
+./tests/assets/repro/smoothieboard-repro.dsn:1382:    (image "smoothieboard-5driver:SOT230P700X160-4N"
+./tests/assets/repro/smoothieboard-repro.dsn:1405:    (image "smoothieboard-5driver:POWER_JACK_SMD"
+./tests/assets/repro/smoothieboard-repro.dsn:1434:    (image "smoothieboard-5driver:180G-2"
+./tests/assets/repro/smoothieboard-repro.dsn:1453:    (image "smoothieboard-5driver:TO263AB"
+./tests/assets/repro/smoothieboard-repro.dsn:1502:    (image "smoothieboard-5driver:JP1"
+./tests/assets/repro/smoothieboard-repro.dsn:1520:    (image "smoothieboard-5driver:10X02MTA"
+./tests/assets/repro/smoothieboard-repro.dsn:1531:    (image "smoothieboard-5driver:MICRO-SD-SOCKET-PP"
+./tests/assets/repro/smoothieboard-repro.dsn:1555:    (image "smoothieboard-5driver:HR911105A"
+./tests/assets/repro/smoothieboard-repro.dsn:1583:    (image "smoothieboard-5driver:SOIC8"
+./tests/assets/repro/smoothieboard-repro.dsn:1600:    (image "smoothieboard-5driver:C0805"
+./tests/assets/repro/smoothieboard-repro.dsn:1610:    (image "smoothieboard-5driver:SOT89"
+./tests/assets/repro/smoothieboard-repro.dsn:1626:    (image "smoothieboard-5driver:USB-B-PTH"
+./tests/assets/repro/smoothieboard-repro.dsn:1643:    (image "smoothieboard-5driver:SJ_3"
+./tests/assets/repro/smoothieboard-repro.dsn:1652:    (image "smoothieboard-5driver:SC74_INFINEON"
+./tests/assets/repro/smoothieboard-repro.dsn:1666:    (image "smoothieboard-5driver:1715250000"
+./tests/assets/repro/smoothieboard-repro.dsn:1682:    (image "smoothieboard-5driver:TO252"
+./tests/assets/repro/smoothieboard-repro.dsn:1701:    (image "smoothieboard-5driver:SMB"
+./tests/assets/repro/smoothieboard-repro.dsn:1712:    (image "smoothieboard-5driver:1X05"
+./tests/assets/repro/smoothieboard-repro.dsn:1751:    (image "smoothieboard-5driver:R-78"
+./tests/assets/repro/smoothieboard-repro.dsn:1764:    (image "smoothieboard-5driver:OSHW-LOGO-HUGE"
+./tests/assets/repro/smoothieboard-repro.dsn:1766:    (image "smoothieboard-5driver:PANASONIC_D"
+./tests/assets/repro/smoothieboard-repro.dsn:2272:    (net "/smoothieboard-5driver_1/JTAG-RTCK"
+./tests/assets/repro/smoothieboard-repro.dsn:2275:    (net "/smoothieboard-5driver_1/RX_0"
+./tests/assets/repro/smoothieboard-repro.dsn:2278:    (net "/smoothieboard-5driver_1/TX_0"
+./tests/assets/repro/smoothieboard-repro.dsn:2281:    (net "/smoothieboard-5driver_1/PLAY_LED"
+./tests/assets/repro/smoothieboard-repro.dsn:2284:    (net "/smoothieboard-5driver_1/SD_CS"
+./tests/assets/repro/smoothieboard-repro.dsn:2287:    (net "/smoothieboard-5driver_1/SD_SCK"
+./tests/assets/repro/smoothieboard-repro.dsn:2290:    (net "/smoothieboard-5driver_1/SD_MISO"
+./tests/assets/repro/smoothieboard-repro.dsn:2293:    (net "/smoothieboard-5driver_1/SD_MOSI"
+./tests/assets/repro/smoothieboard-repro.dsn:2296:    (net "/smoothieboard-5driver_1/Z_MAX"
+./tests/assets/repro/smoothieboard-repro.dsn:2299:    (net "/smoothieboard-5driver_1/Z_MIN"
+./tests/assets/repro/smoothieboard-repro.dsn:2302:    (net "/smoothieboard-5driver_1/Y_MAX"
+./tests/assets/repro/smoothieboard-repro.dsn:2305:    (net "/smoothieboard-5driver_1/Y_MIN"
+./tests/assets/repro/smoothieboard-repro.dsn:2308:    (net "/smoothieboard-5driver_1/X_MAX"
+./tests/assets/repro/smoothieboard-repro.dsn:2311:    (net "/smoothieboard-5driver_1/X_MIN"
+./tests/assets/repro/smoothieboard-repro.dsn:2314:    (net "/smoothieboard-5driver_1/LED4"
+./tests/assets/repro/smoothieboard-repro.dsn:2317:    (net "/smoothieboard-5driver_1/LED3"
+./tests/assets/repro/smoothieboard-repro.dsn:2320:    (net "/smoothieboard-5driver_1/LED2"
+./tests/assets/repro/smoothieboard-repro.dsn:2323:    (net "/smoothieboard-5driver_1/LED1"
+./tests/assets/repro/smoothieboard-repro.dsn:2326:    (net "/smoothieboard-5driver_1/USB_D-"
+./tests/assets/repro/smoothieboard-repro.dsn:2329:    (net "/smoothieboard-5driver_1/USB_D+"
+./tests/assets/repro/smoothieboard-repro.dsn:2332:    (net "/smoothieboard-5driver_1/SD_IRQ"
+./tests/assets/repro/smoothieboard-repro.dsn:2335:    (net "/smoothieboard-5driver_1/SD_WP"
+./tests/assets/repro/smoothieboard-repro.dsn:2338:    (net "/smoothieboard-5driver_1/SDA"
+./tests/assets/repro/smoothieboard-repro.dsn:2341:    (net "/smoothieboard-5driver_1/SCL"
+./tests/assets/repro/smoothieboard-repro.dsn:2350:    (net "/smoothieboard-5driver_1/P1_30"
+./tests/assets/repro/smoothieboard-repro.dsn:2353:    (net "/smoothieboard-5driver_1/P1_31"
+./tests/assets/repro/smoothieboard-repro.dsn:2359:    (net "/smoothieboard-5driver_1/RESET"
+./tests/assets/repro/smoothieboard-repro.dsn:2368:    (net "/smoothieboard-5driver_1/JTAG-TCK"
+./tests/assets/repro/smoothieboard-repro.dsn:2371:    (net "/smoothieboard-5driver_1/JTAG-TRST"
+./tests/assets/repro/smoothieboard-repro.dsn:2374:    (net "/smoothieboard-5driver_1/JTAG-TMS"
+./tests/assets/repro/smoothieboard-repro.dsn:2377:    (net "/smoothieboard-5driver_1/JTAG-TDI"
+./tests/assets/repro/smoothieboard-repro.dsn:2380:    (net "/smoothieboard-5driver_1/JTAG-TDO"
+./tests/assets/repro/smoothieboard-repro.dsn:2383:    (net "/smoothieboard-5driver_1/PLAY"
+./tests/assets/repro/smoothieboard-repro.dsn:2386:    (net "/smoothieboard-5driver_1/SD_CD"
+./tests/assets/repro/smoothieboard-repro.dsn:2389:    (net "/smoothieboard-5driver_1/ISP_BOOT"
+./tests/assets/repro/smoothieboard-repro.dsn:2392:    (net "/smoothieboard-5driver_1/MOSI1"
+./tests/assets/repro/smoothieboard-repro.dsn:2395:    (net "/smoothieboard-5driver_1/MISO1"
+./tests/assets/repro/smoothieboard-repro.dsn:2398:    (net "/smoothieboard-5driver_1/SCK1"
+./tests/assets/repro/smoothieboard-repro.dsn:2401:    (net "/smoothieboard-5driver_1/SSEL1"
+./tests/assets/repro/smoothieboard-repro.dsn:2404:    (net "/smoothieboard-5driver_1/P2.9"
+./tests/assets/repro/smoothieboard-repro.dsn:2428:    (net "/smoothieboard-5driver_1/RTS"
+./tests/assets/repro/smoothieboard-repro.dsn:2434:    (net "/smoothieboard-5driver_1/CTS"
+./tests/assets/repro/smoothieboard-repro.dsn:2480:    (net "/smoothieboard-5driver_2/P0W"
+./tests/assets/repro/smoothieboard-repro.dsn:2522:    (net "/smoothieboard-5driver_2/P1W"
+./tests/assets/repro/smoothieboard-repro.dsn:2564:    (net "/smoothieboard-5driver_2/P2W"
+./tests/assets/repro/smoothieboard-repro.dsn:2606:    (net "/smoothieboard-5driver_2/P3W"
+./tests/assets/repro/smoothieboard-repro.dsn:2648:    (net "/smoothieboard-5driver_2/TH4_P"
+./tests/assets/repro/smoothieboard-repro.dsn:2660:    (net "/smoothieboard-5driver_3/RD+"
+./tests/assets/repro/smoothieboard-repro.dsn:2663:    (net "/smoothieboard-5driver_3/RD-"
+./tests/assets/repro/smoothieboard-repro.dsn:2666:    (net "/smoothieboard-5driver_3/TD+"
+./tests/assets/repro/smoothieboard-repro.dsn:2669:    (net "/smoothieboard-5driver_3/TD-"
+./tests/assets/repro/smoothieboard-repro.dsn:2697:    (net "/smoothieboard-5driver_3/LED1/REGOFF"
+./tests/assets/repro/smoothieboard-repro.dsn:2700:    (net "/smoothieboard-5driver_3/LED2/NINTSEL"
+./tests/assets/repro/smoothieboard-repro.dsn:2715:    (net "/smoothieboard-5driver_3/+5V"
+./tests/assets/repro/smoothieboard-repro.dsn:2724:    (net "/smoothieboard-5driver_3/PWM1_FET"
+./tests/assets/repro/smoothieboard-repro.dsn:2730:    (net "/smoothieboard-5driver_3/GPIO_FET"
+./tests/assets/repro/smoothieboard-repro.dsn:2745:    (net "/smoothieboard-5driver_3/MOSFET_DRIVE"
+./tests/assets/repro/smoothieboard-repro.dsn:2749:    (net "/smoothieboard-5driver_3/VBB_IN"
+./tests/assets/repro/smoothieboard-repro.dsn:2761:    (net "/smoothieboard-5driver_3/SMALL_MOSFET_POWER"
+./tests/assets/repro/smoothieboard-repro.dsn:2791:    (net "/smoothieboard-5driver_4/THETA_CURRENT"
+./tests/assets/repro/smoothieboard-repro.dsn:2797:    (net "/smoothieboard-5driver_4/PW5"
+./tests/assets/repro/smoothieboard-repro.dsn:2800:    (net "/smoothieboard-5driver_4/ZETA_CURRENT"
+./tests/assets/repro/smoothieboard-repro.dsn:2803:    (net "/smoothieboard-5driver_4/ETA_CURRENT"
+./tests/assets/repro/smoothieboard-repro.dsn:2866:    (net "/smoothieboard-5driver_4/VBBREG"
+./tests/assets/repro/smoothieboard-repro.dsn:2869:    (class kicad_default "" "/smoothieboard-5driver_1/CTS" "/smoothieboard-5driver_1/ISP_BOOT"
+./tests/assets/repro/smoothieboard-repro.dsn:2870:      "/smoothieboard-5driver_1/JTAG-RTCK" "/smoothieboard-5driver_1/JTAG-TCK"
+./tests/assets/repro/smoothieboard-repro.dsn:2871:      "/smoothieboard-5driver_1/JTAG-TDI" "/smoothieboard-5driver_1/JTAG-TDO"
+./tests/assets/repro/smoothieboard-repro.dsn:2872:      "/smoothieboard-5driver_1/JTAG-TMS" "/smoothieboard-5driver_1/JTAG-TRST"
+./tests/assets/repro/smoothieboard-repro.dsn:2873:      "/smoothieboard-5driver_1/LED1" "/smoothieboard-5driver_1/LED2" "/smoothieboard-5driver_1/LED3"
+./tests/assets/repro/smoothieboard-repro.dsn:2874:      "/smoothieboard-5driver_1/LED4" "/smoothieboard-5driver_1/MISO1" "/smoothieboard-5driver_1/MOSI1"
+./tests/assets/repro/smoothieboard-repro.dsn:2875:      "/smoothieboard-5driver_1/P1_30" "/smoothieboard-5driver_1/P1_31" "/smoothieboard-5driver_1/P2.9"
+./tests/assets/repro/smoothieboard-repro.dsn:2876:      "/smoothieboard-5driver_1/PLAY" "/smoothieboard-5driver_1/PLAY_LED"
+./tests/assets/repro/smoothieboard-repro.dsn:2877:      "/smoothieboard-5driver_1/RESET" "/smoothieboard-5driver_1/RTS" "/smoothieboard-5driver_1/RX_0"
+./tests/assets/repro/smoothieboard-repro.dsn:2878:      "/smoothieboard-5driver_1/SCK1" "/smoothieboard-5driver_1/SCL" "/smoothieboard-5driver_1/SDA"
+./tests/assets/repro/smoothieboard-repro.dsn:2879:      "/smoothieboard-5driver_1/SD_CD" "/smoothieboard-5driver_1/SD_CS" "/smoothieboard-5driver_1/SD_IRQ"
+./tests/assets/repro/smoothieboard-repro.dsn:2880:      "/smoothieboard-5driver_1/SD_MISO" "/smoothieboard-5driver_1/SD_MOSI"
+./tests/assets/repro/smoothieboard-repro.dsn:2881:      "/smoothieboard-5driver_1/SD_SCK" "/smoothieboard-5driver_1/SD_WP" "/smoothieboard-5driver_1/SSEL1"
+./tests/assets/repro/smoothieboard-repro.dsn:2882:      "/smoothieboard-5driver_1/TX_0" "/smoothieboard-5driver_1/USB_D+" "/smoothieboard-5driver_1/USB_D-"
+./tests/assets/repro/smoothieboard-repro.dsn:2883:      "/smoothieboard-5driver_1/X_MAX" "/smoothieboard-5driver_1/X_MIN" "/smoothieboard-5driver_1/Y_MAX"
+./tests/assets/repro/smoothieboard-repro.dsn:2884:      "/smoothieboard-5driver_1/Y_MIN" "/smoothieboard-5driver_1/Z_MAX" "/smoothieboard-5driver_1/Z_MIN"
+./tests/assets/repro/smoothieboard-repro.dsn:2885:      "/smoothieboard-5driver_2/P0W" "/smoothieboard-5driver_2/P1W" "/smoothieboard-5driver_2/P2W"
+./tests/assets/repro/smoothieboard-repro.dsn:2886:      "/smoothieboard-5driver_2/P3W" "/smoothieboard-5driver_2/TH4_P" "/smoothieboard-5driver_3/+5V"
+./tests/assets/repro/smoothieboard-repro.dsn:2887:      "/smoothieboard-5driver_3/GPIO_FET" "/smoothieboard-5driver_3/LED1/REGOFF"
+./tests/assets/repro/smoothieboard-repro.dsn:2888:      "/smoothieboard-5driver_3/LED2/NINTSEL" "/smoothieboard-5driver_3/MOSFET_DRIVE"
+./tests/assets/repro/smoothieboard-repro.dsn:2889:      "/smoothieboard-5driver_3/PWM1_FET" "/smoothieboard-5driver_3/RD+" "/smoothieboard-5driver_3/RD-"
+./tests/assets/repro/smoothieboard-repro.dsn:2890:      "/smoothieboard-5driver_3/SMALL_MOSFET_POWER" "/smoothieboard-5driver_3/TD+"
+./tests/assets/repro/smoothieboard-repro.dsn:2891:      "/smoothieboard-5driver_3/TD-" "/smoothieboard-5driver_3/VBB_IN" "/smoothieboard-5driver_4/ETA_CURRENT"
+./tests/assets/repro/smoothieboard-repro.dsn:2892:      "/smoothieboard-5driver_4/PW5" "/smoothieboard-5driver_4/THETA_CURRENT"
+./tests/assets/repro/smoothieboard-repro.dsn:2893:      "/smoothieboard-5driver_4/VBBREG" "/smoothieboard-5driver_4/ZETA_CURRENT"
+./lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-json.ts:106:            width: 150, // trace width used in freerouting
+
+===== likely parser/converter files =====
+lib/common/parse-sexpr.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-json.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-session.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-string.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-components-and-pads.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-nets.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-pcb-traces/DsnTraceOperationsWrapper.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-pcb-traces/findOrCreateViaPadstack.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-pcb-traces/index.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-plated-holes.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/stringify-dsn-json.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/stringify-dsn-session.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-pcb-to-circuit-json.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-session-to-circuit-json.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/dsn-component-converters/convert-dsn-pcb-components-to-source-components-and-ports.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/dsn-component-converters/convert-nets-to-source-nets-and-traces.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/dsn-component-converters/convert-padstacks-to-smtpads.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/dsn-component-converters/convert-polyline-path-to-pcb-traces.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/dsn-component-converters/convert-via-to-pcb-via.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/dsn-component-converters/convert-wires-to-traces.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/dsn-component-converters/convert-wiring-path-to-pcb-traces.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/dsn-component-converters/convert-wiring-via-to-pcb-vias.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/merge-dsn-session-into-dsn-pcb.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/parse-dsn-to-circuit-json.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/parse-dsn-to-dsn-json.ts
+lib/dsn-pcb/types.ts
+lib/index.ts
+lib/utils/chunks.ts
+lib/utils/compute-seg-intersection.ts
+lib/utils/create-and-add-padstack-for-pcb-smtpad.ts
+lib/utils/create-padstack.ts
+lib/utils/create-pin-for-image.ts
+lib/utils/generate-layers.ts
+lib/utils/get-combined-source-port-name.ts
+lib/utils/get-component-value.ts
+lib/utils/get-footprint-name.ts
+lib/utils/get-padstack-name.ts
+lib/utils/get-pin-number.ts
+lib/utils/get-polygon-smt-pad-geometry.ts
+lib/utils/get-trace-length.ts
+lib/utils/get-via-coordinates.ts
+lib/utils/pairs.ts

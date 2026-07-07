@@ -1,0 +1,1752 @@
+{
+  "verdict": "ASK_AVAILABILITY_ONLY_OR_PARK",
+  "score": 5,
+  "reasons": [
+    "bounty visible",
+    "Smoothie fixture already in repo",
+    "Node/npm available",
+    "open related PR risk",
+    "claim/PR words in issue"
+  ],
+  "issue": "https://github.com/tscircuit/dsn-converter/issues/54",
+  "bounty_visible": true,
+  "claim_risk": true,
+  "claim_words_count": 665,
+  "smoothie_fixture": true,
+  "has_node": true,
+  "has_npm": true,
+  "has_bun": false,
+  "do_install": "0",
+  "bun_repro_rc": null,
+  "open_related_prs": [
+    {
+      "author": {
+        "id": "MDQ6VXNlcjEyMDU3MzEy",
+        "is_bot": false,
+        "login": "jamilahmadzai",
+        "name": "Jamil Ur Rehman Ahmadzai"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-18T14:23:36Z",
+      "headRefName": "fix/smoothie-rotated-string-pin-ids",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 504,
+      "state": "OPEN",
+      "title": "fix: preserve Smoothie DSN pin labels",
+      "updatedAt": "2026-06-18T14:23:40Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/504"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjM2MTMwNjE2",
+        "is_bot": false,
+        "login": "lifuzhang1108",
+        "name": "Lifu Zhang"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-07-07T07:20:45Z",
+      "headRefName": "fix/pin-rotate-clause",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 517,
+      "state": "OPEN",
+      "title": "fix: parse pin `(rotate <angle>)` clause and apply padstack rotation",
+      "updatedAt": "2026-07-07T07:20:45Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/517"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjExODA5NjU=",
+        "is_bot": false,
+        "login": "Desalzes",
+        "name": "Desalzes"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-17T12:39:33Z",
+      "headRefName": "fix/54-keepout-conversion",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 503,
+      "state": "OPEN",
+      "title": "fix(#54): convert DSN image-level keepouts to pcb_keepout",
+      "updatedAt": "2026-06-17T12:39:37Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/503"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjExODA5NjU=",
+        "is_bot": false,
+        "login": "Desalzes",
+        "name": "Desalzes"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-16T03:22:51Z",
+      "headRefName": "fix/54-board-outline",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 500,
+      "state": "OPEN",
+      "title": "fix(#54): preserve board.outline polygon + honor placement side for padstack layers",
+      "updatedAt": "2026-06-17T15:38:27Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/500"
+    },
+    {
+      "author": {
+        "id": "U_kgDODR5NRg",
+        "is_bot": false,
+        "login": "yasdhf",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-07-01T22:06:34Z",
+      "headRefName": "fix/declare-runtime-dependencies",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 514,
+      "state": "OPEN",
+      "title": "fix: declare @tscircuit/math-utils and transformation-matrix as runtime dependencies",
+      "updatedAt": "2026-07-01T23:55:18Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/514"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjg5NzI1NzEy",
+        "is_bot": false,
+        "login": "pvbang",
+        "name": "Phan V\u0103n B\u1eb1ng"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-14T18:34:19Z",
+      "headRefName": "fix/smoothie-board-parsing",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 487,
+      "state": "OPEN",
+      "title": "fix: handle Smoothie Board DSN parsing edge cases",
+      "updatedAt": "2026-06-15T07:55:36Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/487"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD7CLVQ",
+        "is_bot": false,
+        "login": "Adysekus",
+        "name": "Adyseku"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-13T22:41:41Z",
+      "headRefName": "adyseku/parse-uppercase-pcb-root",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 408,
+      "state": "OPEN",
+      "title": "Fix Smoothie Board DSN conversion",
+      "updatedAt": "2026-05-13T23:31:53Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/408"
+    },
+    {
+      "author": {
+        "id": "U_kgDOETqSpg",
+        "is_bot": false,
+        "login": "kkk02180218",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-05T11:47:12Z",
+      "headRefName": "fix/issue54-smoothieboard-full-conversion",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 475,
+      "state": "OPEN",
+      "title": "fix: handle string_quote and standalone-minus pin names in DSN tokenizer",
+      "updatedAt": "2026-06-05T11:47:12Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/475"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEVMEOg",
+        "is_bot": false,
+        "login": "codeboost-tr",
+        "name": "codeboost-tr"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-22T10:04:09Z",
+      "headRefName": "main",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 506,
+      "state": "OPEN",
+      "title": "feat: preserve DSN padstack hole descriptors and shapes during JSON round-tripping",
+      "updatedAt": "2026-06-23T19:38:24Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/506"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEDZXNQ",
+        "is_bot": false,
+        "login": "qlufiq-collab",
+        "name": "qlufiq"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-11T06:17:57Z",
+      "headRefName": "bounty/tscircuit/dsn-converter-54",
+      "isDraft": true,
+      "mergedAt": null,
+      "number": 478,
+      "state": "OPEN",
+      "title": "We can't convert Smoothie Board to Circuit JSON",
+      "updatedAt": "2026-07-04T19:17:43Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/478"
+    },
+    {
+      "author": {
+        "id": "U_kgDODVBapQ",
+        "is_bot": false,
+        "login": "xnnnc",
+        "name": "O\u011fuzhan Y\u00fcksel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-15T19:48:19Z",
+      "headRefName": "xnnnc/preserve-session-padstack-shapes-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 491,
+      "state": "OPEN",
+      "title": "Preserve DSN session padstack shape geometry",
+      "updatedAt": "2026-06-15T19:48:22Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/491"
+    },
+    {
+      "author": {
+        "id": "U_kgDODU38cA",
+        "is_bot": false,
+        "login": "Iineman2",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T18:23:52Z",
+      "headRefName": "iineman2-smoothieboard-rotated-pads",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 216,
+      "state": "OPEN",
+      "title": "Fix rotated DSN component pad placement",
+      "updatedAt": "2026-05-13T09:42:52Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/216"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjMyNzcxNTgy",
+        "is_bot": false,
+        "login": "zzhang82",
+        "name": "zheshuang zhang"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T01:24:53Z",
+      "headRefName": "fix-via-padstack-dimensions",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 272,
+      "state": "OPEN",
+      "title": "Use DSN via padstack dimensions when importing vias",
+      "updatedAt": "2026-05-12T01:31:32Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/272"
+    },
+    {
+      "author": {
+        "id": "U_kgDODVBapQ",
+        "is_bot": false,
+        "login": "xnnnc",
+        "name": "O\u011fuzhan Y\u00fcksel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-15T19:46:46Z",
+      "headRefName": "xnnnc/preserve-padstack-hole-descriptors-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 490,
+      "state": "OPEN",
+      "title": "Preserve DSN padstack hole descriptors",
+      "updatedAt": "2026-06-15T20:17:35Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/490"
+    },
+    {
+      "author": {
+        "id": "U_kgDODV0zYQ",
+        "is_bot": false,
+        "login": "Petoverflow",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T00:17:26Z",
+      "headRefName": "codex/normalize-quoted-dsn-pin-refs-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 147,
+      "state": "OPEN",
+      "title": "fix: match quoted DSN pin references",
+      "updatedAt": "2026-05-11T01:20:18Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/147"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjk1NzUwNjM=",
+        "is_bot": false,
+        "login": "xXGoziXx",
+        "name": "Godstime Osarobo"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-13T10:47:10Z",
+      "headRefName": "codex/preserve-split-placement-pn",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 402,
+      "state": "OPEN",
+      "title": "Preserve split placement PN atoms",
+      "updatedAt": "2026-05-13T10:47:13Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/402"
+    },
+    {
+      "author": {
+        "id": "U_kgDODU38cA",
+        "is_bot": false,
+        "login": "Iineman2",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T13:51:32Z",
+      "headRefName": "codex/smoothie-image-keepouts-roundtrip",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 373,
+      "state": "OPEN",
+      "title": "Preserve DSN image keepouts",
+      "updatedAt": "2026-05-13T09:42:49Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/373"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjY1NTkwMTU5",
+        "is_bot": false,
+        "login": "CalyxNZ",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T10:07:31Z",
+      "headRefName": "fix-dsn-parser-string-quote",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 414,
+      "state": "OPEN",
+      "title": "Fix DSN parser handling of bare string_quote token",
+      "updatedAt": "2026-05-14T21:07:56Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/414"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjcyMjg1Mjkw",
+        "is_bot": false,
+        "login": "Shriram-Vasudevan",
+        "name": "Shriram Vasudevan"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T00:38:42Z",
+      "headRefName": "fix-54-image-outlines-silkscreen",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 259,
+      "state": "OPEN",
+      "title": "Import DSN image outlines as silkscreen paths",
+      "updatedAt": "2026-05-12T00:38:46Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/259"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjQxNTE2MzY=",
+        "is_bot": false,
+        "login": "raunaqsingh",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T15:27:47Z",
+      "headRefName": "codex/preserve-dsn-structure-planes",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 376,
+      "state": "OPEN",
+      "title": "Preserve DSN structure plane polygons",
+      "updatedAt": "2026-05-12T15:30:10Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/376"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjQ3OTIyOTc1",
+        "is_bot": false,
+        "login": "gshaowei6",
+        "name": "gshaowei6"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-15T21:31:26Z",
+      "headRefName": "fix-smoothie-rotated-pin-names",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 458,
+      "state": "OPEN",
+      "title": "Fix rotated DSN pin identifiers in Smoothieboard conversion",
+      "updatedAt": "2026-07-02T11:07:53Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/458"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjUyNjc2MDU1",
+        "is_bot": false,
+        "login": "yeguacelestial",
+        "name": "Carlos Nava"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-20T00:33:59Z",
+      "headRefName": "fix-rotated-dsn-pin-labels",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 463,
+      "state": "OPEN",
+      "title": "Fix rotated DSN pin labels for Smoothieboard",
+      "updatedAt": "2026-05-20T00:36:37Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/463"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjE1Njg1NzUx",
+        "is_bot": false,
+        "login": "Havarry",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T16:37:45Z",
+      "headRefName": "main",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 379,
+      "state": "OPEN",
+      "title": "fix: stabilize Smoothie Board DSN component conversion",
+      "updatedAt": "2026-05-16T05:22:50Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/379"
+    },
+    {
+      "author": {
+        "id": "U_kgDODYN9FA",
+        "is_bot": false,
+        "login": "partyplatter08-lab",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T23:57:52Z",
+      "headRefName": "partyplatter08-lab/bounty-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 396,
+      "state": "OPEN",
+      "title": "Fix Smoothie Board DSN component conversion",
+      "updatedAt": "2026-05-13T00:01:32Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/396"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjIwMjk5MDk3",
+        "is_bot": false,
+        "login": "IvGolovach",
+        "name": "Ivan Golovach"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-10T22:40:34Z",
+      "headRefName": "fix/smoothieboard-plane-copper-pour",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 146,
+      "state": "OPEN",
+      "title": "fix: convert DSN structure planes to copper pours",
+      "updatedAt": "2026-05-10T22:40:38Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/146"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjQ3MDk1MTE1",
+        "is_bot": false,
+        "login": "maxrross",
+        "name": "Max"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T00:34:06Z",
+      "headRefName": "codex/import-image-outlines",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 257,
+      "state": "OPEN",
+      "title": "Import DSN image outlines as silkscreen paths",
+      "updatedAt": "2026-05-12T00:36:28Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/257"
+    },
+    {
+      "author": {
+        "id": "U_kgDODJOm3Q",
+        "is_bot": false,
+        "login": "Minori016",
+        "name": "L\u01b0\u01a1ng Ho\u00e0ng An"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T11:13:05Z",
+      "headRefName": "fix/dsn-string-quote-token",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 417,
+      "state": "OPEN",
+      "title": "Fix DSN string_quote token parsing",
+      "updatedAt": "2026-05-14T11:13:05Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/417"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEIUliw",
+        "is_bot": false,
+        "login": "voltrace-io",
+        "name": "Trace"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-21T02:45:57Z",
+      "headRefName": "voltrace-io/1779330812-fix-smoothie-non-numeric-pins",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 467,
+      "state": "OPEN",
+      "title": "fix: handle non-numeric DSN pin numbers, apply component rotation, and deduplicate IDs",
+      "updatedAt": "2026-05-21T02:46:00Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/467"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEOzbng",
+        "is_bot": false,
+        "login": "realkoreanbeef",
+        "name": "\ud55c\uc6b0\uc9c4"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T02:44:58Z",
+      "headRefName": "bounty/54-via-padstack-dimensions",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 411,
+      "state": "OPEN",
+      "title": "Use padstack dimensions for DSN wiring vias",
+      "updatedAt": "2026-05-14T02:44:58Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/411"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCFTEXA",
+        "is_bot": false,
+        "login": "bodyegypt",
+        "name": "Abdalla Khaled Ahmed Mohamed Bayoumi"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-11T18:07:28Z",
+      "headRefName": "preserve-net-fromto-length-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 479,
+      "state": "OPEN",
+      "title": "Preserve net fromto length constraints",
+      "updatedAt": "2026-06-11T18:07:35Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/479"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjE3Mjk3NDk=",
+        "is_bot": false,
+        "login": "JimmiFriborg",
+        "name": "Jimmi Friborg"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-13T03:51:11Z",
+      "headRefName": "preserve-source-net-labels",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 398,
+      "state": "OPEN",
+      "title": "Preserve source net labels in DSN output",
+      "updatedAt": "2026-07-03T09:49:53Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/398"
+    },
+    {
+      "author": {
+        "id": "U_kgDOB7OV3Q",
+        "is_bot": false,
+        "login": "ron1nrest",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-16T09:35:36Z",
+      "headRefName": "feat/bounty-dsn-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 460,
+      "state": "OPEN",
+      "title": "fix: smoothie board DSN produces valid circuit json (Fixes #54)",
+      "updatedAt": "2026-05-16T09:39:58Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/460"
+    },
+    {
+      "author": {
+        "id": "U_kgDOBZLaCw",
+        "is_bot": false,
+        "login": "AntDags",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T23:47:01Z",
+      "headRefName": "codex-bounty-54-keepouts",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 254,
+      "state": "OPEN",
+      "title": "Parse DSN image keepouts",
+      "updatedAt": "2026-05-11T23:47:05Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/254"
+    },
+    {
+      "author": {
+        "id": "U_kgDODKW3oA",
+        "is_bot": false,
+        "login": "bcornish1797",
+        "name": "Bcornish"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-14T16:04:04Z",
+      "headRefName": "fix/parse-sexpr-lone-minus",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 486,
+      "state": "OPEN",
+      "title": "fix: treat standalone minus sign as symbol in DSN tokenizer",
+      "updatedAt": "2026-06-19T23:48:30Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/486"
+    },
+    {
+      "author": {
+        "id": "U_kgDODluVOQ",
+        "is_bot": false,
+        "login": "watcharaponthod-code",
+        "name": "Watcharapon-T"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-10T20:05:51Z",
+      "headRefName": "fix/smoothieboard-pin-rotation-and-tokenizer",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 144,
+      "state": "OPEN",
+      "title": "fix: resolve 3 root-cause bugs in Smoothie Board DSN conversion",
+      "updatedAt": "2026-05-11T11:30:35Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/144"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCggidg",
+        "is_bot": false,
+        "login": "dustinvali",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T11:26:04Z",
+      "headRefName": "fix-path-padstack-extents",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 154,
+      "state": "OPEN",
+      "title": "fix: use stroked extents for DSN path padstacks",
+      "updatedAt": "2026-05-11T11:26:09Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/154"
+    },
+    {
+      "author": {
+        "id": "U_kgDOB6rL_w",
+        "is_bot": false,
+        "login": "iFaceTheWind",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-20T15:17:52Z",
+      "headRefName": "codex/preserve-structure-control-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 466,
+      "state": "OPEN",
+      "title": "Preserve DSN structure control metadata",
+      "updatedAt": "2026-05-20T15:17:55Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/466"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD_GkHg",
+        "is_bot": false,
+        "login": "orbitwebsites-cloud",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-01T21:27:34Z",
+      "headRefName": "fix/issue-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 140,
+      "state": "OPEN",
+      "title": "feat: we cant convert smoothie board to circuit json",
+      "updatedAt": "2026-05-01T21:27:37Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/140"
+    },
+    {
+      "author": {
+        "id": "U_kgDOC_Whzg",
+        "is_bot": false,
+        "login": "VexCode24",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-25T13:33:45Z",
+      "headRefName": "codex/smoothieboard-via-ids-and-size",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 471,
+      "state": "OPEN",
+      "title": "Fix Smoothieboard via conversion metadata",
+      "updatedAt": "2026-05-25T14:08:13Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/471"
+    },
+    {
+      "author": {
+        "id": "U_kgDODUJx6Q",
+        "is_bot": false,
+        "login": "Jahrome907",
+        "name": "Joe "
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-13T03:09:10Z",
+      "headRefName": "patch-1",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 397,
+      "state": "OPEN",
+      "title": "Fix rotated DSN pin numbers in Smoothieboard conversion",
+      "updatedAt": "2026-05-13T05:15:03Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/397"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjIyNzI5MTUx",
+        "is_bot": false,
+        "login": "sureshchouksey8",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T10:32:59Z",
+      "headRefName": "fix/component-placement-rotation",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 415,
+      "state": "OPEN",
+      "title": "Apply component rotation when converting DSN pads",
+      "updatedAt": "2026-06-17T11:18:01Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/415"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjU4MDA2Mzky",
+        "is_bot": false,
+        "login": "tungnguyentu",
+        "name": "Tung Nguyen Tu"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T17:13:42Z",
+      "headRefName": "fix/issue-54-smoothieboard",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 446,
+      "state": "OPEN",
+      "title": "fix: tokenizer corrupts voltage net names (3.3V\u21923.3, 5V\u21925, 12VREG\u219212)",
+      "updatedAt": "2026-05-14T17:13:47Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/446"
+    },
+    {
+      "author": {
+        "id": "U_kgDOB-2MbA",
+        "is_bot": false,
+        "login": "IbrahimLaeeq",
+        "name": "Muhammad Ibrahim Laeeq"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T14:14:37Z",
+      "headRefName": "fix/bounty-issue-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 444,
+      "state": "OPEN",
+      "title": "fix: We can't convert Smoothie Board to Circuit JSON (#54)",
+      "updatedAt": "2026-05-14T14:16:54Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/444"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCoo4_w",
+        "is_bot": false,
+        "login": "Cosmhyccc",
+        "name": "saif"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T02:02:04Z",
+      "headRefName": "codex/preserve-layers-without-property",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 281,
+      "state": "OPEN",
+      "title": "Preserve DSN layers without property blocks",
+      "updatedAt": "2026-05-12T02:02:07Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/281"
+    },
+    {
+      "author": {
+        "id": "U_kgDODpIILg",
+        "is_bot": false,
+        "login": "thanhdatloveyou18-coder",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T07:57:26Z",
+      "headRefName": "main",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 352,
+      "state": "OPEN",
+      "title": "feat: resolve Smoothie Board DSN conversion issues (rotation, through-hole, planes)",
+      "updatedAt": "2026-05-12T07:57:26Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/352"
+    },
+    {
+      "author": {
+        "id": "U_kgDOBc9Kww",
+        "is_bot": false,
+        "login": "loganoe",
+        "name": "Logan Vimalaraj"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T09:07:33Z",
+      "headRefName": "codex/preserve-dsn-pin-rotation",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 358,
+      "state": "OPEN",
+      "title": "Preserve DSN image pin rotation",
+      "updatedAt": "2026-05-12T09:07:37Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/358"
+    },
+    {
+      "author": {
+        "id": "U_kgDOBc9Kww",
+        "is_bot": false,
+        "login": "loganoe",
+        "name": "Logan Vimalaraj"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T09:14:37Z",
+      "headRefName": "codex/preserve-minus-pin-label",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 361,
+      "state": "OPEN",
+      "title": "Preserve bare minus pin labels",
+      "updatedAt": "2026-05-12T09:14:41Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/361"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCXsjBg",
+        "is_bot": false,
+        "login": "aifunmobi",
+        "name": "VectorAI LLC"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-02-09T15:06:49Z",
+      "headRefName": "fix/smoothie-board-conversion",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 119,
+      "state": "OPEN",
+      "title": "fix: improve smoothie board DSN conversion",
+      "updatedAt": "2026-02-19T23:37:38Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/119"
+    },
+    {
+      "author": {
+        "id": "U_kgDOB9vstQ",
+        "is_bot": false,
+        "login": "Arthurescc",
+        "name": "Doyele"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-15T04:09:59Z",
+      "headRefName": "codex-preserve-wiring-via-type-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 452,
+      "state": "OPEN",
+      "title": "Preserve wiring via type metadata",
+      "updatedAt": "2026-05-15T04:10:05Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/452"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjYwMDI4MjEw",
+        "is_bot": false,
+        "login": "chengyixu",
+        "name": "Wilson Xu"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-03-28T18:47:53Z",
+      "headRefName": "fix/smoothieboard-pin-parsing",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 128,
+      "state": "OPEN",
+      "title": "fix: resolve NaN pin_number for named and symbol pins (Smoothie Board)",
+      "updatedAt": "2026-05-12T04:56:45Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/128"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjU1NDU0MTY1",
+        "is_bot": false,
+        "login": "bnpl7",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-05T16:53:22Z",
+      "headRefName": "fix/smoothieboard-pin-identifiers",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 476,
+      "state": "OPEN",
+      "title": "fix: preserve DSN pin identifiers during Smoothieboard conversion",
+      "updatedAt": "2026-06-05T16:55:16Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/476"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEL5KXw",
+        "is_bot": false,
+        "login": "felixbeyer99-design",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T19:57:35Z",
+      "headRefName": "fix/smoothieboard-net-tokenizer",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 450,
+      "state": "OPEN",
+      "title": "fix: preserve voltage-style DSN net names during tokenization",
+      "updatedAt": "2026-05-15T11:27:18Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/450"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjcyMTUxODg2",
+        "is_bot": false,
+        "login": "DanielButler1",
+        "name": "Daniel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T12:04:22Z",
+      "headRefName": "back-side-pad-layers-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 156,
+      "state": "OPEN",
+      "title": "fix: map back-side DSN SMT pads to bottom layer",
+      "updatedAt": "2026-05-11T12:06:41Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/156"
+    },
+    {
+      "author": {
+        "id": "U_kgDODCtWLQ",
+        "is_bot": false,
+        "login": "apexlj1130",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-03-08T14:39:03Z",
+      "headRefName": "chore/repro-smoothie-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 123,
+      "state": "OPEN",
+      "title": "fix: avoid NaN source_port pin_number for Smoothie Board DSN",
+      "updatedAt": "2026-03-18T18:20:12Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/123"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjQ3MDk1MTE1",
+        "is_bot": false,
+        "login": "maxrross",
+        "name": "Max"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T23:40:53Z",
+      "headRefName": "codex/import-plated-hole-padstacks",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 252,
+      "state": "OPEN",
+      "title": "Import plated-hole padstacks as plated holes",
+      "updatedAt": "2026-05-11T23:42:41Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/252"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCRQotw",
+        "is_bot": false,
+        "login": "EirikViking",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T01:53:30Z",
+      "headRefName": "codex/preserve-class-circuit-metadata",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 278,
+      "state": "OPEN",
+      "title": "Preserve DSN class circuit metadata",
+      "updatedAt": "2026-05-12T01:56:01Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/278"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD2tuXg",
+        "is_bot": false,
+        "login": "EnzoGaillardSystems",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-02-20T01:53:31Z",
+      "headRefName": "fix/smoothie-board-dsn",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 122,
+      "state": "OPEN",
+      "title": "fix: handle Smoothie Board DSN pin number modifiers",
+      "updatedAt": "2026-02-20T01:53:35Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/122"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD4e7bg",
+        "is_bot": false,
+        "login": "dclawd88",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T08:53:51Z",
+      "headRefName": "codex/dsn-unique-wire-via-ids",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 149,
+      "state": "OPEN",
+      "title": "fix: avoid duplicate DSN wire element ids",
+      "updatedAt": "2026-05-11T13:40:31Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/149"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD99_PQ",
+        "is_bot": false,
+        "login": "synoxa-sys",
+        "name": "synoxa"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T02:30:42Z",
+      "headRefName": "bounty/preserve-network-via-rules",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 292,
+      "state": "OPEN",
+      "title": "Preserve top-level network via rules",
+      "updatedAt": "2026-05-12T02:30:45Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/292"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEENMFQ",
+        "is_bot": false,
+        "login": "vegapunk9527",
+        "name": "vegapunk"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T10:23:11Z",
+      "headRefName": "codex/session-via-padstack-dimensions",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 151,
+      "state": "OPEN",
+      "title": "Use session via padstack dimensions",
+      "updatedAt": "2026-05-11T10:23:16Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/151"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEENMFQ",
+        "is_bot": false,
+        "login": "vegapunk9527",
+        "name": "vegapunk"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T10:04:15Z",
+      "headRefName": "codex/session-any-via-padstack",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 150,
+      "state": "OPEN",
+      "title": "Support session via padstack variants",
+      "updatedAt": "2026-05-11T10:04:19Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/150"
+    },
+    {
+      "author": {
+        "id": "U_kgDOC856Sg",
+        "is_bot": false,
+        "login": "thegreatalxx",
+        "name": "Alexander Wondwossen"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-04-18T21:27:23Z",
+      "headRefName": "main",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 135,
+      "state": "OPEN",
+      "title": "fix: allow non-numeric pin numbers in dsn conversion",
+      "updatedAt": "2026-04-18T21:27:23Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/135"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEOzbng",
+        "is_bot": false,
+        "login": "realkoreanbeef",
+        "name": "\ud55c\uc6b0\uc9c4"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-13T22:44:12Z",
+      "headRefName": "bounty/54-unique-smoothie-via-ids",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 409,
+      "state": "OPEN",
+      "title": "fix: make wiring via ids unique",
+      "updatedAt": "2026-05-13T22:44:12Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/409"
+    },
+    {
+      "author": {
+        "id": "U_kgDODttVTA",
+        "is_bot": false,
+        "login": "buildingvibes",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-02-12T16:52:41Z",
+      "headRefName": "fix/smoothie-board-conversion",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 120,
+      "state": "OPEN",
+      "title": "fix: handle pin rotation, non-numeric pin names, and duplicate IDs in Smoothie Board DSN",
+      "updatedAt": "2026-02-12T16:55:25Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/120"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEENMFQ",
+        "is_bot": false,
+        "login": "vegapunk9527",
+        "name": "vegapunk"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-11T10:41:36Z",
+      "headRefName": "codex/wiring-via-padstack-dimensions",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 152,
+      "state": "OPEN",
+      "title": "Use wiring via padstack dimensions",
+      "updatedAt": "2026-05-11T10:41:40Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/152"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCjiBfg",
+        "is_bot": false,
+        "login": "Mohamed-elgypaly",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-10T22:18:06Z",
+      "headRefName": "fix/smoothie-board-conversion",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 145,
+      "state": "OPEN",
+      "title": "fix: handle rotation and alphanumeric pins in smoothie board conversion",
+      "updatedAt": "2026-05-10T23:48:33Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/145"
+    },
+    {
+      "author": {
+        "id": "U_kgDODXsIoQ",
+        "is_bot": false,
+        "login": "makaiachildress-web",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-02-17T17:09:16Z",
+      "headRefName": "fix/smoothie-board-conversion",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 121,
+      "state": "OPEN",
+      "title": "fix: Smoothie Board DSN conversion - NaN IDs, rotation, pin parsing",
+      "updatedAt": "2026-02-17T17:09:16Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/121"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD3dK6A",
+        "is_bot": false,
+        "login": "agent-steven",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-02-05T16:15:14Z",
+      "headRefName": "feat/smoothieboard-conversion",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 118,
+      "state": "OPEN",
+      "title": "test: add smoothieboard DSN conversion test",
+      "updatedAt": "2026-02-09T17:27:01Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/118"
+    },
+    {
+      "author": {
+        "id": "U_kgDOBzE7wQ",
+        "is_bot": false,
+        "login": "b3417",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-07-05T19:37:13Z",
+      "headRefName": "codex/dsn-scientific-notation",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 515,
+      "state": "OPEN",
+      "title": "fix(dsn): parse scientific notation",
+      "updatedAt": "2026-07-05T19:38:32Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/515"
+    },
+    {
+      "author": {
+        "id": "U_kgDODCZlfA",
+        "is_bot": false,
+        "login": "vagdotdev",
+        "name": "Vagdev"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-29T19:45:09Z",
+      "headRefName": "fix/preserve-pcb-parser-options",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 509,
+      "state": "OPEN",
+      "title": "fix: preserve pcb parser options when stringifying dsn",
+      "updatedAt": "2026-06-29T19:45:59Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/509"
+    },
+    {
+      "author": {
+        "id": "U_kgDOBpULMA",
+        "is_bot": false,
+        "login": "vahapogut",
+        "name": "Abdulvahap Ogut"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-21T22:34:05Z",
+      "headRefName": "fix-dsn-nonnumeric-pins",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 505,
+      "state": "OPEN",
+      "title": "fix: parse rotated and nonnumeric DSN pins",
+      "updatedAt": "2026-06-21T22:45:17Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/505"
+    },
+    {
+      "author": {
+        "id": "U_kgDODVBapQ",
+        "is_bot": false,
+        "login": "xnnnc",
+        "name": "O\u011fuzhan Y\u00fcksel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-15T19:59:50Z",
+      "headRefName": "xnnnc/preserve-session-network-vias-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 496,
+      "state": "OPEN",
+      "title": "Preserve DSN session network vias",
+      "updatedAt": "2026-06-15T19:59:53Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/496"
+    },
+    {
+      "author": {
+        "id": "U_kgDODVBapQ",
+        "is_bot": false,
+        "login": "xnnnc",
+        "name": "O\u011fuzhan Y\u00fcksel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-15T20:03:04Z",
+      "headRefName": "xnnnc/preserve-session-parser-options-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 497,
+      "state": "OPEN",
+      "title": "Emit DSN session parser options",
+      "updatedAt": "2026-06-15T20:04:19Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/497"
+    },
+    {
+      "author": {
+        "id": "U_kgDODVBapQ",
+        "is_bot": false,
+        "login": "xnnnc",
+        "name": "O\u011fuzhan Y\u00fcksel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-15T19:57:58Z",
+      "headRefName": "xnnnc/preserve-session-route-parser-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 494,
+      "state": "OPEN",
+      "title": "Preserve DSN session route parser metadata",
+      "updatedAt": "2026-06-15T19:58:01Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/494"
+    },
+    {
+      "author": {
+        "id": "U_kgDODVBapQ",
+        "is_bot": false,
+        "login": "xnnnc",
+        "name": "O\u011fuzhan Y\u00fcksel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-15T19:57:09Z",
+      "headRefName": "xnnnc/preserve-session-placement-pn-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 493,
+      "state": "OPEN",
+      "title": "Preserve DSN session placement PN descriptors",
+      "updatedAt": "2026-06-15T19:57:12Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/493"
+    },
+    {
+      "author": {
+        "id": "U_kgDODVBapQ",
+        "is_bot": false,
+        "login": "xnnnc",
+        "name": "O\u011fuzhan Y\u00fcksel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-15T19:58:55Z",
+      "headRefName": "xnnnc/preserve-session-wire-metadata-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 495,
+      "state": "OPEN",
+      "title": "Preserve DSN session network wire metadata",
+      "updatedAt": "2026-06-15T19:58:58Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/495"
+    },
+    {
+      "author": {
+        "id": "U_kgDODCZlfA",
+        "is_bot": false,
+        "login": "vagdotdev",
+        "name": "Vagdev"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-29T19:58:55Z",
+      "headRefName": "bounty/dsn-omit-missing-wire-net",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 510,
+      "state": "OPEN",
+      "title": "fix: omit missing wiring net clauses",
+      "updatedAt": "2026-06-29T20:02:09Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/510"
+    },
+    {
+      "author": {
+        "id": "U_kgDODCZlfA",
+        "is_bot": false,
+        "login": "vagdotdev",
+        "name": "Vagdev"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-29T20:16:46Z",
+      "headRefName": "bounty/optional-class-circuit",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 511,
+      "state": "OPEN",
+      "title": "fix: handle classes without circuit blocks",
+      "updatedAt": "2026-06-29T20:18:02Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/511"
+    },
+    {
+      "author": {
+        "id": "U_kgDODVBapQ",
+        "is_bot": false,
+        "login": "xnnnc",
+        "name": "O\u011fuzhan Y\u00fcksel"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-06-15T19:49:39Z",
+      "headRefName": "xnnnc/preserve-session-library-images-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 492,
+      "state": "OPEN",
+      "title": "Preserve DSN session library image descriptors",
+      "updatedAt": "2026-06-15T19:50:39Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/492"
+    },
+    {
+      "author": {
+        "id": "U_kgDOBvuGhw",
+        "is_bot": false,
+        "login": "jynbil1",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-15T14:40:36Z",
+      "headRefName": "codex-dsn-new-slice-142445",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 457,
+      "state": "OPEN",
+      "title": "Preserve DSN autoroute settings",
+      "updatedAt": "2026-05-16T05:31:57Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/457"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD6OcDA",
+        "is_bot": false,
+        "login": "shootingallday",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-21T06:25:03Z",
+      "headRefName": "codex/preserve-structure-planes-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 468,
+      "state": "OPEN",
+      "title": "Preserve DSN structure plane polygons",
+      "updatedAt": "2026-05-21T06:25:06Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/468"
+    },
+    {
+      "author": {
+        "id": "U_kgDOBvuGhw",
+        "is_bot": false,
+        "login": "jynbil1",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-13T15:19:22Z",
+      "headRefName": "codex-parserless-dsn-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 405,
+      "state": "OPEN",
+      "title": "Handle parserless DSN PCB stringification",
+      "updatedAt": "2026-05-16T05:37:24Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/405"
+    },
+    {
+      "author": {
+        "id": "U_kgDOC0h-Nw",
+        "is_bot": false,
+        "login": "sososina",
+        "name": "damagoci"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T16:29:56Z",
+      "headRefName": "bounty/preserve-net-properties-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 378,
+      "state": "OPEN",
+      "title": "Preserve DSN net property metadata",
+      "updatedAt": "2026-05-12T16:30:00Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/378"
+    },
+    {
+      "author": {
+        "id": "MDQ6VXNlcjM1MTk1MDE0",
+        "is_bot": false,
+        "login": "suhail-ak-2",
+        "name": "Suhail"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T09:09:37Z",
+      "headRefName": "fix/preserve-quoted-backslashes",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 359,
+      "state": "OPEN",
+      "title": "Preserve quoted DSN backslashes",
+      "updatedAt": "2026-05-12T09:09:41Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/359"
+    },
+    {
+      "author": {
+        "id": "U_kgDODquWhQ",
+        "is_bot": false,
+        "login": "darshan-Jahagirdar",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T03:34:11Z",
+      "headRefName": "codex/preserve-descriptionless-class-names",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 304,
+      "state": "OPEN",
+      "title": "Preserve descriptionless DSN class names",
+      "updatedAt": "2026-05-12T03:34:15Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/304"
+    },
+    {
+      "author": {
+        "id": "U_kgDODCAdag",
+        "is_bot": false,
+        "login": "Treasure520520",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-13T22:50:07Z",
+      "headRefName": "bounty/54-preserve-session-vias",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 410,
+      "state": "OPEN",
+      "title": "Preserve DSN session network vias",
+      "updatedAt": "2026-06-15T03:57:05Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/410"
+    },
+    {
+      "author": {
+        "id": "U_kgDOBjuJBg",
+        "is_bot": false,
+        "login": "william08190",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T07:12:55Z",
+      "headRefName": "codex/dsn-structure-keepouts",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 413,
+      "state": "OPEN",
+      "title": "Preserve DSN structure keepouts",
+      "updatedAt": "2026-05-17T14:44:21Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/413"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCvkdWg",
+        "is_bot": false,
+        "login": "100more",
+        "name": "Kokoro"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-20T14:42:35Z",
+      "headRefName": "preserve-structure-boundary-shapes",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 465,
+      "state": "OPEN",
+      "title": "Preserve DSN structure boundary shapes",
+      "updatedAt": "2026-05-21T07:00:23Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/465"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCBO9OA",
+        "is_bot": false,
+        "login": "Kajdep",
+        "name": "kajdep"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T02:28:52Z",
+      "headRefName": "kajdep/preserve-autoroute-settings",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 291,
+      "state": "OPEN",
+      "title": "Preserve DSN autoroute settings",
+      "updatedAt": "2026-05-12T02:33:42Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/291"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD1aERg",
+        "is_bot": false,
+        "login": "kingzzoov-ctrl",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-14T11:20:30Z",
+      "headRefName": "fix/quote-dsn-pcb-filename",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 418,
+      "state": "OPEN",
+      "title": "Fix DSN PCB filename quoting in stringifier",
+      "updatedAt": "2026-05-16T00:29:47Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/418"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEOy9MQ",
+        "is_bot": false,
+        "login": "justtryingtohelp46",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-21T11:18:47Z",
+      "headRefName": "codex/dsn-54-rect-padstack-roundtrip",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 469,
+      "state": "OPEN",
+      "title": "Preserve rectangular padstack shapes when stringifying DSN",
+      "updatedAt": "2026-05-21T11:18:51Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/469"
+    },
+    {
+      "author": {
+        "id": "U_kgDOEL7sRQ",
+        "is_bot": false,
+        "login": "nikkkkj",
+        "name": "Hahahahha"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-15T05:59:17Z",
+      "headRefName": "codex/preserve-session-route-metadata",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 453,
+      "state": "OPEN",
+      "title": "Preserve DSN session route metadata",
+      "updatedAt": "2026-05-15T05:59:20Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/453"
+    },
+    {
+      "author": {
+        "id": "U_kgDOD8GQFQ",
+        "is_bot": false,
+        "login": "imaanmulji",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-13T10:01:21Z",
+      "headRefName": "profitagent/place-boundary-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 401,
+      "state": "OPEN",
+      "title": "Preserve DSN place boundary shapes",
+      "updatedAt": "2026-05-13T10:01:25Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/401"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCzrgXw",
+        "is_bot": false,
+        "login": "MAJINSI",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-15T10:35:00Z",
+      "headRefName": "preserve-placement-component-properties-54",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 455,
+      "state": "OPEN",
+      "title": "Preserve DSN placement component properties",
+      "updatedAt": "2026-05-15T10:35:06Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/455"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCoo4_w",
+        "is_bot": false,
+        "login": "Cosmhyccc",
+        "name": "saif"
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T02:08:02Z",
+      "headRefName": "codex/preserve-placement-pin-clearance",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 283,
+      "state": "OPEN",
+      "title": "Preserve DSN placement pin clearance classes",
+      "updatedAt": "2026-05-12T02:08:06Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/283"
+    },
+    {
+      "author": {
+        "id": "U_kgDOCsZS2Q",
+        "is_bot": false,
+        "login": "SimoneMariaRomeo",
+        "name": ""
+      },
+      "baseRefName": "main",
+      "createdAt": "2026-05-12T00:47:35Z",
+      "headRefName": "codex/dsn-export-rotation",
+      "isDraft": false,
+      "mergedAt": null,
+      "number": 261,
+      "state": "OPEN",
+      "title": "fix: preserve component rotation in DSN export",
+      "updatedAt": "2026-05-12T00:47:37Z",
+      "url": "https://github.com/tscircuit/dsn-converter/pull/261"
+    }
+  ],
+  "merged_related_prs": []
+}
