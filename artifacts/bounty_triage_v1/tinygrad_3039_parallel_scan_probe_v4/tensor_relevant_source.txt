@@ -1,0 +1,147 @@
+
+===== def where around line 557 =====
+0522:         state = state ^ (t1.roll(2, 1).bitwise_xor((t1 << 1) ^ (t1 >> 63)).unsqueeze(2).expand(bs, 5, 5).transpose(2, 1).flatten(1))
+0523:         # ρ and π steps
+0524:         state = state[:, reorder_indexes]
+0525:         state = (state * rot_offsets_v0).bitwise_or(state // rot_offsets_v1).reshape(bs, 5, 5)
+0526:         # χ and ι step
+0527:         state = state.bitwise_xor(~state.roll(shifts=-1, dims=2) & state.roll(shifts=-2, dims=2))
+0528:         state = state.flatten(1) ^ rnd_const_masks[i]
+0529:       # NOTE: there was a kernelize here to prevent internal stack from growing propotional to data size, do we need something else?
+0530:     return state.bitcast(dtypes.uint8)[:,:(obytes:=(200 - rate) // 2)].reshape(*self.shape[:-1], obytes)
+0531: 
+0532:   def _hash_1mb(self) -> Tensor:
+0533:     assert self.dtype == dtypes.uint8, "only support uint8 tensors for hashing"
+0534:     assert self.ndim == 2, "only support batched 1d tensors"
+0535:     assert self.shape[1] == 1024 * 1024, "only support messages of 1mb"
+0536:     return self.reshape(-1, 4096).keccak("shake_128").reshape(self.shape[0], -1).keccak("shake_128")
+0537: 
+0538:   def hash(self) -> Tensor:
+0539:     """
+0540:     Calculates a 16-byte hash of the tensor.
+0541:     ```python exec="false source="above" session="tensor" result="python"
+0542:     t = Tensor(b"Hello World!").hash()
+0543:     print(t.data().hex())
+0544:     ```
+0545:     """
+0546:     data = self.flatten().bitcast(dtypes.uint8)
+0547:     n = data.shape[0]
+0548:     assert isinstance(n, int), "hash requires concrete shape"
+0549:     chunks = ceildiv(n, 2**20)
+0550:     while chunks > 1:
+0551:       data = data.pad_to(chunks * 2**20).reshape(chunks, 2**20)._hash_1mb().flatten()
+0552:       chunks = ceildiv(chunks, 65536)
+0553:     return data.pad_to(2**20).unsqueeze(0)._hash_1mb().flatten()[:16]
+0554: 
+0555:   # ***** broadcasted elementwise ops *****
+0556: 
+0557:   def where(self:Tensor, x:Tensor|ConstType|sint, y:Tensor|ConstType|sint) -> Tensor:
+0558:     """
+0559:     Returns a tensor of elements selected from either `x` or `y`, depending on `self`.
+0560:     `output_i = x_i if self_i else y_i`.
+0561: 
+0562:     ```python exec="true" source="above" session="tensor" result="python"
+0563:     cond = Tensor([[True, True, False], [True, False, False]])
+0564:     print(cond.where(1, 3).numpy())
+0565:     ```
+0566:     ```python exec="true" source="above" session="tensor" result="python"
+0567:     Tensor.manual_seed(42)
+0568:     cond = Tensor.randn(2, 3)
+0569:     print(cond.numpy())
+0570:     ```
+0571:     ```python exec="true" source="above" session="tensor" result="python"
+0572:     print((cond > 0).where(cond, -float("inf")).numpy())
+0573:     ```
+0574:     """
+0575:     if isinstance(x, Tensor): x, y = x._broadcasted(y)
+0576:     elif isinstance(y, Tensor): y, x = y._broadcasted(x)
+0577:     else: x, y = self.ufix(x)._broadcasted(y)
+0578:     out_shape = _broadcast_shape(self.shape, x.shape)
+0579:     return self.cast(dtypes.bool)._broadcast_to(out_shape)._apply_uop(UOp.where, x._broadcast_to(out_shape), y._broadcast_to(out_shape))
+0580: 
+0581:   # ***** op wrappers *****
+0582: 
+0583:   # unlike Tensors, UOps are immutable, so these don't go in mixin
+0584:   def __iadd__(self, x) -> Tensor: return self.assign(self.add(x)) # type: ignore[misc]
+0585:   def __isub__(self, x) -> Tensor: return self.assign(self.sub(x)) # type: ignore[misc]
+0586:   def __imul__(self, x) -> Tensor: return self.assign(self.mul(x)) # type: ignore[misc]
+0587:   def __itruediv__(self, x) -> Tensor: return self.assign(self.div(x)) # type: ignore[misc]
+0588:   def __ifloordiv__(self, x) -> Tensor: return self.assign(self.__floordiv__(x)) # type: ignore[misc]
+0589:   def __ipow__(self, x) -> Tensor: return self.assign(self.pow(x)) # type: ignore[misc]
+0590:   def __iand__(self, x) -> Tensor: return self.assign(self.bitwise_and(x)) # type: ignore[misc]
+0591:   def __ior__(self, x) -> Tensor: return self.assign(self.bitwise_or(x)) # type: ignore[misc]
+0592:   def __ixor__(self, x) -> Tensor: return self.assign(self.bitwise_xor(x)) # type: ignore[misc]
+0593:   def __ilshift__(self, x) -> Tensor: return self.assign(self.lshift(x)) # type: ignore[misc]
+0594:   def __irshift__(self, x) -> Tensor: return self.assign(self.rshift(x)) # type: ignore[misc]
+0595:   def __imatmul__(self, x) -> Tensor: return self.assign(self.matmul(x)) # type: ignore[misc]
+0596: 
+0597:   def __eq__(self, x) -> Tensor: return self.eq(x)                      # type: ignore[override]
+0598: 
+0599:   # ***** encoding/decoding ops *****
+0600: 
+0601:   def decode_hevc_frame(self, frame_pos:Variable, shape:tuple[int,...], state:Tensor, ref_frames:list[Tensor]|None=None) -> Tensor:
+0602:     """
+0603:     Creates a Tensor by decoding an HEVC frame chunk.
+0604: 
+0605:     You must provide the output shape of the decoded data (`shape`), the HEVC context (`vstate`), and, if required by the chunk,
+0606:     the reference frames (`ref_frames`).
+0607:     """
+0608:     ref_frames = [x.contiguous() for x in ref_frames or []]
+0609:     assert frame_pos.op is Ops.BIND, "frame_pos must be a bound Variable"
+0610:     srcs = (out:=Tensor.empty(*shape, device=self.device, dtype=self.dtype), self.contiguous(), state.contiguous(), *ref_frames)
+0611:     fn = UOp(Ops.CUSTOM_FUNCTION, dtypes.void, src=(frame_pos.src[0], *[UOp.const(dtypes.int, s) for s in shape]), arg="encdec")
+0612:     return Tensor(out.uop.after(fn.call(*[s.uop for s in srcs], frame_pos)))
+0613: 
+0614:   # ***** cast ops *****
+0615: 
+0616:   def bitcast(self, dtype:DTypeLike) -> Tensor:
+0617:     """
+0618:     Bitcasts `self` to the given `dtype` of the same itemsize.
+0619: 
+0620:     ```python exec="true" source="above" session="tensor" result="python"
+0621:     t = Tensor([-1, 2, 3], dtype=dtypes.int32)
+0622:     print(t.dtype, t.numpy())
+0623:     ```
+0624:     ```python exec="true" source="above" session="tensor" result="python"
+0625:     t = t.bitcast(dtypes.uint32)
+0626:     print(t.dtype, t.numpy())
+0627:     ```
+0628:     """
+0629:     dt = to_dtype(dtype)
+0630:     if (ns:=dt.itemsize) != (os:=self.dtype.itemsize) and (self.shape[-1]*os) % ns != 0: raise RuntimeError("unsupported size in bitcast")
+0631:     if (not isinstance(self.device, str) or not self.device.startswith("DISK")) and ns != os:
+0632:       new_uint, old_uint = to_dtype(f"uint{8*ns}"), to_dtype(f"uint{8*os}")
+0633:       tmp = self.bitcast(old_uint)
+0634:       if ns > os:
+0635:         tmp = tmp.reshape(self.shape[:-1] + (self.shape[-1]//(rate := ns//os), rate))
+0636:         nones = (None,) * (tmp.ndim - 1)
+0637:         return Tensor.usum(*[tmp.shrink(nones + ((i, i+1),)).cast(new_uint)<<8*i*os for i in range(rate)]).squeeze(-1).bitcast(dtype)
+0638:       return Tensor.stack(*(tmp>>8*i*ns for i in range(os//ns)), dim=-1).flatten(-2).cast(new_uint).bitcast(dtype)
+0639:     return self._apply_uop(UOp.bitcast, dtype=dt) if self.dtype != dt else self
+0640: 
+0641: P = ParamSpec("P")
+0642: T = TypeVar("T")
+0643: 
+0644: # this tracks the tensor.py METADATA, contextvars.ContextVar was switched to this due to thread safety issues
+0645: class _ContextVar(Generic[T]):
+0646:   def __init__(self, default:T): self.state:T = default
+0647:   def get(self) -> T: return self.state
+0648:   def set(self, x:T) -> T:
+0649:     ret, self.state = self.state, x
+0650:     return ret
+0651: _METADATA: _ContextVar[Metadata|None] = _ContextVar(default=None)
+0652: 
+0653: def _metadata_wrapper(fn: Callable[P, T]) -> Callable[P, T]:
+0654:   def _wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
+0655:     if TRACEMETA < 1 or _METADATA.get() is not None: return fn(*args, **kwargs)
+0656: 
+0657:     if TRACEMETA >= 2:
+0658:       caller_frame = sys._getframe(frame := 1)
+0659:       caller_module = caller_frame.f_globals.get("__name__", None)
+0660:       caller_func = caller_frame.f_code.co_name
+0661:       if caller_module is None: return fn(*args, **kwargs)
+0662: 
+0663:       # if its called from nn we want to step up frames until we are out of nn
+0664:       while caller_module.startswith("tinygrad.nn") and "optim" not in caller_module:
+0665:         caller_frame = sys._getframe(frame := frame + 1)
+0666:         caller_module = caller_frame.f_globals.get("__name__", None)

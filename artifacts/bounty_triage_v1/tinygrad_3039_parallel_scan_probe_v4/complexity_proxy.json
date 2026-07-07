@@ -1,0 +1,30 @@
+{
+  "builtin_cumsum": {
+    "chars": 0,
+    "lines": 0,
+    "pad": 0,
+    "shrink": 0,
+    "sum": 0,
+    "cat": 0,
+    "where": 0,
+    "while": 0,
+    "for": 0,
+    "add_ops": 0,
+    "pool": 0,
+    "cum": 0
+  },
+  "probe_hillis_steele": {
+    "chars": 734,
+    "lines": 26,
+    "pad": 1,
+    "shrink": 1,
+    "sum": 0,
+    "cat": 0,
+    "where": 0,
+    "while": 1,
+    "for": 1,
+    "add_ops": 2,
+    "pool": 0,
+    "cum": 1
+  }
+}

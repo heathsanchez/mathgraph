@@ -1,0 +1,12 @@
+{
+  "def cumsum": [],
+  "def cummax": [],
+  "def cumprod": [],
+  "def sum": [],
+  "def pad": [],
+  "def shrink": [],
+  "def reshape": [],
+  "def where": [
+    557
+  ]
+}

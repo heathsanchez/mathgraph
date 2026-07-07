@@ -1,0 +1,10 @@
+1d_1 axis 0 ok True expected [0] got [0]
+1d_2 axis 0 ok True expected [0, 1] got [0, 1]
+1d_3 axis 0 ok True expected [0, 1, 3] got [0, 1, 3]
+1d_4 axis 0 ok True expected [0, 1, 3, 6] got [0, 1, 3, 6]
+1d_7 axis 0 ok True expected [0, 1, 3, 6, 10, 15, 21] got [0, 1, 3, 6, 10, 15, 21]
+1d_16 axis 0 ok True expected [0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120] got [0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120]
+2d_axis0 axis 0 ok True expected [[0, 1, 2, 3], [4, 6, 8, 10], [12, 15, 18, 21]] got [[0, 1, 2, 3], [4, 6, 8, 10], [12, 15, 18, 21]]
+2d_axis1 axis 1 ok True expected [[0, 1, 3, 6], [4, 9, 15, 22], [8, 17, 27, 38]] got [[0, 1, 3, 6], [4, 9, 15, 22], [8, 17, 27, 38]]
+2d_axis_neg1 axis -1 ok True expected [[0, 1, 3, 6], [4, 9, 15, 22], [8, 17, 27, 38]] got [[0, 1, 3, 6], [4, 9, 15, 22], [8, 17, 27, 38]]
+ALL_OK True
