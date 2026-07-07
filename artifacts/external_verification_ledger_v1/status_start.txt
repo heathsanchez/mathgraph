@@ -1,0 +1,9 @@
+2026-07-07T01:00:29Z
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   6.5Gi    65%    458k   68M    1%   /
+?? artifacts/external_verification_ledger_v1/
+?? artifacts/paid_fix_scout/
+?? check_paid_github_fixes.py
+?? cleanup_and_ledger_v1.sh
+?? refine_paid_fix_scout.py
+?? strata_specimen_issue45_recon_v1.sh
