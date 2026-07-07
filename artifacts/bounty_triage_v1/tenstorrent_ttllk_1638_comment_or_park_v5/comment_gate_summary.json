@@ -1,0 +1,14 @@
+{
+  "issue_view_ok": true,
+  "already_commented_similar": false,
+  "matched_comment_url": null,
+  "state": "OPEN",
+  "title": "[Bounty $1000] Reduce RISCV instructions used to pass on tensix instructions using AI/Optimizer.",
+  "labels": [
+    "P2",
+    "bounty",
+    "bounty_difficulty/medium",
+    "LLK"
+  ],
+  "comment_count": 18
+}
