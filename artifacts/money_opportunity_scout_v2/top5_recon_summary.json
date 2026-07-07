@@ -1,0 +1,46 @@
+[
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v2/recon/lovecn__lovecn.github.io_4",
+    "verdict": "PROMOTE_LEAN_RECON",
+    "url": "https://github.com/lovecn/lovecn.github.io/issues/4",
+    "title": "\u90a3\u4e9b\u5e74\uff0c\u6211\u4eec\u4e00\u8d77\u8e29\u8fc7\u7684\u5751\u548c\u5f00\u53d1\u6280\u5de7",
+    "has_lean": true,
+    "has_tests": true,
+    "has_money": true,
+    "has_surface": true,
+    "risk": false
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v2/recon/omegahat__XML_4",
+    "verdict": "PROMOTE_LEAN_RECON",
+    "url": "https://github.com/omegahat/XML/issues/4",
+    "title": "Still significant memory leak on Windows",
+    "has_lean": true,
+    "has_tests": true,
+    "has_money": true,
+    "has_surface": true,
+    "risk": false
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v2/recon/qurbaneliii__AI-Social-Media-Manager_4",
+    "verdict": "PROMOTE_MONEY_RECON",
+    "url": "https://github.com/qurbaneliii/AI-Social-Media-Manager/issues/4",
+    "title": "Frontend: GitHub Pages deployment fails due to static export constraints",
+    "has_lean": false,
+    "has_tests": true,
+    "has_money": true,
+    "has_surface": true,
+    "risk": false
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v2/recon/geraintluff__json-model_4",
+    "verdict": "MAYBE_NEEDS_MANUAL_READ",
+    "url": "https://github.com/geraintluff/json-model/issues/4",
+    "title": "Json model fails some of the tests in th JSON-schema official testsuite",
+    "has_lean": false,
+    "has_tests": false,
+    "has_money": true,
+    "has_surface": true,
+    "risk": false
+  }
+]

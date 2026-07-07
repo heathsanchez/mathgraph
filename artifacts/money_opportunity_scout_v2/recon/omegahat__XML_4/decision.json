@@ -1,0 +1,17 @@
+{
+  "verdict": "PROMOTE_LEAN_RECON",
+  "issue": {
+    "url": "https://github.com/omegahat/XML/issues/4",
+    "title": "Still significant memory leak on Windows",
+    "state": "OPEN",
+    "labels": [],
+    "comment_count": 3,
+    "updatedAt": "2018-04-30T18:59:30Z"
+  },
+  "has_lean": true,
+  "has_tests": true,
+  "has_benchmark": true,
+  "has_money": true,
+  "has_surface": true,
+  "risk": false
+}

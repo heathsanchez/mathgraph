@@ -1,0 +1,17 @@
+{
+  "verdict": "PROMOTE_MONEY_RECON",
+  "issue": {
+    "url": "https://github.com/qurbaneliii/AI-Social-Media-Manager/issues/4",
+    "title": "Frontend: GitHub Pages deployment fails due to static export constraints",
+    "state": "OPEN",
+    "labels": [],
+    "comment_count": 0,
+    "updatedAt": "2026-04-23T21:18:07Z"
+  },
+  "has_lean": false,
+  "has_tests": true,
+  "has_benchmark": true,
+  "has_money": true,
+  "has_surface": true,
+  "risk": false
+}

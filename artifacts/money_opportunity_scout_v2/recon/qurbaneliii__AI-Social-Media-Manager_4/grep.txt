@@ -1,0 +1,1340 @@
+===== judge hits =====
+./PHASE_2_VERIFICATION_REPORT.md:43:Prompts and workflows:
+./PHASE_2_VERIFICATION_REPORT.md:49:- `aria/apps/llm-orchestration/app/ai/workflows/generate_content_package.py`
+./PHASE_2_VERIFICATION_REPORT.md:50:- `aria/apps/llm-orchestration/app/ai/workflows/create_content_calendar.py`
+./PHASE_2_VERIFICATION_REPORT.md:74:| `AIOrchestrator.generate_content_package` | Pass | Routes through content generator plus quality review workflow |
+./PHASE_2_VERIFICATION_REPORT.md:98:- `aria/apps/llm-orchestration/app/ai/workflows/create_content_calendar.py` is still a placeholder wrapper. Runtime calendar generation is implemented through `AIOrchestrator.create_content_calendar` and `CalendarPlanningAgent`, and tests cover that path. A dedicated workflow wrapper can be added later if calendar orchestration becomes multi-step.
+./PHASE_2_VERIFICATION_REPORT.md:118:& 'C:\Users\qurba\AppData\Local\Programs\Python\Python312\python.exe' -m pytest aria/apps/llm-orchestration/tests -q
+./AI_ARCHITECTURE.md:17:- `workflows/`: end-to-end use-case composition. Phase 1 includes `GenerateContentPackageWorkflow`; Phase 2 keeps specialist orchestration thin and schema-first.
+./AI_ARCHITECTURE.md:186:python -m pytest tests
+./AI_ARCHITECTURE.md:221:5. Compose the agent inside `AIOrchestrator` or a workflow.
+./AI_ARCHITECTURE.md:237:The primary frontend approval workflow is now available under `/dashboard/approval`, with focused content, calendar, community, and report queue routes.
+./AI_ARCHITECTURE.md:254:Legacy direct-provider frontend helpers remain available for existing generator routes, but `app/api/ai/_lib.ts` and `lib/openai.ts` are marked deprecated for new approval workflow work. New approval UI code uses the centralized LLM orchestration service instead.
+./AI_ARCHITECTURE.md:258:Phase 7 extends the approval workflow from queue-level review into safe detail review without exposing persistence internals.
+./AI_ARCHITECTURE.md:293:- `ProductContext` defines ARIA as an AI Social Media Manager and Brand Manager with approval-based workflow mode.
+./AI_ARCHITECTURE.md:294:- Supported capabilities include strategy, content generation, hashtag recommendation, visual concept generation, calendar planning, community management, reporting, competitor analysis, trend research, and approval workflow.
+./PHASE_3_5_DATABASE_VERIFICATION.md:70:python -m pytest aria/apps/llm-orchestration/tests/test_phase_3_5_live_database.py -q
+./PHASE_3_5_DATABASE_VERIFICATION.md:152:python -m pytest aria/apps/llm-orchestration/tests -q
+./PHASE_3_5_DATABASE_VERIFICATION.md:166:python -m pytest aria/apps/llm-orchestration/tests/test_phase_3_5_live_database.py -q
+./PHASE_3_5_DATABASE_VERIFICATION.md:197:python -m pytest aria/apps/llm-orchestration/tests/test_phase_3_5_live_database.py -q
+./PHASE_4_IMPLEMENTATION_SUMMARY.md:137:python -m pytest aria/apps/llm-orchestration/tests -q
+./PHASE_7_DETAIL_AND_REVIEW_UX_SUMMARY.md:5:Phase 7 hardened the approval-based AI Social Media Manager workflow with safe backend detail DTOs, typed detail routes, request-changes context, audit timeline support, a richer frontend detail review experience, and deployment-facing API/CORS/env checks.
+./PHASE_7_DETAIL_AND_REVIEW_UX_SUMMARY.md:105:Still present outside approval workflow:
+./PHASE_7_DETAIL_AND_REVIEW_UX_SUMMARY.md:111:These remain deprecated for new approval workflow work and should be migrated separately after compatibility tests exist.
+./PHASE_7_DETAIL_AND_REVIEW_UX_SUMMARY.md:154:python -m pytest aria/apps/llm-orchestration/tests -q -rA
+./PHASE_7_DETAIL_AND_REVIEW_UX_SUMMARY.md:206:3. Introduce an explicit revision/supersession model if draft editing or regeneration becomes part of the workflow.
+./git_deploy.py:161:    deploy_workflow = Path(repo_path) / ".github" / "workflows" / "deploy.yml"
+./git_deploy.py:162:    if deploy_workflow.exists():
+./git_deploy.py:163:        print("✓ Deploy workflow found at: .github/workflows/deploy.yml")
+./git_deploy.py:164:        with open(deploy_workflow) as f:
+./git_deploy.py:165:            workflow_content = f.read()
+./git_deploy.py:167:            if "main" in workflow_content:
+./git_deploy.py:169:            if "aria-frontend" in workflow_content:
+./git_deploy.py:171:            if "deploy-pages" in workflow_content:
+./git_deploy.py:174:        print("✗ Deploy workflow NOT found")
+./git_deploy.py:188:    print("  Workflow File:    .github/workflows/deploy.yml")
+./aria-frontend/app/dashboard/scheduler/page.tsx:19:        <p className="text-sm text-[var(--text-secondary)]">Plan upcoming content in a calendar-focused workflow.</p>
+./aria-frontend/app/api/ai/_lib.ts:1:// Deprecated for new approval workflows. New approval UI must use the
+./aria-frontend/app/onboarding/company-profile/page.tsx:42:      brand_positioning_statement: "AI-powered social workflow automation for modern teams.",
+./aria-frontend/app/onboarding/quality-check/page.tsx:117:          <p className="text-sm text-slate-600">Pass the quality threshold to unlock posting workflow.</p>
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:188:                Brand Brain has the required workflow context.
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:192:              <ErrorNotice message="AI workflows are using default/mock brand context until a real BrandProfile is saved." />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:363:      <PageHeader title="Brand Brain" description="Configure brand-specific memory once. ARIA reuses it across every AI workflow." icon={Brain} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:427:        extra_context: { workflow: "phase_8_content_studio" }
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:484:  const [goal, setGoal] = useState("increase trust in approval-based AI workflows");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:485:  const [competitors, setCompetitors] = useState("Manual spreadsheet workflow\nGeneric AI caption tool");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:605:  const [goal, setGoal] = useState("differentiate ARIA's approval-based workflow");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:606:  const [samples, setSamples] = useState("Generic AI caption tool | linkedin | Announces instant captions without review controls\nManual spreadsheet workflow | linkedin | Shows a calendar process but no AI assistance");
+./aria-frontend/package-lock.json:671:      "integrity": "sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==",
+./aria-frontend/package-lock.json:1000:      "integrity": "sha512-FMuvGijLDYG6lW+b/UvyilUWu5Ayu+3r2d1S8notiGCIyYU/76eig1UfMmkZ7vwgOrzKzlQbFSuQfgm7GYUPpA==",
+./aria-frontend/package-lock.json:1370:      "integrity": "sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==",
+./aria-frontend/package-lock.json:1491:      "integrity": "sha512-uRBo6THWei0chz+Y5j37qzx+BtoDRFIkDzZjlpCItBRXyMPIg079eIkOCl3aqr2tkxL4HFyJ4GHDes7W8HuAUg==",
+./aria-frontend/package-lock.json:1867:      "integrity": "sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg==",
+./aria-frontend/package-lock.json:3948:      "integrity": "sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==",
+./aria-frontend/package-lock.json:4329:      "integrity": "sha512-fqtGgak3zX4DCB6PFpsH5+Kmt/8CIi4Bry4rb1ho6Av2QHTREM+47y282Uqiu3ZRF5IQioJQ5qWRV6jduA+iGw==",
+./aria-frontend/package-lock.json:5654:      "integrity": "sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==",
+./aria-frontend/package-lock.json:6210:      "integrity": "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==",
+./aria-frontend/package-lock.json:8979:      "integrity": "sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==",
+./aria-frontend/lib/openai.ts:3:// Deprecated for new approval workflows. Keep only for existing legacy routes
+./aria-frontend/lib/api/ai-workspace.ts:4:  default_workflow_mode: string;
+./aria-frontend/lib/api/ai-workspace.ts:315:  products_or_services: ["AI content workspace", "approval workflow"],
+./aria-frontend/services/aiService.ts:273:        "Behind the scenes: our workflow for campaign quality",
+./PHASE_3_IMPLEMENTATION_SUMMARY.md:112:- `aria/apps/llm-orchestration/app/ai/workflows/generate_content_package.py`
+./PHASE_3_IMPLEMENTATION_SUMMARY.md:124:& 'C:\Users\qurba\AppData\Local\Programs\Python\Python312\python.exe' -m pytest aria/apps/llm-orchestration/tests -q
+./PHASE_3_IMPLEMENTATION_SUMMARY.md:150:Phase 4 should focus on approved internal data ingestion for competitor, trend, reporting, and community workflows:
+./PHASE_8_PRODUCT_AI_WORKSPACE_AUDIT.md:86:- `ContentGeneratorAgent` through the new backend workflow route
+./PHASE_8_PRODUCT_AI_WORKSPACE_AUDIT.md:94:The frontend has mock brand profile cards and onboarding pages, but no active Brand Brain page that edits the backend `BrandProfile`, shows completeness, or warns when workflows are using mock/default brand context.
+./git-deploy.bat:95:if exist .github\workflows (
+./git-deploy.bat:96:    echo GitHub Actions workflows found:
+./git-deploy.bat:97:    for /r .github\workflows %%F in (*.yml) do (
+./docs/full-system-architecture.md:121:   3. Temporal workflow created with run_at_utc timers.
+./docs/full-system-architecture.md:129:   1. If mode is human and not approved, workflow pauses and sends notification.
+./docs/full-system-architecture.md:130:   2. If mode is auto or approved, workflow continues.
+./docs/full-system-architecture.md:208:| Why | ACID consistency, rich indexing, mature RLS, strong JSONB support |
+./PHASE_6_FRONTEND_INTEGRATION_AUDIT.md:126:- Existing frontend AI generation helpers remain present and should be deprecated for the approval workflow without breaking existing pages.
+./README.md:7:AI Social Media Manager, also referred to as ARIA in the codebase, is a product-style AI application for content operations. It combines a Next.js frontend, Python/TypeScript service packages, LLM-assisted generation workflows, approval-oriented UX, scheduling logic, and deployment documentation.
+./README.md:13:Social media workflows often spread strategy, copywriting, review, scheduling, and analytics across separate tools. This project explores a unified AI-assisted workspace where generated content remains constrained by brand rules, review states, platform context, and deterministic workflow logic.
+./README.md:17:- Guided content-generation workflow for topic, platform, draft, review, refinement, and scheduling steps
+./README.md:23:- Static GitHub Pages frontend deployment workflow for public demo access
+./README.md:52:  api --> workflows["Temporal / scheduling workflows"]
+./README.md:66:  .github/workflows/    GitHub Pages deployment
+./README.md:129:| `TEMPORAL_ADDRESS` | Temporal service address for workflow-oriented components |
+./README.md:167:- Keep only CI workflows that match the current app structure
+./.gitignore:30:.pytest_cache/
+./PHASE_2_IMPLEMENTATION_SUMMARY.md:91:python -m pytest aria\apps\llm-orchestration\tests -q
+./aria/temporal/worker.py:2:# purpose: Temporal worker bootstrap registering onboarding and posting workflows with all required activities.
+./aria/temporal/worker.py:3:# dependencies: os, asyncio, temporalio.client, temporalio.worker, temporal workflows
+./aria/temporal/worker.py:13:from temporal.workflows.onboarding_workflow import (
+./aria/temporal/worker.py:20:from temporal.workflows.posting_workflow import (
+./aria/temporal/worker.py:38:        workflows=[PostingWorkflow, OnboardingWorkflow],
+./aria/temporal/workflows/onboarding_workflow.py:1:# filename: temporal/workflows/onboarding_workflow.py
+./aria/temporal/workflows/onboarding_workflow.py:2:# purpose: Temporal onboarding workflow coordinating tone/visual analysis, quality checks, and test post generation.
+./aria/temporal/workflows/onboarding_workflow.py:3:# dependencies: datetime, temporalio.workflow, temporalio.activity, db.connection, flows.onboarding
+./aria/temporal/workflows/onboarding_workflow.py:10:from temporalio import activity, workflow
+./aria/temporal/workflows/onboarding_workflow.py:44:@workflow.defn
+./aria/temporal/workflows/onboarding_workflow.py:46:    @workflow.run
+./aria/temporal/workflows/onboarding_workflow.py:50:        a1 = workflow.start_activity(
+./aria/temporal/workflows/onboarding_workflow.py:55:        a2 = workflow.start_activity(
+./aria/temporal/workflows/onboarding_workflow.py:63:        qc = await workflow.execute_activity(
+./aria/temporal/workflows/onboarding_workflow.py:76:        test_post = await workflow.execute_activity(
+./aria/temporal/workflows/__init__.py:1:# filename: temporal/workflows/__init__.py
+./aria/temporal/workflows/__init__.py:2:# purpose: Temporal workflows package exports.
+./aria/temporal/workflows/__init__.py:3:# dependencies: posting_workflow, onboarding_workflow
+./aria/temporal/workflows/__init__.py:5:from temporal.workflows.onboarding_workflow import OnboardingWorkflow
+./aria/temporal/workflows/__init__.py:6:from temporal.workflows.posting_workflow import PostingWorkflow
+./aria/temporal/workflows/posting_workflow.py:1:# filename: temporal/workflows/posting_workflow.py
+./aria/temporal/workflows/posting_workflow.py:2:# purpose: Temporal posting workflow and activities for approval gating, publication, and failure handling.
+./aria/temporal/workflows/posting_workflow.py:3:# dependencies: asyncio, uuid, datetime, temporalio.workflow, temporalio.activity, db.connection
+./aria/temporal/workflows/posting_workflow.py:12:from temporalio import activity, workflow
+./aria/temporal/workflows/posting_workflow.py:143:@workflow.defn
+./aria/temporal/workflows/posting_workflow.py:145:    @workflow.run
+./aria/temporal/workflows/posting_workflow.py:149:        schedule = await workflow.execute_activity(
+./aria/temporal/workflows/posting_workflow.py:157:            await workflow.execute_activity(
+./aria/temporal/workflows/posting_workflow.py:164:            publish_result = await workflow.execute_activity(
+./aria/temporal/workflows/posting_workflow.py:175:            failure = await workflow.execute_activity(
+./aria/temporal/__init__.py:2:# purpose: Temporal package marker and workflow exports.
+./aria/temporal/__init__.py:3:# dependencies: temporal workflows
+./aria/pyproject.toml:24:  "pytest==8.3.3",
+./aria/pyproject.toml:25:  "pytest-asyncio==0.24.0"
+./aria/pyproject.toml:28:[tool.pytest.ini_options]
+./aria/README.md:32:5. Register the Temporal namespace used by workflows.
+./aria/.gitignore:12:.pytest_cache/
+./aria/packages/kafka-schemas/tests/contract.test.mjs:1:import { describe, it, expect } from "vitest";
+./aria/packages/kafka-schemas/package.json:7:    "test": "vitest run"
+./aria/packages/kafka-schemas/package.json:11:    "vitest": "^2.1.2"
+./aria/packages/decision-logic/pyproject.toml:12:dev = ["pytest==8.3.3"]
+./aria/db/migrations/001_schema.sql:18:  email CITEXT UNIQUE NOT NULL,
+./aria/db/migrations/008_ai_approval_lifecycle.sql:63:  toxicity_risk DOUBLE PRECISION NOT NULL CHECK (toxicity_risk >= 0 AND toxicity_risk <= 1),
+./aria/db/migrations/008_ai_approval_lifecycle.sql:64:  crisis_risk DOUBLE PRECISION NOT NULL CHECK (crisis_risk >= 0 AND crisis_risk <= 1),
+./aria/db/migrations/008_ai_approval_lifecycle.sql:66:  confidence DOUBLE PRECISION NOT NULL CHECK (confidence >= 0 AND confidence <= 1),
+./aria/docker-compose.yml:2:# purpose: Local-first infrastructure stack for API, worker, data stores, streaming, workflow, and observability.
+./aria/.env.example:67:# Temporal connection and queue settings for posting/onboarding workflows.
+./aria/apps/scheduler/app/worker.py:28:from .workflows import PerformanceFeedbackWorkflow, PostGenerationWorkflow, PostPublishWorkflow
+./aria/apps/scheduler/app/worker.py:36:        workflows=[PostGenerationWorkflow, PostPublishWorkflow, PerformanceFeedbackWorkflow],
+./aria/apps/scheduler/app/workflows.py:4:from temporalio import workflow
+./aria/apps/scheduler/app/workflows.py:7:with workflow.unsafe.imports_passed_through():
+./aria/apps/scheduler/app/workflows.py:11:@workflow.defn
+./aria/apps/scheduler/app/workflows.py:13:    @workflow.run
+./aria/apps/scheduler/app/workflows.py:15:        validated = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:21:        parallel = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:29:            module_results = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:43:        scored = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:49:        delivered = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:58:@workflow.defn
+./aria/apps/scheduler/app/workflows.py:60:    @workflow.run
+./aria/apps/scheduler/app/workflows.py:62:        creds = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:68:        gate = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:85:            published = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:91:            confirmed = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:96:            scheduled = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:103:            dead = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:108:            notified = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:116:@workflow.defn
+./aria/apps/scheduler/app/workflows.py:118:    @workflow.run
+./aria/apps/scheduler/app/workflows.py:120:        await workflow.sleep(timedelta(hours=6))
+./aria/apps/scheduler/app/workflows.py:122:        ingested = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:127:        scored = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:132:        hashtags = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:137:        windows = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:142:        threshold = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:147:        recal = await workflow.execute_activity(
+./aria/apps/scheduler/app/main.py:12:from .workflows import PerformanceFeedbackWorkflow, PostGenerationWorkflow, PostPublishWorkflow
+./aria/apps/scheduler/app/main.py:16:    workflow: str
+./aria/apps/scheduler/app/main.py:39:async def run_workflow(trigger: TriggerRequest) -> dict:
+./aria/apps/scheduler/app/main.py:42:    if trigger.workflow == "PostGenerationWorkflow":
+./aria/apps/scheduler/app/main.py:43:        handle = await client.start_workflow(
+./aria/apps/scheduler/app/main.py:50:    elif trigger.workflow == "PostPublishWorkflow":
+./aria/apps/scheduler/app/main.py:51:        handle = await client.start_workflow(
+./aria/apps/scheduler/app/main.py:57:    elif trigger.workflow == "PerformanceFeedbackWorkflow":
+./aria/apps/scheduler/app/main.py:58:        handle = await client.start_workflow(
+./aria/apps/scheduler/app/main.py:65:        return {"error": "Unknown workflow"}
+./aria/apps/scheduler/app/main.py:67:    return {"workflow_id": handle.id, "run_id": handle.first_execution_run_id}
+./aria/apps/api/tests/integration.test.ts:1:import { describe, expect, it } from "vitest";
+./aria/apps/api/package.json:10:    "test": "vitest run",
+./aria/apps/api/package.json:34:    "vitest": "^2.1.2"
+./aria/apps/llm-orchestration/app/ai/workflows/create_content_calendar.py:5:    """Phase 1 placeholder for the future calendar planning workflow."""
+./aria/apps/llm-orchestration/app/ai/agents/visual_concept_agent.py:27:                    "structure": ["problem", "insight", "proof", "workflow", "approval CTA"],
+./aria/apps/llm-orchestration/app/ai/agents/brand_strategy_agent.py:30:                f"{brand.target_audience[0]} need practical examples before they trust AI-assisted workflows."
+./aria/apps/llm-orchestration/app/ai/agents/brand_strategy_agent.py:32:                else "The target audience needs clear proof before considering a new brand workflow."
+./aria/apps/llm-orchestration/app/ai/agents/orchestrator.py:30:from ai.workflows import GenerateContentPackageWorkflow
+./aria/apps/llm-orchestration/app/ai/agents/orchestrator.py:62:        workflow = GenerateContentPackageWorkflow(
+./aria/apps/llm-orchestration/app/ai/agents/orchestrator.py:69:        return await workflow.run(request)
+./aria/apps/llm-orchestration/app/ai/agents/competitor_analysis_agent.py:26:            "recurring_themes": ["Education", "proof", "workflow improvement"],
+./aria/apps/llm-orchestration/app/ai/schemas/brand.py:11:    default_workflow_mode: str = "approval_based"
+./aria/apps/llm-orchestration/app/ai/schemas/brand.py:23:            "approval_workflow",
+./aria/apps/llm-orchestration/app/ai/schemas/brand.py:124:        warnings.append("AI workflows are using default/mock brand context until a real BrandProfile is saved.")
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:55:    assert context.default_workflow_mode == "approval_based"
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:57:    assert "approval_workflow" in context.supported_capabilities
+./aria/apps/llm-orchestration/tests/test_phase_3_5_live_database.py:10:import pytest
+./aria/apps/llm-orchestration/tests/test_phase_3_5_live_database.py:21:pytestmark = pytest.mark.skipif(
+./aria/apps/llm-orchestration/tests/test_ai_schemas.py:5:import pytest
+./aria/apps/llm-orchestration/tests/test_ai_schemas.py:45:    with pytest.raises(ValidationError):
+./aria/apps/llm-orchestration/tests/test_phase_3_persistence.py:9:import pytest
+./aria/apps/llm-orchestration/tests/test_phase_3_persistence.py:117:    with pytest.raises(BrandProfileNotFoundError):
+./aria/apps/llm-orchestration/tests/test_phase_5_live_database_approval_flow.py:8:import pytest
+./aria/apps/llm-orchestration/tests/test_phase_5_live_database_approval_flow.py:23:pytestmark = pytest.mark.skipif(
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:8:import pytest
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:199:    with pytest.raises(InvalidApprovalTransitionError):
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:207:    with pytest.raises(InvalidApprovalTransitionError):
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:215:    with pytest.raises(InvalidApprovalTransitionError):
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:284:    with pytest.raises(DraftNotFoundError):
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:294:    with pytest.raises(InvalidApprovalTransitionError):
+./aria/apps/llm-orchestration/tests/test_orchestrator.py:5:import pytest
+./aria/apps/llm-orchestration/tests/test_orchestrator.py:123:    with pytest.raises(LLMError):
+./aria/flows/posting.py:2:# purpose: Schedule/publish orchestration bridge between API, Redis dedupe, ingester, and Temporal workflows.
+./aria/flows/posting.py:22:from temporal.workflows.posting_workflow import PostingWorkflow
+./aria/flows/posting.py:59:        workflow_id = f"posting-{schedule_id}"
+./aria/flows/posting.py:60:        await self.temporal.start_workflow(
+./aria/flows/posting.py:63:            id=workflow_id,
+./aria/flows/posting.py:67:        return {"schedule_id": schedule_id, "workflow_id": workflow_id}
+./packages/types/requirements.txt:5:pytest==8.3.5
+./packages/types/tests/test_inputs.py:6:import pytest
+./packages/types/tests/test_inputs.py:58:    with pytest.raises(ValidationError):
+./packages/types/tests/test_inputs.py:65:    with pytest.raises(ValidationError):
+./packages/types/tests/test_inputs.py:72:    with pytest.raises(ValidationError):
+./packages/types/tests/test_inputs.py:77:    with pytest.raises(ValidationError):
+./packages/types/tests/test_inputs.py:88:    with pytest.raises(ValidationError):
+./packages/types/tests/test_inputs.py:115:    with pytest.raises(ValidationError):
+./packages/types/tests/test_outputs.py:6:import pytest
+./packages/types/tests/test_outputs.py:46:    with pytest.raises(ValidationError):
+./packages/types/tests/test_outputs.py:57:    with pytest.raises(ValidationError):
+./packages/types/tests/test_outputs.py:70:    with pytest.raises(ValidationError):
+./packages/types/tests/test_outputs.py:75:    with pytest.raises(ValidationError):
+./packages/types/tests/test_outputs.py:102:    with pytest.raises(ValidationError):
+./packages/types/inputs/company_onboarding.py:13:        "AD","AE","AF","AG","AI","AL","AM","AO","AQ","AR","AS","AT","AU","AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY","HK","HM","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PW","PY","QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TL","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"
+./packages/decision-engine/requirements.txt:4:pytest==8.2.0
+./packages/decision-engine/requirements.txt:5:pytest-cov==5.0.0
+./packages/decision-engine/tests/test_hashtag_selection.py:6:import pytest
+./packages/decision-engine/tests/test_hashtag_selection.py:22:@pytest.fixture
+./packages/decision-engine/tests/test_hashtag_selection.py:27:@pytest.fixture
+./packages/decision-engine/tests/test_hashtag_selection.py:32:@pytest.fixture
+./packages/decision-engine/tests/test_hashtag_selection.py:226:    assert borrowed[0].score == pytest.approx(raw_score - HASHTAG_UNDERFILL_SCORE_PENALTY)
+./packages/decision-engine/tests/test_posting_time.py:6:import pytest
+./packages/decision-engine/tests/test_posting_time.py:17:@pytest.fixture
+./packages/decision-engine/tests/test_posting_time.py:22:@pytest.fixture
+./packages/decision-engine/tests/test_posting_time.py:149:    assert result.selected_window.queue_utilization == pytest.approx(0.95)
+./packages/decision-engine/tests/test_posting_time.py:200:    assert result.selected_window.confidence == pytest.approx(0.90)
+./packages/decision-engine/tests/test_posting_time.py:214:    assert result.selected_window.confidence != pytest.approx(0.80)
+./packages/decision-engine/tests/test_audience_resolution.py:4:import pytest
+./packages/decision-engine/tests/test_audience_resolution.py:18:@pytest.fixture
+./packages/decision-engine/tests/test_audience_resolution.py:73:    assert result.llm_contribution_weight == pytest.approx(0.45)
+./packages/decision-engine/tests/test_audience_resolution.py:78:    assert result.llm_contribution_weight == pytest.approx(0.20)
+./packages/decision-engine/functions/posting_time.py:194:    # 3. QUEUE CAPACITY FILTER
+./packages/decision-engine/functions/platform_routing.py:100:    # 2. BUILD DECISIONS PER PLATFORM
+./packages/prompt-templates/requirements.txt:4:pytest==8.2.0
+./packages/prompt-templates/requirements.txt:5:pytest-cov==5.0.0
+./packages/prompt-templates/tests/test_seo.py:7:import pytest
+./packages/prompt-templates/tests/test_seo.py:52:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_seo.py:58:    with pytest.raises(PromptVariableError):
+./packages/prompt-templates/tests/test_seo.py:74:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_seo.py:96:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_seo.py:101:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_seo.py:108:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_seo.py:112:def test_flesch_warning_does_not_block_validation(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_validators.py:7:import pytest
+./packages/prompt-templates/tests/test_validators.py:86:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:94:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:108:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:112:def test_validate_seo_b2b_low_flesch_is_warning_not_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_validators.py:122:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:148:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:174:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:192:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:210:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:218:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_validators.py:226:    with pytest.raises(PromptValidationError):
+./packages/prompt-templates/tests/test_tone_calibration.py:7:import pytest
+./packages/prompt-templates/tests/test_tone_calibration.py:25:            {"text": "Strong messaging starts with a repeatable workflow.", "platform": Platform.instagram, "engagement_rate": 0.09},
+./packages/prompt-templates/tests/test_tone_calibration.py:28:        approved_vocabulary=["workflow"],
+./packages/prompt-templates/tests/test_tone_calibration.py:46:                "top_keywords": [{"term": "workflow", "weight": 0.9}],
+./packages/prompt-templates/tests/test_tone_calibration.py:75:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_tone_calibration.py:81:    with pytest.raises(PromptVariableError):
+./packages/prompt-templates/tests/test_tone_calibration.py:97:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_tone_calibration.py:102:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_tone_calibration.py:109:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_tone_calibration.py:118:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_tone_calibration.py:125:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_hashtag.py:7:import pytest
+./packages/prompt-templates/tests/test_hashtag.py:65:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_hashtag.py:71:    with pytest.raises(PromptVariableError):
+./packages/prompt-templates/tests/test_hashtag.py:89:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_hashtag.py:96:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_hashtag.py:103:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_hashtag.py:128:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_hashtag.py:135:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_hashtag.py:142:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_hashtag.py:149:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_caption.py:7:import pytest
+./packages/prompt-templates/tests/test_caption.py:59:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_caption.py:65:    with pytest.raises(PromptVariableError):
+./packages/prompt-templates/tests/test_caption.py:84:                    "text": "Launch campaigns quickly and scale your workflow.",
+./packages/prompt-templates/tests/test_caption.py:118:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_caption.py:153:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_caption.py:208:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_caption.py:288:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_caption.py:338:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_caption.py:343:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_context_models.py:6:import pytest
+./packages/prompt-templates/tests/test_context_models.py:15:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_context_models.py:27:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_context_models.py:52:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_context_models.py:77:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_context_models.py:102:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_context_models.py:114:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_context_models.py:126:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_audience.py:7:import pytest
+./packages/prompt-templates/tests/test_audience.py:57:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_audience.py:63:    with pytest.raises(PromptVariableError):
+./packages/prompt-templates/tests/test_audience.py:81:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_audience.py:88:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_audience.py:95:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_audience.py:102:    with pytest.raises(ValueError):
+./packages/prompt-templates/tests/test_audience.py:109:    with pytest.raises(ValueError):
+./.github/workflows/frontend-ci.yml:1:name: Frontend CI
+./.github/workflows/frontend-ci.yml:6:  workflow_dispatch:
+./.github/workflows/deploy.yml:6:  workflow_dispatch:
+./PHASE_6_FRONTEND_APPROVAL_INTEGRATION_SUMMARY.md:42:- Legacy OpenAI helpers remain for existing routes but are marked deprecated for new approval workflow work.
+./PHASE_6_FRONTEND_APPROVAL_INTEGRATION_SUMMARY.md:77:python -m pytest aria/apps/llm-orchestration/tests -q -rA
+./PHASE_6_FRONTEND_APPROVAL_INTEGRATION_SUMMARY.md:115:3. Add backend detail DTO endpoints for safe full-draft review and revision workflows.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:5:Phase 8 expands ARIA from an approval-dashboard-centered system into a broader AI Social Media Manager and Brand Manager workspace. The implementation keeps the approval-based architecture intact and adds product context, Brand Brain contracts, typed frontend orchestration clients, and dashboard panels for the main AI workflows.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:30:- Clear separation between system-known ARIA product context and user-provided brand/workflow inputs in the UI.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:120:- approval-based workflow mode
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:125:- optional manual workflow inputs
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:204:python -m pytest aria/apps/llm-orchestration/tests -q -rA
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:245:- Added route and prompt tests before frontend work to catch backend contract regressions.
+./AI_ARCHITECTURE_AUDIT.md:7:Phase 1 is limited to the AI/model architecture foundation: orchestrator, centralized OpenAI/LLM client, prompt registry, schemas, brand profile memory structure, base agent structure, content-generation workflow skeleton, quality-review workflow skeleton, mock mode, env documentation, and basic tests.
+./AI_ARCHITECTURE_AUDIT.md:13:- `aria/`: Python/FastAPI microservices, database repositories, Temporal workflows, platform adapters, Kafka schemas, infra files, and an existing `apps/llm-orchestration` service.
+./AI_ARCHITECTURE_AUDIT.md:44:- Existing LLM orchestration is partly monolithic and service-call oriented rather than agent/workflow oriented.
+./AI_ARCHITECTURE_AUDIT.md:48:- No explicit base agent contract or orchestrator methods for the PDF-required workflows.
+./AI_ARCHITECTURE_AUDIT.md:64:- `workflows/`: approval-based workflows that compose agents and memory.
+./AI_ARCHITECTURE_AUDIT.md:81:| Phase 1 | AI foundation: orchestrator, LLM client, prompt registry, schemas, brand memory facade, base agents, content package workflow, quality review, mock mode, env, tests | P0 |
+./AI_ARCHITECTURE_AUDIT.md:84:| Phase 4 | Expand content workflows into multi-platform packages, variants, visual briefs, calendars, and approval queues | P1 |
+./AI_ARCHITECTURE_AUDIT.md:86:| Phase 6 | Backend integration: Core API endpoint contracts, service auth, persistence, audit logging, async workflow events | P1 |
+./AI_ARCHITECTURE_AUDIT.md:88:| Phase 8 | Evaluation and hardening: token/cost tracking, prompt version metrics, safety policies, regression evals, observability | P2 |
+./AI_ARCHITECTURE_AUDIT.md:172:- Deprecation comments on legacy direct OpenAI helpers for new approval workflow use.
+./AI_ARCHITECTURE_AUDIT.md:189:Phase 7 hardened the approval workflow detail/review layer while keeping the system approval-only.
+./AI_ARCHITECTURE_AUDIT.md:211:- Legacy direct provider-backed frontend generation routes remain outside the new approval workflow and need a separate migration plan.
+./PHASE_5_LIVE_DB_AND_APPROVAL_QUEUE_SUMMARY.md:221:python -m pytest aria/apps/llm-orchestration/tests -q -rA
+./PHASE_5_LIVE_DB_AND_APPROVAL_QUEUE_SUMMARY.md:237:python -m pytest aria/apps/llm-orchestration/tests/test_phase_5_live_database_approval_flow.py -q -rA
+./PHASE_5_LIVE_DB_AND_APPROVAL_QUEUE_SUMMARY.md:251:python -m pytest aria/apps/llm-orchestration/tests/test_phase_3_5_live_database.py -q
+./PHASE_4_API_CONTRACTS.md:176:  "topic": "approval workflow",
+./PHASE_4_API_CONTRACTS.md:369:    "default_workflow_mode": "approval_based",
+./PHASE_4_API_CONTRACTS.md:370:    "supported_capabilities": ["strategy", "content_generation", "approval_workflow"],
+./apps/time-optimization/config.py:23:    cold_start_benchmark_weight: float = Field(0.30, alias="COLD_START_BENCHMARK_WEIGHT")
+./apps/time-optimization/requirements.txt:12:pytest==8.3.5
+./apps/time-optimization/requirements.txt:13:pytest-asyncio==0.25.3
+./apps/time-optimization/tests/test_router.py:6:import pytest
+./apps/time-optimization/tests/test_router.py:11:@pytest.mark.asyncio
+./apps/time-optimization/tests/test_router.py:21:@pytest.mark.asyncio
+./apps/time-optimization/tests/test_services.py:4:import pytest
+./apps/time-optimization/tests/test_services.py:10:@pytest.mark.asyncio
+./apps/time-optimization/tests/test_services.py:17:@pytest.mark.asyncio
+./apps/time-optimization/services/core_logic.py:44:                    merged_score = self.settings.cold_start_baseline_weight * float(row["score"]) + self.settings.cold_start_benchmark_weight * float(row["score"])
+./apps/visual-understanding/requirements.txt:12:pytest==8.3.5
+./apps/visual-understanding/requirements.txt:13:pytest-asyncio==0.25.3
+./apps/visual-understanding/tests/test_router.py:6:import pytest
+./apps/visual-understanding/tests/test_router.py:11:@pytest.mark.asyncio
+./apps/visual-understanding/tests/test_router.py:23:@pytest.mark.asyncio
+./apps/visual-understanding/tests/test_services.py:5:import pytest
+./apps/visual-understanding/tests/test_services.py:11:@pytest.mark.asyncio
+./apps/visual-understanding/tests/test_services.py:19:@pytest.mark.asyncio
+./apps/scheduler/requirements.txt:12:pytest==8.3.5
+./apps/scheduler/requirements.txt:13:pytest-asyncio==0.25.3
+./apps/scheduler/tests/test_router.py:6:import pytest
+./apps/scheduler/tests/test_router.py:11:@pytest.mark.asyncio
+./apps/scheduler/tests/test_router.py:23:@pytest.mark.asyncio
+./apps/scheduler/tests/test_router.py:31:        response = await client.post("/run", json={"workflow_name": "bad"})
+./apps/scheduler/tests/test_services.py:4:import pytest
+./apps/scheduler/tests/test_services.py:6:from services.temporal_workflows import JITTER_COEFFICIENT, RETRY_SCHEDULE_SECONDS
+./apps/scheduler/tests/test_services.py:11:    assert JITTER_COEFFICIENT == 0.20
+./apps/scheduler/tests/test_services.py:14:@pytest.mark.asyncio
+./apps/scheduler/models/input.py:16:    workflow_name: Literal["PostGenerationWorkflow", "PostPublishWorkflow", "PerformanceFeedbackWorkflow"]
+./apps/scheduler/models/output.py:14:    workflow_id: str
+./apps/scheduler/router.py:39:            result = await SchedulerService(settings, db_pool, llm_client).run_workflow(payload)
+./apps/scheduler/services/worker.py:10:from services.temporal_workflows import PerformanceFeedbackWorkflow, PostGenerationWorkflow, PostPublishWorkflow
+./apps/scheduler/services/worker.py:14:    """Start Temporal worker with scheduler workflows and activities."""
+./apps/scheduler/services/worker.py:19:        workflows=[PostGenerationWorkflow, PostPublishWorkflow, PerformanceFeedbackWorkflow],
+./apps/scheduler/services/temporal_workflows.py:1:# FILE: apps/scheduler/services/temporal_workflows.py
+./apps/scheduler/services/temporal_workflows.py:7:from temporalio import workflow
+./apps/scheduler/services/temporal_workflows.py:9:with workflow.unsafe.imports_passed_through():
+./apps/scheduler/services/temporal_workflows.py:14:JITTER_COEFFICIENT = 0.20
+./apps/scheduler/services/temporal_workflows.py:17:@workflow.defn
+./apps/scheduler/services/temporal_workflows.py:19:    @workflow.run
+./apps/scheduler/services/temporal_workflows.py:21:        """Run generation workflow validation and completion marker."""
+./apps/scheduler/services/temporal_workflows.py:22:        validated = await workflow.execute_activity(validate_request, data, start_to_close_timeout=timedelta(seconds=30))
+./apps/scheduler/services/temporal_workflows.py:26:@workflow.defn
+./apps/scheduler/services/temporal_workflows.py:31:    @workflow.signal
+./apps/scheduler/services/temporal_workflows.py:35:    @workflow.run
+./apps/scheduler/services/temporal_workflows.py:38:        validated = await workflow.execute_activity(validate_request, data, start_to_close_timeout=timedelta(seconds=30))
+./apps/scheduler/services/temporal_workflows.py:41:            approved = await workflow.wait_condition(lambda: self._approved, timeout=timedelta(hours=48))
+./apps/scheduler/services/temporal_workflows.py:48:                return await workflow.execute_activity(publish_attempt, validated, start_to_close_timeout=timedelta(seconds=60))
+./apps/scheduler/services/temporal_workflows.py:51:                jitter = 1.0 + random.uniform(-JITTER_COEFFICIENT, JITTER_COEFFICIENT)
+./apps/scheduler/services/temporal_workflows.py:52:                await workflow.sleep(timedelta(seconds=int(delay * jitter)))
+./apps/scheduler/services/temporal_workflows.py:57:@workflow.defn
+./apps/scheduler/services/temporal_workflows.py:59:    @workflow.run
+./apps/scheduler/services/temporal_workflows.py:62:        await workflow.sleep(timedelta(hours=6))
+./apps/scheduler/services/temporal_workflows.py:63:        result = await workflow.execute_activity(metrics_ingest, data, start_to_close_timeout=timedelta(seconds=60))
+./apps/scheduler/services/core_logic.py:13:from services.workflow_runner import WorkflowRunner
+./apps/scheduler/services/core_logic.py:27:    async def run_workflow(self, payload: WorkflowRunInput) -> WorkflowRunOutput:
+./apps/scheduler/services/core_logic.py:28:        """Run scheduler workflows with pre-publish OAuth refresh check."""
+./apps/scheduler/services/workflow_runner.py:1:# FILE: apps/scheduler/services/workflow_runner.py
+./apps/scheduler/services/workflow_runner.py:12:from services.temporal_workflows import PerformanceFeedbackWorkflow, PostGenerationWorkflow, PostPublishWorkflow
+./apps/scheduler/services/workflow_runner.py:20:        """Start requested Temporal workflow and return run metadata."""
+./apps/scheduler/services/workflow_runner.py:22:        workflow_id = f"{payload.workflow_name}-{uuid4()}"
+./apps/scheduler/services/workflow_runner.py:24:        if payload.workflow_name == "PostGenerationWorkflow":
+./apps/scheduler/services/workflow_runner.py:25:            handle = await client.start_workflow(
+./apps/scheduler/services/workflow_runner.py:28:                id=workflow_id,
+./apps/scheduler/services/workflow_runner.py:32:        elif payload.workflow_name == "PostPublishWorkflow":
+./apps/scheduler/services/workflow_runner.py:33:            handle = await client.start_workflow(
+./apps/scheduler/services/workflow_runner.py:36:                id=workflow_id,
+./apps/scheduler/services/workflow_runner.py:41:            handle = await client.start_workflow(
+./apps/scheduler/services/workflow_runner.py:44:                id=workflow_id,
+./apps/scheduler/services/workflow_runner.py:50:            workflow_id=handle.id,
+./apps/scheduler/services/temporal_activities.py:9:    """Validate required fields for workflow execution."""
+./apps/scheduler/services/temporal_activities.py:27:    """Simulate metrics ingestion activity for feedback workflow."""
+./apps/hashtag-seo/requirements.txt:12:pytest==8.3.5
+./apps/hashtag-seo/requirements.txt:13:pytest-asyncio==0.25.3
+./apps/hashtag-seo/tests/test_router.py:6:import pytest
+./apps/hashtag-seo/tests/test_router.py:11:@pytest.mark.asyncio
+./apps/hashtag-seo/tests/test_router.py:24:@pytest.mark.asyncio
+./apps/hashtag-seo/tests/test_services.py:4:import pytest
+./apps/hashtag-seo/tests/test_services.py:11:@pytest.mark.asyncio
+./apps/hashtag-seo/tests/test_services.py:33:@pytest.mark.asyncio
+./apps/caption-generation/requirements.txt:12:pytest==8.3.5
+./apps/caption-generation/requirements.txt:13:pytest-asyncio==0.25.3
+./apps/caption-generation/tests/test_router.py:6:import pytest
+./apps/caption-generation/tests/test_router.py:11:@pytest.mark.asyncio
+./apps/caption-generation/tests/test_router.py:22:@pytest.mark.asyncio
+./apps/caption-generation/tests/test_services.py:4:import pytest
+./apps/caption-generation/tests/test_services.py:9:@pytest.mark.asyncio
+./apps/caption-generation/tests/test_services.py:16:@pytest.mark.asyncio
+./apps/content-analysis/requirements.txt:12:pytest==8.3.5
+./apps/content-analysis/requirements.txt:13:pytest-asyncio==0.25.3
+./apps/content-analysis/tests/test_router.py:4:import pytest
+./apps/content-analysis/tests/test_router.py:12:@pytest.mark.asyncio
+./apps/content-analysis/tests/test_router.py:24:@pytest.mark.asyncio
+./apps/content-analysis/tests/test_router.py:39:@pytest.mark.asyncio
+./apps/content-analysis/tests/test_services.py:5:import pytest
+./apps/content-analysis/tests/test_services.py:12:@pytest.mark.asyncio
+./apps/content-analysis/tests/test_services.py:23:@pytest.mark.asyncio
+./apps/content-analysis/tests/test_services.py:31:@pytest.mark.asyncio
+./apps/audience-targeting/requirements.txt:12:pytest==8.3.5
+./apps/audience-targeting/requirements.txt:13:pytest-asyncio==0.25.3
+./apps/audience-targeting/tests/test_router.py:6:import pytest
+./apps/audience-targeting/tests/test_router.py:11:@pytest.mark.asyncio
+./apps/audience-targeting/tests/test_router.py:24:@pytest.mark.asyncio
+./apps/audience-targeting/tests/test_services.py:4:import pytest
+./apps/audience-targeting/tests/test_services.py:9:@pytest.mark.asyncio
+./deploy.ps1:89:Write-Host "`n=== STEP 11: GitHub Actions deploy workflow ===" -ForegroundColor Green
+./deploy.ps1:90:$workflowPath = Join-Path $repoPath ".github\workflows\deploy.yml"
+./deploy.ps1:91:if (Test-Path $workflowPath) {
+./deploy.ps1:92:    Write-Host "Deploy workflow found at: $workflowPath" -ForegroundColor Green
+./deploy.ps1:93:    Write-Host "  - Triggers: push to main, workflow_dispatch"
+./run-deploy.bat:107:if exist .github\workflows\deploy.yml (
+./run-deploy.bat:108:    echo Deploy workflow: Found at .github\workflows\deploy.yml
+
+===== issue/surface hits =====
+./AI_ARCHITECTURE.md:5:ARIA's AI layer is an approval-based orchestration system, not a monolithic chatbot. The LLM orchestration service owns prompt assembly, model access, structured output validation, specialist agents, quality review, and future model/provider routing.
+./AI_ARCHITECTURE.md:11:- `llm/`: reads environment variables, chooses mock or OpenAI mode, sends structured requests, retries transient failures, validates responses, emits token/cost metadata hooks, and avoids logging secrets.
+./AI_ARCHITECTURE.md:26:5. If persistence is enabled and mock/local bootstrap is not allowed, missing brand profiles raise a clear not-found error instead of silently falling back.
+./AI_ARCHITECTURE.md:29:8. The generated JSON is validated as `GeneratedContentPackage`.
+./AI_ARCHITECTURE.md:100:No secrets are hardcoded. If OpenAI is configured and mock mode is false, the client calls OpenAI's chat completions endpoint with JSON-object response formatting, appends the target Pydantic JSON schema as an output instruction, and validates the result through Pydantic.
+./AI_ARCHITECTURE.md:129:- `service.py`: validates transitions, updates persistence, writes audit events, and returns schema-first results.
+./AI_ARCHITECTURE.md:130:- `errors.py`: stable missing-record and invalid-transition errors for API handlers.
+./AI_ARCHITECTURE.md:136:3. The service loads the current draft record, validates the transition, updates the draft status, writes `ai_approval_audit_events`, and returns an `ApprovalResult`.
+./AI_ARCHITECTURE.md:222:6. Add tests for schema validation, prompt loading, and mock-mode execution.
+./AI_ARCHITECTURE.md:232:- Phase 8: implemented product AI workspace context, Brand Brain get/upsert/validate contracts, typed frontend orchestration clients, and dashboard modules for AI Workspace, Brand Brain, Content Studio, Strategy, Trends, Competitors, AI Analyst, Calendar AI, Community AI, Reports AI, and Approval Queue.
+./AI_ARCHITECTURE.md:278:The frontend approval dashboard now opens typed detail records, shows audit timeline and request-changes history, validates request-changes reason plus change items, and keeps the existing safety model visible: approval does not publish, calendar readiness does not schedule, and community reply approval does not send replies.
+./AI_ARCHITECTURE.md:304:- `POST /internal/ai/brand-profile/validate`
+./PHASE_7_PRE_IMPLEMENTATION_AUDIT.md:10:- Approval lifecycle schemas, transition validation, service methods, and route handlers exist.
+./PHASE_7_PRE_IMPLEMENTATION_AUDIT.md:81:- TypeScript/build validation is available.
+./PHASE_7_PRE_IMPLEMENTATION_AUDIT.md:113:6. Update the approval dashboard selected-item panel to load safe detail, render full review fields, show audit timeline, and validate request changes.
+./PHASE_4_IMPLEMENTATION_SUMMARY.md:8:- Explicit transition validation for content drafts, calendar draft items, community reply drafts, and report drafts.
+./PHASE_4_IMPLEMENTATION_SUMMARY.md:9:- Approval service that validates transitions, updates draft records, writes audit events, and returns schema-first results.
+./PHASE_4_IMPLEMENTATION_SUMMARY.md:35:- `aria/apps/llm-orchestration/app/ai/approval/errors.py`
+./PHASE_7_DETAIL_AND_REVIEW_UX_SUMMARY.md:17:- Request-changes transitions existed, but frontend review needed reason/change validation and timeline visibility.
+./PHASE_7_DETAIL_AND_REVIEW_UX_SUMMARY.md:77:- Loading, action-submitting, validation, network, missing-object, invalid-transition, and persistence-unavailable states through the existing structured error flow.
+./aria-frontend/context/AuthContext.tsx:42:    const payload = (await response.json()) as { error?: string };
+./aria-frontend/context/AuthContext.tsx:43:    return payload.error ?? "Request failed";
+./aria-frontend/app/dashboard/content/page.tsx:14:        <p className="text-sm text-[var(--text-secondary)]">Draft, iterate, and optimize social content with AI assistance.</p>
+./aria-frontend/app/register/page.tsx:21:  const [errors, setErrors] = useState<{
+./aria-frontend/app/register/page.tsx:102:            {errors.name ? <p className="text-xs text-red-600">{errors.name}</p> : null}
+./aria-frontend/app/register/page.tsx:114:            {errors.email ? <p className="text-xs text-red-600">{errors.email}</p> : null}
+./aria-frontend/app/register/page.tsx:125:            {errors.password ? <p className="text-xs text-red-600">{errors.password}</p> : null}
+./aria-frontend/app/register/page.tsx:136:            {errors.confirmPassword ? <p className="text-xs text-red-600">{errors.confirmPassword}</p> : null}
+./aria-frontend/app/register/page.tsx:153:            {errors.role ? <p className="text-xs text-red-600">{errors.role}</p> : null}
+./aria-frontend/app/register/page.tsx:156:          {errors.general ? <p className="text-xs text-red-600">{errors.general}</p> : null}
+./aria-frontend/app/api/auth/register/route.ts:24:      return NextResponse.json({ error: "Email already exists" }, { status: 409 });
+./aria-frontend/app/api/auth/register/route.ts:50:  } catch (error) {
+./aria-frontend/app/api/auth/register/route.ts:51:    if (error instanceof z.ZodError) {
+./aria-frontend/app/api/auth/register/route.ts:54:          error: "Invalid input",
+./aria-frontend/app/api/auth/register/route.ts:55:          details: error.flatten()
+./aria-frontend/app/api/auth/register/route.ts:61:    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+./aria-frontend/app/api/auth/me/route.ts:13:      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+./aria-frontend/app/api/auth/me/route.ts:18:      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+./aria-frontend/app/api/auth/me/route.ts:32:      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+./aria-frontend/app/api/auth/me/route.ts:37:    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+./aria-frontend/app/api/auth/login/route.ts:25:      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+./aria-frontend/app/api/auth/login/route.ts:30:      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+./aria-frontend/app/api/auth/login/route.ts:59:  } catch (error) {
+./aria-frontend/app/api/auth/login/route.ts:60:    if (error instanceof z.ZodError) {
+./aria-frontend/app/api/auth/login/route.ts:63:          error: "Invalid input",
+./aria-frontend/app/api/auth/login/route.ts:64:          details: error.flatten()
+./aria-frontend/app/api/auth/login/route.ts:70:    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+./aria-frontend/app/api/ai/_lib.ts:164:export const toOpenAIErrorResponse = (error: unknown, fallbackMessage: string): NextResponse => {
+./aria-frontend/app/api/ai/_lib.ts:165:  if (error instanceof z.ZodError) {
+./aria-frontend/app/api/ai/_lib.ts:168:        error: "Invalid request body",
+./aria-frontend/app/api/ai/_lib.ts:169:        details: error.flatten()
+./aria-frontend/app/api/ai/_lib.ts:175:  if (error instanceof Error && error.message.includes("OPENAI_API_KEY is not configured")) {
+./aria-frontend/app/api/ai/_lib.ts:178:        error: "OPENAI_API_KEY is not configured"
+./aria-frontend/app/api/ai/_lib.ts:184:  if (error instanceof OpenAI.APIError) {
+./aria-frontend/app/api/ai/_lib.ts:185:    const status = error.status ?? 500;
+./aria-frontend/app/api/ai/_lib.ts:188:        error: error.message || fallbackMessage
+./aria-frontend/app/api/ai/_lib.ts:194:  if (error instanceof Error) {
+./aria-frontend/app/api/ai/_lib.ts:197:        error: error.message || fallbackMessage
+./aria-frontend/app/api/ai/_lib.ts:205:      error: fallbackMessage
+./aria-frontend/app/api/ai/_lib.ts:211:const shouldRetryOpenAI = (error: unknown): boolean => {
+./aria-frontend/app/api/ai/_lib.ts:212:  if (error instanceof OpenAI.APIError) {
+./aria-frontend/app/api/ai/_lib.ts:213:    return RETRYABLE_STATUS.has(error.status ?? 500);
+./aria-frontend/app/api/ai/_lib.ts:216:  if (error instanceof Error) {
+./aria-frontend/app/api/ai/_lib.ts:217:    const message = error.message.toLowerCase();
+./aria-frontend/app/api/ai/_lib.ts:244:    } catch (error) {
+./aria-frontend/app/api/ai/_lib.ts:245:      if (attempt >= OPENAI_MAX_RETRIES || !shouldRetryOpenAI(error)) {
+./aria-frontend/app/api/ai/_lib.ts:246:        throw error;
+./aria-frontend/app/api/ai/_lib.ts:256:export const parseJsonPayload = <T>(raw: string, schema: z.ZodType<T>, errorMessage: string): T => {
+./aria-frontend/app/api/ai/_lib.ts:259:    throw new Error(errorMessage);
+./aria-frontend/app/api/ai/generate-batch/route.ts:42:        error: message
+./aria-frontend/app/api/ai/generate-batch/route.ts:52:  } catch (error) {
+./aria-frontend/app/api/ai/generate-batch/route.ts:53:    console.error("/api/ai/generate-batch failed", error);
+./aria-frontend/app/api/ai/generate-batch/route.ts:54:    return toOpenAIErrorResponse(error, "Failed to generate batch content");
+./aria-frontend/app/api/ai/suggest-hashtags/route.ts:58:  } catch (error) {
+./aria-frontend/app/api/ai/suggest-hashtags/route.ts:59:    console.error("/api/ai/suggest-hashtags failed", error);
+./aria-frontend/app/api/ai/suggest-hashtags/route.ts:60:    return toOpenAIErrorResponse(error, "Failed to suggest hashtags");
+./aria-frontend/app/api/ai/improve-content/route.ts:44:  } catch (error) {
+./aria-frontend/app/api/ai/improve-content/route.ts:45:    console.error("/api/ai/improve-content failed", error);
+./aria-frontend/app/api/ai/improve-content/route.ts:46:    return toOpenAIErrorResponse(error, "Failed to improve content");
+./aria-frontend/app/api/ai/generate-content/route.ts:19:  } catch (error) {
+./aria-frontend/app/api/ai/generate-content/route.ts:20:    console.error("/api/ai/generate-content failed", error);
+./aria-frontend/app/api/ai/generate-content/route.ts:21:    return toOpenAIErrorResponse(error, "Failed to generate content");
+./aria-frontend/app/api/ai/analyze-content/route.ts:65:  } catch (error) {
+./aria-frontend/app/api/ai/analyze-content/route.ts:66:    console.error("/api/ai/analyze-content failed", error);
+./aria-frontend/app/api/ai/analyze-content/route.ts:67:    return toOpenAIErrorResponse(error, "Failed to analyze content");
+./aria-frontend/app/api/ai/suggest-topics/route.ts:53:  } catch (error) {
+./aria-frontend/app/api/ai/suggest-topics/route.ts:54:    console.error("/api/ai/suggest-topics failed", error);
+./aria-frontend/app/api/ai/suggest-topics/route.ts:55:    return toOpenAIErrorResponse(error, "Failed to suggest topics");
+./aria-frontend/app/api/generate/route.ts:66:const getErrorMessage = (error: unknown): string => {
+./aria-frontend/app/api/generate/route.ts:67:  if (error instanceof Anthropic.APIError) {
+./aria-frontend/app/api/generate/route.ts:68:    if (error.status === 429) {
+./aria-frontend/app/api/generate/route.ts:71:    return error.message || "Anthropic API error";
+./aria-frontend/app/api/generate/route.ts:73:  if (error instanceof Error) {
+./aria-frontend/app/api/generate/route.ts:74:    return error.message;
+./aria-frontend/app/api/generate/route.ts:84:  } catch (error) {
+./aria-frontend/app/api/generate/route.ts:85:    const message = error instanceof Error ? error.message : "Invalid request payload";
+./aria-frontend/app/api/generate/route.ts:121:      } catch (error) {
+./aria-frontend/app/api/generate/route.ts:122:        writeEvent(controller, encoder, "error", getErrorMessage(error));
+./aria-frontend/app/(dashboard)/posts/[post_id]/schedule/page.client.tsx:111:  const hasConflictError = mutation.error instanceof ApiError && mutation.error.code === "HTTP_409";
+./aria-frontend/app/(dashboard)/posts/[post_id]/result/page.client.tsx:133:              toast.error("Missing draft payload for regeneration");
+./aria-frontend/app/(dashboard)/posts/[post_id]/result/page.client.tsx:183:                toast.error("Could not copy content");
+./aria-frontend/app/(dashboard)/posts/[post_id]/result/page.client.tsx:218:                toast.error("Missing draft payload for regeneration");
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:87:const getFriendlyAiError = (error: unknown): string => {
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:88:  if (!(error instanceof Error)) {
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:92:  const message = error.message.toLowerCase();
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:357:    } catch (error) {
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:358:      setAiError(getFriendlyAiError(error));
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:391:    } catch (error) {
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:392:      setAiError(getFriendlyAiError(error));
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:410:    } catch (error) {
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:411:      setAiError(getFriendlyAiError(error));
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:428:    } catch (error) {
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:429:      setAiError(getFriendlyAiError(error));
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:446:    } catch (error) {
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:447:      setAiError(getFriendlyAiError(error));
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:476:    } catch (error) {
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:477:      setAiError(getFriendlyAiError(error));
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:492:      toast.error("Could not copy content");
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:508:        toast.error("Complete required fields before continuing.");
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:537:      toast.error("Company ID is invalid. Complete onboarding and try again.");
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:624:              <p className="text-xs text-slate-500">Fields marked by validation must be completed before next step.</p>
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:656:                aria-invalid={Boolean(form.formState.errors.core_message)}
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:658:              {form.formState.errors.core_message?.message ? (
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:659:                <p className="text-xs text-red-600">{form.formState.errors.core_message.message}</p>
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:692:              {form.formState.errors.target_platforms?.message ? (
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:693:                <p className="text-xs text-red-600">{form.formState.errors.target_platforms.message}</p>
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:755:                {form.formState.errors.requested_publish_at?.message ? (
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:756:                  <p className="text-xs text-red-600">{form.formState.errors.requested_publish_at.message}</p>
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:782:              {upload.error ? <p className="text-xs text-red-600">Upload failed. Please retry.</p> : null}
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:1038:                          <span className="font-medium capitalize">{result.platform}:</span> {result.success ? "Success" : result.error ?? "Failed"}
+./aria-frontend/app/(dashboard)/posts/new/page.tsx:1085:                Final validation is incomplete. Make sure your core message is long enough, at least one platform is selected,
+./aria-frontend/app/(dashboard)/scheduler/page.tsx:100:          const errorCode = data?.error_code ?? null;
+./aria-frontend/app/(dashboard)/scheduler/page.tsx:101:          const errorMessage = data?.error_message ?? null;
+./aria-frontend/app/(dashboard)/scheduler/page.tsx:120:                  <p>Error code: {errorCode ?? "unknown"}</p>
+./aria-frontend/app/(dashboard)/scheduler/page.tsx:121:                  <p>Error message: {errorMessage ?? "No message provided"}</p>
+./aria-frontend/app/(dashboard)/scheduler/page.tsx:135:                      toast.error("Approval failed");
+./aria-frontend/app/(dashboard)/analytics/page.tsx:22:  performance_metrics?: Record<string, number>;
+./aria-frontend/app/(dashboard)/analytics/page.tsx:52:      const metrics = row.performance_metrics ?? {};
+./aria-frontend/app/(dashboard)/analytics/page.tsx:245:        <h2 className="mb-3 text-sm font-semibold text-slate-900">Posts and performance metrics</h2>
+./aria-frontend/app/(dashboard)/analytics/page.tsx:266:                  const metrics = row.performance_metrics ?? {};
+./aria-frontend/app/(dashboard)/analytics/page.tsx:292:            description="Create your first generated package to inspect quality and performance side by side."
+./aria-frontend/app/login/page.tsx:15:  const [error, setError] = useState<string | null>(null);
+./aria-frontend/app/login/page.tsx:66:        error?: string;
+./aria-frontend/app/login/page.tsx:72:          error?: string;
+./aria-frontend/app/login/page.tsx:79:        setError(data.error ?? "Invalid email or password");
+./aria-frontend/app/login/page.tsx:161:          {error ? <p className="text-xs text-red-600">{error}</p> : null}
+./aria-frontend/app/onboarding/platforms/page.tsx:24:      return { platform: null, status: null, error: null, account_ref: null, token_expires_at: null };
+./aria-frontend/app/onboarding/platforms/page.tsx:30:      error: params.get("error"),
+./aria-frontend/app/onboarding/platforms/page.tsx:41:    if (callback.error === "state_mismatch") {
+./aria-frontend/app/onboarding/platforms/page.tsx:77:        {callback.error === "state_mismatch" ? (
+./aria-frontend/app/onboarding/brand-assets/page.tsx:26:  const { upload, isUploading, progress, error } = usePresignUpload();
+./aria-frontend/app/onboarding/brand-assets/page.tsx:59:              toast.error("Logo upload failed. Please retry.");
+./aria-frontend/app/onboarding/brand-assets/page.tsx:82:                toast.error(`Failed to upload ${file.name}. You can retry this file.`);
+./aria-frontend/app/onboarding/brand-assets/page.tsx:109:              toast.error((e as Error).message || "Post archive import failed");
+./aria-frontend/app/onboarding/brand-assets/page.tsx:136:          {error ? <p className="text-red-600">{error.message}</p> : null}
+./aria-frontend/app/onboarding/company-profile/page.tsx:79:    onError: (error) => {
+./aria-frontend/app/onboarding/company-profile/page.tsx:80:      toast.error((error as Error).message || "Failed to save company profile");
+./aria-frontend/app/onboarding/company-profile/page.tsx:122:            {form.formState.errors.company_name?.message ? <p className="text-xs text-red-600">{form.formState.errors.company_name.message}</p> : null}
+./aria-frontend/app/onboarding/company-profile/page.tsx:127:            {form.formState.errors.industry_vertical?.message ? <p className="text-xs text-red-600">{form.formState.errors.industry_vertical.message}</p> : null}
+./aria-frontend/app/onboarding/company-profile/page.tsx:137:          {form.formState.errors.target_market?.persona_summary?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:138:            <p className="text-xs text-red-600">{form.formState.errors.target_market.persona_summary.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:153:              {form.formState.errors.target_market?.regions?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:154:                <p className="text-xs text-red-600">{form.formState.errors.target_market.regions.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:184:          {form.formState.errors.target_market?.segments?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:185:            <p className="text-xs text-red-600">{form.formState.errors.target_market.segments.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:195:              {form.formState.errors.tone_of_voice_descriptors?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:196:                <p className="text-xs text-red-600">{form.formState.errors.tone_of_voice_descriptors.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:208:              {form.formState.errors.competitor_list?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:209:                <p className="text-xs text-red-600">{form.formState.errors.competitor_list.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:221:          {form.formState.errors.brand_positioning_statement?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:222:            <p className="text-xs text-red-600">{form.formState.errors.brand_positioning_statement.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:285:          {form.formState.errors.primary_cta_types?.message ? <p className="text-xs text-red-600">{form.formState.errors.primary_cta_types.message}</p> : null}
+./aria-frontend/app/onboarding/company-profile/page.tsx:325:              {form.formState.errors.brand_color_hex_codes?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:326:                <p className="text-xs text-red-600">{form.formState.errors.brand_color_hex_codes.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:338:              {form.formState.errors.approved_vocabulary_list?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:339:                <p className="text-xs text-red-600">{form.formState.errors.approved_vocabulary_list.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:351:              {form.formState.errors.banned_vocabulary_list?.message ? (
+./aria-frontend/app/onboarding/company-profile/page.tsx:352:                <p className="text-xs text-red-600">{form.formState.errors.banned_vocabulary_list.message}</p>
+./aria-frontend/app/onboarding/company-profile/page.tsx:366:          {!form.formState.isValid ? <p className="text-sm text-red-600">Please resolve validation errors.</p> : null}
+./aria-frontend/app/onboarding/quality-check/page.tsx:68:          <p className="text-sm text-slate-600">Run onboarding validation and remediation before generating live content.</p>
+./aria-frontend/app/onboarding/quality-check/page.tsx:84:          <p>Status: {isLoading ? "loading" : isError ? "error" : status?.status ?? "idle"}</p>
+./aria-frontend/app/onboarding/vocabulary/page.tsx:50:            } catch (error) {
+./aria-frontend/app/onboarding/vocabulary/page.tsx:51:              toast.error((error as Error).message || "Failed to save vocabulary");
+./aria-frontend/next.config.js:6:    unoptimized: true
+./aria-frontend/components/dashboard/WeeklyChart.tsx:47:            No performance data available yet.
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:34:    error,
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:83:      toast.error("Generation failed. Try again.");
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:93:            <p className="mt-1 text-xs text-white/80">Generate platform-optimized posts with brand-safe vocabulary.</p>
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:153:              {form.formState.errors.topic ? (
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:154:                <p className="text-xs text-red-500">{form.formState.errors.topic.message}</p>
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:200:                    toast.error("Generation failed. Try again.");
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:230:                  toast.error("Company profile is required before saving drafts.");
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:245:                } catch (error) {
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:246:                  const message = error instanceof Error ? error.message : "Failed to save draft";
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:247:                  toast.error(message);
+./aria-frontend/components/dashboard/AIGeneratorPanel.tsx:313:          {error ? <p className="text-xs text-red-500">{error}</p> : null}
+./aria-frontend/components/dashboard/NotificationItem.tsx:19:  error: "bg-red-500"
+./aria-frontend/components/dashboard/NotificationItem.tsx:26:  error: XCircle
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:45:  validateBrandProfile,
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:108:function readableError(error: unknown): string {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:109:  if (error instanceof AIWorkspaceApiError) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:110:    return `${error.status}: ${error.message}`;
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:112:  if (error instanceof Error) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:113:    return error.message;
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:157:  validation,
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:159:  error
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:161:  validation: BrandProfileValidationResult | null;
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:163:  error: string;
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:175:        {error ? <ErrorNotice message={error} /> : null}
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:176:        {validation ? (
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:180:              <Badge variant={validation.is_complete ? "default" : "outline"}>{validation.completeness_score}%</Badge>
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:182:            <Progress value={validation.completeness_score} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:183:            {validation.missing_required_fields.length ? (
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:184:              <ListBlock title="Missing fields" items={validation.missing_required_fields} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:191:            {validation.using_default_context ? (
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:203:  const [validation, setValidation] = useState<BrandProfileValidationResult | null>(null);
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:221:          setValidation(profileResult.value.validation);
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:225:        const fallbackValidation = await validateBrandProfile(defaultBrandProfile, true).catch(() => null);
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:242:  return { profile, setProfile, validation, setValidation, context, loadingBrand, brandError, setBrandError };
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:291:function AIWorkspaceHome({ validation, context, loadingBrand, brandError }: WorkspaceState) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:309:        <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:324:function BrandBrainPanel({ profile, setProfile, validation, setValidation, loadingBrand, brandError, setBrandError }: WorkspaceState) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:339:      setValidation(result.validation);
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:341:    } catch (error) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:342:      setBrandError(readableError(error));
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:348:  async function validateProfile() {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:352:      const result = await validateBrandProfile(profile, false);
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:354:    } catch (error) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:355:      setBrandError(readableError(error));
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:386:            <Button variant="outline" onClick={validateProfile} disabled={saving}>Validate completeness</Button>
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:390:          <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:392:          {validation?.warnings.length ? <ListBlock title="Warnings" items={validation.warnings} /> : null}
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:399:function ContentStudioPanel({ profile, validation, loadingBrand, brandError }: WorkspaceState) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:405:  const [error, setError] = useState("");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:460:        <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:462:      {error ? <ErrorNotice message={error} /> : null}
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:483:function StrategyPanel({ profile, validation, loadingBrand, brandError }: WorkspaceState) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:488:  const [error, setError] = useState("");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:532:        <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:534:      {error ? <ErrorNotice message={error} /> : null}
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:544:function TrendsPanel({ profile, validation, loadingBrand, brandError }: WorkspaceState) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:549:  const [error, setError] = useState("");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:590:        <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:592:      {error ? <ErrorNotice message={error} /> : null}
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:604:function CompetitorsPanel({ profile, validation, loadingBrand, brandError }: WorkspaceState) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:608:  const [error, setError] = useState("");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:654:        <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:656:      {error ? <ErrorNotice message={error} /> : null}
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:668:function ReportsPanel({ profile, validation, loadingBrand, brandError, title }: WorkspaceState & { title: string }) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:673:  const [error, setError] = useState("");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:718:        <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:720:      {error ? <ErrorNotice message={error} /> : null}
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:732:function CalendarPanel({ profile, validation, loadingBrand, brandError }: WorkspaceState) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:737:  const [error, setError] = useState("");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:777:        <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:779:      {error ? <ErrorNotice message={error} /> : null}
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:799:function CommunityPanel({ profile, validation, loadingBrand, brandError }: WorkspaceState) {
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:803:  const [error, setError] = useState("");
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:830:        <BrandStatus validation={validation} loading={loadingBrand} error={brandError} />
+./aria-frontend/components/ai-workspace/AIWorkspacePanels.tsx:832:      {error ? <ErrorNotice message={error} /> : null}
+./aria-frontend/components/approval/ApprovalDashboard.tsx:168:function getErrorMessage(error: unknown) {
+./aria-frontend/components/approval/ApprovalDashboard.tsx:169:  if (error instanceof ApprovalApiError) {
+./aria-frontend/components/approval/ApprovalDashboard.tsx:170:    return `${error.status}: ${error.message}`;
+./aria-frontend/components/approval/ApprovalDashboard.tsx:172:  if (error instanceof Error) return error.message;
+./aria-frontend/components/approval/ApprovalDashboard.tsx:199:  const [error, setError] = useState<string | null>(null);
+./aria-frontend/components/approval/ApprovalDashboard.tsx:449:      {error ? (
+./aria-frontend/components/approval/ApprovalDashboard.tsx:450:        <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-700">{error}</div>
+./aria-frontend/package-lock.json:686:        "debug": "^4.3.1",
+./aria-frontend/package-lock.json:727:        "debug": "^4.3.2",
+./aria-frontend/package-lock.json:1634:    "node_modules/@prisma/debug": {
+./aria-frontend/package-lock.json:1636:      "resolved": "https://registry.npmjs.org/@prisma/debug/-/debug-6.13.0.tgz",
+./aria-frontend/package-lock.json:1647:        "@prisma/debug": "6.13.0",
+./aria-frontend/package-lock.json:1665:        "@prisma/debug": "6.13.0",
+./aria-frontend/package-lock.json:1676:        "@prisma/debug": "6.13.0"
+./aria-frontend/package-lock.json:4038:        "debug": "^4.4.3"
+./aria-frontend/package-lock.json:4061:        "debug": "^4.4.3"
+./aria-frontend/package-lock.json:4119:        "debug": "^4.4.3",
+./aria-frontend/package-lock.json:4159:        "debug": "^4.4.3",
+./aria-frontend/package-lock.json:4674:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:4696:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:4755:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:4773:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:4957:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5294:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5312:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5330:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5340:    "node_modules/debug": {
+./aria-frontend/package-lock.json:5342:      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+./aria-frontend/package-lock.json:5388:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5487:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5550:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5613:    "node_modules/es-errors": {
+./aria-frontend/package-lock.json:5615:      "resolved": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+./aria-frontend/package-lock.json:5634:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5658:        "es-errors": "^1.3.0"
+./aria-frontend/package-lock.json:5671:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:5788:        "debug": "^4.3.2",
+./aria-frontend/package-lock.json:5861:        "debug": "^3.2.7",
+./aria-frontend/package-lock.json:5866:    "node_modules/eslint-import-resolver-node/node_modules/debug": {
+./aria-frontend/package-lock.json:5868:      "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz",
+./aria-frontend/package-lock.json:5884:        "debug": "^4.4.0",
+./aria-frontend/package-lock.json:5918:        "debug": "^3.2.7"
+./aria-frontend/package-lock.json:5929:    "node_modules/eslint-module-utils/node_modules/debug": {
+./aria-frontend/package-lock.json:5931:      "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz",
+./aria-frontend/package-lock.json:5951:        "debug": "^3.2.7",
+./aria-frontend/package-lock.json:5973:    "node_modules/eslint-plugin-import/node_modules/debug": {
+./aria-frontend/package-lock.json:5975:      "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz",
+./aria-frontend/package-lock.json:6483:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:6530:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:6795:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:8009:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:8044:        "validate-npm-package-license": "^3.0.4"
+./aria-frontend/package-lock.json:8752:        "tiny-invariant": "^1.3.1",
+./aria-frontend/package-lock.json:8788:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:8810:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:8829:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:8948:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:8966:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9002:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9020:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9036:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9118:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9138:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9156:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9175:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9252:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9293:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9483:    "node_modules/tiny-invariant": {
+./aria-frontend/package-lock.json:9485:      "resolved": "https://registry.npmjs.org/tiny-invariant/-/tiny-invariant-1.3.3.tgz",
+./aria-frontend/package-lock.json:9644:        "es-errors": "^1.3.0",
+./aria-frontend/package-lock.json:9863:    "node_modules/validate-npm-package-license": {
+./aria-frontend/package-lock.json:9865:      "resolved": "https://registry.npmjs.org/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz",
+./aria-frontend/hooks/useGeneratePost.ts:25:    onError: (error) => {
+./aria-frontend/hooks/useGeneratePost.ts:26:      const err = error as ApiError;
+./aria-frontend/hooks/useGeneratePost.ts:29:        toast.error(`Generation limit reached (20/min). Try again in ${retryAfter}s.`);
+./aria-frontend/hooks/useGeneratePost.ts:32:      toast.error(err.message);
+./aria-frontend/hooks/usePresignUpload.ts:18:  const [error, setError] = useState<ApiError | null>(null);
+./aria-frontend/hooks/usePresignUpload.ts:51:    error,
+./aria-frontend/hooks/useGenerate.ts:21:  const [error, setError] = useState<string | null>(null);
+./aria-frontend/hooks/useGenerate.ts:77:    error,
+./aria-frontend/hooks/useSaveDraftPost.ts:15:      void queryClient.invalidateQueries({ queryKey: ["company-posts"] });
+./aria-frontend/hooks/useSaveDraftPost.ts:16:      void queryClient.invalidateQueries({ queryKey: ["dashboard-feed"] });
+./aria-frontend/hooks/useDashboardFeed.ts:58:  const performance = row?.performance_metrics ?? {};
+./aria-frontend/hooks/useDashboardFeed.ts:67:      likes: Number(performance.likes ?? performance.reactions ?? 0),
+./aria-frontend/hooks/useDashboardFeed.ts:68:      comments: Number(performance.comments ?? 0),
+./aria-frontend/hooks/useDashboardFeed.ts:69:      shares: Number(performance.shares ?? 0)
+./aria-frontend/hooks/useDashboardFeed.ts:75:  if (/(fail|error|dead|reject)/i.test(action)) {
+./aria-frontend/hooks/useDashboardFeed.ts:76:    return "error";
+./aria-frontend/hooks/useDashboardFeed.ts:143:    postsError: postsQuery.error,
+./aria-frontend/hooks/useDashboardFeed.ts:144:    notificationsError: auditQuery.error
+./aria-frontend/hooks/useCreateSchedule.ts:22:    onError: (error) => {
+./aria-frontend/hooks/useCreateSchedule.ts:23:      const err = error as ApiError;
+./aria-frontend/hooks/useCreateSchedule.ts:25:        toast.error(`Scheduling conflict detected. ${JSON.stringify(err.details ?? {})}`);
+./aria-frontend/hooks/useCreateSchedule.ts:28:      toast.error(err.message || "Failed to create schedule");
+./aria-frontend/hooks/useQualityCheck.ts:16:      queryClient.invalidateQueries({ queryKey: ["onboarding-status", company_id] });
+./aria-frontend/hooks/useQualityCheck.ts:19:    onError: (error) => {
+./aria-frontend/hooks/useQualityCheck.ts:20:      const err = error as ApiError;
+./aria-frontend/hooks/useQualityCheck.ts:21:      toast.error(err.message || "Failed to start quality check");
+./aria-frontend/hooks/useCountUp.ts:18:    const start = performance.now();
+./aria-frontend/scripts/seed.ts:51:  .catch((error) => {
+./aria-frontend/scripts/seed.ts:52:    console.error(error);
+./aria-frontend/lib/prisma.ts:8:    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"]
+./aria-frontend/lib/api.ts:58:  error_code?: string | null;
+./aria-frontend/lib/api.ts:59:  error_message?: string | null;
+./aria-frontend/lib/api.ts:435:    xhr.onerror = () => reject(new ApiError({ code: "S3_UPLOAD_FAILED", message: "Upload failed", retryable: true }));
+./aria-frontend/lib/zod-schemas.ts:2:// purpose: Form validation schemas matching backend contracts.
+./aria-frontend/lib/ai.ts:72:      if (event === "error") {
+./aria-frontend/lib/api/ai-workspace.ts:43:  validation: BrandProfileValidationResult;
+./aria-frontend/lib/api/ai-workspace.ts:410:export function validateBrandProfile(
+./aria-frontend/lib/api/ai-workspace.ts:414:  return postJson("/internal/ai/brand-profile/validate", {
+./aria-frontend/lib/mock-data.ts:3:export type NotificationType = "info" | "success" | "warning" | "error";
+./aria-frontend/lib/mock-data.ts:212:    type: "error",
+./aria-frontend/lib/mockData.ts:104:  linkedin: `🚀 Excited to announce a major milestone for our team! After months of development, we've launched our AI-powered social media pipeline that helps brands create, schedule, and optimize content at scale.
+./aria-frontend/services/aiService.ts:32:  error?: string;
+./aria-frontend/services/aiService.ts:147:      const payload = (await response.json()) as { error?: string; message?: string };
+./aria-frontend/services/aiService.ts:148:      message = payload.error ?? payload.message ?? message;
+./aria-frontend/services/aiService.ts:276:        "What measurable CTA performance looks like"
+./PHASE_3_IMPLEMENTATION_SUMMARY.md:13:- Hardened `BrandMemory` so stored `BrandProfile` rows are loaded and validated as schema-first `BrandProfile` objects before reaching agents.
+./PHASE_3_IMPLEMENTATION_SUMMARY.md:27:- Missing brand profiles raise a clear error when bootstrap is disabled.
+./PHASE_3_IMPLEMENTATION_SUMMARY.md:133:Compile validation was also run over `aria/apps/llm-orchestration/app/ai` and `aria/apps/llm-orchestration/tests`.
+./PHASE_8_PRODUCT_AI_WORKSPACE_AUDIT.md:92:The backend has a schema-first `BrandProfile` and `AIPersistenceRepository.save_brand_profile/load_brand_profile`, but it does not expose internal get/upsert/validate brand profile routes yet.
+./PHASE_8_PRODUCT_AI_WORKSPACE_AUDIT.md:146:- Brand Brain get/upsert/validate backend routes
+./git-deploy.bat:46:if errorlevel 1 (
+./git-deploy.bat:83:        if errorlevel 1 (
+./docs/full-system-architecture.md:11:| 5 | LLM Orchestration Service | Microservice | Prompt assembly, model routing, retries, structured output validation, cost controls | Python 3.12, FastAPI, Pydantic v2, Tenacity, LiteLLM-style adapter | Kubernetes autoscaling |
+./docs/full-system-architecture.md:38:   2. Core API validates MIME and file size, returns S3 presigned URL and media_id.
+./docs/full-system-architecture.md:60:   2. Core API validates against onboarding schema.
+./docs/full-system-architecture.md:80:   2. Core API validates payload and inserts posts(status=generating).
+./docs/full-system-architecture.md:85:   2. Reads profile and tone JSON (PostgreSQL), visual profile (PostgreSQL), top prior posts (pgvector), hashtag performance priors (PostgreSQL), audience priors (time-series aggregates), platform constraints (Redis).
+./docs/full-system-architecture.md:116:### Path B: Scheduler trigger -> platform publish -> performance ingestion
+./docs/full-system-architecture.md:120:   2. Core API validates queue conflicts and inserts schedules rows per platform.
+./docs/full-system-architecture.md:168:   2. Webhook path: platform callback events received and validated.
+./docs/full-system-architecture.md:193:   1. Core API writes performance_metrics.
+./docs/full-system-architecture.md:195:   3. Event emitted performance.metrics.ingested.v1.
+./docs/full-system-architecture.md:196:   4. Learning jobs update hashtag scores, posting-window effectiveness, prompt version performance.
+./docs/full-system-architecture.md:221:6. posts 1:N performance_metrics.
+./docs/full-system-architecture.md:259:| Data | performance snapshots, webhook event metrics, hourly/day rollups |
+./docs/full-system-architecture.md:292:| POST | /internal/time-optimize/rank | mTLS + service JWT | Posting window rank |
+./docs/full-system-architecture.md:425:    "error": {"code": "string", "message": "string"}
+./docs/full-system-architecture.md:457:    "errors": [{"index": "int", "reason": "string"}]
+./docs/full-system-architecture.md:491:| Validation | 400 | Return field-level errors, reject write |
+./docs/full-system-architecture.md:493:| Not found | 404 | Traceable error envelope |
+./docs/full-system-architecture.md:499:Standard error envelope:
+./docs/full-system-architecture.md:503:  "error": {
+./docs/full-system-architecture.md:523:| Outputs | Canonical validated payloads, filtered candidates, deterministic ranking baselines |
+./docs/full-system-architecture.md:539:| Ownership | Post-performance labeling, prompt version scoring, drift detection, recalibration triggers |
+./PHASE_6_FRONTEND_INTEGRATION_AUDIT.md:31:Expected backend error behavior:
+./PHASE_6_FRONTEND_INTEGRATION_AUDIT.md:108:- Structured API error handling for `400`, `404`, `409`, and `503`.
+./PHASE_6_FRONTEND_INTEGRATION_AUDIT.md:112:Backend validation:
+./PHASE_6_FRONTEND_INTEGRATION_AUDIT.md:116:Frontend validation:
+./PHASE_6_FRONTEND_INTEGRATION_AUDIT.md:137:7. Run backend and frontend validation.
+./LOCAL_RUN_GUIDE.md:182:### CORS errors in browser
+./.gitignore:7:npm-debug.log*
+./.gitignore:8:yarn-debug.log*
+./.gitignore:9:yarn-error.log*
+./.gitignore:10:pnpm-debug.log*
+./PHASE_2_IMPLEMENTATION_SUMMARY.md:78:- Phase 2 schema validation and approval-default coverage
+./aria/app/tasks.py:2:# purpose: Celery generation and memory tasks with schema validation, retries, and periodic scheduling.
+./aria/app/tasks.py:244:def _parse_and_validate(raw: str, output_model: type[BaseModel]) -> dict[str, Any]:
+./aria/app/tasks.py:246:    validated = output_model.model_validate(payload)
+./aria/app/tasks.py:247:    return validated.model_dump()
+./aria/app/tasks.py:268:    data = CaptionInput.model_validate(payload)
+./aria/app/tasks.py:281:    result = _parse_and_validate(raw, CaptionOutput)
+./aria/app/tasks.py:292:    data = HashtagInput.model_validate(payload)
+./aria/app/tasks.py:303:    result = _parse_and_validate(raw, HashtagOutput)
+./aria/app/tasks.py:314:    data = AudienceInput.model_validate(payload)
+./aria/app/tasks.py:325:    result = _parse_and_validate(raw, AudienceOutput)
+./aria/app/tasks.py:336:    data = SEOInput.model_validate(payload)
+./aria/app/tasks.py:344:    result = _parse_and_validate(raw, SEOOutput)
+./aria/app/tasks.py:355:    data = ToneInput.model_validate(payload)
+./aria/app/tasks.py:366:    result = _parse_and_validate(raw, ToneOutput)
+./aria/app/tasks.py:375:@celery.task(bind=True, name="ingest_performance_webhook")
+./aria/app/tasks.py:376:def ingest_performance_webhook(self: Any, payload: dict[str, Any]) -> None:
+./aria/app/tasks.py:377:    data = WebhookIngestInput.model_validate(payload)
+./aria/app/models.py:2:# purpose: Pydantic v2 API contracts for request validation and response serialization.
+./aria/app/models.py:50:    error: str | None = None
+./aria/app/cache.py:122:                raise RuntimeError(f"openai-embedding: transport error - {exc}") from exc
+./aria/app/rules.py:2:# purpose: Deterministic rule-based guards for validation, safety, scheduling, signature checks, idempotency, and budgets.
+./aria/app/rules.py:18:def validate_payload(data: dict[str, Any], schema: dict[str, Any]) -> None:
+./aria/app/rules.py:31:    def _validate(value: Any, descriptor: dict[str, Any], path: str) -> None:
+./aria/app/rules.py:81:                _validate(nested_value, nested_descriptor, f"{path}.{key}")
+./aria/app/rules.py:84:        _validate(data.get(field_name), field_descriptor, field_name)
+./aria/app/providers.py:2:# purpose: HTTPX-based LLM provider adapters with a unified async interface and consistent error handling.
+./aria/app/providers.py:16:    """Raised when a provider request fails with HTTP or protocol errors."""
+./aria/app/providers.py:65:    def _preview_error_text(text: str, max_chars: int = 500) -> str:
+./aria/app/providers.py:86:                    detail = self._preview_error_text(response.text)
+./aria/app/providers.py:104:                raise ProviderError(f"{self.provider_name}: HTTP transport error - {exc}") from exc
+./aria/app/router.py:122:                last_error: ProviderError | None = None
+./aria/app/router.py:146:                            "tenant=%s provider=%s failure error=%s",
+./aria/app/router.py:151:                        last_error = exc
+./aria/app/router.py:159:                raise last_error or ProviderError("router: all providers unavailable")
+./aria/app/main.py:55:    ingest_performance_webhook,
+./aria/app/main.py:192:            error=str(task_result.result),
+./aria/app/main.py:217:    ingest_performance_webhook.delay(payload)
+./aria/memory/feedback.py:42:        data = WebhookMetricPayload.model_validate(payload)
+./aria/memory/feedback.py:44:        INSERT INTO performance_metrics (
+./aria/memory/feedback.py:81:        INSERT INTO performance_metrics (
+./aria/memory/feedback.py:127:        FROM performance_metrics
+./aria/memory/feedback.py:171:                    FROM performance_metrics
+./aria/memory/learning.py:94:                SELECT version, performance_score
+./aria/memory/learning.py:102:            score_map = {int(r["version"]): float(r["performance_score"] or 0.0) for r in rows}
+./aria/scripts/migrations/0001_init.sql:206:CREATE TABLE performance_metrics (
+./aria/scripts/migrations/0001_init.sql:257:  performance_weight numeric(8,5) NOT NULL DEFAULT 0,
+./aria/scripts/migrations/0001_init.sql:326:CREATE INDEX idx_performance_metrics_tenant_id ON performance_metrics(tenant_id);
+./aria/scripts/migrations/0001_init.sql:327:CREATE INDEX idx_performance_metrics_company_post_platform ON performance_metrics(company_id, post_id, platform);
+./aria/scripts/migrations/0001_init.sql:328:CREATE INDEX idx_performance_metrics_captured_at ON performance_metrics(captured_at DESC);
+./aria/scripts/migrations/0001_init.sql:341:CREATE INDEX gin_performance_metrics_attributes_json ON performance_metrics USING gin (attributes_json);
+./aria/scripts/migrations/0001_init.sql:348:SELECT create_hypertable('performance_metrics', by_range('captured_at'), if_not_exists => TRUE);
+./aria/scripts/migrations/0001_init.sql:350:ALTER TABLE performance_metrics SET (
+./aria/scripts/migrations/0001_init.sql:356:SELECT add_compression_policy('performance_metrics', INTERVAL '7 days', if_not_exists => TRUE);
+./aria/scripts/migrations/0001_init.sql:391:ALTER TABLE performance_metrics ENABLE ROW LEVEL SECURITY;
+./aria/scripts/migrations/0001_init.sql:411:CREATE POLICY tenant_isolation_performance_metrics ON performance_metrics USING (tenant_id = current_tenant_uuid());
+./aria/scripts/migrations/0001_init.sql:431:ALTER TABLE performance_metrics FORCE ROW LEVEL SECURITY;
+./aria/packages/platform-adapters/src/platform_adapters/models.py:44:    error: dict[str, str] | None = None
+./aria/packages/platform-adapters/src/platform_adapters/interface.py:26:    async def validate_credentials(self, credentials: OAuthCredentials) -> bool:
+./aria/packages/platform-adapters/src/platform_adapters/base_http.py:60:    async def validate_credentials(self, credentials: OAuthCredentials) -> bool:
+./aria/packages/types/src/index.ts:142:  error: z.object({
+./aria/packages/types/src/index.ts:168:  errors: z.array(z.object({
+./aria/packages/types/src/index.ts:199:  error: z.object({
+./aria/packages/kafka-schemas/tests/contract.test.mjs:14:  it("validates media.uploaded.v1 schema structure", () => {
+./aria/packages/kafka-schemas/tests/contract.test.mjs:16:    const valid = ajv.validateSchema(schema);
+./aria/packages/kafka-schemas/tests/contract.test.mjs:20:  it("validates module.result.ready.v1 schema structure", () => {
+./aria/packages/kafka-schemas/tests/contract.test.mjs:22:    const valid = ajv.validateSchema(schema);
+./aria/packages/kafka-schemas/events/post.publish.failed.v1.schema.json:12:          "required": ["schedule_id", "post_id", "platform", "retry_count", "error", "failed_at"],
+./aria/packages/kafka-schemas/events/post.publish.failed.v1.schema.json:18:            "error": {
+./aria/packages/kafka-schemas/events/performance.metrics.ingested.v1.schema.json:3:  "$id": "https://aria.schemas/events/performance.metrics.ingested.v1.schema.json",
+./aria/packages/kafka-schemas/events/performance.metrics.ingested.v1.schema.json:9:        "event_type": { "const": "performance.metrics.ingested.v1" },
+./aria/packages/python-contracts/src/python_contracts/models.py:29:    error: ErrorBody
+./aria/packages/python-contracts/src/python_contracts/models.py:81:    def validate_hex_codes(cls, values: list[str]) -> list[str]:
+./aria/packages/python-contracts/src/python_contracts/models.py:184:    error: PublishError | None = None
+./aria/packages/python-contracts/src/python_contracts/models.py:214:    errors: list[AnalyticsIngestError]
+./aria/packages/db/migrations/0001_init.sql:206:CREATE TABLE performance_metrics (
+./aria/packages/db/migrations/0001_init.sql:257:  performance_weight numeric(8,5) NOT NULL DEFAULT 0,
+./aria/packages/db/migrations/0001_init.sql:326:CREATE INDEX idx_performance_metrics_tenant_id ON performance_metrics(tenant_id);
+./aria/packages/db/migrations/0001_init.sql:327:CREATE INDEX idx_performance_metrics_company_post_platform ON performance_metrics(company_id, post_id, platform);
+./aria/packages/db/migrations/0001_init.sql:328:CREATE INDEX idx_performance_metrics_captured_at ON performance_metrics(captured_at DESC);
+./aria/packages/db/migrations/0001_init.sql:341:CREATE INDEX gin_performance_metrics_attributes_json ON performance_metrics USING gin (attributes_json);
+./aria/packages/db/migrations/0001_init.sql:348:SELECT create_hypertable('performance_metrics', by_range('captured_at'), if_not_exists => TRUE);
+./aria/packages/db/migrations/0001_init.sql:350:ALTER TABLE performance_metrics SET (
+./aria/packages/db/migrations/0001_init.sql:356:SELECT add_compression_policy('performance_metrics', INTERVAL '7 days', if_not_exists => TRUE);
+./aria/packages/db/migrations/0001_init.sql:391:ALTER TABLE performance_metrics ENABLE ROW LEVEL SECURITY;
+./aria/packages/db/migrations/0001_init.sql:411:CREATE POLICY tenant_isolation_performance_metrics ON performance_metrics USING (tenant_id = current_tenant_uuid());
+./aria/packages/db/migrations/0001_init.sql:431:ALTER TABLE performance_metrics FORCE ROW LEVEL SECURITY;
+./aria/packages/db/prisma/schema.prisma:113:  performanceMetrics            PerformanceMetric[]
+./aria/packages/db/prisma/schema.prisma:243:  performanceMetrics      PerformanceMetric[]
+./aria/packages/db/prisma/schema.prisma:368:  @@map("performance_metrics")
+./aria/packages/db/prisma/schema.prisma:415:  performanceWeight       Decimal     @default(0.0) @map("performance_weight") @db.Decimal(8, 5)
+./aria/packages/prompt-templates/src/prompt_templates/templates.py:29:    prior_hashtag_performance: dict[str, float] = Field(default_factory=dict)
+./aria/packages/prompt-templates/src/prompt_templates/templates.py:81:    return CaptionParseResult.model_validate(json.loads(raw))
+./aria/packages/prompt-templates/src/prompt_templates/templates.py:88:        f"priors={json.dumps(context.prior_hashtag_performance)}"
+./aria/packages/prompt-templates/src/prompt_templates/templates.py:94:    return HashtagParseResult.model_validate(json.loads(raw))
+./aria/packages/prompt-templates/src/prompt_templates/templates.py:107:    return AudienceParseResult.model_validate(json.loads(raw))
+./aria/packages/prompt-templates/src/prompt_templates/templates.py:117:    return SEOParseResult.model_validate(json.loads(raw))
+./aria/packages/prompt-templates/src/prompt_templates/templates.py:127:    return ToneParseResult.model_validate(json.loads(raw))
+./aria/db/migrations/003_rls.sql:50:ALTER TABLE performance_metrics ENABLE ROW LEVEL SECURITY;
+./aria/db/migrations/003_rls.sql:51:CREATE POLICY performance_metrics_tenant_policy ON performance_metrics
+./aria/db/migrations/003_rls.sql:53:CREATE POLICY performance_metrics_service_policy ON performance_metrics
+./aria/db/migrations/001_schema.sql:110:  error_code VARCHAR(64),
+./aria/db/migrations/001_schema.sql:111:  error_message TEXT,
+./aria/db/migrations/001_schema.sql:133:CREATE TABLE performance_metrics (
+./aria/db/migrations/001_schema.sql:151:CREATE INDEX idx_metrics_company_platform_captured ON performance_metrics(company_id, platform, captured_at DESC);
+./aria/db/migrations/001_schema.sql:162:  performance_score NUMERIC(6,4),
+./aria/db/migrations/002_vector_tables.sql:37:  performance_percentile NUMERIC(5,2),
+./aria/db/migrations/002_vector_tables.sql:51:  segment_performance NUMERIC(6,4),
+./aria/db/repositories/embeddings.py:193:        performance_percentile: float | None = None,
+./aria/db/repositories/embeddings.py:199:            text_chunk, embedding, performance_percentile, metadata
+./aria/db/repositories/embeddings.py:215:            performance_percentile,
+./aria/db/repositories/embeddings.py:276:        segment_performance: float | None = None,
+./aria/db/repositories/embeddings.py:282:            embedding, segment_performance, metadata
+./aria/db/repositories/embeddings.py:297:            segment_performance,
+./aria/db/repositories/schedules.py:47:        error_code: str | None = None,
+./aria/db/repositories/schedules.py:48:        error_message: str | None = None,
+./aria/db/repositories/schedules.py:54:            error_code = $3,
+./aria/db/repositories/schedules.py:55:            error_message = $4
+./aria/db/repositories/schedules.py:58:        args = (schedule_id, status, error_code, error_message)
+./aria/api/onboarding.py:175:        payload = ImportRequest.model_validate(await request.json())
+./aria/apps/scheduler/app/activities.py:11:async def validate_request(data: dict[str, Any]) -> dict[str, Any]:
+./aria/apps/scheduler/app/worker.py:25:    validate_request,
+./aria/apps/scheduler/app/worker.py:38:            validate_request,
+./aria/apps/scheduler/app/workflows.py:15:        validated = await workflow.execute_activity(
+./aria/apps/scheduler/app/workflows.py:16:            activities.validate_request,
+./aria/apps/scheduler/app/workflows.py:23:            validated,
+./aria/apps/scheduler/app/learning.py:44:def update_posting_window_weights_job(hourly_performance: dict[int, float]) -> dict[int, float]:
+./aria/apps/scheduler/app/learning.py:45:    total = sum(max(v, 0.0) for v in hourly_performance.values()) or 1.0
+./aria/apps/scheduler/app/learning.py:46:    return {hour: round(max(score, 0.0) / total, 6) for hour, score in hourly_performance.items()}
+./aria/apps/scheduler/app/learning.py:68:    hourly_performance: dict[int, float],
+./aria/apps/scheduler/app/learning.py:75:    windows = update_posting_window_weights_job(hourly_performance)
+./aria/apps/scheduler/app/learning.py:83:            "event_type": "performance.metrics.ingested.v1",
+./aria/apps/scheduler/app/main.py:23:    hourly_performance: dict[int, float]
+./aria/apps/scheduler/app/main.py:61:            id=f"performance-feedback-{uuid4()}",
+./aria/apps/scheduler/app/main.py:65:        return {"error": "Unknown workflow"}
+./aria/apps/scheduler/app/main.py:76:        hourly_performance=req.hourly_performance,
+./aria/apps/dashboard/app/schedules/page.tsx:32:      {mutation.isError && <p className="text-red-700">{String(mutation.error)}</p>}
+./aria/apps/dashboard/app/generate/page.tsx:34:      {mutation.isError && <p className="text-red-700">{String(mutation.error)}</p>}
+./aria/apps/dashboard/app/onboarding/page.tsx:43:      {mutation.isError && <p className="text-red-700">{String(mutation.error)}</p>}
+./aria/apps/api/src/v1/v1.service.ts:33:    if (!parsed.success) throw new BadRequestException(parsed.error.flatten());
+./aria/apps/api/src/v1/v1.service.ts:71:    if (!parsed.success) throw new BadRequestException(parsed.error.flatten());
+./aria/apps/api/src/v1/v1.service.ts:105:    if (!parsed.success) throw new BadRequestException(parsed.error.flatten());
+./aria/apps/api/src/v1/v1.service.ts:146:    if (!parsed.success) throw new BadRequestException(parsed.error.flatten());
+./aria/apps/api/src/v1/v1.service.ts:203:    if (!parsed.success) throw new BadRequestException(parsed.error.flatten());
+./aria/apps/api/src/v1/v1.service.ts:213:    if (!parsed.success) throw new BadRequestException(parsed.error.flatten());
+./aria/apps/api/src/v1/v1.service.ts:216:    const errors: Array<{ index: number; reason: string }> = [];
+./aria/apps/api/src/v1/v1.service.ts:225:        await this.prisma.performanceMetric.create({
+./aria/apps/api/src/v1/v1.service.ts:245:      } catch (error) {
+./aria/apps/api/src/v1/v1.service.ts:246:        errors.push({ index, reason: (error as Error).message });
+./aria/apps/api/src/v1/v1.service.ts:252:      rejected_count: errors.length,
+./aria/apps/api/src/v1/v1.service.ts:253:      errors
+./aria/apps/api/src/v1/v1.service.ts:259:    if (!parsed.success) throw new BadRequestException(parsed.error.flatten());
+./aria/apps/api/src/main.ts:5:import { ErrorEnvelopeFilter } from "./common/filters/error-envelope.filter.js";
+./aria/apps/api/src/common/filters/error-envelope.filter.ts:4:import type { ErrorEnvelope } from "../types/error-envelope.js";
+./aria/apps/api/src/common/filters/error-envelope.filter.ts:14:    const message = exception instanceof HttpException ? exception.message : "Internal server error";
+./aria/apps/api/src/common/filters/error-envelope.filter.ts:17:      error: {
+./aria/apps/api/src/common/filters/error-envelope.filter.ts:33:    if (status === 400) return "validation_error";
+./aria/apps/api/src/common/filters/error-envelope.filter.ts:40:    return "internal_error";
+./aria/apps/api/src/common/types/error-envelope.ts:2:  error: {
+./aria/apps/audience-targeting/app/main.py:60:            "content_angle": f"{platform}-optimized narrative for {base_segments[0]}",
+./aria/apps/llm-orchestration/app/ai/llm/client.py:13:from .errors import LLMError
+./aria/apps/llm-orchestration/app/ai/llm/client.py:21:    """Central LLM gateway with mock mode and structured output validation."""
+./aria/apps/llm-orchestration/app/ai/llm/client.py:50:            return output_model.model_validate(mock_factory())
+./aria/apps/llm-orchestration/app/ai/llm/client.py:127:            return output_model.model_validate(parsed)
+./aria/apps/llm-orchestration/app/ai/agents/trend_research_agent.py:26:            "content_formats": ["short educational post", "carousel", "behind-the-scenes proof point"],
+./aria/apps/llm-orchestration/app/ai/agents/calendar_planning_agent.py:24:        pillars = request.content_pillars or ["education", "proof", "community"]
+./aria/apps/llm-orchestration/app/ai/agents/visual_concept_agent.py:27:                    "structure": ["problem", "insight", "proof", "workflow", "approval CTA"],
+./aria/apps/llm-orchestration/app/ai/agents/brand_strategy_agent.py:23:        pillars = brand.business_goals[:2] + ["education", "proof", "community"]
+./aria/apps/llm-orchestration/app/ai/agents/brand_strategy_agent.py:32:                else "The target audience needs clear proof before considering a new brand workflow."
+./aria/apps/llm-orchestration/app/ai/agents/brand_strategy_agent.py:46:            "risks": ["Mock strategy uses only provided brand context and needs human validation."],
+./aria/apps/llm-orchestration/app/ai/agents/reporting_agent.py:27:            "next_experiments": ["Test one educational carousel and one proof-led short video."],
+./aria/apps/llm-orchestration/app/ai/agents/competitor_analysis_agent.py:26:            "recurring_themes": ["Education", "proof", "workflow improvement"],
+./aria/apps/llm-orchestration/app/ai/agents/competitor_analysis_agent.py:30:            "content_gaps": ["Create brand-specific proof assets competitors do not cover."],
+./aria/apps/llm-orchestration/app/ai/schemas/__init__.py:8:    validate_brand_profile_completeness,
+./aria/apps/llm-orchestration/app/ai/schemas/__init__.py:27:    "validate_brand_profile_completeness",
+./aria/apps/llm-orchestration/app/ai/schemas/brand.py:101:    validation: BrandProfileValidationResult
+./aria/apps/llm-orchestration/app/ai/schemas/brand.py:106:def validate_brand_profile_completeness(
+./aria/apps/llm-orchestration/app/ai/persistence/repository.py:84:        return BrandProfile.model_validate(profile_json)
+./aria/apps/llm-orchestration/app/ai/prompts/task_prompts.py:68:Convert the provided analytics data into readable performance insights. Return valid JSON
+./aria/apps/llm-orchestration/app/ai/approval/queue.py:319:        event if isinstance(event, ApprovalAuditEvent) else ApprovalAuditEvent.model_validate(event.model_dump(mode="json"))
+./aria/apps/llm-orchestration/app/ai/approval/service.py:7:from .errors import DraftNotFoundError
+./aria/apps/llm-orchestration/app/ai/approval/service.py:9:from .transitions import validate_transition
+./aria/apps/llm-orchestration/app/ai/approval/service.py:23:        validate_transition(decision.object_type, previous_status, decision.new_status)
+./aria/apps/llm-orchestration/app/ai/approval/service.py:29:            audit_event=ApprovalAuditEvent.model_validate(audit_event),
+./aria/apps/llm-orchestration/app/ai/approval/service.py:35:        return [ApprovalAuditEvent.model_validate(event) for event in events]
+./aria/apps/llm-orchestration/app/ai/approval/__init__.py:1:from .errors import ApprovalError, DraftNotFoundError, InvalidApprovalTransitionError
+./aria/apps/llm-orchestration/app/ai/approval/__init__.py:16:from .transitions import validate_transition
+./aria/apps/llm-orchestration/app/ai/approval/__init__.py:34:    "validate_transition",
+./aria/apps/llm-orchestration/app/ai/approval/transitions.py:3:from .errors import InvalidApprovalTransitionError
+./aria/apps/llm-orchestration/app/ai/approval/transitions.py:75:def validate_transition(
+./aria/apps/llm-orchestration/app/ai/approval/errors.py:5:    """Base approval lifecycle error."""
+./aria/apps/llm-orchestration/app/main.py:62:    validate_brand_profile_completeness,
+./aria/apps/llm-orchestration/app/main.py:293:        validation=validate_brand_profile_completeness(profile),
+./aria/apps/llm-orchestration/app/main.py:330:@app.post("/internal/ai/brand-profile/validate", response_model=BrandProfileValidationResult)
+./aria/apps/llm-orchestration/app/main.py:331:async def ai_validate_brand_profile(payload: BrandProfileValidationRequest) -> BrandProfileValidationResult:
+./aria/apps/llm-orchestration/app/main.py:332:    return validate_brand_profile_completeness(
+./aria/apps/llm-orchestration/app/main.py:387:def _validate_status_for_queue(object_type: ApprovalObjectType, status: str | None) -> None:
+./aria/apps/llm-orchestration/app/main.py:677:    _validate_status_for_queue(ApprovalObjectType.CONTENT_DRAFT, filters.status)
+./aria/apps/llm-orchestration/app/main.py:711:    _validate_status_for_queue(ApprovalObjectType.CALENDAR_DRAFT, filters.status)
+./aria/apps/llm-orchestration/app/main.py:745:    _validate_status_for_queue(ApprovalObjectType.COMMUNITY_REPLY, filters.status)
+./aria/apps/llm-orchestration/app/main.py:779:    _validate_status_for_queue(ApprovalObjectType.REPORT_DRAFT, filters.status)
+./aria/apps/llm-orchestration/app/main.py:818:        _validate_status_for_queue(queue_type, filters.status)
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:8:from ai.schemas.brand import BrandProfile, ProductContext, validate_brand_profile_completeness
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:63:def test_brand_profile_validation_reports_missing_fields() -> None:
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:66:    validation = validate_brand_profile_completeness(profile, using_default_context=True)
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:68:    assert validation.is_complete is False
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:69:    assert validation.using_default_context is True
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:70:    assert "description" in validation.missing_required_fields
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:71:    assert "products_or_services" in validation.missing_required_fields
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:72:    assert "platforms" in validation.missing_required_fields
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:73:    assert validation.completeness_score < 100
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:88:        validate_response = client.post(
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:89:            "/internal/ai/brand-profile/validate",
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:99:        assert validate_response.status_code == 200
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:100:        assert "description" in validate_response.json()["missing_required_fields"]
+./aria/apps/llm-orchestration/tests/test_phase_8_product_workspace.py:129:        "/internal/ai/brand-profile/validate",
+./aria/apps/llm-orchestration/tests/test_phase_7_approval_detail.py:197:                requested_changes=["Add source for the performance claim."],
+./aria/apps/llm-orchestration/tests/test_phase_7_approval_detail.py:205:    assert payload["last_requested_changes"] == ["Add source for the performance claim."]
+./aria/apps/llm-orchestration/tests/test_phase_7_approval_detail.py:227:                "reason": "The caption needs a more specific proof point.",
+./aria/apps/llm-orchestration/tests/test_phase_7_approval_detail.py:228:                "requested_changes": ["Add a proof point.", "Keep the CTA."],
+./aria/apps/llm-orchestration/tests/test_phase_7_approval_detail.py:238:        assert change_response.json()["audit_event"]["requested_changes"] == ["Add a proof point.", "Keep the CTA."]
+./aria/apps/llm-orchestration/tests/test_phase_7_approval_detail.py:240:        assert content.json()["last_requested_changes"] == ["Add a proof point.", "Keep the CTA."]
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:20:from ai.approval.transitions import FORBIDDEN_RUNTIME_STATES, TRANSITIONS, validate_transition
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:192:    validate_transition(ApprovalObjectType.CONTENT_DRAFT, ApprovalStatus.DRAFT, ApprovalStatus.IN_REVIEW)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:193:    validate_transition(ApprovalObjectType.CONTENT_DRAFT, ApprovalStatus.DRAFT, ApprovalStatus.APPROVED)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:194:    validate_transition(ApprovalObjectType.CONTENT_DRAFT, ApprovalStatus.IN_REVIEW, ApprovalStatus.CHANGES_REQUESTED)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:195:    validate_transition(ApprovalObjectType.CONTENT_DRAFT, ApprovalStatus.CHANGES_REQUESTED, ApprovalStatus.DRAFT)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:200:        validate_transition(ApprovalObjectType.CONTENT_DRAFT, ApprovalStatus.APPROVED, ApprovalStatus.DRAFT)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:204:    validate_transition(ApprovalObjectType.CALENDAR_DRAFT, ApprovalStatus.DRAFT, ApprovalStatus.IN_REVIEW)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:205:    validate_transition(ApprovalObjectType.CALENDAR_DRAFT, ApprovalStatus.APPROVED, ApprovalStatus.READY_FOR_SCHEDULING)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:208:        validate_transition(ApprovalObjectType.CALENDAR_DRAFT, ApprovalStatus.DRAFT, ApprovalStatus.APPROVED)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:212:    validate_transition(ApprovalObjectType.COMMUNITY_REPLY, ApprovalStatus.DRAFT, ApprovalStatus.IN_REVIEW)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:213:    validate_transition(ApprovalObjectType.COMMUNITY_REPLY, ApprovalStatus.IN_REVIEW, ApprovalStatus.ESCALATED)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:216:        validate_transition(ApprovalObjectType.COMMUNITY_REPLY, ApprovalStatus.APPROVED, ApprovalStatus.IN_REVIEW)
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:277:def test_approval_service_missing_and_invalid_errors() -> None:
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:278:    asyncio.run(_run_service_error_check())
+./aria/apps/llm-orchestration/tests/test_phase_4_approval.py:281:async def _run_service_error_check() -> None:
+./aria/apps/llm-orchestration/tests/test_orchestrator.py:10:from ai.llm.errors import LLMError
+./aria/apps/llm-orchestration/tests/test_phase_5_approval_queue.py:87:        "insight_payload_json": {"summary": "Weekly performance improved across approval-safe posts."},
+./aria/apps/llm-orchestration/tests/test_phase_5_approval_queue.py:136:        assert reports.json()["items"][0]["summary_preview"].startswith("Weekly performance")
+./aria/flows/posting.py:93:                        FROM performance_metrics
+./aria/services/oauth.py:31:        except Exception as exc:  # pragma: no cover - defensive config validation
+./aria/services/context_assembly.py:77:                    winners = [row for row in rows if float(row.get("performance_percentile") or 0.0) >= 80.0]
+./packages/types/shared/media.py:27:        validate_assignment=True,
+./packages/types/shared/media.py:41:    def validate_dimensions_for_media_type(self) -> "MediaReference":
+./packages/types/shared/__init__.py:2:from .errors import ErrorDetail, FieldError, ServiceUnavailableResponse, ValidationErrorResponse
+./packages/types/shared/errors.py:1:# FILE: packages/types/shared/errors.py
+./packages/types/shared/errors.py:11:    """Implements Section 3 shared service error envelope detail model."""
+./packages/types/shared/errors.py:15:        validate_assignment=True,
+./packages/types/shared/errors.py:27:    """Implements Section 3 shared field-level validation error model."""
+./packages/types/shared/errors.py:31:        validate_assignment=True,
+./packages/types/shared/errors.py:42:    """Implements Section 3 shared validation error response model."""
+./packages/types/shared/errors.py:46:        validate_assignment=True,
+./packages/types/shared/errors.py:51:    errors: Annotated[list[FieldError], Field(min_length=1)]
+./packages/types/shared/errors.py:60:        validate_assignment=True,
+./packages/types/shared/errors.py:65:    error: ErrorDetail
+./packages/types/shared/pagination.py:12:        validate_assignment=True,
+./packages/types/shared/pagination.py:26:        validate_assignment=True,
+./packages/types/outputs/post_generation.py:23:        validate_assignment=True,
+./packages/types/outputs/seo.py:18:        validate_assignment=True,
+./packages/types/outputs/seo.py:33:        validate_assignment=True,
+./packages/types/outputs/seo.py:48:        validate_assignment=True,
+./packages/types/outputs/hashtag.py:16:        validate_assignment=True,
+./packages/types/outputs/hashtag.py:31:        validate_assignment=True,
+./packages/types/outputs/hashtag.py:44:    def validate_unique_hashtags(cls, value: list[RankedHashtag]) -> list[RankedHashtag]:
+./packages/types/outputs/caption.py:18:        validate_assignment=True,
+./packages/types/outputs/caption.py:41:        validate_assignment=True,
+./packages/types/outputs/caption.py:55:    def validate_unique_variant_platforms(cls, value: list[CaptionVariant]) -> list[CaptionVariant]:
+./packages/types/outputs/caption.py:69:    def validate_selected_variant_keys(self) -> "CaptionGenerationOutput":
+./packages/types/outputs/audience.py:18:        validate_assignment=True,
+./packages/types/outputs/audience.py:27:    def validate_age_bounds(self) -> "AgeRange":
+./packages/types/outputs/audience.py:39:        validate_assignment=True,
+./packages/types/outputs/audience.py:55:        validate_assignment=True,
+./packages/types/outputs/schedule.py:18:        validate_assignment=True,
+./packages/types/outputs/schedule.py:32:    def validate_unique_reason_codes(cls, value: list[ReasonCode]) -> list[ReasonCode]:
+./packages/types/outputs/schedule.py:44:        validate_assignment=True,
+./packages/types/outputs/schedule.py:59:        validate_assignment=True,
+./packages/types/outputs/schedule.py:72:    def validate_targets_cover_windows(self) -> "ScheduleOutput":
+./packages/types/outputs/quality.py:18:        validate_assignment=True,
+./packages/types/outputs/quality.py:35:    def validate_unique_risk_flags(cls, value: list[RiskFlag]) -> list[RiskFlag]:
+./packages/types/inputs/company_onboarding.py:24:        validate_assignment=True,
+./packages/types/inputs/company_onboarding.py:35:    def validate_regions_iso_alpha2(cls, value: list[str]) -> list[str]:
+./packages/types/inputs/company_onboarding.py:48:        validate_assignment=True,
+./packages/types/inputs/company_onboarding.py:61:    def validate_at_least_one_platform(self) -> "PlatformPresence":
+./packages/types/inputs/company_onboarding.py:73:        validate_assignment=True,
+./packages/types/inputs/company_onboarding.py:91:        validate_assignment=True,
+./packages/types/inputs/company_onboarding.py:105:        validate_assignment=True,
+./packages/types/inputs/company_onboarding.py:132:    def validate_hex_colors(cls, value: list[str]) -> list[str]:
+./packages/types/inputs/company_onboarding.py:142:    def validate_approved_banned_disjoint(self) -> "CompanyOnboardingProfile":
+./packages/types/inputs/company_onboarding.py:152:    def validate_frequency_for_enabled_platforms(self) -> "CompanyOnboardingProfile":
+./packages/types/inputs/post_request.py:18:        validate_assignment=True,
+./packages/types/inputs/post_request.py:28:    def validate_mime_type(cls, value: str) -> str:
+./packages/types/inputs/post_request.py:41:        validate_assignment=True,
+./packages/types/inputs/post_request.py:58:    def validate_unique_platforms(cls, value: list[Platform]) -> list[Platform]:
+./packages/types/inputs/post_request.py:72:    def validate_urgency_publish_time(self) -> "PostGenerationRequest":
+./packages/types/inputs/performance_feedback.py:1:# FILE: packages/types/inputs/performance_feedback.py
+./packages/types/inputs/performance_feedback.py:14:    """Implements Section 3.1.3 Input C single performance feedback record."""
+./packages/types/inputs/performance_feedback.py:18:        validate_assignment=True,
+./packages/types/inputs/performance_feedback.py:37:    def validate_feedback_consistency(self) -> "PerformanceFeedback":
+./packages/types/inputs/performance_feedback.py:47:    """Implements Section 3.1.3 Input C batched performance feedback payload."""
+./packages/types/inputs/performance_feedback.py:51:        validate_assignment=True,
+./packages/types/inputs/performance_feedback.py:60:    def validate_unique_post_platform_pairs(cls, value: list[PerformanceFeedback]) -> list[PerformanceFeedback]:
+./packages/types/inputs/__init__.py:3:from .performance_feedback import PerformanceFeedback, PerformanceFeedbackBatch
+./packages/types/src/types_shared/base.py:14:    code: str = Field(..., min_length=2, max_length=100, description="Machine-readable error code")
+./packages/types/src/types_shared/base.py:15:    message: str = Field(..., min_length=2, max_length=500, description="Human-readable error message")
+./packages/types/src/types_shared/base.py:21:    error: ErrorBody
+./packages/decision-engine/models.py:75:    def validate_bounds(self) -> "AgeRange":
+./packages/decision-engine/models.py:129:    def validate_window(self) -> "TimeWindow":
+./packages/decision-engine/tests/test_hashtag_selection.py:16:    normalize_performance,
+./packages/decision-engine/tests/test_hashtag_selection.py:221:        + 0.35 * normalize_performance(uplifts, borrowed_candidate.historical_engagement_uplift)
+./packages/decision-engine/functions/hashtag_selection.py:43:    performance: float
+./packages/decision-engine/functions/hashtag_selection.py:115:    4. Score candidates (relevance/performance/recency/brand fit weighted blend).
+./packages/decision-engine/functions/hashtag_selection.py:159:        performance = normalize_performance(all_uplifts, candidate.historical_engagement_uplift)
+./packages/decision-engine/functions/hashtag_selection.py:168:            + HASHTAG_WEIGHT_PERFORMANCE * performance
+./packages/decision-engine/functions/hashtag_selection.py:177:                performance=performance,
+./packages/decision-engine/functions/hashtag_selection.py:309:def normalize_performance(uplifts: list[float], target: float) -> float:
+./packages/prompt-templates/validators.py:46:def validate_caption_prompt(messages: ChatMessages, context: CaptionContext) -> bool:
+./packages/prompt-templates/validators.py:68:def validate_hashtag_prompt(messages: ChatMessages, context: HashtagContext) -> bool:
+./packages/prompt-templates/validators.py:88:def validate_audience_prompt(messages: ChatMessages, context: AudienceContext) -> bool:
+./packages/prompt-templates/validators.py:108:def validate_seo_prompt(messages: ChatMessages, context: SEOContext) -> bool:
+./packages/prompt-templates/validators.py:135:def validate_tone_calibration_prompt(messages: ChatMessages, context: ToneContext) -> bool:
+./packages/prompt-templates/tests/test_seo.py:12:from packages.prompt_templates.validators import validate_seo_prompt
+./packages/prompt-templates/tests/test_seo.py:52:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_seo.py:112:def test_flesch_warning_does_not_block_validation(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_seo.py:115:    assert validate_seo_prompt(messages, make_context()) is True
+./packages/prompt-templates/tests/test_validators.py:20:    validate_audience_prompt,
+./packages/prompt-templates/tests/test_validators.py:21:    validate_caption_prompt,
+./packages/prompt-templates/tests/test_validators.py:22:    validate_hashtag_prompt,
+./packages/prompt-templates/tests/test_validators.py:23:    validate_seo_prompt,
+./packages/prompt-templates/tests/test_validators.py:24:    validate_tone_calibration_prompt,
+./packages/prompt-templates/tests/test_validators.py:73:            {"text": "A sufficiently long sample post for validation checks.", "platform": Platform.linkedin},
+./packages/prompt-templates/tests/test_validators.py:74:            {"text": "Another sufficiently long sample post for validation checks.", "platform": Platform.linkedin},
+./packages/prompt-templates/tests/test_validators.py:75:            {"text": "Third sufficiently long sample post for validation checks.", "platform": Platform.facebook},
+./packages/prompt-templates/tests/test_validators.py:76:            {"text": "Fourth sufficiently long sample post for validation checks.", "platform": Platform.x},
+./packages/prompt-templates/tests/test_validators.py:77:            {"text": "Fifth sufficiently long sample post for validation checks.", "platform": Platform.instagram},
+./packages/prompt-templates/tests/test_validators.py:83:def test_validate_caption_missing_banned_list_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:87:        validate_caption_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:90:def test_validate_caption_token_budget_exceeded_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:95:        validate_caption_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:98:def test_validate_caption_success_true() -> None:
+./packages/prompt-templates/tests/test_validators.py:101:    assert validate_caption_prompt(messages, ctx) is True
+./packages/prompt-templates/tests/test_validators.py:104:def test_validate_caption_unresolved_placeholder_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:109:        validate_caption_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:112:def test_validate_seo_b2b_low_flesch_is_warning_not_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_validators.py:116:    assert validate_seo_prompt(messages, ctx) is True
+./packages/prompt-templates/tests/test_validators.py:119:def test_validate_seo_banned_term_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:123:        validate_seo_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:126:def test_validate_hashtag_invalid_platform_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:130:        post_topic="Topic for validation checks",
+./packages/prompt-templates/tests/test_validators.py:142:            post_topic="Topic for validation checks",
+./packages/prompt-templates/tests/test_validators.py:149:        validate_hashtag_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:152:def test_validate_hashtag_empty_topic_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:168:            post_topic="Topic for validation checks",
+./packages/prompt-templates/tests/test_validators.py:175:        validate_hashtag_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:178:def test_validate_audience_invalid_json_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:193:        validate_audience_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:196:def test_validate_audience_invalid_post_intent_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:211:        validate_audience_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:214:def test_validate_tone_insufficient_samples_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:219:        validate_tone_calibration_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_validators.py:222:def test_validate_tone_unresolved_placeholder_fails() -> None:
+./packages/prompt-templates/tests/test_validators.py:227:        validate_tone_calibration_prompt(messages, ctx)
+./packages/prompt-templates/tests/test_tone_calibration.py:75:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_hashtag.py:65:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_caption.py:59:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/tests/test_caption.py:106:    model = caption_template.CaptionRawResponse.model_validate_json(raw)
+./packages/prompt-templates/tests/test_audience.py:21:        content_topic="Campaign performance insights",
+./packages/prompt-templates/tests/test_audience.py:57:def test_missing_variable_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+./packages/prompt-templates/templates/seo.py:123:    parsed = SEORawResponse.model_validate(payload)
+./packages/prompt-templates/templates/tone_calibration.py:129:    def validate_intent_modifiers(cls, value: dict[str, IntentModifier]) -> dict[str, IntentModifier]:
+./packages/prompt-templates/templates/tone_calibration.py:193:    parsed = ToneCalibrationRawResponse.model_validate_json(repaired)
+./packages/prompt-templates/templates/hashtag.py:50:    def validate_tag(cls, value: str) -> str:
+./packages/prompt-templates/templates/hashtag.py:70:    def validate_quotas_and_uniqueness(self) -> "HashtagRawResponse":
+./packages/prompt-templates/templates/hashtag.py:116:    parsed = HashtagRawResponse.model_validate_json(repaired)
+./packages/prompt-templates/templates/caption.py:80:    def validate_variant_distribution(
+./packages/prompt-templates/templates/caption.py:157:    Parse and validate LLM caption response.
+./packages/prompt-templates/templates/caption.py:163:    parsed = CaptionRawResponse.model_validate_json(
+./packages/prompt-templates/templates/audience.py:95:    Parse and validate audience response details.
+./packages/prompt-templates/templates/audience.py:101:    parsed = AudienceRawResponse.model_validate_json(repaired)
+./packages/prompt-templates/context_models/audience_context.py:31:    def validate_company_profile_json(cls, value: str) -> str:
+./packages/prompt-templates/context_models/hashtag_context.py:24:    def validate_historical_tags(cls, value: list[str]) -> list[str]:
+./packages/prompt-templates/context_models/hashtag_context.py:34:    def validate_banned_tags(cls, value: list[str]) -> list[str]:
+./packages/prompt-templates/context_models/caption_context.py:42:    def validate_tone_fingerprint_non_empty(cls, value: dict[str, Any]) -> dict[str, Any]:
+./packages/prompt-templates/context_models/caption_context.py:49:    def validate_audience_profile_non_empty(cls, value: dict[str, Any]) -> dict[str, Any]:
+./packages/prompt-templates/context_models/caption_context.py:55:    def validate_platform_constraints_coverage(self) -> "CaptionContext":
+./packages/prompt-templates/base.py:30:    """Raised when pre-send prompt validation fails."""
+./packages/prompt-templates/base.py:36:        super().__init__("Prompt validation failed: " + " | ".join(checks_failed))
+./PHASE_6_FRONTEND_APPROVAL_INTEGRATION_SUMMARY.md:14:- Clear frontend handling for backend validation, missing-object, invalid-transition, and persistence-unavailable errors.
+./PHASE_6_FRONTEND_APPROVAL_INTEGRATION_SUMMARY.md:107:- A user without access to the internal orchestration endpoint will see a structured API error in the approval queue rather than draft data.
+./PHASE_6_FRONTEND_APPROVAL_INTEGRATION_SUMMARY.md:114:2. Add authenticated deployment configuration and CORS validation for the orchestration API.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:27:- Brand Brain get/upsert/validate backend routes.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:34:- `ProductContext` and BrandProfile completeness validation.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:49:- `POST /internal/ai/brand-profile/validate`
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:53:- `/dashboard/brand-brain` lets users edit BrandProfile fields, validate completeness, save to backend persistence when configured, and see missing fields/warnings.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:54:- If persistence is unavailable, the panel shows a structured error and validates default context locally through the backend validation route when reachable.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:78:- `validateBrandProfile`
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:100:- `POST /internal/ai/brand-profile/validate`
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:245:- Added route and prompt tests before frontend work to catch backend contract regressions.
+./PHASE_8_PRODUCT_AI_WORKSPACE_SUMMARY.md:247:- Removed unused import noise from the new workspace component before validation.
+./AI_ARCHITECTURE_AUDIT.md:59:- `llm/`: central model client, settings, errors, provider types, retry and mock-mode behavior.
+./AI_ARCHITECTURE_AUDIT.md:73:5. Pydantic validates the structured `GeneratedContentPackage`.
+./AI_ARCHITECTURE_AUDIT.md:88:| Phase 8 | Evaluation and hardening: token/cost tracking, prompt version metrics, safety policies, regression evals, observability | P2 |
+./AI_ARCHITECTURE_AUDIT.md:123:- Central approval lifecycle schemas, transition validation, service layer, and errors.
+./AI_ARCHITECTURE_AUDIT.md:176:- Frontend TypeScript validation passed.
+./AI_ARCHITECTURE_AUDIT.md:195:- Request-changes review context surfaced through detail DTOs and frontend validation.
+./AI_ARCHITECTURE_AUDIT.md:203:- Frontend TypeScript validation passed.
+./AI_ARCHITECTURE_AUDIT.md:222:- Brand Brain backend routes for workspace context, brand profile get/upsert/update, and completeness validation.
+./AI_ARCHITECTURE_AUDIT.md:236:- Brand Brain save/load requires `DATABASE_URL` and a configured runtime DB pool; without it the frontend shows a structured backend/persistence error and uses validated default context locally.
+./PHASE_4_API_CONTRACTS.md:235:Detail route errors:
+./PHASE_4_API_CONTRACTS.md:325:- `POST /internal/ai/brand-profile/validate`
+./PHASE_4_API_CONTRACTS.md:357:  "validation": {
+./apps/time-optimization/models/input.py:43:    def validate_goal(cls, value: dict[str, int]) -> dict[str, int]:
+./apps/time-optimization/exceptions.py:20:    envelope = ErrorEnvelope(error={"code": exc.code, "message": exc.message, "retryable": exc.retryable, "trace_id": uuid4()})
+./apps/time-optimization/router.py:42:        log.error("processing_error", trace_id=str(uuid4()), error=str(exc))
+./apps/time-optimization/router.py:43:        raise ModuleProcessingError("processing_error", "Time optimization failed", True) from exc
+./apps/visual-understanding/models/input.py:20:    def model_validate(cls, obj, *args, **kwargs):
+./apps/visual-understanding/models/input.py:21:        model = super().model_validate(obj, *args, **kwargs)
+./apps/visual-understanding/exceptions.py:21:        error={
+./apps/visual-understanding/router.py:43:        log.error("processing_error", trace_id=str(uuid4()), error=str(exc))
+./apps/visual-understanding/router.py:44:        raise ModuleProcessingError("processing_error", "Visual understanding failed", True) from exc
+./apps/scheduler/exceptions.py:20:    envelope = ErrorEnvelope(error={"code": exc.code, "message": exc.message, "retryable": exc.retryable, "trace_id": uuid4()})
+./apps/scheduler/router.py:45:        log.error("processing_error", trace_id=str(uuid4()), error=str(exc))
+./apps/scheduler/router.py:46:        raise ModuleProcessingError("processing_error", "Workflow execution failed", True) from exc
+./apps/scheduler/services/worker.py:9:from services.temporal_activities import metrics_ingest, publish_attempt, validate_request
+./apps/scheduler/services/worker.py:20:        activities=[validate_request, publish_attempt, metrics_ingest],
+./apps/scheduler/services/temporal_workflows.py:10:    from services.temporal_activities import metrics_ingest, publish_attempt, validate_request
+./apps/scheduler/services/temporal_workflows.py:21:        """Run generation workflow validation and completion marker."""
+./apps/scheduler/services/temporal_workflows.py:22:        validated = await workflow.execute_activity(validate_request, data, start_to_close_timeout=timedelta(seconds=30))
+./apps/scheduler/services/temporal_workflows.py:23:        return {"status": "generated", **validated}
+./apps/scheduler/services/temporal_workflows.py:38:        validated = await workflow.execute_activity(validate_request, data, start_to_close_timeout=timedelta(seconds=30))
+./apps/scheduler/services/temporal_workflows.py:40:        if validated.get("approval_mode") == "human":
+./apps/scheduler/services/temporal_workflows.py:43:                return {"status": "expired", **validated}
+./apps/scheduler/services/temporal_workflows.py:45:        last_error = ""
+./apps/scheduler/services/temporal_workflows.py:48:                return await workflow.execute_activity(publish_attempt, validated, start_to_close_timeout=timedelta(seconds=60))
+./apps/scheduler/services/temporal_workflows.py:50:                last_error = str(exc)
+./apps/scheduler/services/temporal_workflows.py:54:        return {"status": "dead_letter", "error": last_error, **validated}
+./apps/scheduler/services/core_logic.py:38:            log.error("webhook_rejected", platform=payload.platform.value)
+./apps/scheduler/services/temporal_activities.py:8:async def validate_request(data: dict) -> dict:
+./apps/hashtag-seo/tests/test_services.py:13:    settings = Settings.model_validate(
+./apps/hashtag-seo/tests/test_services.py:35:    settings = Settings.model_validate(
+./apps/hashtag-seo/exceptions.py:20:    envelope = ErrorEnvelope(error={"code": exc.code, "message": exc.message, "retryable": exc.retryable, "trace_id": uuid4()})
+./apps/hashtag-seo/router.py:46:        log.error("processing_error", trace_id=str(uuid4()), error=str(exc))
+./apps/hashtag-seo/router.py:47:        raise ModuleProcessingError("processing_error", "Hashtag/SEO processing failed", True) from exc
+./apps/hashtag-seo/services/vector_retriever.py:19:                SELECT hashtag, performance_weight, metadata_json,
+./apps/hashtag-seo/services/scoring_engine.py:21:            uplift = float(source.get("performance_weight", 0.1))
+./apps/caption-generation/exceptions.py:20:    envelope = ErrorEnvelope(error={"code": exc.code, "message": exc.message, "retryable": exc.retryable, "trace_id": uuid4()})
+./apps/caption-generation/router.py:43:        log.error("processing_error", trace_id=str(uuid4()), error=str(exc))
+./apps/caption-generation/router.py:44:        raise ModuleProcessingError("processing_error", "Caption generation failed", True) from exc
+./apps/content-analysis/tests/test_router.py:40:async def test_module_error_handler() -> None:
+./apps/content-analysis/tests/test_router.py:51:    assert response.json()["error"]["code"] == "code"
+./apps/content-analysis/models/input.py:31:    def validate_non_empty_texts(cls, value: list[SamplePost]) -> list[SamplePost]:
+./apps/content-analysis/exceptions.py:26:        error={
+./apps/content-analysis/router.py:49:        log.error("processing_error", trace_id=trace_id, error=str(exc))
+./apps/content-analysis/router.py:50:        raise ModuleProcessingError("processing_error", "Content analysis failed", True) from exc
+./apps/audience-targeting/exceptions.py:20:    envelope = ErrorEnvelope(error={"code": exc.code, "message": exc.message, "retryable": exc.retryable, "trace_id": uuid4()})
+./apps/audience-targeting/router.py:45:        log.error("processing_error", trace_id=str(uuid4()), error=str(exc))
+./apps/audience-targeting/router.py:46:        raise ModuleProcessingError("processing_error", "Audience targeting failed", True) from exc
+./apps/audience-targeting/services/performance_signal_miner.py:1:# FILE: apps/audience-targeting/services/performance_signal_miner.py
+./apps/audience-targeting/services/performance_signal_miner.py:20:                  FROM performance_metrics
+./apps/audience-targeting/services/performance_signal_miner.py:25:                FROM performance_metrics
+./apps/audience-targeting/services/core_logic.py:14:from services.performance_signal_miner import PerformanceSignalMiner
+./apps/audience-targeting/services/core_logic.py:49:        log.info("step_completed", step="performance_signal_miner", segments=top_segments)
+./run-deploy.bat:26:    goto :error
+./run-deploy.bat:55:if errorlevel 1 (
+./run-deploy.bat:81:if errorlevel 1 (
+./run-deploy.bat:85:    goto :error
+./run-deploy.bat:97:        if errorlevel 1 (
+./run-deploy.bat:127::error

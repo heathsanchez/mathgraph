@@ -1,0 +1,17 @@
+{
+  "verdict": "MAYBE_NEEDS_MANUAL_READ",
+  "issue": {
+    "url": "https://github.com/geraintluff/json-model/issues/4",
+    "title": "Json model fails some of the tests in th JSON-schema official testsuite",
+    "state": "OPEN",
+    "labels": [],
+    "comment_count": 0,
+    "updatedAt": "2015-01-31T10:41:24Z"
+  },
+  "has_lean": false,
+  "has_tests": false,
+  "has_benchmark": true,
+  "has_money": true,
+  "has_surface": true,
+  "risk": false
+}
