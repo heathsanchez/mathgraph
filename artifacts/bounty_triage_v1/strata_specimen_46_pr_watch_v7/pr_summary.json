@@ -1,0 +1,33 @@
+{
+  "number": 46,
+  "title": "Add LawfulScorable scorer laws interface",
+  "state": "OPEN",
+  "isDraft": true,
+  "url": "https://github.com/strata-org/specimen/pull/46",
+  "author": "heathsanchez",
+  "baseRefName": "main",
+  "headRefName": "mathgraph-lawful-scorable-issue45",
+  "headRefOid": "c69bc02191c1480aa2f6487554af86616344f0f5",
+  "headRepositoryOwner": "heathsanchez",
+  "mergeable": "MERGEABLE",
+  "reviewDecision": "REVIEW_REQUIRED",
+  "updatedAt": "2026-07-07T00:31:47Z",
+  "createdAt": "2026-07-07T00:31:47Z",
+  "files": [
+    {
+      "path": "Specimen/Scoring.lean",
+      "additions": 34,
+      "deletions": 0
+    }
+  ],
+  "commits": [
+    {
+      "oid": "c69bc02191c1480aa2f6487554af86616344f0f5",
+      "messageHeadline": "Add LawfulScorable scorer laws interface"
+    }
+  ],
+  "statusCheckRollup": [],
+  "reviews": [],
+  "comment_count": 0,
+  "pr_view_ok": true
+}

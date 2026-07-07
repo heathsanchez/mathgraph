@@ -1,0 +1,14 @@
+branch:
+mathgraph-lawful-scorable-issue45
+
+head:
+c69bc02191c1480aa2f6487554af86616344f0f5
+
+status:
+
+lake env lean Specimen/Scoring.lean
+scoring_rc=0
+
+lake build
+Build completed successfully (47 jobs).
+build_rc=0

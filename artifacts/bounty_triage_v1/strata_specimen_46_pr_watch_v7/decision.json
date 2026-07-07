@@ -1,0 +1,17 @@
+{
+  "verdict": "NO_CI_YET__WAIT_FOR_REVIEW",
+  "pr_url": "https://github.com/strata-org/specimen/pull/46",
+  "isDraft": true,
+  "state": "OPEN",
+  "reviewDecision": "REVIEW_REQUIRED",
+  "local_verify_ok": true,
+  "check_count": 0,
+  "failed_checks": [],
+  "pending_checks": [],
+  "passed_checks": [],
+  "needs_instances": false,
+  "needs_worst": false,
+  "needs_changes": false,
+  "approved": false,
+  "pr_view_ok": true
+}
