@@ -1,0 +1,7 @@
+{
+  "verdict": "PATCHED_EXISTING_BENCHMARK_WORKFLOW",
+  "pr": "https://github.com/qojulia/QuantumOptics.jl/pull/528",
+  "local_smoke_rc": "0",
+  "external_head": "eb05dca730c43ceec108ff1bc613a4bd0fc24abe",
+  "change": "Existing Benchmarks workflow now runs smoke on PR/push and reserves full AirspeedVelocity for manual workflow_dispatch full=true."
+}
