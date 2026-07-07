@@ -1,0 +1,1677 @@
+===== issue body =====
+# Create database schema and models with Supabase
+
+## Objective
+Design and implement a comprehensive database schema for the AI Competition Voting Platform using Supabase, including tables for users, competitions, submissions, votes, and related entities with proper relationships, constraints, and Supabase-specific features like Row Level Security (RLS) and real-time subscriptions.
+
+## Technical Details
+
+### Database Technology
+- **Supabase (PostgreSQL)** as managed database service
+- **Prisma ORM** with Supabase driver adapter
+- **Supabase CLI** for migrations and type generation
+- **Row Level Security (RLS)** for data protection
+- **Real-time subscriptions** for live updates
+- **Connection pooling** with Supabase Pooler
+
+### Core Entities
+
+#### Users (extends auth schema)
+```sql
+-- Extended from authentication system
+ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'participant';
+ALTER TABLE users ADD COLUMN bio TEXT;
+ALTER TABLE users ADD COLUMN avatar_url VARCHAR(500);
+ALTER TABLE users ADD COLUMN github_url VARCHAR(500);
+ALTER TABLE users ADD COLUMN is_active BOOLEAN DEFAULT TRUE;
+```
+
+#### Competitions
+```sql
+CREATE TABLE competitions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    rules TEXT NOT NULL,
+    start_date TIMESTAMP NOT NULL,
+    end_date TIMESTAMP NOT NULL,
+    submission_deadline TIMESTAMP NOT NULL,
+    voting_start_date TIMESTAMP NOT NULL,
+    voting_end_date TIMESTAMP NOT NULL,
+    max_participants INTEGER,
+    status VARCHAR(20) DEFAULT 'draft',
+    prize_description TEXT,
+    evaluation_criteria JSONB,
+    organizer_id UUID REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### Submissions
+```sql
+CREATE TABLE submissions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    competition_id UUID REFERENCES competitions(id) ON DELETE CASCADE,
+    participant_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    code_repository_url VARCHAR(500),
+    demo_url VARCHAR(500),
+    documentation_url VARCHAR(500),
+    submission_data JSONB,
+    status VARCHAR(20) DEFAULT 'submitted',
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(competition_id, participant_id)
+);
+```
+
+#### Votes
+```sql
+CREATE TABLE votes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    submission_id UUID REFERENCES submissions(id) ON DELETE CASCADE,
+    voter_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    score INTEGER CHECK (score >= 1 AND score <= 10),
+    criteria_scores JSONB,
+    feedback TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(submission_id, voter_id)
+);
+```
+
+#### Competition Participants
+```sql
+CREATE TABLE competition_participants (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    competition_id UUID REFERENCES competitions(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'registered',
+    UNIQUE(competition_id, user_id)
+);
+```
+
+### Indexes and Performance
+```sql
+-- Performance indexes
+CREATE INDEX idx_competitions_status ON competitions(status);
+CREATE INDEX idx_competitions_dates ON competitions(start_date, end_date);
+CREATE INDEX idx_submissions_competition ON submissions(competition_id);
+CREATE INDEX idx_submissions_participant ON submissions(participant_id);
+CREATE INDEX idx_votes_submission ON votes(submission_id);
+CREATE INDEX idx_votes_voter ON votes(voter_id);
+CREATE INDEX idx_competition_participants_competition ON competition_participants(competition_id);
+CREATE INDEX idx_competition_participants_user ON competition_participants(user_id);
+```
+
+### Constraints and Triggers
+- Check constraints for date validation (start < end)
+- Prevent voting outside voting periods
+- Ensure unique participant per competition
+- Prevent self-voting
+- Automatic timestamp updates
+- Cascade deletes for related data
+
+## Acceptance Criteria
+- [ ] All tables created with proper relationships
+- [ ] Foreign key constraints implemented
+- [ ] Unique constraints for business rules
+- [ ] Check constraints for data validation
+- [ ] Indexes for query performance
+- [ ] Database migrations created and tested
+- [ ] Prisma schema definitions complete
+- [ ] Seed data for development/testing
+- [ ] Database connection pooling configured
+- [ ] Backup and recovery procedures documented
+- [ ] Query performance benchmarks
+- [ ] Schema documentation generated
+
+## Implementation Notes
+- Use Supabase migrations for schema changes
+- Implement Row Level Security (RLS) policies
+- Add created_at/updated_at timestamps to all tables
+- Use UUIDs for primary keys (security and scalability)
+- Implement proper indexing strategy
+- Consider partitioning for large tables (votes)
+- Enable real-time subscriptions for votes and competitions
+- Use Supabase Auth for user management integration
+- Configure connection pooling with Supabase Pooler
+- Set up database backups and Point-in-Time Recovery (PITR)
+
+## Dependencies
+- @supabase/supabase-js
+- @prisma/client
+- prisma
+- supabase
+- @supabase/auth-helpers-nextjs
+- prisma-dbml-generator (for documentation)
+
+## Prisma Models
+```prisma
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  passwordHash      String
+  firstName         String?
+  lastName          String?
+  role              Role      @default(PARTICIPANT)
+  bio               String?
+  avatarUrl         String?
+  githubUrl         String?
+  emailVerified     Boolean   @default(false)
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  organizedCompetitions Competition[] @relation("CompetitionOrganizer")
+  submissions       Submission[]
+  votes             Vote[]
+  participants      CompetitionParticipant[]
+  refreshTokens     RefreshToken[]
+}
+```
+
+## Testing Requirements
+- Unit tests for all model relationships
+- Integration tests for CRUD operations
+- Performance tests for large datasets
+- Constraint validation tests
+- Migration rollback tests
+- Connection pool tests
+- Query optimization tests
+- Data integrity tests
+
+## Supabase-Specific Features
+
+### Row Level Security (RLS) Policies
+```sql
+-- Users can only see their own data
+CREATE POLICY "Users can view own profile" ON users FOR SELECT USING (auth.uid() = id);
+
+-- Competition organizers can manage their competitions
+CREATE POLICY "Organizers can manage own competitions" ON competitions FOR ALL USING (auth.uid() = organizer_id);
+
+-- Participants can only vote once per submission
+CREATE POLICY "One vote per user per submission" ON votes FOR INSERT WITH CHECK (
+  NOT EXISTS (SELECT 1 FROM votes WHERE submission_id = NEW.submission_id AND voter_id = auth.uid())
+);
+```
+
+### Real-time Subscriptions
+```typescript
+// Subscribe to vote changes for real-time updates
+const votesSubscription = supabase
+  .from('votes')
+  .on('INSERT', payload => {
+    console.log('New vote received:', payload)
+    // Update UI with new vote count
+  })
+  .subscribe()
+```
+
+### Database Configuration
+```sql
+-- Enable extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pg_stat_statements";
+CREATE EXTENSION IF NOT EXISTS "btree_gist";
+
+-- Configure connection pooling
+ALTER SYSTEM SET max_connections = 200;
+ALTER SYSTEM SET shared_buffers = '256MB';
+ALTER SYSTEM SET effective_cache_size = '1GB';
+```
+
+## Performance Considerations
+- Index strategy for common queries
+- Query optimization for leaderboards
+- Pagination for large result sets
+- Supabase connection pooling configuration
+- Automatic caching with Supabase
+- Partitioning strategy for votes table (by competition_id)
+- Database maintenance procedures (auto-vacuum)
+- Read replicas for analytics (Supabase project addon)
+
+## Security Considerations
+- Row-level security for user data
+- Encryption for sensitive data
+- Audit logging for data changes
+- Backup encryption
+- Access control for database connections
+- SQL injection prevention through ORM
+- Data masking for development environments
+- GDPR compliance features (data deletion)
+===== money/competition/judge hits =====
+./PROJECT_SUMMARY.md:48:ai-competition-voting-platform/
+./PROJECT_SUMMARY.md:71:│   │   └── 📁 ai-competition-voting-platform/
+./PROJECT_SUMMARY.md:75:│       └── 📄 ai-competition-voting-platform.md
+./PROJECT_SUMMARY.md:112:git clone https://github.com/karmonlong/ai-competition-voting-platform.git
+./PROJECT_SUMMARY.md:113:cd ai-competition-voting-platform
+./PROJECT_SUMMARY.md:215:*项目地址: https://github.com/karmonlong/ai-competition-voting-platform*  
+./tailwind.config.js:44:          '0%': { opacity: '0' },
+./tailwind.config.js:45:          '100%': { opacity: '1' },
+./tailwind.config.js:48:          '0%': { transform: 'translateY(10px)', opacity: '0' },
+./tailwind.config.js:49:          '100%': { transform: 'translateY(0)', opacity: '1' },
+./tailwind.config.js:52:          '0%': { transform: 'scale(0.3)', opacity: '0' },
+./tailwind.config.js:55:          '100%': { transform: 'scale(1)', opacity: '1' },
+./jest.setup.js:1:// Optional: configure or set up a testing framework before each test.
+./jest.setup.js:4:// Used for __tests__/testing-library.js
+./jest.setup.js:5:// Learn more: https://github.com/testing-library/jest-dom
+./jest.setup.js:6:import '@testing-library/jest-dom'
+./jest.config.js:4:  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+./jest.config.js:11:  testEnvironment: 'jest-environment-jsdom',
+./jest.config.js:15:  testMatch: [
+./jest.config.js:16:    '**/__tests__/**/*.(ts|tsx|js|jsx)',
+./jest.config.js:17:    '**/*.(test|spec).(ts|tsx|js|jsx)',
+./jest.config.js:22:    '!src/**/__tests__/**',
+./prisma/schema.prisma:29:  submissions       Submission[]
+./prisma/schema.prisma:31:  participants      CompetitionParticipant[]
+./prisma/schema.prisma:44:  submissionDeadline DateTime
+./prisma/schema.prisma:47:  maxParticipants   Int?
+./prisma/schema.prisma:49:  prizeDescription  String?
+./prisma/schema.prisma:50:  evaluationCriteria Json?
+./prisma/schema.prisma:56:  submissions       Submission[]
+./prisma/schema.prisma:57:  participants      CompetitionParticipant[]
+./prisma/schema.prisma:59:  @@map("competitions")
+./prisma/schema.prisma:64:  competitionId     String
+./prisma/schema.prisma:65:  participantId     String
+./prisma/schema.prisma:71:  submissionData    Json?
+./prisma/schema.prisma:76:  competition       Competition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+./prisma/schema.prisma:77:  participant       User @relation(fields: [participantId], references: [id], onDelete: Cascade)
+./prisma/schema.prisma:80:  @@unique([competitionId, participantId])
+./prisma/schema.prisma:81:  @@map("submissions")
+./prisma/schema.prisma:86:  submissionId      String
+./prisma/schema.prisma:88:  score             Int
+./prisma/schema.prisma:94:  submission        Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+./prisma/schema.prisma:97:  @@unique([submissionId, voterId])
+./prisma/schema.prisma:101:model CompetitionParticipant {
+./prisma/schema.prisma:103:  competitionId     String
+./prisma/schema.prisma:106:  status            ParticipantStatus @default(REGISTERED)
+./prisma/schema.prisma:108:  competition       Competition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+./prisma/schema.prisma:111:  @@unique([competitionId, userId])
+./prisma/schema.prisma:112:  @@map("competition_participants")
+./prisma/schema.prisma:152:enum ParticipantStatus {
+./.claude/context/README.md:24:- **`tech-context.md`** - Dependencies, technologies, and development tools
+./.claude/context/README.md:26:- **`system-patterns.md`** - Architectural patterns and design decisions
+./.claude/context/README.md:75:- **Consistent Architecture**: Decisions are documented and followed
+./.claude/context/README.md:81:- **Keep Current**: Update context regularly, especially after major changes
+./.claude/context/README.md:82:- **Be Concise**: Focus on essential information that helps understanding
+./.claude/context/README.md:84:- **Document Decisions**: Capture architectural and design decisions
+./.claude/settings.local.json:4:      "Bash(bash .claude/scripts/test-and-log.sh:*)",
+./.claude/settings.local.json:5:      "Bash(.claude/scripts/test-and-log.sh:*)",
+./.claude/settings.local.json:24:      "Bash(pytest *)",
+./.claude/agents/parallel-worker.md:17:- Note dependencies between streams
+./.claude/agents/parallel-worker.md:27:    You are implementing a specific work stream in worktree: {worktree_path}
+./.claude/agents/parallel-worker.md:36:    3. Commit frequently with format: "Issue #{number}: {specific change}"
+./.claude/agents/parallel-worker.md:74:- {combined test results if applicable}
+./.claude/agents/parallel-worker.md:93:   - Plan execution order based on dependencies
+./.claude/agents/parallel-worker.md:126:1. Note which files are contested
+./.claude/agents/parallel-worker.md:151:- Keep the main thread summary extremely concise
+./.claude/agents/test-runner.md:2:name: test-runner
+./.claude/agents/test-runner.md:3:description: Use this agent when you need to run tests and analyze their results. This agent specializes in executing tests using the optimized test runner script, capturing comprehensive logs, and then performing deep analysis to surface key issues, failures, and actionable insights. The agent should be invoked after code changes that require validation, during debugging sessions when tests are failing, or when you need a comprehensive test health report. Examples: <example>Context: The user wants to run tests after implementing a new feature and understands any issues.user: "I've finished implementing the new authentication flow. Can you run the relevant tests and tell me if there are any problems?" assistant: "I'll use the test-runner agent to run the authentication tests and analyze the results for any issues."<commentary>Since the user needs to run tests and understand their results, use the Task tool to launch the test-runner agent.</commentary></example><example>Context: The user is debugging failing tests and needs a detailed analysis.user: "The workflow tests keep failing intermittently. Can you investigate?" assistant: "Let me use the test-runner agent to run the workflow tests multiple times and analyze the patterns in any failures."<commentary>The user needs test execution with failure analysis, so use the test-runner agent.</commentary></example>
+./.claude/agents/test-runner.md:9:You are an expert test execution and analysis specialist for the MUXI Runtime system. Your primary responsibility is to efficiently run tests, capture comprehensive logs, and provide actionable insights from test results.
+./.claude/agents/test-runner.md:13:1. **Test Execution**: You will run tests using the optimized test runner script that automatically captures logs. Always use `.claude/scripts/test-and-log.sh` to ensure full output capture.
+./.claude/agents/test-runner.md:15:2. **Log Analysis**: After test execution, you will analyze the captured logs to identify:
+./.claude/agents/test-runner.md:19:   - Flaky test patterns
+./.claude/agents/test-runner.md:21:   - Missing dependencies or setup issues
+./.claude/agents/test-runner.md:27:   - **Low**: Minor issues or test infrastructure problems
+./.claude/agents/test-runner.md:32:   - Verify test file exists and is executable
+./.claude/agents/test-runner.md:34:   - Ensure test dependencies are available
+./.claude/agents/test-runner.md:40:   .claude/scripts/test-and-log.sh tests/[test_file].py
+./.claude/agents/test-runner.md:42:   # For iteration testing with custom log names
+./.claude/agents/test-runner.md:43:   .claude/scripts/test-and-log.sh tests/[test_file].py [test_name]_iteration_[n].log
+./.claude/agents/test-runner.md:47:   - Parse the log file for test results summary
+./.claude/agents/test-runner.md:50:   - Look for patterns in failures (timing, resources, dependencies)
+./.claude/agents/test-runner.md:54:   - Provide a concise summary of test results (passed/failed/skipped)
+./.claude/agents/test-runner.md:56:   - Suggest specific fixes or debugging steps
+./.claude/agents/test-runner.md:67:- **Import Errors**: Missing modules or circular dependencies
+./.claude/agents/test-runner.md:73:Ensure you read the test carefully to understand what it is testing, so you can better analyze the results.
+./.claude/agents/test-runner.md:88:[List any blocking issues with specific error messages and line numbers]
+./.claude/agents/test-runner.md:101:[Specific actions to fix failures or improve test reliability]
+./.claude/agents/test-runner.md:104:## Special Considerations
+./.claude/agents/test-runner.md:106:- For flaky tests, suggest running multiple iterations to confirm intermittent behavior
+./.claude/agents/test-runner.md:107:- When tests pass but show warnings, highlight these for preventive maintenance
+./.claude/agents/test-runner.md:108:- If all tests pass, still check for performance degradation or resource usage patterns
+./.claude/agents/test-runner.md:114:If the test runner script fails to execute:
+./.claude/agents/test-runner.md:116:2. Verify the test file path is correct
+./.claude/agents/test-runner.md:118:4. Fall back to direct pytest execution with output redirection if necessary
+./.claude/agents/test-runner.md:120:You will maintain context efficiency by keeping the main conversation focused on actionable insights while ensuring all diagnostic information is captured in the logs for detailed debugging when needed.
+./.claude/agents/file-analyzer.md:3:description: Use this agent when you need to analyze and summarize file contents, particularly log files or other verbose outputs, to extract key information and reduce context usage for the parent agent. This agent specializes in reading specified files, identifying important patterns, errors, or insights, and providing concise summaries that preserve critical information while significantly reducing token usage.\n\nExamples:\n- <example>\n  Context: The user wants to analyze a large log file to understand what went wrong during a test run.\n  user: "Please analyze the test.log file and tell me what failed"\n  assistant: "I'll use the file-analyzer agent to read and summarize the log file for you."\n  <commentary>\n  Since the user is asking to analyze a log file, use the Task tool to launch the file-analyzer agent to extract and summarize the key information.\n  </commentary>\n  </example>\n- <example>\n  Context: Multiple files need to be reviewed to understand system behavior.\n  user: "Can you check the debug.log and error.log files from today's run?"\n  assistant: "Let me use the file-analyzer agent to examine both log files and provide you with a summary of the important findings."\n  <commentary>\n  The user needs multiple log files analyzed, so the file-analyzer agent should be used to efficiently extract and summarize the relevant information.\n  </commentary>\n  </example>
+./.claude/agents/file-analyzer.md:9:You are an expert file analyzer specializing in extracting and summarizing critical information from files, particularly log files and verbose outputs. Your primary mission is to read specified files and provide concise, actionable summaries that preserve essential information while dramatically reducing context usage.
+./.claude/agents/file-analyzer.md:14:   - Read the exact files specified by the user or parent agent
+./.claude/agents/file-analyzer.md:15:   - Never assume which files to read - only analyze what was explicitly requested
+./.claude/agents/file-analyzer.md:24:     * Performance metrics and timestamps
+./.claude/agents/file-analyzer.md:46:   - Use concise language without sacrificing clarity
+./.claude/agents/file-analyzer.md:56:   - [Most important issues/errors with specific details]
+./.claude/agents/file-analyzer.md:57:   - [Include exact error messages when crucial]
+./.claude/agents/file-analyzer.md:67:6. **Special Handling**
+./.claude/agents/file-analyzer.md:68:   - For test logs: Focus on test results, failures, and assertion errors
+./.claude/agents/file-analyzer.md:83:- If files are already concise, indicate this rather than padding the summary
+./.claude/agents/file-analyzer.md:85:- Always preserve specific error codes, line numbers, and identifiers that might be needed for debugging
+./.claude/agents/file-analyzer.md:87:Your summaries enable efficient decision-making by distilling large amounts of information into actionable insights while maintaining complete accuracy on critical details.
+./.claude/agents/code-analyzer.md:3:description: Use this agent when you need to analyze code changes for potential bugs, trace logic flow across multiple files, or investigate suspicious behavior in the codebase. This agent specializes in deep-dive analysis while maintaining a concise summary format to preserve context. Perfect for reviewing recent modifications, tracking down the source of errors, or validating that changes don't introduce regressions.\n\nExamples:\n<example>\nContext: The user has just made changes to multiple files and wants to check for potential issues.\nuser: "I've updated the authentication flow across several files. Can you check for bugs?"\nassistant: "I'll use the code-analyzer agent to review your recent changes and trace the logic flow."\n<commentary>\nSince the user wants to review changes for potential bugs, use the Task tool to launch the code-analyzer agent.\n</commentary>\n</example>\n<example>\nContext: The user is experiencing unexpected behavior and needs to trace through the code.\nuser: "The API is returning 500 errors after the last deployment. Need to find what's broken."\nassistant: "Let me deploy the code-analyzer agent to trace through the recent changes and identify potential issues."\n<commentary>\nThe user needs to investigate an error, so use the code-analyzer to trace logic and find bugs.\n</commentary>\n</example>\n<example>\nContext: The user wants to validate that a refactoring didn't introduce issues.\nuser: "I refactored the database connection pooling. Check if I broke anything."\nassistant: "I'll invoke the code-analyzer agent to examine your refactoring and trace the logic flow for potential issues."\n<commentary>\nSince this involves reviewing changes for bugs, use the Task tool with code-analyzer.\n</commentary>\n</example>
+./.claude/agents/code-analyzer.md:9:You are an elite bug hunting specialist with deep expertise in code analysis, logic tracing, and vulnerability detection. Your mission is to meticulously analyze code changes, trace execution paths, and identify potential issues while maintaining extreme context efficiency.
+./.claude/agents/code-analyzer.md:13:1. **Change Analysis**: Review modifications in files with surgical precision, focusing on:
+./.claude/agents/code-analyzer.md:17:   - Inconsistencies between related changes
+./.claude/agents/code-analyzer.md:19:2. **Logic Tracing**: Follow execution paths across files to:
+./.claude/agents/code-analyzer.md:22:   - Detect circular dependencies or infinite loops
+./.claude/agents/code-analyzer.md:30:   - Type mismatches and implicit conversions
+./.claude/agents/code-analyzer.md:38:4. **Cross-Reference**: Check for inconsistencies across related files
+./.claude/agents/code-analyzer.md:39:5. **Synthesize**: Create concise, actionable findings
+./.claude/agents/code-analyzer.md:65:[Concise flow diagram or key path description]
+./.claude/agents/code-analyzer.md:71:**Operating Principles:**
+./.claude/agents/code-analyzer.md:73:- **Context Preservation**: Use extremely concise language. Every word must earn its place.
+./.claude/agents/code-analyzer.md:75:- **Actionable Intelligence**: Don't just identify problems - provide specific fixes
+./.claude/agents/code-analyzer.md:77:- **Efficiency First**: If you need to examine many files, summarize aggressively
+./.claude/agents/code-analyzer.md:79:**Special Directives:**
+./.claude/agents/code-analyzer.md:81:- When tracing logic across files, create a minimal call graph focusing only on the problematic paths
+./.claude/agents/code-analyzer.md:93:4. Check if existing tests would catch this issue
+./.claude/agents/code-analyzer.md:95:You are the last line of defense against bugs reaching production. Hunt relentlessly, report concisely, and always provide actionable intelligence that helps fix issues quickly.
+./.claude/prds/ai-competition-voting-platform.md:2:name: ai-competition-voting-platform
+./.claude/prds/ai-competition-voting-platform.md:12:A modern AI competition voting platform that provides an exceptional multimedia showcase experience for participants and a seamless voting experience for voters. The platform features stunning dark-themed UI with gradient effects, real-time voting with anti-fraud mechanisms, comprehensive multimedia support, and robust backend management capabilities.
+./.claude/prds/ai-competition-voting-platform.md:16:Current AI competition platforms lack:
+./.claude/prds/ai-competition-voting-platform.md:25:This platform addresses these gaps by providing a complete solution for AI competition organizers, participants, and voters.
+./.claude/prds/ai-competition-voting-platform.md:32:- "I need to create and manage AI competitions with custom rules and multimedia submission requirements"
+./.claude/prds/ai-competition-voting-platform.md:33:- "I want real-time visibility into voting patterns and engagement metrics"
+./.claude/prds/ai-competition-voting-platform.md:36:**2. AI Researcher/Participant**
+./.claude/prds/ai-competition-voting-platform.md:44:- "I want real-time updates on competition progress and results"
+./.claude/prds/ai-competition-voting-platform.md:48:**Participant Journey:**
+./.claude/prds/ai-competition-voting-platform.md:50:2. Browse active competitions
+./.claude/prds/ai-competition-voting-platform.md:55:7. Track competition results in real-time
+./.claude/prds/ai-competition-voting-platform.md:63:6. Track voting progress and leaderboards
+./.claude/prds/ai-competition-voting-platform.md:64:7. Share favorite projects on social media
+./.claude/prds/ai-competition-voting-platform.md:67:1. Create competition with custom rules
+./.claude/prds/ai-competition-voting-platform.md:68:2. Configure submission requirements and deadlines
+./.claude/prds/ai-competition-voting-platform.md:72:6. Analyze competition metrics and engagement
+./.claude/prds/ai-competition-voting-platform.md:81:- Role-based access control (Admin, Participant, Voter)
+./.claude/prds/ai-competition-voting-platform.md:112:- Social sharing integration
+./.claude/prds/ai-competition-voting-platform.md:122:- Efficient search and filtering (< 100ms response)
+./.claude/prds/ai-competition-voting-platform.md:137:- Load balancing and failover mechanisms
+./.claude/prds/ai-competition-voting-platform.md:152:- Social media sharing rate > 10%
+./.claude/prds/ai-competition-voting-platform.md:158:- Vote submission response time < 500ms
+./.claude/prds/ai-competition-voting-platform.md:161:- Project submission completion rate > 85%
+./.claude/prds/ai-competition-voting-platform.md:178:- Concurrent user limit: 1000 users per competition
+./.claude/prds/ai-competition-voting-platform.md:188:- Competition organizers provide clear submission guidelines
+./.claude/prds/ai-competition-voting-platform.md:189:- Participants have basic technical literacy
+./.claude/prds/ai-competition-voting-platform.md:194:**Explicitly NOT included in this version:**
+./.claude/prds/ai-competition-voting-platform.md:199:- Integration with external competition platforms
+./.claude/prds/ai-competition-voting-platform.md:204:## Dependencies
+./.claude/prds/ai-competition-voting-platform.md:206:**External Dependencies:**
+./.claude/prds/ai-competition-voting-platform.md:213:**Internal Team Dependencies:**
+./.claude/prds/ai-competition-voting-platform.md:218:- QA team for testing and validation
+./.claude/prds/ai-competition-voting-platform.md:220:**Technical Dependencies:**
+./.claude/scripts/pm/epic-status.sh:10:  echo "❌ Please specify an epic name"
+./.claude/scripts/pm/epic-status.sh:19:  # Show status for specific epic
+./.claude/scripts/pm/init.sh:26:echo "🔍 Checking dependencies..."
+./.claude/scripts/pm/init.sh:124:> Think carefully and implement the most concise solution that changes as little code as possible.
+./.claude/scripts/pm/init.sh:126:## Project-Specific Instructions
+./.claude/scripts/pm/init.sh:128:Add your project-specific instructions here.
+./.claude/scripts/pm/init.sh:132:Always run tests before committing:
+./.claude/scripts/pm/init.sh:133:- `npm test` or equivalent for your stack
+./.claude/scripts/pm/help.sh:38:echo "  /pm:issue-start <num>     - Begin work with specialized agent"
+./.claude/scripts/pm/help.sh:62:echo "  /pm:init               - Install dependencies and configure GitHub"
+./.claude/scripts/pm/help.sh:68:echo "  • Epic workflow: prd-new → prd-parse → epic-decompose → epic-sync"
+./.claude/scripts/pm/next.sh:10:# Find tasks that are open and have no dependencies or whose dependencies are closed
+./.claude/scripts/pm/next.sh:24:    # Check dependencies
+./.claude/scripts/pm/next.sh:27:    # If no dependencies or empty, task is available
+./.claude/scripts/pm/blocked.sh:23:    # Check for dependencies
+./.claude/scripts/pm/blocked.sh:34:      # Check status of dependencies
+./.claude/scripts/pm/blocked.sh:54:  echo "💡 All tasks with dependencies are either completed or in progress."
+./.claude/scripts/test-and-log.sh:3:# Script to run tests with automatic log redirection
+./.claude/scripts/test-and-log.sh:4:# Usage: ./claude/scripts/test-and-log.sh path/to/test.py [optional_log_name.log]
+./.claude/scripts/test-and-log.sh:7:    echo "Usage: $0 <test_file_path> [log_filename]"
+./.claude/scripts/test-and-log.sh:8:    echo "Example: $0 tests/e2e/my_test_name.py"
+./.claude/scripts/test-and-log.sh:9:    echo "Example: $0 tests/e2e/my_test_name.py my_test_name_v2.log"
+./.claude/scripts/test-and-log.sh:16:mkdir -p tests/logs
+./.claude/scripts/test-and-log.sh:26:    LOG_FILE="tests/logs/${LOG_NAME}"
+./.claude/scripts/test-and-log.sh:28:    # Extract the test filename without extension for the log name
+./.claude/scripts/test-and-log.sh:30:    LOG_FILE="tests/logs/${TEST_NAME}.log"
+./.claude/scripts/test-and-log.sh:33:# Run the test with output redirection
+./.claude/scripts/test-and-log.sh:34:echo "Running test: $TEST_PATH"
+./.claude/rules/standard-patterns.md:3:This file defines common patterns that all commands should follow to maintain consistency and simplicity.
+./.claude/rules/standard-patterns.md:5:## Core Principles
+./.claude/rules/standard-patterns.md:18:1. If command needs specific directory/file:
+./.claude/rules/standard-patterns.md:19:   - Check it exists: `test -f {file} || echo "❌ {file} not found"`
+./.claude/rules/standard-patterns.md:125:### DO: Concise output
+./.claude/rules/standard-patterns.md:129:Failed: auth.test.js (syntax error - line 42)
+./.claude/rules/frontmatter-operations.md:16:2. Only update specified fields
+./.claude/rules/use-ast-grep.md:59:5. **Run** ast-grep to gather precise structural information.
+./.claude/rules/use-ast-grep.md:77:- **read_file** for examining specific files found by ast-grep
+./.claude/rules/use-ast-grep.md:78:- **edit_file** for making precise, context-aware code changes
+./.claude/rules/use-ast-grep.md:93:4. **Precise refactoring** — makes structural changes safely
+./.claude/rules/use-ast-grep.md:96:## Decision Matrix: When to Use Each Tool
+./.claude/rules/use-ast-grep.md:103:| Make edits               | edit_file            | Precise file editing          |
+./.claude/rules/use-ast-grep.md:104:| Structural refactoring   | ast-grep + edit_file | Structure + precision         |
+./.claude/rules/branch-operations.md:51:git pull origin epic/{name}  # Get latest changes
+./.claude/rules/branch-operations.md:115:4. **Pull before push** - Get latest changes to avoid conflicts
+./.claude/rules/agent-coordination.md:5:## Parallel Execution Principles
+./.claude/rules/agent-coordination.md:8:2. **Explicit coordination** - When same file needed, coordinate explicitly
+./.claude/rules/agent-coordination.md:19:  Agent: backend-specialist
+./.claude/rules/agent-coordination.md:23:  Agent: api-specialist
+./.claude/rules/agent-coordination.md:48:git add src/api/users.ts src/api/users.test.ts
+./.claude/rules/agent-coordination.md:64:# Agent pulls latest changes
+./.claude/rules/agent-coordination.md:74:agent: backend-specialist
+./.claude/rules/agent-coordination.md:131:### Explicit Sync
+./.claude/rules/agent-coordination.md:133:# Pull latest changes
+./.claude/rules/agent-coordination.md:172:Agent-C: git commit -m "Issue #1236: Add tests"
+./.claude/rules/strip-frontmatter.md:32:- Syncing to any external system
+./.claude/rules/strip-frontmatter.md:76:- Always test with a sample file first
+./.claude/rules/test-execution.md:3:Standard patterns for running tests across all testing commands.
+./.claude/rules/test-execution.md:5:## Core Principles
+./.claude/rules/test-execution.md:7:1. **Always use test-runner agent** from `.claude/agents/test-runner.md`
+./.claude/rules/test-execution.md:10:4. **Check test structure first** - before assuming code bugs
+./.claude/rules/test-execution.md:15:Execute tests for: {target}
+./.claude/rules/test-execution.md:21:- Analyze test structure if failures occur
+./.claude/rules/test-execution.md:29:✅ All tests passed ({count} tests in {time}s)
+./.claude/rules/test-execution.md:37:{test_name} - {file}:{line}
+./.claude/rules/test-execution.md:46:- Framework missing → Install dependencies
+./.claude/rules/test-execution.md:50:Always clean up after tests:
+./.claude/rules/test-execution.md:52:pkill -f "jest|mocha|pytest" 2>/dev/null || true
+./.claude/rules/test-execution.md:57:- Don't parallelize tests (avoid conflicts)
+./.claude/rules/test-execution.md:58:- Let each test complete fully
+./.claude/commands/code-rabbit.md:28:- Explain my reasoning for accept/ignore decisions
+./.claude/commands/code-rabbit.md:51:    Comments to evaluate:
+./.claude/commands/code-rabbit.md:89:- **Generic best practices** that don't apply to our specific use case
+./.claude/commands/code-rabbit.md:104:## Decision Framework
+./.claude/commands/code-rabbit.md:109:3. **Is it beneficial?** - Will fixing it improve the code?
+./.claude/commands/code-rabbit.md:118:- Explain decisions briefly to maintain audit trail
+./.claude/commands/code-rabbit.md:119:- Batch related changes for efficiency
+./.claude/commands/pm/issue-sync.md:69:  - `notes.md` - Technical notes and decisions
+./.claude/commands/pm/issue-sync.md:105:{key_technical_decisions}
+./.claude/commands/pm/issue-sync.md:197:- Unit tests: ✅ Passing
+./.claude/commands/pm/issue-sync.md:198:- Integration tests: ✅ Passing
+./.claude/commands/pm/issue-sync.md:199:- Manual testing: ✅ Complete
+./.claude/commands/pm/epic-oneshot.md:21:test -f .claude/epics/$ARGUMENTS/epic.md || echo "❌ Epic not found. Run: /pm:prd-parse $ARGUMENTS"
+./.claude/commands/pm/issue-show.md:47:### 4. Sub-Issues and Dependencies
+./.claude/commands/pm/issue-show.md:52:   Dependencies: #{dep1}, #{dep2}
+./.claude/commands/pm/prd-parse.md:42:   - Only proceed with explicit 'yes' confirmation
+./.claude/commands/pm/prd-parse.md:60:- Identify architectural decisions needed
+./.claude/commands/pm/prd-parse.md:63:- Identify integration points and dependencies
+./.claude/commands/pm/prd-parse.md:83:## Architecture Decisions
+./.claude/commands/pm/prd-parse.md:84:- Key technical decisions and rationale
+./.claude/commands/pm/prd-parse.md:115:## Dependencies
+./.claude/commands/pm/prd-parse.md:116:- External service dependencies
+./.claude/commands/pm/prd-parse.md:117:- Internal team dependencies
+./.claude/commands/pm/prd-parse.md:121:- Performance benchmarks
+./.claude/commands/pm/prd-parse.md:149:- [ ] Dependencies are technically accurate
+./.claude/commands/pm/prd-parse.md:151:- [ ] Architecture decisions are justified
+./.claude/commands/pm/prd-parse.md:159:   - Key architecture decisions
+./.claude/commands/pm/prd-parse.md:167:- If PRD is incomplete, list specific missing sections
+./.claude/commands/pm/epic-sync.md:18:test -f .claude/epics/$ARGUMENTS/epic.md || echo "❌ Epic not found. Run: /pm:prd-parse $ARGUMENTS"
+./.claude/commands/pm/epic-sync.md:30:Follow `/rules/github-operations.md` to ensure we're not syncing to the CCPM template:
+./.claude/commands/pm/epic-sync.md:76:      print "Sequential tasks: " sequential_tasks " (have dependencies)"
+./.claude/commands/pm/epic-sync.md:96:      print "Sequential tasks: " sequential_tasks " (have dependencies)"
+./.claude/commands/pm/test-reference-update.md:11:/pm:test-reference-update
+./.claude/commands/pm/test-reference-update.md:18:Create test task files with references:
+./.claude/commands/pm/test-reference-update.md:20:mkdir -p /tmp/test-refs
+./.claude/commands/pm/test-reference-update.md:21:cd /tmp/test-refs
+./.claude/commands/pm/test-reference-update.md:131:rm -rf /tmp/test-refs
+./.claude/commands/pm/epic-edit.md:27:- Architecture decisions
+./.claude/commands/pm/epic-edit.md:29:- Dependencies
+./.claude/commands/pm/issue-status.md:25:Show concise status information:
+./.claude/commands/pm/issue-status.md:78:Keep the output concise but informative, perfect for quick status checks during development of Issue #$ARGUMENTS.
+./.claude/commands/pm/prd-new.md:28:   - No spaces or special characters allowed
+./.claude/commands/pm/prd-new.md:29:   - If invalid, tell user: "❌ Feature name must be kebab-case (lowercase letters, numbers, hyphens only). Examples: user-auth, payment-v2, notification-system"
+./.claude/commands/pm/prd-new.md:34:   - Only proceed with explicit 'yes' confirmation
+./.claude/commands/pm/prd-new.md:81:- Key metrics and KPIs
+./.claude/commands/pm/prd-new.md:89:- What we're explicitly NOT building
+./.claude/commands/pm/prd-new.md:91:#### Dependencies
+./.claude/commands/pm/prd-new.md:92:- External dependencies
+./.claude/commands/pm/prd-new.md:93:- Internal team dependencies
+./.claude/commands/pm/prd-new.md:119:- **description**: Write a concise one-line summary of what this PRD covers
+./.claude/commands/pm/prd-new.md:129:- [ ] User stories include acceptance criteria
+./.claude/commands/pm/prd-new.md:131:- [ ] Dependencies are clearly identified
+./.claude/commands/pm/prd-new.md:132:- [ ] Out of scope items are explicitly listed
+./.claude/commands/pm/prd-new.md:145:- Provide specific steps to fix the issue
+./.claude/commands/pm/epic-start-worktree.md:18:   test -f .claude/epics/$ARGUMENTS/epic.md || echo "❌ Epic not found. Run: /pm:prd-parse $ARGUMENTS"
+./.claude/commands/pm/epic-start-worktree.md:56:- **Ready**: No unmet dependencies, not started
+./.claude/commands/pm/epic-start-worktree.md:57:- **Blocked**: Has unmet dependencies
+./.claude/commands/pm/epic-start-worktree.md:66:if ! test -f .claude/epics/$ARGUMENTS/{issue}-analysis.md; then
+./.claude/commands/pm/epic-start-worktree.md:108:    "Issue #{issue}: {specific change}"
+./.claude/commands/pm/epic-start-worktree.md:161:### 7. Handle Dependencies
+./.claude/commands/pm/epic-merge.md:49:# Look for test commands
+./.claude/commands/pm/epic-merge.md:51:  npm test || echo "⚠️ Tests failed. Continue anyway? (yes/no)"
+./.claude/commands/pm/epic-merge.md:53:  make test || echo "⚠️ Tests failed. Continue anyway? (yes/no)"
+./.claude/commands/pm/epic-merge.md:190:- Dependencies were updated
+./.claude/commands/pm/epic-merge.md:208:- Run tests before merging when possible
+./.claude/commands/pm/issue-analyze.md:7:Analyze an issue to identify parallel work streams for maximum efficiency.
+./.claude/commands/pm/issue-analyze.md:23:   test -f .claude/epics/*/$ARGUMENTS-analysis.md && echo "⚠️ Analysis already exists. Overwrite? (yes/no)"
+./.claude/commands/pm/issue-analyze.md:38:- Dependencies
+./.claude/commands/pm/issue-analyze.md:50:- **Test Layer**: Unit tests, integration tests
+./.claude/commands/pm/issue-analyze.md:56:- What are the dependencies between changes?
+./.claude/commands/pm/issue-analyze.md:86:**Agent Type**: {backend|frontend|fullstack|database}-specialist
+./.claude/commands/pm/issue-analyze.md:89:**Dependencies**: none
+./.claude/commands/pm/issue-analyze.md:99:**Dependencies**: none
+./.claude/commands/pm/issue-analyze.md:108:**Dependencies**: Stream A
+./.claude/commands/pm/issue-analyze.md:115:- `package.json` - Stream B (add dependencies)
+./.claude/commands/pm/issue-analyze.md:121:3. Core logic before tests
+./.claude/commands/pm/issue-analyze.md:141:- Efficiency gain: {percentage}%
+./.claude/commands/pm/issue-analyze.md:147:{Any special considerations, warnings, or recommendations}
+./.claude/commands/pm/issue-analyze.md:155:- Dependencies are logical
+./.claude/commands/pm/import.md:15:- `--epic` - Import into specific epic
+./.claude/commands/pm/import.md:16:- `--label` - Import only issues with specific label
+./.claude/commands/pm/issue-start.md:29:   test -f .claude/epics/*/$ARGUMENTS-analysis.md || echo "❌ No analysis found for issue #$ARGUMENTS
+./.claude/commands/pm/issue-start.md:57:- Note dependencies between streams
+./.claude/commands/pm/issue-start.md:114:    3. Commit frequently with format: "Issue #$ARGUMENTS: {specific change}"
+./.claude/commands/pm/epic-decompose.md:32:   - Only proceed with explicit 'yes' confirmation
+./.claude/commands/pm/epic-decompose.md:44:You are decomposing an epic into specific, actionable tasks for: **$ARGUMENTS**
+./.claude/commands/pm/epic-decompose.md:55:- If tasks have complex dependencies: Create sequentially
+./.claude/commands/pm/epic-decompose.md:100:Clear, concise description of what needs to be done
+./.claude/commands/pm/epic-decompose.md:103:- [ ] Specific criterion 1
+./.claude/commands/pm/epic-decompose.md:104:- [ ] Specific criterion 2
+./.claude/commands/pm/epic-decompose.md:105:- [ ] Specific criterion 3
+./.claude/commands/pm/epic-decompose.md:112:## Dependencies
+./.claude/commands/pm/epic-decompose.md:113:- [ ] Task/Issue dependencies
+./.claude/commands/pm/epic-decompose.md:114:- [ ] External dependencies
+./.claude/commands/pm/epic-decompose.md:145:- **Setup tasks**: Environment, dependencies, scaffolding
+./.claude/commands/pm/epic-decompose.md:149:- **Testing tasks**: Unit tests, integration tests
+./.claude/commands/pm/epic-decompose.md:160:**Small Epic (< 5 tasks)**: Create sequentially for simplicity
+./.claude/commands/pm/epic-decompose.md:168:- Analyze dependencies first
+./.claude/commands/pm/epic-decompose.md:183:When creating tasks with dependencies:
+./.claude/commands/pm/epic-decompose.md:184:- Ensure referenced dependencies exist (e.g., if Task 003 depends on Task 002, verify 002 was created)
+./.claude/commands/pm/epic-decompose.md:185:- Check for circular dependencies (Task A → Task B → Task A)
+./.claude/commands/pm/epic-decompose.md:207:- [ ] All tasks have clear acceptance criteria
+./.claude/commands/pm/epic-decompose.md:209:- [ ] Dependencies are logical and achievable
+./.claude/commands/pm/prd-edit.md:32:- Dependencies
+./.claude/commands/pm/prd-edit.md:45:If PRD has associated epic:
+./.claude/commands/pm/epic-start.md:18:   test -f .claude/epics/$ARGUMENTS/epic.md || echo "❌ Epic not found. Run: /pm:prd-parse $ARGUMENTS"
+./.claude/commands/pm/epic-start.md:71:- **Ready**: No unmet dependencies, not started
+./.claude/commands/pm/epic-start.md:72:- **Blocked**: Has unmet dependencies
+./.claude/commands/pm/epic-start.md:81:if ! test -f .claude/epics/$ARGUMENTS/{issue}-analysis.md; then
+./.claude/commands/pm/epic-start.md:123:    "Issue #{issue}: {specific change}"
+./.claude/commands/pm/epic-start.md:175:### 7. Handle Dependencies
+./.claude/commands/context/create.md:24:  - Only proceed with explicit 'yes' confirmation
+./.claude/commands/context/create.md:29:  - Node.js: `test -f package.json && echo "Node.js project detected"`
+./.claude/commands/context/create.md:30:  - Python: `test -f requirements.txt || test -f pyproject.toml && echo "Python project detected"`
+./.claude/commands/context/create.md:31:  - Rust: `test -f Cargo.toml && echo "Rust project detected"`
+./.claude/commands/context/create.md:32:  - Go: `test -f go.mod && echo "Go project detected"`
+./.claude/commands/context/create.md:38:- Verify write permissions: `touch .claude/context/.test && rm .claude/context/.test`
+./.claude/commands/context/create.md:83:  - `tech-context.md` - Catalog current dependencies, technologies, and development tools
+./.claude/commands/context/create.md:84:    - Include: Language version, framework versions, dev dependencies
+./.claude/commands/context/create.md:85:  - `system-patterns.md` - Identify existing architectural patterns and design decisions
+./.claude/commands/context/create.md:109:- **Disk space:** "❌ Insufficient disk space for context files."
+./.claude/commands/context/create.md:130:  - Dependencies: {count} packages
+./.claude/commands/context/create.md:151:- Test detection: `find . -type d \( -name 'test' -o -name 'tests' -o -name '__tests__' -o -name 'spec' \) 2>/dev/null | head -5`
+./.claude/commands/context/create.md:159:- **Handle errors gracefully** with specific guidance
+./.claude/commands/context/update.md:43:- Check if new dependencies were added or versions changed
+./.claude/commands/context/update.md:58:  - Update: Latest completed work, current blockers, next steps
+./.claude/commands/context/update.md:67:#### `tech-context.md` - **Update if Dependencies Changed**
+./.claude/commands/context/update.md:68:  - Check: Package files for new dependencies or version changes
+./.claude/commands/context/update.md:73:  - Check: New design patterns, architectural decisions
+./.claude/commands/context/update.md:98:  - Check: New linting rules, style decisions
+./.claude/commands/context/update.md:106:2. **Identify specific sections** that need updates
+./.claude/commands/context/update.md:145:- **Disk space:** "❌ Insufficient disk space for updates"
+./.claude/commands/context/update.md:167:  ✅ tech-context.md - Added 3 new dependencies
+./.claude/commands/context/prime.md:24:  - Verify file is readable: `test -r ".claude/context/{file}" && echo "readable"`
+./.claude/commands/context/prime.md:25:  - Check file has content: `test -s ".claude/context/{file}" && echo "has content"`
+./.claude/commands/context/prime.md:46:3. `tech-context.md` - Technical stack and dependencies
+./.claude/commands/testing/prime.md:7:This command prepares the testing environment by detecting the test framework, validating dependencies, and configuring the test-runner agent for optimal test execution.
+./.claude/commands/testing/prime.md:17:- Check package.json for test scripts: `grep -E '"test"|"spec"|"jest"|"mocha"' package.json 2>/dev/null`
+./.claude/commands/testing/prime.md:18:- Look for test config files: `ls -la jest.config.* mocha.opts .mocharc.* 2>/dev/null`
+./.claude/commands/testing/prime.md:19:- Check for test directories: `find . -type d \( -name "test" -o -name "tests" -o -name "__tests__" -o -name "spec" \) -maxdepth 3 2>/dev/null`
+./.claude/commands/testing/prime.md:22:- Check for pytest: `find . -name "pytest.ini" -o -name "conftest.py" -o -name "setup.cfg" 2>/dev/null | head -5`
+./.claude/commands/testing/prime.md:23:- Check for unittest: `find . -path "*/test*.py" -o -path "*/test_*.py" 2>/dev/null | head -5`
+./.claude/commands/testing/prime.md:24:- Check requirements: `grep -E "pytest|unittest|nose" requirements.txt 2>/dev/null`
+./.claude/commands/testing/prime.md:27:- Check for Cargo tests: `grep -E '\[dev-dependencies\]' Cargo.toml 2>/dev/null`
+./.claude/commands/testing/prime.md:28:- Look for test modules: `find . -name "*.rs" -exec grep -l "#\[cfg(test)\]" {} \; 2>/dev/null | head -5`
+./.claude/commands/testing/prime.md:31:- Check for test files: `find . -name "*_test.go" 2>/dev/null | head -5`
+./.claude/commands/testing/prime.md:32:- Check go.mod exists: `test -f go.mod && echo "Go module found"`
+./.claude/commands/testing/prime.md:40:If no test framework detected:
+./.claude/commands/testing/prime.md:41:- Tell user: "⚠️ No test framework detected. Please specify your testing setup."
+./.claude/commands/testing/prime.md:42:- Ask: "What test command should I use? (e.g., npm test, pytest, cargo test)"
+./.claude/commands/testing/prime.md:49:- Python: Run `pip list 2>/dev/null | grep -E "pytest|unittest|nose"`
+./.claude/commands/testing/prime.md:50:- Verify test dependencies are installed
+./.claude/commands/testing/prime.md:52:If dependencies missing:
+./.claude/commands/testing/prime.md:53:- Tell user: "❌ Test dependencies not installed"
+./.claude/commands/testing/prime.md:58:### 1. Framework-Specific Configuration
+./.claude/commands/testing/prime.md:60:Based on detected framework, create test configuration:
+./.claude/commands/testing/prime.md:65:test_command: npm test
+./.claude/commands/testing/prime.md:66:test_directory: __tests__
+./.claude/commands/testing/prime.md:73:  NODE_ENV: test
+./.claude/commands/testing/prime.md:79:test_command: npm test
+./.claude/commands/testing/prime.md:80:test_directory: test
+./.claude/commands/testing/prime.md:87:  NODE_ENV: test
+./.claude/commands/testing/prime.md:90:#### Python (Pytest)
+./.claude/commands/testing/prime.md:92:framework: pytest
+./.claude/commands/testing/prime.md:93:test_command: pytest
+./.claude/commands/testing/prime.md:94:test_directory: tests
+./.claude/commands/testing/prime.md:95:config_file: pytest.ini
+./.claude/commands/testing/prime.md:107:test_command: cargo test
+./.claude/commands/testing/prime.md:108:test_directory: tests
+./.claude/commands/testing/prime.md:119:test_command: go test
+./.claude/commands/testing/prime.md:120:test_directory: .
+./.claude/commands/testing/prime.md:130:Scan for test files:
+./.claude/commands/testing/prime.md:131:- Count total test files found
+./.claude/commands/testing/prime.md:132:- Identify test naming patterns used
+./.claude/commands/testing/prime.md:133:- Note any test utilities or helpers
+./.claude/commands/testing/prime.md:134:- Check for test fixtures or data
+./.claude/commands/testing/prime.md:138:find . -path "*/node_modules" -prune -o -name "*.test.js" -o -name "*.spec.js" | wc -l
+./.claude/commands/testing/prime.md:143:Create `.claude/testing-config.md` with discovered information:
+./.claude/commands/testing/prime.md:148:test_command: {detected_command}
+./.claude/commands/testing/prime.md:160:- Test Directory: {test_dir}
+./.claude/commands/testing/prime.md:165:- Run All Tests: `{full_test_command}`
+./.claude/commands/testing/prime.md:166:- Run Specific Test: `{specific_test_command}`
+./.claude/commands/testing/prime.md:176:- Run tests sequentially (no parallel)
+./.claude/commands/testing/prime.md:179:- Wait for each test to complete
+./.claude/commands/testing/prime.md:196:1. Always use the test-runner agent from `.claude/agents/test-runner.md`
+./.claude/commands/testing/prime.md:199:4. Execute tests sequentially - no parallel execution
+./.claude/commands/testing/prime.md:201:6. If test fails, analyze test structure before assuming code issue
+./.claude/commands/testing/prime.md:213:- Dependencies installed
+./.claude/commands/testing/prime.md:215:- Clean test state between runs
+./.claude/commands/testing/prime.md:221:- Try running a simple test to validate setup
+./.claude/commands/testing/prime.md:222:- Check if test command works: `{test_command} --version` or equivalent
+./.claude/commands/testing/prime.md:223:- Verify test files are discoverable
+./.claude/commands/testing/prime.md:235:  ✅ Dependencies: All installed
+./.claude/commands/testing/prime.md:238:  - Pattern: {test_file_pattern}
+./.claude/commands/testing/prime.md:239:  - Directories: {test_directories}
+./.claude/commands/testing/prime.md:240:  - Utilities: {test_helpers}
+./.claude/commands/testing/prime.md:249:  - Run all tests: /testing:run
+./.claude/commands/testing/prime.md:250:  - Run specific: /testing:run {test_file}
+./.claude/commands/testing/prime.md:251:  - Run pattern: /testing:run {pattern}
+./.claude/commands/testing/prime.md:254:  - Always run tests with verbose output
+./.claude/commands/testing/prime.md:255:  - Check test structure if tests fail
+./.claude/commands/testing/prime.md:257:  - Let each test complete fully
+./.claude/commands/testing/prime.md:265:- Message: "⚠️ No test framework found"
+./.claude/commands/testing/prime.md:266:- Solution: "Please specify test command manually"
+./.claude/commands/testing/prime.md:269:**Missing Dependencies:**
+./.claude/commands/testing/prime.md:271:- Solution: "Install dependencies first: npm install / pip install -r requirements.txt"
+./.claude/commands/testing/prime.md:274:- Message: "⚠️ No test files found"
+./.claude/commands/testing/prime.md:275:- Solution: "Create tests first or check test directory location"
+./.claude/commands/testing/prime.md:278:- Message: "❌ Cannot access test files"
+./.claude/commands/testing/prime.md:284:- Store in `.claude/testing-config.md`
+./.claude/commands/testing/prime.md:290:- **Always detect** rather than assume test framework
+./.claude/commands/testing/prime.md:291:- **Validate dependencies** before claiming ready
+./.claude/commands/testing/prime.md:293:- **No mocking** - use real services for accurate testing
+./.claude/commands/testing/prime.md:294:- **Sequential execution** - avoid parallel test issues
+./.claude/commands/testing/run.md:7:Execute tests with the configured test-runner agent.
+./.claude/commands/testing/run.md:11:/testing:run [test_target]
+./.claude/commands/testing/run.md:14:Where `test_target` can be:
+./.claude/commands/testing/run.md:15:- Empty (run all tests)
+./.claude/commands/testing/run.md:23:# Check if testing is configured
+./.claude/commands/testing/run.md:24:test -f .claude/testing-config.md || echo "❌ Testing not configured. Run /testing:prime first"
+./.claude/commands/testing/run.md:27:If test target provided, verify it exists:
+./.claude/commands/testing/run.md:30:test -f "$ARGUMENTS" || echo "⚠️ Test file not found: $ARGUMENTS"
+./.claude/commands/testing/run.md:37:Based on testing-config.md and target:
+./.claude/commands/testing/run.md:38:- No arguments → Run full test suite from config
+./.claude/commands/testing/run.md:39:- File path → Run specific test file
+./.claude/commands/testing/run.md:40:- Pattern → Run tests matching pattern
+./.claude/commands/testing/run.md:44:Use the test-runner agent from `.claude/agents/test-runner.md`:
+./.claude/commands/testing/run.md:47:Execute tests for: $ARGUMENTS (or "all" if empty)
+./.claude/commands/testing/run.md:53:- If test fails, check test structure before assuming code issue
+./.claude/commands/testing/run.md:58:- Show test progress
+./.claude/commands/testing/run.md:66:✅ All tests passed ({count} tests in {time}s)
+./.claude/commands/testing/run.md:73:{test_name} - {file}:{line}
+./.claude/commands/testing/run.md:75:  Likely: {test issue | code issue}
+./.claude/commands/testing/run.md:78:Run with more detail: /testing:run {specific_test}
+./.claude/commands/testing/run.md:86:- {test_1}: {brief_reason}
+./.claude/commands/testing/run.md:87:- {test_2}: {brief_reason}
+./.claude/commands/testing/run.md:93:# Kill any hanging test processes
+./.claude/commands/testing/run.md:94:pkill -f "jest|mocha|pytest" 2>/dev/null || true
+./.claude/commands/testing/run.md:99:- Test command fails → "❌ Test execution failed: {error}. Check test framework is installed."
+./.claude/commands/testing/run.md:101:- No tests found → "❌ No tests found matching: $ARGUMENTS"
+./.claude/commands/testing/run.md:105:- Always use test-runner agent for analysis
+./.claude/commands/testing/run.md:107:- Check test structure if failures occur
+./.claude/epics/ai-competition-voting-platform/001.md:14:Establish the foundational development environment and project structure for the AI Competition Voting Platform, including build tools, testing framework, and basic application architecture.
+./.claude/epics/ai-competition-voting-platform/001.md:37:├── tests/                 # Test files
+./.claude/epics/ai-competition-voting-platform/001.md:43:- `package.json` with all dependencies (使用国内镜像源)
+./.claude/epics/ai-competition-voting-platform/001.md:46:- `jest.config.js` for testing setup
+./.claude/epics/ai-competition-voting-platform/001.md:57:- [ ] Jest test runner executes successfully
+./.claude/epics/ai-competition-voting-platform/001.md:68:- Add common npm scripts (dev, build, test, lint)
+./.claude/epics/ai-competition-voting-platform/001.md:78:4. Set up testing framework (Jest, React Testing Library)
+./.claude/epics/ai-competition-voting-platform/001.md:89:## Dependencies
+./.claude/epics/ai-competition-voting-platform/001.md:97:- @testing-library/react
+./.claude/epics/ai-competition-voting-platform/001.md:98:- @testing-library/jest-dom
+./.claude/epics/ai-competition-voting-platform/001.md:104:- Unit test for utility functions
+./.claude/epics/ai-competition-voting-platform/001.md:105:- Component test examples
+./.claude/epics/ai-competition-voting-platform/001.md:106:- API route test examples
+./.claude/epics/ai-competition-voting-platform/001.md:107:- Integration test setup
+./.claude/epics/ai-competition-voting-platform/005.md:3:title: Build competition CRUD operations and management
+./.claude/epics/ai-competition-voting-platform/005.md:4:description: Create comprehensive competition management system with CRUD operations, submission handling, and admin controls
+./.claude/epics/ai-competition-voting-platform/005.md:5:epic: ai-competition-voting-platform
+./.claude/epics/ai-competition-voting-platform/005.md:6:dependencies:
+./.claude/epics/ai-competition-voting-platform/005.md:14:Build the core competition management system that allows administrators to create, update, and manage AI competitions, including submission handling and lifecycle management.
+./.claude/epics/ai-competition-voting-platform/005.md:17:- [ ] Competition creation with detailed metadata (title, description, rules, timeline, prizes)
+./.claude/epics/ai-competition-voting-platform/005.md:18:- [ ] CRUD operations for competition management (admin only)
+./.claude/epics/ai-competition-voting-platform/005.md:22:- [ ] Admin dashboard for competition overview
+./.claude/epics/ai-competition-voting-platform/005.md:24:- [ ] Submission deadline validation
+./.claude/epics/ai-competition-voting-platform/005.md:26:- [ ] Bulk operations for competition management
+./.claude/epics/ai-competition-voting-platform/005.md:32:POST   /api/competitions              - Create competition
+./.claude/epics/ai-competition-voting-platform/005.md:33:GET    /api/competitions              - List competitions
+./.claude/epics/ai-competition-voting-platform/005.md:34:GET    /api/competitions/:id          - Get competition details
+./.claude/epics/ai-competition-voting-platform/005.md:35:PUT    /api/competitions/:id          - Update competition
+./.claude/epics/ai-competition-voting-platform/005.md:36:DELETE /api/competitions/:id          - Delete competition
+./.claude/epics/ai-competition-voting-platform/005.md:37:POST   /api/competitions/:id/submit   - Submit AI solution
+./.claude/epics/ai-competition-voting-platform/005.md:38:GET    /api/competitions/:id/submissions - List submissions
+./.claude/epics/ai-competition-voting-platform/005.md:44:CREATE TABLE competitions (
+./.claude/epics/ai-competition-voting-platform/005.md:53:  prize_pool DECIMAL(10,2),
+./.claude/epics/ai-competition-voting-platform/005.md:55:  max_submissions_per_user INTEGER DEFAULT 1,
+./.claude/epics/ai-competition-voting-platform/005.md:56:  submission_format JSONB,
+./.claude/epics/ai-competition-voting-platform/005.md:57:  evaluation_criteria JSONB,
+./.claude/epics/ai-competition-voting-platform/005.md:64:CREATE TABLE submissions (
+./.claude/epics/ai-competition-voting-platform/005.md:66:  competition_id UUID REFERENCES competitions(id),
+./.claude/epics/ai-competition-voting-platform/005.md:70:  submission_data JSONB,
+./.claude/epics/ai-competition-voting-platform/005.md:74:  UNIQUE(competition_id, user_id)
+./.claude/epics/ai-competition-voting-platform/005.md:79:- **CompetitionService**: Core business logic for competition management
+./.claude/epics/ai-competition-voting-platform/005.md:80:- **SubmissionService**: Handle AI solution submissions and validation
+./.claude/epics/ai-competition-voting-platform/005.md:81:- **CompetitionValidator**: Validate competition rules and constraints
+./.claude/epics/ai-competition-voting-platform/005.md:90:5. **Caching**: Redis caching for frequently accessed competitions
+./.claude/epics/ai-competition-voting-platform/005.md:91:6. **Search**: Full-text search for competition discovery
+./.claude/epics/ai-competition-voting-platform/005.md:94:- Unit tests for all service methods
+./.claude/epics/ai-competition-voting-platform/005.md:95:- Integration tests for CRUD operations
+./.claude/epics/ai-competition-voting-platform/005.md:96:- File upload validation tests
+./.claude/epics/ai-competition-voting-platform/005.md:97:- Competition lifecycle tests
+./.claude/epics/ai-competition-voting-platform/005.md:98:- Authorization and permission tests
+./.claude/epics/ai-competition-voting-platform/005.md:99:- Performance tests for bulk operations
+./.claude/epics/ai-competition-voting-platform/005.md:110:- [ ] All CRUD operations implemented and tested
+./.claude/epics/ai-competition-voting-platform/005.md:114:- [ ] All tests passing with >90% coverage
+./.claude/epics/ai-competition-voting-platform/005.md:116:- [ ] Performance benchmarks met
+./.claude/epics/ai-competition-voting-platform/004.md:14:Implement a secure and scalable file upload system using Supabase Storage for storing user submissions, avatars, competition assets, and other platform files with proper access controls, automatic CDN, and seamless integration with the Supabase ecosystem.
+./.claude/epics/ai-competition-voting-platform/004.md:20:- **Access Control**: RLS policies integrated with database auth
+./.claude/epics/ai-competition-voting-platform/004.md:32:├── submissions/       # Competition submissions
+./.claude/epics/ai-competition-voting-platform/004.md:33:├── competition-assets/ # Competition images, docs
+./.claude/epics/ai-competition-voting-platform/004.md:48:- **RLS Policies**: Row Level Security integrated with auth
+./.claude/epics/ai-competition-voting-platform/004.md:54:- **Bucket Policies**: Granular access control
+./.claude/epics/ai-competition-voting-platform/004.md:62:ALTER TABLE submissions ADD COLUMN file_metadata JSONB;
+./.claude/epics/ai-competition-voting-platform/004.md:63:ALTER TABLE competitions ADD COLUMN asset_file_paths TEXT[];
+./.claude/epics/ai-competition-voting-platform/004.md:83:- [ ] Storage RLS policies implemented
+./.claude/epics/ai-competition-voting-platform/004.md:108:- Configure bucket policies for different access levels
+./.claude/epics/ai-competition-voting-platform/004.md:110:## Dependencies
+./.claude/epics/ai-competition-voting-platform/004.md:132:7. Optional: Trigger post-processing workflows
+./.claude/epics/ai-competition-voting-platform/004.md:156:- Lifecycle policies for archival
+./.claude/epics/ai-competition-voting-platform/004.md:164:- Unit tests for upload validation
+./.claude/epics/ai-competition-voting-platform/004.md:165:- Integration tests with S3
+./.claude/epics/ai-competition-voting-platform/004.md:166:- Performance tests for large files
+./.claude/epics/ai-competition-voting-platform/004.md:167:- Security tests for file types
+./.claude/epics/ai-competition-voting-platform/004.md:168:- Error handling tests
+./.claude/epics/ai-competition-voting-platform/004.md:169:- Concurrent upload tests
+./.claude/epics/ai-competition-voting-platform/004.md:170:- CDN integration tests
+./.claude/epics/ai-competition-voting-platform/004.md:171:- Malware scanning tests
+./.claude/epics/ai-competition-voting-platform/004.md:174:- S3 CloudWatch metrics
+./.claude/epics/ai-competition-voting-platform/004.md:179:- Performance metrics
+./.claude/epics/ai-competition-voting-platform/004.md:186:- Regular backup testing
+./.claude/epics/ai-competition-voting-platform/004.md:189:- Data retention policies
+./.claude/epics/ai-competition-voting-platform/004.md:209:- Blockchain verification for submissions
+./.claude/epics/ai-competition-voting-platform/010.md:18:- [ ] Advanced search with filters, sorting, and relevance scoring
+./.claude/epics/ai-competition-voting-platform/010.md:20:- [ ] Analytics dashboard with key metrics and insights
+./.claude/epics/ai-competition-voting-platform/010.md:31:- [ ] Load balancing and auto-scaling configuration
+./.claude/epics/ai-competition-voting-platform/010.md:58:  competitionStatus?: CompetitionStatus[];
+./.claude/epics/ai-competition-voting-platform/010.md:63:  prizeRange?: NumberRange;
+./.claude/epics/ai-competition-voting-platform/010.md:64:  participants?: NumberRange;
+./.claude/epics/ai-competition-voting-platform/010.md:70:  competitions: {
+./.claude/epics/ai-competition-voting-platform/010.md:94:      prizePool: { type: 'float' },
+./.claude/epics/ai-competition-voting-platform/010.md:95:      participantCount: { type: 'integer' },
+./.claude/epics/ai-competition-voting-platform/010.md:101:  submissions: {
+./.claude/epics/ai-competition-voting-platform/010.md:120:      competitionId: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:121:      submissionDate: { type: 'date' },
+./.claude/epics/ai-competition-voting-platform/010.md:123:      score: { type: 'float' },
+./.claude/epics/ai-competition-voting-platform/010.md:148:  placeholder = "Search competitions, submissions, users...",
+./.claude/epics/ai-competition-voting-platform/010.md:292:          selected={selectedFilters.competitionStatus || []}
+./.claude/epics/ai-competition-voting-platform/010.md:293:          onToggle={(value) => handleFilterToggle('competitionStatus', value)}
+./.claude/epics/ai-competition-voting-platform/010.md:298:          options={competitionCategories}
+./.claude/epics/ai-competition-voting-platform/010.md:319:  competitions?: string[];
+./.claude/epics/ai-competition-voting-platform/010.md:320:  metrics?: MetricType[];
+./.claude/epics/ai-competition-voting-platform/010.md:326:  competitions = [],
+./.claude/epics/ai-competition-voting-platform/010.md:327:  metrics = ['users', 'engagement', 'competitions', 'revenue'],
+./.claude/epics/ai-competition-voting-platform/010.md:336:    queryKey: ['analytics', dateRange, competitions, metrics],
+./.claude/epics/ai-competition-voting-platform/010.md:339:      competitions,
+./.claude/epics/ai-competition-voting-platform/010.md:340:      metrics
+./.claude/epics/ai-competition-voting-platform/010.md:355:      competitions,
+./.claude/epics/ai-competition-voting-platform/010.md:356:      metrics
+./.claude/epics/ai-competition-voting-platform/010.md:361:      metrics,
+./.claude/epics/ai-competition-voting-platform/010.md:383:            value={competitions}
+./.claude/epics/ai-competition-voting-platform/010.md:408:      <div className="analytics-dashboard__metrics">
+./.claude/epics/ai-competition-voting-platform/010.md:421:          value={analyticsData?.competitions?.active || 0}
+./.claude/epics/ai-competition-voting-platform/010.md:422:          change={analyticsData?.competitions?.change || 0}
+./.claude/epics/ai-competition-voting-platform/010.md:423:          trend={analyticsData?.competitions?.trend || 'neutral'}
+./.claude/epics/ai-competition-voting-platform/010.md:425:          onClick={() => setSelectedMetric('competitions')}
+./.claude/epics/ai-competition-voting-platform/010.md:426:          isActive={selectedMetric === 'competitions'}
+./.claude/epics/ai-competition-voting-platform/010.md:431:          value={analyticsData?.submissions?.total || 0}
+./.claude/epics/ai-competition-voting-platform/010.md:432:          change={analyticsData?.submissions?.change || 0}
+./.claude/epics/ai-competition-voting-platform/010.md:433:          trend={analyticsData?.submissions?.trend || 'neutral'}
+./.claude/epics/ai-competition-voting-platform/010.md:435:          onClick={() => setSelectedMetric('submissions')}
+./.claude/epics/ai-competition-voting-platform/010.md:436:          isActive={selectedMetric === 'submissions'}
+./.claude/epics/ai-competition-voting-platform/010.md:468:            series={[{ dataKey: 'participants', fill: '#8B5CF6' }]}
+./.claude/epics/ai-competition-voting-platform/010.md:480:              { key: 'metric', header: 'Metric' },
+./.claude/epics/ai-competition-voting-platform/010.md:521:      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+./.claude/epics/ai-competition-voting-platform/010.md:538:      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+./.claude/epics/ai-competition-voting-platform/010.md:550:      test: ["CMD", "redis-cli", "ping"]
+./.claude/epics/ai-competition-voting-platform/010.md:565:      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+./.claude/epics/ai-competition-voting-platform/010.md:583:      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+./.claude/epics/ai-competition-voting-platform/010.md:606:RUN npm ci --only=production
+./.claude/epics/ai-competition-voting-platform/010.md:645:# .github/workflows/deploy.yml
+./.claude/epics/ai-competition-voting-platform/010.md:660:  test:
+./.claude/epics/ai-competition-voting-platform/010.md:661:    runs-on: ubuntu-latest
+./.claude/epics/ai-competition-voting-platform/010.md:671:      - name: Install dependencies
+./.claude/epics/ai-competition-voting-platform/010.md:672:        run: npm ci
+./.claude/epics/ai-competition-voting-platform/010.md:677:      - name: Run tests
+./.claude/epics/ai-competition-voting-platform/010.md:678:        run: npm test
+./.claude/epics/ai-competition-voting-platform/010.md:684:    needs: test
+./.claude/epics/ai-competition-voting-platform/010.md:685:    runs-on: ubuntu-latest
+./.claude/epics/ai-competition-voting-platform/010.md:708:            type=raw,value=latest,enable={{is_default_branch}}
+./.claude/epics/ai-competition-voting-platform/010.md:722:    runs-on: ubuntu-latest
+./.claude/epics/ai-competition-voting-platform/010.md:735:            cd /opt/ai-competition-platform
+./.claude/epics/ai-competition-voting-platform/010.md:761:    path: '/metrics',
+./.claude/epics/ai-competition-voting-platform/010.md:808:    metrics: [
+./.claude/epics/ai-competition-voting-platform/010.md:813:      'competition_participation',
+./.claude/epics/ai-competition-voting-platform/010.md:814:      'submission_rate',
+./.claude/epics/ai-competition-voting-platform/010.md:845:2. **Analytics Platform**: Comprehensive metrics collection and visualization
+./.claude/epics/ai-competition-voting-platform/010.md:849:6. **Performance Optimization**: Load balancing, caching, and scaling strategies
+./.claude/epics/ai-competition-voting-platform/010.md:853:- **AnalyticsEngine**: Real-time metrics collection and processing
+./.claude/epics/ai-competition-voting-platform/010.md:860:- Search functionality and relevance testing
+./.claude/epics/ai-competition-voting-platform/010.md:862:- Deployment pipeline testing
+./.claude/epics/ai-competition-voting-platform/010.md:864:- Performance benchmarking
+./.claude/epics/ai-competition-voting-platform/010.md:865:- Disaster recovery testing
+./.claude/epics/ai-competition-voting-platform/010.md:866:- Load testing and scaling verification
+./.claude/epics/ai-competition-voting-platform/010.md:880:- [ ] Production deployment automated and tested
+./.claude/epics/ai-competition-voting-platform/010.md:884:- [ ] Backup and disaster recovery tested
+./.claude/epics/ai-competition-voting-platform/010.md:886:- [ ] Load testing passed
+./.claude/epics/ai-competition-voting-platform/009.md:4:description: Create multimedia components for displaying AI-generated content, interactive demos, and media players for competition submissions
+./.claude/epics/ai-competition-voting-platform/009.md:15:Build comprehensive multimedia showcase and player components to display AI-generated content, interactive demos, videos, images, and other media submissions. Integrate with the file upload system and UI components to create an engaging media viewing experience.
+./.claude/epics/ai-competition-voting-platform/009.md:25:- [ ] Comparison view for side-by-side submissions
+./.claude/epics/ai-competition-voting-platform/009.md:128:            initial={{ opacity: 0, scale: 0.9 }}
+./.claude/epics/ai-competition-voting-platform/009.md:129:            animate={{ opacity: 1, scale: 1 }}
+./.claude/epics/ai-competition-voting-platform/009.md:477:        style={{ opacity: isLoading ? 0 : 1 }}
+./.claude/epics/ai-competition-voting-platform/009.md:505:  submissions: CompetitionSubmission[];
+./.claude/epics/ai-competition-voting-platform/009.md:507:  onSubmissionSelect?: (submission: CompetitionSubmission) => void;
+./.claude/epics/ai-competition-voting-platform/009.md:514:  submissions,
+./.claude/epics/ai-competition-voting-platform/009.md:525:  const handleSubmissionToggle = (submissionId: string) => {
+./.claude/epics/ai-competition-voting-platform/009.md:527:      if (prev.includes(submissionId)) {
+./.claude/epics/ai-competition-voting-platform/009.md:528:        return prev.filter(id => id !== submissionId);
+./.claude/epics/ai-competition-voting-platform/009.md:531:        return [prev[1], submissionId];
+./.claude/epics/ai-competition-voting-platform/009.md:533:      return [...prev, submissionId];
+./.claude/epics/ai-competition-voting-platform/009.md:547:    const submissionsToCompare = submissions.filter(sub => 
+./.claude/epics/ai-competition-voting-platform/009.md:555:            {submissionsToCompare.map((submission, index) => (
+./.claude/epics/ai-competition-voting-platform/009.md:556:              <div key={submission.id} className="comparison-view__panel">
+./.claude/epics/ai-competition-voting-platform/009.md:558:                  media={submission.media}
+./.claude/epics/ai-competition-voting-platform/009.md:566:                    submission={submission}
+./.claude/epics/ai-competition-voting-platform/009.md:578:            {submissionsToCompare.length === 2 && (
+./.claude/epics/ai-competition-voting-platform/009.md:581:                  media={submissionsToCompare[0].media}
+./.claude/epics/ai-competition-voting-platform/009.md:591:                    media={submissionsToCompare[1].media}
+./.claude/epics/ai-competition-voting-platform/009.md:609:            {submissionsToCompare.map((submission, index) => (
+./.claude/epics/ai-competition-voting-platform/009.md:611:                key={submission.id}
+./.claude/epics/ai-competition-voting-platform/009.md:614:                  opacity: index === 0 ? 1 : 0.5,
+./.claude/epics/ai-competition-voting-platform/009.md:615:                  zIndex: submissionsToCompare.length - index
+./.claude/epics/ai-competition-voting-platform/009.md:619:                  media={submission.media}
+./.claude/epics/ai-competition-voting-platform/009.md:632:        <p>Select up to 2 submissions to compare:</p>
+./.claude/epics/ai-competition-voting-platform/009.md:633:        <div className="comparison-view__submission-list">
+./.claude/epics/ai-competition-voting-platform/009.md:634:          {submissions.map(submission => (
+./.claude/epics/ai-competition-voting-platform/009.md:635:            <div key={submission.id} className="comparison-view__submission-item">
+./.claude/epics/ai-competition-voting-platform/009.md:638:                id={submission.id}
+./.claude/epics/ai-competition-voting-platform/009.md:639:                checked={selectedSubmissions.includes(submission.id)}
+./.claude/epics/ai-competition-voting-platform/009.md:640:                onChange={() => handleSubmissionToggle(submission.id)}
+./.claude/epics/ai-competition-voting-platform/009.md:641:                disabled={!selectedSubmissions.includes(submission.id) && selectedSubmissions.length >= 2}
+./.claude/epics/ai-competition-voting-platform/009.md:643:              <label htmlFor={submission.id}>
+./.claude/epics/ai-competition-voting-platform/009.md:644:                <img src={submission.thumbnail} alt={submission.title} />
+./.claude/epics/ai-competition-voting-platform/009.md:645:                <span>{submission.title}</span>
+./.claude/epics/ai-competition-voting-platform/009.md:709:const monitorMediaPerformance = (metrics: MediaMetrics) => {
+./.claude/epics/ai-competition-voting-platform/009.md:711:    media_id: metrics.mediaId,
+./.claude/epics/ai-competition-voting-platform/009.md:712:    load_time: metrics.loadTime,
+./.claude/epics/ai-competition-voting-platform/009.md:713:    buffer_time: metrics.bufferTime,
+./.claude/epics/ai-competition-voting-platform/009.md:714:    quality: metrics.quality,
+./.claude/epics/ai-competition-voting-platform/009.md:715:    error_rate: metrics.errorRate
+./.claude/epics/ai-competition-voting-platform/009.md:723:3. **Performance Optimization**: Implement lazy loading, caching, and efficient rendering
+./.claude/epics/ai-competition-voting-platform/009.md:735:- **ComparisonView**: Side-by-side comparison tools for submissions
+./.claude/epics/ai-competition-voting-platform/009.md:737:- **MediaAnalytics**: Track engagement and performance metrics
+./.claude/epics/ai-competition-voting-platform/009.md:742:- Performance testing with large media files
+./.claude/epics/ai-competition-voting-platform/009.md:743:- Cross-browser compatibility testing
+./.claude/epics/ai-competition-voting-platform/009.md:745:- Touch and gesture interaction testing
+./.claude/epics/ai-competition-voting-platform/009.md:747:- Error handling and recovery testing
+./.claude/epics/ai-competition-voting-platform/009.md:769:- [ ] Performance benchmarks met (fast loading, smooth playback)
+./.claude/epics/ai-competition-voting-platform/epic.md:2:name: ai-competition-voting-platform
+./.claude/epics/ai-competition-voting-platform/epic.md:6:prd: .claude/prds/ai-competition-voting-platform.md
+./.claude/epics/ai-competition-voting-platform/epic.md:14:Implementation of a modern AI competition voting platform featuring multimedia showcase capabilities, real-time voting with anti-fraud mechanisms, and stunning interactive UI. The platform will serve three primary user types: competition organizers, AI researchers/participants, and voters/community members. Built with a modern tech stack emphasizing performance, security, and scalability.
+./.claude/epics/ai-competition-voting-platform/epic.md:16:## Architecture Decisions
+./.claude/epics/ai-competition-voting-platform/epic.md:22:- **React Query** for efficient data fetching and caching
+./.claude/epics/ai-competition-voting-platform/epic.md:28:- **Supabase Auth** for authentication with JWT and social logins
+./.claude/epics/ai-competition-voting-platform/epic.md:37:- **Nginx** for reverse proxy and load balancing
+./.claude/epics/ai-competition-voting-platform/epic.md:66:- Local state for component-specific UI interactions
+./.claude/epics/ai-competition-voting-platform/epic.md:80:- `/api/competitions/*` - Competition CRUD operations
+./.claude/epics/ai-competition-voting-platform/epic.md:81:- `/api/projects/*` - Project submission and management
+./.claude/epics/ai-competition-voting-platform/epic.md:90:- `Project` - Project submissions with multimedia references
+./.claude/epics/ai-competition-voting-platform/epic.md:99:- `AnalyticsService` - Real-time metrics and reporting
+./.claude/epics/ai-competition-voting-platform/epic.md:135:- Build competition CRUD operations
+./.claude/epics/ai-competition-voting-platform/epic.md:136:- Implement project submission workflow
+./.claude/epics/ai-competition-voting-platform/epic.md:137:- Create admin dashboard for competition management
+./.claude/epics/ai-competition-voting-platform/epic.md:159:- Performance optimization and testing
+./.claude/epics/ai-competition-voting-platform/epic.md:160:- Security audit and penetration testing
+./.claude/epics/ai-competition-voting-platform/epic.md:161:- User acceptance testing
+./.claude/epics/ai-competition-voting-platform/epic.md:167:- [ ] **Competition Management**: CRUD operations, submission workflow, admin dashboard  
+./.claude/epics/ai-competition-voting-platform/epic.md:172:- [ ] **Comment & Social Features**: Threaded comments, social sharing
+./.claude/epics/ai-competition-voting-platform/epic.md:173:- [ ] **Analytics & Reporting**: Real-time metrics, admin dashboards
+./.claude/epics/ai-competition-voting-platform/epic.md:177:## Dependencies
+./.claude/epics/ai-competition-voting-platform/epic.md:179:**External Service Dependencies:**
+./.claude/epics/ai-competition-voting-platform/epic.md:185:**Internal Team Dependencies:**
+./.claude/epics/ai-competition-voting-platform/epic.md:189:- QA team for testing and validation
+./.claude/epics/ai-competition-voting-platform/epic.md:209:- 95% code coverage with unit tests
+./.claude/epics/ai-competition-voting-platform/epic.md:213:- Load testing for 1000+ concurrent users
+./.claude/epics/ai-competition-voting-platform/epic.md:216:- All user stories implemented and tested
+./.claude/epics/ai-competition-voting-platform/epic.md:217:- Multimedia formats supported as specified
+./.claude/epics/ai-competition-voting-platform/epic.md:240:5. Security audit and penetration testing
+./.claude/epics/ai-competition-voting-platform/epic.md:247:- Comprehensive testing strategy
+./.claude/epics/ai-competition-voting-platform/epic.md:256:- [ ] **005.md** - Build competition CRUD operations and management (parallel: false)
+./.claude/epics/ai-competition-voting-platform/008.md:86:    initial: { opacity: 0 },
+./.claude/epics/ai-competition-voting-platform/008.md:87:    animate: { opacity: 1 },
+./.claude/epics/ai-competition-voting-platform/008.md:88:    exit: { opacity: 0 }
+./.claude/epics/ai-competition-voting-platform/008.md:91:    initial: { opacity: 0, y: 20 },
+./.claude/epics/ai-competition-voting-platform/008.md:92:    animate: { opacity: 1, y: 0 },
+./.claude/epics/ai-competition-voting-platform/008.md:93:    exit: { opacity: 0, y: -20 }
+./.claude/epics/ai-competition-voting-platform/008.md:96:    initial: { opacity: 0, scale: 0.9 },
+./.claude/epics/ai-competition-voting-platform/008.md:97:    animate: { opacity: 1, scale: 1 },
+./.claude/epics/ai-competition-voting-platform/008.md:98:    exit: { opacity: 0, scale: 0.9 }
+./.claude/epics/ai-competition-voting-platform/008.md:102:      initial: { opacity: 0 },
+./.claude/epics/ai-competition-voting-platform/008.md:104:        opacity: 1,
+./.claude/epics/ai-competition-voting-platform/008.md:111:      initial: { opacity: 0, y: 20 },
+./.claude/epics/ai-competition-voting-platform/008.md:112:      animate: { opacity: 1, y: 0 }
+./.claude/epics/ai-competition-voting-platform/008.md:179:  competition: Competition;
+./.claude/epics/ai-competition-voting-platform/008.md:186:  competition,
+./.claude/epics/ai-competition-voting-platform/008.md:193:      initial={{ opacity: 0, y: 20 }}
+./.claude/epics/ai-competition-voting-platform/008.md:194:      animate={{ opacity: 1, y: 0 }}
+./.claude/epics/ai-competition-voting-platform/008.md:197:        'competition-card',
+./.claude/epics/ai-competition-voting-platform/008.md:198:        isFeatured && 'competition-card--featured'
+./.claude/epics/ai-competition-voting-platform/008.md:201:      <div className="competition-card__header">
+./.claude/epics/ai-competition-voting-platform/008.md:203:          src={competition.thumbnail} 
+./.claude/epics/ai-competition-voting-platform/008.md:204:          alt={competition.title}
+./.claude/epics/ai-competition-voting-platform/008.md:205:          className="competition-card__image"
+./.claude/epics/ai-competition-voting-platform/008.md:207:        <div className="competition-card__status">
+./.claude/epics/ai-competition-voting-platform/008.md:208:          <StatusBadge status={competition.status} />
+./.claude/epics/ai-competition-voting-platform/008.md:212:      <div className="competition-card__content">
+./.claude/epics/ai-competition-voting-platform/008.md:213:        <h3 className="competition-card__title">{competition.title}</h3>
+./.claude/epics/ai-competition-voting-platform/008.md:214:        <p className="competition-card__description">{competition.description}</p>
+./.claude/epics/ai-competition-voting-platform/008.md:216:        <div className="competition-card__stats">
+./.claude/epics/ai-competition-voting-platform/008.md:217:          <Stat icon="users" value={competition.participantCount} label="Participants" />
+./.claude/epics/ai-competition-voting-platform/008.md:218:          <Stat icon="trophy" value={competition.prizePool} label="Prize Pool" />
+./.claude/epics/ai-competition-voting-platform/008.md:219:          <Stat icon="clock" value={competition.timeRemaining} label="Time Left" />
+./.claude/epics/ai-competition-voting-platform/008.md:222:        <div className="competition-card__actions">
+./.claude/epics/ai-competition-voting-platform/008.md:242:  competitionId: string;
+./.claude/epics/ai-competition-voting-platform/008.md:249:  competitionId,
+./.claude/epics/ai-competition-voting-platform/008.md:265:    <div className="leaderboard">
+./.claude/epics/ai-competition-voting-platform/008.md:267:        <div className="leaderboard__live-indicator">
+./.claude/epics/ai-competition-voting-platform/008.md:278:            initial={{ opacity: 0, x: -20 }}
+./.claude/epics/ai-competition-voting-platform/008.md:279:            animate={{ opacity: 1, x: 0 }}
+./.claude/epics/ai-competition-voting-platform/008.md:280:            exit={{ opacity: 0, x: 20 }}
+./.claude/epics/ai-competition-voting-platform/008.md:283:              'leaderboard-entry',
+./.claude/epics/ai-competition-voting-platform/008.md:284:              entry.rank <= 3 && `leaderboard-entry--top-${entry.rank}`
+./.claude/epics/ai-competition-voting-platform/008.md:288:            <div className="leaderboard-entry__rank">
+./.claude/epics/ai-competition-voting-platform/008.md:292:            <div className="leaderboard-entry__user">
+./.claude/epics/ai-competition-voting-platform/008.md:294:              <div className="leaderboard-entry__user-info">
+./.claude/epics/ai-competition-voting-platform/008.md:295:                <span className="leaderboard-entry__name">{entry.user.name}</span>
+./.claude/epics/ai-competition-voting-platform/008.md:296:                <span className="leaderboard-entry__handle">@{entry.user.handle}</span>
+./.claude/epics/ai-competition-voting-platform/008.md:300:            <div className="leaderboard-entry__score">
+./.claude/epics/ai-competition-voting-platform/008.md:301:              <ScoreAnimation value={entry.score} />
+./.claude/epics/ai-competition-voting-platform/008.md:304:            <div className="leaderboard-entry__votes">
+./.claude/epics/ai-competition-voting-platform/008.md:337:.competition-card {
+./.claude/epics/ai-competition-voting-platform/008.md:375:- **Spacing System**: Consistent layout and spacing utilities
+./.claude/epics/ai-competition-voting-platform/008.md:378:- Visual regression testing with Storybook
+./.claude/epics/ai-competition-voting-platform/008.md:379:- Accessibility testing with axe-core
+./.claude/epics/ai-competition-voting-platform/008.md:380:- Animation performance testing
+./.claude/epics/ai-competition-voting-platform/008.md:381:- Cross-browser compatibility testing
+./.claude/epics/ai-competition-voting-platform/008.md:382:- Mobile responsiveness testing
+./.claude/epics/ai-competition-voting-platform/008.md:383:- Theme switching functionality tests
+./.claude/epics/ai-competition-voting-platform/008.md:384:- Keyboard navigation testing
+./.claude/epics/ai-competition-voting-platform/008.md:400:- [ ] Mobile responsiveness tested
+./.claude/epics/ai-competition-voting-platform/008.md:403:- [ ] Visual regression tests passing
+./.claude/epics/ai-competition-voting-platform/008.md:404:- [ ] Performance benchmarks met (60fps animations)
+./.claude/epics/ai-competition-voting-platform/007.md:4:description: Implement WebSocket infrastructure for real-time vote updates, live results, and interactive competition features
+./.claude/epics/ai-competition-voting-platform/007.md:5:epic: ai-competition-voting-platform
+./.claude/epics/ai-competition-voting-platform/007.md:6:dependencies:
+./.claude/epics/ai-competition-voting-platform/007.md:14:Build comprehensive WebSocket infrastructure to enable real-time vote updates, live competition results, interactive features, and seamless user experience across the voting platform.
+./.claude/epics/ai-competition-voting-platform/007.md:19:- [ ] Live leaderboard updates during voting periods
+./.claude/epics/ai-competition-voting-platform/007.md:21:- [ ] New submission alerts and updates
+./.claude/epics/ai-competition-voting-platform/007.md:40:competition:created    - New competition created
+./.claude/epics/ai-competition-voting-platform/007.md:41:competition:updated    - Competition details updated
+./.claude/epics/ai-competition-voting-platform/007.md:42:competition:status_changed - Competition status changed
+./.claude/epics/ai-competition-voting-platform/007.md:43:competition:submission_new - New submission received
+./.claude/epics/ai-competition-voting-platform/007.md:46:leaderboard:updated    - Leaderboard rankings changed
+./.claude/epics/ai-competition-voting-platform/007.md:47:leaderboard:finalized  - Competition results finalized
+./.claude/epics/ai-competition-voting-platform/007.md:50:user:joined_competition - User joined competition
+./.claude/epics/ai-competition-voting-platform/007.md:68:  async handleConnection(userId: string, competitionId?: string);
+./.claude/epics/ai-competition-voting-platform/007.md:83:  async processCompetitionEvent(competitionData: CompetitionEvent);
+./.claude/epics/ai-competition-voting-platform/007.md:84:  async processLeaderboardEvent(leaderboardData: LeaderboardEvent);
+./.claude/epics/ai-competition-voting-platform/007.md:93:  COMPETITION_UPDATES: 'competition:updates',
+./.claude/epics/ai-competition-voting-platform/007.md:94:  LEADERBOARD_UPDATES: 'leaderboard:updates',
+./.claude/epics/ai-competition-voting-platform/007.md:103:  competitionId?: string;
+./.claude/epics/ai-competition-voting-platform/007.md:111:- **RoomManager**: Manage competition-specific rooms and subscriptions
+./.claude/epics/ai-competition-voting-platform/007.md:120:2. **Connection Management**: Efficient connection pooling and cleanup
+./.claude/epics/ai-competition-voting-platform/007.md:124:6. **Monitoring**: Real-time metrics and health checks
+./.claude/epics/ai-competition-voting-platform/007.md:138:- Client-side caching and debouncing
+./.claude/epics/ai-competition-voting-platform/007.md:139:- Efficient Redis pipeline usage
+./.claude/epics/ai-competition-voting-platform/007.md:143:- WebSocket connection stress tests
+./.claude/epics/ai-competition-voting-platform/007.md:145:- Reconnection and resilience testing
+./.claude/epics/ai-competition-voting-platform/007.md:146:- Cross-browser compatibility tests
+./.claude/epics/ai-competition-voting-platform/007.md:147:- Mobile WebSocket performance tests
+./.claude/epics/ai-competition-voting-platform/007.md:148:- Security penetration testing
+./.claude/epics/ai-competition-voting-platform/007.md:149:- Load testing with 10k+ concurrent connections
+./.claude/epics/ai-competition-voting-platform/007.md:155:- **High**: Scaling challenges with high concurrent connections
+./.claude/epics/ai-competition-voting-platform/007.md:164:- [ ] Security measures tested and validated
+./.claude/epics/ai-competition-voting-platform/007.md:165:- [ ] Performance benchmarks met (10k+ concurrent connections)
+./.claude/epics/ai-competition-voting-platform/007.md:169:- [ ] Load testing passed
+./.claude/epics/ai-competition-voting-platform/003.md:14:Design and implement a comprehensive database schema for the AI Competition Voting Platform using Supabase, including tables for users, competitions, submissions, votes, and related entities with proper relationships, constraints, and Supabase-specific features like Row Level Security (RLS) and real-time subscriptions.
+./.claude/epics/ai-competition-voting-platform/003.md:32:ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'participant';
+./.claude/epics/ai-competition-voting-platform/003.md:41:CREATE TABLE competitions (
+./.claude/epics/ai-competition-voting-platform/003.md:48:    submission_deadline TIMESTAMP NOT NULL,
+./.claude/epics/ai-competition-voting-platform/003.md:51:    max_participants INTEGER,
+./.claude/epics/ai-competition-voting-platform/003.md:53:    prize_description TEXT,
+./.claude/epics/ai-competition-voting-platform/003.md:54:    evaluation_criteria JSONB,
+./.claude/epics/ai-competition-voting-platform/003.md:63:CREATE TABLE submissions (
+./.claude/epics/ai-competition-voting-platform/003.md:65:    competition_id UUID REFERENCES competitions(id) ON DELETE CASCADE,
+./.claude/epics/ai-competition-voting-platform/003.md:66:    participant_id UUID REFERENCES users(id) ON DELETE CASCADE,
+./.claude/epics/ai-competition-voting-platform/003.md:72:    submission_data JSONB,
+./.claude/epics/ai-competition-voting-platform/003.md:76:    UNIQUE(competition_id, participant_id)
+./.claude/epics/ai-competition-voting-platform/003.md:84:    submission_id UUID REFERENCES submissions(id) ON DELETE CASCADE,
+./.claude/epics/ai-competition-voting-platform/003.md:86:    score INTEGER CHECK (score >= 1 AND score <= 10),
+./.claude/epics/ai-competition-voting-platform/003.md:87:    criteria_scores JSONB,
+./.claude/epics/ai-competition-voting-platform/003.md:91:    UNIQUE(submission_id, voter_id)
+./.claude/epics/ai-competition-voting-platform/003.md:95:#### Competition Participants
+./.claude/epics/ai-competition-voting-platform/003.md:97:CREATE TABLE competition_participants (
+./.claude/epics/ai-competition-voting-platform/003.md:99:    competition_id UUID REFERENCES competitions(id) ON DELETE CASCADE,
+./.claude/epics/ai-competition-voting-platform/003.md:103:    UNIQUE(competition_id, user_id)
+./.claude/epics/ai-competition-voting-platform/003.md:110:CREATE INDEX idx_competitions_status ON competitions(status);
+./.claude/epics/ai-competition-voting-platform/003.md:111:CREATE INDEX idx_competitions_dates ON competitions(start_date, end_date);
+./.claude/epics/ai-competition-voting-platform/003.md:112:CREATE INDEX idx_submissions_competition ON submissions(competition_id);
+./.claude/epics/ai-competition-voting-platform/003.md:113:CREATE INDEX idx_submissions_participant ON submissions(participant_id);
+./.claude/epics/ai-competition-voting-platform/003.md:114:CREATE INDEX idx_votes_submission ON votes(submission_id);
+./.claude/epics/ai-competition-voting-platform/003.md:116:CREATE INDEX idx_competition_participants_competition ON competition_participants(competition_id);
+./.claude/epics/ai-competition-voting-platform/003.md:117:CREATE INDEX idx_competition_participants_user ON competition_participants(user_id);
+./.claude/epics/ai-competition-voting-platform/003.md:123:- Ensure unique participant per competition
+./.claude/epics/ai-competition-voting-platform/003.md:134:- [ ] Database migrations created and tested
+./.claude/epics/ai-competition-voting-platform/003.md:136:- [ ] Seed data for development/testing
+./.claude/epics/ai-competition-voting-platform/003.md:139:- [ ] Query performance benchmarks
+./.claude/epics/ai-competition-voting-platform/003.md:144:- Implement Row Level Security (RLS) policies
+./.claude/epics/ai-competition-voting-platform/003.md:149:- Enable real-time subscriptions for votes and competitions
+./.claude/epics/ai-competition-voting-platform/003.md:157:## Dependencies
+./.claude/epics/ai-competition-voting-platform/003.md:183:  submissions       Submission[]
+./.claude/epics/ai-competition-voting-platform/003.md:185:  participants      CompetitionParticipant[]
+./.claude/epics/ai-competition-voting-platform/003.md:196:  submissionDeadline DateTime
+./.claude/epics/ai-competition-voting-platform/003.md:199:  maxParticipants   Int?
+./.claude/epics/ai-competition-voting-platform/003.md:201:  prizeDescription  String?
+./.claude/epics/ai-competition-voting-platform/003.md:202:  evaluationCriteria Json?
+./.claude/epics/ai-competition-voting-platform/003.md:208:  submissions       Submission[]
+./.claude/epics/ai-competition-voting-platform/003.md:209:  participants      CompetitionParticipant[]
+./.claude/epics/ai-competition-voting-platform/003.md:214:  competitionId     String
+./.claude/epics/ai-competition-voting-platform/003.md:215:  participantId     String
+./.claude/epics/ai-competition-voting-platform/003.md:221:  submissionData    Json?
+./.claude/epics/ai-competition-voting-platform/003.md:226:  competition       Competition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+./.claude/epics/ai-competition-voting-platform/003.md:227:  participant       User @relation(fields: [participantId], references: [id], onDelete: Cascade)
+./.claude/epics/ai-competition-voting-platform/003.md:230:  @@unique([competitionId, participantId])
+./.claude/epics/ai-competition-voting-platform/003.md:235:  submissionId      String
+./.claude/epics/ai-competition-voting-platform/003.md:237:  score             Int
+./.claude/epics/ai-competition-voting-platform/003.md:243:  submission        Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+./.claude/epics/ai-competition-voting-platform/003.md:246:  @@unique([submissionId, voterId])
+./.claude/epics/ai-competition-voting-platform/003.md:251:- Unit tests for all model relationships
+./.claude/epics/ai-competition-voting-platform/003.md:252:- Integration tests for CRUD operations
+./.claude/epics/ai-competition-voting-platform/003.md:253:- Performance tests for large datasets
+./.claude/epics/ai-competition-voting-platform/003.md:254:- Constraint validation tests
+./.claude/epics/ai-competition-voting-platform/003.md:255:- Migration rollback tests
+./.claude/epics/ai-competition-voting-platform/003.md:256:- Connection pool tests
+./.claude/epics/ai-competition-voting-platform/003.md:257:- Query optimization tests
+./.claude/epics/ai-competition-voting-platform/003.md:258:- Data integrity tests
+./.claude/epics/ai-competition-voting-platform/003.md:260:## Supabase-Specific Features
+./.claude/epics/ai-competition-voting-platform/003.md:262:### Row Level Security (RLS) Policies
+./.claude/epics/ai-competition-voting-platform/003.md:267:-- Competition organizers can manage their competitions
+./.claude/epics/ai-competition-voting-platform/003.md:268:CREATE POLICY "Organizers can manage own competitions" ON competitions FOR ALL USING (auth.uid() = organizer_id);
+./.claude/epics/ai-competition-voting-platform/003.md:270:-- Participants can only vote once per submission
+./.claude/epics/ai-competition-voting-platform/003.md:271:CREATE POLICY "One vote per user per submission" ON votes FOR INSERT WITH CHECK (
+./.claude/epics/ai-competition-voting-platform/003.md:272:  NOT EXISTS (SELECT 1 FROM votes WHERE submission_id = NEW.submission_id AND voter_id = auth.uid())
+./.claude/epics/ai-competition-voting-platform/003.md:303:- Query optimization for leaderboards
+./.claude/epics/ai-competition-voting-platform/003.md:307:- Partitioning strategy for votes table (by competition_id)
+./.claude/epics/ai-competition-voting-platform/002.md:89:## Dependencies
+./.claude/epics/ai-competition-voting-platform/002.md:108:- Unit tests for JWT operations
+./.claude/epics/ai-competition-voting-platform/002.md:109:- Integration tests for auth flows
+./.claude/epics/ai-competition-voting-platform/002.md:110:- Security testing (rate limiting, CSRF)
+./.claude/epics/ai-competition-voting-platform/002.md:112:- Password reset flow testing
+./.claude/epics/ai-competition-voting-platform/002.md:113:- Session management tests
+./.claude/epics/ai-competition-voting-platform/006.md:5:epic: ai-competition-voting-platform
+./.claude/epics/ai-competition-voting-platform/006.md:6:dependencies:
+./.claude/epics/ai-competition-voting-platform/006.md:15:Implement a secure voting system that allows users to vote on AI competition submissions with comprehensive fraud detection, vote validation, and real-time vote counting capabilities.
+./.claude/epics/ai-competition-voting-platform/006.md:18:- [ ] One vote per user per competition enforcement
+./.claude/epics/ai-competition-voting-platform/006.md:19:- [ ] Secure vote submission with validation
+./.claude/epics/ai-competition-voting-platform/006.md:33:POST   /api/competitions/:id/vote       - Submit vote
+./.claude/epics/ai-competition-voting-platform/006.md:34:GET    /api/competitions/:id/votes      - Get vote results
+./.claude/epics/ai-competition-voting-platform/006.md:35:GET    /api/competitions/:id/leaderboard - Get competition rankings
+./.claude/epics/ai-competition-voting-platform/006.md:46:  competition_id UUID REFERENCES competitions(id),
+./.claude/epics/ai-competition-voting-platform/006.md:47:  submission_id UUID REFERENCES submissions(id),
+./.claude/epics/ai-competition-voting-platform/006.md:54:  UNIQUE(competition_id, user_id)
+./.claude/epics/ai-competition-voting-platform/006.md:62:  risk_score DECIMAL(3,2),
+./.claude/epics/ai-competition-voting-platform/006.md:70:  competition_id UUID REFERENCES competitions(id),
+./.claude/epics/ai-competition-voting-platform/006.md:73:  average_score DECIMAL(5,2),
+./.claude/epics/ai-competition-voting-platform/006.md:92:5. **Social Graph Analysis**: Connected account detection
+./.claude/epics/ai-competition-voting-platform/006.md:97:2. **Fraud Engine**: Real-time risk scoring and detection
+./.claude/epics/ai-competition-voting-platform/006.md:104:- Unit tests for voting logic and validation
+./.claude/epics/ai-competition-voting-platform/006.md:105:- Integration tests for fraud detection
+./.claude/epics/ai-competition-voting-platform/006.md:106:- Security penetration testing
+./.claude/epics/ai-competition-voting-platform/006.md:107:- Load testing for high-volume voting
+./.claude/epics/ai-competition-voting-platform/006.md:108:- Fraud scenario simulation tests
+./.claude/epics/ai-competition-voting-platform/006.md:109:- Vote integrity and audit tests
+./.claude/epics/ai-competition-voting-platform/006.md:125:- [ ] All security tests passing
+./.claude/epics/ai-competition-voting-platform/006.md:126:- [ ] Performance benchmarks met (1000+ votes/second)
+./.claude/epics/ai-competition-voting-platform/006.md:127:- [ ] Anti-fraud measures tested and validated
+./.claude/epics/ai-competition-voting-platform/006.md:130:- [ ] Penetration testing passed
+./.claude/CLAUDE.md:3:> Think carefully and implement the most concise solution that changes as little code as possible.
+./.claude/CLAUDE.md:8:The file-analyzer agent is an expert in extracting and summarizing critical information from files, particularly log files and verbose outputs. It provides concise, actionable summaries that preserve essential information while dramatically reducing context usage.
+./.claude/CLAUDE.md:12:The code-analyzer agent is an expert in code analysis, logic tracing, and vulnerability detection. It provides concise, actionable summaries that preserve essential information while dramatically reducing context usage.
+./.claude/CLAUDE.md:14:### 3. Always use the test-runner sub-agent to run tests and analyze the test results.
+./.claude/CLAUDE.md:16:Using the test-runner agent ensures:
+./.claude/CLAUDE.md:18:- Full test output is captured for debugging
+./.claude/CLAUDE.md:22:- No approval dialogs interrupt the workflow
+./.claude/CLAUDE.md:35:- Always use the test-runner agent to execute tests.
+./.claude/CLAUDE.md:37:- Do not move on to the next test until the current test is complete.
+./.claude/CLAUDE.md:38:- If the test fails, consider checking if the test is structured correctly before deciding we need to refactor the codebase.
+./.claude/CLAUDE.md:44:- Criticism is welcome. Please tell me when I am wrong or mistaken, or even when you think I might be wrong or mistaken.
+./.claude/CLAUDE.md:48:- Be concise.
+./.claude/CLAUDE.md:50:- Do not flatter, and do not give compliments unless I am specifically asking for your judgement.
+./.claude/CLAUDE.md:61:- NO CHEATER TESTS : test must be accurate, reflect real usage and be designed to reveal flaws. No useless tests! Design tests to be verbose so we can use them for debuging.
+./README.md:90:ai-competition-voting-platform/
+./README.md:106:项目已分解为10个具体任务，详见[.claude/epics/ai-competition-voting-platform/](.claude/epics/ai-competition-voting-platform/)
+./README.md:140:npm test
+./README.md:143:npm run test:watch
+./README.md:146:npm run test:coverage
+./.gitignore:3:# dependencies
+./.gitignore:8:# testing
+./.gitignore:79:.env.test.local
+./.gitignore:99:# nyc test coverage
+./package.json:2:  "name": "ai-competition-voting-platform",
+./package.json:11:    "test": "jest",
+./package.json:12:    "test:watch": "jest --watch",
+./package.json:13:    "test:coverage": "jest --coverage",
+./package.json:24:  "dependencies": {
+./package.json:42:  "devDependencies": {
+./DEPLOYMENT.md:54:DATABASE_URL=postgresql://user:password@localhost:5432/aicompetition
+./DEPLOYMENT.md:57:COS_BUCKET_NAME=ai-competition-1250000000
+./DEPLOYMENT.md:89:cloudbase env:create ai-competition-env
+./DEPLOYMENT.md:104:  - name: competition-files
+./DEPLOYMENT.md:113:name: ai-competition-api
+./DEPLOYMENT.md:168:SUPABASE_URL=postgresql://localhost:5432/aicompetition
+./DEPLOYMENT.md:204:cloudbase framework deploy --env ai-competition-env
+./.prettierrc:8:  "bracketSpacing": true,
+./DEVELOPMENT.md:13:git clone https://github.com/karmonlong/ai-competition-voting-platform.git
+./DEVELOPMENT.md:14:cd ai-competition-voting-platform
+./DEVELOPMENT.md:43:# NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFqYXBrdGNqaHRwbmVyanFpaXlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcwMzQ4OTMsImV4cCI6MjA3MjYxMDg5M30.6RmbkxtJa2At1GuN2ncyPxga3VfulEcWwO8d-p8qu8w
+./DEVELOPMENT.md:84:npm test
+./DEVELOPMENT.md:87:npm run test:coverage
+./DEVELOPMENT.md:98:npm test
+./DEVELOPMENT.md:134:│   ├── competitions/      # 竞赛相关组件
+./DEVELOPMENT.md:164:npm test
+./DEVELOPMENT.md:167:npm test -- --testPathPattern=Button.test.tsx
+./DEVELOPMENT.md:170:npm run test:watch
+./DEVELOPMENT.md:176:npm run test:integration
+./DEVELOPMENT.md:179:npm run test:e2e
+./project-planning.md:223:1. **立即执行**: 运行 `/pm:epic-sync ai-competition-voting-platform`
+./CLAUDE.md:3:> Think carefully and implement the most concise solution that changes as little code as possible.
+./CLAUDE.md:5:## Project-Specific Instructions
+./CLAUDE.md:7:Add your project-specific instructions here.
+./CLAUDE.md:11:Always run tests before committing:
+./CLAUDE.md:12:- `npm test` or equivalent for your stack
+./.eslintrc.json:11:    "@typescript-eslint/no-explicit-any": "warn",
+./QUICK_START.md:64:npm run test         # 运行测试
+./QUICK_START.md:78:查看所有任务：https://github.com/karmonxing/ai-competition-voting-platform/issues
+./src/types/supabase.ts:59:      competitions: {
+./src/types/supabase.ts:67:          submissionDeadline: string
+./src/types/supabase.ts:70:          maxParticipants: number | null
+./src/types/supabase.ts:72:          prizeDescription: string | null
+./src/types/supabase.ts:73:          evaluationCriteria: Json | null
+./src/types/supabase.ts:85:          submissionDeadline: string
+./src/types/supabase.ts:88:          maxParticipants?: number | null
+./src/types/supabase.ts:90:          prizeDescription?: string | null
+./src/types/supabase.ts:91:          evaluationCriteria?: Json | null
+./src/types/supabase.ts:103:          submissionDeadline?: string
+./src/types/supabase.ts:106:          maxParticipants?: number | null
+./src/types/supabase.ts:108:          prizeDescription?: string | null
+./src/types/supabase.ts:109:          evaluationCriteria?: Json | null
+./src/types/supabase.ts:115:      submissions: {
+./src/types/supabase.ts:118:          competitionId: string
+./src/types/supabase.ts:119:          participantId: string
+./src/types/supabase.ts:125:          submissionData: Json | null
+./src/types/supabase.ts:132:          competitionId: string
+./src/types/supabase.ts:133:          participantId: string
+./src/types/supabase.ts:139:          submissionData?: Json | null
+./src/types/supabase.ts:146:          competitionId?: string
+./src/types/supabase.ts:147:          participantId?: string
+./src/types/supabase.ts:153:          submissionData?: Json | null
+./src/types/supabase.ts:162:          submissionId: string
+./src/types/supabase.ts:164:          score: number
+./src/types/supabase.ts:172:          submissionId: string
+./src/types/supabase.ts:174:          score: number
+./src/types/supabase.ts:182:          submissionId?: string
+./src/types/supabase.ts:184:          score?: number
+./src/app/page.tsx:7:import { ArrowRight, Trophy, Users, Zap, Star } from 'lucide-react'
+./src/app/page.tsx:17:            initial={{ opacity: 0, y: 20 }}
+./src/app/page.tsx:18:            animate={{ opacity: 1, y: 0 }}
+./src/app/page.tsx:23:              initial={{ scale: 0.5, opacity: 0 }}
+./src/app/page.tsx:24:              animate={{ scale: 1, opacity: 1 }}
+./src/app/page.tsx:35:              initial={{ opacity: 0, y: 20 }}
+./src/app/page.tsx:36:              animate={{ opacity: 1, y: 0 }}
+./src/app/page.tsx:46:              initial={{ opacity: 0, y: 20 }}
+./src/app/page.tsx:47:              animate={{ opacity: 1, y: 0 }}
+./src/app/page.tsx:55:              initial={{ opacity: 0, y: 20 }}
+./src/app/page.tsx:56:              animate={{ opacity: 1, y: 0 }}
+./src/app/page.tsx:76:            initial={{ opacity: 0, y: 20 }}
+./src/app/page.tsx:77:            whileInView={{ opacity: 1, y: 0 }}
+./src/app/page.tsx:111:                initial={{ opacity: 0, y: 20 }}
+./src/app/page.tsx:112:                whileInView={{ opacity: 1, y: 0 }}
+./src/app/page.tsx:141:                initial={{ opacity: 0, scale: 0.5 }}
+./src/app/page.tsx:142:                whileInView={{ opacity: 1, scale: 1 }}
+./src/app/page.tsx:158:            initial={{ opacity: 0, y: 20 }}
+./src/app/page.tsx:159:            whileInView={{ opacity: 1, y: 0 }}
+./src/app/globals.css:64:    opacity: 0;
+./src/app/globals.css:68:    opacity: 1;
+./src/app/globals.css:85:    opacity: 0;
+./src/app/globals.css:95:    opacity: 1;
+./src/components/ui/button.tsx:6:  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300',
+./src/lib/utils.ts:62:  return emailRegex.test(email)
+./src/lib/supabase.ts:13:    storageKey: 'ai-competition-auth-token',
+./src/lib/supabase.ts:17:      'x-application-name': 'ai-competition-voting-platform',
+./src/lib/supabase.ts:41:        'x-application-name': 'ai-competition-voting-platform-service',
+./src/lib/supabase.ts:50:export type Competition = Database['public']['Tables']['competitions']['Row']
+./src/lib/supabase.ts:51:export type Submission = Database['public']['Tables']['submissions']['Row']
+
+===== patch/search surface hits =====
+./PROJECT_SUMMARY.md:65:│   └── 📁 types/                     # TypeScript类型
+./tailwind.config.js:1:/** @type {import('tailwindcss').Config} */
+./next.config.js:1:/** @type {import('next').NextConfig} */
+./.claude/agents/parallel-worker.md:25:  subagent_type: "general-purpose"
+./.claude/agents/parallel-worker.md:115:  - Verbose error messages
+./.claude/agents/parallel-worker.md:140:- Report failure in summary with enough context for debugging
+./.claude/agents/test-runner.md:3:description: Use this agent when you need to run tests and analyze their results. This agent specializes in executing tests using the optimized test runner script, capturing comprehensive logs, and then performing deep analysis to surface key issues, failures, and actionable insights. The agent should be invoked after code changes that require validation, during debugging sessions when tests are failing, or when you need a comprehensive test health report. Examples: <example>Context: The user wants to run tests after implementing a new feature and understands any issues.user: "I've finished implementing the new authentication flow. Can you run the relevant tests and tell me if there are any problems?" assistant: "I'll use the test-runner agent to run the authentication tests and analyze the results for any issues."<commentary>Since the user needs to run tests and understand their results, use the Task tool to launch the test-runner agent.</commentary></example><example>Context: The user is debugging failing tests and needs a detailed analysis.user: "The workflow tests keep failing intermittently. Can you investigate?" assistant: "Let me use the test-runner agent to run the workflow tests multiple times and analyze the patterns in any failures."<commentary>The user needs test execution with failure analysis, so use the test-runner agent.</commentary></example>
+./.claude/agents/test-runner.md:13:1. **Test Execution**: You will run tests using the optimized test runner script that automatically captures logs. Always use `.claude/scripts/test-and-log.sh` to ensure full output capture.
+./.claude/agents/test-runner.md:26:   - **Medium**: Intermittent failures or performance degradation
+./.claude/agents/test-runner.md:49:   - Extract stack traces and error messages
+./.claude/agents/test-runner.md:56:   - Suggest specific fixes or debugging steps
+./.claude/agents/test-runner.md:58:   - Note any performance concerns or resource problems
+./.claude/agents/test-runner.md:88:[List any blocking issues with specific error messages and line numbers]
+./.claude/agents/test-runner.md:94: - Relevant error message/stack trace
+./.claude/agents/test-runner.md:108:- If all tests pass, still check for performance degradation or resource usage patterns
+./.claude/agents/test-runner.md:120:You will maintain context efficiency by keeping the main conversation focused on actionable insights while ensuring all diagnostic information is captured in the logs for detailed debugging when needed.
+./.claude/agents/file-analyzer.md:3:description: Use this agent when you need to analyze and summarize file contents, particularly log files or other verbose outputs, to extract key information and reduce context usage for the parent agent. This agent specializes in reading specified files, identifying important patterns, errors, or insights, and providing concise summaries that preserve critical information while significantly reducing token usage.\n\nExamples:\n- <example>\n  Context: The user wants to analyze a large log file to understand what went wrong during a test run.\n  user: "Please analyze the test.log file and tell me what failed"\n  assistant: "I'll use the file-analyzer agent to read and summarize the log file for you."\n  <commentary>\n  Since the user is asking to analyze a log file, use the Task tool to launch the file-analyzer agent to extract and summarize the key information.\n  </commentary>\n  </example>\n- <example>\n  Context: Multiple files need to be reviewed to understand system behavior.\n  user: "Can you check the debug.log and error.log files from today's run?"\n  assistant: "Let me use the file-analyzer agent to examine both log files and provide you with a summary of the important findings."\n  <commentary>\n  The user needs multiple log files analyzed, so the file-analyzer agent should be used to efficiently extract and summarize the relevant information.\n  </commentary>\n  </example>
+./.claude/agents/file-analyzer.md:27:   - Preserve exact error messages and critical identifiers
+./.claude/agents/file-analyzer.md:33:   - Quantify when possible (e.g., "17 errors found, 3 unique types")
+./.claude/agents/file-analyzer.md:45:   - Consolidate similar errors or warnings
+./.claude/agents/file-analyzer.md:56:   - [Most important issues/errors with specific details]
+./.claude/agents/file-analyzer.md:57:   - [Include exact error messages when crucial]
+./.claude/agents/file-analyzer.md:68:   - For test logs: Focus on test results, failures, and assertion errors
+./.claude/agents/file-analyzer.md:69:   - For error logs: Prioritize unique errors and their stack traces
+./.claude/agents/file-analyzer.md:70:   - For debug logs: Extract the execution flow and state changes
+./.claude/agents/file-analyzer.md:76:   - Ensure no critical errors or failures are omitted
+./.claude/agents/file-analyzer.md:77:   - Double-check that exact error messages are preserved when important
+./.claude/agents/file-analyzer.md:85:- Always preserve specific error codes, line numbers, and identifiers that might be needed for debugging
+./.claude/agents/code-analyzer.md:3:description: Use this agent when you need to analyze code changes for potential bugs, trace logic flow across multiple files, or investigate suspicious behavior in the codebase. This agent specializes in deep-dive analysis while maintaining a concise summary format to preserve context. Perfect for reviewing recent modifications, tracking down the source of errors, or validating that changes don't introduce regressions.\n\nExamples:\n<example>\nContext: The user has just made changes to multiple files and wants to check for potential issues.\nuser: "I've updated the authentication flow across several files. Can you check for bugs?"\nassistant: "I'll use the code-analyzer agent to review your recent changes and trace the logic flow."\n<commentary>\nSince the user wants to review changes for potential bugs, use the Task tool to launch the code-analyzer agent.\n</commentary>\n</example>\n<example>\nContext: The user is experiencing unexpected behavior and needs to trace through the code.\nuser: "The API is returning 500 errors after the last deployment. Need to find what's broken."\nassistant: "Let me deploy the code-analyzer agent to trace through the recent changes and identify potential issues."\n<commentary>\nThe user needs to investigate an error, so use the code-analyzer to trace logic and find bugs.\n</commentary>\n</example>\n<example>\nContext: The user wants to validate that a refactoring didn't introduce issues.\nuser: "I refactored the database connection pooling. Check if I broke anything."\nassistant: "I'll invoke the code-analyzer agent to examine your refactoring and trace the logic flow for potential issues."\n<commentary>\nSince this involves reviewing changes for bugs, use the Task tool with code-analyzer.\n</commentary>\n</example>
+./.claude/agents/code-analyzer.md:9:You are an elite bug hunting specialist with deep expertise in code analysis, logic tracing, and vulnerability detection. Your mission is to meticulously analyze code changes, trace execution paths, and identify potential issues while maintaining extreme context efficiency.
+./.claude/agents/code-analyzer.md:14:   - Logic alterations that could introduce bugs
+./.claude/agents/code-analyzer.md:23:   - Verify error handling completeness
+./.claude/agents/code-analyzer.md:31:   - Off-by-one errors and boundary conditions
+./.claude/agents/code-analyzer.md:74:- **Prioritization**: Surface critical bugs first, then high-risk patterns, then minor issues
+./.claude/agents/code-analyzer.md:83:- For complex bugs, provide a reproduction scenario if possible
+./.claude/agents/code-analyzer.md:85:- If changes appear intentional but risky, note them as "Design Concerns" rather than bugs
+./.claude/agents/code-analyzer.md:89:Before reporting a bug:
+./.claude/agents/code-analyzer.md:95:You are the last line of defense against bugs reaching production. Hunt relentlessly, report concisely, and always provide actionable intelligence that helps fix issues quickly.
+./.claude/prds/ai-competition-voting-platform.md:20:- Modern, responsive design optimized for all devices
+./.claude/prds/ai-competition-voting-platform.md:36:**2. AI Researcher/Participant**
+./.claude/prds/ai-competition-voting-platform.md:58:1. Browse AI projects with filtering and search
+./.claude/prds/ai-competition-voting-platform.md:102:- Vote validation and verification
+./.claude/prds/ai-competition-voting-platform.md:122:- Efficient search and filtering (< 100ms response)
+./.claude/prds/ai-competition-voting-platform.md:126:- Input validation and sanitization
+./.claude/prds/ai-competition-voting-platform.md:128:- Secure file upload validation
+./.claude/prds/ai-competition-voting-platform.md:136:- Caching strategies for improved performance
+./.claude/prds/ai-competition-voting-platform.md:143:- Graceful error handling and user feedback
+./.claude/prds/ai-competition-voting-platform.md:218:- QA team for testing and validation
+./.claude/scripts/pm/validate.sh:11:errors=0
+./.claude/scripts/pm/validate.sh:16:[ -d ".claude" ] && echo "  ✅ .claude directory exists" || { echo "  ❌ .claude directory missing"; ((errors++)); }
+./.claude/scripts/pm/validate.sh:57:[ $warnings -eq 0 ] && [ $errors -eq 0 ] && echo "  ✅ All references valid"
+./.claude/scripts/pm/validate.sh:76:echo "  Errors: $errors"
+./.claude/scripts/pm/validate.sh:80:if [ $errors -eq 0 ] && [ $warnings -eq 0 ] && [ $invalid -eq 0 ]; then
+./.claude/scripts/pm/search.sh:6:  echo "❌ Please provide a search query"
+./.claude/scripts/pm/search.sh:7:  echo "Usage: /pm:search <query>"
+./.claude/scripts/pm/help.sh:59:echo "  /pm:search <query>     - Search across all content"
+./.claude/scripts/pm/standup.sh:21:  # Count by type
+./.claude/rules/standard-patterns.md:129:Failed: auth.test.js (syntax error - line 42)
+./.claude/rules/standard-patterns.md:163:- Failure: Clear error + exact fix
+./.claude/rules/standard-patterns.md:168:**Simple is not simplistic** - We still handle errors properly, we just don't try to prevent every possible edge case. We trust that:
+./.claude/rules/github-operations.md:76:1. Show clear error: "❌ GitHub operation failed: {command}"
+./.claude/rules/use-ast-grep.md:5:Use `ast-grep` (if installed) instead of plain regex or text search when:
+./.claude/rules/use-ast-grep.md:10:- **Cross-language searches** are necessary (e.g., working with both Ruby and TypeScript in a monorepo)
+./.claude/rules/use-ast-grep.md:25:  `ast-grep --pattern 'class $NAME { $$$ }' --lang typescript .`
+./.claude/rules/use-ast-grep.md:31:  `ast-grep --pattern '$OBJ.$METHOD($$$)' --lang typescript .`
+./.claude/rules/use-ast-grep.md:33:  `ast-grep --pattern 'const [$STATE, $SETTER] = useState($$$)' --lang typescript .`
+./.claude/rules/use-ast-grep.md:46:- javascript, typescript, ruby, python, go, rust, java, c, cpp, html, css, yaml, json, and more
+./.claude/rules/use-ast-grep.md:52:   If not, skip and fall back to regex/semantic search.
+./.claude/rules/use-ast-grep.md:54:   command -v ast-grep >/dev/null 2>&1 || echo "ast-grep not installed, skipping AST search"
+./.claude/rules/use-ast-grep.md:57:3. **Determine** the appropriate language(s) to search.
+./.claude/rules/use-ast-grep.md:71:3. **Use** codebase semantic search for additional context if needed.
+./.claude/rules/use-ast-grep.md:76:- **codebase_search** for semantic context and documentation
+./.claude/rules/use-ast-grep.md:100:| Find text patterns       | grep_search          | Simple text matching          |
+./.claude/rules/use-ast-grep.md:101:| Find code structures     | ast-grep             | Syntax-aware search           |
+./.claude/rules/use-ast-grep.md:102:| Understand semantics     | codebase_search      | AI-powered context            |
+./.claude/rules/agent-coordination.md:159:- Need to update src/types/index.ts
+./.claude/rules/agent-coordination.md:179:git add src/types/index.ts
+./.claude/rules/agent-coordination.md:180:git commit -m "Issue #1234: Update type definitions"
+./.claude/rules/agent-coordination.md:186:git commit -m "Issue #1235: Use new types"
+./.claude/rules/test-execution.md:9:3. **Verbose output** - capture everything for debugging
+./.claude/rules/test-execution.md:10:4. **Check test structure first** - before assuming code bugs
+./.claude/commands/code-rabbit.md:47:  subagent_type: "general-purpose"
+./.claude/commands/code-rabbit.md:58:       - Accept if it improves quality/correctness
+./.claude/commands/code-rabbit.md:90:- **Performance optimizations** for code that isn't performance-critical
+./.claude/commands/code-rabbit.md:97:- **Actual bugs** (null checks, error handling)
+./.claude/commands/code-rabbit.md:100:- **Type safety issues** (TypeScript/type hints)
+./.claude/commands/code-rabbit.md:101:- **Logic errors** (off-by-one, incorrect conditions)
+./.claude/commands/code-rabbit.md:102:- **Missing error handling** 
+./.claude/commands/pm/issue-sync.md:21:Before proceeding, complete these validation steps.
+./.claude/commands/pm/issue-sync.md:258:   - Message: "❌ Failed to post comment: network error"
+./.claude/commands/pm/epic-oneshot.md:87:Both commands handle their own error checking, parallel execution, and validation. This command just orchestrates them in sequence.
+./.claude/commands/pm/search.md:5:Run `bash .claude/scripts/pm/search.sh $ARGUMENTS` using a sub-agent and show me the complete output.
+./.claude/commands/pm/issue-show.md:21:- If not found, search for file with `github:.*issues/$ARGUMENTS` in frontmatter (old naming)
+./.claude/commands/pm/issue-show.md:89:- Provide helpful error messages and alternatives
+./.claude/commands/pm/prd-parse.md:21:Before proceeding, complete these validation steps.
+./.claude/commands/pm/prd-parse.md:55:- Analyze all requirements and constraints
+./.claude/commands/pm/epic-sync.md:102:# Determine epic type (feature vs bug) from content
+./.claude/commands/pm/epic-sync.md:103:if grep -qi "bug\|fix\|issue\|problem\|error" /tmp/epic-body.md; then
+./.claude/commands/pm/epic-sync.md:104:  epic_type="bug"
+./.claude/commands/pm/epic-sync.md:106:  epic_type="feature"
+./.claude/commands/pm/epic-sync.md:113:  --label "epic,epic:$ARGUMENTS,$epic_type" \
+./.claude/commands/pm/epic-sync.md:198:  subagent_type: "general-purpose"
+./.claude/commands/pm/epic-sync.md:443:Follow `/rules/github-operations.md` for GitHub CLI errors.
+./.claude/commands/pm/prd-new.md:21:Before proceeding, complete these validation steps.
+./.claude/commands/pm/prd-new.md:52:- Gather constraints and requirements
+./.claude/commands/pm/prd-new.md:85:- Timeline constraints
+./.claude/commands/pm/epic-start-worktree.md:91:  subagent_type: "{agent_type}"
+./.claude/commands/pm/epic-start-worktree.md:209:  {git error message}
+./.claude/commands/pm/issue-analyze.md:18:   - If not found, search for file containing `github:.*issues/$ARGUMENTS` in frontmatter (old naming)
+./.claude/commands/pm/issue-analyze.md:48:- **API Layer**: Endpoints, validation, middleware
+./.claude/commands/pm/issue-analyze.md:96:**Agent Type**: {agent_type}
+./.claude/commands/pm/issue-analyze.md:105:**Agent Type**: {agent_type}
+./.claude/commands/pm/issue-analyze.md:114:- `src/types/index.ts` - Streams A & B (coordinate type updates)
+./.claude/commands/pm/issue-analyze.md:120:2. API types before UI components
+./.claude/commands/pm/issue-analyze.md:125:- **Medium Risk**: Some shared type files, manageable with coordination
+./.claude/commands/pm/issue-analyze.md:156:- Agent types match the work type
+./.claude/commands/pm/issue-start.md:24:   - If not found, search for file containing `github:.*issues/$ARGUMENTS` in frontmatter (old naming)
+./.claude/commands/pm/issue-start.md:79:agent: {agent_type}
+./.claude/commands/pm/issue-start.md:100:  subagent_type: "{agent_type}"
+./.claude/commands/pm/epic-decompose.md:21:Before proceeding, complete these validation steps.
+./.claude/commands/pm/epic-decompose.md:65:  subagent_type: "general-purpose"
+./.claude/commands/pm/epic-start.md:106:  subagent_type: "{agent_type}"
+./.claude/commands/pm/epic-start.md:235:  {git error message}
+./.claude/commands/pm/issue-close.md:19:If not found, search for task file with `github:.*issues/$ARGUMENTS` in frontmatter (old naming).
+./.claude/commands/context/create.md:16:Before proceeding, complete these validation steps.
+./.claude/commands/context/create.md:61:- Run: `find . -type f -name '*.js' -o -name '*.py' -o -name '*.rs' -o -name '*.go' 2>/dev/null | head -20`
+./.claude/commands/context/create.md:110:- **File creation failed:** "❌ Failed to create {filename}. Error: {error}"
+./.claude/commands/context/create.md:127:  - Project Type: {detected_type}
+./.claude/commands/context/create.md:150:- Documentation scan: `find . -type f -name '*.md' -path '*/docs/*' 2>/dev/null | head -10`
+./.claude/commands/context/create.md:151:- Test detection: `find . -type d \( -name 'test' -o -name 'tests' -o -name '__tests__' -o -name 'spec' \) 2>/dev/null | head -5`
+./.claude/commands/context/create.md:159:- **Handle errors gracefully** with specific guidance
+./.claude/commands/context/update.md:16:Before proceeding, complete these validation steps.
+./.claude/commands/context/update.md:37:- Check context file ages: `find .claude/context -name "*.md" -type f -exec ls -lt {} + | head -5`
+./.claude/commands/context/update.md:163:  - Errors: {error_count}
+./.claude/commands/context/update.md:176:  {any warnings or errors}
+./.claude/commands/context/update.md:218:- **Handle errors gracefully** - don't corrupt existing context
+./.claude/commands/context/prime.md:11:Before proceeding, complete these validation steps.
+./.claude/commands/context/prime.md:101:  - Type: {project_type}
+./.claude/commands/prompt.md:9:If that happens, write your prompt here and type in `/prompt` in the prompt command.
+./.claude/commands/testing/prime.md:11:Before proceeding, complete these validation steps.
+./.claude/commands/testing/prime.md:19:- Check for test directories: `find . -type d \( -name "test" -o -name "tests" -o -name "__tests__" -o -name "spec" \) -maxdepth 3 2>/dev/null`
+./.claude/commands/testing/prime.md:167:- Run with Debugging: `{debug_command}`
+./.claude/commands/testing/prime.md:175:- Use verbose output for debugging
+./.claude/commands/testing/prime.md:197:2. Run with maximum verbosity for debugging
+./.claude/commands/testing/prime.md:292:- **Configure for debugging** - verbose output is critical
+./.claude/commands/testing/run.md:50:- Run with verbose output for debugging
+./.claude/commands/testing/run.md:74:  Error: {error_message}
+./.claude/commands/testing/run.md:99:- Test command fails → "❌ Test execution failed: {error}. Check test framework is installed."
+./.claude/epics/ai-competition-voting-platform/001.md:24:- **Git hooks**: Husky for pre-commit validation
+./.claude/epics/ai-competition-voting-platform/001.md:35:│   ├── types/             # TypeScript type definitions
+./.claude/epics/ai-competition-voting-platform/001.md:55:- [ ] TypeScript compilation works without errors
+./.claude/epics/ai-competition-voting-platform/001.md:58:- [ ] Git hooks prevent commits with linting errors
+./.claude/epics/ai-competition-voting-platform/001.md:93:- typescript@^5.0.0
+./.claude/epics/ai-competition-voting-platform/001.md:94:- @types/react
+./.claude/epics/ai-competition-voting-platform/001.md:95:- @types/node
+./.claude/epics/ai-competition-voting-platform/005.md:20:- [ ] Submission management (upload, validation, storage)
+./.claude/epics/ai-competition-voting-platform/005.md:21:- [ ] Competition search and filtering capabilities
+./.claude/epics/ai-competition-voting-platform/005.md:24:- [ ] Submission deadline validation
+./.claude/epics/ai-competition-voting-platform/005.md:80:- **SubmissionService**: Handle AI solution submissions and validation
+./.claude/epics/ai-competition-voting-platform/005.md:81:- **CompetitionValidator**: Validate competition rules and constraints
+./.claude/epics/ai-competition-voting-platform/005.md:88:3. **Validation Layer**: Comprehensive input validation and business rules
+./.claude/epics/ai-competition-voting-platform/005.md:89:4. **File Handling**: Secure file upload with virus scanning and validation
+./.claude/epics/ai-competition-voting-platform/005.md:91:6. **Search**: Full-text search for competition discovery
+./.claude/epics/ai-competition-voting-platform/005.md:96:- File upload validation tests
+./.claude/epics/ai-competition-voting-platform/005.md:102:**8-10 story points** - Complex implementation requiring multiple services, file handling, and comprehensive validation.
+./.claude/epics/ai-competition-voting-platform/005.md:105:- **High**: File upload security and validation complexity
+./.claude/epics/ai-competition-voting-platform/005.md:112:- [ ] Submission system functional with validation
+./.claude/epics/ai-competition-voting-platform/004.md:19:- **Buckets**: Organized storage buckets for different file types
+./.claude/epics/ai-competition-voting-platform/004.md:23:- **MIME Type Validation**: Built-in file type restrictions
+./.claude/epics/ai-competition-voting-platform/004.md:42:- **Upload Validation**: File type, size, and security scanning
+./.claude/epics/ai-competition-voting-platform/004.md:49:- **File Type Validation**: MIME type and extension checking
+./.claude/epics/ai-competition-voting-platform/004.md:73:    mime_type VARCHAR(100) NOT NULL,
+./.claude/epics/ai-competition-voting-platform/004.md:85:- [ ] File type validation (images, documents, code, video)
+./.claude/epics/ai-competition-voting-platform/004.md:100:- Leverage built-in retry logic and error handling
+./.claude/epics/ai-competition-voting-platform/004.md:129:4. S3 triggers Lambda for processing/validation
+./.claude/epics/ai-competition-voting-platform/004.md:136:- File type whitelist validation
+./.claude/epics/ai-competition-voting-platform/004.md:137:- Content-Type header validation
+./.claude/epics/ai-competition-voting-platform/004.md:164:- Unit tests for upload validation
+./.claude/epics/ai-competition-voting-platform/004.md:167:- Security tests for file types
+./.claude/epics/ai-competition-voting-platform/004.md:176:- File size and type analytics
+./.claude/epics/ai-competition-voting-platform/004.md:207:- Advanced search capabilities
+./.claude/epics/ai-competition-voting-platform/010.md:3:title: Add search, analytics, and deployment configuration
+./.claude/epics/ai-competition-voting-platform/010.md:4:description: Implement advanced search functionality, comprehensive analytics system, and production deployment configuration for the AI Competition Voting Platform
+./.claude/epics/ai-competition-voting-platform/010.md:15:Complete the AI Competition Voting Platform by implementing advanced search capabilities, comprehensive analytics and reporting system, and production-ready deployment configuration with monitoring, scaling, and security features.
+./.claude/epics/ai-competition-voting-platform/010.md:18:- [ ] Advanced search with filters, sorting, and relevance scoring
+./.claude/epics/ai-competition-voting-platform/010.md:19:- [ ] Real-time search suggestions and autocomplete
+./.claude/epics/ai-competition-voting-platform/010.md:22:- [ ] Competition performance analytics and reporting
+./.claude/epics/ai-competition-voting-platform/010.md:39:  search(query: SearchQuery): Promise<SearchResults>;
+./.claude/epics/ai-competition-voting-platform/010.md:68:// Elasticsearch integration
+./.claude/epics/ai-competition-voting-platform/010.md:69:const searchMapping = {
+./.claude/epics/ai-competition-voting-platform/010.md:73:        type: 'text', 
+./.claude/epics/ai-competition-voting-platform/010.md:77:          keyword: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:78:          suggest: { type: 'completion' }
+./.claude/epics/ai-competition-voting-platform/010.md:82:        type: 'text', 
+./.claude/epics/ai-competition-voting-platform/010.md:87:        type: 'keyword', 
+./.claude/epics/ai-competition-voting-platform/010.md:90:      category: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:91:      status: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:92:      startDate: { type: 'date' },
+./.claude/epics/ai-competition-voting-platform/010.md:93:      endDate: { type: 'date' },
+./.claude/epics/ai-competition-voting-platform/010.md:94:      prizePool: { type: 'float' },
+./.claude/epics/ai-competition-voting-platform/010.md:95:      participantCount: { type: 'integer' },
+./.claude/epics/ai-competition-voting-platform/010.md:96:      difficulty: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:97:      mediaTypes: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:98:      location: { type: 'geo_point' }
+./.claude/epics/ai-competition-voting-platform/010.md:104:        type: 'text', 
+./.claude/epics/ai-competition-voting-platform/010.md:109:        type: 'text', 
+./.claude/epics/ai-competition-voting-platform/010.md:115:          name: { type: 'text' },
+./.claude/epics/ai-competition-voting-platform/010.md:116:          username: { type: 'keyword' }
+./.claude/epics/ai-competition-voting-platform/010.md:119:      tags: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:120:      competitionId: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:121:      submissionDate: { type: 'date' },
+./.claude/epics/ai-competition-voting-platform/010.md:122:      voteCount: { type: 'integer' },
+./.claude/epics/ai-competition-voting-platform/010.md:123:      score: { type: 'float' },
+./.claude/epics/ai-competition-voting-platform/010.md:124:      mediaType: { type: 'keyword' },
+./.claude/epics/ai-competition-voting-platform/010.md:125:      fileSize: { type: 'long' }
+./.claude/epics/ai-competition-voting-platform/010.md:157:  const searchInputRef = useRef<HTMLInputElement>(null);
+./.claude/epics/ai-competition-voting-platform/010.md:161:  const { data: searchSuggestions } = useQuery({
+./.claude/epics/ai-competition-voting-platform/010.md:162:    queryKey: ['search-suggestions', debouncedQuery],
+./.claude/epics/ai-competition-voting-platform/010.md:168:  const handleSearch = (searchQuery: string = query) => {
+./.claude/epics/ai-competition-voting-platform/010.md:169:    if (searchQuery.trim()) {
+./.claude/epics/ai-competition-voting-platform/010.md:170:      const searchRequest: SearchQuery = {
+./.claude/epics/ai-competition-voting-platform/010.md:171:        text: searchQuery.trim(),
+./.claude/epics/ai-competition-voting-platform/010.md:178:      onSearch(searchRequest);
+./.claude/epics/ai-competition-voting-platform/010.md:181:      // Track search event
+./.claude/epics/ai-competition-voting-platform/010.md:182:      analytics.track('search_performed', {
+./.claude/epics/ai-competition-voting-platform/010.md:183:        query: searchQuery,
+./.claude/epics/ai-competition-voting-platform/010.md:216:    <div className={cn('advanced-search', className)}>
+./.claude/epics/ai-competition-voting-platform/010.md:217:      <div className="advanced-search__input-container">
+./.claude/epics/ai-competition-voting-platform/010.md:218:        <div className="advanced-search__input-wrapper">
+./.claude/epics/ai-competition-voting-platform/010.md:219:          <Icon name="search" className="advanced-search__icon" />
+./.claude/epics/ai-competition-voting-platform/010.md:221:            ref={searchInputRef}
+./.claude/epics/ai-competition-voting-platform/010.md:222:            type="text"
+./.claude/epics/ai-competition-voting-platform/010.md:231:            className="advanced-search__input"
+./.claude/epics/ai-competition-voting-platform/010.md:235:            <LoadingSpinner size="sm" className="advanced-search__loading" />
+./.claude/epics/ai-competition-voting-platform/010.md:244:      {showSuggestions && (searchSuggestions?.length > 0 || recentSearches.length > 0) && (
+./.claude/epics/ai-competition-voting-platform/010.md:245:        <div ref={suggestionsRef} className="advanced-search__suggestions">
+./.claude/epics/ai-competition-voting-platform/010.md:246:          {searchSuggestions?.length > 0 ? (
+./.claude/epics/ai-competition-voting-platform/010.md:248:              <div className="advanced-search__suggestions-header">Suggestions</div>
+./.claude/epics/ai-competition-voting-platform/010.md:249:              {searchSuggestions.map((suggestion, index) => (
+./.claude/epics/ai-competition-voting-platform/010.md:252:                  className="advanced-search__suggestion"
+./.claude/epics/ai-competition-voting-platform/010.md:255:                  <Icon name="search" size="sm" />
+./.claude/epics/ai-competition-voting-platform/010.md:265:              <div className="advanced-search__suggestions-header">Recent Searches</div>
+./.claude/epics/ai-competition-voting-platform/010.md:266:              {recentSearches.map((search, index) => (
+./.claude/epics/ai-competition-voting-platform/010.md:269:                  className="advanced-search__suggestion"
+./.claude/epics/ai-competition-voting-platform/010.md:271:                    setQuery(search);
+./.claude/epics/ai-competition-voting-platform/010.md:272:                    handleSearch(search);
+./.claude/epics/ai-competition-voting-platform/010.md:276:                  <span>{search}</span>
+./.claude/epics/ai-competition-voting-platform/010.md:284:      <div className="advanced-search__filters">
+./.claude/epics/ai-competition-voting-platform/010.md:455:            xAxis={{ dataKey: 'date', type: 'category' }}
+./.claude/epics/ai-competition-voting-platform/010.md:456:            yAxis={{ type: 'number' }}
+./.claude/epics/ai-competition-voting-platform/010.md:466:            xAxis={{ dataKey: 'name', type: 'category' }}
+./.claude/epics/ai-competition-voting-platform/010.md:467:            yAxis={{ type: 'number' }}
+./.claude/epics/ai-competition-voting-platform/010.md:516:      - elasticsearch
+./.claude/epics/ai-competition-voting-platform/010.md:555:  elasticsearch:
+./.claude/epics/ai-competition-voting-platform/010.md:556:    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+./.claude/epics/ai-competition-voting-platform/010.md:558:      - discovery.type=single-node
+./.claude/epics/ai-competition-voting-platform/010.md:562:      - elasticsearch_data:/usr/share/elasticsearch/data
+./.claude/epics/ai-competition-voting-platform/010.md:591:  elasticsearch_data:
+./.claude/epics/ai-competition-voting-platform/010.md:705:            type=ref,event=branch
+./.claude/epics/ai-competition-voting-platform/010.md:706:            type=ref,event=pr
+./.claude/epics/ai-competition-voting-platform/010.md:707:            type=sha,prefix={{branch}}-
+./.claude/epics/ai-competition-voting-platform/010.md:708:            type=raw,value=latest,enable={{is_default_branch}}
+./.claude/epics/ai-competition-voting-platform/010.md:717:          cache-from: type=gha
+./.claude/epics/ai-competition-voting-platform/010.md:718:          cache-to: type=gha,mode=max
+./.claude/epics/ai-competition-voting-platform/010.md:770:      'application-performance',
+./.claude/epics/ai-competition-voting-platform/010.md:794:        condition: 'error_rate > 5%',
+./.claude/epics/ai-competition-voting-platform/010.md:811:      'error_count',
+./.claude/epics/ai-competition-voting-platform/010.md:816:      'search_queries'
+./.claude/epics/ai-competition-voting-platform/010.md:833:        name: 'elasticsearch',
+./.claude/epics/ai-competition-voting-platform/010.md:834:        endpoint: '/api/health/elasticsearch',
+./.claude/epics/ai-competition-voting-platform/010.md:844:1. **Search System**: Elasticsearch integration with advanced filtering and suggestions
+./.claude/epics/ai-competition-voting-platform/010.md:852:- **SearchService**: Advanced search with Elasticsearch integration
+./.claude/epics/ai-competition-voting-platform/010.md:857:- **PerformanceProfiler**: Application performance analysis and optimization
+./.claude/epics/ai-competition-voting-platform/010.md:869:**4 story points** - Complex infrastructure requiring search implementation, analytics platform, monitoring setup, and production deployment configuration.
+./.claude/epics/ai-competition-voting-platform/010.md:873:- **Medium**: Search system performance with large datasets
+./.claude/epics/ai-competition-voting-platform/010.md:878:- [ ] Advanced search fully functional with all filters
+./.claude/epics/ai-competition-voting-platform/009.md:28:- [ ] Lazy loading and performance optimization
+./.claude/epics/ai-competition-voting-platform/009.md:41:  onError?: (error: Error) => void;
+./.claude/epics/ai-competition-voting-platform/009.md:51:// Media asset types
+./.claude/epics/ai-competition-voting-platform/009.md:65:  type: MediaType;
+./.claude/epics/ai-competition-voting-platform/009.md:292:  onError?: (error: Error) => void;
+./.claude/epics/ai-competition-voting-platform/009.md:313:    const { type, payload } = event.data;
+./.claude/epics/ai-competition-voting-platform/009.md:315:    switch (type) {
+./.claude/epics/ai-competition-voting-platform/009.md:329:      case 'demo:error':
+./.claude/epics/ai-competition-voting-platform/009.md:338:        { type: `demo:${command}`, data },
+./.claude/epics/ai-competition-voting-platform/009.md:402:  onError?: (error: Error) => void;
+./.claude/epics/ai-competition-voting-platform/009.md:445:      } catch (error) {
+./.claude/epics/ai-competition-voting-platform/009.md:446:        onError?.(error as Error);
+./.claude/epics/ai-competition-voting-platform/009.md:541:        [interaction.type]: interaction.data
+./.claude/epics/ai-competition-voting-platform/009.md:637:                type="checkbox"
+./.claude/epics/ai-competition-voting-platform/009.md:700:    interaction_type: interaction.type,
+./.claude/epics/ai-competition-voting-platform/009.md:708:// Media performance monitoring
+./.claude/epics/ai-competition-voting-platform/009.md:710:  performance.measure('media_load_time', {
+./.claude/epics/ai-competition-voting-platform/009.md:715:    error_rate: metrics.errorRate
+./.claude/epics/ai-competition-voting-platform/009.md:729:- **MediaViewer**: Universal media component that renders appropriate viewer based on type
+./.claude/epics/ai-competition-voting-platform/009.md:737:- **MediaAnalytics**: Track engagement and performance metrics
+./.claude/epics/ai-competition-voting-platform/009.md:750:**6 story points** - Complex multimedia system requiring multiple viewer types, advanced interactions, performance optimization, and seamless integration.
+./.claude/epics/ai-competition-voting-platform/009.md:755:- **Medium**: Mobile performance and touch interactions
+./.claude/epics/ai-competition-voting-platform/009.md:759:- [ ] All media types supported with appropriate viewers
+./.claude/epics/ai-competition-voting-platform/epic.md:14:Implementation of a modern AI competition voting platform featuring multimedia showcase capabilities, real-time voting with anti-fraud mechanisms, and stunning interactive UI. The platform will serve three primary user types: competition organizers, AI researchers/participants, and voters/community members. Built with a modern tech stack emphasizing performance, security, and scalability.
+./.claude/epics/ai-competition-voting-platform/epic.md:19:- **React + TypeScript** for type safety and component reusability
+./.claude/epics/ai-competition-voting-platform/epic.md:45:- **Supabase Storage** for secure file uploads with automatic validation
+./.claude/epics/ai-competition-voting-platform/epic.md:61:- `SearchFilter` - Advanced search with debounced API calls
+./.claude/epics/ai-competition-voting-platform/epic.md:96:- `VoteService` - Vote validation, fraud detection, real-time counting
+./.claude/epics/ai-competition-voting-platform/epic.md:121:- Input validation and sanitization
+./.claude/epics/ai-competition-voting-platform/epic.md:155:- Create search and filtering functionality
+./.claude/epics/ai-competition-voting-platform/epic.md:169:- [ ] **Real-time Voting System**: Vote validation, fraud detection, live updates
+./.claude/epics/ai-competition-voting-platform/epic.md:171:- [ ] **Search & Discovery**: Filtering, search, recommendations
+./.claude/epics/ai-competition-voting-platform/epic.md:189:- QA team for testing and validation
+./.claude/epics/ai-competition-voting-platform/epic.md:261:- [ ] **010.md** - Add search, analytics, and deployment configuration (parallel: false)
+./.claude/epics/ai-competition-voting-platform/008.md:23:- [ ] Form components with validation and error states
+./.claude/epics/ai-competition-voting-platform/008.md:49:    error: '#EF4444'
+./.claude/epics/ai-competition-voting-platform/008.md:61:    error: '#F87171'
+./.claude/epics/ai-competition-voting-platform/008.md:378:- Visual regression testing with Storybook
+./.claude/epics/ai-competition-voting-platform/008.md:380:- Animation performance testing
+./.claude/epics/ai-competition-voting-platform/008.md:390:- **Medium**: Animation performance on lower-end devices
+./.claude/epics/ai-competition-voting-platform/008.md:403:- [ ] Visual regression tests passing
+./.claude/epics/ai-competition-voting-platform/007.md:116:- **MetricsCollector**: Monitor connection health and performance
+./.claude/epics/ai-competition-voting-platform/007.md:129:- Message validation and sanitization
+./.claude/epics/ai-competition-voting-platform/007.md:130:- Connection origin validation
+./.claude/epics/ai-competition-voting-platform/007.md:147:- Mobile WebSocket performance tests
+./.claude/epics/ai-competition-voting-platform/007.md:152:**6-8 story points** - Complex real-time system requiring scalable architecture, security, and performance optimization.
+./.claude/epics/ai-competition-voting-platform/003.md:14:Design and implement a comprehensive database schema for the AI Competition Voting Platform using Supabase, including tables for users, competitions, submissions, votes, and related entities with proper relationships, constraints, and Supabase-specific features like Row Level Security (RLS) and real-time subscriptions.
+./.claude/epics/ai-competition-voting-platform/003.md:21:- **Supabase CLI** for migrations and type generation
+./.claude/epics/ai-competition-voting-platform/003.md:121:- Check constraints for date validation (start < end)
+./.claude/epics/ai-competition-voting-platform/003.md:130:- [ ] Foreign key constraints implemented
+./.claude/epics/ai-competition-voting-platform/003.md:131:- [ ] Unique constraints for business rules
+./.claude/epics/ai-competition-voting-platform/003.md:132:- [ ] Check constraints for data validation
+./.claude/epics/ai-competition-voting-platform/003.md:133:- [ ] Indexes for query performance
+./.claude/epics/ai-competition-voting-platform/003.md:139:- [ ] Query performance benchmarks
+./.claude/epics/ai-competition-voting-platform/003.md:254:- Constraint validation tests
+./.claude/epics/ai-competition-voting-platform/003.md:277:```typescript
+./.claude/epics/ai-competition-voting-platform/002.md:21:- **Logout**: Token invalidation
+./.claude/epics/ai-competition-voting-platform/002.md:36:- Input validation and sanitization
+./.claude/epics/ai-competition-voting-platform/002.md:68:- [ ] User registration with email validation
+./.claude/epics/ai-competition-voting-platform/002.md:70:- [ ] JWT token generation and validation
+./.claude/epics/ai-competition-voting-platform/002.md:83:- Implement custom middleware for token validation
+./.claude/epics/ai-competition-voting-platform/002.md:86:- Implement proper error handling and logging
+./.claude/epics/ai-competition-voting-platform/002.md:87:- Add comprehensive input validation
+./.claude/epics/ai-competition-voting-platform/002.md:92:- joi (for validation)
+./.claude/epics/ai-competition-voting-platform/002.md:111:- Token validation edge cases
+./.claude/epics/ai-competition-voting-platform/006.md:4:description: Build secure voting system with fraud detection, vote validation, and real-time vote counting
+./.claude/epics/ai-competition-voting-platform/006.md:15:Implement a secure voting system that allows users to vote on AI competition submissions with comprehensive fraud detection, vote validation, and real-time vote counting capabilities.
+./.claude/epics/ai-competition-voting-platform/006.md:19:- [ ] Secure vote submission with validation
+./.claude/epics/ai-competition-voting-platform/006.md:61:  check_type VARCHAR(50),
+./.claude/epics/ai-competition-voting-platform/006.md:80:- **VotingService**: Core voting logic and validation
+./.claude/epics/ai-competition-voting-platform/006.md:82:- **VoteValidator**: Validate vote eligibility and constraints
+./.claude/epics/ai-competition-voting-platform/006.md:96:1. **Security Layer**: Multi-factor validation and encryption
+./.claude/epics/ai-competition-voting-platform/006.md:104:- Unit tests for voting logic and validation
+./.claude/epics/ai-competition-voting-platform/006.md:112:**10-12 story points** - Complex security implementation requiring fraud detection, real-time processing, and comprehensive validation.
+./.claude/epics/ai-competition-voting-platform/006.md:117:- **Medium**: Real-time processing performance under load
+./.claude/CLAUDE.md:10:### 2. Always use the code-analyzer sub-agent when asked to search code, analyze code, research bugs, or trace logic flow.
+./.claude/CLAUDE.md:18:- Full test output is captured for debugging
+./.claude/CLAUDE.md:20:- Context usage is optimized
+./.claude/CLAUDE.md:39:- Tests to be verbose so we can use them for debugging.
+./.claude/CLAUDE.md:61:- NO CHEATER TESTS : test must be accurate, reflect real usage and be designed to reveal flaws. No useless tests! Design tests to be verbose so we can use them for debuging.
+./.claude/CLAUDE.md:64:- NO MIXED CONCERNS - Don't put validation logic inside API handlers, database queries inside UI components, etc. instead of proper separation
+./README.md:96:│   ├── types/                  # TypeScript类型定义
+./.gitignore:22:# debug
+./.gitignore:23:npm-debug.log*
+./.gitignore:24:yarn-debug.log*
+./.gitignore:25:yarn-error.log*
+./.gitignore:34:# typescript
+./package.json:19:    "type-check": "tsc --noEmit",
+./package.json:43:    "@types/node": "^20.9.0",
+./package.json:44:    "@types/react": "^18.2.37",
+./package.json:45:    "@types/react-dom": "^18.2.15",
+./package.json:46:    "@typescript-eslint/eslint-plugin": "^6.11.0",
+./package.json:47:    "@typescript-eslint/parser": "^6.11.0",
+./package.json:61:    "typescript": "^5.2.2"
+./tsconfig.json:2:  "compilerOptions": {
+./tsconfig.json:27:      "@/types/*": ["./src/types/*"],
+./tsconfig.json:31:  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+./DEVELOPMENT.md:81:npm run type-check
+./DEVELOPMENT.md:97:npm run type-check
+./DEVELOPMENT.md:142:├── types/                  # TypeScript类型定义
+./.eslintrc.json:4:    "plugin:@typescript-eslint/recommended",
+./.eslintrc.json:7:  "parser": "@typescript-eslint/parser",
+./.eslintrc.json:8:  "plugins": ["@typescript-eslint"],
+./.eslintrc.json:10:    "@typescript-eslint/no-unused-vars": "error",
+./.eslintrc.json:11:    "@typescript-eslint/no-explicit-any": "warn",
+./.eslintrc.json:12:    "prefer-const": "error",
+./.eslintrc.json:13:    "no-var": "error",
+./.eslintrc.json:14:    "react/prop-types": "off",
+./src/types/supabase.ts:1:export type Json =
+./src/types/supabase.ts:9:export type Database = {
+./src/types/supabase.ts:207:export type Tables<PublicTableNameOrOptions extends
+./src/types/supabase.ts:229:export type TablesInsert<PublicTableNameOrOptions extends
+./src/types/supabase.ts:251:export type TablesUpdate<PublicTableNameOrOptions extends
+./src/types/supabase.ts:273:export type Enums<PublicEnumNameOrOptions extends
+./src/app/layout.tsx:2:import type { Metadata } from 'next'
+./src/app/layout.tsx:22:    type: 'website',
+./src/app/layout.tsx:62:              error: {
+./src/components/ui/badge.tsx:2:import { cva, type VariantProps } from "class-variance-authority"
+./src/components/ui/badge.tsx:28:    VariantProps<typeof badgeVariants> {}
+./src/components/ui/button.tsx:2:import { cva, type VariantProps } from 'class-variance-authority'
+./src/components/ui/button.tsx:36:    VariantProps<typeof buttonVariants> {
+./src/lib/utils.ts:1:import { type ClassValue, clsx } from 'clsx'
+./src/lib/utils.ts:83:  return allowedTypes.some(type => filename.toLowerCase().endsWith(type.toLowerCase()))
+./src/lib/supabase-client.ts:2:import { Database } from '@/types/supabase'
+./src/lib/supabase.ts:2:import { Database } from '@/types/supabase'
+./src/lib/supabase.ts:12:    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+./src/lib/supabase.ts:48:export type SupabaseClient = typeof supabase
+./src/lib/supabase.ts:49:export type User = Database['public']['Tables']['users']['Row']
+./src/lib/supabase.ts:50:export type Competition = Database['public']['Tables']['competitions']['Row']
+./src/lib/supabase.ts:51:export type Submission = Database['public']['Tables']['submissions']['Row']
+./src/lib/supabase.ts:52:export type Vote = Database['public']['Tables']['votes']['Row']

@@ -1,0 +1,17 @@
+{
+  "verdict": "PARK_RISK",
+  "issue": {
+    "url": "https://github.com/anonhostpi/Agent-World/issues/24",
+    "title": "Kaggle \u2014 Custom CLI Tool",
+    "state": "OPEN",
+    "labels": [],
+    "comment_count": 1,
+    "updatedAt": "2026-03-30T05:49:09Z"
+  },
+  "money": true,
+  "competition": true,
+  "judge": true,
+  "local": true,
+  "mgfit": true,
+  "risk": true
+}

@@ -1,0 +1,35 @@
+top files
+.git/config
+.git/description
+.git/FETCH_HEAD
+.git/HEAD
+.git/hooks/applypatch-msg.sample
+.git/hooks/commit-msg.sample
+.git/hooks/fsmonitor-watchman.sample
+.git/hooks/post-update.sample
+.git/hooks/pre-applypatch.sample
+.git/hooks/pre-commit.sample
+.git/hooks/pre-merge-commit.sample
+.git/hooks/pre-push.sample
+.git/hooks/pre-rebase.sample
+.git/hooks/pre-receive.sample
+.git/hooks/prepare-commit-msg.sample
+.git/hooks/push-to-checkout.sample
+.git/hooks/update.sample
+.git/index
+.git/info/exclude
+.git/logs/HEAD
+.git/objects/pack/pack-1aaaf707c8a25028fe6d424bd77a293adf9a3e5e.idx
+.git/objects/pack/pack-1aaaf707c8a25028fe6d424bd77a293adf9a3e5e.pack
+.git/objects/pack/pack-1aaaf707c8a25028fe6d424bd77a293adf9a3e5e.promisor
+.git/objects/pack/pack-2576fb4b54f80417a23a7c332028b1e4f4f8d89d.idx
+.git/objects/pack/pack-2576fb4b54f80417a23a7c332028b1e4f4f8d89d.pack
+.git/objects/pack/pack-2576fb4b54f80417a23a7c332028b1e4f4f8d89d.promisor
+.git/ORIG_HEAD
+.git/packed-refs
+.git/refs/heads/main
+LICENSE
+
+build/test/competition files
+
+workflows

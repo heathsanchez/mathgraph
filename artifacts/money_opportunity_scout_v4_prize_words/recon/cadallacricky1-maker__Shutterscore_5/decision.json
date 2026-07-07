@@ -1,0 +1,17 @@
+{
+  "verdict": "PROMOTE_COMPETITION_MONEY",
+  "issue": {
+    "url": "https://github.com/cadallacricky1-maker/Shutterscore/issues/5",
+    "title": "Judging system",
+    "state": "OPEN",
+    "labels": [],
+    "comment_count": 0,
+    "updatedAt": "2026-01-30T06:16:13Z"
+  },
+  "money": true,
+  "competition": true,
+  "judge": true,
+  "local": true,
+  "mgfit": true,
+  "risk": false
+}

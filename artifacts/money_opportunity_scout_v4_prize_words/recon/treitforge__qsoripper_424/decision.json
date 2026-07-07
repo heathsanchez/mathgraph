@@ -1,0 +1,17 @@
+{
+  "verdict": "PARK_RISK",
+  "issue": {
+    "url": "https://github.com/treitforge/qsoripper/issues/424",
+    "title": "experiment: ingest Kaggle Morse Learning Machine Challenge v2 as external benchmark",
+    "state": "OPEN",
+    "labels": [],
+    "comment_count": 0,
+    "updatedAt": "2026-05-09T03:03:14Z"
+  },
+  "money": true,
+  "competition": true,
+  "judge": true,
+  "local": true,
+  "mgfit": true,
+  "risk": true
+}

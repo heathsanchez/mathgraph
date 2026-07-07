@@ -1,0 +1,12 @@
+{
+  "url": "https://github.com/gittensor-vanguard/vanguarstew/issues/662",
+  "title": "Add judge tally integrity gate for replay win/loss accounting",
+  "state": "OPEN",
+  "labels": [
+    "enhancement",
+    "benchmark",
+    "tests"
+  ],
+  "comment_count": 1,
+  "updatedAt": "2026-07-06T18:27:23Z"
+}

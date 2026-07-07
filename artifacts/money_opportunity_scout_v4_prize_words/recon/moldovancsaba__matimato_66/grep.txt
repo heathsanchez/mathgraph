@@ -1,0 +1,2174 @@
+===== issue body =====
+## Executive Summary
+
+Add a scheduled Arena tournament layer that lets Matimato run weekly competitive events with clear entry, deterministic scoring, leaderboard visibility, and operational controls. This builds on #37 rather than duplicating the ranks read model, turning competition from a passive leaderboard into a time-boxed reason to return.
+
+Canonical issue structure: https://github.com/sovereignsquad/general-design-system/issues/81
+
+## Business / Product Context
+
+Board Game Arena demonstrates strong demand for structured competition: its 2025 recap reported almost 80k tournaments, top tournament games such as Carcassonne, Can't Stop, and Azul, and Arena games with millions of tables created. BGA also markets real-time and turn-based play, ranked games, and broad web/mobile access. Dune: Imperium Digital similarly keeps players returning with achievements, challenges, and rotating Skirmish Mode. Matimato has daily, Blitz, seasonal album, and one open ranks issue, but it lacks scheduled events that package those loops into a visible competition.
+
+References: https://en.boardgamearena.com/news?id=1025 | https://en.boardgamearena.com/ | https://play.google.com/store/apps/details?id=com.direwolfdigital.dune | https://github.com/moldovancsaba/matimato/issues/37
+
+## Current State
+
+- Daily challenge exists with weekly daily leaderboard.
+- Blitz exists with server-owned clocks.
+- Ranks #37 is open for fair weekly/mode leaderboards and player rank lookup.
+- Seasonal album exists but its tasks are individual progression goals, not joined competitions.
+- No tournament collection, event registration, tournament entry screen, or tournament-specific scoring exists.
+
+## Problem Statement
+
+Matimato currently has modes, but no shared competitive calendar. Players can complete daily or Blitz alone, yet they cannot join a visible weekly race, see event-specific standings, or understand when an event starts/ends. That weakens retention and makes ranks less actionable.
+
+## Goals
+
+### Functional Goals
+
+- Define Arena tournament definitions with mode, schedule, eligibility, scoring, and reward policy.
+- Let players join an active tournament from Quests/Ranks using a GDS-only flow.
+- Record eligible match completions into tournament standings idempotently.
+- Show tournament status, player's rank, top rows, reset/end time, and scoring explanation.
+- Support v1 tournament modes: Daily Sprint and Blitz Ladder.
+
+### Technical Goals
+
+- Reuse #37 rank score/tie-break where possible, with tournament-specific window ids.
+- Store tournament participation and result contributions separately from profile XP.
+- Prevent duplicate match contribution and rank inflation.
+- Keep tournaments deterministic and fully server-authoritative.
+
+### UX Goals
+
+- Entry is clear: open, joined, completed, locked, ended, and rewards claimable.
+- Players understand what to play next and why their score changed.
+- Errors are recoverable and do not hide existing daily/Blitz entry points.
+
+## Non-Goals
+
+- No synchronous bracket matchmaking in v1.
+- No cash prizes, paid entry, purchasable score boosts, or randomized rewards.
+- No push notifications or external calendar integration.
+- No replacement for #37; this depends on or reuses its read model.
+
+## Mandatory Technical Constraints
+
+All UI/UX/frontend work must exclusively use https://github.com/sovereignsquad/general-design-system. Accessibility is mandatory. Tournament tables, filters, join controls, and status messaging must use GDS primitives and token-driven styling only.
+
+## Architecture
+
+Ownership boundaries:
+
+- `lib/shared/types.ts` owns `TournamentDefinition`, `TournamentEntry`, `TournamentStanding`, and API DTOs.
+- `lib/game/tournaments.ts` owns schedule, scoring, eligibility, and deterministic active tournament selection.
+- `lib/server/store.ts` owns MongoDB persistence and idempotent contribution writes.
+- `app/api/tournaments/route.ts` owns list/join/standings APIs.
+- Match completion path calls `recordTournamentContribution` after authoritative completion.
+- Ranks/Quests screens render GDS tournament cards and standings.
+
+Runtime flow:
+
+```text
+GET /api/tournaments?playerId
+  -> returns active + upcoming tournament summaries
+player joins active event
+  -> POST join writes TournamentEntry if eligible
+player completes daily/blitz match
+  -> completeGame calls tournament evaluator
+  -> evaluator records contribution if mode/window/player eligible
+  -> standings read model updates or derives ranks
+UI fetches standings
+  -> shows player rank, top rows, scoring, and reset/end state
+```
+
+## Data Model / Contracts
+
+```ts
+type TournamentMode = 'daily-sprint' | 'blitz-ladder';
+type TournamentStatus = 'upcoming' | 'active' | 'ended' | 'claimable';
+
+type TournamentDefinition = {
+  tournamentId: string;
+  title: string;
+  mode: TournamentMode;
+  startsAt: string;
+  endsAt: string;
+  scoringVersion: number;
+  eligibility: { minBoardSize?: 5 | 6 | 7 | 8 | 9; requiresJoin: boolean };
+};
+
+type TournamentEntry = {
+  id: string; // tournamentId:playerId
+  tournamentId: string;
+  playerId: string;
+  tag: string;
+  joinedAt: string;
+};
+
+type TournamentContribution = {
+  id: string; // tournamentId:matchId:playerId
+  tournamentId: string;
+  matchId: string;
+  playerId: string;
+  mode: GameMode;
+  score: number;
+  outcome: 'victory' | 'draw' | 'defeat';
+  completedAt: string;
+};
+
+type TournamentStanding = {
+  rank: number;
+  tag: string;
+  score: number;
+  wins: number;
+  matches: number;
+  bestScore: number;
+  playerRank?: boolean;
+};
+```
+
+## API Contracts
+
+`GET /api/tournaments?playerId=...` returns `{ active: TournamentSummary[], upcoming: TournamentSummary[], serverNow }`.
+
+`POST /api/tournaments` with `{ type: 'join', tournamentId, playerId, tag, actionId }` returns updated summary.
+
+`GET /api/tournaments/[id]/standings?playerId=...` returns `{ tournament, rows, playerRank, scoringVersion, serverNow }`.
+
+Invalid tournament, inactive tournament, missing eligibility, duplicate join, and unsupported mode return stable error codes.
+
+## Algorithm / Processing Logic
+
+```ts
+function recordTournamentContribution(snapshot, player) {
+  const tournaments = activeTournamentsForMode(snapshot.mode, snapshot.completedAt);
+  for (const tournament of tournaments) {
+    if (tournament.eligibility.requiresJoin && !hasEntry(tournament.id, player.id)) continue;
+    const contributionId = `${tournament.id}:${snapshot.id}:${player.id}`;
+    insertContributionIfAbsent(contributionId, buildContribution(snapshot, player));
+    upsertStanding(tournament.id, player.id, scoreContribution(snapshot, player, tournament.scoringVersion));
+  }
+}
+```
+
+## Mathematical / Ranking Logic
+
+Use #37 rank scoring as the base. Tournament v1 score:
+
+```text
+contributionScore = winPoints + max(0, score) * 2 + completionBonus + speedBonus
+winPoints = victory ? 100 : draw ? 35 : 0
+completionBonus = 10
+speedBonus = daily-sprint ? max(0, 30 - attemptsOrMinutesBucket) : 0
+```
+
+Tie-break: score desc, wins desc, bestScore desc, earliestContributionAt asc, hashedPlayerId asc. Exact constants must be documented with `scoringVersion = 1` and covered by tests.
+
+## UX / Operator Behaviour
+
+States: loading tournament list, no active tournaments, upcoming tournament, join available, joined, contribution pending, ranked, player outside top rows, ended, claimable reward, server unavailable, offline write blocked, and scoring info. Tournament UI must never hide normal Daily/Blitz actions if tournament APIs fail.
+
+## Accessibility Requirements
+
+Tournament cards and standings must be keyboard accessible and screen-reader compatible. Active state, end time, rank, score, and eligibility reason must be text-visible. Tables/lists use semantic GDS patterns. Focus returns after join confirmation. Time remaining is not color-only. Reduced motion is respected for rank changes.
+
+## Edge Cases
+
+Week boundary during match completion, tournament ends during request, duplicate completion retry, player joins after completing eligible match, player changes tag, inactive tournament standings, empty standings, MongoDB write succeeds but standings read fails, and rollback while tournament data exists.
+
+## Performance Expectations
+
+Standing reads return top 50 plus player row with indexed `tournamentId`, `score`, and `playerId`. Contribution writes are O(1) with unique ids. No leaderboard request may perform unbounded profile/history scans.
+
+## Security / Privacy Requirements
+
+Expose display tags and aggregate scores only. Do not expose raw player ids in UI or telemetry. Server validates tournament id, time window, mode, and eligibility. No client-supplied score or completion time is trusted.
+
+## Observability
+
+Emit `tournament_list_viewed`, `tournament_joined`, `tournament_join_failed`, `tournament_contribution_recorded`, `tournament_standings_viewed`, `tournament_empty`, and `tournament_error` with tournamentId, mode, status, rank bucket, durationMs, and stable error code.
+
+## Retries / Timeouts
+
+Join is idempotent by `tournamentId:playerId` and action id. Contribution writes are idempotent by `tournamentId:matchId:playerId`. Client fetches use timeout and retry button. If contribution write fails during match completion, completeGame remains successful and records a recoverable ops error for replay/backfill.
+
+## Rollback / Recovery
+
+Gate UI with `NEXT_PUBLIC_MATIMATO_TOURNAMENTS=false`. Gate server contribution and join writes with `MATIMATO_TOURNAMENTS_ENABLED=false`. Rollback hides tournament surfaces and pauses contribution writes while preserving existing standings. Provide a backfill script or documented function to replay completed match summaries for a tournament window if contribution recording was down.
+
+## Testing Requirements
+
+Unit tests for active tournament selection, scoring, tie-breaks, eligibility, and window boundaries. API tests for list/join/standings errors and duplicate joins. Integration tests for daily and Blitz completion contribution idempotency. Component/E2E tests for join flow, standings table, player outside top rows, empty state, and 320px mobile layout.
+
+## Documentation Requirements
+
+Update README flags, architecture tournament section, scoringVersion docs, telemetry allowlist, and release QA. Document operator steps to create/disable an event and backfill contributions.
+
+## Dependencies / Execution Order
+
+Depends on #37 for fair rank read model or must implement a compatible tournament-local standing model if #37 is not shipped first. Uses delivered Daily, Blitz, telemetry, and progression foundations. Delivery order: 360.
+
+## Acceptance Criteria
+
+- [ ] Active/upcoming Arena tournaments are available through server contracts.
+- [ ] Players can join a tournament through GDS-only accessible UI.
+- [ ] Daily and Blitz completions contribute idempotently when eligible.
+- [ ] Standings show top rows, player rank, scoring, and event timing.
+- [ ] No duplicate retries inflate score.
+- [ ] Tests, docs, observability, rollback, and backfill behavior are complete.
+
+## Handover
+
+### What Changed
+Tournament definitions, join/standings APIs, match contribution recording, GDS UI, telemetry, tests, and docs.
+
+### How to Run
+`npm run dev`, `npm test`, `npm run build`, `npm run verify`.
+
+### Configuration
+`NEXT_PUBLIC_MATIMATO_TOURNAMENTS=true`, `MATIMATO_TOURNAMENTS_ENABLED=true`.
+
+### How to Verify
+Join an active event, complete a Daily/Blitz match, retry completion/contribution, and confirm standing rank is stable.
+
+### Known Limitations
+V1 has no bracket matchmaking, cash prizes, or push notifications.
+
+### Rollback Plan
+Set tournament flags to `false`; existing Daily, Blitz, Ranks, and season flows continue.
+===== money/competition/judge hits =====
+./app/api/leaderboard/route.ts:6:    return ok({ leaderboard: await getLeaderboard() });
+./app/api/replays/[id]/route.ts:13:      { headers: { 'cache-control': 'public, max-age=60, stale-while-revalidate=300' } }
+./app/api/progression/route.ts:31:    source: z.enum(['daily', 'solo', 'battle', 'blitz', 'journey', 'recap', 'rank', 'social']),
+./app/api/progression/route.ts:32:    metric: z.enum(['complete_match', 'win_match', 'score_threshold', 'unlock_board', 'replay_move', 'share_recap', 'view_rank', 'send_friend_gift']),
+./app/api/progression/route.ts:34:    score: z.number().optional(),
+./app/api/progression/route.ts:40:    rewardId: z.string().min(1).max(80)
+./app/api/games/route.ts:25:  z.object({ type: z.literal('timeout'), matchId: z.string().min(1), playerId: z.string().min(1), deadlineVersion: z.number().int().min(0) }),
+./app/api/games/route.ts:46:  const scores = { north: next.players.north?.score ?? 0, south: next.players.south?.score ?? 0 };
+./app/api/games/route.ts:47:  const outcome = next.outcome ?? computeOutcome(next.board, next.legalTarget, scores);
+./app/api/games/route.ts:82:        if (!isValidTodayDailyId(input.dailyId)) throw new Error('Daily challenge is not available.');
+./app/api/games/route.ts:85:        if (completedDaily) throw new Error('Daily challenge already completed.');
+./app/api/games/route.ts:120:      const timeout = applyTimeout(snapshot, side, input.deadlineVersion);
+./app/api/games/route.ts:121:      const resolved = timeout.resolved ? resolveAutomatedTurns(timeout.snapshot, `timeout:${input.deadlineVersion}`) : { snapshot: timeout.snapshot, frames: [] as MoveFrame[] };
+./app/globals.css:10:h1,h2,p { margin:0; } h1 { font-size:1.85rem; line-height:1; letter-spacing:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } h2 { font-size:1.65rem; line-height:1.05; letter-spacing:0; margin:4px 0 8px; overflow-wrap:anywhere; }
+./app/globals.css:11:.status-pill,.chip { border:1px solid rgba(255,106,42,.35); color:#ffb06f; background:rgba(255,106,42,.13); border-radius:999px; padding:6px 9px; font-size:10px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; max-width:100%; overflow:hidden; text-overflow:ellipsis; }
+./app/globals.css:18:.btn { min-height:46px; border:0; color:white; background:linear-gradient(90deg,var(--mat-hot),var(--mat-pink)); border-radius:8px; font-weight:950; padding:0 14px; box-shadow:0 12px 30px rgba(255,63,147,.22); } .btn.secondary { background:rgba(255,255,255,.05); border:1px solid var(--mat-line); box-shadow:none; color:var(--mat-text); } .btn.mode { min-height:68px; font-size:16px; letter-spacing:0; }
+./app/globals.css:58:.badge-tile.locked { opacity:.58; }
+./app/globals.css:59:.reward-list { display:grid; gap:8px; }
+./app/globals.css:60:.reward-row { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:8px; }
+./app/globals.css:80:.board-chip.locked { opacity:.5; }
+./app/globals.css:84:.score-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+./app/globals.css:85:.invite-code { border:1px dashed var(--mat-line); border-radius:8px; padding:18px; font-size:2rem; font-weight:950; text-align:center; letter-spacing:.18em; user-select:all; background:rgba(255,255,255,.04); }
+./app/globals.css:91:.tutorial-tile:disabled { opacity:.34; cursor:not-allowed; }
+./app/globals.css:94:.recap-shell .score-row { gap:10px; }
+./app/globals.css:98:@media (max-width:430px) { .app-shell { padding:calc(8px + var(--safe-top)) 10px calc(8px + max(var(--safe-bottom),var(--browser-bottom))); gap:8px; } .top-card { min-height:56px; padding:8px 10px; } .logo { width:34px; height:34px; } h1 { font-size:1.55rem; } h2 { font-size:1.42rem; margin-bottom:6px; } .copy { font-size:14px; } .panel { padding:12px; } .nav { gap:4px; padding:6px; height:56px; min-height:56px; max-height:56px; } .nav button { height:42px; } .nav svg { width:22px; height:22px; } .coach-modal { grid-template-columns:1fr; top:58px; } .hero-tag { font-size:13px; padding:6px 10px; } .list-card,.kpi { padding:10px; } .kpi strong { font-size:21px; } .score-row { gap:8px; } }
+./tests/rules.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/rules.test.ts:6:  it('creates default 9x9 boards and explicit 5x5 through 9x9 boards', () => {
+./tests/rules.test.ts:7:    const game = newGame('test-game', 'solo', 'p1', 'Player');
+./tests/rules.test.ts:10:    const small = newGame('test-game-small', 'solo', 'p1', 'Player', { boardSize: 5 });
+./tests/rules.test.ts:30:    const game = newGame('test-game-2', 'solo', 'p1', 'Player');
+./tests/rules.test.ts:37:    const game = newGame('test-game-3', 'battle', 'p1', 'Player');
+./tests/rules.test.ts:38:    const first = applyMove({ ...game, status: 'active', players: { ...game.players, south: { id: 'p2', tag: 'Rival', side: 'south', score: 0 } } }, 'north', 1, 3, 'a1');
+./tests/rules.test.ts:53:    expect(game.clock?.deadlineVersion).toBe(0);
+./tests/rules.test.ts:54:    expect(game.clock?.deadlineAt).toBe('2026-06-25T10:00:05.000Z');
+./tests/rules.test.ts:60:    expect(firstTimeout.snapshot.clock?.deadlineVersion).toBe(1);
+./tests/rules.test.ts:61:    expect(firstTimeout.frames[0].timeout).toMatchObject({ side: 'north', deadlineVersion: 0, count: 1 });
+./tests/rules.test.ts:74:    expect(northSecond.snapshot.outcome).toEqual({ winner: 'south', reason: 'timeout-forfeit' });
+./tests/social.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/social.test.ts:2:import { buildGiftLedgerEntry, friendshipIdForPlayers, normalizeFriendTag, relationshipBlocksActions, utcGiftDate } from '@/lib/game/social';
+./tests/telemetry.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/telemetry.test.ts:76:      name: 'season_reward_claimed',
+./tests/telemetry.test.ts:84:        rewardId: 'starter-cache',
+./tests/telemetry.test.ts:90:    expect(event?.properties).toEqual({ seasonId: 'founders-chase-2026', rewardId: 'starter-cache', xp: 40, newlyClaimed: true });
+./tests/ios-runtime.test.ts:1:import { describe, expect, it, vi } from 'vitest';
+./tests/progression.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/progression.test.ts:22:  it('rejects skipped boards and insufficient XP', () => {
+./tests/seasons.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/seasons.test.ts:6:    const first = applySeasonAction(createSeasonProgress('p1'), { playerId: 'p1', source: 'solo', metric: 'complete_match', actionId: 'match-1' }, new Date('2026-06-26T10:00:00.000Z'));
+./tests/seasons.test.ts:7:    const duplicate = applySeasonAction(first, { playerId: 'p1', source: 'solo', metric: 'complete_match', actionId: 'match-1' }, new Date('2026-06-26T10:00:01.000Z'));
+./tests/seasons.test.ts:12:  it('builds badge album and claimable rewards from progress', () => {
+./tests/seasons.test.ts:14:    progress = applySeasonAction(progress, { playerId: 'p1', source: 'solo', metric: 'complete_match', actionId: 'match-1' }, new Date('2026-06-26T10:00:00.000Z'));
+./tests/seasons.test.ts:20:    expect(claim.reward.xp).toBe(40);
+./tests/tutorial.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/daily.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/daily.test.ts:6:describe('daily challenge contracts', () => {
+./tests/daily.test.ts:29:  it('ranks weekly results by score, completion time, attempts, and stable hash', () => {
+./tests/daily.test.ts:44:function result(playerId: string, score: number, attempts: number, completedAt: string): DailyResult {
+./tests/daily.test.ts:47:    challengeId: '2026-06-24',
+./tests/daily.test.ts:50:    score,
+./tests/daily.test.ts:53:    outcome: { winner: 'north', reason: 'board-complete' }
+./tests/rules-help.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/rules-help.test.ts:7:    expect(RULES_HELP_TOPICS.map((topic) => topic.topicId)).toEqual(['objective', 'turns', 'legal-moves', 'scoring', 'traps', 'xp', 'boards', 'recap', 'ranks']);
+./tests/replay.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/replay.test.ts:12:        south: { id: 'south-raw-id', tag: 'South Tag', side: 'south' as const, score: 0 }
+./tests/replay.test.ts:20:      outcome: { winner: 'north' as const, reason: 'board-complete' as const },
+./tests/replay.test.ts:26:    expect(replay.players).toEqual(expect.arrayContaining([{ side: 'north', tag: 'North Tag', score: expect.any(Number) }]));
+./tests/replay.test.ts:40:      outcome: { winner: 'north', reason: 'no-legal-cells' },
+./tests/replay.test.ts:53:      outcome: { winner: 'draw', reason: 'board-complete' },
+./tests/lobby.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/ai.test.ts:1:import { describe, expect, it } from 'vitest';
+./tests/phaser-runtime.test.ts:1:import { describe, expect, it, vi } from 'vitest';
+./docs/ARCHITECTURE.md:10:- MongoDB owns games, profiles, history, and leaderboard data.
+./docs/ARCHITECTURE.md:11:- Capacitor owns the optional iOS WKWebView wrapper and native build packaging. It does not own gameplay or visible product UI.
+./docs/ARCHITECTURE.md:27:The iOS mobile strategy is PWA-first, then Capacitor for App Store packaging. The native shell is configured in `capacitor.config.ts` with bundle id `app.vercel.matimato`, app name `Matimato`, HTTPS server URL `https://matimato.vercel.app`, no webview zoom, automatic iOS content insets, and no extra plugin permissions.
+./docs/ARCHITECTURE.md:32:Capacitor WKWebView or iOS Safari
+./docs/ARCHITECTURE.md:38:The service worker caches only shell/static assets and never caches authoritative mutation responses. Unsafe writes are blocked while offline, and safe reads use bounded retry/timeouts. Runtime telemetry distinguishes `safari`, `standalone-pwa`, `capacitor-ios`, and desktop `browser` sessions.
+./docs/ARCHITECTURE.md:40:Rollback is split by layer: Vercel rollback for web/PWA regressions, service-worker registration flag plus cache version bump for offline-shell regressions, and TestFlight build expiration or Capacitor config revert for native wrapper regressions.
+./docs/ARCHITECTURE.md:63:Matimato is now a progressive board-size game for solo and Blitz. Players start on 5x5 and unlock 6x6, 7x7, 8x8, then 9x9 by spending XP. Battle and daily continue to use the safe 9x9 behavior until those modes receive explicit progression work.
+./docs/ARCHITECTURE.md:75:Profile `xp` remains lifetime XP. `spendableXp` is initialized from legacy `xp` when missing and increments with match rewards. Board purchases reduce only `spendableXp`; they never reduce `xp`, leaderboard rank, or level. Stored board unlocks include a purchase ledger with board size, cost, action id, and timestamp for idempotency/recovery.
+./docs/ARCHITECTURE.md:100:Seasonal events live inside the progression/profile boundary so rewards share the same XP wallet and rollback story. `GET /api/progression` returns `activeSeason`, `badgeAlbum`, and `serverNow` when events are enabled. `POST /api/progression` accepts `seasonAction` for non-match actions such as recap share and `claimSeasonReward` for idempotent claims.
+./docs/ARCHITECTURE.md:102:Match completion, daily completion, Blitz completion, and Journey unlocks are recorded only after an authoritative server action succeeds. The season evaluator deduplicates by source, metric, and action id. Reward grants are deterministic and never use paid odds or random packs.
+./docs/ARCHITECTURE.md:104:Rollback controls are `NEXT_PUBLIC_MATIMATO_SEASONAL_EVENTS=false` for UI and `MATIMATO_SEASONAL_EVENTS_ENABLED=false` for server evaluation. Rollback hides new progress surfaces and pauses new grants while preserving existing profile `seasonProgress` and XP data.
+./docs/ARCHITECTURE.md:126:The server validates profile availability against the active board size and falls back to the rookie profile when a requested profile is unavailable. AI move selection is legal-only, deterministic under snapshot/version seed, and bounded by profile decision limits. Rollback is `NEXT_PUBLIC_MATIMATO_AI_PROFILES=false`, which leaves solo mode on the rookie/default profile.
+./docs/ARCHITECTURE.md:128:## Daily challenge loop
+./docs/ARCHITECTURE.md:130:Daily challenges live inside the existing game and progression boundaries. The challenge id is the UTC date (`yyyy-mm-dd`) and the board seed is `daily:{yyyy-mm-dd}`, so every player receives the same 9x9 board for the current UTC day. `POST /api/games` with `mode: "daily"` validates the supplied `dailyId`, resumes an active daily for that player when one exists, and otherwise creates a normal AI-backed snapshot with `dailyId` attached.
+./docs/ARCHITECTURE.md:132:Daily completion writes one result per `challengeId:playerId` into `dailyResults` and updates the profile streak once. The weekly leaderboard is derived from current-week daily results with deterministic ordering: score descending, completed time ascending, attempts ascending, then stable hashed player id. Rollback is `NEXT_PUBLIC_MATIMATO_DAILY_V2=false`, which disables new daily entry from the client while keeping stored snapshots readable.
+./docs/ARCHITECTURE.md:143:  deadlineAt?: string;
+./docs/ARCHITECTURE.md:144:  deadlineVersion?: number;
+./docs/ARCHITECTURE.md:150:The server creates deadlines, rejects expired move submissions, and resolves timeout requests by `deadlineVersion`. The browser may render countdowns and request timeout resolution, but it cannot advance gameplay without a confirmed server snapshot. Repeated timeouts trigger the configured forfeit policy. Rollback is two-layered: `NEXT_PUBLIC_MATIMATO_BLITZ_MODE=false` hides entry points and `MATIMATO_BLITZ_ENABLED=false` rejects new Blitz creation.
+./docs/ARCHITECTURE.md:154:Game snapshots append accepted moves and timeout resolutions to optional `moveLog`. Completed matches transition from Phaser into a GDS-owned recap screen with final score, outcome reason, step-through replay, share action, ranks navigation, and rematch. Daily rematch routes to solo to avoid replaying a completed daily; Blitz rematch creates a fresh timed match with the default clock.
+./docs/ARCHITECTURE.md:156:## Friends, gifts, and safe social return
+./docs/ARCHITECTURE.md:174:Gift ledgers are idempotent by `friendshipId:senderId:yyyy-mm-dd`. A successful first write grants the receiver 15 XP through the same profile wallet normalization used by match rewards and records a `social/send_friend_gift` season action for future live events. Duplicate retries return the same daily state with `xpGranted: 0`. Friend battle creation starts the existing V2 lobby flow; no social route bypasses ready checks or server-owned game rules.
+./docs/ARCHITECTURE.md:190:`ReplaySnapshot` includes only mode, board size, outcome, sanitized player tags/scores, completed time, visibility, and `ReplayFrame` rows stripped of action ids. It never returns invite codes, raw player ids, mutable game endpoints, or private telemetry identifiers. Completed snapshots without `moveLog` return `summaryOnly: true` so old matches remain shareable as final-score summaries.
+./docs/ARCHITECTURE.md:198:Progression, social, replay, and iOS events are allowlisted: `training_choice_shown`, `training_choice_selected`, `coach_bubble_shown`, `coach_bubble_dismissed`, `board_unlock_viewed`, `board_unlock_purchased`, `board_unlock_failed`, `board_size_selected`, `friend_invite_accepted`, `friend_gift_sent`, `friend_gift_duplicate`, `friend_battle_started`, `friend_removed`, `friend_blocked`, `replay_viewed`, `replay_step_changed`, `replay_share_copied`, `replay_conversion_clicked`, `ios_runtime_detected`, `ios_offline_state_changed`, `ios_offline_retry`, `ios_offline_recovered`, and `ios_wrapper_error`. Properties are bounded to safe keys such as board size, cost, choice, step, result, error code, spendable XP bucket, friend/replay count buckets, runtime mode, app version, build number, network state, and service worker status.
+./docs/ARCHITECTURE.md:200:`/api/health` reports release version, database status, and named check latencies so deploy verification can distinguish app boot from persistence availability.
+./docs/ARCHITECTURE.md:281:1. Run `npm run lint`, `npm test`, `npm run build`, `npm run verify`, and `npm audit --omit=dev`.
+./docs/ARCHITECTURE.md:282:2. Browser-smoke first-run Learn, first-run Play-now, coach bubble dismiss, Journey insufficient-XP state, successful 6x6 purchase, board selection, solo start, and Blitz start.
+./docs/ARCHITECTURE.md:290:10. If social or replay loops are unsafe, set `NEXT_PUBLIC_MATIMATO_FRIENDS=false`, `MATIMATO_FRIENDS_ENABLED=false`, `NEXT_PUBLIC_MATIMATO_REPLAYS=false`, or `MATIMATO_REPLAYS_ENABLED=false`; do not delete relationship, ledger, or match history data.
+./docs/ARCHITECTURE.md:298:- `npm test`
+./docs/release/2.5.0.md:5:Release 2.5.0 adds the iOS mobile app delivery foundation: installable PWA metadata, offline recovery shell, Capacitor iOS project, mobile viewport regression harness, runtime telemetry, and App Store/TestFlight readiness documentation.
+./docs/release/2.5.0.md:12:- `npm run ios:preflight` now fails early with precise missing Apple prerequisites on this machine.
+./docs/release/2.6.0.md:7:- Seasonal collection album and deterministic reward claims.
+./docs/release/2.6.0.md:14:- `npm test`
+./docs/release/2.6.0.md:20:- Set `NEXT_PUBLIC_MATIMATO_SEASONAL_EVENTS=false` to hide the album and reward track.
+./docs/release/2.7.0.md:5:- Delivered #65: relationship-safe Friends screen, mutual friend creation from lobby/recap/profile invite links, idempotent daily 15 XP gifts, block/remove controls, friend battle entry through the normal V2 lobby, telemetry, tests, docs, and rollback flags.
+./docs/release/2.7.0.md:6:- Delivered #67: public-safe `/replay/[id]` route and `/api/replays/[id]` DTO, sanitized move playback, summary-only fallback for old matches, replay share/copy and conversion actions, telemetry, tests, docs, and rollback flags.
+./docs/release/2.7.0.md:10:- `npm test`
+./docs/ios-mobile.md:5:Matimato ships the existing Next.js, Phaser, and GDS web runtime as an installable iOS PWA and as a Capacitor iOS wrapper using WKWebView. This is intentionally not a SwiftUI rewrite. All visible UI remains the GDS web app; Capacitor only owns app identity, WKWebView hosting, icon/splash assets, and native build packaging.
+./docs/ios-mobile.md:9:- Capacitor iOS uses Xcode and WKWebView: https://capacitorjs.com/docs/ios
+./docs/ios-mobile.md:10:- Capacitor config surface: https://capacitorjs.com/docs/config
+./docs/ios-mobile.md:11:- Capacitor App Store deployment path: https://capacitorjs.com/docs/ios/deploying-to-app-store
+./docs/ios-mobile.md:15:## Architecture Decision
+./docs/ios-mobile.md:18:iOS Safari / installed PWA / Capacitor WKWebView
+./docs/ios-mobile.md:25:The native shell points to `CAPACITOR_SERVER_URL`, defaulting to `https://matimato.vercel.app`. This keeps server-rendered routes, API routes, MongoDB persistence, and Vercel rollback behavior authoritative. The `webDir` remains `public` so Capacitor has a deterministic asset bundle for icons/config while the runtime URL serves the app.
+./docs/ios-mobile.md:41:No native plugin permissions are required in the current release. The generated Capacitor project uses the default App target and Swift Package Manager package file under `ios/App/CapApp-SPM`.
+./docs/ios-mobile.md:57:- The shell shows a GDS Button-based recovery state with `role="status"` and an explicit Retry control.
+./docs/ios-mobile.md:93:- Safari first load, installed PWA launch, and Capacitor simulator/device launch.
+./docs/ios-mobile.md:178:- Description: A tactical row-and-column number chase where players claim tiles, manage positive and negative scores, and unlock larger boards with XP.
+./docs/ios-mobile.md:181:- Review notes: Matimato is an online tactical board game. Use solo mode or the guided tutorial from Profile. No account, payment, IAP, push notification, Game Center, camera, contacts, location, or tracking permission is required.
+./docs/ios-mobile.md:185:- Data collected: gameplay/profile data generated by the player tag, local player id, match history, progression, leaderboard entries, and privacy-safe telemetry event hashes.
+./docs/ios-mobile.md:226:Rollback decision tree:
+./docs/ios-mobile.md:230:- Native wrapper regression before TestFlight: stop distribution and rebuild with previous `capacitor.config.ts`.
+./ios/App/App.xcodeproj/project.pbxproj:12:		50379B232058CBB4000EE86E /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
+./ios/App/App.xcodeproj/project.pbxproj:22:		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
+./ios/App/App.xcodeproj/project.pbxproj:23:		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+./ios/App/App.xcodeproj/project.pbxproj:65:				50379B222058CBB4000EE86E /* capacitor.config.json */,
+./ios/App/App.xcodeproj/project.pbxproj:90:			dependencies = (
+./ios/App/App.xcodeproj/project.pbxproj:93:			packageProductDependencies = (
+./ios/App/App.xcodeproj/project.pbxproj:145:				50379B232058CBB4000EE86E /* capacitor.config.json in Resources */,
+./ios/App/App/Base.lproj/LaunchScreen.storyboard:4:    <dependencies>
+./ios/App/App/Base.lproj/LaunchScreen.storyboard:9:    </dependencies>
+./ios/App/App/Base.lproj/Main.storyboard:6:    <dependencies>
+./ios/App/App/Base.lproj/Main.storyboard:9:    </dependencies>
+./ios/App/App/Base.lproj/Main.storyboard:14:                <viewController id="BYZ-38-t0r" customClass="CAPBridgeViewController" customModule="Capacitor" sceneMemberID="viewController"/>
+./ios/App/App/AppDelegate.swift:2:import Capacitor
+./ios/App/CapApp-SPM/README.md:3:This package is used to host SPM dependencies for your Capacitor project
+./ios/App/CapApp-SPM/Package.swift:4:// DO NOT MODIFY THIS FILE - managed by Capacitor CLI commands
+./ios/App/CapApp-SPM/Package.swift:13:    dependencies: [
+./ios/App/CapApp-SPM/Package.swift:14:        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", exact: "8.4.1")
+./ios/App/CapApp-SPM/Package.swift:19:            dependencies: [
+./ios/App/CapApp-SPM/Package.swift:20:                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+./ios/App/CapApp-SPM/Package.swift:21:                .product(name: "Cordova", package: "capacitor-swift-pm")
+./ios/App/CapApp-SPM/Sources/CapApp-SPM/CapApp-SPM.swift:1:public let isCapacitorApp = true
+./ios/.gitignore:8:# Cordova plugins for Capacitor
+./ios/.gitignore:9:capacitor-cordova-ios-plugins
+./ios/.gitignore:12:App/App/capacitor.config.json
+./README.md:13:npm run test
+./README.md:33:- Vitest for rules tests
+./README.md:34:- Capacitor 8 for the iOS WKWebView wrapper
+./README.md:84:`NEXT_PUBLIC_MATIMATO_DAILY_V2=false` hides daily challenge entry on the Quests screen without affecting solo, battle, or existing daily snapshots.
+./README.md:92:`NEXT_PUBLIC_MATIMATO_SEASONAL_EVENTS=false` hides the seasonal album and reward track. `MATIMATO_SEASONAL_EVENTS_ENABLED=false` pauses server-side season progress evaluation while preserving saved ledgers. `NEXT_PUBLIC_MATIMATO_RULE_ASSIST=false` hides persistent help buttons. `NEXT_PUBLIC_MATIMATO_AI_PROFILES=false` falls back to the rookie solo AI profile.
+./README.md:100:Matimato now has a production iOS delivery lane documented in [`docs/ios-mobile.md`](/Users/Shared/Projects/matimato/docs/ios-mobile.md). The chosen architecture is an installable iOS PWA plus a Capacitor WKWebView wrapper around the existing GDS/Phaser web runtime.
+./README.md:129:Match rewards increase both lifetime XP and spendable XP. Purchases reduce spendable XP only; lifetime XP remains the ranking/progression total. Existing profiles without a wallet split are normalized by treating current XP as both lifetime and spendable XP.
+./README.md:143:{ "type": "claimSeasonReward", "playerId": "...", "rewardId": "starter-cache" }
+./README.md:150:The Quests screen includes a deterministic seasonal album and reward track. Eligible authoritative actions from solo, daily, Blitz, Journey unlocks, and recap shares update server-side season progress. Rewards are granted and claimed idempotently through `/api/progression`; claimed XP increases lifetime and spendable balances once.
+./README.md:152:Season rewards are deterministic. There are no paid packs, odds, loot boxes, or tradable collectibles.
+./README.md:156:Every primary product screen exposes GDS-only rules help. The help dialog covers objective, turn flow, legal moves, scoring, traps, XP, board journey, recap, and ranks. Live matches include a help button over the Phaser host that derives contextual hints from public board state without solving the best move.
+./README.md:160:Solo mode supports named AI profiles. Players start with `Mati Rookie`; larger unlocked boards expose stronger profiles with deterministic legal move selection, bounded decision time, and replay-safe profile metadata on snapshots.
+./README.md:164:Blitz is a turn-based quick-play mode with a server-authored per-turn clock. The client displays the countdown and can request timeout resolution, but the server decides whether the deadline expired.
+./README.md:171:{ "type": "timeout", "matchId": "...", "playerId": "...", "deadlineVersion": 4 }
+./README.md:174:Existing solo, battle, and daily snapshots may omit `clock`; clients treat omitted clocks as untimed. Timeout requests are idempotent by match, side, and deadline version. Repeated Blitz timeouts use the documented forfeit policy.
+./README.md:178:Completed matches transition to a GDS-owned recap screen with final score, outcome reason, move replay, share action, ranks navigation, and rematch. Game snapshots now keep an optional `moveLog` so recap can replay claimed tiles and timeout resolutions without reading Phaser state.
+./README.md:198:Completed matches are shareable at `/replay/{matchId}` through a public-safe DTO from `/api/replays/[id]`. Replay responses include final score context, sanitized tags, board size, outcome, and move frames stripped of raw player ids, invite codes, and action ids. Completed legacy snapshots without `moveLog` render a summary-only replay instead of failing.
+./README.md:200:Replay pages are read-only. Conversion actions create new solo, Blitz, or V2 battle sessions through the existing `/api/games` create flow and never mutate the viewed match. Private, expired, incomplete, disabled, and missing replay states return explicit recoverable errors.
+./README.md:202:## Daily challenge
+./README.md:204:The Quests screen now exposes one deterministic UTC challenge per day using seed `daily:{yyyy-mm-dd}`. `POST /api/games` creates or resumes the active daily for the same player:
+./README.md:210:`GET /api/progression?playerId=...` returns the current daily, completed result when present, streak state, quest progress, and the weekly daily leaderboard. Daily completions are idempotent per `challengeId:playerId`; weekly ranking sorts by score descending, completed time ascending, attempts ascending, then stable player hash.
+./README.md:221:Tracked product events cover optional training choice, coach bubbles, board journey purchases/selection, onboarding, battle lobby, friends/gifts, read-only replays, daily challenge, Blitz clocks/rematches, recap/share actions, weekly/rank views, match completion, Phaser lifecycle, sync errors, iOS runtime mode, offline retry/recovery, and recovery surfaces. `/api/health` returns release version plus database connectivity checks for deployment verification.
+./README.md:234:- positive score
+./README.md:260:- Insufficient XP cannot purchase the next board and exposes a readable reason.
+./components/ReplayViewer.tsx:139:  const winner = replay.outcome.winner === 'draw' ? 'Draw' : `${playerTag(replay, replay.outcome.winner)} wins`;
+./components/ReplayViewer.tsx:148:          <h2 id="replay-title">{winner}</h2>
+./components/ReplayViewer.tsx:151:            {replay.players.map((player) => <Kpi key={player.side} label={player.tag} value={player.score} />)}
+./components/ReplayViewer.tsx:214:  if (frame.timeout) return `${frame.timeout.side} timed out at move ${frame.timeout.deadlineVersion}. Score ${frame.scores.north} to ${frame.scores.south}.`;
+./components/ReplayViewer.tsx:215:  return `${frame.side} claimed ${signedValue(frame.selected.value)} at row ${frame.selected.row + 1}, column ${frame.selected.col + 1}. Score ${frame.scores.north} to ${frame.scores.south}.`;
+./components/PhaserGameRoot.tsx:22:  const [helpTopic, setHelpTopic] = useState<'objective' | 'turns' | 'legal-moves' | 'scoring' | 'traps' | 'xp' | 'boards' | 'recap' | 'ranks'>('legal-moves');
+./components/GameApp.tsx:75:  const [leaderboard, setLeaderboard] = useState<RankEntry[]>([]);
+./components/GameApp.tsx:192:      setLeaderboard(data.leaderboard);
+./components/GameApp.tsx:328:        setNotice(mode === 'battle' ? `Share battle code ${data.snapshot.inviteCode}.` : resumedDaily ? 'Daily challenge resumed.' : 'Match ready.');
+./components/GameApp.tsx:596:  async function claimSeason(rewardId: string) {
+./components/GameApp.tsx:597:    if (blockOfflineWrite('Claiming a season reward')) return;
+./components/GameApp.tsx:599:      setBusy(`claim-${rewardId}`);
+./components/GameApp.tsx:600:      const data = await claimSeasonReward(playerId, rewardId);
+./components/GameApp.tsx:602:      setNotice(data.profileDelta.xp ? `${data.reward.title} claimed for ${data.reward.xp} XP.` : `${data.reward.title} was already claimed.`);
+./components/GameApp.tsx:603:      emitTelemetry({ name: 'season_reward_claimed', playerId, properties: { seasonId: data.activeSeason.definition.seasonId, rewardId, xp: data.reward.xp, newlyClaimed: data.profileDelta.xp > 0 } });
+./components/GameApp.tsx:606:      emitTelemetry({ name: 'season_progress_error', playerId, result: 'error', properties: { rewardId, errorCode: error instanceof Error ? error.message : 'claim_failed' } });
+./components/GameApp.tsx:693:      emitTelemetry({ name: next.mode === 'daily' ? 'daily_completed' : 'match_completed', playerId, matchId: next.id, properties: { mode: next.mode, dailyId: next.dailyId ?? '', scoreBucket: scoreBucket(next.players.north?.score ?? 0) } });
+./components/GameApp.tsx:722:        {screen === 'ranks' ? <Ranks leaderboard={leaderboard} /> : null}
+./components/GameApp.tsx:774:        <p className="copy">Matimato is a row-and-column score game. Claim tiles, add positive values, survive negative traps, and use each pick to force the next legal row or column.</p>
+./components/GameApp.tsx:792:        <span className="hero-tag">{boardSize}x{boardSize} score chase</span>
+./components/GameApp.tsx:885:  const result = snapshot.outcome?.winner === 'draw' ? 'Draw' : snapshot.outcome?.winner === side ? 'Victory' : 'Defeat';
+./components/GameApp.tsx:894:    const text = `Matimato ${result}: ${you?.score ?? 0}-${rival?.score ?? 0} in ${snapshot.mode}.`;
+./components/GameApp.tsx:900:      void recordSeasonAction({ playerId, source: 'recap', metric: 'share_recap', actionId: `${snapshot.id}:share`, boardSize: snapshot.boardSize });
+./components/GameApp.tsx:924:        <div className="score-row" aria-label="Final score">
+./components/GameApp.tsx:925:          <Kpi label={you?.tag ?? 'You'} value={you?.score ?? 0} />
+./components/GameApp.tsx:926:          <Kpi label={rival?.tag ?? 'Rival'} value={rival?.score ?? 0} />
+./components/GameApp.tsx:934:                ? `${current.timeout.side} timed out at version ${current.timeout.deadlineVersion}.`
+./components/GameApp.tsx:978:        <div className="score-row" aria-label="Tutorial score">
+./components/GameApp.tsx:979:          <Kpi label="You" value={state.scores.north} />
+./components/GameApp.tsx:980:          <Kpi label="Matimato AI" value={state.scores.south} />
+./components/GameApp.tsx:1017:    'first-pick': 'This first pick is free. Watch the value: green numbers raise your score and red numbers reduce it.',
+./components/GameApp.tsx:1022:    finish: 'You now know scoring, legal targets, risk, and AI turns. A real match uses the same loop.'
+./components/GameApp.tsx:1159:function Quests({ progression, quests, start, busy, dailyEnabled, seasonalEnabled, claimSeason }: { progression: ProgressionResponse | null; quests: QuestProgress[]; start: () => void; busy: string; dailyEnabled: boolean; seasonalEnabled: boolean; claimSeason: (rewardId: string) => void }) {
+./components/GameApp.tsx:1168:          <span className="hero-tag">Daily challenge</span>
+./components/GameApp.tsx:1172:        <p className="copy">{daily ? `UTC daily ${daily.date}. Resets ${new Date(daily.resetAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.` : 'Loading daily challenge.'}</p>
+./components/GameApp.tsx:1182:            <p className="copy">Score {progression.dailyResult.score} · Attempts {progression.dailyResult.attempts} · {new Date(progression.dailyResult.completedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+./components/GameApp.tsx:1199:            <div className="reward-list" aria-label="Season rewards">
+./components/GameApp.tsx:1200:              {activeSeason.definition.rewards.map((reward) => {
+./components/GameApp.tsx:1201:                const grant = activeSeason.progress.rewardGrants.find((item) => item.rewardId === reward.rewardId);
+./components/GameApp.tsx:1202:                const unlocked = activeSeason.points >= reward.threshold;
+./components/GameApp.tsx:1205:                  <div className="list-card reward-row" key={reward.rewardId}>
+./components/GameApp.tsx:1206:                    <div><strong>{reward.title}</strong><p className="copy">{reward.xp} XP · {Math.min(activeSeason.points, reward.threshold)}/{reward.threshold} points</p></div>
+./components/GameApp.tsx:1207:                    <Button size="xs" disabled={!unlocked || claimed} loading={busy === `claim-${reward.rewardId}`} onClick={() => claimSeason(reward.rewardId)}>{claimed ? 'Claimed' : 'Claim'}</Button>
+./components/GameApp.tsx:1215:          {quests.map((quest) => <div className="list-card" key={quest.id}><strong>{quest.title}</strong><p className="copy">{Math.min(quest.progress, quest.target)}/{quest.target} · {quest.rewardXp} XP</p></div>)}
+./components/GameApp.tsx:1217:        <div className="stack" aria-label="Weekly challenge leaderboard">
+./components/GameApp.tsx:1218:          <strong>Weekly challenge ranks</strong>
+./components/GameApp.tsx:1222:              <p className="copy">Score {entry.score} · Attempts {entry.attempts} · {new Date(entry.completedAt).toLocaleDateString()}</p>
+./components/GameApp.tsx:1231:function Ranks({ leaderboard }: { leaderboard: RankEntry[] }) {
+./components/GameApp.tsx:1239:        {leaderboard.length ? leaderboard.map((entry, index) => <div className="list-card" role="listitem" key={entry.playerId}><strong>#{index + 1} {entry.tag}</strong><p className="copy">{entry.score} XP · {entry.wins} wins</p></div>) : <p className="copy">No ranked matches yet.</p>}
+./components/GameApp.tsx:1253:        {history.length ? history.map((match) => <div className="list-card" role="listitem" key={match.id}><strong>{match.result}</strong><p className="copy">vs {match.opponent} · {match.score}/{match.opponentScore} · {new Date(match.completedAt).toLocaleDateString()}</p></div>) : <p className="copy">Finish a match to build history.</p>}
+./components/GameApp.tsx:1326:function scoreBucket(score: number): string {
+./components/GameApp.tsx:1327:  if (score >= 50) return '50+';
+./components/GameApp.tsx:1328:  if (score >= 25) return '25-49';
+./components/GameApp.tsx:1329:  if (score >= 0) return '0-24';
+./components/GameApp.tsx:1330:  if (score >= -25) return '-25--1';
+./package-lock.json:10:      "dependencies": {
+./package-lock.json:11:        "@capacitor/core": "^8.4.1",
+./package-lock.json:12:        "@capacitor/ios": "^8.4.1",
+./package-lock.json:26:      "devDependencies": {
+./package-lock.json:27:        "@capacitor/cli": "^8.4.1",
+./package-lock.json:36:        "vitest": "^4.1.9"
+./package-lock.json:52:      "dependencies": {
+./package-lock.json:66:      "dependencies": {
+./package-lock.json:90:    "node_modules/@capacitor/cli": {
+./package-lock.json:92:      "resolved": "https://registry.npmjs.org/@capacitor/cli/-/cli-8.4.1.tgz",
+./package-lock.json:96:      "dependencies": {
+./package-lock.json:116:        "cap": "bin/capacitor",
+./package-lock.json:117:        "capacitor": "bin/capacitor"
+./package-lock.json:123:    "node_modules/@capacitor/core": {
+./package-lock.json:125:      "resolved": "https://registry.npmjs.org/@capacitor/core/-/core-8.4.1.tgz",
+./package-lock.json:128:      "dependencies": {
+./package-lock.json:132:    "node_modules/@capacitor/ios": {
+./package-lock.json:134:      "resolved": "https://registry.npmjs.org/@capacitor/ios/-/ios-8.4.1.tgz",
+./package-lock.json:137:      "peerDependencies": {
+./package-lock.json:138:        "@capacitor/core": "^8.4.0"
+./package-lock.json:180:      "peerDependencies": {
+./package-lock.json:201:      "dependencies": {
+./package-lock.json:208:      "peerDependencies": {
+./package-lock.json:232:      "peerDependencies": {
+./package-lock.json:252:      "peerDependencies": {
+./package-lock.json:255:      "peerDependenciesMeta": {
+./package-lock.json:285:      "dependencies": {
+./package-lock.json:290:      "peerDependencies": {
+./package-lock.json:304:      "dependencies": {
+./package-lock.json:308:      "peerDependencies": {
+./package-lock.json:322:      "dependencies": {
+./package-lock.json:325:      "peerDependencies": {
+./package-lock.json:341:      "peerDependencies": {
+./package-lock.json:357:      "dependencies": {
+./package-lock.json:368:      "dependencies": {
+./package-lock.json:379:      "dependencies": {
+./package-lock.json:389:      "dependencies": {
+./package-lock.json:398:      "peerDependencies": {
+./package-lock.json:431:      "dependencies": {
+./package-lock.json:446:      "dependencies": {
+./package-lock.json:459:      "dependencies": {
+./package-lock.json:472:      "dependencies": {
+./package-lock.json:519:      "dependencies": {
+./package-lock.json:536:      "peerDependencies": {
+./package-lock.json:539:      "peerDependenciesMeta": {
+./package-lock.json:550:      "dependencies": {
+./package-lock.json:559:      "dependencies": {
+./package-lock.json:569:      "dependencies": {
+./package-lock.json:574:      "peerDependencies": {
+./package-lock.json:584:      "dependencies": {
+./package-lock.json:587:      "peerDependencies": {
+./package-lock.json:604:      "dependencies": {
+./package-lock.json:617:      "dependencies": {
+./package-lock.json:692:      "optionalDependencies": {
+./package-lock.json:714:      "optionalDependencies": {
+./package-lock.json:923:      "optionalDependencies": {
+./package-lock.json:948:      "optionalDependencies": {
+./package-lock.json:973:      "optionalDependencies": {
+./package-lock.json:998:      "optionalDependencies": {
+./package-lock.json:1023:      "optionalDependencies": {
+./package-lock.json:1048:      "optionalDependencies": {
+./package-lock.json:1073:      "optionalDependencies": {
+./package-lock.json:1098:      "optionalDependencies": {
+./package-lock.json:1111:      "dependencies": {
+./package-lock.json:1184:      "dependencies": {
+./package-lock.json:1199:      "dependencies": {
+./package-lock.json:1213:      "dependencies": {
+./package-lock.json:1229:      "dependencies": {
+./package-lock.json:1245:      "dependencies": {
+./package-lock.json:1259:      "dependencies": {
+./package-lock.json:1277:      "dependencies": {
+./package-lock.json:1291:      "dependencies": {
+./package-lock.json:1311:      "dependencies": {
+./package-lock.json:1332:      "dependencies": {
+./package-lock.json:1351:      "dependencies": {
+./package-lock.json:1359:      "peerDependencies": {
+./package-lock.json:1370:      "peerDependencies": {
+./package-lock.json:1379:      "peerDependencies": {
+./package-lock.json:1391:      "dependencies": {
+./package-lock.json:1395:      "peerDependencies": {
+./package-lock.json:1407:      "peerDependencies": {
+./package-lock.json:1416:      "dependencies": {
+./package-lock.json:1427:      "dependencies": {
+./package-lock.json:1434:      "peerDependencies": {
+./package-lock.json:1451:      "dependencies": {
+./package-lock.json:1601:      "dependencies": {
+./package-lock.json:1625:      "dependencies": {
+./package-lock.json:1761:      "integrity": "sha512-VWkUHwWriDciit80wleYwKILoR/KMvxh/IdwS/paX+ZgpuRpCrKLUdadJbc0NpBEiyhpYawsJ73j9aCvOH+f7Q==",
+./package-lock.json:1885:      "dependencies": {
+./package-lock.json:1901:      "dependencies": {
+./package-lock.json:1972:      "dependencies": {
+./package-lock.json:1991:      "dependencies": {
+./package-lock.json:1998:      "peerDependencies": {
+./package-lock.json:2009:      "dependencies": {
+./package-lock.json:2019:      "dependencies": {
+./package-lock.json:2044:      "dependencies": {
+./package-lock.json:2068:      "dependencies": {
+./package-lock.json:2069:        "undici-types": "~7.18.0"
+./package-lock.json:2078:      "dependencies": {
+./package-lock.json:2088:      "peerDependencies": {
+./package-lock.json:2110:      "dependencies": {
+./package-lock.json:2117:      "integrity": "sha512-ZPlVl3PB3et/59Ne0fv/sci6ZXz4T4Hp4nTJ56i/Y0gR89ARb+KphojTq6j+56E5PIezmOIOOWyY+aWQFd+IkQ==",
+./package-lock.json:2120:      "dependencies": {
+./package-lock.json:2137:      "peerDependencies": {
+./package-lock.json:2159:      "dependencies": {
+./package-lock.json:2173:      "peerDependencies": {
+./package-lock.json:2184:      "dependencies": {
+./package-lock.json:2196:      "peerDependencies": {
+./package-lock.json:2206:      "dependencies": {
+./package-lock.json:2231:      "peerDependencies": {
+./package-lock.json:2241:      "dependencies": {
+./package-lock.json:2255:      "peerDependencies": {
+./package-lock.json:2280:      "dependencies": {
+./package-lock.json:2298:      "peerDependencies": {
+./package-lock.json:2318:      "dependencies": {
+./package-lock.json:2331:      "dependencies": {
+./package-lock.json:2347:      "dependencies": {
+./package-lock.json:2360:      "peerDependencies": {
+./package-lock.json:2371:      "dependencies": {
+./package-lock.json:2548:      "integrity": "sha512-jiuG/Obbel7uw1PwHNFfrkiKhLAF6mnyZ6aWlOAVN9WqKm8v0OFGnciJIHu8+CMvXLQ8AD51LPzAoUfT21D5Ew==",
+./package-lock.json:2688:      "dependencies": {
+./package-lock.json:2704:      "dependencies": {
+./package-lock.json:2750:    "node_modules/@vitest/expect": {
+./package-lock.json:2752:      "resolved": "https://registry.npmjs.org/@vitest/expect/-/expect-4.1.9.tgz",
+./package-lock.json:2756:      "dependencies": {
+./package-lock.json:2759:        "@vitest/spy": "4.1.9",
+./package-lock.json:2760:        "@vitest/utils": "4.1.9",
+./package-lock.json:2765:        "url": "https://opencollective.com/vitest"
+./package-lock.json:2768:    "node_modules/@vitest/mocker": {
+./package-lock.json:2770:      "resolved": "https://registry.npmjs.org/@vitest/mocker/-/mocker-4.1.9.tgz",
+./package-lock.json:2774:      "dependencies": {
+./package-lock.json:2775:        "@vitest/spy": "4.1.9",
+./package-lock.json:2780:        "url": "https://opencollective.com/vitest"
+./package-lock.json:2782:      "peerDependencies": {
+./package-lock.json:2786:      "peerDependenciesMeta": {
+./package-lock.json:2795:    "node_modules/@vitest/pretty-format": {
+./package-lock.json:2797:      "resolved": "https://registry.npmjs.org/@vitest/pretty-format/-/pretty-format-4.1.9.tgz",
+./package-lock.json:2801:      "dependencies": {
+./package-lock.json:2805:        "url": "https://opencollective.com/vitest"
+./package-lock.json:2808:    "node_modules/@vitest/runner": {
+./package-lock.json:2810:      "resolved": "https://registry.npmjs.org/@vitest/runner/-/runner-4.1.9.tgz",
+./package-lock.json:2814:      "dependencies": {
+./package-lock.json:2815:        "@vitest/utils": "4.1.9",
+./package-lock.json:2819:        "url": "https://opencollective.com/vitest"
+./package-lock.json:2822:    "node_modules/@vitest/snapshot": {
+./package-lock.json:2824:      "resolved": "https://registry.npmjs.org/@vitest/snapshot/-/snapshot-4.1.9.tgz",
+./package-lock.json:2828:      "dependencies": {
+./package-lock.json:2829:        "@vitest/pretty-format": "4.1.9",
+./package-lock.json:2830:        "@vitest/utils": "4.1.9",
+./package-lock.json:2835:        "url": "https://opencollective.com/vitest"
+./package-lock.json:2838:    "node_modules/@vitest/spy": {
+./package-lock.json:2840:      "resolved": "https://registry.npmjs.org/@vitest/spy/-/spy-4.1.9.tgz",
+./package-lock.json:2845:        "url": "https://opencollective.com/vitest"
+./package-lock.json:2848:    "node_modules/@vitest/utils": {
+./package-lock.json:2850:      "resolved": "https://registry.npmjs.org/@vitest/utils/-/utils-4.1.9.tgz",
+./package-lock.json:2854:      "dependencies": {
+./package-lock.json:2855:        "@vitest/pretty-format": "4.1.9",
+./package-lock.json:2860:        "url": "https://opencollective.com/vitest"
+./package-lock.json:2892:      "peerDependencies": {
+./package-lock.json:2912:      "dependencies": {
+./package-lock.json:2939:      "dependencies": {
+./package-lock.json:2972:      "dependencies": {
+./package-lock.json:2989:      "dependencies": {
+./package-lock.json:3012:      "dependencies": {
+./package-lock.json:3033:      "dependencies": {
+./package-lock.json:3055:      "dependencies": {
+./package-lock.json:3074:      "dependencies": {
+./package-lock.json:3093:      "dependencies": {
+./package-lock.json:3110:      "dependencies": {
+./package-lock.json:3146:      "integrity": "sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==",
+./package-lock.json:3179:      "dependencies": {
+./package-lock.json:3243:      "dependencies": {
+./package-lock.json:3263:      "dependencies": {
+./package-lock.json:3276:      "dependencies": {
+./package-lock.json:3287:      "dependencies": {
+./package-lock.json:3319:      "dependencies": {
+./package-lock.json:3338:      "dependencies": {
+./package-lock.json:3352:      "dependencies": {
+./package-lock.json:3409:      "dependencies": {
+./package-lock.json:3451:      "dependencies": {
+./package-lock.json:3495:      "dependencies": {
+./package-lock.json:3510:      "dependencies": {
+./package-lock.json:3524:      "dependencies": {
+./package-lock.json:3553:      "dependencies": {
+./package-lock.json:3577:      "dependencies": {
+./package-lock.json:3595:      "dependencies": {
+./package-lock.json:3613:      "dependencies": {
+./package-lock.json:3631:      "dependencies": {
+./package-lock.json:3637:      "peerDependenciesMeta": {
+./package-lock.json:3643:    "node_modules/decimal.js": {
+./package-lock.json:3645:      "resolved": "https://registry.npmjs.org/decimal.js/-/decimal.js-10.6.0.tgz",
+./package-lock.json:3663:      "dependencies": {
+./package-lock.json:3691:      "dependencies": {
+./package-lock.json:3725:      "dependencies": {
+./package-lock.json:3737:      "dependencies": {
+./package-lock.json:3748:      "dependencies": {
+./package-lock.json:3763:      "dependencies": {
+./package-lock.json:3806:      "dependencies": {
+./package-lock.json:3849:        "safe-regex-test": "^1.1.0",
+./package-lock.json:3875:      "dependencies": {
+./package-lock.json:3914:      "dependencies": {
+./package-lock.json:3949:      "dependencies": {
+./package-lock.json:3962:      "dependencies": {
+./package-lock.json:3978:      "dependencies": {
+./package-lock.json:3991:      "dependencies": {
+./package-lock.json:4024:      "dependencies": {
+./package-lock.json:4069:      "peerDependencies": {
+./package-lock.json:4072:      "peerDependenciesMeta": {
+./package-lock.json:4084:      "dependencies": {
+./package-lock.json:4096:      "peerDependencies": {
+./package-lock.json:4100:      "peerDependenciesMeta": {
+./package-lock.json:4112:      "dependencies": {
+./package-lock.json:4124:      "dependencies": {
+./package-lock.json:4134:      "dependencies": {
+./package-lock.json:4149:      "peerDependencies": {
+./package-lock.json:4154:      "peerDependenciesMeta": {
+./package-lock.json:4169:      "dependencies": {
+./package-lock.json:4175:      "peerDependenciesMeta": {
+./package-lock.json:4187:      "dependencies": {
+./package-lock.json:4197:      "dependencies": {
+./package-lock.json:4221:      "peerDependencies": {
+./package-lock.json:4231:      "dependencies": {
+./package-lock.json:4251:      "dependencies": {
+./package-lock.json:4265:        "safe-regex-test": "^1.0.3",
+./package-lock.json:4271:      "peerDependencies": {
+./package-lock.json:4281:      "dependencies": {
+./package-lock.json:4304:      "peerDependencies": {
+./package-lock.json:4317:      "peerDependencies": {
+./package-lock.json:4337:      "dependencies": {
+./package-lock.json:4367:      "dependencies": {
+./package-lock.json:4385:      "dependencies": {
+./package-lock.json:4398:      "dependencies": {
+./package-lock.json:4421:      "dependencies": {
+./package-lock.json:4438:      "integrity": "sha512-mlsTRyGaPBjPedk6Bvw+aqbsXDtoAyAzm5MO7JgU+yVRyMQ5O8bD4Kcci7BS85f93veegeCPkL8R4GLClnjLFw==",
+./package-lock.json:4444:      "integrity": "sha512-knvyeauYhqjOYvQ66MznSMs83wmHrCycNEN6Ao+2AeYEfxUIkuiVxdEa1qlGEPK+We3n0THiDciYSsCcgW/DoA==",
+./package-lock.json:4464:      "dependencies": {
+./package-lock.json:4481:      "dependencies": {
+./package-lock.json:4508:      "dependencies": {
+./package-lock.json:4518:      "dependencies": {
+./package-lock.json:4528:      "dependencies": {
+./package-lock.json:4541:      "dependencies": {
+./package-lock.json:4554:      "dependencies": {
+./package-lock.json:4571:      "dependencies": {
+./package-lock.json:4592:      "dependencies": {
+./package-lock.json:4608:      "dependencies": {
+./package-lock.json:4648:      "dependencies": {
+./package-lock.json:4692:      "dependencies": {
+./package-lock.json:4726:      "dependencies": {
+./package-lock.json:4740:      "dependencies": {
+./package-lock.json:4758:      "dependencies": {
+./package-lock.json:4771:      "dependencies": {
+./package-lock.json:4789:      "dependencies": {
+./package-lock.json:4812:      "dependencies": {
+./package-lock.json:4825:      "dependencies": {
+./package-lock.json:4854:      "dependencies": {
+./package-lock.json:4914:      "dependencies": {
+./package-lock.json:4927:      "dependencies": {
+./package-lock.json:4956:      "dependencies": {
+./package-lock.json:4972:      "dependencies": {
+./package-lock.json:4985:      "dependencies": {
+./package-lock.json:4995:      "integrity": "sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==",
+./package-lock.json:4998:      "dependencies": {
+./package-lock.json:5012:      "dependencies": {
+./package-lock.json:5036:      "dependencies": {
+./package-lock.json:5080:      "dependencies": {
+./package-lock.json:5095:      "dependencies": {
+./package-lock.json:5113:      "dependencies": {
+./package-lock.json:5118:        "safe-regex-test": "^1.1.0"
+./package-lock.json:5133:      "dependencies": {
+./package-lock.json:5149:      "dependencies": {
+./package-lock.json:5166:      "dependencies": {
+./package-lock.json:5189:      "dependencies": {
+./package-lock.json:5205:      "dependencies": {
+./package-lock.json:5223:      "dependencies": {
+./package-lock.json:5256:      "dependencies": {
+./package-lock.json:5282:      "dependencies": {
+./package-lock.json:5308:      "dependencies": {
+./package-lock.json:5313:        "safe-regex-test": "^1.1.0"
+./package-lock.json:5328:      "dependencies": {
+./package-lock.json:5377:      "dependencies": {
+./package-lock.json:5401:      "dependencies": {
+./package-lock.json:5433:      "dependencies": {
+./package-lock.json:5449:      "dependencies": {
+./package-lock.json:5466:      "dependencies": {
+./package-lock.json:5469:        "safe-regex-test": "^1.1.0"
+./package-lock.json:5484:      "dependencies": {
+./package-lock.json:5513:      "dependencies": {
+./package-lock.json:5529:      "dependencies": {
+./package-lock.json:5546:      "dependencies": {
+./package-lock.json:5573:      "dependencies": {
+./package-lock.json:5607:      "dependencies": {
+./package-lock.json:5620:      "dependencies": {
+./package-lock.json:5626:        "decimal.js": "^10.6.0",
+./package-lock.json:5645:      "peerDependencies": {
+./package-lock.json:5648:      "peerDependenciesMeta": {
+./package-lock.json:5681:      "dependencies": {
+./package-lock.json:5694:      "dependencies": {
+./package-lock.json:5697:      "optionalDependencies": {
+./package-lock.json:5707:      "dependencies": {
+./package-lock.json:5723:      "dependencies": {
+./package-lock.json:5750:      "dependencies": {
+./package-lock.json:5763:      "dependencies": {
+./package-lock.json:5777:      "dependencies": {
+./package-lock.json:5787:      "optionalDependencies": {
+./package-lock.json:6050:      "dependencies": {
+./package-lock.json:6072:      "dependencies": {
+./package-lock.json:6095:      "dependencies": {
+./package-lock.json:6138:      "dependencies": {
+./package-lock.json:6152:      "dependencies": {
+./package-lock.json:6185:      "dependencies": {
+./package-lock.json:6197:      "dependencies": {
+./package-lock.json:6205:      "peerDependencies": {
+./package-lock.json:6214:      "peerDependenciesMeta": {
+./package-lock.json:6243:      "dependencies": {
+./package-lock.json:6253:      "dependencies": {
+./package-lock.json:6274:      "dependencies": {
+./package-lock.json:6329:      "dependencies": {
+./package-lock.json:6361:      "dependencies": {
+./package-lock.json:6374:      "optionalDependencies": {
+./package-lock.json:6385:      "peerDependencies": {
+./package-lock.json:6387:        "@playwright/test": "^1.51.1",
+./package-lock.json:6393:      "peerDependenciesMeta": {
+./package-lock.json:6397:        "@playwright/test": {
+./package-lock.json:6414:      "dependencies": {
+./package-lock.json:6475:      "dependencies": {
+./package-lock.json:6496:      "dependencies": {
+./package-lock.json:6512:      "dependencies": {
+./package-lock.json:6531:      "dependencies": {
+./package-lock.json:6546:      "dependencies": {
+./package-lock.json:6579:      "dependencies": {
+./package-lock.json:6597:      "dependencies": {
+./package-lock.json:6615:      "dependencies": {
+./package-lock.json:6633:      "dependencies": {
+./package-lock.json:6649:      "dependencies": {
+./package-lock.json:6672:      "dependencies": {
+./package-lock.json:6685:      "dependencies": {
+./package-lock.json:6725:      "dependencies": {
+./package-lock.json:6755:      "dependencies": {
+./package-lock.json:6784:      "dependencies": {
+./package-lock.json:6793:      "optionalDependencies": {
+./package-lock.json:6831:      "dependencies": {
+./package-lock.json:6869:      "dependencies": {
+./package-lock.json:6894:      "dependencies": {
+./package-lock.json:6917:      "dependencies": {
+./package-lock.json:6967:      "dependencies": {
+./package-lock.json:6970:      "peerDependencies": {
+./package-lock.json:6985:      "peerDependencies": {
+./package-lock.json:6995:      "dependencies": {
+./package-lock.json:7005:      "peerDependencies": {
+./package-lock.json:7009:      "peerDependenciesMeta": {
+./package-lock.json:7020:      "dependencies": {
+./package-lock.json:7027:      "peerDependencies": {
+./package-lock.json:7031:      "peerDependenciesMeta": {
+./package-lock.json:7042:      "dependencies": {
+./package-lock.json:7049:      "peerDependencies": {
+./package-lock.json:7053:      "peerDependenciesMeta": {
+./package-lock.json:7064:      "dependencies": {
+./package-lock.json:7067:        "use-latest": "^1.2.1"
+./package-lock.json:7072:      "peerDependencies": {
+./package-lock.json:7081:      "dependencies": {
+./package-lock.json:7087:      "peerDependencies": {
+./package-lock.json:7098:      "dependencies": {
+./package-lock.json:7113:      "dependencies": {
+./package-lock.json:7136:      "dependencies": {
+./package-lock.json:7167:      "dependencies": {
+./package-lock.json:7222:      "dependencies": {
+./package-lock.json:7242:      "dependencies": {
+./package-lock.json:7252:      "optionalDependencies": {
+./package-lock.json:7290:      "dependencies": {
+./package-lock.json:7300:      "dependencies": {
+./package-lock.json:7341:      "dependencies": {
+./package-lock.json:7352:    "node_modules/safe-regex-test": {
+./package-lock.json:7354:      "resolved": "https://registry.npmjs.org/safe-regex-test/-/safe-regex-test-1.1.0.tgz",
+./package-lock.json:7358:      "dependencies": {
+./package-lock.json:7383:      "dependencies": {
+./package-lock.json:7415:      "dependencies": {
+./package-lock.json:7433:      "dependencies": {
+./package-lock.json:7449:      "dependencies": {
+./package-lock.json:7465:      "dependencies": {
+./package-lock.json:7476:      "optionalDependencies": {
+./package-lock.json:7509:      "dependencies": {
+./package-lock.json:7532:      "dependencies": {
+./package-lock.json:7552:      "dependencies": {
+./package-lock.json:7569:      "dependencies": {
+./package-lock.json:7588:      "dependencies": {
+./package-lock.json:7629:      "dependencies": {
+./package-lock.json:7655:      "dependencies": {
+./package-lock.json:7696:      "dependencies": {
+./package-lock.json:7710:      "dependencies": {
+./package-lock.json:7720:      "dependencies": {
+./package-lock.json:7742:      "dependencies": {
+./package-lock.json:7757:      "dependencies": {
+./package-lock.json:7785:      "dependencies": {
+./package-lock.json:7796:      "dependencies": {
+./package-lock.json:7804:        "safe-regex-test": "^1.1.0"
+./package-lock.json:7819:      "dependencies": {
+./package-lock.json:7838:      "dependencies": {
+./package-lock.json:7856:      "dependencies": {
+./package-lock.json:7891:      "dependencies": {
+./package-lock.json:7897:      "peerDependencies": {
+./package-lock.json:7900:      "peerDependenciesMeta": {
+./package-lock.json:7915:      "dependencies": {
+./package-lock.json:7954:      "dependencies": {
+./package-lock.json:7971:      "dependencies": {
+./package-lock.json:7998:      "dependencies": {
+./package-lock.json:8018:      "peerDependencies": {
+./package-lock.json:8021:      "peerDependenciesMeta": {
+./package-lock.json:8056:      "dependencies": {
+./package-lock.json:8076:      "dependencies": {
+./package-lock.json:8089:      "dependencies": {
+./package-lock.json:8102:      "dependencies": {
+./package-lock.json:8128:      "peerDependencies": {
+./package-lock.json:8138:      "dependencies": {
+./package-lock.json:8154:      "integrity": "sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==",
+./package-lock.json:8157:      "dependencies": {
+./package-lock.json:8182:      "dependencies": {
+./package-lock.json:8197:      "dependencies": {
+./package-lock.json:8217:      "dependencies": {
+./package-lock.json:8239:      "dependencies": {
+./package-lock.json:8274:      "dependencies": {
+./package-lock.json:8287:    "node_modules/undici-types": {
+./package-lock.json:8289:      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.18.2.tgz",
+./package-lock.json:8311:      "dependencies": {
+./package-lock.json:8317:      "optionalDependencies": {
+./package-lock.json:8358:      "dependencies": {
+./package-lock.json:8367:      "dependencies": {
+./package-lock.json:8373:      "peerDependencies": {
+./package-lock.json:8377:      "peerDependenciesMeta": {
+./package-lock.json:8388:      "peerDependencies": {
+./package-lock.json:8391:      "peerDependenciesMeta": {
+./package-lock.json:8402:      "peerDependencies": {
+./package-lock.json:8405:      "peerDependenciesMeta": {
+./package-lock.json:8411:    "node_modules/use-latest": {
+./package-lock.json:8413:      "resolved": "https://registry.npmjs.org/use-latest/-/use-latest-1.3.0.tgz",
+./package-lock.json:8416:      "dependencies": {
+./package-lock.json:8419:      "peerDependencies": {
+./package-lock.json:8422:      "peerDependenciesMeta": {
+./package-lock.json:8433:      "dependencies": {
+./package-lock.json:8440:      "peerDependencies": {
+./package-lock.json:8444:      "peerDependenciesMeta": {
+./package-lock.json:8463:      "dependencies": {
+./package-lock.json:8479:      "optionalDependencies": {
+./package-lock.json:8482:      "peerDependencies": {
+./package-lock.json:8496:      "peerDependenciesMeta": {
+./package-lock.json:8548:    "node_modules/vitest": {
+./package-lock.json:8550:      "resolved": "https://registry.npmjs.org/vitest/-/vitest-4.1.9.tgz",
+./package-lock.json:8554:      "dependencies": {
+./package-lock.json:8555:        "@vitest/expect": "4.1.9",
+./package-lock.json:8556:        "@vitest/mocker": "4.1.9",
+./package-lock.json:8557:        "@vitest/pretty-format": "4.1.9",
+./package-lock.json:8558:        "@vitest/runner": "4.1.9",
+./package-lock.json:8559:        "@vitest/snapshot": "4.1.9",
+./package-lock.json:8560:        "@vitest/spy": "4.1.9",
+./package-lock.json:8561:        "@vitest/utils": "4.1.9",
+./package-lock.json:8577:        "vitest": "vitest.mjs"
+./package-lock.json:8583:        "url": "https://opencollective.com/vitest"
+./package-lock.json:8585:      "peerDependencies": {
+./package-lock.json:8589:        "@vitest/browser-playwright": "4.1.9",
+./package-lock.json:8590:        "@vitest/browser-preview": "4.1.9",
+./package-lock.json:8591:        "@vitest/browser-webdriverio": "4.1.9",
+./package-lock.json:8592:        "@vitest/coverage-istanbul": "4.1.9",
+./package-lock.json:8593:        "@vitest/coverage-v8": "4.1.9",
+./package-lock.json:8594:        "@vitest/ui": "4.1.9",
+./package-lock.json:8599:      "peerDependenciesMeta": {
+./package-lock.json:8609:        "@vitest/browser-playwright": {
+./package-lock.json:8612:        "@vitest/browser-preview": {
+./package-lock.json:8615:        "@vitest/browser-webdriverio": {
+./package-lock.json:8618:        "@vitest/coverage-istanbul": {
+./package-lock.json:8621:        "@vitest/coverage-v8": {
+./package-lock.json:8624:        "@vitest/ui": {
+./package-lock.json:8638:    "node_modules/vitest/node_modules/picomatch": {
+./package-lock.json:8657:      "dependencies": {
+./package-lock.json:8690:      "dependencies": {
+./package-lock.json:8704:      "dependencies": {
+./package-lock.json:8720:      "dependencies": {
+./package-lock.json:8740:      "dependencies": {
+./package-lock.json:8768:      "dependencies": {
+./package-lock.json:8787:      "dependencies": {
+./package-lock.json:8809:      "dependencies": {
+./package-lock.json:8836:      "dependencies": {
+./package-lock.json:8851:      "integrity": "sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==",
+./package-lock.json:8857:      "peerDependencies": {
+./package-lock.json:8861:      "peerDependenciesMeta": {
+./package-lock.json:8886:      "dependencies": {
+./package-lock.json:8937:      "dependencies": {
+./package.json:11:    "test": "vitest run",
+./package.json:12:    "verify": "npm run test && npm run build",
+./package.json:14:    "ios:preflight": "node scripts/ios-testflight-preflight.mjs",
+./package.json:19:    "ios:upload": "node scripts/ios-testflight-upload.mjs",
+./package.json:22:  "dependencies": {
+./package.json:23:    "@capacitor/core": "^8.4.1",
+./package.json:24:    "@capacitor/ios": "^8.4.1",
+./package.json:38:  "devDependencies": {
+./package.json:39:    "@capacitor/cli": "^8.4.1",
+./package.json:48:    "vitest": "^4.1.9"
+./scripts/mobile-smoke.mjs:28:  await context.route('**/api/leaderboard', (route) => route.fulfill({ json: { leaderboard: Array.from({ length: 50 }, (_, index) => ({ playerId: `rank-${index}`, tag: `Player ${index + 1}`, score: 2500 - index * 10, wins: 50 - index })) } }));
+./scripts/mobile-smoke.mjs:29:  await context.route('**/api/history?**', (route) => route.fulfill({ json: { history: Array.from({ length: 40 }, (_, index) => ({ id: `history-${index}`, result: index % 3 === 0 ? 'defeat' : 'victory', opponent: 'Matimato AI', score: 40 + index, opponentScore: 35 + index, completedAt: new Date(2026, 5, 25 - (index % 12)).toISOString() })) } }));
+./scripts/mobile-smoke.mjs:43:    const result = await page.evaluate(({ shouldScroll }) => {
+./lib/server/store.ts:5:import { buildGiftLedgerEntry, friendshipIdForPlayers, normalizeFriendTag, nextUtcGiftReset, otherFriendPlayer, publicPlayerHash, relationshipBlocksActions, utcGiftDate } from '@/lib/game/social';
+./lib/server/store.ts:51:    const score = player!.score;
+./lib/server/store.ts:52:    const opponentScore = opponent?.score ?? 0;
+./lib/server/store.ts:53:    const result = snapshot.outcome.winner === 'draw' ? 'draw' : snapshot.outcome.winner === player!.side ? 'victory' : 'defeat';
+./lib/server/store.ts:54:    const summary: MatchSummary = { id: `${snapshot.id}:${player!.id}`, mode: snapshot.mode, playerId: player!.id, opponent: opponent?.tag ?? 'Open seat', result, score, opponentScore, completedAt };
+./lib/server/store.ts:58:      const xp = Math.max(10, Math.abs(score) + (result === 'victory' ? 80 : result === 'draw' ? 35 : 20));
+./lib/server/store.ts:66:          $max: { bestScore: score }
+./lib/server/store.ts:73:        metric: 'complete_match',
+./lib/server/store.ts:75:        score,
+./lib/server/store.ts:82:          metric: 'win_match',
+./lib/server/store.ts:84:          score,
+./lib/server/store.ts:91:        challengeId: snapshot.dailyId,
+./lib/server/store.ts:94:        score,
+./lib/server/store.ts:191:    await recordSeasonProgressAction({ playerId: input.playerId, source: 'social', metric: 'send_friend_gift', actionId: gift.id });
+./lib/server/store.ts:267:  return rows.map((row) => ({ playerId: String(row.playerId), tag: String(row.tag ?? 'Player'), score: Number(row.xp ?? 0), wins: Number(row.wins ?? 0), matches: Number(row.matches ?? 0) }));
+./lib/server/store.ts:279:    .find({ challengeId: { $gte: weekStart, $lt: weekEnd } }, { projection: { _id: 0 } })
+./lib/server/store.ts:280:    .sort({ score: -1, completedAt: 1, attempts: 1 })
+./lib/server/store.ts:292:      { id: 'finish-one', title: 'Finish one match', progress: dailyResult ? 1 : 0, target: 1, rewardXp: 80 },
+./lib/server/store.ts:293:      { id: 'win-two', title: 'Win two duels', progress: Number(profile?.wins ?? 0), target: 2, rewardXp: 140 },
+./lib/server/store.ts:294:      { id: 'positive-row', title: 'Claim a positive row swing', progress: dailyResult && dailyResult.score > 0 ? 1 : 0, target: 1, rewardXp: 60 }
+./lib/server/store.ts:328:  await recordSeasonProgressAction({ playerId: input.playerId, source: 'journey', metric: 'unlock_board', actionId: input.actionId, boardSize: input.boardSize });
+./lib/server/store.ts:332:export async function recordSeasonProgressAction(input: { playerId: string; source: SeasonTaskSource; metric: SeasonTaskMetric; actionId: string; score?: number; boardSize?: BoardSize }) {
+./lib/server/store.ts:344:export async function claimSeasonProgressReward(input: { playerId: string; rewardId: string }) {
+./lib/server/store.ts:347:  const claim = claimSeasonReward(raw?.seasonProgress, input.playerId, input.rewardId);
+./lib/server/store.ts:349:  const xpDelta = claim.newlyClaimed ? claim.reward.xp : 0;
+./lib/server/store.ts:368:    reward: claim.reward,
+./lib/server/store.ts:399:  const id = `${input.challengeId}:${input.playerId}`;
+./lib/server/store.ts:405:  const streak = updateStreak(normalizeStreak(currentProfile?.streak), input.challengeId);
+./lib/server/store.ts:411:      $max: { bestDailyScore: input.score }
+./lib/shared/types.ts:47:  | 'blitz_deadline_warning'
+./lib/shared/types.ts:68:  | 'season_reward_unlocked'
+./lib/shared/types.ts:69:  | 'season_reward_claimed'
+./lib/shared/types.ts:82:  | 'bot_decision_timeout'
+./lib/shared/types.ts:115:  score: number;
+./lib/shared/types.ts:125:  scores: Record<PlayerSide, number>;
+./lib/shared/types.ts:131:  winner: PlayerSide | 'draw';
+./lib/shared/types.ts:146:  deadlineAt?: string;
+./lib/shared/types.ts:147:  deadlineVersion?: number;
+./lib/shared/types.ts:168:  maxDecisionMs: number;
+./lib/shared/types.ts:175:  deadlineVersion: number;
+./lib/shared/types.ts:201:export type SeasonTaskSource = 'daily' | 'solo' | 'battle' | 'blitz' | 'journey' | 'recap' | 'rank' | 'social';
+./lib/shared/types.ts:202:export type SeasonTaskMetric = 'complete_match' | 'win_match' | 'score_threshold' | 'unlock_board' | 'replay_move' | 'share_recap' | 'view_rank' | 'send_friend_gift';
+./lib/shared/types.ts:208:  metric: SeasonTaskMetric;
+./lib/shared/types.ts:221:  rewardId: string;
+./lib/shared/types.ts:237:  rewards: SeasonReward[];
+./lib/shared/types.ts:243:  rewardId: string;
+./lib/shared/types.ts:254:  rewardGrants: SeasonRewardGrant[];
+./lib/shared/types.ts:306:  challengeId: string;
+./lib/shared/types.ts:309:  score: number;
+./lib/shared/types.ts:326:  score: number;
+./lib/shared/types.ts:331:export type QuestProgress = { id: string; title: string; progress: number; target: number; rewardXp: number };
+./lib/shared/types.ts:451:export type ReplayFrame = Pick<MoveFrame, 'version' | 'side' | 'selected' | 'fromTarget' | 'toTarget' | 'scores' | 'timeout' | 'outcome'>;
+./lib/shared/types.ts:459:  players: { side: PlayerSide; tag: string; score: number }[];
+./lib/shared/types.ts:471:export type TimeoutRequest = { type: 'timeout'; matchId: string; playerId: string; deadlineVersion: number };
+./lib/shared/types.ts:504:  score: number;
+./lib/shared/types.ts:512:  score: number;
+./lib/shared/telemetry.ts:41:  'blitz_deadline_warning',
+./lib/shared/telemetry.ts:62:  'season_reward_unlocked',
+./lib/shared/telemetry.ts:63:  'season_reward_claimed',
+./lib/shared/telemetry.ts:76:  'bot_decision_timeout',
+./lib/shared/telemetry.ts:104:  'scoreBucket',
+./lib/shared/telemetry.ts:120:  'deadlineVersion',
+./lib/shared/telemetry.ts:130:  'rewardId',
+./lib/game/rules-help.ts:3:export type RulesHelpTopicId = 'objective' | 'turns' | 'legal-moves' | 'scoring' | 'traps' | 'xp' | 'boards' | 'recap' | 'ranks';
+./lib/game/rules-help.ts:28:    relatedTopicIds: ['scoring', 'legal-moves']
+./lib/game/rules-help.ts:42:    relatedTopicIds: ['turns', 'scoring']
+./lib/game/rules-help.ts:45:    topicId: 'scoring',
+./lib/game/rules-help.ts:47:    summary: 'Your score changes by the exact value on the tile you claim.',
+./lib/game/rules-help.ts:48:    bullets: ['Positive tiles increase your score.', 'Negative tiles reduce your score.', 'A small negative can still be useful if it gives the rival a worse target.'],
+./lib/game/rules-help.ts:56:    relatedTopicIds: ['legal-moves', 'scoring']
+./lib/game/rules-help.ts:61:    summary: 'XP rewards progression and unlocks larger boards.',
+./lib/game/rules-help.ts:62:    bullets: ['Lifetime XP tracks all rewards earned.', 'Spendable XP is used for board unlocks.', 'Claimed seasonal rewards add XP once.'],
+./lib/game/rules-help.ts:77:    relatedTopicIds: ['scoring', 'traps']
+./lib/game/rules-help.ts:82:    summary: 'Ranks compare XP, wins, and daily challenge results.',
+./lib/game/rules-help.ts:83:    bullets: ['Profile XP drives the main rank list.', 'Daily challenge has a weekly board.', 'Tie-breaks favor stronger score and earlier completions where supported.'],
+./lib/game/rules-help.ts:105:  if (negatives && positives.length === 1) return { hintId: 'one-positive-target', severity: 'warning', title: 'One safe score is available.', body: `The best visible tile is ${signedValue(best.value)} at row ${best.row + 1}, column ${best.col + 1}. Watch the target it gives back.`, relatedTopicId: 'scoring', canContinue: true };
+./lib/game/daily.ts:65:    if (b.score !== a.score) return b.score - a.score;
+./lib/game/daily.ts:74:    const tied = previous && previous.score === result.score && previous.completedAt === result.completedAt && previous.attempts === result.attempts;
+./lib/game/daily.ts:82:      score: result.score,
+./lib/game/replay.ts:6:  const explicit = snapshot.replayVisibility;
+./lib/game/replay.ts:7:  if (explicit === 'private') return 'private';
+./lib/game/replay.ts:9:  return explicit ?? 'public-link';
+./lib/game/replay.ts:26:      .map((side) => snapshot.players[side] ? { side, tag: sanitizeReplayTag(snapshot.players[side]!.tag, side), score: snapshot.players[side]!.score } : null)
+./lib/game/replay.ts:27:      .filter((player): player is { side: PlayerSide; tag: string; score: number } => Boolean(player)),
+./lib/game/replay.ts:52:        scores: {
+./lib/game/replay.ts:53:          north: Number(raw.scores?.north ?? 0),
+./lib/game/replay.ts:54:          south: Number(raw.scores?.south ?? 0)
+./lib/game/rules.ts:11:  return { id, tag: tag.trim() || 'Player', side, score: 0 };
+./lib/game/rules.ts:90:  const scores = { north: snapshot.players.north?.score ?? 0, south: snapshot.players.south?.score ?? 0 };
+./lib/game/rules.ts:91:  scores[side] += selected.value;
+./lib/game/rules.ts:94:  const outcome = computeOutcome(board, toTarget, scores);
+./lib/game/rules.ts:96:  const frame: MoveFrame = { actionId, version: snapshot.version + 1, side, selected: { row, col, value: selected.value }, fromTarget, toTarget, scores, outcome };
+./lib/game/rules.ts:102:      north: snapshot.players.north ? { ...snapshot.players.north, score: scores.north } : null,
+./lib/game/rules.ts:103:      south: snapshot.players.south ? { ...snapshot.players.south, score: scores.south } : null
+./lib/game/rules.ts:126:  if (!snapshot.clock?.enabled || !snapshot.clock.deadlineAt) return false;
+./lib/game/rules.ts:127:  return now.getTime() > new Date(snapshot.clock.deadlineAt).getTime() + snapshot.clock.config.graceMs;
+./lib/game/rules.ts:130:export function applyTimeout(snapshot: GameSnapshot, side: PlayerSide, deadlineVersion: number, now = new Date()): { snapshot: GameSnapshot; frames: MoveFrame[]; resolved: boolean } {
+./lib/game/rules.ts:131:  if (snapshot.status !== 'active' || !snapshot.clock?.enabled || !snapshot.clock.deadlineAt) return { snapshot, frames: [], resolved: false };
+./lib/game/rules.ts:133:  if (snapshot.clock.deadlineVersion !== deadlineVersion) return { snapshot, frames: [], resolved: false };
+./lib/game/rules.ts:138:  const scores = { north: snapshot.players.north?.score ?? 0, south: snapshot.players.south?.score ?? 0 };
+./lib/game/rules.ts:140:  const timeout: TimeoutResolution = { side, deadlineVersion, policy: snapshot.clock.config.timeoutPolicy, count: counts[side] };
+./lib/game/rules.ts:141:  const outcome: GameOutcome | undefined = forfeit ? { winner: nextSide, reason: 'timeout-forfeit' } : undefined;
+./lib/game/rules.ts:144:    actionId: `timeout:${snapshot.id}:${side}:${deadlineVersion}`,
+./lib/game/rules.ts:150:    scores,
+./lib/game/rules.ts:172:export function nextClock(activeSide: PlayerSide, deadlineVersion: number, timeoutCount: Record<PlayerSide, number>, config: BlitzClockConfig, now = new Date()): ClockState {
+./lib/game/rules.ts:178:    deadlineAt: new Date(now.getTime() + config.turnLimitMs).toISOString(),
+./lib/game/rules.ts:179:    deadlineVersion,
+./lib/game/rules.ts:187:  return { ...clock, enabled: false, serverNow: now.toISOString(), deadlineAt: undefined };
+./lib/game/rules.ts:190:export function computeOutcome(board: BoardCell[], target: LegalTarget, scores: Record<PlayerSide, number>): GameOutcome | undefined {
+./lib/game/rules.ts:191:  if (board.every((cell) => cell.removed)) return winner(scores, 'board-complete');
+./lib/game/rules.ts:192:  if (!hasLegalCells(target, board)) return winner(scores, 'no-legal-cells');
+./lib/game/rules.ts:196:function winner(scores: Record<PlayerSide, number>, reason: GameOutcome['reason']): GameOutcome {
+./lib/game/rules.ts:197:  if (scores.north === scores.south) return { winner: 'draw', reason };
+./lib/game/rules.ts:198:  return { winner: scores.north > scores.south ? 'north' : 'south', reason };
+./lib/game/ai.ts:13:    maxDecisionMs: 40
+./lib/game/ai.ts:22:    maxDecisionMs: 60
+./lib/game/ai.ts:31:    maxDecisionMs: 80
+./lib/game/ai.ts:40:    maxDecisionMs: 100
+./lib/game/ai.ts:64:  const scored = legal.map((cell) => ({ cell, score: scoreMove(snapshot, cell, profile) }));
+./lib/game/ai.ts:65:  const best = deterministicMax(scored, `${seed}:${snapshot.version}:${profile.profileId}`);
+./lib/game/ai.ts:67:  const fallback = durationMs > profile.maxDecisionMs;
+./lib/game/ai.ts:68:  const move = fallback ? deterministicMax(legal.map((cell) => ({ cell, score: cell.value })), `${seed}:fallback:${snapshot.version}`) : best;
+./lib/game/ai.ts:72:function scoreMove(snapshot: GameSnapshot, cell: BoardCell, profile: BotProfile): number {
+./lib/game/ai.ts:107:function deterministicMax<T extends { score: number; cell: BoardCell }>(items: T[], seed: string): T {
+./lib/game/ai.ts:108:  return [...items].sort((a, b) => b.score - a.score || hashCell(seed, a.cell) - hashCell(seed, b.cell))[0];
+./lib/game/seasons.ts:6:  metric: SeasonTaskMetric;
+./lib/game/seasons.ts:9:  score?: number;
+./lib/game/seasons.ts:15:  reward: SeasonReward;
+./lib/game/seasons.ts:28:    { taskId: 'finish-matches', title: 'Finish matches', source: 'solo', metric: 'complete_match', target: 3, weight: 12 },
+./lib/game/seasons.ts:29:    { taskId: 'win-duels', title: 'Win duels', source: 'solo', metric: 'win_match', target: 2, weight: 18 },
+./lib/game/seasons.ts:30:    { taskId: 'blitz-sprints', title: 'Complete Blitz sprints', source: 'blitz', metric: 'complete_match', target: 2, weight: 16 },
+./lib/game/seasons.ts:31:    { taskId: 'daily-chases', title: 'Finish daily boards', source: 'daily', metric: 'complete_match', target: 2, weight: 16 },
+./lib/game/seasons.ts:32:    { taskId: 'journey-unlocks', title: 'Unlock larger boards', source: 'journey', metric: 'unlock_board', target: 2, weight: 22 },
+./lib/game/seasons.ts:33:    { taskId: 'share-recaps', title: 'Share recaps', source: 'recap', metric: 'share_recap', target: 1, weight: 10 }
+./lib/game/seasons.ts:43:  rewards: [
+./lib/game/seasons.ts:44:    { rewardId: 'starter-cache', title: 'Starter cache', threshold: 12, xp: 40, collectibleId: 'first-claim' },
+./lib/game/seasons.ts:45:    { rewardId: 'duel-cache', title: 'Duel cache', threshold: 48, xp: 80, collectibleId: 'duel-spark' },
+./lib/game/seasons.ts:46:    { rewardId: 'season-cache', title: 'Season cache', threshold: 120, xp: 160, collectibleId: 'journey-key' }
+./lib/game/seasons.ts:63:    rewardGrants: [],
+./lib/game/seasons.ts:78:    rewardGrants: Array.isArray(raw.rewardGrants) ? raw.rewardGrants.filter(isRewardGrant) : [],
+./lib/game/seasons.ts:120:  const actionKey = `${input.source}:${input.metric}:${input.actionId}`;
+./lib/game/seasons.ts:128:    if (task.source !== input.source || task.metric !== input.metric) continue;
+./lib/game/seasons.ts:129:    if (task.metric === 'score_threshold' && Number(input.score ?? 0) < task.target) continue;
+./lib/game/seasons.ts:138:export function claimSeasonReward(rawProgress: unknown, playerId: string, rewardId: string, now = new Date()): SeasonClaimResult {
+./lib/game/seasons.ts:142:  const reward = state.definition.rewards.find((item) => item.rewardId === rewardId);
+./lib/game/seasons.ts:143:  if (!reward) throw new Error('SEASON_REWARD_NOT_FOUND');
+./lib/game/seasons.ts:144:  if (state.points < reward.threshold) throw new Error('SEASON_REWARD_LOCKED');
+./lib/game/seasons.ts:145:  const existing = state.progress.rewardGrants.find((grant) => grant.rewardId === reward.rewardId);
+./lib/game/seasons.ts:150:        grantId: `${state.definition.seasonId}:${playerId}:${reward.rewardId}`,
+./lib/game/seasons.ts:152:        rewardId: reward.rewardId,
+./lib/game/seasons.ts:159:    rewardGrants: [...state.progress.rewardGrants.filter((item) => item.rewardId !== reward.rewardId), grant],
+./lib/game/seasons.ts:164:    reward,
+./lib/game/seasons.ts:180:  const grants = [...progress.rewardGrants];
+./lib/game/seasons.ts:181:  for (const reward of definition.rewards) {
+./lib/game/seasons.ts:182:    if (points < reward.threshold || grants.some((grant) => grant.rewardId === reward.rewardId)) continue;
+./lib/game/seasons.ts:184:      grantId: `${definition.seasonId}:${progress.playerId}:${reward.rewardId}`,
+./lib/game/seasons.ts:186:      rewardId: reward.rewardId,
+./lib/game/seasons.ts:195:    rewardGrants: grants,
+./lib/game/seasons.ts:202:  if (!next) return 'Season album complete. Claim any unlocked rewards.';
+./lib/game/seasons.ts:222:  return isNonEmptyString(raw.grantId) && isNonEmptyString(raw.seasonId) && isNonEmptyString(raw.rewardId) && isNonEmptyString(raw.playerId) && isNonEmptyString(raw.grantedAt);
+./lib/game/tutorial.ts:8:  scores: Record<PlayerSide, number>;
+./lib/game/tutorial.ts:24:  { id: 'first-pick', title: 'Pick any tile', body: 'Start anywhere. Positive tiles add to your score, while negative tiles teach risk.' },
+./lib/game/tutorial.ts:29:  { id: 'finish', title: 'Ready for a real match', body: 'You have used any, column, row, score, risk, and AI handoff rules.' }
+./lib/game/tutorial.ts:37:    scores: { north: 0, south: 0 },
+./lib/game/tutorial.ts:58:    return { state, accepted: false, announcement: 'Choose a negative tile for this lesson so risk is explicit.' };
+./lib/game/tutorial.ts:83:      north: { id: 'tutorial-player', tag: 'You', side: 'north', score: state.scores.north },
+./lib/game/tutorial.ts:84:      south: { id: 'matimato-ai', tag: 'Matimato AI', side: 'south', score: state.scores.south }
+./lib/game/tutorial.ts:118:    scores: { ...state.scores, [side]: state.scores[side] + cell.value },
+./lib/game/progression.ts:45:  const explicit = Array.isArray(input.boardUnlocks?.unlockedBoardSizes)
+./lib/game/progression.ts:50:  const unlocked = uniqueBoardSizes([5, ...explicit, ...purchases.map((purchase) => purchase.boardSize)]);
+./lib/phaser/MatimatoScene.ts:42:        if (snapshot.mode === 'blitz') this.payload.onEvent({ type: 'telemetry', name: 'blitz_move_submitted', result: 'ok', properties: { version: snapshot.version, deadlineVersion: snapshot.clock?.deadlineVersion ?? 0 } });
+./lib/phaser/MatimatoScene.ts:71:    const scorePanel = this.add.graphics().setDepth(19);
+./lib/phaser/MatimatoScene.ts:72:    scorePanel.fillStyle(0x260c1d, 0.72);
+./lib/phaser/MatimatoScene.ts:73:    scorePanel.fillRoundedRect(50, 178, 370, 116, 24);
+./lib/phaser/MatimatoScene.ts:74:    scorePanel.fillRoundedRect(480, 178, 370, 116, 24);
+./lib/phaser/MatimatoScene.ts:75:    scorePanel.lineStyle(2, 0x7b3324, 0.75);
+./lib/phaser/MatimatoScene.ts:76:    scorePanel.strokeRoundedRect(50, 178, 370, 116, 24);
+./lib/phaser/MatimatoScene.ts:77:    scorePanel.strokeRoundedRect(480, 178, 370, 116, 24);
+./lib/phaser/MatimatoScene.ts:115:      this.payload.onEvent({ type: 'telemetry', name: 'blitz_timeout_resolved', result: 'ok', properties: { deadlineVersion: frame.timeout.deadlineVersion, timeoutCount: frame.timeout.count } });
+./lib/phaser/MatimatoScene.ts:136:    this.northScore?.setText(String(snapshot.players.north?.score ?? 0));
+./lib/phaser/MatimatoScene.ts:138:    this.southScore?.setText(String(snapshot.players.south?.score ?? 0));
+./lib/phaser/MatimatoScene.ts:166:    const winner = snapshot.outcome?.winner;
+./lib/phaser/MatimatoScene.ts:167:    const title = winner === 'draw' ? 'Draw' : winner === side ? 'Victory' : 'Defeat';
+./lib/phaser/MatimatoScene.ts:175:    const score = this.add.text(0, 0, `${snapshot.players.north?.score ?? 0}  :  ${snapshot.players.south?.score ?? 0}`, { fontFamily: 'Arial', fontSize: '52px', fontStyle: '900', color: '#ffb06f' }).setOrigin(0.5);
+./lib/phaser/MatimatoScene.ts:179:    layer.add([bg, burst, label, score, reason, exit]);
+./lib/phaser/MatimatoScene.ts:195:    if (!clock?.enabled || !clock.deadlineAt) {
+./lib/phaser/MatimatoScene.ts:199:    const remainingMs = Math.max(0, new Date(clock.deadlineAt).getTime() - Date.now());
+./lib/phaser/MatimatoScene.ts:204:    this.announceClockThreshold(seconds, clock.deadlineVersion ?? this.snapshot.version);
+./lib/phaser/MatimatoScene.ts:207:  private announceClockThreshold(seconds: number, deadlineVersion: number) {
+./lib/phaser/MatimatoScene.ts:208:    const key = `${deadlineVersion}:${seconds}`;
+./lib/phaser/MatimatoScene.ts:211:      const message = seconds === 0 ? 'Blitz deadline expired. Resolving with the server.' : `${seconds} seconds remain on the Blitz clock.`;
+./lib/phaser/MatimatoScene.ts:213:      if (seconds === 10 || seconds === 3) this.payload.onEvent({ type: 'telemetry', name: 'blitz_deadline_warning', result: 'ok', properties: { deadlineVersion, durationBucket: `${seconds}s` } });
+./lib/phaser/MatimatoScene.ts:219:    if (this.timeoutInFlight || this.snapshot.status !== 'active' || !clock?.enabled || !clock.deadlineAt || clock.deadlineVersion === undefined) return;
+./lib/phaser/MatimatoScene.ts:221:    if (Date.now() <= new Date(clock.deadlineAt).getTime() + clock.config.graceMs) return;
+./lib/phaser/MatimatoScene.ts:223:    this.payload.onEvent({ type: 'telemetry', name: 'blitz_timeout_requested', result: 'ok', properties: { deadlineVersion: clock.deadlineVersion } });
+./lib/phaser/MatimatoScene.ts:225:      const response = await this.network.timeout(this.snapshot.id, this.payload.playerId, clock.deadlineVersion);
+./lib/phaser/network/NetworkBridge.ts:22:  async timeout(matchId: string, playerId: string, deadlineVersion: number): Promise<GameApiResponse> {
+./lib/phaser/network/NetworkBridge.ts:26:      return await this.post({ type: 'timeout', matchId, playerId, deadlineVersion });
+./lib/client/iosRuntime.ts:3:export type IOSRuntimeMode = 'safari' | 'standalone-pwa' | 'capacitor-ios' | 'browser';
+./lib/client/iosRuntime.ts:12:    Capacitor?: {
+./lib/client/iosRuntime.ts:21:  if (window.Capacitor?.isNativePlatform?.() && window.Capacitor?.getPlatform?.() === 'ios') return 'capacitor-ios';
+./lib/client/iosRuntime.ts:23:  if (/iPad|iPhone|iPod/.test(navigator.userAgent)) return 'safari';
+./lib/client/api.ts:123:export function requestTimeout(matchId: string, playerId: string, deadlineVersion: number): Promise<GameApiResponse> {
+./lib/client/api.ts:124:  return request('/api/games', { method: 'POST', body: JSON.stringify({ type: 'timeout', matchId, playerId, deadlineVersion }) });
+./lib/client/api.ts:151:export function fetchLeaderboard(): Promise<{ leaderboard: RankEntry[] }> {
+./lib/client/api.ts:152:  return request('/api/leaderboard');
+./lib/client/api.ts:196:export function recordSeasonAction(input: { playerId: string; source: SeasonTaskSource; metric: SeasonTaskMetric; actionId: string; score?: number; boardSize?: BoardSize }): Promise<{ ok: true; activeSeason?: ActiveSeasonState }> {
+./lib/client/api.ts:200:export function claimSeasonReward(playerId: string, rewardId: string): Promise<{ ok: true; claimed: boolean; reward: SeasonReward; grant: SeasonRewardGrant; profileDelta: { xp: number; spendableXp: number }; activeSeason: ActiveSeasonState; progression: BoardProgression }> {
+./lib/client/api.ts:201:  return request('/api/progression', { method: 'POST', body: JSON.stringify({ type: 'claimSeasonReward', playerId, rewardId }) });
+./vitest.config.ts:2:import { defineConfig } from 'vitest/config';
+./vitest.config.ts:10:  test: { environment: 'node', include: ['tests/**/*.test.ts'] }
+./capacitor.config.ts:1:import type { CapacitorConfig } from '@capacitor/cli';
+./capacitor.config.ts:6:const config: CapacitorConfig = {
+
+===== patch/search surface hits =====
+./app/layout.tsx:1:import type { Metadata, Viewport } from 'next';
+./app/api/health/route.ts:3:import type { HealthResponse } from '@/lib/shared/types';
+./app/api/health/route.ts:16:  } catch (error) {
+./app/api/health/route.ts:19:      database: 'error',
+./app/api/health/route.ts:21:      checks: [{ name: 'mongodb', status: 'error', latencyMs: Date.now() - started }]
+./app/api/health/route.ts:23:    return fail(error, 503, response);
+./app/api/leaderboard/route.ts:7:  } catch (error) {
+./app/api/leaderboard/route.ts:8:    return fail(error, 400);
+./app/api/profile/route.ts:7:    const playerId = url.searchParams.get('playerId');
+./app/api/profile/route.ts:8:    const tag = url.searchParams.get('tag') || 'Player';
+./app/api/profile/route.ts:11:  } catch (error) {
+./app/api/profile/route.ts:12:    return fail(error, 400);
+./app/api/replays/[id]/route.ts:15:  } catch (error) {
+./app/api/replays/[id]/route.ts:16:    const code = error instanceof Error ? error.message : 'REPLAY_UNAVAILABLE';
+./app/api/replays/[id]/route.ts:18:    return NextResponse.json({ error: code }, { status, headers: { 'cache-control': 'no-store' } });
+./app/api/history/route.ts:6:    const playerId = new URL(request.url).searchParams.get('playerId');
+./app/api/history/route.ts:9:  } catch (error) {
+./app/api/history/route.ts:10:    return fail(error, 400);
+./app/api/progression/route.ts:8:const progressionUpdateSchema = z.discriminatedUnion('type', [
+./app/api/progression/route.ts:10:    type: z.literal('onboarding'),
+./app/api/progression/route.ts:18:    type: z.literal('purchaseBoard'),
+./app/api/progression/route.ts:24:    type: z.literal('selectBoard'),
+./app/api/progression/route.ts:29:    type: z.literal('seasonAction'),
+./app/api/progression/route.ts:38:    type: z.literal('claimSeasonReward'),
+./app/api/progression/route.ts:46:    const playerId = new URL(request.url).searchParams.get('playerId') ?? undefined;
+./app/api/progression/route.ts:48:  } catch (error) {
+./app/api/progression/route.ts:49:    return fail(error, 503);
+./app/api/progression/route.ts:56:    if ((input.type === 'purchaseBoard' || input.type === 'selectBoard') && process.env.MATIMATO_BOARD_JOURNEY_ENABLED === 'false') throw new Error('BOARD_JOURNEY_DISABLED');
+./app/api/progression/route.ts:57:    if (input.type === 'purchaseBoard') return ok({ ok: true, progression: await purchaseBoardUnlock(input) });
+./app/api/progression/route.ts:58:    if (input.type === 'selectBoard') return ok({ ok: true, progression: await updateActiveBoardSize(input) });
+./app/api/progression/route.ts:59:    if (input.type === 'seasonAction') return ok({ ok: true, activeSeason: await recordSeasonProgressAction(input) });
+./app/api/progression/route.ts:60:    if (input.type === 'claimSeasonReward') return ok({ ok: true, ...(await claimSeasonProgressReward(input)) });
+./app/api/progression/route.ts:63:  } catch (error) {
+./app/api/progression/route.ts:64:    return fail(error);
+./app/api/friends/route.ts:7:const friendActionSchema = z.discriminatedUnion('type', [
+./app/api/friends/route.ts:9:    type: z.literal('acceptInvite'),
+./app/api/friends/route.ts:18:    type: z.literal('remove'),
+./app/api/friends/route.ts:24:    type: z.literal('block'),
+./app/api/friends/route.ts:30:    type: z.literal('sendGift'),
+./app/api/friends/route.ts:40:    const playerId = new URL(request.url).searchParams.get('playerId');
+./app/api/friends/route.ts:43:  } catch (error) {
+./app/api/friends/route.ts:44:    return fail(error, 400);
+./app/api/friends/route.ts:52:    if (input.type === 'acceptInvite') return ok({ ok: true, ...(await acceptFriendInvite(input)) });
+./app/api/friends/route.ts:53:    if (input.type === 'remove') return ok({ ok: true, ...(await removeFriend(input)) });
+./app/api/friends/route.ts:54:    if (input.type === 'block') return ok({ ok: true, ...(await blockFriend(input)) });
+./app/api/friends/route.ts:56:  } catch (error) {
+./app/api/friends/route.ts:57:    return fail(error, 400);
+./app/api/events/route.ts:9:  } catch (error) {
+./app/api/events/route.ts:10:    return fail(error);
+./app/api/games/route.ts:8:import type { GameApiResponse, GameMode, MoveFrame } from '@/lib/shared/types';
+./app/api/games/route.ts:10:const schema = z.discriminatedUnion('type', [
+./app/api/games/route.ts:12:    type: z.literal('create'),
+./app/api/games/route.ts:22:  z.object({ type: z.literal('join'), inviteCode: z.string().min(3), playerId: z.string().min(1), playerTag: z.string().min(1) }),
+./app/api/games/route.ts:23:  z.object({ type: z.literal('move'), matchId: z.string().min(1), playerId: z.string().min(1), actionId: z.string().min(1), row: z.number().int().min(0).max(8), col: z.number().int().min(0).max(8), expectedVersion: z.number().int().min(0) }),
+./app/api/games/route.ts:24:  z.object({ type: z.literal('sync'), matchId: z.string().min(1), playerId: z.string().optional() }),
+./app/api/games/route.ts:25:  z.object({ type: z.literal('timeout'), matchId: z.string().min(1), playerId: z.string().min(1), deadlineVersion: z.number().int().min(0) }),
+./app/api/games/route.ts:26:  z.object({ type: z.literal('lobbyStatus'), matchId: z.string().min(1), playerId: z.string().min(1) }),
+./app/api/games/route.ts:27:  z.object({ type: z.literal('ready'), matchId: z.string().min(1), playerId: z.string().min(1), actionId: z.string().min(1) }),
+./app/api/games/route.ts:28:  z.object({ type: z.literal('leave'), matchId: z.string().min(1), playerId: z.string().min(1), actionId: z.string().min(1) }),
+./app/api/games/route.ts:29:  z.object({ type: z.literal('cancel'), matchId: z.string().min(1), playerId: z.string().min(1), actionId: z.string().min(1) })
+./app/api/games/route.ts:34:function resolveAutomatedTurns(snapshot: import('@/lib/shared/types').GameSnapshot, actionSeed = 'auto-sync') {
+./app/api/games/route.ts:56:    const id = new URL(request.url).searchParams.get('id');
+./app/api/games/route.ts:71:  } catch (error) {
+./app/api/games/route.ts:72:    return fail(error, 404);
+./app/api/games/route.ts:79:    if (input.type === 'create') {
+./app/api/games/route.ts:98:    if (input.type === 'join') {
+./app/api/games/route.ts:105:    if (input.type === 'sync') {
+./app/api/games/route.ts:115:    if (input.type === 'timeout') {
+./app/api/games/route.ts:129:    if (input.type === 'lobbyStatus' || input.type === 'ready' || input.type === 'leave' || input.type === 'cancel') {
+./app/api/games/route.ts:133:      if (input.type === 'ready') next = markLobbyReady(next, input.playerId);
+./app/api/games/route.ts:134:      if (input.type === 'leave') next = leaveLobby(next, input.playerId);
+./app/api/games/route.ts:135:      if (input.type === 'cancel') next = cancelLobby(next, input.playerId);
+./app/api/games/route.ts:154:  } catch (error) {
+./app/api/games/route.ts:155:    return fail(error);
+./app/manifest.ts:1:import type { MetadataRoute } from 'next';
+./app/manifest.ts:16:      { src: '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'maskable' },
+./app/manifest.ts:17:      { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+./app/manifest.ts:18:      { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+./app/manifest.ts:19:      { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+./tests/rules.test.ts:3:import type { BoardSize } from '@/lib/shared/types';
+./tests/social.test.ts:3:import type { Friendship } from '@/lib/shared/types';
+./tests/telemetry.test.ts:4:describe('telemetry validation and redaction', () => {
+./tests/telemetry.test.ts:17:        errorCode: 'ROOM9'
+./tests/telemetry.test.ts:22:    expect(event?.properties.errorCode).toBe('[redacted-code]');
+./tests/ios-runtime.test.ts:24:    expect(offlineTelemetryName('error')).toBe('ios_wrapper_error');
+./tests/daily.test.ts:4:import type { DailyResult } from '@/lib/shared/types';
+./tests/rules-help.test.ts:3:import type { BoardCell } from '@/lib/shared/types';
+./docs/ARCHITECTURE.md:38:The service worker caches only shell/static assets and never caches authoritative mutation responses. Unsafe writes are blocked while offline, and safe reads use bounded retry/timeouts. Runtime telemetry distinguishes `safari`, `standalone-pwa`, `capacitor-ios`, and desktop `browser` sessions.
+./docs/ARCHITECTURE.md:40:Rollback is split by layer: Vercel rollback for web/PWA regressions, service-worker registration flag plus cache version bump for offline-shell regressions, and TestFlight build expiration or Capacitor config revert for native wrapper regressions.
+./docs/ARCHITECTURE.md:47:type TutorialStepId = 'first-pick' | 'column-target' | 'row-target' | 'negative-risk' | 'ai-turn' | 'finish';
+./docs/ARCHITECTURE.md:48:type OnboardingState = {
+./docs/ARCHITECTURE.md:66:type BoardSize = 5 | 6 | 7 | 8 | 9;
+./docs/ARCHITECTURE.md:67:type XpWallet = { lifetimeXp: number; spendableXp: number };
+./docs/ARCHITECTURE.md:68:type BoardUnlockState = {
+./docs/ARCHITECTURE.md:108:Rules help is a React/GDS overlay shared by product screens and the Phaser match host. Static topics live in `lib/game/rules-help.ts`; contextual hints are derived from public snapshot state only. The hint system can explain legal target, no-legal-cells, all-negative target, and high-value visible options, but it does not run a solver or recommend hidden future strategy.
+./docs/ARCHITECTURE.md:117:type BotDifficulty = 'rookie' | 'steady' | 'sharp' | 'expert';
+./docs/ARCHITECTURE.md:118:type BotProfile = {
+./docs/ARCHITECTURE.md:139:type ClockState = {
+./docs/ARCHITECTURE.md:161:type FriendshipStatus = 'active' | 'removed' | 'blocked';
+./docs/ARCHITECTURE.md:162:type Friendship = {
+./docs/ARCHITECTURE.md:192:Replay errors are stable: `REPLAY_NOT_FOUND`, `REPLAY_NOT_COMPLETE`, `REPLAY_PRIVATE`, `REPLAY_EXPIRED`, and `REPLAY_UNAVAILABLE`. Conversion actions from a replay create fresh solo, Blitz, or V2 battle sessions through `/api/games`; they never mutate the viewed match. Rollback is `NEXT_PUBLIC_MATIMATO_REPLAYS=false` for share entry points and `MATIMATO_REPLAYS_ENABLED=false` for the API.
+./docs/ARCHITECTURE.md:198:Progression, social, replay, and iOS events are allowlisted: `training_choice_shown`, `training_choice_selected`, `coach_bubble_shown`, `coach_bubble_dismissed`, `board_unlock_viewed`, `board_unlock_purchased`, `board_unlock_failed`, `board_size_selected`, `friend_invite_accepted`, `friend_gift_sent`, `friend_gift_duplicate`, `friend_battle_started`, `friend_removed`, `friend_blocked`, `replay_viewed`, `replay_step_changed`, `replay_share_copied`, `replay_conversion_clicked`, `ios_runtime_detected`, `ios_offline_state_changed`, `ios_offline_retry`, `ios_offline_recovered`, and `ios_wrapper_error`. Properties are bounded to safe keys such as board size, cost, choice, step, result, error code, spendable XP bucket, friend/replay count buckets, runtime mode, app version, build number, network state, and service worker status.
+./docs/ARCHITECTURE.md:207:type LobbyState = {
+./docs/ARCHITECTURE.md:285:5. Deploy to Vercel, check `/api/health`, and inspect deployment-window error logs.
+./docs/release/2.5.0.md:5:Release 2.5.0 adds the iOS mobile app delivery foundation: installable PWA metadata, offline recovery shell, Capacitor iOS project, mobile viewport regression harness, runtime telemetry, and App Store/TestFlight readiness documentation.
+./docs/release/2.5.0.md:20:- Stop or expire native TestFlight builds if a wrapper regression is discovered after Apple distribution begins.
+./docs/release/2.6.0.md:5:Release 2.6.0 delivers the market-research retention and teachability package:
+./docs/release/2.6.0.md:24:- Use Vercel rollback for broader web/PWA regressions.
+./docs/ios-mobile.md:30:type IOSBuildConfig = {
+./docs/ios-mobile.md:38:type NetworkState = 'online' | 'offline' | 'reconnecting' | 'degraded';
+./docs/ios-mobile.md:51:The service worker at `public/sw.js` caches only the app shell and static icon/manifest assets. It does not cache mutation responses or claim stale game/progression data as authoritative.
+./docs/ios-mobile.md:74:- `ios_wrapper_error`
+./docs/ios-mobile.md:188:- Diagnostics: Vercel/platform logs and bounded telemetry for app health, offline recovery, and gameplay errors.
+./docs/ios-mobile.md:222:- deployment-window Vercel error logs are empty.
+./docs/ios-mobile.md:228:- Web/PWA regression: rollback Vercel to the previous known-good deployment.
+./docs/ios-mobile.md:229:- Service worker regression: disable registration, bump cache version, redeploy, and ask users to relaunch after activation.
+./docs/ios-mobile.md:230:- Native wrapper regression before TestFlight: stop distribution and rebuild with previous `capacitor.config.ts`.
+./docs/ios-mobile.md:231:- Native wrapper regression after TestFlight: expire the TestFlight build in App Store Connect and keep the web/PWA alias live.
+./next-env.d.ts:1:/// <reference types="next" />
+./next-env.d.ts:2:/// <reference types="next/image-types/global" />
+./next-env.d.ts:3:/// <reference path="./.next/types/routes.d.ts" />
+./next-env.d.ts:6:// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+./ios/App/App.xcodeproj/project.pbxproj:30:		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
+./ios/App/App.xcodeproj/project.pbxproj:48:				958DCC722DB07C7200EA8C5F /* debug.xcconfig */,
+./ios/App/App.xcodeproj/project.pbxproj:98:			productType = "com.apple.product-type.application";
+./ios/App/App.xcodeproj/project.pbxproj:184:		504EC3141FED79650016851F /* Debug */ = {
+./ios/App/App.xcodeproj/project.pbxproj:186:			baseConfigurationReference = 958DCC722DB07C7200EA8C5F /* debug.xcconfig */;
+./ios/App/App.xcodeproj/project.pbxproj:240:			name = Debug;
+./ios/App/App.xcodeproj/project.pbxproj:293:		504EC3171FED79650016851F /* Debug */ = {
+./ios/App/App.xcodeproj/project.pbxproj:295:			baseConfigurationReference = 958DCC722DB07C7200EA8C5F /* debug.xcconfig */;
+./ios/App/App.xcodeproj/project.pbxproj:314:			name = Debug;
+./ios/App/App.xcodeproj/project.pbxproj:343:				504EC3141FED79650016851F /* Debug */,
+./ios/App/App.xcodeproj/project.pbxproj:352:				504EC3171FED79650016851F /* Debug */,
+./ios/App/App/Base.lproj/LaunchScreen.storyboard:2:<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17132" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+./ios/App/App/Base.lproj/Main.storyboard:2:<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14111" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+./ios/App/App/AppDelegate.swift:15:        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+./ios/exportOptions.plist:15:	<key>compileBitcode</key>
+./README.md:137:{ "type": "purchaseBoard", "playerId": "...", "boardSize": 6, "actionId": "uuid" }
+./README.md:140:{ "type": "selectBoard", "playerId": "...", "boardSize": 6 }
+./README.md:143:{ "type": "claimSeasonReward", "playerId": "...", "rewardId": "starter-cache" }
+./README.md:168:{ "type": "create", "mode": "blitz", "playerId": "...", "playerTag": "...", "clock": { "turnLimitMs": 30000 } }
+./README.md:171:{ "type": "timeout", "matchId": "...", "playerId": "...", "deadlineVersion": 4 }
+./README.md:189:{ "type": "acceptInvite", "playerId": "...", "friendPlayerId": "...", "friendTag": "...", "actionId": "uuid" }
+./README.md:191:{ "type": "sendGift", "playerId": "...", "friendshipId": "...", "actionId": "uuid" }
+./README.md:198:Completed matches are shareable at `/replay/{matchId}` through a public-safe DTO from `/api/replays/[id]`. Replay responses include final score context, sanitized tags, board size, outcome, and move frames stripped of raw player ids, invite codes, and action ids. Completed legacy snapshots without `moveLog` render a summary-only replay instead of failing.
+./README.md:200:Replay pages are read-only. Conversion actions create new solo, Blitz, or V2 battle sessions through the existing `/api/games` create flow and never mutate the viewed match. Private, expired, incomplete, disabled, and missing replay states return explicit recoverable errors.
+./README.md:207:{ "type": "create", "mode": "daily", "playerId": "...", "playerTag": "...", "dailyId": "2026-06-24" }
+./README.md:221:Tracked product events cover optional training choice, coach bubbles, board journey purchases/selection, onboarding, battle lobby, friends/gifts, read-only replays, daily challenge, Blitz clocks/rematches, recap/share actions, weekly/rank views, match completion, Phaser lifecycle, sync errors, iOS runtime mode, offline retry/recovery, and recovery surfaces. `/api/health` returns release version plus database connectivity checks for deployment verification.
+./README.md:242:{ "type": "onboarding", "playerId": "...", "step": "column-target", "completed": false }
+./README.md:245:{ "type": "onboarding", "playerId": "...", "trainingChoice": "learn" }
+./README.md:274:- `ios_runtime_detected`, offline retry/recovery, and wrapper error telemetry are accepted by `/api/events`.
+./README.md:286:{ "type": "lobbyStatus", "matchId": "...", "playerId": "..." }
+./README.md:287:{ "type": "ready", "matchId": "...", "playerId": "...", "actionId": "..." }
+./README.md:288:{ "type": "leave", "matchId": "...", "playerId": "...", "actionId": "..." }
+./README.md:289:{ "type": "cancel", "matchId": "...", "playerId": "...", "actionId": "..." }
+./components/ReplayViewer.tsx:3:import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+./components/ReplayViewer.tsx:8:import type { GameMode, ReplayFrame, ReplaySnapshot } from '@/lib/shared/types';
+./components/ReplayViewer.tsx:11:type Props = { replayId: string };
+./components/ReplayViewer.tsx:15:  const [error, setError] = useState('');
+./components/ReplayViewer.tsx:21:  const playerId = useMemo(() => typeof window === 'undefined' ? '' : getPlayerId(), []);
+./components/ReplayViewer.tsx:46:      emitTelemetry({ name: 'replay_unavailable', playerId, result: 'error', properties: { errorCode: fetchError.message } });
+./components/ReplayViewer.tsx:87:      emitTelemetry({ name: 'replay_error', playerId, matchId: replay.matchId, result: 'error', properties: { errorCode: 'share_copy_failed' } });
+./components/ReplayViewer.tsx:102:      emitTelemetry({ name: 'replay_error', playerId, matchId: replay.matchId, result: 'error', properties: { errorCode: startError instanceof Error ? startError.message : 'conversion_failed' } });
+./components/ReplayViewer.tsx:108:  if (error) {
+./components/ReplayViewer.tsx:111:        <section className="panel replay-panel" aria-labelledby="replay-error-title">
+./components/ReplayViewer.tsx:114:            <h2 id="replay-error-title">Replay cannot be opened.</h2>
+./components/ReplayViewer.tsx:115:            <p className="copy">{error}</p>
+./components/RulesHelpDialog.tsx:4:import { RULES_HELP_TOPICS, deriveContextualHint, type RulesHelpTopicId } from '@/lib/game/rules-help';
+./components/RulesHelpDialog.tsx:5:import type { GameSnapshot } from '@/lib/shared/types';
+./components/RulesHelpDialog.tsx:7:type Props = {
+./components/RulesHelpDialog.tsx:39:              <button key={item.topicId} className={item.topicId === topic.topicId ? 'active' : ''} type="button" onClick={() => onTopicChange(item.topicId)} aria-pressed={item.topicId === topic.topicId}>
+./components/PhaserGameRoot.tsx:5:import type { GameSnapshot } from '@/lib/shared/types';
+./components/PhaserGameRoot.tsx:9:type Props = {
+./components/PhaserGameRoot.tsx:39:          if (event.type === 'announce') setAnnouncement(event.message);
+./components/PhaserGameRoot.tsx:40:          if (event.type === 'telemetry') emitTelemetry({ name: event.name, playerId, matchId: snapshot.id, result: event.result, properties: { mode: snapshot.mode, ...(event.properties ?? {}) } });
+./components/PhaserGameRoot.tsx:41:          if (event.type === 'exit') onExitRef.current();
+./components/PhaserGameRoot.tsx:42:          if (event.type === 'complete') onCompleteRef.current(event.snapshot);
+./components/GameApp.tsx:3:import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+./components/GameApp.tsx:36:import { getSuggestedTutorialCell, createTutorialState, resolveTutorialAi, selectTutorialCell, TUTORIAL_STEPS, type TutorialState } from '@/lib/game/tutorial';
+./components/GameApp.tsx:39:import { topicForScreen, type RulesHelpTopicId } from '@/lib/game/rules-help';
+./components/GameApp.tsx:42:import { getRuntimeTelemetryProperties, registerServiceWorker, type NetworkState } from '@/lib/client/iosRuntime';
+./components/GameApp.tsx:43:import type { BoardProgression, BoardSize, BoardCell, BotProfileSummary, FriendSummary, GameMode, GameSnapshot, LobbyState, MatchSummary, OnboardingState, PlayerState, ProfileSummary, ProgressionResponse, QuestProgress, RankEntry, TrainingChoice, TutorialStepId } from '@/lib/shared/types';
+./components/GameApp.tsx:47:type Screen = 'home' | 'training-choice' | 'journey' | 'battle' | 'friends' | 'quests' | 'ranks' | 'history' | 'profile' | 'match' | 'tutorial' | 'lobby' | 'recap';
+./components/GameApp.tsx:49:type Props = { initialScreen: Screen; initialMatchId?: string };
+./components/GameApp.tsx:95:      const params = new URLSearchParams(window.location.search);
+./components/GameApp.tsx:126:      emitTelemetry({ name: 'ios_wrapper_error', playerId: getPlayerId(), result: 'error', properties: { ...getRuntimeTelemetryProperties(), errorCode: 'service_worker_register_failed' } });
+./components/GameApp.tsx:159:      }).catch((error: Error) => setNotice(error.message));
+./components/GameApp.tsx:182:    if (screen === 'profile') fetchProfile(playerId, tag || 'Player').then((data) => setProfile(data.profile)).catch((error: Error) => setNotice(error.message));
+./components/GameApp.tsx:183:    if (screen === 'history') fetchHistory(playerId).then((data) => setHistory(data.history)).catch((error: Error) => setNotice(error.message));
+./components/GameApp.tsx:187:    }).catch((error: Error) => {
+./components/GameApp.tsx:188:      setNotice(friendErrorMessage(error.message));
+./components/GameApp.tsx:189:      emitTelemetry({ name: 'friend_action_failed', playerId, result: 'error', properties: { errorCode: error.message } });
+./components/GameApp.tsx:194:    }).catch((error: Error) => setNotice(error.message));
+./components/GameApp.tsx:199:    }).catch((error: Error) => {
+./components/GameApp.tsx:200:      emitTelemetry({ name: 'daily_error', playerId, result: 'error', properties: { errorCode: 'progression_fetch_failed' } });
+./components/GameApp.tsx:201:      setNotice(error.message);
+./components/GameApp.tsx:209:    let timer: ReturnType<typeof setTimeout> | undefined;
+./components/GameApp.tsx:225:      } catch (error) {
+./components/GameApp.tsx:227:          setNotice(error instanceof Error ? error.message : 'Lobby reconnect failed.');
+./components/GameApp.tsx:228:          emitTelemetry({ name: 'lobby_poll_failed', playerId, matchId, result: 'error', properties: { retryable: true } });
+./components/GameApp.tsx:270:      emitTelemetry({ name: 'ios_wrapper_error', playerId: playerId || getPlayerId(), result: 'error', properties: { ...getRuntimeTelemetryProperties(), networkState: next, errorCode: 'health_retry_failed' } });
+./components/GameApp.tsx:336:    } catch (error) {
+./components/GameApp.tsx:337:      setNotice(error instanceof Error ? error.message : 'Could not start match.');
+./components/GameApp.tsx:338:      if (mode === 'daily') emitTelemetry({ name: 'daily_error', playerId, result: 'error', properties: { errorCode: 'daily_start_failed' } });
+./components/GameApp.tsx:355:    } catch (error) {
+./components/GameApp.tsx:356:      setNotice(error instanceof Error ? error.message : 'Could not join battle.');
+./components/GameApp.tsx:434:      emitTelemetry({ name: 'onboarding_failed', playerId, result: 'error', properties: { errorCode: 'training_choice_sync_failed', retryable: true } });
+./components/GameApp.tsx:451:    } catch (error) {
+./components/GameApp.tsx:452:      const message = error instanceof Error ? error.message : 'Board purchase failed.';
+./components/GameApp.tsx:454:      emitTelemetry({ name: 'board_unlock_failed', playerId, result: 'error', properties: { boardSize, costXp: boardUnlockCost(boardSize), errorCode: message, retryable: true } });
+./components/GameApp.tsx:469:    } catch (error) {
+./components/GameApp.tsx:470:      setNotice(error instanceof Error ? error.message : 'Could not select board size.');
+./components/GameApp.tsx:492:    } catch (error) {
+./components/GameApp.tsx:493:      setNotice(error instanceof Error ? friendErrorMessage(error.message) : 'Friends are temporarily unavailable.');
+./components/GameApp.tsx:494:      emitTelemetry({ name: 'friend_action_failed', playerId, result: 'error', properties: { errorCode: error instanceof Error ? error.message : 'friend_list_failed' } });
+./components/GameApp.tsx:508:    } catch (error) {
+./components/GameApp.tsx:509:      setNotice(error instanceof Error ? friendErrorMessage(error.message) : 'Friend invite failed.');
+./components/GameApp.tsx:510:      emitTelemetry({ name: 'friend_action_failed', playerId, matchId, result: 'error', properties: { source, errorCode: error instanceof Error ? error.message : 'accept_failed' } });
+./components/GameApp.tsx:524:    } catch (error) {
+./components/GameApp.tsx:525:      setNotice(error instanceof Error ? friendErrorMessage(error.message) : 'Gift failed.');
+./components/GameApp.tsx:526:      emitTelemetry({ name: 'friend_action_failed', playerId, result: 'error', properties: { errorCode: error instanceof Error ? error.message : 'gift_failed' } });
+./components/GameApp.tsx:541:    } catch (error) {
+./components/GameApp.tsx:542:      setNotice(error instanceof Error ? friendErrorMessage(error.message) : 'Remove failed.');
+./components/GameApp.tsx:543:      emitTelemetry({ name: 'friend_action_failed', playerId, result: 'error', properties: { errorCode: error instanceof Error ? error.message : 'remove_failed' } });
+./components/GameApp.tsx:557:    } catch (error) {
+./components/GameApp.tsx:558:      setNotice(error instanceof Error ? friendErrorMessage(error.message) : 'Block failed.');
+./components/GameApp.tsx:559:      emitTelemetry({ name: 'friend_action_failed', playerId, result: 'error', properties: { errorCode: error instanceof Error ? error.message : 'block_failed' } });
+./components/GameApp.tsx:604:    } catch (error) {
+./components/GameApp.tsx:605:      setNotice(error instanceof Error ? error.message : 'Reward claim failed.');
+./components/GameApp.tsx:606:      emitTelemetry({ name: 'season_progress_error', playerId, result: 'error', properties: { rewardId, errorCode: error instanceof Error ? error.message : 'claim_failed' } });
+./components/GameApp.tsx:664:    } catch (error) {
+./components/GameApp.tsx:665:      setNotice(error instanceof Error ? error.message : 'Could not mark ready.');
+./components/GameApp.tsx:682:    } catch (error) {
+./components/GameApp.tsx:683:      setNotice(error instanceof Error ? error.message : 'Could not update lobby.');
+./components/GameApp.tsx:798:            <button key={profile.profileId} type="button" role="radio" aria-checked={selectedBotProfileId === profile.profileId} className={selectedBotProfileId === profile.profileId ? 'active' : ''} onClick={() => {
+./components/GameApp.tsx:860:                type="button"
+./components/GameApp.tsx:902:      // Share cancellation is not an error state for gameplay.
+./components/GameApp.tsx:1296:        <button key={key} className={screen === key ? 'active' : ''} type="button" aria-label={label} title={label} onClick={() => setScreen(key)}>
+./components/GameApp.tsx:1382:  if (typeof window !== 'undefined') window.history.replaceState(null, '', path);
+./public/sw.js:2:const STATIC_CACHE = `${CACHE_VERSION}:static`;
+./public/sw.js:31:    event.respondWith(fetch(request).catch(() => new Response(JSON.stringify({ error: 'NETWORK_OFFLINE' }), { status: 503, headers: { 'content-type': 'application/json' } })));
+./.gitignore:8:npm-debug.log*
+./.gitignore:9:yarn-debug.log*
+./.gitignore:10:yarn-error.log*
+./.gitignore:11:pnpm-debug.log*
+./package-lock.json:28:        "@types/node": "^24.13.2",
+./package-lock.json:29:        "@types/react": "^19.2.17",
+./package-lock.json:30:        "@types/react-dom": "^19.2.3",
+./package-lock.json:35:        "typescript": "^5.9.3",
+./package-lock.json:101:        "debug": "^4.4.0",
+./package-lock.json:148:          "type": "github",
+./package-lock.json:152:          "type": "opencollective",
+./package-lock.json:168:          "type": "github",
+./package-lock.json:172:          "type": "opencollective",
+./package-lock.json:192:          "type": "github",
+./package-lock.json:196:          "type": "opencollective",
+./package-lock.json:220:          "type": "github",
+./package-lock.json:224:          "type": "opencollective",
+./package-lock.json:243:          "type": "github",
+./package-lock.json:247:          "type": "opencollective",
+./package-lock.json:268:          "type": "github",
+./package-lock.json:272:          "type": "opencollective",
+./package-lock.json:433:        "debug": "^4.3.1",
+./package-lock.json:460:        "@types/json-schema": "^7.0.15"
+./package-lock.json:474:        "debug": "^4.3.2",
+./package-lock.json:605:        "@humanfs/types": "^0.15.0"
+./package-lock.json:619:        "@humanfs/types": "^0.15.0",
+./package-lock.json:626:    "node_modules/@humanfs/types": {
+./package-lock.json:628:      "resolved": "https://registry.npmjs.org/@humanfs/types/-/types-0.15.0.tgz",
+./package-lock.json:646:        "type": "github",
+./package-lock.json:660:        "type": "github",
+./package-lock.json:1186:        "debug": "^4.0.0",
+./package-lock.json:1200:        "debug": "^4.0.0",
+./package-lock.json:1214:        "@types/fs-extra": "^8.0.0",
+./package-lock.json:1215:        "debug": "^4.0.0",
+./package-lock.json:1246:        "debug": "^4.0.0",
+./package-lock.json:1262:        "debug": "^4.0.0",
+./package-lock.json:1278:        "debug": "^4.0.0",
+./package-lock.json:1298:        "debug": "^4.0.0",
+./package-lock.json:1312:        "@types/slice-ansi": "^4.0.0",
+./package-lock.json:1313:        "debug": "^4.0.0",
+./package-lock.json:1357:        "type-fest": "^4.41.0"
+./package-lock.json:1431:        "type": "github",
+./package-lock.json:1643:    "node_modules/@oxc-project/types": {
+./package-lock.json:1645:      "resolved": "https://registry.npmjs.org/@oxc-project/types/-/types-0.133.0.tgz",
+./package-lock.json:1982:        "type": "github",
+./package-lock.json:1995:        "type": "github",
+./package-lock.json:2013:    "node_modules/@types/chai": {
+./package-lock.json:2015:      "resolved": "https://registry.npmjs.org/@types/chai/-/chai-5.2.3.tgz",
+./package-lock.json:2020:        "@types/deep-eql": "*",
+./package-lock.json:2021:        "assertion-error": "^2.0.1"
+./package-lock.json:2024:    "node_modules/@types/deep-eql": {
+./package-lock.json:2026:      "resolved": "https://registry.npmjs.org/@types/deep-eql/-/deep-eql-4.0.2.tgz",
+./package-lock.json:2031:    "node_modules/@types/estree": {
+./package-lock.json:2033:      "resolved": "https://registry.npmjs.org/@types/estree/-/estree-1.0.9.tgz",
+./package-lock.json:2038:    "node_modules/@types/fs-extra": {
+./package-lock.json:2040:      "resolved": "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-8.1.5.tgz",
+./package-lock.json:2045:        "@types/node": "*"
+./package-lock.json:2048:    "node_modules/@types/json-schema": {
+./package-lock.json:2050:      "resolved": "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.15.tgz",
+./package-lock.json:2055:    "node_modules/@types/json5": {
+./package-lock.json:2057:      "resolved": "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz",
+./package-lock.json:2062:    "node_modules/@types/node": {
+./package-lock.json:2064:      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.13.2.tgz",
+./package-lock.json:2069:        "undici-types": "~7.18.0"
+./package-lock.json:2072:    "node_modules/@types/react": {
+./package-lock.json:2074:      "resolved": "https://registry.npmjs.org/@types/react/-/react-19.2.17.tgz",
+./package-lock.json:2079:        "csstype": "^3.2.2"
+./package-lock.json:2082:    "node_modules/@types/react-dom": {
+./package-lock.json:2084:      "resolved": "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.2.3.tgz",
+./package-lock.json:2089:        "@types/react": "^19.2.0"
+./package-lock.json:2092:    "node_modules/@types/slice-ansi": {
+./package-lock.json:2094:      "resolved": "https://registry.npmjs.org/@types/slice-ansi/-/slice-ansi-4.0.0.tgz",
+./package-lock.json:2099:    "node_modules/@types/webidl-conversions": {
+./package-lock.json:2101:      "resolved": "https://registry.npmjs.org/@types/webidl-conversions/-/webidl-conversions-7.0.3.tgz",
+./package-lock.json:2105:    "node_modules/@types/whatwg-url": {
+./package-lock.json:2107:      "resolved": "https://registry.npmjs.org/@types/whatwg-url/-/whatwg-url-11.0.5.tgz",
+./package-lock.json:2111:        "@types/webidl-conversions": "*"
+./package-lock.json:2114:    "node_modules/@typescript-eslint/eslint-plugin": {
+./package-lock.json:2116:      "resolved": "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-8.61.1.tgz",
+./package-lock.json:2122:        "@typescript-eslint/scope-manager": "8.61.1",
+./package-lock.json:2123:        "@typescript-eslint/type-utils": "8.61.1",
+./package-lock.json:2124:        "@typescript-eslint/utils": "8.61.1",
+./package-lock.json:2125:        "@typescript-eslint/visitor-keys": "8.61.1",
+./package-lock.json:2134:        "type": "opencollective",
+./package-lock.json:2135:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2138:        "@typescript-eslint/parser": "^8.61.1",
+./package-lock.json:2140:        "typescript": ">=4.8.4 <6.1.0"
+./package-lock.json:2143:    "node_modules/@typescript-eslint/eslint-plugin/node_modules/ignore": {
+./package-lock.json:2153:    "node_modules/@typescript-eslint/parser": {
+./package-lock.json:2155:      "resolved": "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.61.1.tgz",
+./package-lock.json:2160:        "@typescript-eslint/scope-manager": "8.61.1",
+./package-lock.json:2161:        "@typescript-eslint/types": "8.61.1",
+./package-lock.json:2162:        "@typescript-eslint/typescript-estree": "8.61.1",
+./package-lock.json:2163:        "@typescript-eslint/visitor-keys": "8.61.1",
+./package-lock.json:2164:        "debug": "^4.4.3"
+./package-lock.json:2170:        "type": "opencollective",
+./package-lock.json:2171:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2175:        "typescript": ">=4.8.4 <6.1.0"
+./package-lock.json:2178:    "node_modules/@typescript-eslint/project-service": {
+./package-lock.json:2180:      "resolved": "https://registry.npmjs.org/@typescript-eslint/project-service/-/project-service-8.61.1.tgz",
+./package-lock.json:2185:        "@typescript-eslint/tsconfig-utils": "^8.61.1",
+./package-lock.json:2186:        "@typescript-eslint/types": "^8.61.1",
+./package-lock.json:2187:        "debug": "^4.4.3"
+./package-lock.json:2193:        "type": "opencollective",
+./package-lock.json:2194:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2197:        "typescript": ">=4.8.4 <6.1.0"
+./package-lock.json:2200:    "node_modules/@typescript-eslint/scope-manager": {
+./package-lock.json:2202:      "resolved": "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-8.61.1.tgz",
+./package-lock.json:2207:        "@typescript-eslint/types": "8.61.1",
+./package-lock.json:2208:        "@typescript-eslint/visitor-keys": "8.61.1"
+./package-lock.json:2214:        "type": "opencollective",
+./package-lock.json:2215:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2218:    "node_modules/@typescript-eslint/tsconfig-utils": {
+./package-lock.json:2220:      "resolved": "https://registry.npmjs.org/@typescript-eslint/tsconfig-utils/-/tsconfig-utils-8.61.1.tgz",
+./package-lock.json:2228:        "type": "opencollective",
+./package-lock.json:2229:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2232:        "typescript": ">=4.8.4 <6.1.0"
+./package-lock.json:2235:    "node_modules/@typescript-eslint/type-utils": {
+./package-lock.json:2237:      "resolved": "https://registry.npmjs.org/@typescript-eslint/type-utils/-/type-utils-8.61.1.tgz",
+./package-lock.json:2242:        "@typescript-eslint/types": "8.61.1",
+./package-lock.json:2243:        "@typescript-eslint/typescript-estree": "8.61.1",
+./package-lock.json:2244:        "@typescript-eslint/utils": "8.61.1",
+./package-lock.json:2245:        "debug": "^4.4.3",
+./package-lock.json:2252:        "type": "opencollective",
+./package-lock.json:2253:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2257:        "typescript": ">=4.8.4 <6.1.0"
+./package-lock.json:2260:    "node_modules/@typescript-eslint/types": {
+./package-lock.json:2262:      "resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.61.1.tgz",
+./package-lock.json:2270:        "type": "opencollective",
+./package-lock.json:2271:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2274:    "node_modules/@typescript-eslint/typescript-estree": {
+./package-lock.json:2276:      "resolved": "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.61.1.tgz",
+./package-lock.json:2281:        "@typescript-eslint/project-service": "8.61.1",
+./package-lock.json:2282:        "@typescript-eslint/tsconfig-utils": "8.61.1",
+./package-lock.json:2283:        "@typescript-eslint/types": "8.61.1",
+./package-lock.json:2284:        "@typescript-eslint/visitor-keys": "8.61.1",
+./package-lock.json:2285:        "debug": "^4.4.3",
+./package-lock.json:2295:        "type": "opencollective",
+./package-lock.json:2296:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2299:        "typescript": ">=4.8.4 <6.1.0"
+./package-lock.json:2302:    "node_modules/@typescript-eslint/typescript-estree/node_modules/balanced-match": {
+./package-lock.json:2312:    "node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion": {
+./package-lock.json:2325:    "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch": {
+./package-lock.json:2341:    "node_modules/@typescript-eslint/utils": {
+./package-lock.json:2343:      "resolved": "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.61.1.tgz",
+./package-lock.json:2349:        "@typescript-eslint/scope-manager": "8.61.1",
+./package-lock.json:2350:        "@typescript-eslint/types": "8.61.1",
+./package-lock.json:2351:        "@typescript-eslint/typescript-estree": "8.61.1"
+./package-lock.json:2357:        "type": "opencollective",
+./package-lock.json:2358:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2362:        "typescript": ">=4.8.4 <6.1.0"
+./package-lock.json:2365:    "node_modules/@typescript-eslint/visitor-keys": {
+./package-lock.json:2367:      "resolved": "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.61.1.tgz",
+./package-lock.json:2372:        "@typescript-eslint/types": "8.61.1",
+./package-lock.json:2379:        "type": "opencollective",
+./package-lock.json:2380:        "url": "https://opencollective.com/typescript-eslint"
+./package-lock.json:2383:    "node_modules/@typescript-eslint/visitor-keys/node_modules/eslint-visitor-keys": {
+./package-lock.json:2396:    "node_modules/@unrs/resolver-binding-android-arm-eabi": {
+./package-lock.json:2398:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-android-arm-eabi/-/resolver-binding-android-arm-eabi-1.12.2.tgz",
+./package-lock.json:2410:    "node_modules/@unrs/resolver-binding-android-arm64": {
+./package-lock.json:2412:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-android-arm64/-/resolver-binding-android-arm64-1.12.2.tgz",
+./package-lock.json:2424:    "node_modules/@unrs/resolver-binding-darwin-arm64": {
+./package-lock.json:2426:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-darwin-arm64/-/resolver-binding-darwin-arm64-1.12.2.tgz",
+./package-lock.json:2438:    "node_modules/@unrs/resolver-binding-darwin-x64": {
+./package-lock.json:2440:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-darwin-x64/-/resolver-binding-darwin-x64-1.12.2.tgz",
+./package-lock.json:2452:    "node_modules/@unrs/resolver-binding-freebsd-x64": {
+./package-lock.json:2454:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-freebsd-x64/-/resolver-binding-freebsd-x64-1.12.2.tgz",
+./package-lock.json:2466:    "node_modules/@unrs/resolver-binding-linux-arm-gnueabihf": {
+./package-lock.json:2468:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-arm-gnueabihf/-/resolver-binding-linux-arm-gnueabihf-1.12.2.tgz",
+./package-lock.json:2480:    "node_modules/@unrs/resolver-binding-linux-arm-musleabihf": {
+./package-lock.json:2482:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-arm-musleabihf/-/resolver-binding-linux-arm-musleabihf-1.12.2.tgz",
+./package-lock.json:2494:    "node_modules/@unrs/resolver-binding-linux-arm64-gnu": {
+./package-lock.json:2496:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-arm64-gnu/-/resolver-binding-linux-arm64-gnu-1.12.2.tgz",
+./package-lock.json:2511:    "node_modules/@unrs/resolver-binding-linux-arm64-musl": {
+./package-lock.json:2513:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-arm64-musl/-/resolver-binding-linux-arm64-musl-1.12.2.tgz",
+./package-lock.json:2528:    "node_modules/@unrs/resolver-binding-linux-loong64-gnu": {
+./package-lock.json:2530:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-loong64-gnu/-/resolver-binding-linux-loong64-gnu-1.12.2.tgz",
+./package-lock.json:2545:    "node_modules/@unrs/resolver-binding-linux-loong64-musl": {
+./package-lock.json:2547:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-loong64-musl/-/resolver-binding-linux-loong64-musl-1.12.2.tgz",
+./package-lock.json:2562:    "node_modules/@unrs/resolver-binding-linux-ppc64-gnu": {
+./package-lock.json:2564:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-ppc64-gnu/-/resolver-binding-linux-ppc64-gnu-1.12.2.tgz",
+./package-lock.json:2579:    "node_modules/@unrs/resolver-binding-linux-riscv64-gnu": {
+./package-lock.json:2581:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-riscv64-gnu/-/resolver-binding-linux-riscv64-gnu-1.12.2.tgz",
+./package-lock.json:2596:    "node_modules/@unrs/resolver-binding-linux-riscv64-musl": {
+./package-lock.json:2598:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-riscv64-musl/-/resolver-binding-linux-riscv64-musl-1.12.2.tgz",
+./package-lock.json:2613:    "node_modules/@unrs/resolver-binding-linux-s390x-gnu": {
+./package-lock.json:2615:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-s390x-gnu/-/resolver-binding-linux-s390x-gnu-1.12.2.tgz",
+./package-lock.json:2630:    "node_modules/@unrs/resolver-binding-linux-x64-gnu": {
+./package-lock.json:2632:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-x64-gnu/-/resolver-binding-linux-x64-gnu-1.12.2.tgz",
+./package-lock.json:2647:    "node_modules/@unrs/resolver-binding-linux-x64-musl": {
+./package-lock.json:2649:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-linux-x64-musl/-/resolver-binding-linux-x64-musl-1.12.2.tgz",
+./package-lock.json:2664:    "node_modules/@unrs/resolver-binding-openharmony-arm64": {
+./package-lock.json:2666:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-openharmony-arm64/-/resolver-binding-openharmony-arm64-1.12.2.tgz",
+./package-lock.json:2678:    "node_modules/@unrs/resolver-binding-wasm32-wasi": {
+./package-lock.json:2680:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-wasm32-wasi/-/resolver-binding-wasm32-wasi-1.12.2.tgz",
+./package-lock.json:2697:    "node_modules/@unrs/resolver-binding-wasm32-wasi/node_modules/@emnapi/runtime": {
+./package-lock.json:2708:    "node_modules/@unrs/resolver-binding-win32-arm64-msvc": {
+./package-lock.json:2710:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-win32-arm64-msvc/-/resolver-binding-win32-arm64-msvc-1.12.2.tgz",
+./package-lock.json:2722:    "node_modules/@unrs/resolver-binding-win32-ia32-msvc": {
+./package-lock.json:2724:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-win32-ia32-msvc/-/resolver-binding-win32-ia32-msvc-1.12.2.tgz",
+./package-lock.json:2736:    "node_modules/@unrs/resolver-binding-win32-x64-msvc": {
+./package-lock.json:2738:      "resolved": "https://registry.npmjs.org/@unrs/resolver-binding-win32-x64-msvc/-/resolver-binding-win32-x64-msvc-1.12.2.tgz",
+./package-lock.json:2758:        "@types/chai": "^5.2.2",
+./package-lock.json:2919:        "type": "github",
+./package-lock.json:3006:    "node_modules/array.prototype.findlast": {
+./package-lock.json:3008:      "resolved": "https://registry.npmjs.org/array.prototype.findlast/-/array.prototype.findlast-1.2.5.tgz",
+./package-lock.json:3016:        "es-errors": "^1.3.0",
+./package-lock.json:3027:    "node_modules/array.prototype.findlastindex": {
+./package-lock.json:3029:      "resolved": "https://registry.npmjs.org/array.prototype.findlastindex/-/array.prototype.findlastindex-1.2.6.tgz",
+./package-lock.json:3038:        "es-errors": "^1.3.0",
+./package-lock.json:3049:    "node_modules/array.prototype.flat": {
+./package-lock.json:3051:      "resolved": "https://registry.npmjs.org/array.prototype.flat/-/array.prototype.flat-1.3.3.tgz",
+./package-lock.json:3068:    "node_modules/array.prototype.flatmap": {
+./package-lock.json:3070:      "resolved": "https://registry.npmjs.org/array.prototype.flatmap/-/array.prototype.flatmap-1.3.3.tgz",
+./package-lock.json:3087:    "node_modules/array.prototype.tosorted": {
+./package-lock.json:3089:      "resolved": "https://registry.npmjs.org/array.prototype.tosorted/-/array.prototype.tosorted-1.1.4.tgz",
+./package-lock.json:3097:        "es-errors": "^1.3.0",
+./package-lock.json:3104:    "node_modules/arraybuffer.prototype.slice": {
+./package-lock.json:3106:      "resolved": "https://registry.npmjs.org/arraybuffer.prototype.slice/-/arraybuffer.prototype.slice-1.0.4.tgz",
+./package-lock.json:3115:        "es-errors": "^1.3.0",
+./package-lock.json:3126:    "node_modules/assertion-error": {
+./package-lock.json:3128:      "resolved": "https://registry.npmjs.org/assertion-error/-/assertion-error-2.0.1.tgz",
+./package-lock.json:3136:    "node_modules/ast-types-flow": {
+./package-lock.json:3138:      "resolved": "https://registry.npmjs.org/ast-types-flow/-/ast-types-flow-0.0.8.tgz",
+./package-lock.json:3173:    "node_modules/available-typed-arrays": {
+./package-lock.json:3175:      "resolved": "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.7.tgz",
+./package-lock.json:3180:        "possible-typed-array-names": "^1.0.0"
+./package-lock.json:3223:          "type": "github",
+./package-lock.json:3227:          "type": "patreon",
+./package-lock.json:3231:          "type": "consulting",
+./package-lock.json:3339:        "es-errors": "^1.3.0",
+./package-lock.json:3379:          "type": "opencollective",
+./package-lock.json:3383:          "type": "tidelift",
+./package-lock.json:3387:          "type": "github",
+./package-lock.json:3534:    "node_modules/csstype": {
+./package-lock.json:3536:      "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz",
+./package-lock.json:3554:        "whatwg-mimetype": "^5.0.0",
+./package-lock.json:3561:    "node_modules/data-urls/node_modules/whatwg-mimetype": {
+./package-lock.json:3563:      "resolved": "https://registry.npmjs.org/whatwg-mimetype/-/whatwg-mimetype-5.0.0.tgz",
+./package-lock.json:3579:        "es-errors": "^1.3.0",
+./package-lock.json:3597:        "es-errors": "^1.3.0",
+./package-lock.json:3615:        "es-errors": "^1.3.0",
+./package-lock.json:3625:    "node_modules/debug": {
+./package-lock.json:3627:      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+./package-lock.json:3665:        "es-errors": "^1.3.0",
+./package-lock.json:3739:        "csstype": "^3.0.2"
+./package-lock.json:3750:        "es-errors": "^1.3.0",
+./package-lock.json:3808:        "arraybuffer.prototype.slice": "^1.0.4",
+./package-lock.json:3809:        "available-typed-arrays": "^1.0.7",
+./package-lock.json:3816:        "es-errors": "^1.3.0",
+./package-lock.json:3820:        "function.prototype.name": "^1.1.8",
+./package-lock.json:3839:        "is-typed-array": "^1.1.15",
+./package-lock.json:3846:        "regexp.prototype.flags": "^1.5.4",
+./package-lock.json:3852:        "string.prototype.trim": "^1.2.10",
+./package-lock.json:3853:        "string.prototype.trimend": "^1.0.9",
+./package-lock.json:3854:        "string.prototype.trimstart": "^1.0.8",
+./package-lock.json:3855:        "typed-array-buffer": "^1.0.3",
+./package-lock.json:3856:        "typed-array-byte-length": "^1.0.3",
+./package-lock.json:3857:        "typed-array-byte-offset": "^1.0.4",
+./package-lock.json:3858:        "typed-array-length": "^1.0.7",
+./package-lock.json:3860:        "which-typed-array": "^1.1.19"
+./package-lock.json:3876:        "es-errors": "^1.3.0",
+./package-lock.json:3898:    "node_modules/es-errors": {
+./package-lock.json:3900:      "resolved": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+./package-lock.json:3919:        "es-errors": "^1.3.0",
+./package-lock.json:3929:        "iterator.prototype": "^1.1.5",
+./package-lock.json:3950:        "es-errors": "^1.3.0"
+./package-lock.json:3963:        "es-errors": "^1.3.0",
+./package-lock.json:3993:        "es-errors": "^1.3.0",
+./package-lock.json:4036:        "@types/estree": "^1.0.6",
+./package-lock.json:4040:        "debug": "^4.3.2",
+./package-lock.json:4087:        "@typescript-eslint/eslint-plugin": "^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+./package-lock.json:4088:        "@typescript-eslint/parser": "^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+./package-lock.json:4089:        "eslint-import-resolver-node": "^0.3.6",
+./package-lock.json:4090:        "eslint-import-resolver-typescript": "^3.5.2",
+./package-lock.json:4098:        "typescript": ">=3.3.1"
+./package-lock.json:4101:        "typescript": {
+./package-lock.json:4106:    "node_modules/eslint-import-resolver-node": {
+./package-lock.json:4108:      "resolved": "https://registry.npmjs.org/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.10.tgz",
+./package-lock.json:4113:        "debug": "^3.2.7",
+./package-lock.json:4118:    "node_modules/eslint-import-resolver-node/node_modules/debug": {
+./package-lock.json:4120:      "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz",
+./package-lock.json:4128:    "node_modules/eslint-import-resolver-typescript": {
+./package-lock.json:4130:      "resolved": "https://registry.npmjs.org/eslint-import-resolver-typescript/-/eslint-import-resolver-typescript-3.10.1.tgz",
+./package-lock.json:4136:        "debug": "^4.4.0",
+./package-lock.json:4141:        "unrs-resolver": "^1.6.2"
+./package-lock.json:4147:        "url": "https://opencollective.com/eslint-import-resolver-typescript"
+./package-lock.json:4170:        "debug": "^3.2.7"
+./package-lock.json:4181:    "node_modules/eslint-module-utils/node_modules/debug": {
+./package-lock.json:4183:      "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz",
+./package-lock.json:4200:        "array.prototype.findlastindex": "^1.2.6",
+./package-lock.json:4201:        "array.prototype.flat": "^1.3.3",
+./package-lock.json:4202:        "array.prototype.flatmap": "^1.3.3",
+./package-lock.json:4203:        "debug": "^3.2.7",
+./package-lock.json:4205:        "eslint-import-resolver-node": "^0.3.9",
+./package-lock.json:4215:        "string.prototype.trimend": "^1.0.9",
+./package-lock.json:4225:    "node_modules/eslint-plugin-import/node_modules/debug": {
+./package-lock.json:4227:      "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz",
+./package-lock.json:4254:        "array.prototype.flatmap": "^1.3.2",
+./package-lock.json:4255:        "ast-types-flow": "^0.0.8",
+./package-lock.json:4266:        "string.prototype.includes": "^2.0.1"
+./package-lock.json:4283:        "array.prototype.findlast": "^1.2.5",
+./package-lock.json:4284:        "array.prototype.flatmap": "^1.3.3",
+./package-lock.json:4285:        "array.prototype.tosorted": "^1.1.4",
+./package-lock.json:4295:        "prop-types": "^15.8.1",
+./package-lock.json:4298:        "string.prototype.matchall": "^4.0.12",
+./package-lock.json:4299:        "string.prototype.repeat": "^1.0.0"
+./package-lock.json:4422:        "@types/estree": "^1.0.0"
+./package-lock.json:4441:    "node_modules/expect-type": {
+./package-lock.json:4443:      "resolved": "https://registry.npmjs.org/expect-type/-/expect-type-1.3.0.tgz",
+./package-lock.json:4642:    "node_modules/function.prototype.name": {
+./package-lock.json:4644:      "resolved": "https://registry.npmjs.org/function.prototype.name/-/function.prototype.name-1.2.0.tgz",
+./package-lock.json:4652:        "es-errors": "^1.3.0",
+./package-lock.json:4695:        "es-errors": "^1.3.0",
+./package-lock.json:4742:        "es-errors": "^1.3.0",
+./package-lock.json:5000:        "debug": "^4.3.4"
+./package-lock.json:5014:        "debug": "4"
+./package-lock.json:5081:        "es-errors": "^1.3.0",
+./package-lock.json:5208:        "is-typed-array": "^1.1.13"
+./package-lock.json:5478:    "node_modules/is-typed-array": {
+./package-lock.json:5480:      "resolved": "https://registry.npmjs.org/is-typed-array/-/is-typed-array-1.1.15.tgz",
+./package-lock.json:5485:        "which-typed-array": "^1.1.16"
+./package-lock.json:5567:    "node_modules/iterator.prototype": {
+./package-lock.json:5569:      "resolved": "https://registry.npmjs.org/iterator.prototype/-/iterator.prototype-1.1.5.tgz",
+./package-lock.json:5598:          "type": "github",
+./package-lock.json:5602:          "type": "github",
+./package-lock.json:5637:        "whatwg-mimetype": "^4.0.0",
+./package-lock.json:5709:        "array.prototype.flat": "^1.3.1",
+./package-lock.json:5765:        "type-check": "~0.4.0"
+./package-lock.json:5784:        "type": "opencollective",
+./package-lock.json:5818:        "type": "opencollective",
+./package-lock.json:5839:        "type": "opencollective",
+./package-lock.json:5860:        "type": "opencollective",
+./package-lock.json:5881:        "type": "opencollective",
+./package-lock.json:5902:        "type": "opencollective",
+./package-lock.json:5926:        "type": "opencollective",
+./package-lock.json:5950:        "type": "opencollective",
+./package-lock.json:5974:        "type": "opencollective",
+./package-lock.json:5998:        "type": "opencollective",
+./package-lock.json:6019:        "type": "opencollective",
+./package-lock.json:6040:        "type": "opencollective",
+./package-lock.json:6244:        "@types/whatwg-url": "^11.0.2",
+./package-lock.json:6295:          "type": "github",
+./package-lock.json:6333:        "debug": "^4.3.4",
+./package-lock.json:6388:        "babel-plugin-react-compiler": "*",
+./package-lock.json:6400:        "babel-plugin-react-compiler": {
+./package-lock.json:6415:        "array.prototype.flatmap": "^1.3.3",
+./package-lock.json:6416:        "es-errors": "^1.3.0",
+./package-lock.json:6559:    "node_modules/obug": {
+./package-lock.json:6561:      "resolved": "https://registry.npmjs.org/obug/-/obug-2.1.3.tgz",
+./package-lock.json:6566:        "https://opencollective.com/debug"
+./package-lock.json:6602:        "type-check": "^0.4.0",
+./package-lock.json:6840:    "node_modules/possible-typed-array-names": {
+./package-lock.json:6842:      "resolved": "https://registry.npmjs.org/possible-typed-array-names/-/possible-typed-array-names-1.1.0.tgz",
+./package-lock.json:6856:          "type": "opencollective",
+./package-lock.json:6860:          "type": "tidelift",
+./package-lock.json:6864:          "type": "github",
+./package-lock.json:6912:    "node_modules/prop-types": {
+./package-lock.json:6914:      "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz",
+./package-lock.json:6939:          "type": "github",
+./package-lock.json:6943:          "type": "patreon",
+./package-lock.json:6947:          "type": "consulting",
+./package-lock.json:7006:        "@types/react": "*",
+./package-lock.json:7010:        "@types/react": {
+./package-lock.json:7028:        "@types/react": "*",
+./package-lock.json:7032:        "@types/react": {
+./package-lock.json:7050:        "@types/react": "*",
+./package-lock.json:7054:        "@types/react": {
+./package-lock.json:7085:        "prop-types": "^15.6.2"
+./package-lock.json:7107:    "node_modules/reflect.getprototypeof": {
+./package-lock.json:7109:      "resolved": "https://registry.npmjs.org/reflect.getprototypeof/-/reflect.getprototypeof-1.0.10.tgz",
+./package-lock.json:7117:        "es-errors": "^1.3.0",
+./package-lock.json:7121:        "which-builtin-type": "^1.2.1"
+./package-lock.json:7130:    "node_modules/regexp.prototype.flags": {
+./package-lock.json:7132:      "resolved": "https://registry.npmjs.org/regexp.prototype.flags/-/regexp.prototype.flags-1.5.4.tgz",
+./package-lock.json:7139:        "es-errors": "^1.3.0",
+./package-lock.json:7168:        "es-errors": "^1.3.0",
+./package-lock.json:7243:        "@oxc-project/types": "=0.133.0",
+./package-lock.json:7277:          "type": "github",
+./package-lock.json:7281:          "type": "patreon",
+./package-lock.json:7285:          "type": "consulting",
+./package-lock.json:7321:          "type": "github",
+./package-lock.json:7325:          "type": "patreon",
+./package-lock.json:7329:          "type": "consulting",
+./package-lock.json:7342:        "es-errors": "^1.3.0",
+./package-lock.json:7360:        "es-errors": "^1.3.0",
+./package-lock.json:7417:        "es-errors": "^1.3.0",
+./package-lock.json:7435:        "es-errors": "^1.3.0",
+./package-lock.json:7451:        "es-errors": "^1.3.0",
+./package-lock.json:7533:        "es-errors": "^1.3.0",
+./package-lock.json:7553:        "es-errors": "^1.3.0",
+./package-lock.json:7571:        "es-errors": "^1.3.0",
+./package-lock.json:7590:        "es-errors": "^1.3.0",
+./package-lock.json:7697:        "es-errors": "^1.3.0",
+./package-lock.json:7736:    "node_modules/string.prototype.includes": {
+./package-lock.json:7738:      "resolved": "https://registry.npmjs.org/string.prototype.includes/-/string.prototype.includes-2.0.1.tgz",
+./package-lock.json:7751:    "node_modules/string.prototype.matchall": {
+./package-lock.json:7753:      "resolved": "https://registry.npmjs.org/string.prototype.matchall/-/string.prototype.matchall-4.0.12.tgz",
+./package-lock.json:7762:        "es-errors": "^1.3.0",
+./package-lock.json:7768:        "regexp.prototype.flags": "^1.5.3",
+./package-lock.json:7779:    "node_modules/string.prototype.repeat": {
+./package-lock.json:7781:      "resolved": "https://registry.npmjs.org/string.prototype.repeat/-/string.prototype.repeat-1.0.0.tgz",
+./package-lock.json:7790:    "node_modules/string.prototype.trim": {
+./package-lock.json:7792:      "resolved": "https://registry.npmjs.org/string.prototype.trim/-/string.prototype.trim-1.2.11.tgz",
+./package-lock.json:7813:    "node_modules/string.prototype.trimend": {
+./package-lock.json:7815:      "resolved": "https://registry.npmjs.org/string.prototype.trimend/-/string.prototype.trimend-1.0.10.tgz",
+./package-lock.json:7832:    "node_modules/string.prototype.trimstart": {
+./package-lock.json:7834:      "resolved": "https://registry.npmjs.org/string.prototype.trimstart/-/string.prototype.trimstart-1.0.8.tgz",
+./package-lock.json:8129:        "typescript": ">=4.8.4"
+./package-lock.json:8139:        "@types/json5": "^0.0.29",
+./package-lock.json:8151:    "node_modules/type-check": {
+./package-lock.json:8153:      "resolved": "https://registry.npmjs.org/type-check/-/type-check-0.4.0.tgz",
+./package-lock.json:8164:    "node_modules/type-fest": {
+./package-lock.json:8166:      "resolved": "https://registry.npmjs.org/type-fest/-/type-fest-4.41.0.tgz",
+./package-lock.json:8176:    "node_modules/typed-array-buffer": {
+./package-lock.json:8178:      "resolved": "https://registry.npmjs.org/typed-array-buffer/-/typed-array-buffer-1.0.3.tgz",
+./package-lock.json:8184:        "es-errors": "^1.3.0",
+./package-lock.json:8185:        "is-typed-array": "^1.1.14"
+./package-lock.json:8191:    "node_modules/typed-array-byte-length": {
+./package-lock.json:8193:      "resolved": "https://registry.npmjs.org/typed-array-byte-length/-/typed-array-byte-length-1.0.3.tgz",
+./package-lock.json:8202:        "is-typed-array": "^1.1.14"
+./package-lock.json:8211:    "node_modules/typed-array-byte-offset": {
+./package-lock.json:8213:      "resolved": "https://registry.npmjs.org/typed-array-byte-offset/-/typed-array-byte-offset-1.0.4.tgz",
+./package-lock.json:8218:        "available-typed-arrays": "^1.0.7",
+./package-lock.json:8223:        "is-typed-array": "^1.1.15",
+./package-lock.json:8224:        "reflect.getprototypeof": "^1.0.9"
+./package-lock.json:8233:    "node_modules/typed-array-length": {
+./package-lock.json:8235:      "resolved": "https://registry.npmjs.org/typed-array-length/-/typed-array-length-1.0.8.tgz",
+./package-lock.json:8243:        "is-typed-array": "^1.1.15",
+./package-lock.json:8244:        "possible-typed-array-names": "^1.1.0",
+./package-lock.json:8245:        "reflect.getprototypeof": "^1.0.10"
+./package-lock.json:8254:    "node_modules/typescript": {
+./package-lock.json:8256:      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+./package-lock.json:8287:    "node_modules/undici-types": {
+./package-lock.json:8289:      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.18.2.tgz",
+./package-lock.json:8304:    "node_modules/unrs-resolver": {
+./package-lock.json:8306:      "resolved": "https://registry.npmjs.org/unrs-resolver/-/unrs-resolver-1.12.2.tgz",
+./package-lock.json:8315:        "url": "https://opencollective.com/unrs-resolver"
+./package-lock.json:8318:        "@unrs/resolver-binding-android-arm-eabi": "1.12.2",
+./package-lock.json:8319:        "@unrs/resolver-binding-android-arm64": "1.12.2",
+./package-lock.json:8320:        "@unrs/resolver-binding-darwin-arm64": "1.12.2",
+./package-lock.json:8321:        "@unrs/resolver-binding-darwin-x64": "1.12.2",
+./package-lock.json:8322:        "@unrs/resolver-binding-freebsd-x64": "1.12.2",
+./package-lock.json:8323:        "@unrs/resolver-binding-linux-arm-gnueabihf": "1.12.2",
+./package-lock.json:8324:        "@unrs/resolver-binding-linux-arm-musleabihf": "1.12.2",
+./package-lock.json:8325:        "@unrs/resolver-binding-linux-arm64-gnu": "1.12.2",
+./package-lock.json:8326:        "@unrs/resolver-binding-linux-arm64-musl": "1.12.2",
+./package-lock.json:8327:        "@unrs/resolver-binding-linux-loong64-gnu": "1.12.2",
+./package-lock.json:8328:        "@unrs/resolver-binding-linux-loong64-musl": "1.12.2",
+./package-lock.json:8329:        "@unrs/resolver-binding-linux-ppc64-gnu": "1.12.2",
+./package-lock.json:8330:        "@unrs/resolver-binding-linux-riscv64-gnu": "1.12.2",
+./package-lock.json:8331:        "@unrs/resolver-binding-linux-riscv64-musl": "1.12.2",
+./package-lock.json:8332:        "@unrs/resolver-binding-linux-s390x-gnu": "1.12.2",
+./package-lock.json:8333:        "@unrs/resolver-binding-linux-x64-gnu": "1.12.2",
+./package-lock.json:8334:        "@unrs/resolver-binding-linux-x64-musl": "1.12.2",
+./package-lock.json:8335:        "@unrs/resolver-binding-openharmony-arm64": "1.12.2",
+./package-lock.json:8336:        "@unrs/resolver-binding-wasm32-wasi": "1.12.2",
+./package-lock.json:8337:        "@unrs/resolver-binding-win32-arm64-msvc": "1.12.2",
+./package-lock.json:8338:        "@unrs/resolver-binding-win32-ia32-msvc": "1.12.2",
+./package-lock.json:8339:        "@unrs/resolver-binding-win32-x64-msvc": "1.12.2"
+./package-lock.json:8374:        "@types/react": "*",
+./package-lock.json:8378:        "@types/react": {
+./package-lock.json:8392:        "@types/react": {
+./package-lock.json:8406:        "@types/react": {
+./package-lock.json:8423:        "@types/react": {
+./package-lock.json:8441:        "@types/react": "*",
+./package-lock.json:8445:        "@types/react": {
+./package-lock.json:8483:        "@types/node": "^20.19.0 || >=22.12.0",
+./package-lock.json:8497:        "@types/node": {
+./package-lock.json:8563:        "expect-type": "^1.3.0",
+./package-lock.json:8565:        "obug": "^2.1.1",
+./package-lock.json:8588:        "@types/node": "^20.0.0 || ^22.0.0 || >=24.0.0",
+./package-lock.json:8606:        "@types/node": {
+./package-lock.json:8674:    "node_modules/whatwg-mimetype": {
+./package-lock.json:8676:      "resolved": "https://registry.npmjs.org/whatwg-mimetype/-/whatwg-mimetype-4.0.0.tgz",
+./package-lock.json:8734:    "node_modules/which-builtin-type": {
+./package-lock.json:8736:      "resolved": "https://registry.npmjs.org/which-builtin-type/-/which-builtin-type-1.2.1.tgz",
+./package-lock.json:8742:        "function.prototype.name": "^1.1.6",
+./package-lock.json:8753:        "which-typed-array": "^1.1.16"
+./package-lock.json:8781:    "node_modules/which-typed-array": {
+./package-lock.json:8783:      "resolved": "https://registry.npmjs.org/which-typed-array/-/which-typed-array-1.1.22.tgz",
+./package-lock.json:8788:        "available-typed-arrays": "^1.0.7",
+./package.json:5:  "type": "module",
+./package.json:16:    "ios:build": "xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build",
+./package.json:40:    "@types/node": "^24.13.2",
+./package.json:41:    "@types/react": "^19.2.17",
+./package.json:42:    "@types/react-dom": "^19.2.3",
+./package.json:47:    "typescript": "^5.9.3",
+./scripts/ios-testflight-upload.mjs:23:  '--type',
+./scripts/ios-testflight-upload.mjs:34:  console.error(message);
+./scripts/mobile-smoke.mjs:32:    if (message.type() === 'error') failures.push(`${viewport.name}: console error ${message.text()}`);
+./scripts/mobile-smoke.mjs:77:  console.error(failures.join('\n'));
+./scripts/ios-testflight-preflight.mjs:20:  console.error('\nTestFlight preflight failed. Resolve every missing item before archive/upload.');
+./scripts/ios-testflight-preflight.mjs:32:  } catch (error) {
+./scripts/ios-testflight-preflight.mjs:33:    return { ok: false, name: 'Full Xcode', detail: error instanceof Error ? error.message : 'xcodebuild failed' };
+./scripts/ios-testflight-preflight.mjs:43:  } catch (error) {
+./scripts/ios-testflight-preflight.mjs:44:    return { ok: false, name: 'Code signing identity', detail: error instanceof Error ? error.message : 'security failed' };
+./scripts/generate-ios-assets.mjs:90:function chunk(type, data) {
+./scripts/generate-ios-assets.mjs:91:  const typeBuffer = Buffer.from(type);
+./scripts/generate-ios-assets.mjs:94:  const crcValue = crc32(Buffer.concat([typeBuffer, data]));
+./scripts/generate-ios-assets.mjs:97:  return Buffer.concat([length, typeBuffer, data, crc]);
+./lib/server/http.ts:5:export function fail(error: unknown, status = 400, extra?: Record<string, unknown>) {
+./lib/server/http.ts:6:  const message = error instanceof Error ? error.message : 'Unexpected error';
+./lib/server/http.ts:7:  return NextResponse.json({ ...extra, error: message }, { status });
+./lib/server/telemetry.ts:3:import type { TelemetryEvent, TelemetryIngestResponse } from '@/lib/shared/types';
+./lib/server/telemetry.ts:20:  result: z.enum(['ok', 'error', 'cancelled']).optional(),
+./lib/server/telemetry.ts:31:      .map(([key, value]) => [key, typeof value === 'string' ? redactText(value) : value])
+./lib/server/telemetry.ts:53:    console.info(JSON.stringify({ type: 'matimato.telemetry.degraded', accepted: accepted.length, rejected }));
+./lib/server/store.ts:6:import type { BoardProgression, BoardSize, DailyResult, FriendActionResponse, FriendListResponse, FriendSummary, Friendship, FriendshipStatus, GameSnapshot, GiftLedgerEntry, MatchSummary, OnboardingState, ProfileSummary, ProgressionResponse, RankEntry, ReplaySnapshot, SeasonTaskMetric, SeasonTaskSource, StreakState, TrainingChoice, TutorialStepId } from '@/lib/shared/types';
+./lib/server/store.ts:226:    selectedBotProfileId: typeof raw?.selectedBotProfileId === 'string' ? raw.selectedBotProfileId : undefined
+./lib/server/store.ts:462:  if (!value || typeof value !== 'object') return undefined;
+./lib/server/store.ts:466:    completedAt: typeof raw.completedAt === 'string' ? raw.completedAt : undefined,
+./lib/server/store.ts:467:    dismissedAt: typeof raw.dismissedAt === 'string' ? raw.dismissedAt : undefined,
+./lib/server/store.ts:470:    trainingChoiceAt: typeof raw.trainingChoiceAt === 'string' ? raw.trainingChoiceAt : undefined,
+./lib/server/store.ts:471:    updatedAt: typeof raw.updatedAt === 'string' ? raw.updatedAt : new Date(0).toISOString()
+./lib/server/store.ts:476:  if (!value || typeof value !== 'object') return createEmptyStreak();
+./lib/server/store.ts:481:    lastCompletedDate: typeof raw.lastCompletedDate === 'string' ? raw.lastCompletedDate : undefined,
+./lib/shared/types.ts:1:export type PlayerSide = 'north' | 'south';
+./lib/shared/types.ts:2:export type GameMode = 'solo' | 'battle' | 'daily' | 'blitz';
+./lib/shared/types.ts:3:export type GameStatus = 'waiting' | 'active' | 'complete';
+./lib/shared/types.ts:4:export type LobbyStatus = 'waiting' | 'ready' | 'active' | 'expired' | 'cancelled';
+./lib/shared/types.ts:5:export type TutorialStepId = 'first-pick' | 'column-target' | 'row-target' | 'negative-risk' | 'ai-turn' | 'finish';
+./lib/shared/types.ts:6:export type TrainingChoice = 'learn' | 'play-now';
+./lib/shared/types.ts:7:export type BoardSize = 5 | 6 | 7 | 8 | 9;
+./lib/shared/types.ts:8:export type BlitzTimeoutPolicy = 'skip-turn' | 'forfeit-on-repeat';
+./lib/shared/types.ts:9:export type TelemetryEventName =
+./lib/shared/types.ts:35:  | 'daily_error'
+./lib/shared/types.ts:42:  | 'phaser_runtime_error'
+./lib/shared/types.ts:43:  | 'api_error'
+./lib/shared/types.ts:65:  | 'ios_wrapper_error'
+./lib/shared/types.ts:72:  | 'season_progress_error'
+./lib/shared/types.ts:78:  | 'rules_help_error'
+./lib/shared/types.ts:99:  | 'replay_error';
+./lib/shared/types.ts:100:export type LegalTarget = { axis: 'any' } | { axis: 'row'; index: number } | { axis: 'column'; index: number };
+./lib/shared/types.ts:102:export type BoardCell = {
+./lib/shared/types.ts:111:export type PlayerState = {
+./lib/shared/types.ts:118:export type MoveFrame = {
+./lib/shared/types.ts:130:export type GameOutcome = {
+./lib/shared/types.ts:135:export type BlitzClockConfig = {
+./lib/shared/types.ts:142:export type ClockState = {
+./lib/shared/types.ts:152:export type BotDifficulty = 'rookie' | 'steady' | 'sharp' | 'expert';
+./lib/shared/types.ts:154:export type BotProfile = {
+./lib/shared/types.ts:171:export type BotProfileSummary = Pick<BotProfile, 'profileId' | 'name' | 'difficulty' | 'unlockBoardSize' | 'description'>;
+./lib/shared/types.ts:173:export type TimeoutResolution = {
+./lib/shared/types.ts:180:export type GameSnapshot = {
+./lib/shared/types.ts:201:export type SeasonTaskSource = 'daily' | 'solo' | 'battle' | 'blitz' | 'journey' | 'recap' | 'rank' | 'social';
+./lib/shared/types.ts:202:export type SeasonTaskMetric = 'complete_match' | 'win_match' | 'score_threshold' | 'unlock_board' | 'replay_move' | 'share_recap' | 'view_rank' | 'send_friend_gift';
+./lib/shared/types.ts:204:export type SeasonTask = {
+./lib/shared/types.ts:213:export type SeasonCollectible = {
+./lib/shared/types.ts:220:export type SeasonReward = {
+./lib/shared/types.ts:228:export type SeasonDefinition = {
+./lib/shared/types.ts:240:export type SeasonRewardGrant = {
+./lib/shared/types.ts:249:export type SeasonProgress = {
+./lib/shared/types.ts:260:export type ActiveSeasonState = {
+./lib/shared/types.ts:268:export type BadgeAlbum = {
+./lib/shared/types.ts:273:export type LobbyState = {
+./lib/shared/types.ts:283:export type OnboardingState = {
+./lib/shared/types.ts:293:export type DailyChallenge = {
+./lib/shared/types.ts:304:export type DailyResult = {
+./lib/shared/types.ts:315:export type StreakState = {
+./lib/shared/types.ts:322:export type WeeklyRankEntry = {
+./lib/shared/types.ts:331:export type QuestProgress = { id: string; title: string; progress: number; target: number; rewardXp: number };
+./lib/shared/types.ts:333:export type XpWallet = {
+./lib/shared/types.ts:338:export type BoardUnlock = {
+./lib/shared/types.ts:345:export type NextBoardUnlock = {
+./lib/shared/types.ts:350:export type BoardUnlockState = {
+./lib/shared/types.ts:357:export type BoardProgression = {
+./lib/shared/types.ts:362:export type ProgressionResponse = {
+./lib/shared/types.ts:375:export type TelemetryPropertyValue = string | number | boolean | null;
+./lib/shared/types.ts:376:export type TelemetryEvent = {
+./lib/shared/types.ts:385:  result?: 'ok' | 'error' | 'cancelled';
+./lib/shared/types.ts:389:export type TelemetryIngestResponse = { accepted: number; rejected: number; degraded?: boolean };
+./lib/shared/types.ts:391:export type HealthCheck = { name: string; status: 'ok' | 'error'; latencyMs: number };
+./lib/shared/types.ts:393:export type HealthResponse = {
+./lib/shared/types.ts:395:  database: 'connected' | 'error';
+./lib/shared/types.ts:400:export type FriendshipStatus = 'active' | 'removed' | 'blocked';
+./lib/shared/types.ts:402:export type Friendship = {
+./lib/shared/types.ts:413:export type GiftLedgerEntry = {
+./lib/shared/types.ts:424:export type FriendSummary = {
+./lib/shared/types.ts:437:export type FriendListResponse = {
+./lib/shared/types.ts:442:export type FriendActionResponse = FriendListResponse & {
+./lib/shared/types.ts:449:export type ReplayVisibility = 'public-link' | 'private' | 'expired';
+./lib/shared/types.ts:451:export type ReplayFrame = Pick<MoveFrame, 'version' | 'side' | 'selected' | 'fromTarget' | 'toTarget' | 'scores' | 'timeout' | 'outcome'>;
+./lib/shared/types.ts:453:export type ReplaySnapshot = {
+./lib/shared/types.ts:467:export type CreateGameRequest = { type: 'create'; mode: GameMode; playerId: string; playerTag: string; lobbyVersion?: 2; dailyId?: string; boardSize?: BoardSize; botProfileId?: string; clock?: Partial<Pick<BlitzClockConfig, 'turnLimitMs'>> };
+./lib/shared/types.ts:468:export type JoinGameRequest = { type: 'join'; inviteCode: string; playerId: string; playerTag: string };
+./lib/shared/types.ts:469:export type MoveRequest = { type: 'move'; matchId: string; playerId: string; actionId: string; row: number; col: number; expectedVersion: number };
+./lib/shared/types.ts:470:export type SyncRequest = { type: 'sync'; matchId: string; playerId?: string };
+./lib/shared/types.ts:471:export type TimeoutRequest = { type: 'timeout'; matchId: string; playerId: string; deadlineVersion: number };
+./lib/shared/types.ts:472:export type LobbyStatusRequest = { type: 'lobbyStatus'; matchId: string; playerId: string };
+./lib/shared/types.ts:473:export type LobbyReadyRequest = { type: 'ready'; matchId: string; playerId: string; actionId: string };
+./lib/shared/types.ts:474:export type LobbyLeaveRequest = { type: 'leave' | 'cancel'; matchId: string; playerId: string; actionId: string };
+./lib/shared/types.ts:475:export type GameRequest = CreateGameRequest | JoinGameRequest | MoveRequest | SyncRequest | TimeoutRequest | LobbyStatusRequest | LobbyReadyRequest | LobbyLeaveRequest;
+./lib/shared/types.ts:477:export type CreateJoinResponse = { snapshot: GameSnapshot };
+./lib/shared/types.ts:478:export type MoveResponse = { snapshot: GameSnapshot; frames: MoveFrame[] };
+./lib/shared/types.ts:479:export type SyncResponse = { snapshot: GameSnapshot; frames: MoveFrame[] };
+./lib/shared/types.ts:480:export type LobbyResponse = { snapshot: GameSnapshot; lobby: LobbyState };
+./lib/shared/types.ts:481:export type GameApiResponse = CreateJoinResponse | MoveResponse | SyncResponse | LobbyResponse;
+./lib/shared/types.ts:483:export type ProfileSummary = {
+./lib/shared/types.ts:498:export type MatchSummary = {
+./lib/shared/types.ts:509:export type RankEntry = {
+./lib/shared/telemetry.ts:1:import type { TelemetryEventName } from './types';
+./lib/shared/telemetry.ts:29:  'daily_error',
+./lib/shared/telemetry.ts:36:  'phaser_runtime_error',
+./lib/shared/telemetry.ts:37:  'api_error',
+./lib/shared/telemetry.ts:59:  'ios_wrapper_error',
+./lib/shared/telemetry.ts:66:  'season_progress_error',
+./lib/shared/telemetry.ts:72:  'rules_help_error',
+./lib/shared/telemetry.ts:93:  'replay_error'
+./lib/shared/telemetry.ts:111:  'errorCode',
+./lib/shared/telemetry.ts:149:  return TELEMETRY_PROPERTY_KEYS.includes(value as (typeof TELEMETRY_PROPERTY_KEYS)[number]);
+./lib/game/rules-help.ts:1:import type { BoardCell, GameSnapshot, LegalTarget } from '@/lib/shared/types';
+./lib/game/rules-help.ts:3:export type RulesHelpTopicId = 'objective' | 'turns' | 'legal-moves' | 'scoring' | 'traps' | 'xp' | 'boards' | 'recap' | 'ranks';
+./lib/game/rules-help.ts:5:export type RulesHelpTopic = {
+./lib/game/rules-help.ts:13:export type ContextualHint = {
+./lib/game/lobby.ts:1:import type { GameSnapshot, LobbyState, PlayerSide } from '@/lib/shared/types';
+./lib/game/daily.ts:2:import type { DailyChallenge, DailyResult, StreakState, WeeklyRankEntry } from '@/lib/shared/types';
+./lib/game/replay.ts:1:import type { BoardSize, GameSnapshot, PlayerSide, ReplayFrame, ReplaySnapshot, ReplayVisibility } from '@/lib/shared/types';
+./lib/game/replay.ts:39:    if (!frame || typeof frame !== 'object') continue;
+./lib/game/replay.ts:41:    if (!raw.selected || typeof raw.version !== 'number' || (raw.side !== 'north' && raw.side !== 'south')) continue;
+./lib/game/replay.ts:70:  return typeof value === 'number' && VALID_BOARD_SIZES.has(value) ? value as BoardSize : 9;
+./lib/game/rules.ts:3:import type { BlitzClockConfig, BoardCell, BoardSize, ClockState, GameMode, GameOutcome, GameSnapshot, LegalTarget, MoveFrame, PlayerSide, PlayerState, TimeoutResolution } from '@/lib/shared/types';
+./lib/game/ai.ts:1:import type { BoardCell, BotProfile, BotProfileSummary, GameSnapshot, LegalTarget } from '@/lib/shared/types';
+./lib/game/seasons.ts:1:import type { ActiveSeasonState, BadgeAlbum, BoardSize, SeasonDefinition, SeasonProgress, SeasonReward, SeasonRewardGrant, SeasonTaskMetric, SeasonTaskSource } from '@/lib/shared/types';
+./lib/game/seasons.ts:3:export type SeasonActionInput = {
+./lib/game/seasons.ts:13:export type SeasonClaimResult = {
+./lib/game/seasons.ts:70:  if (!value || typeof value !== 'object') return createSeasonProgress(playerId, now);
+./lib/game/seasons.ts:80:    completedAt: typeof raw.completedAt === 'string' ? raw.completedAt : undefined,
+./lib/game/seasons.ts:81:    updatedAt: typeof raw.updatedAt === 'string' ? raw.updatedAt : now.toISOString()
+./lib/game/seasons.ts:211:  if (!value || typeof value !== 'object') return {};
+./lib/game/seasons.ts:216:  return typeof value === 'string' && value.length > 0;
+./lib/game/seasons.ts:220:  if (!value || typeof value !== 'object') return false;
+./lib/game/tutorial.ts:1:import type { BoardCell, LegalTarget, PlayerSide, TutorialStepId } from '@/lib/shared/types';
+./lib/game/tutorial.ts:4:export type TutorialState = {
+./lib/game/tutorial.ts:14:export type TutorialSelectResult = {
+./lib/game/social.ts:2:import type { Friendship, FriendshipStatus, GiftLedgerEntry } from '@/lib/shared/types';
+./lib/game/progression.ts:1:import type { BoardProgression, BoardSize, BoardUnlock, BoardUnlockState, OnboardingState, TrainingChoice, XpWallet } from '@/lib/shared/types';
+./lib/game/progression.ts:12:  return typeof value === 'number' && BOARD_SIZES.includes(value as BoardSize);
+./lib/game/progression.ts:58:  const raw = input && typeof input === 'object' ? input as {
+./lib/game/progression.ts:129:  if (!value || typeof value !== 'object') return null;
+./lib/game/progression.ts:136:    purchasedAt: typeof raw.purchasedAt === 'string' ? raw.purchasedAt : new Date(0).toISOString(),
+./lib/game/progression.ts:137:    actionId: typeof raw.actionId === 'string' && raw.actionId ? raw.actionId : `legacy:${boardSize}`
+./lib/phaser/MatimatoScene.ts:2:import type { BoardCell, GameSnapshot, MoveFrame, PlayerSide } from '@/lib/shared/types';
+./lib/phaser/MatimatoScene.ts:3:import type { PhaserBootPayload } from './types';
+./lib/phaser/MatimatoScene.ts:42:        if (snapshot.mode === 'blitz') this.payload.onEvent({ type: 'telemetry', name: 'blitz_move_submitted', result: 'ok', properties: { version: snapshot.version, deadlineVersion: snapshot.clock?.deadlineVersion ?? 0 } });
+./lib/phaser/MatimatoScene.ts:48:      announce: (message) => this.payload.onEvent({ type: 'announce', message }),
+./lib/phaser/MatimatoScene.ts:53:    this.payload.onEvent({ type: 'announce', message: 'Game ready.' });
+./lib/phaser/MatimatoScene.ts:54:    this.payload.onEvent({ type: 'telemetry', name: 'phaser_booted', result: 'ok', properties: { phase: 'scene-ready', boardSize: this.snapshot.boardSize ?? 9 } });
+./lib/phaser/MatimatoScene.ts:96:    homeHit.on('pointerdown', () => this.payload.onEvent({ type: 'exit' }));
+./lib/phaser/MatimatoScene.ts:114:      this.payload.onEvent({ type: 'announce', message: `${frame.timeout.side} timed out. Turn resolved by server.` });
+./lib/phaser/MatimatoScene.ts:115:      this.payload.onEvent({ type: 'telemetry', name: 'blitz_timeout_resolved', result: 'ok', properties: { deadlineVersion: frame.timeout.deadlineVersion, timeoutCount: frame.timeout.count } });
+./lib/phaser/MatimatoScene.ts:127:    this.payload.onEvent({ type: 'announce', message: `${frame.side} claimed ${Math.abs(frame.selected.value)}.` });
+./lib/phaser/MatimatoScene.ts:153:      } catch (error) {
+./lib/phaser/MatimatoScene.ts:154:        this.payload.onEvent({ type: 'announce', message: error instanceof Error ? error.message : 'Sync failed.' });
+./lib/phaser/MatimatoScene.ts:155:        this.payload.onEvent({ type: 'telemetry', name: 'sync_failed', result: 'error', properties: { errorCode: 'automated_sync_failed', retryable: true } });
+./lib/phaser/MatimatoScene.ts:178:    exit.on('pointerdown', () => this.payload.onEvent({ type: 'exit' }));
+./lib/phaser/MatimatoScene.ts:181:    this.payload.onEvent({ type: 'complete', snapshot });
+./lib/phaser/MatimatoScene.ts:212:      this.payload.onEvent({ type: 'announce', message });
+./lib/phaser/MatimatoScene.ts:213:      if (seconds === 10 || seconds === 3) this.payload.onEvent({ type: 'telemetry', name: 'blitz_deadline_warning', result: 'ok', properties: { deadlineVersion, durationBucket: `${seconds}s` } });
+./lib/phaser/MatimatoScene.ts:223:    this.payload.onEvent({ type: 'telemetry', name: 'blitz_timeout_requested', result: 'ok', properties: { deadlineVersion: clock.deadlineVersion } });
+./lib/phaser/MatimatoScene.ts:229:    } catch (error) {
+./lib/phaser/MatimatoScene.ts:230:      this.payload.onEvent({ type: 'announce', message: error instanceof Error ? error.message : 'Timeout sync failed.' });
+./lib/phaser/MatimatoScene.ts:231:      this.payload.onEvent({ type: 'telemetry', name: 'sync_failed', result: 'error', properties: { errorCode: 'timeout_sync_failed', retryable: true } });
+./lib/phaser/MatimatoScene.ts:242:    this.payload.onEvent({ type: 'telemetry', name: 'phaser_destroyed', result: 'ok', properties: { phase: 'scene-destroy' } });
+./lib/phaser/network/NetworkBridge.ts:1:import type { GameApiResponse } from '@/lib/shared/types';
+./lib/phaser/network/NetworkBridge.ts:12:      return await this.post({ type: 'move', ...input });
+./lib/phaser/network/NetworkBridge.ts:19:    return this.post({ type: 'sync', matchId, playerId });
+./lib/phaser/network/NetworkBridge.ts:26:      return await this.post({ type: 'timeout', matchId, playerId, deadlineVersion });
+./lib/phaser/network/NetworkBridge.ts:44:      const response = await fetch('/api/games', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal: controller.signal });
+./lib/phaser/network/NetworkBridge.ts:46:      if (!response.ok) throw new Error(data.error || 'Game request failed.');
+./lib/phaser/state/ActionMachine.ts:1:import type { BoardCell, GameSnapshot, MoveFrame } from '@/lib/shared/types';
+./lib/phaser/state/ActionMachine.ts:3:export type MachinePorts = {
+./lib/phaser/state/ActionMachine.ts:37:    } catch (error) {
+./lib/phaser/state/ActionMachine.ts:38:      this.ports.announce(error instanceof Error ? error.message : 'Move failed.');
+./lib/phaser/types.ts:1:import type { GameSnapshot, TelemetryEventName, TelemetryPropertyValue } from '@/lib/shared/types';
+./lib/phaser/types.ts:3:export type PhaserOutboundEvent =
+./lib/phaser/types.ts:4:  | { type: 'announce'; message: string }
+./lib/phaser/types.ts:5:  | { type: 'telemetry'; name: TelemetryEventName; result?: 'ok' | 'error' | 'cancelled'; properties?: Record<string, TelemetryPropertyValue> }
+./lib/phaser/types.ts:6:  | { type: 'exit' }
+./lib/phaser/types.ts:7:  | { type: 'complete'; snapshot: GameSnapshot };
+./lib/phaser/types.ts:9:export type PhaserBootPayload = {
+./lib/phaser/types.ts:15:export type Rect = { x: number; y: number; width: number; height: number };
+./lib/phaser/bootPayload.ts:1:import type { PhaserBootPayload } from './types';
+./lib/phaser/bootPayload.ts:6:  if (typeof payload.onEvent !== 'function') throw new Error('Missing Phaser event bridge.');
+./lib/phaser/actors/TileActor.ts:2:import type { BoardCell } from '@/lib/shared/types';
+./lib/phaser/actors/TileActor.ts:3:import type { Rect } from '../types';
+./lib/phaser/actors/BlobActor.ts:2:import type { Rect } from '../types';
+./lib/phaser/actors/BoardActor.ts:3:import type { BoardCell, BoardSize, LegalTarget, PlayerSide } from '@/lib/shared/types';
+./lib/phaser/boot.ts:3:import type { PhaserBootPayload } from './types';
+./lib/phaser/boot.ts:10:    type: Phaser.AUTO,
+./lib/phaser/geometry/BoardGeometry.ts:2:import type { LegalTarget } from '@/lib/shared/types';
+./lib/phaser/geometry/BoardGeometry.ts:3:import type { BoardSize } from '@/lib/shared/types';
+./lib/phaser/geometry/BoardGeometry.ts:4:import type { Rect } from '../types';
+./lib/client/iosRuntime.ts:1:import type { TelemetryPropertyValue } from '@/lib/shared/types';
+./lib/client/iosRuntime.ts:3:export type IOSRuntimeMode = 'safari' | 'standalone-pwa' | 'capacitor-ios' | 'browser';
+./lib/client/iosRuntime.ts:4:export type NetworkState = 'online' | 'offline' | 'reconnecting' | 'degraded';
+./lib/client/iosRuntime.ts:20:  if (typeof window === 'undefined') return 'browser';
+./lib/client/iosRuntime.ts:32:    serviceWorker: typeof navigator !== 'undefined' && 'serviceWorker' in navigator ? 'supported' : 'unsupported'
+./lib/client/iosRuntime.ts:36:export async function registerServiceWorker(): Promise<'registered' | 'unsupported' | 'disabled' | 'error'> {
+./lib/client/iosRuntime.ts:38:  if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) return 'unsupported';
+./lib/client/iosRuntime.ts:43:    return 'error';
+./lib/client/api.ts:1:import type { ActiveSeasonState, BoardProgression, BoardSize, FriendActionResponse, FriendListResponse, GameApiResponse, GameMode, MatchSummary, OnboardingState, ProfileSummary, ProgressionResponse, RankEntry, ReplaySnapshot, SeasonReward, SeasonRewardGrant, SeasonTaskMetric, SeasonTaskSource, TelemetryEventName, TrainingChoice, TutorialStepId } from '@/lib/shared/types';
+./lib/client/api.ts:12:      const response = await fetch(url, { ...init, signal: controller.signal, headers: { 'content-type': 'application/json', ...(init?.headers || {}) } });
+./lib/client/api.ts:14:      if (!response.ok) throw new Error(data.error || 'Request failed');
+./lib/client/api.ts:16:    } catch (error) {
+./lib/client/api.ts:17:      lastError = error;
+./lib/client/api.ts:18:      if (!retryable || attempt === RETRY_POLICY.maxAttempts || !isRetryableRequestError(error)) break;
+./lib/client/api.ts:27:async function parseResponse(response: Response): Promise<{ error?: string } & Record<string, unknown>> {
+./lib/client/api.ts:31:    return { error: response.ok ? undefined : 'Request failed' };
+./lib/client/api.ts:35:function isRetryableRequestError(error: unknown): boolean {
+./lib/client/api.ts:36:  if (error instanceof DOMException && error.name === 'AbortError') return true;
+./lib/client/api.ts:37:  if (error instanceof TypeError) return true;
+./lib/client/api.ts:38:  if (error instanceof Error && error.message.includes('NETWORK_OFFLINE')) return true;
+./lib/client/api.ts:42:function normalizeRequestError(error: unknown): Error {
+./lib/client/api.ts:43:  if (error instanceof DOMException && error.name === 'AbortError') return new Error('Network timeout. Try again.');
+./lib/client/api.ts:44:  if (error instanceof Error) return error;
+./lib/client/api.ts:52:export function offlineTelemetryName(state: 'offline' | 'recovered' | 'retry' | 'error'): TelemetryEventName {
+./lib/client/api.ts:55:  if (state === 'error') return 'ios_wrapper_error';
+./lib/client/api.ts:94:      completedAt: typeof parsed.completedAt === 'string' ? parsed.completedAt : undefined,
+./lib/client/api.ts:96:      dismissedAt: typeof parsed.dismissedAt === 'string' ? parsed.dismissedAt : undefined,
+./lib/client/api.ts:98:      trainingChoiceAt: typeof parsed.trainingChoiceAt === 'string' ? parsed.trainingChoiceAt : undefined,
+./lib/client/api.ts:99:      updatedAt: typeof parsed.updatedAt === 'string' ? parsed.updatedAt : new Date(0).toISOString()
+./lib/client/api.ts:112:  return request('/api/games', { method: 'POST', body: JSON.stringify({ type: 'create', mode, playerId, playerTag, ...options }) });
+./lib/client/api.ts:116:  return request('/api/games', { method: 'POST', body: JSON.stringify({ type: 'join', inviteCode, playerId, playerTag }) });
+./lib/client/api.ts:124:  return request('/api/games', { method: 'POST', body: JSON.stringify({ type: 'timeout', matchId, playerId, deadlineVersion }) });
+./lib/client/api.ts:128:  return request('/api/games', { method: 'POST', body: JSON.stringify({ type: 'lobbyStatus', matchId, playerId }) });
+./lib/client/api.ts:132:  return request('/api/games', { method: 'POST', body: JSON.stringify({ type: 'ready', matchId, playerId, actionId: crypto.randomUUID() }) });
+./lib/client/api.ts:136:  return request('/api/games', { method: 'POST', body: JSON.stringify({ type: 'leave', matchId, playerId, actionId: crypto.randomUUID() }) });
+./lib/client/api.ts:140:  return request('/api/games', { method: 'POST', body: JSON.stringify({ type: 'cancel', matchId, playerId, actionId: crypto.randomUUID() }) });
+./lib/client/api.ts:165:  return request('/api/friends', { method: 'POST', body: JSON.stringify({ type: 'acceptInvite', actionId: input.actionId ?? crypto.randomUUID(), ...input }) });
+./lib/client/api.ts:169:  return request('/api/friends', { method: 'POST', body: JSON.stringify({ type: 'sendGift', playerId, friendshipId, actionId }) });
+./lib/client/api.ts:173:  return request('/api/friends', { method: 'POST', body: JSON.stringify({ type: 'remove', playerId, friendshipId, actionId }) });
+./lib/client/api.ts:177:  return request('/api/friends', { method: 'POST', body: JSON.stringify({ type: 'block', playerId, friendshipId, actionId }) });
+./lib/client/api.ts:185:  return request('/api/progression', { method: 'POST', body: JSON.stringify({ type: 'onboarding', playerId, ...input }) });
+./lib/client/api.ts:189:  return request('/api/progression', { method: 'POST', body: JSON.stringify({ type: 'purchaseBoard', playerId, boardSize, actionId }) });
+./lib/client/api.ts:193:  return request('/api/progression', { method: 'POST', body: JSON.stringify({ type: 'selectBoard', playerId, boardSize }) });
+./lib/client/api.ts:197:  return request('/api/progression', { method: 'POST', body: JSON.stringify({ type: 'seasonAction', ...input }) });
+./lib/client/api.ts:201:  return request('/api/progression', { method: 'POST', body: JSON.stringify({ type: 'claimSeasonReward', playerId, rewardId }) });
+./lib/client/telemetry.ts:1:import type { TelemetryEvent, TelemetryEventName, TelemetryPropertyValue } from '@/lib/shared/types';
+./lib/client/telemetry.ts:17:  result?: 'ok' | 'error' | 'cancelled';
+./lib/client/telemetry.ts:20:  if (!TELEMETRY_ENABLED || typeof window === 'undefined') return;
+./lib/client/telemetry.ts:29:  if (!buffer.length || typeof window === 'undefined') return;
+./lib/client/telemetry.ts:33:    navigator.sendBeacon('/api/events', new Blob([body], { type: 'application/json' }));
+./lib/client/telemetry.ts:38:  fetch('/api/events', { method: 'POST', headers: { 'content-type': 'application/json' }, body, signal: controller.signal })
+./lib/client/telemetry.ts:44:  if (!TELEMETRY_ENABLED || typeof window === 'undefined') return () => undefined;
+./lib/client/telemetry.ts:50:async function createTelemetryEvent(input: Parameters<typeof emitTelemetry>[0]): Promise<TelemetryEvent> {
+./lib/client/telemetry.ts:66:  if (timer || typeof window === 'undefined') return;
+./lib/client/telemetry.ts:94:    if (typeof value === 'string') safe[key] = value.replace(/[A-Z0-9]{5,8}/g, '[redacted-code]').slice(0, 120);
+./tsconfig.json:2:  "compilerOptions": {
+./tsconfig.json:19:  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+./eslint.config.mjs:12:  ...compat.extends('next/core-web-vitals', 'next/typescript')
+./next.config.ts:1:import type { NextConfig } from 'next';
+./capacitor.config.ts:1:import type { CapacitorConfig } from '@capacitor/cli';
+./capacitor.config.ts:2:import pkg from './package.json' with { type: 'json' };

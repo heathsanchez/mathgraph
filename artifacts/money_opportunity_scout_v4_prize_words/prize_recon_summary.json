@@ -1,0 +1,122 @@
+[
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/cadallacricky1-maker__Shutterscore_5",
+    "verdict": "PROMOTE_COMPETITION_MONEY",
+    "url": "https://github.com/cadallacricky1-maker/Shutterscore/issues/5",
+    "title": "Judging system",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": false
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/agentclash__agentclash_1097",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/agentclash/agentclash/issues/1097",
+    "title": "RAG Eval W8: reference RAG challenge packs",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/anonhostpi__Agent-World_24",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/anonhostpi/Agent-World/issues/24",
+    "title": "Kaggle \u2014 Custom CLI Tool",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/gittensor-vanguard__vanguarstew_662",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/gittensor-vanguard/vanguarstew/issues/662",
+    "title": "Add judge tally integrity gate for replay win/loss accounting",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/karmonlong__ai-competition-voting-platform_3",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/karmonlong/ai-competition-voting-platform/issues/3",
+    "title": "Create database schema and models with Supabase",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/moldovancsaba__matimato_66",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/moldovancsaba/matimato/issues/66",
+    "title": "Competition: Arena tournaments - scheduled tables and ranked event flow",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/oslinin__chaingammon_5",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/oslinin/chaingammon/issues/5",
+    "title": "learning bg",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/python-discord__sir-lancebot_1021",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/python-discord/sir-lancebot/issues/1021",
+    "title": "Esoteric Challenges!",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/ropensci__ozunconf17_22",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/ropensci/ozunconf17/issues/22",
+    "title": "predictive modelling competitions",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  },
+  {
+    "dir": "/Users/heath/Documents/mathgraph-lean-work/artifacts/money_opportunity_scout_v4_prize_words/recon/treitforge__qsoripper_424",
+    "verdict": "PARK_RISK",
+    "url": "https://github.com/treitforge/qsoripper/issues/424",
+    "title": "experiment: ingest Kaggle Morse Learning Machine Challenge v2 as external benchmark",
+    "money": true,
+    "competition": true,
+    "judge": true,
+    "local": true,
+    "mgfit": true,
+    "risk": true
+  }
+]

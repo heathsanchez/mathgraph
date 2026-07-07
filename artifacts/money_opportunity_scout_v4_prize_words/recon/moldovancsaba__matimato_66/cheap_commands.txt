@@ -1,0 +1,241 @@
+pwd=/Users/heath/Documents/mathgraph-lean-work/external/money_opportunity_scout_v4_prize_words/moldovancsaba__matimato_66
+
+README head:
+# Matimato
+
+A fresh Next.js + Phaser + MongoDB implementation of Matimato.
+
+Current release: `2.7.0`.
+
+## Commands
+
+```bash
+npm install
+npm run lint
+npm run dev
+npm run test
+npm run build
+npm run verify
+npm run assets:ios
+npm run mobile:smoke
+npm run ios:preflight
+npm run ios:sync
+npm run ios:build
+npm run ios:archive
+npm run ios:export
+npm run ios:upload
+npm audit --omit=dev
+```
+
+## Stack
+
+- Next.js App Router
+- Sovereign Squad General Design System `@doneisbetter/gds` 3.7.0 for React UI controls and theme bootstrap
+- Phaser 3 for the game board
+- MongoDB Atlas for persistence
+- Vitest for rules tests
+- Capacitor 8 for the iOS WKWebView wrapper
+- Playwright for mobile viewport smoke checks
+
+## Required environment
+
+Keep `.env` / `.env.*` local and set:
+
+```bash
+MONGODB_URI="mongodb+srv://..."
+MONGODB_DB="matimato"
+```
+
+## Feature flags
+
+These flags default to enabled. Set either value to `false` for rollback.
+
+```bash
+NEXT_PUBLIC_MATIMATO_ONBOARDING=true
+NEXT_PUBLIC_MATIMATO_LOBBY_V2=true
+NEXT_PUBLIC_MATIMATO_DAILY_V2=true
+NEXT_PUBLIC_MATIMATO_BLITZ_MODE=true
+NEXT_PUBLIC_MATIMATO_TELEMETRY=true
+NEXT_PUBLIC_MATIMATO_TRAINING_CHOICE=true
+NEXT_PUBLIC_MATIMATO_COACH_BUBBLES=true
+NEXT_PUBLIC_MATIMATO_BOARD_JOURNEY=true
+NEXT_PUBLIC_MATIMATO_SERVICE_WORKER=true
+NEXT_PUBLIC_MATIMATO_APP_VERSION=2.7.0
+NEXT_PUBLIC_MATIMATO_IOS_BUILD_NUMBER=web
+MATIMATO_BLITZ_ENABLED=true
+MATIMATO_EVENTS_ENABLED=true
+MATIMATO_BOARD_JOURNEY_ENABLED=true
+NEXT_PUBLIC_MATIMATO_SEASONAL_EVENTS=true
+MATIMATO_SEASONAL_EVENTS_ENABLED=true
+NEXT_PUBLIC_MATIMATO_RULE_ASSIST=true
+NEXT_PUBLIC_MATIMATO_AI_PROFILES=true
+NEXT_PUBLIC_MATIMATO_FRIENDS=true
+MATIMATO_FRIENDS_ENABLED=true
+NEXT_PUBLIC_MATIMATO_REPLAYS=true
+MATIMATO_REPLAYS_ENABLED=true
+CAPACITOR_SERVER_URL=https://matimato.vercel.app
+CAPACITOR_BUILD_NUMBER=local
+APP_STORE_CONNECT_API_KEY_ID=
+APP_STORE_CONNECT_ISSUER_ID=
+APP_STORE_CONNECT_API_KEY_PATH=
+```
+
+`NEXT_PUBLIC_MATIMATO_ONBOARDING=false` disables automatic first-run tutorial entry while keeping normal solo and battle actions available.
+
+`NEXT_PUBLIC_MATIMATO_LOBBY_V2=false` restores the direct battle create/join flow for new client sessions. Existing lobby snapshots remain readable and recoverable through `/play/[id]`.
+
+`NEXT_PUBLIC_MATIMATO_DAILY_V2=false` hides daily challenge entry on the Quests screen without affecting solo, battle, or existing daily snapshots.
+
+`NEXT_PUBLIC_MATIMATO_BLITZ_MODE=false` hides Blitz entry points. `MATIMATO_BLITZ_ENABLED=false` rejects new Blitz creation server-side while keeping existing saved snapshots readable.
+
+`NEXT_PUBLIC_MATIMATO_TELEMETRY=false` disables the client event emitter. `MATIMATO_EVENTS_ENABLED=false` keeps `/api/events` accepting payloads but marks ingestion degraded and skips event storage.
+
+`NEXT_PUBLIC_MATIMATO_TRAINING_CHOICE=false` restores the previous automatic onboarding behavior. `NEXT_PUBLIC_MATIMATO_COACH_BUBBLES=false` hides contextual tutorial explanations. `NEXT_PUBLIC_MATIMATO_BOARD_JOURNEY=false` hides the board journey UI. `MATIMATO_BOARD_JOURNEY_ENABLED=false` rejects new board purchases and active-board changes server-side while keeping stored wallet/unlock data readable.
+
+`NEXT_PUBLIC_MATIMATO_SEASONAL_EVENTS=false` hides the seasonal album and reward track. `MATIMATO_SEASONAL_EVENTS_ENABLED=false` pauses server-side season progress evaluation while preserving saved ledgers. `NEXT_PUBLIC_MATIMATO_RULE_ASSIST=false` hides persistent help buttons. `NEXT_PUBLIC_MATIMATO_AI_PROFILES=false` falls back to the rookie solo AI profile.
+
+`NEXT_PUBLIC_MATIMATO_FRIENDS=false` hides Friends UI and profile invite links. `MATIMATO_FRIENDS_ENABLED=false` rejects new friend/gift writes while preserving stored relationships and gift ledgers. `NEXT_PUBLIC_MATIMATO_REPLAYS=false` hides replay share entry points. `MATIMATO_REPLAYS_ENABLED=false` disables `/api/replays/[id]` without changing existing match snapshots.
+
+`NEXT_PUBLIC_MATIMATO_SERVICE_WORKER=false` stops registering the offline shell worker for new sessions. `CAPACITOR_SERVER_URL` controls the iOS wrapper target and must stay on HTTPS for production.
+
+## iOS mobile app
+
+Matimato now has a production iOS delivery lane documented in [`docs/ios-mobile.md`](/Users/Shared/Projects/matimato/docs/ios-mobile.md). The chosen architecture is an installable iOS PWA plus a Capacitor WKWebView wrapper around the existing GDS/Phaser web runtime.
+
+Key commands:
+
+```bash
+npm run assets:ios
+npm run ios:sync
+npm run ios:preflight
+npm run ios:build
+npm run ios:archive
+npm run ios:export
+npm run ios:upload
+MATIMATO_SMOKE_URL=https://matimato.vercel.app npm run mobile:smoke
+```
+
+The local machine currently lacks full Xcode, Apple code-signing identities, provisioning profiles, and App Store Connect API credentials, so `ios:preflight` blocks archive/upload. Apple signing, App Store Connect app creation, and TestFlight upload require external Apple Developer credentials and are intentionally not stored in this repository.
+
+## Board progression
+
+Players now start on a 5x5 board for solo and Blitz. The Journey screen shows lifetime XP, spendable XP, unlocked boards, next-board cost, active board selection, and start actions. Bigger boards are unlocked sequentially:
+
+| Board | Cost |
+| --- | ---: |
+| 5x5 | Free |
+| 6x6 | 120 XP |
+| 7x7 | 260 XP |
+| 8x8 | 520 XP |
+| 9x9 | 900 XP |
+
+Match rewards increase both lifetime XP and spendable XP. Purchases reduce spendable XP only; lifetime XP remains the ranking/progression total. Existing profiles without a wallet split are normalized by treating current XP as both lifetime and spendable XP.
+
+Progression APIs:
+
+```ts
+GET /api/progression?playerId=...
+
+POST /api/progression
+{ "type": "purchaseBoard", "playerId": "...", "boardSize": 6, "actionId": "uuid" }
+
+POST /api/progression
+{ "type": "selectBoard", "playerId": "...", "boardSize": 6 }
+
+POST /api/progression
+{ "type": "claimSeasonReward", "playerId": "...", "rewardId": "starter-cache" }
+```
+
+Purchases are server-validated by sequence and spendable balance, idempotent by action id or board size, and never trust client-supplied costs or final balances. Solo and Blitz creation accepts an unlocked `boardSize`; battle and daily remain on the current safe 9x9 behavior.
+
+## Seasonal collection track
+
+The Quests screen includes a deterministic seasonal album and reward track. Eligible authoritative actions from solo, daily, Blitz, Journey unlocks, and recap shares update server-side season progress. Rewards are granted and claimed idempotently through `/api/progression`; claimed XP increases lifetime and spendable balances once.
+
+Season rewards are deterministic. There are no paid packs, odds, loot boxes, or tradable collectibles.
+
+## Persistent rule assist
+
+Every primary product screen exposes GDS-only rules help. The help dialog covers objective, turn flow, legal moves, scoring, traps, XP, board journey, recap, and ranks. Live matches include a help button over the Phaser host that derives contextual hints from public board state without solving the best move.
+
+## Bot opponent profiles
+
+Solo mode supports named AI profiles. Players start with `Mati Rookie`; larger unlocked boards expose stronger profiles with deterministic legal move selection, bounded decision time, and replay-safe profile metadata on snapshots.
+
+## Blitz mode
+
+Blitz is a turn-based quick-play mode with a server-authored per-turn clock. The client displays the countdown and can request timeout resolution, but the server decides whether the deadline expired.
+
+```ts
+POST /api/games
+{ "type": "create", "mode": "blitz", "playerId": "...", "playerTag": "...", "clock": { "turnLimitMs": 30000 } }
+
+POST /api/games
+{ "type": "timeout", "matchId": "...", "playerId": "...", "deadlineVersion": 4 }
+```
+
+Existing solo, battle, and daily snapshots may omit `clock`; clients treat omitted clocks as untimed. Timeout requests are idempotent by match, side, and deadline version. Repeated Blitz timeouts use the documented forfeit policy.
+
+## Match recap
+
+Completed matches transition to a GDS-owned recap screen with final score, outcome reason, move replay, share action, ranks navigation, and rematch. Game snapshots now keep an optional `moveLog` so recap can replay claimed tiles and timeout resolutions without reading Phaser state.
+
+## Friends and gifts
+
+The Friends screen stores anonymous-player relationships created from battle lobbies, recaps, or profile invite links. Friend summaries expose tags and hashed identifiers only; raw friend player ids stay server-side or in write-only invite actions. Each active relationship supports one deterministic 15 XP gift per sender/receiver UTC day and a normal V2 battle lobby entry that still requires existing ready checks.
+
+Friend actions use `/api/friends`:
+
+```ts
+GET /api/friends?playerId=...
+POST /api/friends
+{ "type": "acceptInvite", "playerId": "...", "friendPlayerId": "...", "friendTag": "...", "actionId": "uuid" }
+POST /api/friends
+{ "type": "sendGift", "playerId": "...", "friendshipId": "...", "actionId": "uuid" }
+```
+
+Remove and block controls require confirmation in the Friends screen. Blocked relationships reject gifts and friend battles. Gifts are idempotent by `friendshipId:senderId:yyyy-mm-dd`; retries cannot double-grant XP. There are no paid gifts, random packs, contact imports, chat, push notifications, or competitive-rank boosts.
+
+## Read-only replays
+
+Completed matches are shareable at `/replay/{matchId}` through a public-safe DTO from `/api/replays/[id]`. Replay responses include final score context, sanitized tags, board size, outcome, and move frames stripped of raw player ids, invite codes, and action ids. Completed legacy snapshots without `moveLog` render a summary-only replay instead of failing.
+
+Replay pages are read-only. Conversion actions create new solo, Blitz, or V2 battle sessions through the existing `/api/games` create flow and never mutate the viewed match. Private, expired, incomplete, disabled, and missing replay states return explicit recoverable errors.
+
+## Daily challenge
+
+The Quests screen now exposes one deterministic UTC challenge per day using seed `daily:{yyyy-mm-dd}`. `POST /api/games` creates or resumes the active daily for the same player:
+
+```ts
+{ "type": "create", "mode": "daily", "playerId": "...", "playerTag": "...", "dailyId": "2026-06-24" }
+```
+
+`GET /api/progression?playerId=...` returns the current daily, completed result when present, streak state, quest progress, and the weekly daily leaderboard. Daily completions are idempotent per `challengeId:playerId`; weekly ranking sorts by score descending, completed time ascending, attempts ascending, then stable player hash.
+
+## Telemetry and health
+
+Client telemetry is privacy-safe and allowlisted. Events use hashed player/session/match identifiers, bounded property keys, and invite/secret redaction before storage. The ingestion endpoint accepts up to 50 events or 32 KB:
+
+```ts
+POST /api/events
+{ "events": [{ "name": "daily_started", "version": 1, "occurredAt": "...", "sessionHash": "...", "properties": {} }] }
+```
+
+
+package scripts:
+{
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint .",
+  "test": "vitest run",
+  "verify": "npm run test && npm run build",
+  "assets:ios": "node scripts/generate-ios-assets.mjs",
+  "ios:preflight": "node scripts/ios-testflight-preflight.mjs",
+  "ios:sync": "npm run build && npx cap sync ios",
+  "ios:build": "xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build",
+  "ios:archive": "npm run ios:preflight && xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' -archivePath build/ios/Matimato.xcarchive archive",
+  "ios:export": "xcodebuild -exportArchive -archivePath build/ios/Matimato.xcarchive -exportPath build/ios/export -exportOptionsPlist ios/exportOptions.plist",
+  "ios:upload": "node scripts/ios-testflight-upload.mjs",
+  "mobile:smoke": "node scripts/mobile-smoke.mjs"
+}

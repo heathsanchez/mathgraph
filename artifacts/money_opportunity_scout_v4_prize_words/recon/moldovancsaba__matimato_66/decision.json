@@ -1,0 +1,33 @@
+{
+  "verdict": "PARK_RISK",
+  "issue": {
+    "url": "https://github.com/moldovancsaba/matimato/issues/66",
+    "title": "Competition: Arena tournaments - scheduled tables and ranked event flow",
+    "state": "OPEN",
+    "labels": [
+      "enhancement",
+      "type:data",
+      "type:api",
+      "type:ops",
+      "quality:gds-only",
+      "quality:accessibility",
+      "priority:p1",
+      "feature:leaderboard",
+      "feature:gamification",
+      "type:frontend",
+      "type:contracts",
+      "type:testing",
+      "feature:telemetry",
+      "type:product",
+      "feature:tournaments"
+    ],
+    "comment_count": 1,
+    "updatedAt": "2026-07-01T07:31:35Z"
+  },
+  "money": true,
+  "competition": true,
+  "judge": true,
+  "local": true,
+  "mgfit": true,
+  "risk": true
+}

@@ -1,0 +1,241 @@
+pwd=/Users/heath/Documents/mathgraph-lean-work/external/money_opportunity_scout_v4_prize_words/karmonlong__ai-competition-voting-platform_3
+
+README head:
+# AI竞赛投票平台
+
+一个现代化的AI竞赛投票网站，支持多媒体作品展示、实时投票、炫酷交互效果和完整后台管理功能。
+
+## 🌟 项目特色
+
+- 🎨 **现代化UI设计**: 深色主题 + 渐变效果，支持响应式设计
+- 📱 **完全响应式**: 支持桌面/平板/手机多设备访问
+- 🎬 **多媒体展示**: 视频、音频、PPT、Word、Web等多种格式支持
+- 🗳️ **实时投票系统**: 防刷票机制，实时数据更新
+- 🔍 **智能搜索**: 高级搜索和筛选功能
+- 📊 **数据可视化**: 实时统计和图表展示
+- 💬 **评论互动**: 完整的评论和社交功能
+- 🎭 **动画效果**: 流畅的交互动画和过渡效果
+
+## 🏗️ 技术架构
+
+### 前端技术栈
+- **框架**: Next.js 14 + React 18 + TypeScript
+- **样式**: Tailwind CSS + Framer Motion
+- **状态管理**: React Query + Zustand
+- **UI组件**: 自定义组件库
+- **实时通信**: Socket.io-client
+
+### 后端技术栈
+- **数据库**: Supabase (PostgreSQL)
+- **认证**: Supabase Auth + JWT
+- **文件存储**: Supabase Storage
+- **实时功能**: Supabase Realtime
+- **ORM**: Prisma
+
+### 部署方案
+- **前端**: Vercel (国内访问优化)
+- **数据库**: Supabase托管服务
+- **CDN**: 自动全球CDN加速
+
+## 🚀 快速开始
+
+### 环境要求
+- Node.js 18+
+- npm 9+
+- Supabase账号
+
+### 安装依赖
+```bash
+# 使用国内npm镜像
+npm config set registry https://registry.npmmirror.com/
+
+# 安装依赖
+npm install
+```
+
+### 环境配置
+1. 复制环境变量文件：
+```bash
+cp .env.local.example .env.local
+```
+
+2. 配置Supabase：
+```bash
+# 在.env.local中配置您的Supabase项目信息
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
+
+### 数据库设置
+```bash
+# 生成Prisma客户端
+npm run db:generate
+
+# 推送数据库schema
+npm run db:push
+
+# 启动数据库Studio（可选）
+npm run db:studio
+```
+
+### 开发服务器
+```bash
+# 启动开发服务器
+npm run dev
+
+# 打开浏览器访问 http://localhost:3000
+```
+
+## 📁 项目结构
+
+```
+ai-competition-voting-platform/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   ├── components/             # React组件
+│   ├── lib/                    # 工具函数和配置
+│   ├── hooks/                  # 自定义Hooks
+│   ├── types/                  # TypeScript类型定义
+│   └── utils/                  # 工具函数
+├── prisma/                     # 数据库Schema
+├── public/                     # 静态资源
+├── .claude/                    # 项目管理文件
+└── docs/                       # 项目文档
+```
+
+## 🎯 开发任务
+
+项目已分解为10个具体任务，详见[.claude/epics/ai-competition-voting-platform/](.claude/epics/ai-competition-voting-platform/)
+
+### 任务概览
+1. **基础设施** (001-003): 环境搭建、认证系统、数据库架构
+2. **核心功能** (004-007): 文件上传、竞赛管理、投票系统、实时通信
+3. **用户体验** (008-010): UI组件、多媒体展示、搜索部署
+
+总工作量：42小时
+
+## 🔧 开发规范
+
+### 代码规范
+- 使用TypeScript严格模式
+- 遵循ESLint配置
+- 使用Prettier格式化代码
+- 提交前运行类型检查和测试
+
+### Git工作流
+```bash
+# 创建功能分支
+git checkout -b feature/任务编号-功能描述
+
+# 提交代码
+git add .
+git commit -m "feat: 任务编号 - 功能描述"
+
+# 推送到远程
+git push origin feature/任务编号-功能描述
+```
+
+## 🧪 测试
+
+```bash
+# 运行所有测试
+npm test
+
+# 运行测试并监视文件变化
+npm run test:watch
+
+# 生成测试覆盖率报告
+npm run test:coverage
+```
+
+## 📊 性能优化
+
+- 使用React Query进行数据缓存
+- 实现图片懒加载和压缩
+- 代码分割和动态导入
+- 数据库查询优化
+- CDN加速静态资源
+
+## 🔒 安全特性
+
+- JWT认证和授权
+- 输入验证和清理
+- 文件上传安全检查
+- 防刷票机制
+- 数据加密存储
+
+## 📈 监控和分析
+
+- 错误日志收集
+- 性能监控
+- 用户行为分析
+- 实时数据监控
+
+## 🚢 部署
+
+### 开发环境
+```bash
+npm run dev
+```
+
+### 生产构建
+```bash
+npm run build
+npm start
+```
+
+### 环境变量
+确保在生产环境中设置正确的环境变量：
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `DATABASE_URL`
+
+## 🤝 贡献指南
+
+1. Fork项目
+2. 创建功能分支
+3. 提交您的更改
+4. 推送到分支
+5. 创建Pull Request
+
+## 📄 许可证
+
+MIT License - 详见[LICENSE](LICENSE)文件
+
+## 🆘 支持
+
+如遇到问题，请：
+1. 查看项目文档
+2. 在GitHub Issues中搜索类似问题
+3. 创建新的Issue描述问题
+
+## 🎉 致谢
+
+感谢所有为这个项目做出贡献的开发者和设计师！
+
+---
+
+**项目状态**: 开发中 ⏳  
+**最后更新**: 2025年9月  
+**维护团队**: AI竞赛平台开发团队
+package scripts:
+{
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint",
+  "test": "jest",
+  "test:watch": "jest --watch",
+  "test:coverage": "jest --coverage",
+  "db:generate": "prisma generate",
+  "db:push": "prisma db push",
+  "db:migrate": "prisma migrate dev",
+  "db:studio": "prisma studio",
+  "db:seed": "node prisma/seed.js",
+  "type-check": "tsc --noEmit",
+  "format": "prettier --write .",
+  "format:check": "prettier --check .",
+  "prepare": "husky install"
+}
