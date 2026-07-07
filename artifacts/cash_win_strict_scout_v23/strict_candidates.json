@@ -1,0 +1,911 @@
+[
+  {
+    "verdict": "PROMOTE_RECON",
+    "score": 80,
+    "amount": 500,
+    "repo": "tinygrad/tinygrad",
+    "number": "3039",
+    "title": "Bounty: Fast parallel scan (Mamba, etc). ",
+    "url": "https://github.com/tinygrad/tinygrad/issues/3039",
+    "stars": 33251,
+    "language": "Python",
+    "assignees": [],
+    "pushedAt": "2026-07-07T08:25:42Z",
+    "reasons": [
+      "money=$500",
+      "stars=33251",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=Python",
+      "availability-language",
+      "claim-pr-risk"
+    ],
+    "snippet": "It would be great to have a general parallel prefix sum (associative scan) operation in tinygrad, something like [associative_scan](https://jax.readthedocs.io/en/latest/_autosummary/jax.lax.associative_scan.html) in JAX or [scan_associative](https://www.tensorflow.org/probability/api_docs/python/tfp/math/scan_associative) in TensorFlow Probability. This operation is key for the parallelization of some algorithms in CRFs, [filtering/smoothing in state space models](https://github.com/EEA-sensors/sequential-parallelization-examples/blob/main/python/temporal-parallelization-bayes-smoothers/parallel_kalman_jax.ipynb), mamba etc. Additional Reference https://arxiv.org/abs/2311.06281 --- Current B"
+  },
+  {
+    "verdict": "PROMOTE_RECON",
+    "score": 56,
+    "amount": 220,
+    "repo": "QuantumSavory/QuantumSavory.jl",
+    "number": "132",
+    "title": "Improve Makie visualization capabilities [$200]",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132",
+    "stars": 66,
+    "language": "Julia",
+    "assignees": [],
+    "pushedAt": "2026-07-01T21:10:12Z",
+    "reasons": [
+      "money=$220",
+      "stars=66",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=Julia",
+      "claim-pr-risk"
+    ],
+    "snippet": "<details> <summary><strong>Bug bounty logistic details</strong> (click to expand)</summary> To claim exclusive time to work on this bounty either post a comment here or message [skrastanov@umass.edu](mailto:skrastanov@umass.edu) with: - your name - github username - **(optional)** a brief list of previous pertinent projects you have engaged in Currently the project is claimed by `no one` until `...`. If you want to, you can work on this project without making a claim, however claims are encouraged to give you and other contributors peace of mind. Whoever has made a claim takes precedence when solutions are considered. You can always propose your own funded project, if you would like to contr"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 62,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93832",
+    "title": "[$250] [Sentry: APP-5J] Web null UnhandledRejection crash on /search",
+    "url": "https://github.com/Expensify/App/issues/93832",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "mountiny",
+      "abdulrahuman5196",
+      "lorretheboy"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "availability-language",
+      "assigned"
+    ],
+    "snippet": "## Sentry https://expensify.sentry.io/issues/APP-5J ## Impact (snapshot at filing) - Users (total since first seen): 1,228 - Events: 6,222 - Users (last 14d, 9.4.x releases): 118 - First seen: 2025-10-30 - Last seen: ongoing - Platform: web - App version(s): 9.4.5\u20139.4.9 - Affected route(s): `/search` - Mechanism: auto.browser.global_handlers.onunhandledrejection ## Stack trace (top frames, first-party only) ``` No stacktrace available (rejection value: null) ``` ## Suspected cause An async code path on the Search page rejects a promise with `null` instead of an Error object; root rejector not yet identified from Sentry events. ## Reproduction Unknown \u2014 see Sentry events linked from the Sentr"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 62,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93649",
+    "title": "[$250] Web - Workflow - Vacation Delegate can't reject the expense",
+    "url": "https://github.com/Expensify/App/issues/93649",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "JS00001",
+      "thesahindia",
+      "dukenv0307"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "availability-language",
+      "assigned"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding and email contributors@expensify.com to request to join our Slack channel! ___ **Version Number:** 9.4.8-0 **Reproducible in staging?:** Yes **Reproducible in production?:** Yes **If this was caught during regression testing, add the test name, ID and link from TestRail:** https://github.com/Expensify/Expensify/issues/606777 **Email or phone of affected tester (no customers):** N/A **Issue reported by:** Applause Internal Team ## Action Performed: Case 2: Vacation Delegate Flow Preconditions: Approvals enabled Submission set"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 62,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "91197",
+    "title": "[$250] Ghost/Orphaned Expense Blocks QuickBooks Online Export with ONL118",
+    "url": "https://github.com/Expensify/App/issues/91197",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "lakchote",
+      "marufsharifi"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "availability-language",
+      "assigned"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding and email contributors@expensify.com to request to join our Slack channel! ___ **Version Number:** **Reproducible in staging?:** Needs Reproduction **Reproducible in production?:** Needs Reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @JamieMcElroy **Slack conversation** (hyperlinked to ch"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 62,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "91193",
+    "title": "[$250] Users receive an \u201cUnexpected error. Please try again\u201d message when attempting to submit report",
+    "url": "https://github.com/Expensify/App/issues/91193",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "nyomanjyotisa"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "availability-language",
+      "assigned"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding and email contributors@expensify.com to request to join our Slack channel! ___ **Version Number:** 9.3.75-14 **Reproducible in staging?:** Needs Reproduction (Unable to reproduce) **Reproducible in production?:** Needs Reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @PedroEspinoza1999 **Sl"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 60,
+    "amount": 400,
+    "repo": "Expensify/App",
+    "number": "94133",
+    "title": "[$250] [CFI] Show cash back to Expensify Card reconciliation in NewDot",
+    "url": "https://github.com/Expensify/App/issues/94133",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "dannymcclain",
+      "ShridharGoel",
+      "joekaufmanexpensify",
+      "thesahindia"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$400",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "Coming from [this Slack thread](https://expensify.slack.com/archives/C049HHMV9SM/p1780613739150249), we want to surface cash back activity as a dedicated row in the NewDot Bank Reconciliation view for the Expensify Card. ### Details - In Classic, cash back credits appear as their own non-expandable row in Reconciliation > Settlements, with a `Cash Back Credit` merchant label, the credit amount, and a `Cleared` status (see screenshot below). NewDot currently shows nothing for cashback, making it impossible to reconcile cashback credits against bank activity. - To address that, we want to add a top-level cashback row to the Bank Reconciliation view to match this. The row should follow the exis"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93404",
+    "title": "[$250] Workspace setting- Company cards page loads each time opening it",
+    "url": "https://github.com/Expensify/App/issues/93404",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "mjasikowski",
+      "nkdengineer",
+      "marufsharifi"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding and email contributors@expensify.com to request to join our Slack channel! ___ **Version Number:** 9.4.6-0 **Reproducible in staging?:** Yes **Reproducible in production?:** Yes **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** EDGE https://github.com/Expensify/Expensify/issues/608024 **Email or phone of affected tester (no customers):** undefined **Issue reported by:** Applause Internal Team ## Action Performed: 1. Open https://staging.new.expensify.com/ 2. Go to workspace s"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "91973",
+    "title": "[$250] NewDot frontend swallows \"approver account not found\" error on report submit, showing generic \"Unexpected error\" instead",
+    "url": "https://github.com/Expensify/App/issues/91973",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "carlosmiceli",
+      "dmkt9"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "## Background When a report is submitted and the approver account no longer exists, the backend (`ReportAPI.php`) throws an `ExpError` with a descriptive message: _\"The approver account could not be found. A workspace admin must update the approver for this category or tag.\"_ (introduced in [Web-Expensify#51582](https://github.com/Expensify/Web-Expensify/pull/51582), commit [`005ac29`](https://github.com/Expensify/Web-Expensify/commit/005ac2986a67b4278a0f52e838b5c50116067228)). However, the NewDot frontend is **not passing this error message through to the user**. Instead, a generic _\"Unexpected error. Please try again later.\"_ message is displayed, giving the submitter no actionable informa"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "94178",
+    "title": "[$250] Error displayed when importing card transactions via CSV",
+    "url": "https://github.com/Expensify/App/issues/94178",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "cretadn22"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding. To join our Slack channel, fill out [this form](https://forms.gle/Q7hnhUJPnQCK7Fe56). ___ **Version Number:** 9.4.15-3 **Reproducible in staging?:** Needs reproduction (Unable to reproduce) **Reproducible in production?:** Needs reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @scerrato88 "
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "94313",
+    "title": "[$250] Unable to bulk edit Attendees on expenses",
+    "url": "https://github.com/Expensify/App/issues/94313",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "youssef-lr",
+      "eh2077"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding. To join our Slack channel, fill out [this form](https://forms.gle/Q7hnhUJPnQCK7Fe56). ___ **Version Number:** 9.4.17-0 **Reproducible in staging?:** Y **Reproducible in production?:** Y **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @DGephart **Slack conversation** (hyperlinked to channel name): [#Ex"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93842",
+    "title": "[$250] [Sentry: APP-9Y9] Android MountingCoordinator pullTransaction crash",
+    "url": "https://github.com/Expensify/App/issues/93842",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "mountiny",
+      "linhvovan29546"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "## Sentry https://expensify.sentry.io/issues/APP-9Y9 ## Impact (snapshot at filing) - Users (total since first seen): 27 - Events: 45 - Users (last 14d, 9.4.x releases): 9 - First seen: 2026-04-11 - Last seen: ongoing - Platform: iOS HybridApp - App version(s): 9.4.5\u20139.4.9 - Affected route(s): unknown (Fabric mounting) - Mechanism: cpp_exception / native ## Stack trace (top frames, first-party only) ``` facebook::react::MountingCoordinator::pullTransaction ``` ## Suspected cause React Native Fabric mounting coordinator crash during transaction pull \u2014 needs native RN investigation. ## Reproduction Unknown \u2014 see Sentry events linked from the Sentry issue. ## Related - Prior GH issues: none <de"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "91229",
+    "title": "[$250] [Sentry: APP-7CX] HybridApp iOS Fatal App Hang in YAPLJS callFunction during onBarButtonItemSelected (still occurring after #86334 closed)",
+    "url": "https://github.com/Expensify/App/issues/91229",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "Ollyws",
+      "mountiny",
+      "mateuuszzzzz"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "## Sentry https://expensify.sentry.io/issues/APP-7CX ## Impact (snapshot at filing) - Users (total since first seen): **3,395** - Events: 3,627 - Users (last 14d): ~86 - First seen: 2026-03-11 - Last seen: now (ongoing) - Platform: iOS, hybrid_app (HybridApp / OldDot) - App version(s): 9.3.59 and later (still occurring on 9.3.77) - Device class: high (iPhone15+, iOS 26.x dominant) - Mechanism: `AppHang`, fatal, watchdog termination after 2000ms main-thread block ## Stack trace (top frames, native iOS) ``` -[UIControl _sendActionsForEvents:withEvent:] \u2192 -[UIBarButtonItem _triggerActionForEvent:fallbackSender:] \u2192 -[BaseViewController onBarButtonItemSelected:] \u2192 +[YAPLJS callFunction:args:] \u2192 -"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93847",
+    "title": "[$250] [Sentry: APP-7DX] HybridApp iOS Fatal App Hang in YAPLJS callFunction",
+    "url": "https://github.com/Expensify/App/issues/93847",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "jayeshmangwani",
+      "mountiny"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "## Sentry https://expensify.sentry.io/issues/APP-7DX ## Impact (snapshot at filing) - Users (total since first seen): 467 - Events: 494 - Users (last 14d, 9.4.x releases): 7 - First seen: 2026-03-12 - Last seen: ongoing - Platform: iOS HybridApp - App version(s): 9.4.5\u20139.4.9 - Affected route(s): YAPLJS bridge calls - Mechanism: AppHang ## Stack trace (top frames, first-party only) ``` +[YAPLJS callFunction:args:] Fatal App Hang Fully Blocked (main thread blocked 2000ms+) ``` ## Suspected cause Main-thread block during YAPLJS bridge invocation \u2014 related hang cluster with APP-7CX (App#91229) and APP-84S but distinct Sentry grouping. ## Reproduction Unknown \u2014 see Sentry events linked from the S"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93696",
+    "title": "[$250] Fullstory: Report submission succeeds but displays \"Oops, something went wrong\" error",
+    "url": "https://github.com/Expensify/App/issues/93696",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "abdulrahuman5196"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding. To join our Slack channel, fill out [this form](https://forms.gle/Q7hnhUJPnQCK7Fe56). ___ **Version Number:** **Reproducible in staging?:** Needs Reproduction (Unable to reproduce) **Reproducible in production?:** Needs Reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @trjExpensify **Slack"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 52,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93828",
+    "title": "[$250] Required tags not recognized until selected a second time",
+    "url": "https://github.com/Expensify/App/issues/93828",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "QichenZhu"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding. To join our Slack channel, fill out [this form](https://forms.gle/Q7hnhUJPnQCK7Fe56). ___ **Version Number:** **Reproducible in staging?:** Needs Reproduction (Unable to reproduce) **Reproducible in production?:** Needs Reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @Kel-Expensify **Slac"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 50,
+    "amount": 100,
+    "repo": "BitgesellOfficial/bitgesell",
+    "number": "32",
+    "title": "BGL PR bounty hunt",
+    "url": "https://github.com/BitgesellOfficial/bitgesell/issues/32",
+    "stars": 29,
+    "language": "C++",
+    "assignees": [],
+    "pushedAt": "2026-02-22T13:32:58Z",
+    "reasons": [
+      "money=$100",
+      "stars=29",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=C++",
+      "availability-language",
+      "claim-pr-risk"
+    ],
+    "snippet": "To get more people involved and provide motivation, we are announcing Bitgesell Pull Request bounty hunt! The rules are simple: - You can create any reasonable pull request that may contain any modifications, including, but not limited to: - Refactoring and simplification; - Test fixes (_1 test group/file fixed by single PR counts_!); - Cleanup of features that are no longer used (e.g. non-segwit transactions); - Documentation and comments (but if no code changes then some reasonable amount of changes should be done to count); - Bug fixes; - Every PR would be paid **$100** in USDT upon approval, larger PRs could receive bigger payouts. - Interested people are welcome to become maintainers of"
+  },
+  {
+    "verdict": "MAYBE",
+    "score": 45,
+    "amount": 200,
+    "repo": "QuantumSavory/QuantumSymbolics.jl",
+    "number": "67",
+    "title": "All struct fields should be (concretely) typed (potentially with a type parameter) [$200]",
+    "url": "https://github.com/QuantumSavory/QuantumSymbolics.jl/issues/67",
+    "stars": 43,
+    "language": "Julia",
+    "assignees": [],
+    "pushedAt": "2026-06-22T20:48:02Z",
+    "reasons": [
+      "money=$200",
+      "stars=43",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=Julia",
+      "claim-pr-risk"
+    ],
+    "snippet": "<details> <summary><strong>Bug bounty logistic details</strong> (click to expand)</summary> To claim exclusive time to work on this bounty either post a comment here or message [skrastanov@umass.edu](mailto:skrastanov@umass.edu) with: - your name - github username - **(optional)** a brief list of previous pertinent projects you have engaged in Currently the project is claimed by `no one` until `...`. If you want to, you can work on this project without making a claim, however claims are encouraged to give you and other contributors peace of mind. Whoever has made a claim takes precedence when solutions are considered. You can always propose your own funded project, if you would like to contr"
+  },
+  {
+    "verdict": "PARK",
+    "score": 27,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "92785",
+    "title": "[$250] Imported company cards do not appear for assignment after CSV upload",
+    "url": "https://github.com/Expensify/App/issues/92785",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "mallenexpensify",
+      "marcaaron",
+      "situchan"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "claim-pr-risk"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding. To join our Slack channel, fill out [this form](https://forms.gle/Q7hnhUJPnQCK7Fe56). ___ **Version Number:** **Reproducible in staging?:** Needs Reproduction (Unable to reproduce, Displayed after page refresh) **Reproducible in production?:** Needs reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue report"
+  },
+  {
+    "verdict": "PARK",
+    "score": -25,
+    "amount": 10000,
+    "repo": "BitgesellOfficial/bitgesell",
+    "number": "39",
+    "title": "BGL PR bounty hunt ($10000 overall budget)",
+    "url": "https://github.com/BitgesellOfficial/bitgesell/issues/39",
+    "stars": 29,
+    "language": "C++",
+    "assignees": [],
+    "pushedAt": "2026-02-22T13:32:58Z",
+    "reasons": [
+      "money=$10000",
+      "stars=29",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "availability-language",
+      "claim-pr-risk",
+      "deny-filter"
+    ],
+    "snippet": "To get more people involved and provide motivation, we are announcing Bitgesell Pull Request bounty hunt! The rules are simple: - You can create any reasonable pull request that may contain any modifications, including, but not limited to: - Refactoring and simplification; - Test fixes (1 test group/file fixed by single PR counts!); - Cleanup of features that are no longer used (e.g. non-segwit transactions); - Documentation and comments (but if no code changes then some reasonable amount of changes should be done to count); - Bug fixes; - Every PR would be paid $500 in USDT upon approval, larger PRs could receive bigger payouts (PRs of lesser significance like comments editing or one-line c"
+  },
+  {
+    "verdict": "PARK",
+    "score": -35,
+    "amount": 200,
+    "repo": "Jayant2908/BLT",
+    "number": "1",
+    "title": "Testing",
+    "url": "https://github.com/Jayant2908/BLT/issues/1",
+    "stars": 0,
+    "language": "HTML",
+    "assignees": [
+      "Jayant2908"
+    ],
+    "pushedAt": "2026-06-01T12:49:58Z",
+    "reasons": [
+      "money=$200",
+      "low-stars=0",
+      "local-verifier-surface",
+      "assigned",
+      "claim-pr-risk"
+    ],
+    "snippet": "\ud83d\udeab **Please do not create new issues** We currently have **many open issues** to focus on, some even with $5 bounties. If you believe your issue is important and should be solved, please create a new topic in the BLT forum page instead. Thanks for understanding! \ud83d\ude4f /bounty $10 /bounty $10 /bounty $10 /bounty $10 /bounty $5 /bounty $5 /bounty $5 /bounty $10 /bounty 10 /bounty $10 /bounty $10 /bounty $10 /bounty $10 \ud83d\udcb0 A bounty has been added! This issue now has a total bounty of $10 thanks to @Jayant2908. Issue: https://github.com/Jayant2908/BLT/issues/1 /bounty 12 \ud83d\udcb0 A bounty has been added! This issue now has a total bounty of $12 thanks to @Jayant2908. Issue: https://github.com/Jayant2908/BLT/"
+  },
+  {
+    "verdict": "PARK",
+    "score": -38,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "92089",
+    "title": "[Due for payment 2026-06-29] [CFI] [$250] Future-dated card assignments are not supported in New Expensify",
+    "url": "https://github.com/Expensify/App/issues/92089",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "deetergp",
+      "mallenexpensify",
+      "situchan",
+      "apeyada"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "availability-language",
+      "assigned",
+      "deny-filter"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding and email contributors@expensify.com to request to join our Slack channel! ___ **Version Number:** 9.3.89-3 **Reproducible in staging?:** Y (Reproduction blocked in OldDot) **Reproducible in production?:** Y **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @EmilioRojasBlanco **Slack conversation** (hype"
+  },
+  {
+    "verdict": "PARK",
+    "score": -45,
+    "amount": 2500,
+    "repo": "tenstorrent/tt-metal",
+    "number": "38114",
+    "title": "[Bounty $2500] Create infrastructure to automatically choose the most optimal configuration for matmul.",
+    "url": "https://github.com/tenstorrent/tt-metal/issues/38114",
+    "stars": 1571,
+    "language": "C++",
+    "assignees": [
+      "RustamKazmi"
+    ],
+    "pushedAt": "2026-07-07T08:26:28Z",
+    "reasons": [
+      "money=$2500",
+      "stars=1571",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=C++",
+      "assigned",
+      "claim-pr-risk",
+      "deny-filter"
+    ],
+    "snippet": "### \ud83d\udcdd Background TTNN currently has two matmul APIs, `ttnn.matmul` and `ttnn.experimental.minimal_matmul`. Additionally, these ops have various configuration parameters. For multi-device, additional CCLs like all_gather or reduce_scatter are needed. You must create some infrastructure that given a particular input provides a configuration that is guranteed to be the most performant configuration. It may also give suggestions to the user that a different layout or memory configuration for the input would be more performant, if possible. This infrastructure would be highly depdenent on the exact implementation for the matmul. So it must be re-usable & modular enough to be re-trained if the und"
+  },
+  {
+    "verdict": "PARK",
+    "score": -48,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "84639",
+    "title": "[$250] System/violation messages cannot be selected or copied",
+    "url": "https://github.com/Expensify/App/issues/84639",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "flodnv",
+      "mallenexpensify",
+      "thesahindia"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "deny-filter"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding and email contributors@expensify.com to request to join our Slack channel! ___ **Version Number:** 9.3.34-0 **Reproducible in staging?:** Y **Reproducible in production?:** Y **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @quinthar **Slack conversation** (hyperlinked to channel name): [#Quality](https"
+  },
+  {
+    "verdict": "PARK",
+    "score": -48,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "90544",
+    "title": "[Due for payment 2026-06-25] [$250] Session expired but user was not signed out",
+    "url": "https://github.com/Expensify/App/issues/90544",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "marcochavezf",
+      "mallenexpensify",
+      "nabi-ebrahimi",
+      "brunovjk"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "deny-filter"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding and email contributors@expensify.com to request to join our Slack channel! ___ **Version Number:** **Reproducible in staging?:** Needs Reproduction **Reproducible in production?:** Needs Reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @allgandalf **Slack conversation** (hyperlinked to chan"
+  },
+  {
+    "verdict": "PARK",
+    "score": -48,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93328",
+    "title": "[$250] AMEX direct connection - unable to assign a new card",
+    "url": "https://github.com/Expensify/App/issues/93328",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "youssef-lr",
+      "ZhenjaHorbach"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "deny-filter"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding. To join our Slack channel, fill out [this form](https://forms.gle/Q7hnhUJPnQCK7Fe56). ___ **Version Number:** 9.4.4-3 **Reproducible in staging?:** Needs Reproduction (Reproduction blocked- Needs Amex credentials) **Reproducible in production?:** Needs Reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue rep"
+  },
+  {
+    "verdict": "PARK",
+    "score": -48,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "92416",
+    "title": "[Due for payment 2026-07-06] [$250] [Sentry: APP-4FK] HybridApp Android NullPointerException in expo TaskService.executeTask",
+    "url": "https://github.com/Expensify/App/issues/92416",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "mallenexpensify",
+      "mountiny",
+      "GCyganek",
+      "truph01"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "deny-filter"
+    ],
+    "snippet": "## Sentry https://expensify.sentry.io/issues/APP-4FK ## Impact (snapshot at filing) - Users (total since first seen): **154** - Events: 5,369 - Users (last 14d): ongoing on 9.3.89\u20139.3.91 - First seen: 2026-01-22 - Last seen: now (ongoing) - Platform: Android, hybrid_app - App version(s): seen through 9.3.91 - Mechanism: `chained`, fatal ## Stack trace (top frames, first-party only) ``` expo.modules.taskManager.TaskService in executeTask -> java.lang.NullPointerException ``` ## Suspected cause Expo background `TaskService` receives a null context or task payload on Android HybridApp when executing a registered background task. ## Reproduction Unknown deterministically \u2014 see linked Sentry even"
+  },
+  {
+    "verdict": "PARK",
+    "score": -48,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93845",
+    "title": "[Due for payment 2026-07-08] [HOLD https://github.com/Expensify/App/pull/92484] [$250] [Sentry: APP-B2Q] HybridApp iOS C++ JSError across JSI bridge",
+    "url": "https://github.com/Expensify/App/issues/93845",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "mountiny",
+      "ahmedGaber93",
+      "sharabai"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "deny-filter"
+    ],
+    "snippet": "## Sentry https://expensify.sentry.io/issues/APP-B2Q ## Impact (snapshot at filing) - Users (total since first seen): 100 - Events: 200 - Users (last 14d, 9.4.x releases): 4 - First seen: 2026-04-23 - Last seen: ongoing - Platform: iOS HybridApp - App version(s): 9.4.5\u20139.4.9 - Affected route(s): unknown (JSI bridge) - Mechanism: cpp_exception ## Stack trace (top frames, first-party only) ``` C++ Exception: N8facebook3jsi7JSErrorE (facebook::jsi::JSError thrown across native boundary) ``` ## Suspected cause Unhandled JavaScript exception propagates as a C++ JSError through the JSI bridge \u2014 needs symbolicated JS stack from Sentry events. ## Reproduction Unknown \u2014 see Sentry events linked from "
+  },
+  {
+    "verdict": "PARK",
+    "score": -48,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93838",
+    "title": "[$250] [Sentry: APP-1A] HybridApp Android ART InvokeVirtualOrInterfaceWithVarArgs native crash",
+    "url": "https://github.com/Expensify/App/issues/93838",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "mountiny",
+      "FitseTLT"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "deny-filter"
+    ],
+    "snippet": "## Sentry https://expensify.sentry.io/issues/APP-1A ## Impact (snapshot at filing) - Users (total since first seen): 117 - Events: 294 - Users (last 14d, 9.4.x releases): 10 - First seen: 2025-10-29 - Last seen: ongoing - Platform: Android HybridApp - App version(s): 9.4.5\u20139.4.9 - Affected route(s): unknown (native crash) - Mechanism: signalhandler (SIGSEGV) ## Stack trace (top frames, first-party only) ``` art::InvokeVirtualOrInterfaceWithVarArgs SIGSEGV: Segfault ``` ## Suspected cause Native ART crash during JNI bridge invocation; stack is largely unsymbolicated \u2014 needs native debugging. ## Reproduction Unknown \u2014 see Sentry events linked from the Sentry issue. ## Related - Prior GH issues"
+  },
+  {
+    "verdict": "PARK",
+    "score": -48,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "94318",
+    "title": "[$250] [DEV] Console error when opening a newly created expense on the Spend page",
+    "url": "https://github.com/Expensify/App/issues/94318",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "DylanDylann"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "deny-filter"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding. To join our Slack channel, fill out [this form](https://forms.gle/Q7hnhUJPnQCK7Fe56). ___ **Version Number:** v9.4.17-0 Develop **Reproducible in staging?:** Needs Reproduction **Reproducible in production?:** Needs Reproduction **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @QichenZhu **Slack conver"
+  },
+  {
+    "verdict": "PARK",
+    "score": -55,
+    "amount": 200,
+    "repo": "bolivian-peru/marketplace-service-template",
+    "number": "485",
+    "title": "Claim: Google SERP + AI Search Scraper (00 SX)",
+    "url": "https://github.com/bolivian-peru/marketplace-service-template/issues/485",
+    "stars": 9,
+    "language": "TypeScript",
+    "assignees": [],
+    "pushedAt": "2026-05-31T19:44:47Z",
+    "reasons": [
+      "money=$200",
+      "low-stars=9",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "deny-filter"
+    ],
+    "snippet": "Claiming the Google SERP + AI Search Scraper bounty ($200 SX). **Builder**: BumStill (bounty-hunter agent) **Approach**: Build a SERP scraper using Proxies.sx mobile proxies + antidetect browser, with x402 payment gating. **Target features**: AI Overviews, organic results, featured snippets, People Also Ask, map packs. **Stack**: Node.js/TypeScript + @proxies-sx/x402-hono + Playwright for browser rendering. Will submit PR within 48 hours."
+  },
+  {
+    "verdict": "PARK",
+    "score": -63,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "70080",
+    "title": "[HOLD][$250] Reports - Back button on report view returns to different scroll position",
+    "url": "https://github.com/Expensify/App/issues/70080",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "eVoloshchak",
+      "strepanier03",
+      "chiragsalian"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "availability-language",
+      "assigned",
+      "claim-pr-risk",
+      "deny-filter"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding and email contributors@expensify.com to request to join our Slack channel! ___ **Version Number:** 9.2.2-0 **Reproducible in staging?:** Yes **Reproducible in production?:** No **If this was caught during regression testing, add the test name, ID and link from TestRail:** https://github.com/Expensify/App/pull/69128 **Email or phone of affected tester (no customers):** applausetester+khcategory19@applause.expensifail.com **Issue reported by:** Applause Internal Team **Device used:** Mac 15.5 / Chrome **App Component:** Search"
+  },
+  {
+    "verdict": "PARK",
+    "score": -65,
+    "amount": 500,
+    "repo": "fluxerapp/fluxer-meta",
+    "number": "2",
+    "title": "Polls - (Dev Bounty: $500)",
+    "url": "https://github.com/fluxerapp/fluxer-meta/issues/2",
+    "stars": 6,
+    "language": "",
+    "assignees": [],
+    "pushedAt": "2026-06-03T18:06:48Z",
+    "reasons": [
+      "money=$500",
+      "low-stars=6",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=mentioned",
+      "claim-pr-risk",
+      "deny-filter"
+    ],
+    "snippet": "# Background Polls have two purposes: 1. Quick and easy single selection polls to quickly gather thoughts 2. Ranked choice polls that help to collect detailed feedback. We want to be able to support both needs, as detailed below. # User Stories ## Megan - Group DM Member (simple poll) Megan is in a group chat with her friends. She wants to be able to quickly ask folks which dress of hers looks best. To do so, she creates a poll. In the poll creation menu, she is able to to upload images and write text next next to them. She is able to set a title and a duration. She also gets to toggle ranked voting and anonymous responses. Finally, she has the option to allow people to select custom respons"
+  },
+  {
+    "verdict": "PARK",
+    "score": -73,
+    "amount": 250,
+    "repo": "Expensify/App",
+    "number": "93704",
+    "title": "[$250] CSV card feed import succeeds but no cards are created (no validation for missing required fields)",
+    "url": "https://github.com/Expensify/App/issues/93704",
+    "stars": 4931,
+    "language": "TypeScript",
+    "assignees": [
+      "Gonals",
+      "shubham1206agra"
+    ],
+    "pushedAt": "2026-07-07T08:26:55Z",
+    "reasons": [
+      "money=$250",
+      "stars=4931",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "assigned",
+      "claim-pr-risk",
+      "deny-filter"
+    ],
+    "snippet": "If you haven\u2019t already, check out our [contributing guidelines](https://github.com/Expensify/ReactNativeChat/blob/main/contributingGuides/CONTRIBUTING.md) for onboarding. To join our Slack channel, fill out [this form](https://forms.gle/Q7hnhUJPnQCK7Fe56). ___ **Version Number:** v9.4.8-0 **Reproducible in staging?:** Y **Reproducible in production?:** Y **If this was caught during regression testing, add the test name, ID and link from BrowserStack:** **Email or phone of affected tester (no customers):** **Logs:** https://stackoverflow.com/c/expensify/questions/4856 **Expensify/Expensify Issue URL:** **Issue reported by:** @Leeckhart **Slack conversation** (hyperlinked to channel name): [#E"
+  },
+  {
+    "verdict": "PARK",
+    "score": -88,
+    "amount": 50,
+    "repo": "Dragoon4002/artic-trader",
+    "number": "2",
+    "title": "Improvements Bounty: Performance Enhancer",
+    "url": "https://github.com/Dragoon4002/artic-trader/issues/2",
+    "stars": 0,
+    "language": "Solidity",
+    "assignees": [],
+    "pushedAt": "2026-06-28T15:24:50Z",
+    "reasons": [
+      "money=$50",
+      "low-stars=0",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=Solidity",
+      "claim-pr-risk",
+      "deny-filter"
+    ],
+    "snippet": "## Overview Reward pool: **50 USDC** distributed among contributors who submit performance improvements. (It is an Issue tester for another project, but current issuer will be rewarded once the assesment is made correctly) ## What qualifies - Profiling results identifying bottlenecks - Code optimizations (rendering, API, DB queries, bundle size) - Caching strategies with measurable impact - Benchmark comparisons (before/after) ## How to submit Open a PR referencing this issue. Include what you changed and why it's faster. ## Reward distribution Top contributions share the pool based on impact: - Best overall: 20 USDC - Runner-up: 10 USDC - 3rd place: 5 USDC - Honorable mentions (up to 15): 1"
+  },
+  {
+    "verdict": "PARK",
+    "score": -115,
+    "amount": 2000,
+    "repo": "serverless-nextjs/serverless-next.js",
+    "number": "970",
+    "title": "Help wanted: more contributors",
+    "url": "https://github.com/serverless-nextjs/serverless-next.js/issues/970",
+    "stars": 4460,
+    "language": "TypeScript",
+    "assignees": [],
+    "pushedAt": "2025-01-28T06:41:00Z",
+    "reasons": [
+      "money=$2000",
+      "stars=4460",
+      "local-verifier-surface",
+      "specific-test-surface",
+      "stack=TypeScript",
+      "claim-pr-risk",
+      "archived/private",
+      "deny-filter"
+    ],
+    "snippet": "Hi all, I hope you had a good 2021 so far! We are nearing the release of 1.19 which has path-based locales support, image optimization, experimental CDK support, versioned static pages, much better e2e test coverage, among other improvements and bug fixes. A few more fixes and testing and I think it should be good to go to release it in the next couple of weeks. Thanks to all who have contributed in one way or another, such as by reporting bugs, helping alpha test, or made a financial contribution. As mentioned in this issue: https://github.com/serverless-nextjs/serverless-next.js/issues/777, I kind of gave a roadmap of where we wanted this project to go in the future. Basically, right now e"
+  }
+]
