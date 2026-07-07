@@ -1,0 +1,426 @@
+{
+  "tinygrad/tensor.py": [
+    [
+      40,
+      "  ret.buffer.allocate(x)"
+    ],
+    [
+      225,
+      "      # view assign: replace at the buffer-identity level (e.g. RESHAPE(BUFFER)) so @function's substitution catches it"
+    ],
+    [
+      242,
+      "    return cast(Buffer, x.realize().uop.buffer).ensure_allocated()"
+    ],
+    [
+      297,
+      "    Creates a clone of this tensor allocating a separate buffer for the data."
+    ],
+    [
+      365,
+      "    cast(Buffer, r.uop.buffer).allocate(external_ptr=ptr)"
+    ],
+    [
+      411,
+      "    counter.assign(new_low.cat(new_high))"
+    ],
+    [
+      414,
+      "    return Tensor._device_seeds[device], low.cat(high)"
+    ],
+    [
+      424,
+      "    t.sum().backward()"
+    ],
+    [
+      448,
+      "    v_uop, v_bw = (v.uop, v.uop.backward_slice) if isinstance(v, Tensor) else (None, {})"
+    ],
+    [
+      449,
+      "    if self.uop.op_in_backward_slice_with_self(Ops.BUFFER):"
+    ],
+    [
+      451,
+      "      if any(self.uop in t.uop.backward_slice_with_self and t.uop.base is not shared for tref in all_tensors"
+    ],
+    [
+      475,
+      "  # ***** reduce ops *****"
+    ],
+    [
+      497,
+      "    rnd_const_masks = [ctensor([v]).pad((0, 24)) for v in (1, 0x8082, 0x800000000000808a, 0x8000000080008000, 0x808b, 0x80000001, 0x8000000080008081,"
+    ],
+    [
+      502,
+      "    data = self.bitcast(dtypes.uint8).reshape(prod(self.shape[:-1]), self.shape[-1])"
+    ],
+    [
+      503,
+      "    data_pad = rate - data.shape[-1] % rate"
+    ],
+    [
+      504,
+      "    # pad batches then pad blocks"
+    ],
+    [
+      505,
+      "    data = data.pad((None, (0, data_pad))).reshape(bs := data.shape[0], -1, rate).pad_to(None, None, 200)"
+    ],
+    [
+      507,
+      "    # create pad mask"
+    ],
+    [
+      508,
+      "    lbe = (data.shape[1] - 1) * 200 + rate - data_pad"
+    ],
+    [
+      509,
+      "    if data_pad == 1: mb = [(lbe, 0), (1, dsbyte ^ 0x80), (200 - rate, 0)]"
+    ],
+    [
+      510,
+      "    else: mb = [(lbe, 0), (1, dsbyte), (data_pad - 2, 0), (1, 0x80), (200 - rate, 0)]"
+    ],
+    [
+      511,
+      "    pad_mask = Tensor.cat(*(Tensor(v, dtype=dtypes.uint8, device=data.device).expand(l) for l, v in mb if l > 0)).unsqueeze(0)"
+    ],
+    [
+      513,
+      "    data = (data.flatten(1) ^ pad_mask).reshape(*data.shape[:2], 200).bitcast(dtypes.uint64)"
+    ],
+    [
+      521,
+      "        t1 = (p[:,:,0] ^ p[:,:,1] ^ p[:,:,2] ^ p[:,:,3] ^ p[:,:,4]).roll(-1, 1) # xor reduce"
+    ],
+    [
+      551,
+      "      data = data.pad_to(chunks * 2**20).reshape(chunks, 2**20)._hash_1mb().flatten()"
+    ],
+    [
+      553,
+      "    return data.pad_to(2**20).unsqueeze(0)._hash_1mb().flatten()[:16]"
+    ],
+    [
+      557,
+      "  def where(self:Tensor, x:Tensor|ConstType|sint, y:Tensor|ConstType|sint) -> Tensor:"
+    ],
+    [
+      564,
+      "    print(cond.where(1, 3).numpy())"
+    ],
+    [
+      572,
+      "    print((cond > 0).where(cond, -float(\"inf\")).numpy())"
+    ],
+    [
+      579,
+      "    return self.cast(dtypes.bool)._broadcast_to(out_shape)._apply_uop(UOp.where, x._broadcast_to(out_shape), y._broadcast_to(out_shape))"
+    ],
+    [
+      637,
+      "        return Tensor.usum(*[tmp.shrink(nones + ((i, i+1),)).cast(new_uint)<<8*i*os for i in range(rate)]).squeeze(-1).bitcast(dtype)"
+    ]
+  ],
+  "tinygrad/uop/ops.py": [
+    [
+      7,
+      "from tinygrad.dtype import ConstType, ImageDType, dtypes, DType, DTypeLike, to_dtype, truncate, PtrDType, least_upper_dtype, Invalid, AddrSpace"
+    ],
+    [
+      59,
+      "  return ssimplify(functools.reduce(uop_fxn, uops + ([python_fxn(nums)] if nums else [])))"
+    ],
+    [
+      80,
+      "def multirange_str(rngs:Iterable[UOp], color=False, pad=None) -> str:"
+    ],
+    [
+      82,
+      "  if pad is not None: ret += \" \" * (pad-ansilen(ret))"
+    ],
+    [
+      152,
+      "  def __reduce__(self):"
+    ],
+    [
+      177,
+      "  def backward_slice(self:UOp) -> dict[UOp, None]:"
+    ],
+    [
+      183,
+      "  def backward_slice_with_self(self:UOp) -> dict[UOp, None]: return {self:None, **self.backward_slice}"
+    ],
+    [
+      184,
+      "  def op_in_backward_slice_with_self(self, *ops:Ops) -> bool:"
+    ],
+    [
+      185,
+      "    # Check self first, then iterate backward_slice (avoids creating intermediate dict)"
+    ],
+    [
+      186,
+      "    return self.op in ops or any(x.op in ops for x in self.backward_slice)"
+    ],
+    [
+      296,
+      "        return wmma_b + (prod([x for _,x in out0]),)"
+    ],
+    [
+      322,
+      "          if prod(ps) != prod(self.marg): raise ValueError(f\"bad reshape: {ps} -> {self.marg}\")"
+    ],
+    [
+      334,
+      "            raise ValueError(f\"invalid pad {self.marg} for {ps}\")"
+    ],
+    [
+      374,
+      "  def max_numel(self) -> int: return prod(self.max_shape)"
+    ],
+    [
+      437,
+      "  # NOTE: this is not called by Tensor slice (Tensor handles UOps directly), but satisfies SupportsIndex for type checking"
+    ],
+    [
+      473,
+      "    if len(slice_idx:=[i for i,x in enumerate(idx) if isinstance(x, slice)]):"
+    ],
+    [
+      474,
+      "      # apply SHRINK for slices that aren't the full range"
+    ],
+    [
+      475,
+      "      bounds = tuple((s.start or 0, s.stop if s.stop is not None else self.shape[i]) if isinstance(s, slice) else (0, self.shape[i])"
+    ],
+    [
+      478,
+      "      non_slice_args = [UOp.const(dtypes.weakint, x) if isinstance(x, int) else x for x in idx if not isinstance(x, slice)]"
+    ],
+    [
+      479,
+      "      if not non_slice_args: return src  # all dims are slices, no indexing needed"
+    ],
+    [
+      480,
+      "      perm = src.permute(tuple([i for i in range(src.ndim) if i not in slice_idx] + slice_idx))"
+    ],
+    [
+      481,
+      "      return perm.index(*non_slice_args)"
+    ],
+    [
+      558,
+      "    # NOTE: we don't allow reduce on 1s axis"
+    ],
+    [
+      560,
+      "    reduce_axis = tuple(x for x in axis if resolve(self.shape[x] != 1))"
+    ],
+    [
+      561,
+      "    ret = UOp(Ops.REDUCE, self.dtype, (self,), (op, reduce_axis)) if len(reduce_axis) else self"
+    ],
+    [
+      562,
+      "    return ret.reshape(tuple(s for i,s in enumerate(self.shape) if i not in axis)) if axis != reduce_axis else ret"
+    ],
+    [
+      566,
+      "    return cond.where(self, self.const_like(Invalid))"
+    ],
+    [
+      575,
+      "  def reduce(self, *src:UOp, **kwargs):"
+    ],
+    [
+      586,
+      "  def allreduce(self, op, device:str|tuple[str, ...]):"
+    ],
+    [
+      587,
+      "    assert isinstance(self.device, tuple), f\"allreduce must be on tuple {self.device} isn't\""
+    ],
+    [
+      627,
+      "      return src_axis - sum(1 for a in self.arg[1] if a < src_axis)"
+    ],
+    [
+      631,
+      "      # new_axis is the last one that preserves prod(prior to new_axis) and must not move items between shards"
+    ],
+    [
+      632,
+      "      new_axis = len(arg_acc) - arg_acc[::-1].index(prod(self.src[0].shape[:src_axis])) - 1"
+    ],
+    [
+      641,
+      "    return self.pad(tuple((0,0) if a != axis else (bsz*dnum, bsz*(dcount-1) - bsz*dnum) for a in range(len(self.shape))))"
+    ],
+    [
+      726,
+      "      data = struct.pack(f\"{prod(shape)}{bdtype.fmt}\", *[truncate[bdtype](bdtype.const(xi)) for xi in fully_flatten(x)])"
+    ],
+    [
+      728,
+      "    ret.buffer.allocate(memoryview(data if device != \"PYTHON\" else bytearray(data)))"
+    ],
+    [
+      787,
+      "      if not isinstance(idx.arg, int): return None  # masked/padded regions produce InvalidType"
+    ],
+    [
+      797,
+      "    \"\"\"Walk through AFTER chain to find if the underlying buffer is realized (has allocated memory).\"\"\""
+    ],
+    [
+      811,
+      "      return buf.view(prod(self.max_shape), self.dtype, offset*self.dtype.itemsize)"
+    ],
+    [
+      815,
+      "      return buf.view(prod(self.max_shape), self.dtype, 0)"
+    ],
+    [
+      852,
+      "    if any(b.op is Ops.BUFFER and buffers.get(b) is None for b in self.backward_slice_with_self): return None"
+    ],
+    [
+      854,
+      "    return self.buffer if self.buffer.is_allocated() else None"
+    ],
+    [
+      882,
+      "    return sorted({x for x in self.backward_slice_with_self if x.op is Ops.PARAM and x.arg.addrspace is AddrSpace.ALU},"
+    ],
+    [
+      911,
+      "    count = functools.reduce(operator.and_, [collections.Counter(term.split_uop(Ops.MUL)) for term in terms])"
+    ],
+    [
+      912,
+      "    return math.prod([*count.elements(), terms[0].const_like(math.gcd(*factors))])  # put the const at the top"
+    ],
+    [
+      921,
+      "      if const%div_const==0 and all(v>=0 for v in new_count.values()): return math.prod(new_count.elements(), start=self.const_like(const//div_const))"
+    ],
+    [
+      1013,
+      "      ret = UOp(Ops.PARAM, dtype, src=(shape_to_shape_arg((prod(shape),)),), arg=ParamArg(slot, addrspace=addrspace))"
+    ],
+    [
+      1016,
+      "      buf_shape = (prod(shape),) + ((dtype.count,) if dtype.count > 1 else ())"
+    ],
+    [
+      1129,
+      "  def __reduce__(self): return (CallInfo, (None, self.metadata, self.name, self.precompile, self.precompile_backward, self.aux))"
+    ],
+    [
+      1154,
+      "def exec_alu(op:Ops, dtype:DType, operands, truncate_output=True):"
+    ],
+    [
+      1160,
+      "  return truncate.get(dtype, lambda x: x)(alu) if truncate_output else alu"
+    ],
+    [
+      1174,
+      "def get_location() -> tuple[str, int]:"
+    ],
+    [
+      1187,
+      "               name:str|None=None, allow_any_len:bool=False, custom_early_reject:set[Ops]|None=None, location=None, is_any:bool=False,"
+    ],
+    [
+      1208,
+      "    self.location = location or get_location()"
+    ],
+    [
+      1221,
+      "  def __reduce__(self):"
+    ],
+    [
+      1222,
+      "    return UPat, (self.op, self.match_dtype, self._in_src, self.arg, self.name, not self.strict_length, self.custom_early_reject, self.location,"
+    ],
+    [
+      1255,
+      "  def reduce(self, *src:UPat, **kwargs):"
+    ],
+    [
+      1338,
+      "  def __reduce__(self): return PatternMatcher, ([(x,deconstruct_function(fxn) if fxn.__name__ == \"<lambda>\" else fxn) for x,fxn in self.patterns],)"
+    ],
+    [
+      1363,
+      "  loc:tuple[str, int]                           # location that called graph_rewrite"
+    ],
+    [
+      1365,
+      "  matches:list[tuple[int, int, tuple, float]]   # before/after UOp, UPat location and time"
+    ],
+    [
+      1454,
+      "            active_rewrites[-1].matches.append((uop.trace_num, UOp(Ops.REWRITE_ERROR, src=uop.src, arg=err_str).trace_num, p.location, 0))"
+    ],
+    [
+      1459,
+      "          if TRACK_MATCH_STATS >= 3: print(f\"{et*1e6:7.2f} us -- \", printable(p.location))"
+    ],
+    [
+      1461,
+      "            active_rewrites[-1].matches.append((uop.trace_num, ret.trace_num, p.location, et))"
+    ],
+    [
+      1476,
+      "        print(f\"rewrote {len(tracked_ctxs)} graphs and matched {sum(len(r.matches) for x in tracked_ctxs for r in x)} times, saved to {fn}\")"
+    ],
+    [
+      1483,
+      "        loc_str = f\"{k.location[0].split('/')[-1]}:{k.location[1]}\""
+    ],
+    [
+      1484,
+      "        if v[1] != 0: print(f\"{v[0]:6d} / {v[1]:7d} -- {v[3]*1000.:9.2f} / {(v[2]+v[3])*1000.:9.2f} ms -- {loc_str:20s}\", printable(k.location))"
+    ],
+    [
+      1487,
+      "      print(f\"{len(match_stats)} rules, {sum(v[0] > 0 for v in match_stats.values())} matched once\")"
+    ],
+    [
+      1628,
+      "    cond.where(x.cast(dt:=least_upper_dtype(x.dtype, y.dtype)), y.cast(dt)).cast(dtypes.weakint)),"
+    ],
+    [
+      1643,
+      "  (UPat(Ops.INDEX, src=(UPat.var(\"buf\"), UPat.var(\"gate\").where(UPat.var(\"idx\", dtypes.ints).cast(), UPat(Ops.CONST, arg=Invalid)))),"
+    ],
+    [
+      1644,
+      "   lambda buf,idx,gate: buf.index(gate.where(idx, idx.const_like(Invalid)))),"
+    ],
+    [
+      1649,
+      "                        UPat.var(\"gate\").where(UPat.var(\"idx_y\", dtypes.ints).cast(), UPat(Ops.CONST, arg=Invalid)),"
+    ],
+    [
+      1650,
+      "                        UPat.var(\"gate\").where(UPat.var(\"idx_x\", dtypes.ints).cast(), UPat(Ops.CONST, arg=Invalid)))),"
+    ],
+    [
+      1651,
+      "   lambda buf,idx_x,idx_y,gate: buf.index(gate.where(idx_y, idx_y.const_like(Invalid)),"
+    ],
+    [
+      1652,
+      "                                          gate.where(idx_x, idx_x.const_like(Invalid)))),"
+    ]
+  ]
+}

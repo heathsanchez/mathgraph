@@ -1,0 +1,5 @@
+IMPORT_TINYGRAD_OK <module 'tinygrad' from '/Users/heath/Documents/mathgraph-lean-work/external/cash_win_deep_recon_v24/tinygrad__tinygrad_3039/tinygrad/__init__.py'>
+IMPORT_TENSOR_OK <class 'tinygrad.tensor.Tensor'>
+TENSOR_CREATE_OK <Tensor <UOp METAL (4,) int> on METAL with grad None>
+cumsum True
+cumprod True
