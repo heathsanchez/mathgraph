@@ -1,0 +1,1124 @@
+{
+  "candidate_count": 698,
+  "top_candidate_files": [
+    {
+      "path": "test/backend/test_ops.py",
+      "score": 13600,
+      "hits": {
+        "cumsum": 56,
+        "cumprod": 34,
+        "cummax": 58,
+        "reduce": 45,
+        "tensor": 759,
+        "kernel": 85,
+        "lower": 5,
+        "test": 1964
+      },
+      "lines": 3422,
+      "bytes": 200563
+    },
+    {
+      "path": "test/null/test_schedule.py",
+      "score": 6048,
+      "hits": {
+        "cummax": 1,
+        "reduce": 74,
+        "ops.add": 1,
+        "ops.mul": 9,
+        "tensor": 505,
+        "uop": 103,
+        "schedule": 294,
+        "kernel": 33,
+        "lower": 1,
+        "test": 337
+      },
+      "lines": 2001,
+      "bytes": 69904
+    },
+    {
+      "path": "tinygrad/runtime/autogen/mesa.py",
+      "score": 5519,
+      "hits": {
+        "scan": 17,
+        "prefix": 2,
+        "ssm": 14,
+        "reduce": 45,
+        "kernel": 23,
+        "lower": 855,
+        "test": 73
+      },
+      "lines": 10533,
+      "bytes": 857265
+    },
+    {
+      "path": "test/null/test_tensor_uop_mixin.py",
+      "score": 3445,
+      "hits": {
+        "cumsum": 8,
+        "cumprod": 2,
+        "cummax": 6,
+        "reduce": 19,
+        "tensor": 140,
+        "uop": 269,
+        "test": 310
+      },
+      "lines": 530,
+      "bytes": 30614
+    },
+    {
+      "path": "tinygrad/mixin/__init__.py",
+      "score": 3230,
+      "hits": {
+        "cumsum": 21,
+        "cumprod": 2,
+        "cummax": 7,
+        "ssm": 6,
+        "reduce": 66,
+        "ops.add": 5,
+        "ops.mul": 3,
+        "ops.max": 4,
+        "tensor": 341,
+        "uop": 20,
+        "kernel": 9,
+        "lower": 2,
+        "test": 1
+      },
+      "lines": 1911,
+      "bytes": 98275
+    },
+    {
+      "path": "tinygrad/runtime/autogen/nv_570.py",
+      "score": 3065,
+      "hits": {
+        "scan": 18,
+        "prefix": 2,
+        "ssm": 41,
+        "reduce": 62,
+        "tensor": 3,
+        "schedule": 68,
+        "kernel": 42,
+        "lower": 149,
+        "test": 78
+      },
+      "lines": 24867,
+      "bytes": 1418789
+    },
+    {
+      "path": "tinygrad/runtime/autogen/nv_580.py",
+      "score": 2891,
+      "hits": {
+        "scan": 18,
+        "prefix": 2,
+        "ssm": 41,
+        "reduce": 62,
+        "tensor": 3,
+        "schedule": 75,
+        "kernel": 42,
+        "lower": 100,
+        "test": 90
+      },
+      "lines": 26002,
+      "bytes": 1497555
+    },
+    {
+      "path": "extra/nv_pma/cupti/cupti.py",
+      "score": 2890,
+      "hits": {
+        "prefix": 2,
+        "ssm": 26,
+        "tensor": 157,
+        "kernel": 348,
+        "lower": 1,
+        "test": 23
+      },
+      "lines": 14184,
+      "bytes": 888889
+    },
+    {
+      "path": "tinygrad/uop/ops.py",
+      "score": 2573,
+      "hits": {
+        "ssm": 1,
+        "reduce": 36,
+        "ops.add": 8,
+        "ops.mul": 20,
+        "ops.max": 3,
+        "tensor": 4,
+        "uop": 350,
+        "schedule": 1,
+        "kernel": 9,
+        "lower": 4,
+        "test": 17
+      },
+      "lines": 1670,
+      "bytes": 92450
+    },
+    {
+      "path": "test/unit/test_indexing.py",
+      "score": 2486,
+      "hits": {
+        "cumsum": 1,
+        "prefix": 4,
+        "tensor": 298,
+        "uop": 6,
+        "schedule": 1,
+        "kernel": 14,
+        "test": 365
+      },
+      "lines": 1394,
+      "bytes": 54795
+    },
+    {
+      "path": "test/null/test_uop_graph.py",
+      "score": 2435,
+      "hits": {
+        "reduce": 13,
+        "ops.add": 10,
+        "ops.mul": 2,
+        "uop": 345,
+        "schedule": 4,
+        "lower": 1,
+        "test": 145
+      },
+      "lines": 772,
+      "bytes": 30490
+    },
+    {
+      "path": "test/null/test_uop_symbolic.py",
+      "score": 2411,
+      "hits": {
+        "reduce": 4,
+        "uop": 93,
+        "kernel": 1,
+        "lower": 1,
+        "test": 632
+      },
+      "lines": 1416,
+      "bytes": 66376
+    },
+    {
+      "path": "test/mockgpu/amd/emu.py",
+      "score": 2379,
+      "hits": {
+        "prefix": 7,
+        "reduce": 4,
+        "ops.add": 5,
+        "uop": 426,
+        "kernel": 4,
+        "lower": 3,
+        "test": 4
+      },
+      "lines": 2280,
+      "bytes": 138560
+    },
+    {
+      "path": "tinygrad/nn/onnx.py",
+      "score": 2212,
+      "hits": {
+        "cumsum": 4,
+        "ssm": 2,
+        "reduce": 23,
+        "tensor": 426,
+        "uop": 1,
+        "kernel": 17,
+        "lower": 3,
+        "test": 7
+      },
+      "lines": 1313,
+      "bytes": 75723
+    },
+    {
+      "path": "test/unit/test_function.py",
+      "score": 2204,
+      "hits": {
+        "reduce": 1,
+        "tensor": 263,
+        "uop": 90,
+        "kernel": 58,
+        "test": 134
+      },
+      "lines": 654,
+      "bytes": 25327
+    },
+    {
+      "path": "test/backend/test_custom_kernel.py",
+      "score": 2070,
+      "hits": {
+        "reduce": 6,
+        "tensor": 158,
+        "uop": 119,
+        "schedule": 8,
+        "kernel": 109,
+        "test": 66
+      },
+      "lines": 503,
+      "bytes": 20069
+    },
+    {
+      "path": "test/unit/test_assign.py",
+      "score": 2035,
+      "hits": {
+        "reduce": 7,
+        "ops.add": 1,
+        "tensor": 240,
+        "uop": 47,
+        "schedule": 2,
+        "kernel": 24,
+        "test": 210
+      },
+      "lines": 1071,
+      "bytes": 42689
+    },
+    {
+      "path": "tinygrad/renderer/cstyle.py",
+      "score": 1883,
+      "hits": {
+        "prefix": 74,
+        "reduce": 1,
+        "ops.add": 3,
+        "ops.mul": 2,
+        "tensor": 4,
+        "uop": 85,
+        "kernel": 38,
+        "lower": 1,
+        "test": 1
+      },
+      "lines": 591,
+      "bytes": 37623
+    },
+    {
+      "path": "extra/torch_backend/test.py",
+      "score": 1878,
+      "hits": {
+        "cumsum": 17,
+        "tensor": 127,
+        "kernel": 1,
+        "test": 285
+      },
+      "lines": 962,
+      "bytes": 39072
+    },
+    {
+      "path": "test/backend/test_tensor.py",
+      "score": 1734,
+      "hits": {
+        "reduce": 3,
+        "tensor": 238,
+        "uop": 24,
+        "lower": 1,
+        "test": 209
+      },
+      "lines": 777,
+      "bytes": 30515
+    },
+    {
+      "path": "tinygrad/tensor.py",
+      "score": 1713,
+      "hits": {
+        "ssm": 1,
+        "reduce": 2,
+        "tensor": 228,
+        "uop": 144,
+        "schedule": 3,
+        "kernel": 5,
+        "lower": 1
+      },
+      "lines": 690,
+      "bytes": 33263
+    },
+    {
+      "path": "test/backend/test_uops.py",
+      "score": 1655,
+      "hits": {
+        "reduce": 3,
+        "ops.add": 3,
+        "ops.mul": 10,
+        "ops.max": 1,
+        "tensor": 17,
+        "uop": 186,
+        "schedule": 2,
+        "kernel": 6,
+        "test": 149
+      },
+      "lines": 352,
+      "bytes": 17351
+    },
+    {
+      "path": "test/unit/test_multitensor.py",
+      "score": 1626,
+      "hits": {
+        "reduce": 5,
+        "tensor": 144,
+        "uop": 30,
+        "schedule": 14,
+        "kernel": 12,
+        "test": 240
+      },
+      "lines": 962,
+      "bytes": 39041
+    },
+    {
+      "path": "test/null/test_graph_rewrite.py",
+      "score": 1473,
+      "hits": {
+        "reduce": 10,
+        "ops.add": 10,
+        "ops.mul": 1,
+        "uop": 192,
+        "test": 101
+      },
+      "lines": 532,
+      "bytes": 23067
+    },
+    {
+      "path": "test/null/test_viz.py",
+      "score": 1457,
+      "hits": {
+        "ops.add": 1,
+        "tensor": 49,
+        "uop": 101,
+        "schedule": 5,
+        "kernel": 56,
+        "test": 147
+      },
+      "lines": 1121,
+      "bytes": 48416
+    },
+    {
+      "path": "test/device/test_hcq.py",
+      "score": 1453,
+      "hits": {
+        "ssm": 1,
+        "tensor": 5,
+        "uop": 17,
+        "schedule": 3,
+        "kernel": 3,
+        "test": 434
+      },
+      "lines": 654,
+      "bytes": 31045
+    },
+    {
+      "path": "test/null/test_uops.py",
+      "score": 1448,
+      "hits": {
+        "reduce": 1,
+        "ops.add": 13,
+        "ops.mul": 3,
+        "tensor": 5,
+        "uop": 188,
+        "kernel": 1,
+        "lower": 2,
+        "test": 101
+      },
+      "lines": 367,
+      "bytes": 17953
+    },
+    {
+      "path": "test/backend/test_schedule.py",
+      "score": 1447,
+      "hits": {
+        "cumsum": 6,
+        "reduce": 17,
+        "tensor": 101,
+        "uop": 23,
+        "schedule": 36,
+        "kernel": 13,
+        "test": 111
+      },
+      "lines": 492,
+      "bytes": 19923
+    },
+    {
+      "path": "test/amd/hw/test_vop3.py",
+      "score": 1444,
+      "hits": {
+        "reduce": 1,
+        "uop": 1,
+        "kernel": 2,
+        "test": 473
+      },
+      "lines": 3657,
+      "bytes": 133578
+    },
+    {
+      "path": "tinygrad/llm/model.py",
+      "score": 1344,
+      "hits": {
+        "prefix": 14,
+        "ssm": 44,
+        "tensor": 64,
+        "uop": 24,
+        "kernel": 7,
+        "lower": 1
+      },
+      "lines": 417,
+      "bytes": 25031
+    },
+    {
+      "path": "test/backend/test_linearizer.py",
+      "score": 1321,
+      "hits": {
+        "reduce": 9,
+        "ops.max": 1,
+        "tensor": 78,
+        "uop": 112,
+        "schedule": 10,
+        "kernel": 3,
+        "lower": 1,
+        "test": 93
+      },
+      "lines": 460,
+      "bytes": 25184
+    },
+    {
+      "path": "test/external/external_test_hcq.py",
+      "score": 1321,
+      "hits": {
+        "ssm": 1,
+        "tensor": 2,
+        "uop": 34,
+        "schedule": 1,
+        "test": 374
+      },
+      "lines": 329,
+      "bytes": 16543
+    },
+    {
+      "path": "extra/torch_backend/backend.py",
+      "score": 1319,
+      "hits": {
+        "cumsum": 6,
+        "cumprod": 1,
+        "cummax": 2,
+        "reduce": 6,
+        "tensor": 225,
+        "uop": 12,
+        "kernel": 9,
+        "test": 2
+      },
+      "lines": 810,
+      "bytes": 39435
+    },
+    {
+      "path": "test/null/test_uop_vmin_vmax.py",
+      "score": 1284,
+      "hits": {
+        "reduce": 1,
+        "uop": 214,
+        "test": 68
+      },
+      "lines": 407,
+      "bytes": 14078
+    },
+    {
+      "path": "test/null/test_dtype_spec.py",
+      "score": 1263,
+      "hits": {
+        "cumsum": 20,
+        "tensor": 105,
+        "test": 81
+      },
+      "lines": 441,
+      "bytes": 24141
+    },
+    {
+      "path": "tinygrad/schedule/rangeify.py",
+      "score": 1214,
+      "hits": {
+        "prefix": 5,
+        "reduce": 53,
+        "uop": 84,
+        "schedule": 4,
+        "kernel": 25,
+        "lower": 3,
+        "test": 8
+      },
+      "lines": 624,
+      "bytes": 32033
+    },
+    {
+      "path": "tinygrad/codegen/opt/postrange.py",
+      "score": 1156,
+      "hits": {
+        "reduce": 69,
+        "ops.add": 2,
+        "ops.mul": 1,
+        "tensor": 27,
+        "uop": 38,
+        "schedule": 7,
+        "kernel": 18,
+        "lower": 2,
+        "test": 1
+      },
+      "lines": 355,
+      "bytes": 20627
+    },
+    {
+      "path": "tinygrad/renderer/isa/x86.py",
+      "score": 1122,
+      "hits": {
+        "prefix": 3,
+        "ssm": 4,
+        "reduce": 2,
+        "ops.add": 12,
+        "ops.mul": 4,
+        "uop": 155,
+        "schedule": 2,
+        "kernel": 1,
+        "lower": 8
+      },
+      "lines": 936,
+      "bytes": 69860
+    },
+    {
+      "path": "test/unit/test_disk_tensor.py",
+      "score": 1120,
+      "hits": {
+        "reduce": 1,
+        "tensor": 144,
+        "test": 178
+      },
+      "lines": 569,
+      "bytes": 25805
+    },
+    {
+      "path": "test/backend/test_dtype.py",
+      "score": 1079,
+      "hits": {
+        "ssm": 13,
+        "tensor": 77,
+        "uop": 1,
+        "test": 186
+      },
+      "lines": 420,
+      "bytes": 20007
+    },
+    {
+      "path": "test/mockgpu/amd/pcode.py",
+      "score": 1075,
+      "hits": {
+        "reduce": 16,
+        "ops.mul": 2,
+        "ops.max": 2,
+        "uop": 159,
+        "lower": 16
+      },
+      "lines": 1360,
+      "bytes": 70795
+    },
+    {
+      "path": "test/backend/test_multitensor.py",
+      "score": 1061,
+      "hits": {
+        "reduce": 24,
+        "ops.add": 5,
+        "ops.mul": 2,
+        "ops.max": 2,
+        "tensor": 88,
+        "uop": 10,
+        "schedule": 5,
+        "kernel": 5,
+        "test": 93
+      },
+      "lines": 477,
+      "bytes": 18941
+    },
+    {
+      "path": "tinygrad/runtime/autogen/hsa.py",
+      "score": 1042,
+      "hits": {
+        "reduce": 2,
+        "kernel": 202,
+        "test": 4
+      },
+      "lines": 1108,
+      "bytes": 140382
+    },
+    {
+      "path": "tinygrad/runtime/autogen/cuda.py",
+      "score": 1018,
+      "hits": {
+        "ssm": 4,
+        "tensor": 104,
+        "kernel": 103,
+        "lower": 1,
+        "test": 6
+      },
+      "lines": 2156,
+      "bytes": 210276
+    },
+    {
+      "path": "extra/gemm/cdna_asm_gemm.py",
+      "score": 1014,
+      "hits": {
+        "reduce": 6,
+        "ops.add": 1,
+        "tensor": 64,
+        "uop": 114,
+        "kernel": 23,
+        "test": 1
+      },
+      "lines": 356,
+      "bytes": 20679
+    },
+    {
+      "path": "tinygrad/mixin/elementwise.py",
+      "score": 1012,
+      "hits": {
+        "reduce": 2,
+        "ops.add": 1,
+        "ops.mul": 1,
+        "ops.max": 1,
+        "tensor": 223,
+        "uop": 13,
+        "lower": 1
+      },
+      "lines": 1079,
+      "bytes": 37418
+    },
+    {
+      "path": "tinygrad/codegen/__init__.py",
+      "score": 981,
+      "hits": {
+        "scan": 2,
+        "reduce": 48,
+        "tensor": 3,
+        "uop": 82,
+        "schedule": 3,
+        "kernel": 3,
+        "lower": 5
+      },
+      "lines": 472,
+      "bytes": 23132
+    },
+    {
+      "path": "test/backend/test_nn.py",
+      "score": 934,
+      "hits": {
+        "reduce": 1,
+        "tensor": 97,
+        "uop": 7,
+        "kernel": 18,
+        "test": 137
+      },
+      "lines": 625,
+      "bytes": 25613
+    },
+    {
+      "path": "tinygrad/codegen/simplify.py",
+      "score": 933,
+      "hits": {
+        "reduce": 58,
+        "ops.add": 12,
+        "ops.mul": 2,
+        "ops.max": 1,
+        "tensor": 2,
+        "uop": 32,
+        "lower": 7
+      },
+      "lines": 155,
+      "bytes": 8526
+    },
+    {
+      "path": "test/testextra/test_tk.py",
+      "score": 923,
+      "hits": {
+        "reduce": 10,
+        "tensor": 106,
+        "uop": 46,
+        "kernel": 17,
+        "test": 28
+      },
+      "lines": 989,
+      "bytes": 35085
+    },
+    {
+      "path": "tinygrad/uop/symbolic.py",
+      "score": 880,
+      "hits": {
+        "reduce": 8,
+        "ops.add": 9,
+        "ops.mul": 5,
+        "ops.max": 2,
+        "uop": 126,
+        "kernel": 1,
+        "lower": 1
+      },
+      "lines": 470,
+      "bytes": 31155
+    },
+    {
+      "path": "extra/hcq2/hcq2.py",
+      "score": 879,
+      "hits": {
+        "uop": 152,
+        "schedule": 13,
+        "kernel": 4,
+        "lower": 5,
+        "test": 3
+      },
+      "lines": 553,
+      "bytes": 29851
+    },
+    {
+      "path": "test/unit/test_call.py",
+      "score": 872,
+      "hits": {
+        "reduce": 4,
+        "tensor": 103,
+        "uop": 33,
+        "schedule": 3,
+        "test": 80
+      },
+      "lines": 352,
+      "bytes": 13686
+    },
+    {
+      "path": "examples/mlperf/model_train.py",
+      "score": 863,
+      "hits": {
+        "cumprod": 13,
+        "tensor": 72,
+        "uop": 1,
+        "schedule": 50,
+        "kernel": 1,
+        "test": 1
+      },
+      "lines": 1813,
+      "bytes": 83028
+    },
+    {
+      "path": "test/external/external_test_onnx_backend.py",
+      "score": 848,
+      "hits": {
+        "cumsum": 1,
+        "scan": 1,
+        "ssm": 2,
+        "reduce": 1,
+        "tensor": 5,
+        "test": 248
+      },
+      "lines": 211,
+      "bytes": 9500
+    },
+    {
+      "path": "test/null/test_simplify_valid_idx.py",
+      "score": 842,
+      "hits": {
+        "cumsum": 1,
+        "reduce": 4,
+        "ops.add": 2,
+        "uop": 102,
+        "kernel": 6,
+        "lower": 1,
+        "test": 69
+      },
+      "lines": 586,
+      "bytes": 24167
+    },
+    {
+      "path": "test/backend/test_const_folding.py",
+      "score": 755,
+      "hits": {
+        "reduce": 13,
+        "tensor": 72,
+        "uop": 8,
+        "schedule": 8,
+        "kernel": 1,
+        "test": 84
+      },
+      "lines": 212,
+      "bytes": 9644
+    },
+    {
+      "path": "tinygrad/nn/__init__.py",
+      "score": 746,
+      "hits": {
+        "reduce": 2,
+        "tensor": 114,
+        "uop": 27,
+        "kernel": 26,
+        "lower": 1
+      },
+      "lines": 421,
+      "bytes": 18606
+    },
+    {
+      "path": "test/amd/hw/test_vop1.py",
+      "score": 738,
+      "hits": {
+        "test": 246
+      },
+      "lines": 1634,
+      "bytes": 53809
+    },
+    {
+      "path": "extra/models/mask_rcnn.py",
+      "score": 728,
+      "hits": {
+        "cumsum": 3,
+        "reduce": 4,
+        "tensor": 139,
+        "kernel": 6,
+        "test": 4
+      },
+      "lines": 1215,
+      "bytes": 39423
+    },
+    {
+      "path": "examples/mlperf/model_eval.py",
+      "score": 726,
+      "hits": {
+        "cumprod": 17,
+        "tensor": 78,
+        "test": 2
+      },
+      "lines": 508,
+      "bytes": 24763
+    },
+    {
+      "path": "test/backend/test_graph.py",
+      "score": 714,
+      "hits": {
+        "tensor": 5,
+        "uop": 106,
+        "schedule": 13,
+        "test": 33
+      },
+      "lines": 320,
+      "bytes": 12836
+    },
+    {
+      "path": "examples/mamba.py",
+      "score": 713,
+      "hits": {
+        "selective_scan": 3,
+        "scan": 3,
+        "mamba": 12,
+        "ssm": 6,
+        "tensor": 30,
+        "kernel": 1
+      },
+      "lines": 324,
+      "bytes": 12324
+    },
+    {
+      "path": "tinygrad/schedule/multi.py",
+      "score": 710,
+      "hits": {
+        "reduce": 23,
+        "ops.add": 1,
+        "ops.mul": 27,
+        "uop": 38,
+        "schedule": 1,
+        "kernel": 1
+      },
+      "lines": 177,
+      "bytes": 10629
+    },
+    {
+      "path": "tinygrad/runtime/autogen/am/regs.py",
+      "score": 707,
+      "hits": {
+        "scan": 4,
+        "prefix": 6,
+        "reduce": 4,
+        "schedule": 48,
+        "lower": 56,
+        "test": 1
+      },
+      "lines": 10160,
+      "bytes": 1438569
+    },
+    {
+      "path": "tinygrad/runtime/autogen/hip.py",
+      "score": 706,
+      "hits": {
+        "ssm": 17,
+        "schedule": 5,
+        "kernel": 76,
+        "lower": 4,
+        "test": 3
+      },
+      "lines": 2241,
+      "bytes": 208168
+    },
+    {
+      "path": "test/null/test_pattern_matcher.py",
+      "score": 700,
+      "hits": {
+        "ops.add": 14,
+        "ops.mul": 9,
+        "ops.max": 2,
+        "uop": 75,
+        "test": 25
+      },
+      "lines": 216,
+      "bytes": 9144
+    },
+    {
+      "path": "tinygrad/runtime/autogen/llvm.py",
+      "score": 695,
+      "hits": {
+        "prefix": 8,
+        "ssm": 31,
+        "kernel": 8,
+        "lower": 2,
+        "test": 7
+      },
+      "lines": 3191,
+      "bytes": 265275
+    },
+    {
+      "path": "test/unit/test_attention.py",
+      "score": 688,
+      "hits": {
+        "ssm": 29,
+        "tensor": 28,
+        "kernel": 5,
+        "test": 29
+      },
+      "lines": 204,
+      "bytes": 11628
+    },
+    {
+      "path": "test/unit/test_jit.py",
+      "score": 675,
+      "hits": {
+        "tensor": 106,
+        "uop": 4,
+        "kernel": 3,
+        "test": 72
+      },
+      "lines": 443,
+      "bytes": 14275
+    },
+    {
+      "path": "test/backend/test_setitem.py",
+      "score": 674,
+      "hits": {
+        "tensor": 96,
+        "uop": 4,
+        "test": 90
+      },
+      "lines": 379,
+      "bytes": 13688
+    },
+    {
+      "path": "tinygrad/runtime/autogen/opencl.py",
+      "score": 673,
+      "hits": {
+        "kernel": 134,
+        "test": 1
+      },
+      "lines": 812,
+      "bytes": 53387
+    },
+    {
+      "path": "test/amd/test_emu2_pcode.py",
+      "score": 660,
+      "hits": {
+        "ops.add": 3,
+        "ops.mul": 1,
+        "uop": 66,
+        "lower": 1,
+        "test": 95
+      },
+      "lines": 397,
+      "bytes": 16316
+    },
+    {
+      "path": "test/opt/test_kernel_opts.py",
+      "score": 654,
+      "hits": {
+        "reduce": 15,
+        "tensor": 59,
+        "kernel": 8,
+        "test": 76
+      },
+      "lines": 355,
+      "bytes": 18086
+    },
+    {
+      "path": "test/external/external_test_onnx_ops.py",
+      "score": 653,
+      "hits": {
+        "reduce": 3,
+        "tensor": 43,
+        "kernel": 5,
+        "lower": 3,
+        "test": 137
+      },
+      "lines": 623,
+      "bytes": 32729
+    },
+    {
+      "path": "test/backend/test_dtype_alu.py",
+      "score": 652,
+      "hits": {
+        "tensor": 41,
+        "uop": 1,
+        "test": 161
+      },
+      "lines": 384,
+      "bytes": 22036
+    },
+    {
+      "path": "tinygrad/engine/jit.py",
+      "score": 642,
+      "hits": {
+        "reduce": 2,
+        "ops.mul": 1,
+        "tensor": 28,
+        "uop": 93,
+        "schedule": 2,
+        "kernel": 3,
+        "lower": 2
+      },
+      "lines": 316,
+      "bytes": 16792
+    },
+    {
+      "path": "extra/thunder/tiny/fa.py",
+      "score": 636,
+      "hits": {
+        "reduce": 2,
+        "tensor": 19,
+        "uop": 97,
+        "kernel": 11
+      },
+      "lines": 417,
+      "bytes": 20286
+    },
+    {
+      "path": "extra/thunder/tiny/tk/tiles.py",
+      "score": 629,
+      "hits": {
+        "ssm": 4,
+        "reduce": 2,
+        "ops.add": 2,
+        "ops.mul": 2,
+        "uop": 101
+      },
+      "lines": 277,
+      "bytes": 9775
+    },
+    {
+      "path": "test/backend/test_asm_gemm.py",
+      "score": 629,
+      "hits": {
+        "reduce": 3,
+        "tensor": 54,
+        "uop": 1,
+        "kernel": 4,
+        "lower": 2,
+        "test": 116
+      },
+      "lines": 385,
+      "bytes": 20414
+    }
+  ],
+  "has_tensor_py": true,
+  "has_tests": true
+}

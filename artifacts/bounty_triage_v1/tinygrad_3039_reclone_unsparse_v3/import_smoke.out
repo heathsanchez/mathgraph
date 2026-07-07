@@ -1,0 +1,13 @@
+tinygrad_file /Users/heath/Documents/mathgraph-lean-work/external/bounty_triage_v1/tinygrad__tinygrad_v3/tinygrad/__init__.py
+Tensor <class 'tinygrad.tensor.Tensor'>
+cumsum True
+cummax True
+cumprod True
+sum True
+where True
+cat True
+stack True
+pad True
+permute True
+reshape True
+contiguous True

@@ -1,0 +1,10 @@
+2026-07-07T00:18:41Z
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   6.6Gi    65%    458k   69M    1%   /
+?? artifacts/bounty_triage_v1/tinygrad_3039_reclone_unsparse_v3/
+?? artifacts/paid_fix_scout/
+?? check_paid_github_fixes.py
+?? refine_paid_fix_scout.py
+?? strata_specimen_issue45_recon_v1.sh
+?? tinygrad_3039_reclone_unsparse_v3.sh
+572K	/Users/heath/Documents/mathgraph-lean-work/external/bounty_triage_v1/tinygrad__tinygrad

@@ -1,0 +1,123 @@
+HEAD:
+eb3cb16cc18feff022859d3c0b69f17c9da51bf5
+
+sparse list:
+/tinygrad/
+/test/
+/examples/
+/extra/
+/docs/
+/README.md
+/pyproject.toml
+/sz.py
+
+top:
+.
+.git
+.git/hooks
+.git/info
+.git/logs
+.git/objects
+.git/refs
+docs
+docs/developer
+docs/showcase
+docs/tensor
+examples
+examples/conversation_data
+examples/llm.c
+examples/mlperf
+examples/openpilot
+examples/other_mnist
+examples/tinychat
+examples/tools
+examples/vgg7_helpers
+examples/webgpu
+extra
+extra/amdpci
+extra/datasets
+extra/dsp
+extra/fp8
+extra/gemm
+extra/hcq
+extra/hcq2
+extra/hcqfuzz
+extra/hevc
+extra/hip_gpu_driver
+extra/hiprtc
+extra/huggingface_onnx
+extra/llama_kernels
+extra/mesa
+extra/mlx_driver
+extra/mmapeak
+extra/models
+extra/nv_gpu_driver
+extra/nv_pma
+extra/optimization
+extra/perfetto
+extra/qcom_gpu_driver
+extra/remote
+extra/sqtt
+extra/testsig
+extra/thunder
+extra/tinyfs
+extra/torch_backend
+extra/torch_hook
+extra/usbgpu
+extra/viz
+extra/webgpu
+test
+test/amd
+test/backend
+test/device
+test/external
+test/mockgpu
+test/models
+test/null
+test/opt
+test/speed
+test/testextra
+test/unit
+test/web
+tinygrad
+tinygrad/codegen
+tinygrad/engine
+tinygrad/llm
+tinygrad/mixin
+tinygrad/nn
+tinygrad/renderer
+tinygrad/runtime
+tinygrad/schedule
+tinygrad/uop
+tinygrad/viz
+
+files:
+total 56
+drwxr-xr-x  11 heath  staff   352  7 Jul 12:18 .
+drwxr-xr-x   8 heath  staff   256  7 Jul 12:18 ..
+drwxr-xr-x  14 heath  staff   448  7 Jul 12:18 .git
+drwxr-xr-x  23 heath  staff   736  7 Jul 12:18 docs
+drwxr-xr-x  48 heath  staff  1536  7 Jul 12:18 examples
+drwxr-xr-x  59 heath  staff  1888  7 Jul 12:18 extra
+-rw-r--r--   1 heath  staff  6430  7 Jul 12:18 pyproject.toml
+-rw-r--r--   1 heath  staff  9417  7 Jul 12:18 README.md
+-rwxr-xr-x   1 heath  staff  4545  7 Jul 12:18 sz.py
+drwxr-xr-x  18 heath  staff   576  7 Jul 12:18 test
+drwxr-xr-x  20 heath  staff   640  7 Jul 12:18 tinygrad
+
+python file counts:
+     536
+
+key files:
+FOUND tinygrad/tensor.py
+FOUND tinygrad/uop/ops.py
+FOUND tinygrad/schedule/rangeify.py
+FOUND test/test_tiny.py
+MISSING test/test_ops.py
+FOUND pyproject.toml
+FOUND README.md
+
+disk:
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   6.5Gi    65%    458k   68M    1%   /
+ 54M	/Users/heath/Documents/mathgraph-lean-work/external/bounty_triage_v1/tinygrad__tinygrad_v3
