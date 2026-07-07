@@ -1,0 +1,95 @@
+{
+  "verdict": "DO_NOT_PR_THIS_PATCH__NEGATIVE_RESULT_CERTIFIED",
+  "correctness_passed": true,
+  "benchmark_rows": 7,
+  "probe_slower_count": 6,
+  "probe_faster_count": 0,
+  "summary_rows": [
+    {
+      "n": 16,
+      "builtin_median_s": 0.0013700410490855575,
+      "probe_median_s": 0.0013716670218855143,
+      "probe_over_builtin_ratio": 1.0011868058997517,
+      "builtin_min_s": 0.0013504159869626164,
+      "probe_min_s": 0.001336582936346531
+    },
+    {
+      "n": 32,
+      "builtin_median_s": 0.0014668750809505582,
+      "probe_median_s": 0.0015897079138085246,
+      "probe_over_builtin_ratio": 1.0837377595768882,
+      "builtin_min_s": 0.0013072500005364418,
+      "probe_min_s": 0.0015148749807849526
+    },
+    {
+      "n": 64,
+      "builtin_median_s": 0.0013646669685840607,
+      "probe_median_s": 0.0019347920315340161,
+      "probe_over_builtin_ratio": 1.4177759673786938,
+      "builtin_min_s": 0.001304208068177104,
+      "probe_min_s": 0.0018433330114930868
+    },
+    {
+      "n": 128,
+      "builtin_median_s": 0.0013582500396296382,
+      "probe_median_s": 0.0025155829498544335,
+      "probe_over_builtin_ratio": 1.852076478157418,
+      "builtin_min_s": 0.0013207080774009228,
+      "probe_min_s": 0.0024371249601244926
+    },
+    {
+      "n": 256,
+      "builtin_median_s": 0.0013992500025779009,
+      "probe_median_s": 0.0036970420042052865,
+      "probe_over_builtin_ratio": 2.6421597265635595,
+      "builtin_min_s": 0.001285000005736947,
+      "probe_min_s": 0.003566875006072223
+    },
+    {
+      "n": 512,
+      "builtin_median_s": 0.0014464579289779067,
+      "probe_median_s": 0.005889249965548515,
+      "probe_over_builtin_ratio": 4.071497585629722,
+      "builtin_min_s": 0.00138579192571342,
+      "probe_min_s": 0.005851124995388091
+    },
+    {
+      "n": 1024,
+      "builtin_median_s": 0.002758583053946495,
+      "probe_median_s": 0.010219083982519805,
+      "probe_over_builtin_ratio": 3.7044684835209654,
+      "builtin_min_s": 0.00249054201412946,
+      "probe_min_s": 0.010192458052188158
+    }
+  ],
+  "complexity_proxy": {
+    "builtin_cumsum": {
+      "chars": 0,
+      "lines": 0,
+      "pad": 0,
+      "shrink": 0,
+      "sum": 0,
+      "cat": 0,
+      "where": 0,
+      "while": 0,
+      "for": 0,
+      "add_ops": 0,
+      "pool": 0,
+      "cum": 0
+    },
+    "probe_hillis_steele": {
+      "chars": 734,
+      "lines": 26,
+      "pad": 1,
+      "shrink": 1,
+      "sum": 0,
+      "cat": 0,
+      "where": 0,
+      "while": 1,
+      "for": 1,
+      "add_ops": 2,
+      "pool": 0,
+      "cum": 1
+    }
+  }
+}
