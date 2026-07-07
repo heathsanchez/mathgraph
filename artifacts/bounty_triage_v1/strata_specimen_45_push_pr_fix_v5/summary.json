@@ -1,0 +1,9 @@
+{
+  "verdict": "DRAFT_PR_OPENED_OR_REUSED",
+  "pr_url": "https://github.com/strata-org/specimen/pull/46",
+  "github_user": "heathsanchez",
+  "fork": "heathsanchez/specimen",
+  "branch": "mathgraph-lawful-scorable-issue45",
+  "local_scoring_ok": true,
+  "local_build_ok": true
+}

@@ -1,0 +1,2 @@
+c69bc02 Add LawfulScorable scorer laws interface
+b93d259 Specimen delegated producer for equalities on function calls (#36)

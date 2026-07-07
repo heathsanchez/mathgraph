@@ -1,0 +1,4 @@
+fork	https://github.com/heathsanchez/specimen.git (fetch)
+fork	https://github.com/heathsanchez/specimen.git (push)
+origin	https://github.com/strata-org/specimen.git (fetch) [blob:none]
+origin	https://github.com/strata-org/specimen.git (push)
