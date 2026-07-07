@@ -1,0 +1,300 @@
+
+
+===== Scorable class =====
+0044: -- Core typeclass
+0045: ----------------------------------------------
+0046: 
+0047: /-- Typeclass that defines how scores combine and compare.
+0048:     The score type is the index — different types enable different strategies.
+0049:     - `empty`: identity for `combine` (a zero-step schedule)
+0050:     - `combine`: merge two scores (e.g. sum steps, or take max)
+0051:     - `isBetter`: strict ordering used by branch-and-bound
+0052:     - `bestOf`: pick the best from a list (for leaf: best covering ctor)
+0053:     - `uncoveredPenalty`: score assigned to a leaf with no covering constructor
+0054:     - `worst`: initial upper bound for branch-and-bound (must lose to any real score)
+0055:     - `badness`: map to [0,1] for HSL color (0 = green/good, 1 = red/bad) -/
+0056: class Scorable (S : Type) where
+0057:   empty : S
+0058:   combine : S → S → S
+0059:   isBetter : S → S → Bool
+0060:   bestOf : List S → S
+0061:   uncoveredPenalty : S
+0062:   /-- Must be worse than any real schedule under `isBetter`. -/
+0063:   worst : S
+0064:   badness : S → Float
+0065: 
+0066: ----------------------------------------------
+0067: -- Scorer function types (parameterized by score type)
+0068: ----------------------------------------------
+0069: 
+0070: /-- Scores a single schedule step. Receives:
+0071:     - The current spec being derived (inductiveName + outputIndices + deriveSort)
+0072:     - The dependency memo (for looking up sub-relation scores)
+0073:     - The set of input variables (fixed at schedule start, NOT generated)
+0074:     - The step itself -/
+0075: abbrev StepScorer (S : Type) := SpecKey → Std.HashMap SpecKey MemoEntry → Std.HashSet Name → ScheduleStep → S
+0076: 
+0077: /-- Combines a list of step scores into a schedule-level score. -/
+0078: abbrev ScheduleScorer (S : Type) := List S → S
+0079: 
+0080: /-- Given a leaf's covering constructors with their scores, produce the leaf score. -/
+0081: abbrev LeafAggregator (S : Type) := List (Name × S) → S
+0082: 
+0083: /-- Given all leaf scores, produce the final inductive score. -/
+0084: abbrev InductiveAggregator (S : Type) := List S → S
+0085: 
+0086: ----------------------------------------------
+0087: -- Type-erased score (Dynamic wrapper)
+0088: ----------------------------------------------
+0089: 
+0090: -- Score is defined in Utils.lean (imported transitively via Schedules)
+0091: 
+0092: ----------------------------------------------
+0093: -- Resolved scorer functions (operate on Score)
+0094: ----------------------------------------------
+0095: 
+0096: /-- A resolved step scorer that produces type-erased scores. -/
+0097: abbrev ResolvedStepScorer := SpecKey → Std.HashMap SpecKey MemoEntry → Std.HashSet Name → ScheduleStep → Score
+0098: 
+0099: /-- A resolved schedule scorer. -/
+0100: abbrev ResolvedScheduleScorer := List Score → Score
+
+
+===== DefaultScore instance =====
+0118: deriving instance TypeName for DefaultScore
+0119: 
+0120: instance : Ord DefaultScore where
+0121:   compare a b :=
+0122:     match compare a.checks b.checks with
+0123:     | .eq => match compare a.length b.length with
+0124:       | .eq => compare a.unconstrained b.unconstrained
+0125:       | r => r
+0126:     | r => r
+0127: 
+0128: instance : LT DefaultScore := ltOfOrd
+0129: 
+0130: instance : Scorable DefaultScore where
+0131:   empty := {}
+0132:   combine a b := { checks := a.checks + b.checks, length := a.length + b.length, unconstrained := a.unconstrained + b.unconstrained }
+0133:   isBetter a b := a < b
+0134:   bestOf scores := scores.foldl (fun acc s => if s < acc then s else acc) (scores.headD {})
+0135:   uncoveredPenalty := { checks := 1 }
+0136:   worst := { checks := 1000, length := 1000, unconstrained := 1000 }
+0137:   badness s :=
+0138:     if s.length == 0 then 0.0
+0139:     else
+0140:       let checkRatio := Float.ofNat s.checks / Float.ofNat s.length
+0141:       let uncRatio := Float.ofNat s.unconstrained / Float.ofNat s.length
+0142:       let lengthPenalty := min 1.0 (Float.ofNat s.length / 12.0)
+0143:       min 1.0 (checkRatio * 2.0 + uncRatio * 0.5 + lengthPenalty * 0.3)
+0144: 
+0145: ----------------------------------------------
+0146: -- Wrapping/unwrapping helpers
+0147: ----------------------------------------------
+0148: 
+0149: def Score.wrap [TypeName S] [Repr S] (s : S) : Score :=
+0150:   { val := Dynamic.mk s, reprFn := fun d => match d.get? S with | some v => reprStr v | none => "<cast failed>" }
+0151: 
+0152: /-- Extract typed score from the Dynamic wrapper. Returns `default` on type mismatch. -/
+0153: unsafe def Score.unwrapImpl (S : Type) [Inhabited S] [TypeName S] (score : Score) : S :=
+0154:   match score.val.get? S with
+0155:   | some v => v
+0156:   | none => default
+0157: 
+0158: @[implemented_by Score.unwrapImpl]
+0159: opaque Score.unwrap (S : Type) [Inhabited S] [TypeName S] (score : Score) : S
+0160: 
+0161: instance : Inhabited Score where default := Score.wrap ({} : DefaultScore)
+0162: 
+0163: /-- Wrap a typed scorer into a ResolvedStepScorer. -/
+0164: def wrapStepScorer [Inhabited S] [TypeName S] [Repr S] (f : StepScorer S) : ResolvedStepScorer :=
+0165:   fun key memo inputVars step => Score.wrap (f key memo inputVars step)
+0166: 
+0167: /-- Wrap a typed schedule scorer into a ResolvedScheduleScorer. -/
+0168: def wrapScheduleScorer [Inhabited S] [TypeName S] [Repr S] (f : ScheduleScorer S) : ResolvedScheduleScorer :=
+0169:   fun scores => Score.wrap (f (scores.map (Score.unwrap S)))
+0170: 
+0171: /-- Wrap a typed leaf aggregator into a ResolvedLeafAggregator. -/
+0172: def wrapLeafAggregator [Inhabited S] [TypeName S] [Repr S] (f : LeafAggregator S) : ResolvedLeafAggregator :=
+0173:   fun ctors => Score.wrap (f (ctors.map fun (n, s) => (n, Score.unwrap S s)))
+0174: 
+
+
+===== WorstLeafScore instance =====
+0350: deriving instance TypeName for WorstLeafScore
+0351: 
+0352: instance : Ord WorstLeafScore where
+0353:   compare a b :=
+0354:     match compare a.checks b.checks with
+0355:     | .eq => match compare a.length b.length with
+0356:       | .eq => compare a.unconstrained b.unconstrained
+0357:       | r => r
+0358:     | r => r
+0359: 
+0360: instance : LT WorstLeafScore := ltOfOrd
+0361: 
+0362: instance : Scorable WorstLeafScore where
+0363:   empty := {}
+0364:   combine a b := { checks := max a.checks b.checks, length := max a.length b.length, unconstrained := max a.unconstrained b.unconstrained }
+0365:   isBetter a b := a < b
+0366:   bestOf scores := scores.foldl (fun acc s => if s < acc then s else acc) (scores.headD {})
+0367:   uncoveredPenalty := { checks := 1 }
+0368:   worst := { checks := 1000, length := 1000, unconstrained := 1000 }
+0369:   badness s :=
+0370:     if s.length == 0 then 0.0
+0371:     else
+0372:       let checkRatio := Float.ofNat s.checks / Float.ofNat s.length
+0373:       let uncRatio := Float.ofNat s.unconstrained / Float.ofNat s.length
+0374:       min 1.0 (checkRatio * 2.0 + uncRatio * 0.5)
+0375: 
+0376: def worstLeafStepScorer : StepScorer WorstLeafScore := fun _key _memo _inputVars step =>
+0377:   match step with
+0378:   | .Check .. => { checks := 1, length := 1 }
+0379:   | .Unconstrained .. => { length := 1, unconstrained := 1 }
+0380:   | _ => { length := 1 }
+0381: 
+0382: def worstLeafScheduleScorer : ScheduleScorer WorstLeafScore := fun stepScores =>
+0383:   stepScores.foldl (fun a b => { checks := a.checks + b.checks, length := a.length + b.length, unconstrained := a.unconstrained + b.unconstrained }) {}
+0384: 
+0385: def worstLeafLeafAggregator : LeafAggregator WorstLeafScore := fun ctors =>
+0386:   match ctors with
+0387:   | [] => Scorable.uncoveredPenalty
+0388:   | _ => Scorable.bestOf (ctors.map Prod.snd)
+0389: 
+0390: def worstLeafInductiveAggregator : InductiveAggregator WorstLeafScore := fun leafScores =>
+0391:   leafScores.foldl Scorable.combine Scorable.empty
+0392: 
+0393: initialize registerScoringBundle (mkScorerBundle `Scoring.WorstLeafScore
+0394:   worstLeafStepScorer worstLeafScheduleScorer worstLeafLeafAggregator worstLeafInductiveAggregator)
+0395: 
+0396: ----------------------------------------------
+0397: -- Built-in: density analysis (from "Testing Theorems, Fully Automatically")
+0398: ----------------------------------------------
+0399: 
+0400: inductive Density
+0401:   | Total
+0402:   | Partial
+0403:   | Backtracking
+0404:   | Checking
+0405:   deriving Repr, BEq, Inhabited
+0406: 
+
+
+===== DensityScore instance =====
+0435: deriving instance TypeName for DensityScore
+0436: 
+0437: instance : Ord DensityScore where
+0438:   compare a b :=
+0439:     let da := if a.forChecker then 3 - a.density.toNat else a.density.toNat
+0440:     let db := if b.forChecker then 3 - b.density.toNat else b.density.toNat
+0441:     match compare da db with
+0442:     | .eq => compare a.varDeps b.varDeps
+0443:     | r => r
+0444: 
+0445: instance : LT DensityScore := ltOfOrd
+0446: 
+0447: instance : Scorable DensityScore where
+0448:   empty := {}
+0449:   combine a b := { density := Density.max a.density b.density, varDeps := a.varDeps + b.varDeps, forChecker := a.forChecker || b.forChecker }
+0450:   isBetter a b := a < b
+0451:   bestOf scores := scores.foldl (fun acc s => if s < acc then s else acc) (scores.headD {})
+0452:   uncoveredPenalty := { density := .Partial, varDeps := 0 }
+0453:   worst := { density := .Checking, varDeps := 1000 }
+0454:   badness s :=
+0455:     let rawLevel := s.density.toNat.toFloat / 3.0
+0456:     let level := if s.forChecker then 1.0 - rawLevel else rawLevel
+0457:     let depPenalty := min 0.2 (s.varDeps.toFloat * 0.05)
+0458:     min 1.0 (level + depPenalty)
+0459: 
+0460: private def sourceArgs : Source → List ConstructorExpr
+0461:   | .NonRec (_, args) => args
+0462:   | .Rec _ args => args
+0463:   | .MutRec _ args => args
+0464: 
+0465: private def countGeneratedVarDeps (inputVars : Std.HashSet Name) (src : Source) : Nat :=
+0466:   let args := sourceArgs src
+0467:   let allVars := args.flatMap varsInConstructorExpr
+0468:   allVars.filter (!inputVars.contains ·) |>.length
+0469: 
+0470: /-- Density step scorer (Section 4 of the paper):
+0471:     - Unconstrained → Total, 0 deps
+0472:     - Check → Checking, #generated-var deps
+0473:     - Match → Backtracking, 0 deps
+0474:     - SuchThat → dep's density from memo, #generated-var deps
+0475:     varDeps counts source args that were generated (not original inputs). -/
+0476: def densityStepScorer : StepScorer DensityScore := fun key memo inputVars step =>
+0477:   let isChecker := key.deriveSort == .Checker || key.deriveSort == .Enumerator
+0478:   match step with
+0479:   | .Unconstrained .. => { density := .Total, varDeps := 0, forChecker := isChecker }
+0480:   | .Check src _ => { density := .Checking, varDeps := countGeneratedVarDeps inputVars src, forChecker := isChecker }
+0481:   | .Match .. => { density := .Backtracking, varDeps := 0, forChecker := isChecker }
+0482:   | .SuchThat outputs src _ =>
+0483:     let outputNames := Std.HashSet.ofList (outputs.map (·.1))
+0484:     let varDeps := countGeneratedVarDeps (inputVars.union outputNames) src
+0485:     let depDensity : Density := match src with
+0486:       | .Rec .. => .Partial
+0487:       | .MutRec .. => .Partial
+0488:       | .NonRec (indName, args) =>
+0489:         let outputIdxs := outputs.filterMap fun (n, _) =>
+0490:           args.findIdx? fun a => match a with | .Unknown v => v == n | _ => false
+0491:         let depKey : SpecKey := { inductiveName := indName, outputIndices := outputIdxs, deriveSort := key.deriveSort }
+
+
+===== UniformDensityScore instance =====
+0522:   deriving Repr, BEq, Inhabited
+0523: 
+0524: deriving instance TypeName for UniformDensityScore
+0525: 
+0526: instance : Ord UniformDensityScore where
+0527:   compare a b :=
+0528:     match compare a.density.toNat b.density.toNat with
+0529:     | .eq => compare a.varDeps b.varDeps
+0530:     | r => r
+0531: 
+0532: instance : LT UniformDensityScore := ltOfOrd
+0533: 
+0534: instance : Scorable UniformDensityScore where
+0535:   empty := {}
+0536:   combine a b := { density := Density.max a.density b.density, varDeps := a.varDeps + b.varDeps }
+0537:   isBetter a b := a < b
+0538:   bestOf scores := scores.foldl (fun acc s => if s < acc then s else acc) (scores.headD {})
+0539:   uncoveredPenalty := { density := .Partial, varDeps := 0 }
+0540:   worst := { density := .Checking, varDeps := 1000 }
+0541:   badness s :=
+0542:     let level := s.density.toNat.toFloat / 3.0
+0543:     let depPenalty := min 0.2 (s.varDeps.toFloat * 0.05)
+0544:     min 1.0 (level + depPenalty)
+0545: 
+0546: def uniformDensityStepScorer : StepScorer UniformDensityScore := fun _key memo inputVars step =>
+0547:   match step with
+0548:   | .Unconstrained .. => { density := .Total, varDeps := 0 }
+0549:   | .Check src _ => { density := .Checking, varDeps := countGeneratedVarDeps inputVars src }
+0550:   | .Match .. => { density := .Backtracking, varDeps := 0 }
+0551:   | .SuchThat outputs src _ =>
+0552:     let outputNames := Std.HashSet.ofList (outputs.map (·.1))
+0553:     let varDeps := countGeneratedVarDeps (inputVars.union outputNames) src
+0554:     let depDensity : Density := match src with
+0555:       | .Rec .. => .Partial
+0556:       | .MutRec .. => .Partial
+0557:       | .NonRec (indName, args) =>
+0558:         let outputIdxs := outputs.filterMap fun (n, _) =>
+0559:           args.findIdx? fun a => match a with | .Unknown v => v == n | _ => false
+0560:         let depKey : SpecKey := { inductiveName := indName, outputIndices := outputIdxs, deriveSort := _key.deriveSort }
+0561:         if depKey == _key then .Partial
+0562:         else match memo[depKey]? with
+0563:           | some (.done depSched) => (Score.unwrap UniformDensityScore depSched.score).density
+0564:           | _ => .Partial
+0565:     { density := depDensity, varDeps := varDeps }
+0566: 
+0567: def uniformDensityScheduleScorer : ScheduleScorer UniformDensityScore := fun stepScores =>
+0568:   stepScores.foldl Scorable.combine Scorable.empty
+0569: 
+0570: def uniformDensityLeafAggregator : LeafAggregator UniformDensityScore := fun ctors =>
+0571:   match ctors with
+0572:   | [] => Scorable.uncoveredPenalty
+0573:   | _ => Scorable.bestOf (ctors.map Prod.snd)
+0574: 
+0575: def uniformDensityInductiveAggregator : InductiveAggregator UniformDensityScore := fun leafScores =>
+0576:   leafScores.foldl Scorable.combine Scorable.empty
+0577: 
+0578: initialize registerScoringBundle (mkScorerBundle `Scoring.UniformDensityScore

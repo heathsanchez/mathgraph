@@ -1,0 +1,8 @@
+{
+  "verdict": "COMPILES__DRAFT_PR_CANDIDATE_BUT_INSTANCES_STILL_NEEDED",
+  "scoring_check_ok": true,
+  "lake_build_ok": true,
+  "adds_badness_mono": true,
+  "adds_worst_law": true,
+  "adds_transitivity": true
+}
