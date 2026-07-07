@@ -1,0 +1,101 @@
+[
+  {
+    "key": "omegahat/XML#4",
+    "repo": "omegahat/XML",
+    "number": 4,
+    "title": "Still significant memory leak on Windows",
+    "url": "https://github.com/omegahat/XML/issues/4",
+    "labels": [],
+    "createdAt": "2014-12-11T19:26:56Z",
+    "updatedAt": "2018-04-30T18:59:30Z",
+    "money_estimate_usd": 0.0,
+    "score": 83.0,
+    "positive_terms": [
+      "$",
+      "ci",
+      "lean"
+    ],
+    "judge_terms": [
+      "ci",
+      "lean"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "Hi Duncan, \n\nit's been a while so I thought I'd check back if you found out anything about the cause of the [memory leak](http://stackoverflow.com/questions/23696391/memory-leak-when-using-package-xml-on-windows) when using `XML` on Windows.\n\nI'm sure that you have got a thousand more interesting things to do, but I would just **so much** appreciate if you could fix this bug. It just keeps coming back at me and slows down all of my efforts WRT to Web Scraping. And given the fact that more and more cool packages emerge that depend on your package (e.g. [RSelenium](https://github.com/ropensci/RSelenium) or [rvest](https://github.com/hadley/rvest), this issue propagates to all of them as well.\n\nThank you so much,\nJanko\n\n---\n\nHere is a slightly updated version of my investigations:\n## Preliminaries\n\n```\nrequire(\"rvest\")\nrequire(\"XML\")\n```\n## Functions\n\n```\ngetTaskMemoryByPid <- function(\n  pid = Sys.getpid()\n) {\n  cmd <- sprintf(\"tasklist /FI \\\"pid eq %s\\\" /FO csv\", pid)\n  mem <- read.csv(text=shell(cmd, intern = TRUE), stringsAsFactors=FALSE)[,5]\n  mem <- as.numeric(gsub(\"\\\\.|\\\\s|K\", \"\", mem))/1000\n  mem\n}  \ngetCurrentMemoryStatus <- function() {\n  mem_os  <- getTaskMemoryByPid()\n  mem_r   <- memory.size()\n  prof_1  <- memory.profile()\n  list(r = mem_r, os = mem_os, ratio = mem_os/mem_r)\n}\nmemoryLeak <- function(\n  x = system.file(\"exampleData\", \"mtcars.xml\", package=\"XML\"),\n  n = 10000,\n  use_text = FALSE,\n  xpath = FALSE,\n  free_doc = FALSE,\n  clean_up = FALSE,\n  detailed = FALSE,\n  use_rvest = FALSE,\n  user_agent = httr::user_agent(\"Mozilla/5.0\")\n) {\n  if(use_text) {\n    x <- readLines(x)\n  }\n  ## Before //\n  prof_1  <- memory.profile()\n  mem_before <- getCurrentMemoryStatus()\n\n  ## Per run //\n  mem_perrun <- lapply(1:n, function(ii) {\n    doc <- if (!use_rvest) {\n      xmlParse(x, asText = use_text)\n    } else {\n      if (file.exists(x)) {\n      ## From disk //        \n        rvest::html(x)  \n      } else {\n      ## From web //\n        rvest::html_session(x, user_agent)  \n      }\n    }\n    if (xpath) {\n      res <- xpathApply(doc = doc, path = \"/blah\", fun = xmlValue)\n      rm(res)\n    }\n    if (free_doc) {\n      free(doc)\n    }\n    rm(doc)\n    out <- NULL\n    if (detailed) {\n      out <- list(\n        profile = memory.profile(),\n        size = memory.size()\n      )\n    } \n    out\n  })\n  has_perrun <- any(sapply(mem_perrun, length) > 0)\n  if (!has_perrun) {\n    mem_perrun <- NULL\n  } \n\n  ## Garbage collect //\n  mem_gc <- NULL\n  if(clean_up) {\n    gc()\n  "
+  },
+  {
+    "key": "geraintluff/json-model#4",
+    "repo": "geraintluff/json-model",
+    "number": 4,
+    "title": "Json model fails some of the tests in th JSON-schema official testsuite",
+    "url": "https://github.com/geraintluff/json-model/issues/4",
+    "labels": [],
+    "createdAt": "2015-01-31T08:58:28Z",
+    "updatedAt": "2015-01-31T10:41:24Z",
+    "money_estimate_usd": 0.0,
+    "score": 60.0,
+    "positive_terms": [
+      "benchmark",
+      "ci",
+      "performance"
+    ],
+    "judge_terms": [
+      "benchmark",
+      "ci",
+      "tests"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "I've generated an error report here:\nhttps://github.com/Muscula/json-schema-benchmark/blob/master/reports/json-model.md\n\nAll the test failing marked with `This excludes this validator from performance tests` almost all other validators pass, and are a part of the required parts of the [official JSON-schema test suite](https://github.com/json-schema/JSON-Schema-Test-Suite).\n"
+  },
+  {
+    "key": "qurbaneliii/AI-Social-Media-Manager#4",
+    "repo": "qurbaneliii/AI-Social-Media-Manager",
+    "number": 4,
+    "title": "Frontend: GitHub Pages deployment fails due to static export constraints",
+    "url": "https://github.com/qurbaneliii/AI-Social-Media-Manager/issues/4",
+    "labels": [],
+    "createdAt": "2026-04-23T21:18:07Z",
+    "updatedAt": "2026-04-23T21:18:07Z",
+    "money_estimate_usd": 0.0,
+    "score": 56.0,
+    "positive_terms": [
+      "acceptance criteria",
+      "ci",
+      "regression"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "## Summary\nGitHub Pages deployment for the frontend is failing intermittently due to Next.js static export incompatibilities with App Router API routes and dynamic route settings.\n\n## Current behavior\n- Build can fail with import resolution/type errors when API routes are moved incorrectly during Pages build.\n- Static export fails when `app/api` is included.\n- Dynamic route config can block export when not aligned with `output: export`.\n\n## Expected behavior\nFrontend should deploy reliably to GitHub Pages from `main` and publish the latest static build (`aria-frontend/out`) without manual intervention.\n\n## Scope\n- Stabilize Pages workflow for static export.\n- Keep App Router API routes excluded from static export path safely.\n- Ensure dynamic route configuration remains export-compatible.\n- Add guardrails to avoid regressions in CI.\n\n## Acceptance criteria\n1. GitHub Pages workflow passes on push to `main`.\n2. No `Cannot find module '@/app/api/ai/_lib'` errors in build logs.\n3. Static export completes and uploads Pages artifact successfully.\n4. Published site serves latest frontend version without 404 root error.\n"
+  },
+  {
+    "key": "lovecn/lovecn.github.io#4",
+    "repo": "lovecn/lovecn.github.io",
+    "number": 4,
+    "title": "\u90a3\u4e9b\u5e74\uff0c\u6211\u4eec\u4e00\u8d77\u8e29\u8fc7\u7684\u5751\u548c\u5f00\u53d1\u6280\u5de7",
+    "url": "https://github.com/lovecn/lovecn.github.io/issues/4",
+    "labels": [],
+    "createdAt": "2014-08-26T10:34:41Z",
+    "updatedAt": "2017-08-07T02:21:46Z",
+    "money_estimate_usd": 1.0,
+    "score": 36.019999999999996,
+    "positive_terms": [
+      "$",
+      "ci",
+      "local"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "\u8bb0\u5f55\u5f00\u53d1\u4e2d\u90a3\u4e9b\u5751\u5751\u6d3c\u6d3c\uff0c\u6b22\u8fce\u8865\u5145\uff0c\u6211\u4f1a\u4e0d\u65ad\u603b\u7ed3\u66f4\u65b0\n\n1.json\u683c\u5f0f\u95ee\u9898 \njson\u683c\u5f0f\u975e\u5e38\u4e25\u683c\uff0c\u4e0d\u80fd\u6709\u7a7a\u683c\uff0ctab\uff0c\u6362\u884c\u7b26\uff0c\u5426\u5219\u89e3\u6790\u4e0d\u4e86\n\u5173\u4e8ejson\u7684\u89c4\u5b9a\uff1a\n1\uff09 \u5e76\u5217\u7684\u6570\u636e\u4e4b\u95f4\u7528\u9017\u53f7\uff08\", \"\uff09\u5206\u9694\u3002\n2\uff09 \u6620\u5c04\u7528\u5192\u53f7\uff08\": \"\uff09\u8868\u793a\u3002\n3\uff09 \u5e76\u5217\u6570\u636e\u7684\u96c6\u5408\uff08\u6570\u7ec4\uff09\u7528\u65b9\u62ec\u53f7(\"[]\")\u8868\u793a\u3002\n4\uff09 \u6620\u5c04\u7684\u96c6\u5408\uff08\u5bf9\u8c61\uff09\u7528\u5927\u62ec\u53f7\uff08\"{}\"\uff09\u8868\u793a\u3002\n\u5173\u4e8ePHP\u5bf9json\u652f\u6301\u8bf4\u660e\uff1a\njson_encode\u53ea\u652f\u6301UTF-8\u7f16\u7801\u7684\u6570\u636e\uff1b\njson_decode\u6c38\u8fdc\u53ea\u53cd\u6620\u4e00\u4e2aPHP\u5bf9\u8c61\uff0c\u5e26\u4e0a\u7b2c\u4e8c\u4e2a\u53c2\u6570true\u53ef\u8fd4\u56de\u6570\u7ec4\n\n``` php\n$replace = array(' '=>'','\\n'=>'','\\t'=>'');\n$replace_json=  trim(strtr($json,$replace));\n$response = '{\"retcode\":\"0\",\"retmsg\":\"OK\",\"cre_id_enc\":\"\",\"cre_type\":\"\",\"fee_type\":\"1\",\"listid\":\"1221085301201410240000001024\",\"out_trade_no\":\"201410246763831\",\"partner\":\"1221085301\",\"pay_fee\":\"0\",\"sign\":\"PTamau\\x2BjkynA00cASKJ6Nd3QwFSBP44TKSqmmdCd\\x2F\\x2B0o8ViSt3fp5vQr0Fc73U42NhtImfnHzbynoUjURiNLW5O4hI61xkG\\x2F97JRPRE0nHuvtAumqXfbVCsLveugE52HRZsJvm3EG7pL6GlhYf8ng6qxiUrDyn89PFVZ04Wd8Gk\\x3D\",\"total_fee\":\"1000000\",\"unfreeze_fee\":\"1000000\",\"user_name_enc\":\"\"}';\n$data = json_decode($string);\n    switch (json_last_error()) {\n        case JSON_ERROR_NONE:\n            echo ' - No errors';\n            break;\n        case JSON_ERROR_DEPTH:\n            echo ' - Maximum stack depth exceeded';\n            break;\n        case JSON_ERROR_STATE_MISMATCH:\n            echo ' - Underflow or the modes mismatch';\n            break;\n        case JSON_ERROR_CTRL_CHAR:\n            echo ' - Unexpected control character found';\n            break;\n        case JSON_ERROR_SYNTAX:\n            echo ' - Syntax error, malformed JSON';\n            break;\n        case JSON_ERROR_UTF8:\n            echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';\n            break;\n        default:\n            echo ' - Unknown error';\n            break;\n    }\n\u9519\u8bef\u7c7b\u578b\u4e3a - Syntax error, malformed JSON\njson\u4e2d\u5305\u542b\u5341\u516d\u8fdb\u5236\u7684ASCII\u5b57\u7b26\uff0c\u6240\u4ee5json_decode\u65e0\u6cd5\u8bc6\u522b\uff0c\u8fd4\u56deNULL\u3002\u4f7f\u7528\u4e0b\u9762\u7684\u4ee3\u7801\u8fdb\u884c\u8f6c\u7801\uff1a\n$json = str_ireplace( '\\x', '\\\\\\\\x', $response );\nprint_r( json_decode($json,true));\u89c1 [\u4f8b\u5b50](http://3v4l.org/WVVrj)\n\u5176\u4ed6\u5e38\u89c1\u95ee\u9898\u89e3\u51b3\u65b9\u6cd5\uff1a\n#1.\u4e0d\u80fd\u6709\u591a\u4f59\u7684\u9017\u53f7(,) \n\u7528\u6b63\u5219\u66ff\u6362\u6389\uff0c\npreg_replace('/,\\s*([\\]}])/m', '$1', $json) \n#2.\u53ea\u80fd\u4f7f\u7528\u53cc\u5f15\u53f7(\")\n\u5728JSON\u91cc\u53ea\u7528\"\u6765\u8868\u793a\u5b57\u7b26\u4e32\uff0c\u4f8b\u5982\n{'aa':'sdf'}\n'adf'\n['1', '2']\n\u8fd9\u4e9b\u4f7f\u7528'\u7684\u7edf\u7edf\u4e0d\u80fd\u89e3\u6790\uff0c\u800c\u4e14\u5bf9\u8c61\u7684\u5c5e\u6027\u4e5f\u5fc5\u987b\u7528\"\uff0c\u4e5f\u5c31\u662f\u53ea\u80fd\u7528\u53cc\u5f15\u53f7.. \n\u76f4\u63a5\u7528str_replace(\"'\", '\"', $json) \u6765\u66ff\u6362\u5c31\u597d\u4e86\uff0c\uff0c\u4e0d\u8fc7\u5c31\u662f\u4f1a\u628a\u6240\u6709\u5355\u5f15\u53f7\u8f6c\u6362\u4e3a\u53cc\u5f15\u53f7 \u3002\n```\n\n2.utf-8 BOM\u95ee\u9898[\u53c2\u7167\u4e4b\u524d\u4e00\u6587](http://lovecn.github.io/utf8.html)\nBOM\u4e3a\u6587\u4ef6\u5f00\u5934\u76843\u4e2a\u5b57\u8282EFBFBB,php\u4e0d\u4f1a\u5ffd\u7565\uff0c\u56e0\u6b64\u8fd4\u56de\u7684json\u89e3\u6790\u4e0d\u4e86\n\n``` php\n$res = substr($result, 3);\n$arr = json_decode($res, true);\nfunction remove_utf8_bom($text) { \n$bom = pack('H*','EFBBBF'); \n$text = preg_replace(\"/^$bom/\", '', $text);\n return $text;\n } \n$header = array(\n    \"User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36\"\n"
+  }
+]

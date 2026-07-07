@@ -1,0 +1,1143 @@
+[
+  {
+    "key": "omegahat/XML#4",
+    "repo": "omegahat/XML",
+    "number": 4,
+    "title": "Still significant memory leak on Windows",
+    "url": "https://github.com/omegahat/XML/issues/4",
+    "labels": [],
+    "createdAt": "2014-12-11T19:26:56Z",
+    "updatedAt": "2018-04-30T18:59:30Z",
+    "money_estimate_usd": 0.0,
+    "score": 83.0,
+    "positive_terms": [
+      "$",
+      "ci",
+      "lean"
+    ],
+    "judge_terms": [
+      "ci",
+      "lean"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "Hi Duncan, \n\nit's been a while so I thought I'd check back if you found out anything about the cause of the [memory leak](http://stackoverflow.com/questions/23696391/memory-leak-when-using-package-xml-on-windows) when using `XML` on Windows.\n\nI'm sure that you have got a thousand more interesting things to do, but I would just **so much** appreciate if you could fix this bug. It just keeps coming back at me and slows down all of my efforts WRT to Web Scraping. And given the fact that more and more cool packages emerge that depend on your package (e.g. [RSelenium](https://github.com/ropensci/RSelenium) or [rvest](https://github.com/hadley/rvest), this issue propagates to all of them as well.\n\nThank you so much,\nJanko\n\n---\n\nHere is a slightly updated version of my investigations:\n## Preliminaries\n\n```\nrequire(\"rvest\")\nrequire(\"XML\")\n```\n## Functions\n\n```\ngetTaskMemoryByPid <- function(\n  pid = Sys.getpid()\n) {\n  cmd <- sprintf(\"tasklist /FI \\\"pid eq %s\\\" /FO csv\", pid)\n  mem <- read.csv(text=shell(cmd, intern = TRUE), stringsAsFactors=FALSE)[,5]\n  mem <- as.numeric(gsub(\"\\\\.|\\\\s|K\", \"\", mem))/1000\n  mem\n}  \ngetCurrentMemoryStatus <- function() {\n  mem_os  <- getTaskMemoryByPid()\n  mem_r   <- memory.size()\n  prof_1  <- memory.profile()\n  list(r = mem_r, os = mem_os, ratio = mem_os/mem_r)\n}\nmemoryLeak <- function(\n  x = system.file(\"exampleData\", \"mtcars.xml\", package=\"XML\"),\n  n = 10000,\n  use_text = FALSE,\n  xpath = FALSE,\n  free_doc = FALSE,\n  clean_up = FALSE,\n  detailed = FALSE,\n  use_rvest = FALSE,\n  user_agent = httr::user_agent(\"Mozilla/5.0\")\n) {\n  if(use_text) {\n    x <- readLines(x)\n  }\n  ## Before //\n  prof_1  <- memory.profile()\n  mem_before <- getCurrentMemoryStatus()\n\n  ## Per run //\n  mem_perrun <- lapply(1:n, function(ii) {\n    doc <- if (!use_rvest) {\n      xmlParse(x, asText = use_text)\n    } else {\n      if (file.exists(x)) {\n      ## From disk //        \n        rvest::html(x)  \n      } else {\n      ## From web //\n        rvest::html_session(x, user_agent)  \n      }\n    }\n    if (xpath) {\n      res <- xpathApply(doc = doc, path = \"/blah\", fun = xmlValue)\n      rm(res)\n    }\n    if (free_doc) {\n      free(doc)\n    }\n    rm(doc)\n    out <- NULL\n    if (detailed) {\n      out <- list(\n        profile = memory.profile(),\n        size = memory.size()\n      )\n    } \n    out\n  })\n  has_perrun <- any(sapply(mem_perrun, length) > 0)\n  if (!has_perrun) {\n    mem_perrun <- NULL\n  } \n\n  ## Garbage collect //\n  mem_gc <- NULL\n  if(clean_up) {\n    gc()\n  "
+  },
+  {
+    "key": "geraintluff/json-model#4",
+    "repo": "geraintluff/json-model",
+    "number": 4,
+    "title": "Json model fails some of the tests in th JSON-schema official testsuite",
+    "url": "https://github.com/geraintluff/json-model/issues/4",
+    "labels": [],
+    "createdAt": "2015-01-31T08:58:28Z",
+    "updatedAt": "2015-01-31T10:41:24Z",
+    "money_estimate_usd": 0.0,
+    "score": 60.0,
+    "positive_terms": [
+      "benchmark",
+      "ci",
+      "performance"
+    ],
+    "judge_terms": [
+      "benchmark",
+      "ci",
+      "tests"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "I've generated an error report here:\nhttps://github.com/Muscula/json-schema-benchmark/blob/master/reports/json-model.md\n\nAll the test failing marked with `This excludes this validator from performance tests` almost all other validators pass, and are a part of the required parts of the [official JSON-schema test suite](https://github.com/json-schema/JSON-Schema-Test-Suite).\n"
+  },
+  {
+    "key": "qurbaneliii/AI-Social-Media-Manager#4",
+    "repo": "qurbaneliii/AI-Social-Media-Manager",
+    "number": 4,
+    "title": "Frontend: GitHub Pages deployment fails due to static export constraints",
+    "url": "https://github.com/qurbaneliii/AI-Social-Media-Manager/issues/4",
+    "labels": [],
+    "createdAt": "2026-04-23T21:18:07Z",
+    "updatedAt": "2026-04-23T21:18:07Z",
+    "money_estimate_usd": 0.0,
+    "score": 56.0,
+    "positive_terms": [
+      "acceptance criteria",
+      "ci",
+      "regression"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "## Summary\nGitHub Pages deployment for the frontend is failing intermittently due to Next.js static export incompatibilities with App Router API routes and dynamic route settings.\n\n## Current behavior\n- Build can fail with import resolution/type errors when API routes are moved incorrectly during Pages build.\n- Static export fails when `app/api` is included.\n- Dynamic route config can block export when not aligned with `output: export`.\n\n## Expected behavior\nFrontend should deploy reliably to GitHub Pages from `main` and publish the latest static build (`aria-frontend/out`) without manual intervention.\n\n## Scope\n- Stabilize Pages workflow for static export.\n- Keep App Router API routes excluded from static export path safely.\n- Ensure dynamic route configuration remains export-compatible.\n- Add guardrails to avoid regressions in CI.\n\n## Acceptance criteria\n1. GitHub Pages workflow passes on push to `main`.\n2. No `Cannot find module '@/app/api/ai/_lib'` errors in build logs.\n3. Static export completes and uploads Pages artifact successfully.\n4. Published site serves latest frontend version without 404 root error.\n"
+  },
+  {
+    "key": "lovecn/lovecn.github.io#4",
+    "repo": "lovecn/lovecn.github.io",
+    "number": 4,
+    "title": "\u90a3\u4e9b\u5e74\uff0c\u6211\u4eec\u4e00\u8d77\u8e29\u8fc7\u7684\u5751\u548c\u5f00\u53d1\u6280\u5de7",
+    "url": "https://github.com/lovecn/lovecn.github.io/issues/4",
+    "labels": [],
+    "createdAt": "2014-08-26T10:34:41Z",
+    "updatedAt": "2017-08-07T02:21:46Z",
+    "money_estimate_usd": 1.0,
+    "score": 36.019999999999996,
+    "positive_terms": [
+      "$",
+      "ci",
+      "local"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "\u8bb0\u5f55\u5f00\u53d1\u4e2d\u90a3\u4e9b\u5751\u5751\u6d3c\u6d3c\uff0c\u6b22\u8fce\u8865\u5145\uff0c\u6211\u4f1a\u4e0d\u65ad\u603b\u7ed3\u66f4\u65b0\n\n1.json\u683c\u5f0f\u95ee\u9898 \njson\u683c\u5f0f\u975e\u5e38\u4e25\u683c\uff0c\u4e0d\u80fd\u6709\u7a7a\u683c\uff0ctab\uff0c\u6362\u884c\u7b26\uff0c\u5426\u5219\u89e3\u6790\u4e0d\u4e86\n\u5173\u4e8ejson\u7684\u89c4\u5b9a\uff1a\n1\uff09 \u5e76\u5217\u7684\u6570\u636e\u4e4b\u95f4\u7528\u9017\u53f7\uff08\", \"\uff09\u5206\u9694\u3002\n2\uff09 \u6620\u5c04\u7528\u5192\u53f7\uff08\": \"\uff09\u8868\u793a\u3002\n3\uff09 \u5e76\u5217\u6570\u636e\u7684\u96c6\u5408\uff08\u6570\u7ec4\uff09\u7528\u65b9\u62ec\u53f7(\"[]\")\u8868\u793a\u3002\n4\uff09 \u6620\u5c04\u7684\u96c6\u5408\uff08\u5bf9\u8c61\uff09\u7528\u5927\u62ec\u53f7\uff08\"{}\"\uff09\u8868\u793a\u3002\n\u5173\u4e8ePHP\u5bf9json\u652f\u6301\u8bf4\u660e\uff1a\njson_encode\u53ea\u652f\u6301UTF-8\u7f16\u7801\u7684\u6570\u636e\uff1b\njson_decode\u6c38\u8fdc\u53ea\u53cd\u6620\u4e00\u4e2aPHP\u5bf9\u8c61\uff0c\u5e26\u4e0a\u7b2c\u4e8c\u4e2a\u53c2\u6570true\u53ef\u8fd4\u56de\u6570\u7ec4\n\n``` php\n$replace = array(' '=>'','\\n'=>'','\\t'=>'');\n$replace_json=  trim(strtr($json,$replace));\n$response = '{\"retcode\":\"0\",\"retmsg\":\"OK\",\"cre_id_enc\":\"\",\"cre_type\":\"\",\"fee_type\":\"1\",\"listid\":\"1221085301201410240000001024\",\"out_trade_no\":\"201410246763831\",\"partner\":\"1221085301\",\"pay_fee\":\"0\",\"sign\":\"PTamau\\x2BjkynA00cASKJ6Nd3QwFSBP44TKSqmmdCd\\x2F\\x2B0o8ViSt3fp5vQr0Fc73U42NhtImfnHzbynoUjURiNLW5O4hI61xkG\\x2F97JRPRE0nHuvtAumqXfbVCsLveugE52HRZsJvm3EG7pL6GlhYf8ng6qxiUrDyn89PFVZ04Wd8Gk\\x3D\",\"total_fee\":\"1000000\",\"unfreeze_fee\":\"1000000\",\"user_name_enc\":\"\"}';\n$data = json_decode($string);\n    switch (json_last_error()) {\n        case JSON_ERROR_NONE:\n            echo ' - No errors';\n            break;\n        case JSON_ERROR_DEPTH:\n            echo ' - Maximum stack depth exceeded';\n            break;\n        case JSON_ERROR_STATE_MISMATCH:\n            echo ' - Underflow or the modes mismatch';\n            break;\n        case JSON_ERROR_CTRL_CHAR:\n            echo ' - Unexpected control character found';\n            break;\n        case JSON_ERROR_SYNTAX:\n            echo ' - Syntax error, malformed JSON';\n            break;\n        case JSON_ERROR_UTF8:\n            echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';\n            break;\n        default:\n            echo ' - Unknown error';\n            break;\n    }\n\u9519\u8bef\u7c7b\u578b\u4e3a - Syntax error, malformed JSON\njson\u4e2d\u5305\u542b\u5341\u516d\u8fdb\u5236\u7684ASCII\u5b57\u7b26\uff0c\u6240\u4ee5json_decode\u65e0\u6cd5\u8bc6\u522b\uff0c\u8fd4\u56deNULL\u3002\u4f7f\u7528\u4e0b\u9762\u7684\u4ee3\u7801\u8fdb\u884c\u8f6c\u7801\uff1a\n$json = str_ireplace( '\\x', '\\\\\\\\x', $response );\nprint_r( json_decode($json,true));\u89c1 [\u4f8b\u5b50](http://3v4l.org/WVVrj)\n\u5176\u4ed6\u5e38\u89c1\u95ee\u9898\u89e3\u51b3\u65b9\u6cd5\uff1a\n#1.\u4e0d\u80fd\u6709\u591a\u4f59\u7684\u9017\u53f7(,) \n\u7528\u6b63\u5219\u66ff\u6362\u6389\uff0c\npreg_replace('/,\\s*([\\]}])/m', '$1', $json) \n#2.\u53ea\u80fd\u4f7f\u7528\u53cc\u5f15\u53f7(\")\n\u5728JSON\u91cc\u53ea\u7528\"\u6765\u8868\u793a\u5b57\u7b26\u4e32\uff0c\u4f8b\u5982\n{'aa':'sdf'}\n'adf'\n['1', '2']\n\u8fd9\u4e9b\u4f7f\u7528'\u7684\u7edf\u7edf\u4e0d\u80fd\u89e3\u6790\uff0c\u800c\u4e14\u5bf9\u8c61\u7684\u5c5e\u6027\u4e5f\u5fc5\u987b\u7528\"\uff0c\u4e5f\u5c31\u662f\u53ea\u80fd\u7528\u53cc\u5f15\u53f7.. \n\u76f4\u63a5\u7528str_replace(\"'\", '\"', $json) \u6765\u66ff\u6362\u5c31\u597d\u4e86\uff0c\uff0c\u4e0d\u8fc7\u5c31\u662f\u4f1a\u628a\u6240\u6709\u5355\u5f15\u53f7\u8f6c\u6362\u4e3a\u53cc\u5f15\u53f7 \u3002\n```\n\n2.utf-8 BOM\u95ee\u9898[\u53c2\u7167\u4e4b\u524d\u4e00\u6587](http://lovecn.github.io/utf8.html)\nBOM\u4e3a\u6587\u4ef6\u5f00\u5934\u76843\u4e2a\u5b57\u8282EFBFBB,php\u4e0d\u4f1a\u5ffd\u7565\uff0c\u56e0\u6b64\u8fd4\u56de\u7684json\u89e3\u6790\u4e0d\u4e86\n\n``` php\n$res = substr($result, 3);\n$arr = json_decode($res, true);\nfunction remove_utf8_bom($text) { \n$bom = pack('H*','EFBBBF'); \n$text = preg_replace(\"/^$bom/\", '', $text);\n return $text;\n } \n$header = array(\n    \"User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36\"\n"
+  },
+  {
+    "key": "AghilasMessara/android-native-dependencies#4",
+    "repo": "AghilasMessara/android-native-dependencies",
+    "number": 4,
+    "title": "How to use with local library projects?",
+    "url": "https://github.com/AghilasMessara/android-native-dependencies/issues/4",
+    "labels": [],
+    "createdAt": "2014-09-30T15:18:29Z",
+    "updatedAt": "2014-09-30T15:18:29Z",
+    "money_estimate_usd": 0.0,
+    "score": 28.0,
+    "positive_terms": [
+      "ci",
+      "local"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "Any suggestions on how to approach this problem? http://stackoverflow.com/questions/24314983/how-to-exclude-duplicate-c-shared-libraries-so-in-a-multi-project-android-bui/26079631\n"
+  },
+  {
+    "key": "Katello/generator-bastion#4",
+    "repo": "Katello/generator-bastion",
+    "number": 4,
+    "title": "Add ability to specify description at creation",
+    "url": "https://github.com/Katello/generator-bastion/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-16T18:08:55Z",
+    "updatedAt": "2014-10-16T18:08:55Z",
+    "money_estimate_usd": 0.0,
+    "score": 20.0,
+    "positive_terms": [
+      "ci"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": ""
+  },
+  {
+    "key": "bmatzelle/nini#4",
+    "repo": "bmatzelle/nini",
+    "number": 4,
+    "title": "Official NuGet package for Nini",
+    "url": "https://github.com/bmatzelle/nini/issues/4",
+    "labels": [],
+    "createdAt": "2014-12-18T17:57:26Z",
+    "updatedAt": "2016-08-06T13:47:11Z",
+    "money_estimate_usd": 0.0,
+    "score": 20.0,
+    "positive_terms": [
+      "ci"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "There are some \"unofficial\" NuGet packages for Nini, but having \"official one\" could greatly promote Nini use in various kinds of projects, and possibly draw more contributors.\n"
+  },
+  {
+    "key": "dimitri/rcirc-groups#4",
+    "repo": "dimitri/rcirc-groups",
+    "number": 4,
+    "title": "Error during when i try to switch irc-groups",
+    "url": "https://github.com/dimitri/rcirc-groups/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-01T08:07:21Z",
+    "updatedAt": "2014-10-01T08:07:21Z",
+    "money_estimate_usd": 0.0,
+    "score": 20.0,
+    "positive_terms": [
+      "ci"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "On Emacs, i launch `rcirc`:\n\n``` lisp\nM-x rcirc\n10:04 -wolfe.freenode.net- *** Looking up your hostname...\n10:04 -wolfe.freenode.net- *** Checking Ident\n10:04 -wolfe.freenode.net- *** Couldn't look up your hostname\n10:04 -wolfe.freenode.net- *** No Ident response\n[....]\n10:05 /join #emacs\n> \n```\n\non _emacs_ channel : \n\n10:05 **\\* l_a_m` JOIN\n10:05 **\\* TOPIC Fun fact: anyone here could be talking to you via Emacs while pooping |\n\nI try to use rcirc-groups :\n\n``` lisp\n M-x rcirc-groups:switch-to-groups-buffer\nDebugger entered--Lisp error: (wrong-type-argument listp \"#emacs@irc.freenode.net\" x)\n  signal(wrong-type-argument (listp \"#emacs@irc.freenode.net\" x))\n  endp(\"#emacs@irc.freenode.net\")\n  rcirc-groups:conversation-has-been-killed((#<buffer #emacs@irc.freenode.net> 0 . 1412150802.6437843))\n  rcirc-groups:list-conversations()\n  rcirc-groups:refresh-conversation-alist()\n  rcirc-groups:switch-to-groups-buffer()\n  funcall-interactively(rcirc-groups:switch-to-groups-buffer)\n  call-interactively(rcirc-groups:switch-to-groups-buffer record nil)\n  command-execute(rcirc-groups:switch-to-groups-buffer record)\n  execute-extended-command(nil \"rcirc-groups:switch-to-groups-buffer\")\n  funcall-interactively(execute-extended-command nil \"rcirc-groups:switch-to-groups-buffer\")\n  call-interactively(execute-extended-command nil nil)\n  command-execute(execute-extended-command)\n```\n"
+  },
+  {
+    "key": "niftools/max_nif_plugin#4",
+    "repo": "niftools/max_nif_plugin",
+    "number": 4,
+    "title": "Name collision",
+    "url": "https://github.com/niftools/max_nif_plugin/issues/4",
+    "labels": [
+      "Migration"
+    ],
+    "createdAt": "2014-10-17T11:52:37Z",
+    "updatedAt": "2014-10-17T11:53:14Z",
+    "money_estimate_usd": 0.0,
+    "score": 20.0,
+    "positive_terms": [
+      "ci"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "It would be nice if a call like `importFile \"c:\\\\test.nif\" #noPrompt`\nfrom maxscript either ignored name clashes, or automatically renamed the node with the name clash. \n\nThis could be configurable in the maxniftool.ini.\nThank you for all your great work. It's very much appreciated!\n"
+  },
+  {
+    "key": "pirogoeth/ashiema#4",
+    "repo": "pirogoeth/ashiema",
+    "number": 4,
+    "title": "EXCOOB ME",
+    "url": "https://github.com/pirogoeth/ashiema/issues/4",
+    "labels": [],
+    "createdAt": "2014-12-20T13:01:00Z",
+    "updatedAt": "2024-02-23T20:11:38Z",
+    "money_estimate_usd": 0.0,
+    "score": 20.0,
+    "positive_terms": [
+      "ci"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "WITHIN GoogleSearch.py\n\nself.url = \"https://ajax.googleapis.com/ajax/services/search/web?\"\n\nDEPECIATE AS FUCK.\n\nTY\n"
+  },
+  {
+    "key": "JacobLee23/NumCalcCL#4",
+    "repo": "JacobLee23/NumCalcCL",
+    "number": 4,
+    "title": "Single-Variable Polynomial Representation",
+    "url": "https://github.com/JacobLee23/NumCalcCL/issues/4",
+    "labels": [
+      "enhancement"
+    ],
+    "createdAt": "2026-04-23T22:01:55Z",
+    "updatedAt": "2026-04-23T22:02:51Z",
+    "money_estimate_usd": 0.0,
+    "score": 13.0,
+    "positive_terms": [
+      "acceptance criteria"
+    ],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": "## Description\n\n- Implement [FR-FUNC-001](https://github.com/JacobLee23/NumCalcCL/blob/develop/docs/srs.md#fr-func-001)\n\n## Acceptance Criteria"
+  },
+  {
+    "key": "IQSS/dvn#4",
+    "repo": "IQSS/dvn",
+    "number": 4,
+    "title": "v3.6: Thumbnail generation for some tif files fails and make them full size, resulting in poor page load performance.",
+    "url": "https://github.com/IQSS/dvn/issues/4",
+    "labels": [],
+    "createdAt": "2014-09-10T14:39:23Z",
+    "updatedAt": "2014-09-10T14:39:30Z",
+    "money_estimate_usd": 0.0,
+    "score": 8.0,
+    "positive_terms": [
+      "performance"
+    ],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "See RT, #179817, #179823\n\n[user]\nI understand that I need to download the ZIP archives, but with the records in question the page freezes and I can\u2019t even click \u2018Download Selected Files\u2019. I can\u2019t even download them individually. I have repeated this problem on three different computers, two different operating systems, three different browsers. Only the webpage freezes, the browser remains active.\n\nSee #179817 for study in question. For now, workaround was to manually reprocess thuumbnails and make them .jpg rather than .png. That seemed to work.\n"
+  },
+  {
+    "key": "elifesciences/lens-elife#4",
+    "repo": "elifesciences/lens-elife",
+    "number": 4,
+    "title": "Screwdriver: Include main project dir in Git Workflows",
+    "url": "https://github.com/elifesciences/lens-elife/issues/4",
+    "labels": [
+      "enhancement"
+    ],
+    "createdAt": "2014-12-26T11:01:42Z",
+    "updatedAt": "2014-12-26T11:01:42Z",
+    "money_estimate_usd": 0.0,
+    "score": 5.0,
+    "positive_terms": [
+      "ci"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": "I removed the reference to the mothership repo in the project.json. Screwdriver should consider \".\" anyway, so we don't forget to commit things.\n"
+  },
+  {
+    "key": "ubiquity/ubiquity-dollar#926",
+    "repo": "ubiquity/ubiquity-dollar",
+    "number": 926,
+    "title": "Formal verification",
+    "url": "https://github.com/ubiquity/ubiquity-dollar/issues/926",
+    "labels": [
+      "Time: <1 Day",
+      "Priority: 1 (Normal)",
+      "Price: 300 USD"
+    ],
+    "createdAt": "2024-04-16T13:15:22Z",
+    "updatedAt": "2026-07-03T17:47:10Z",
+    "money_estimate_usd": 300.0,
+    "score": 2.0,
+    "positive_terms": [
+      "ci",
+      "formal verification",
+      "invariant",
+      "usd"
+    ],
+    "judge_terms": [
+      "ci",
+      "tests"
+    ],
+    "risk_terms": [
+      "token"
+    ],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "We should implement formal verification for [LibUbiquityPool](https://github.com/ubiquity/ubiquity-dollar/blob/a1b11e1b944227144d7cc19ab320220d9fce8b69/packages/contracts/src/dollar/libraries/LibUbiquityPool.sol). \r\n\r\nSo collaborator who's going to take this issue should carefully study the [LibUbiquityPool](https://github.com/ubiquity/ubiquity-dollar/blob/a1b11e1b944227144d7cc19ab320220d9fce8b69/packages/contracts/src/dollar/libraries/LibUbiquityPool.sol) and think of the invariants that should be tested.\r\n\r\nInvariants could be:\r\n- user can not mint more Dollars in USD than provided collateral\r\n- user can not redeem more collateral in USD than provided Dollar tokens\r\n\r\nPossible solutions for formal verification:\r\n- https://github.com/a16z/halmos\r\n- https://docs.runtimeverification.com/kontrol\r\n\r\nWe already had a try with formal verification, you may find related scripts [here](https://github.com/ubiquity/ubiquity-dollar/tree/a1b11e1b944227144d7cc19ab320220d9fce8b69/packages/contracts/scripts/smt-checker).\r\n\r\nWhat should be done:\r\n1. Impelent formal verification for the [LibUbiquityPool](https://github.com/ubiquity/ubiquity-dollar/blob/a1b11e1b944227144d7cc19ab320220d9fce8b69/packages/contracts/src/dollar/libraries/LibUbiquityPool.sol) contract (you may create tests in a separate test file like `UbiquityPoolFacet.formal.t.sol` so we could distinguish unit, fuzz, invariant and formal verification tests)\r\n2. Setup testing CI to run formal verification tests on merge to the `development` branch (keep in mind that github action runnners can run for 6 hours). We don't need to run formal verification tests on eash PR since they're really time consuming.\r\n"
+  },
+  {
+    "key": "99904047/DM3-Requirement-to-build-browser-report-to-display-correct-due-date#4",
+    "repo": "99904047/DM3-Requirement-to-build-browser-report-to-display-correct-due-date",
+    "number": 4,
+    "title": "Test resolution in Live environment",
+    "url": "https://github.com/99904047/DM3-Requirement-to-build-browser-report-to-display-correct-due-date/issues/4",
+    "labels": [
+      "5 Points - Couple Days",
+      "Task Owner - Karen Osborne",
+      "Sprint Week 4 22nd Jan to 28th Jan 2015",
+      "Business Owner UAT in Live Environment"
+    ],
+    "createdAt": "2014-12-24T11:50:42Z",
+    "updatedAt": "2015-01-07T14:54:02Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": ""
+  },
+  {
+    "key": "Amaz1/moontest#4",
+    "repo": "Amaz1/moontest",
+    "number": 4,
+    "title": "On newer client version like 4.11 basalt biome doesnt generate",
+    "url": "https://github.com/Amaz1/moontest/issues/4",
+    "labels": [],
+    "createdAt": "2015-02-06T13:46:54Z",
+    "updatedAt": "2015-02-06T13:46:54Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "On newer client version like 4.11 basalt biome doesnt generate , instead there is empty space , dust biome is floating in air and bare stone under.\n\nI tried with some of the newest 4.10 dev builds pre 4.11 and in this case it seems there is some basalt line about 2 nodes deep , but most of it is replaced by dust.\n"
+  },
+  {
+    "key": "Denzel32/Tower-Defense#4",
+    "repo": "Denzel32/Tower-Defense",
+    "number": 4,
+    "title": "Opruimen",
+    "url": "https://github.com/Denzel32/Tower-Defense/issues/4",
+    "labels": [],
+    "createdAt": "2015-02-06T13:24:14Z",
+    "updatedAt": "2015-02-06T13:24:14Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "``` c\npublic class Attack : MonoBehaviour {\n\n    // Use this for initialization\n    void Start () {\n\n    }\n\n    // Update is called once per frame\n    void Update () {\n\n    }\n} \n```\n\nBestand: https://github.com/Denzel32/Tower-Defense/blob/master/Assets/Scripts/Player/Attack.cs\n\nLaat lege, oude Classes en/of functies niet staan maar verwijder ze uit je repos als je ze niet meer gaat gebruiken.\n"
+  },
+  {
+    "key": "Dim3nsioneer/Cura-Plugins#4",
+    "repo": "Dim3nsioneer/Cura-Plugins",
+    "number": 4,
+    "title": "Support for print-one-at-a-time mode",
+    "url": "https://github.com/Dim3nsioneer/Cura-Plugins/issues/4",
+    "labels": [
+      "Feature request",
+      "Retract While Combing"
+    ],
+    "createdAt": "2015-01-11T10:48:20Z",
+    "updatedAt": "2015-10-10T15:35:36Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "as suggested by @pmsimard on the UMforum (http://umforum.ultimaker.com/index.php?/topic/4270-new-versions-of-cura-plugins-tweakatz-and-retractwhilecombing/page-3#entry85622)\n"
+  },
+  {
+    "key": "InzamamRahaman/COMP3550Assignment01#4",
+    "repo": "InzamamRahaman/COMP3550Assignment01",
+    "number": 4,
+    "title": "Underline on hover not working",
+    "url": "https://github.com/InzamamRahaman/COMP3550Assignment01/issues/4",
+    "labels": [
+      "bug"
+    ],
+    "createdAt": "2014-09-18T03:06:47Z",
+    "updatedAt": "2014-09-18T03:06:47Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "The css to underline a nav-link on hover is not working\n"
+  },
+  {
+    "key": "OpenSeaMap/garmin#4",
+    "repo": "OpenSeaMap/garmin",
+    "number": 4,
+    "title": "combining maptiles from individual maps in qlandkarte GT results in a non functioning gmapsupp.img file",
+    "url": "https://github.com/OpenSeaMap/garmin/issues/4",
+    "labels": [],
+    "createdAt": "2015-02-09T14:17:30Z",
+    "updatedAt": "2015-02-09T18:25:07Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "When one combines individual maptiles from different maps (lets say from the south atlantic map and from the indian ocean map) then this results in a non functioning gmapsupp.img file. I guess this has to do with all the maptiles being named the same? All start at 63240001.img and upwards.\n"
+  },
+  {
+    "key": "PatrickTulskie/ruby_cowsay#4",
+    "repo": "PatrickTulskie/ruby_cowsay",
+    "number": 4,
+    "title": "Multiline text doesn't format correctly",
+    "url": "https://github.com/PatrickTulskie/ruby_cowsay/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-01T03:58:20Z",
+    "updatedAt": "2017-06-23T20:01:20Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "First off I want to say this gem is awesome.  It's a ton of fun and I'd really love to get some nice multi-line motd action going on via Chef on my servers.  Unfortunately the text doesn't seem to format quite right with newlines.  Any chance it would be simple to add some parsing for multiline text?\n\n``` ruby\nirb(main):006:0> puts Cow.new.say(\"Fun text\\nOften spans lines\")\n ____________________________\n< Fun text\nOften spans lines >\n ----------------------------\n      \\   ^__^\n       \\  (oo)\\_______\n          (__)\\       )\\/\\\n              ||----w |\n              ||     ||\n```\n"
+  },
+  {
+    "key": "Tooskich/python_core#4",
+    "repo": "Tooskich/python_core",
+    "number": 4,
+    "title": "Solve publication to Facebook and Twitter",
+    "url": "https://github.com/Tooskich/python_core/issues/4",
+    "labels": [
+      "bug"
+    ],
+    "createdAt": "2014-12-13T06:18:44Z",
+    "updatedAt": "2014-12-13T06:18:44Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "This does not currently work...\n"
+  },
+  {
+    "key": "angular/ngScenario#4",
+    "repo": "angular/ngScenario",
+    "number": 4,
+    "title": "TODO: Create build and release scripts",
+    "url": "https://github.com/angular/ngScenario/issues/4",
+    "labels": [],
+    "createdAt": "2015-01-30T11:12:11Z",
+    "updatedAt": "2015-01-30T11:12:11Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": ""
+  },
+  {
+    "key": "chrisblakley/courvoisier-connoisseur#4",
+    "repo": "chrisblakley/courvoisier-connoisseur",
+    "number": 4,
+    "title": "Have as subtle as possible a pokemon webring badge in the badge section",
+    "url": "https://github.com/chrisblakley/courvoisier-connoisseur/issues/4",
+    "labels": [
+      "Terrible Idea"
+    ],
+    "createdAt": "2014-09-09T21:18:33Z",
+    "updatedAt": "2014-09-09T21:18:33Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "One of those old school \"best pokemon website\" badges in the badge section.\n"
+  },
+  {
+    "key": "danielmeyer-cn/dojo_rules#4",
+    "repo": "danielmeyer-cn/dojo_rules",
+    "number": 4,
+    "title": "Contribute to the Kill List",
+    "url": "https://github.com/danielmeyer-cn/dojo_rules/issues/4",
+    "labels": [],
+    "createdAt": "2015-02-17T07:37:16Z",
+    "updatedAt": "2015-02-17T07:37:16Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "To add a bit of a personal touch, add a programmer grievance of your own to the \"kill_list.md\" file.\n"
+  },
+  {
+    "key": "detro/browsermob-proxy-client#4",
+    "repo": "detro/browsermob-proxy-client",
+    "number": 4,
+    "title": "Output to HAR file is not strict UTF-8",
+    "url": "https://github.com/detro/browsermob-proxy-client/issues/4",
+    "labels": [],
+    "createdAt": "2015-02-08T21:21:14Z",
+    "updatedAt": "2015-04-27T12:55:30Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "The print writer you use to save the HAR file should use a Streamwriter to properly write UTF-8\nHAR files must be UTF-8/16 for them to be properly read\n"
+  },
+  {
+    "key": "dotancohen/burton#4",
+    "repo": "dotancohen/burton",
+    "number": 4,
+    "title": "Settings file.",
+    "url": "https://github.com/dotancohen/burton/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-02T18:29:31Z",
+    "updatedAt": "2014-10-02T18:29:31Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "Burton should support a setting file in ~/.burton/rc.\nSome possible settings:\n\nroot_prompt=>>\nuser_prompt=!!\n"
+  },
+  {
+    "key": "errbit/errbit_github_plugin#4",
+    "repo": "errbit/errbit_github_plugin",
+    "number": 4,
+    "title": "Add option to create a default label",
+    "url": "https://github.com/errbit/errbit_github_plugin/issues/4",
+    "labels": [],
+    "createdAt": "2015-01-02T04:19:37Z",
+    "updatedAt": "2015-01-02T04:19:37Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "from https://github.com/errbit/errbit/issues/361\n"
+  },
+  {
+    "key": "jallentucker/pay-me-daily-algorithm#4",
+    "repo": "jallentucker/pay-me-daily-algorithm",
+    "number": 4,
+    "title": "players cannot be eligible at multiple positions",
+    "url": "https://github.com/jallentucker/pay-me-daily-algorithm/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-06T05:54:55Z",
+    "updatedAt": "2014-10-06T05:54:55Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "Sometimes a player pops up in multiple projection files, even though he is only eligible at one position.\n"
+  },
+  {
+    "key": "kamanashisroy/shotodol#4",
+    "repo": "kamanashisroy/shotodol",
+    "number": 4,
+    "title": "Shotodol module component diagram",
+    "url": "https://github.com/kamanashisroy/shotodol/issues/4",
+    "labels": [
+      "wontfix"
+    ],
+    "createdAt": "2014-12-24T09:39:48Z",
+    "updatedAt": "2014-12-24T13:07:01Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "![shotodol_module_component_command_shell](https://cloud.githubusercontent.com/assets/973414/5547388/059c37fa-8b83-11e4-85e4-011b8210a619.jpg)\n![shotodol_user_interaction](https://cloud.githubusercontent.com/assets/973414/5548616/ffe8add0-8b9f-11e4-9660-5e96311ea880.jpg)\n"
+  },
+  {
+    "key": "keirp/Glass-Segmented-Buttons-for-iOS-5.1-#4",
+    "repo": "keirp/Glass-Segmented-Buttons-for-iOS-5.1-",
+    "number": 4,
+    "title": "screenshots?",
+    "url": "https://github.com/keirp/Glass-Segmented-Buttons-for-iOS-5.1-/issues/4",
+    "labels": [],
+    "createdAt": "2014-09-13T20:20:07Z",
+    "updatedAt": "2014-09-13T20:20:07Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "..would go a long way for others to consider using this repo..  ;) thanks!\n"
+  },
+  {
+    "key": "linwen3/page#4",
+    "repo": "linwen3/page",
+    "number": 4,
+    "title": "page \u7684\u4e00\u4e2a\u5927\u5751\uff0cpageNum \u672c\u8be5\u662f Number \u7c7b\u578b",
+    "url": "https://github.com/linwen3/page/issues/4",
+    "labels": [],
+    "createdAt": "2014-09-29T05:11:01Z",
+    "updatedAt": "2015-01-16T05:47:35Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "\u597d\u51e0\u4e2a\u540c\u4e8b\u90fd\u9047\u5230\u4e86\u8fd9\u4e2a\u95ee\u9898\uff0ce.pageNum \u8fd4\u56de\u7684\u662f\u4e00\u4e2a String \u7c7b\u578b\uff0c\u5728 new Page \u65f6\u5c06\u8fd9\u4e2a\u53c2\u6570\u9001\u5165\u5230 current_page \uff0c\u7ed3\u679c\u9009\u4e0d\u4e2d\u9875\u7801\u3002\n\n```\ncurrent_page: Number(e.pageNum)\n```\n\n\u5efa\u8bae@linwen3 \u540c\u5b66\u5c06\u8fd9\u91cc\u4fee\u6b63\u6210 Number\u3002\n"
+  },
+  {
+    "key": "nacho4d/Accordion#4",
+    "repo": "nacho4d/Accordion",
+    "number": 4,
+    "title": "Solve the program crash issue",
+    "url": "https://github.com/nacho4d/Accordion/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-21T02:06:21Z",
+    "updatedAt": "2014-10-21T02:06:21Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "//recursively add children and all its expanded children to array at position index\n- (int) _insertChildren:(NSArray *)children inArray:(NSMutableArray *)array atIndex:(NSUInteger)index{\n  \n  [array replaceObjectsInRange:NSMakeRange(index, 0) withObjectsFromArray:children];\n  int res = 0;\n  int i=0;\n      res += children.count;//start set the children count,then through recursive function to calculate the real child node`s children count. \n  \n  for (GITreeNode *child in children) {\n      if (child.directoryIsExpanded) {\n                     //here  set a var to save the return value of recursive function.\n          int count= [self _insertChildren:child.children inArray:array atIndex:index+i+1];\n                      i += count;\n                      res += count;//add return value of recursive function,to solve the crash\n  //          res += child.children.count;\n      }\n      i++;\n  }\n  return res;\n\n}\n"
+  },
+  {
+    "key": "nsf/bmpanel2#4",
+    "repo": "nsf/bmpanel2",
+    "number": 4,
+    "title": "how to display panel only on one monitor",
+    "url": "https://github.com/nsf/bmpanel2/issues/4",
+    "labels": [],
+    "createdAt": "2015-02-16T03:58:25Z",
+    "updatedAt": "2015-02-16T06:03:02Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "I have tried `monitor 1` but didn't work. What am I doing wrong?\n"
+  },
+  {
+    "key": "ongaeshi/firelink#4",
+    "repo": "ongaeshi/firelink",
+    "number": 4,
+    "title": "Setting to turn off notification",
+    "url": "https://github.com/ongaeshi/firelink/issues/4",
+    "labels": [],
+    "createdAt": "2014-09-11T22:22:55Z",
+    "updatedAt": "2016-10-01T04:48:48Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "This is a great extension but I can not use it if there is no way to turn off the notification. Can you please provide a setting to not do a notification?\n"
+  },
+  {
+    "key": "rjocoleman/capistrano-magerun#4",
+    "repo": "rjocoleman/capistrano-magerun",
+    "number": 4,
+    "title": "[RuntimeException]  Magento folder could not be detected.",
+    "url": "https://github.com/rjocoleman/capistrano-magerun/issues/4",
+    "labels": [],
+    "createdAt": "2014-12-17T00:02:43Z",
+    "updatedAt": "2014-12-17T00:02:43Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "I can run cap production magerun:run['list'] and see a list of commands but when I run something different like cap production mage:run['sys:maintenance'] I receive:\n\n[RuntimeException]  Magento folder could not be detected.\n\nIs it possible to configure this to automatically detect the root folder/subdirectory?\n"
+  },
+  {
+    "key": "rstradling/nginx-crate#4",
+    "repo": "rstradling/nginx-crate",
+    "number": 4,
+    "title": "Have some way to uninstall",
+    "url": "https://github.com/rstradling/nginx-crate/issues/4",
+    "labels": [],
+    "createdAt": "2015-01-08T05:03:35Z",
+    "updatedAt": "2015-01-08T05:03:35Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "Not sure if I missed it but if a crate installs something it should also be able to uninstall it.\n"
+  },
+  {
+    "key": "rubydesktop/Rpanel#4",
+    "repo": "rubydesktop/Rpanel",
+    "number": 4,
+    "title": "settings",
+    "url": "https://github.com/rubydesktop/Rpanel/issues/4",
+    "labels": [],
+    "createdAt": "2014-12-28T14:41:39Z",
+    "updatedAt": "2014-12-28T14:41:39Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "there shuld be a settings menu for panel\n"
+  },
+  {
+    "key": "slightlycuban/pomato#4",
+    "repo": "slightlycuban/pomato",
+    "number": 4,
+    "title": "Browser notifications don't automatically request permissions",
+    "url": "https://github.com/slightlycuban/pomato/issues/4",
+    "labels": [
+      "bug"
+    ],
+    "createdAt": "2014-09-29T16:15:33Z",
+    "updatedAt": "2014-09-29T16:15:33Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "On Firefox in Win/Linux/OSX, browser notifications don't trigger the request for notification permission. Manually granting permanent permissions works.\n"
+  },
+  {
+    "key": "uldisn/edifactdata#4",
+    "repo": "uldisn/edifactdata",
+    "number": 4,
+    "title": "empty listam vajag termin\u0101lu filtru, vai ar\u012b color codes",
+    "url": "https://github.com/uldisn/edifactdata/issues/4",
+    "labels": [],
+    "createdAt": "2015-01-05T09:04:59Z",
+    "updatedAt": "2015-01-05T09:04:59Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": ""
+  },
+  {
+    "key": "wklken/suggestion#4",
+    "repo": "wklken/suggestion",
+    "number": 4,
+    "title": "\u5f85\u5904\u7406\u95ee\u9898: \u52a0\u5165\u5927\u5c0f\u5199\u65e0\u5173\u5f00\u5173",
+    "url": "https://github.com/wklken/suggestion/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-25T13:42:25Z",
+    "updatedAt": "2014-10-25T13:42:25Z",
+    "money_estimate_usd": 0.0,
+    "score": 0.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": ""
+  },
+  {
+    "key": "burtbeckwith/grails-app-info#4",
+    "repo": "burtbeckwith/grails-app-info",
+    "number": 4,
+    "title": "Grails 2.4.3 cant refresh dependencies",
+    "url": "https://github.com/burtbeckwith/grails-app-info/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-23T19:00:54Z",
+    "updatedAt": "2015-10-28T11:37:48Z",
+    "money_estimate_usd": 0.0,
+    "score": -5.0,
+    "positive_terms": [
+      "ci",
+      "lean"
+    ],
+    "judge_terms": [
+      "ci",
+      "lean"
+    ],
+    "risk_terms": [
+      "rce"
+    ],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "I use Grails 2.4.3 and added\ncompile (\":app-info:1.1.1\")\n{ excludes 'jquery' }\nWhen I do refresh-dependencies I got the following error:\n\n```\n|Compiling 339 source files\nNote: Some input files use unchecked or unsafe operations.\nNote: Recompile with -Xlint:unchecked for details.  [groovyc] org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:\n  [groovyc] /Users/mg/Documents/Grails/GGTS3.6.2/test/target/work/plugins/app-info-1.1.1/grails-app/taglib/com/burtbeckwith/grails/plugins/appinfo/AppInfoTagLib.groovy: 3: unable to resolve class org.codehaus.groovy.grails.plugins.PluginManagerHolder\n  [groovyc]  @ line 3, column 1.\n  [groovyc]    import org.codehaus.groovy.grails.plugins.PluginManagerHolder\n  [groovyc]    ^\n  [groovyc] \n  [groovyc] /Users/mg/Documents/Grails/GGTS3.6.2/test/target/work/plugins/app-info-1.1.1/grails-app/taglib/com/burtbeckwith/grails/plugins/appinfo/AppInfoTagLib.groovy: 13: unable to resolve class org.codehaus.groovy.grails.plugins.PluginManagerHolder \n  [groovyc]  @ line 13, column 32.\n  [groovyc]         boolean hasResourcesPlugin = PluginManagerHolder.pluginManager.hasGrailsPlugin('resources')\n  [groovyc]                                   ^\n  [groovyc] \n  [groovyc] /Users/mg/Documents/Grails/GGTS3.6.2/test/target/work/plugins/app-info-1.1.1/grails-app/taglib/com/burtbeckwith/grails/plugins/appinfo/AppInfoTagLib.groovy: 29: unable to resolve class org.codehaus.groovy.grails.plugins.PluginManagerHolder \n  [groovyc]  @ line 29, column 32.\n  [groovyc]         boolean hasResourcesPlugin = PluginManagerHolder.pluginManager.hasGrailsPlugin('resources')\n  [groovyc]                                   ^\n  [groovyc] \n  [groovyc] 3 errors\n\n.Error \n|\nCompilation error: startup failed:\n/Users/mg/Documents/Grails/GGTS3.6.2/test/target/work/plugins/app-info-1.1.1/grails-app/taglib/com/burtbeckwith/grails/plugins/appinfo/AppInfoTagLib.groovy: 3: unable to resolve class org.codehaus.groovy.grails.plugins.PluginManagerHolder\n @ line 3, column 1.\n   import org.codehaus.groovy.grails.plugins.PluginManagerHolder\n   ^\n/Users/mg/Documents/Grails/GGTS3.6.2/test/target/work/plugins/app-info-1.1.1/grails-app/taglib/com/burtbeckwith/grails/plugins/appinfo/AppInfoTagLib.groovy: 13: unable to resolve class org.codehaus.groovy.grails.plugins.PluginManagerHolder \n @ line 13, column 32.\n        boolean hasResourcesPlugin = PluginManagerHolder.pluginManager.hasGrailsPlugin('resources')\n                                  ^\n/Users/mg/Documents"
+  },
+  {
+    "key": "67726e/Header-Editor#4",
+    "repo": "67726e/Header-Editor",
+    "number": 4,
+    "title": "Improve Form Navigation",
+    "url": "https://github.com/67726e/Header-Editor/issues/4",
+    "labels": [
+      "enhancement"
+    ],
+    "createdAt": "2014-08-11T14:31:04Z",
+    "updatedAt": "2014-08-11T14:31:04Z",
+    "money_estimate_usd": 0.0,
+    "score": -15.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": "With the usage of the new hide/hover functionality on the headers pages, you cannot use tab to navigate the form fields or use enter to submit a header. This needs to be fixed to help usability. Here are the changes that should happen:\n\n| Shortcut | Action |\n| --- | --- |\n| <kbd>Tab</kbd> | Navigate to the next form element |\n| <kbd>Shift</kbd> + <kbd>Tab</kbd> | Navigate to the previous form element |\n| <kbd>Enter</kbd> | Submit the header row |\n"
+  },
+  {
+    "key": "azman0101/videovignette#4",
+    "repo": "azman0101/videovignette",
+    "number": 4,
+    "title": "on demand vignette size generation",
+    "url": "https://github.com/azman0101/videovignette/issues/4",
+    "labels": [
+      "enhancement"
+    ],
+    "createdAt": "2014-11-03T06:27:02Z",
+    "updatedAt": "2014-11-30T12:23:16Z",
+    "money_estimate_usd": 0.0,
+    "score": -15.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": "By giving keyframe plus ApplicationSetting.\n\nlow_res generate would by the only saved image. And other res generated on demand by an ajax request. The image could by temporary (creation at timestamp) garbage process check timetolive for all generated images\n"
+  },
+  {
+    "key": "eush77/much#4",
+    "repo": "eush77/much",
+    "number": 4,
+    "title": "Show line numbers from the original file",
+    "url": "https://github.com/eush77/much/issues/4",
+    "labels": [
+      "enhancement"
+    ],
+    "createdAt": "2014-11-07T08:07:16Z",
+    "updatedAt": "2014-11-07T08:07:16Z",
+    "money_estimate_usd": 0.0,
+    "score": -15.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": "It can be hard sometimes to open the spotted position in greater details because line number information is lost in the conversion process.\n"
+  },
+  {
+    "key": "gnawhleinad/mufasa#4",
+    "repo": "gnawhleinad/mufasa",
+    "number": 4,
+    "title": "enable concurrent builds",
+    "url": "https://github.com/gnawhleinad/mufasa/issues/4",
+    "labels": [
+      "enhancement"
+    ],
+    "createdAt": "2015-02-17T08:18:31Z",
+    "updatedAt": "2015-02-17T08:18:31Z",
+    "money_estimate_usd": 0.0,
+    "score": -15.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": ""
+  },
+  {
+    "key": "markliu2013/music#4",
+    "repo": "markliu2013/music",
+    "number": 4,
+    "title": "\u56fd\u9645\u5316",
+    "url": "https://github.com/markliu2013/music/issues/4",
+    "labels": [
+      "enhancement"
+    ],
+    "createdAt": "2014-08-24T16:06:15Z",
+    "updatedAt": "2014-08-24T16:06:15Z",
+    "money_estimate_usd": 0.0,
+    "score": -15.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": "\u505a\u56fd\u9645\u5316\u5904\u7406\u6216\u6539\u4e3a\u82f1\u6587\u754c\u9762\n"
+  },
+  {
+    "key": "opentripplanner/OTPQA#4",
+    "repo": "opentripplanner/OTPQA",
+    "number": 4,
+    "title": "Some usefull changes",
+    "url": "https://github.com/opentripplanner/OTPQA/issues/4",
+    "labels": [
+      "enhancement"
+    ],
+    "createdAt": "2014-10-30T12:21:51Z",
+    "updatedAt": "2014-10-30T12:21:51Z",
+    "money_estimate_usd": 0.0,
+    "score": -15.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": "I updated a little OTPProfiler:\n- to add total_time/avg_time in seconds in otpprofiler\n- to add real total_time (totalTime from OTP response without roundtrip time)\n- to enable creating of graphs without the database\n- to [add optional support for OTP 0.11.x](https://github.com/buma/OTPProfiler/commit/93bfbf1986659a11832bcbdfdf3dab4616eca941)\n\nWhat is missing is requirements.txt, option to ignore endpoints_custom.csv.\n\nIf this is useful I can do PR or just commit.\n"
+  },
+  {
+    "key": "sameid/pinbox-app#4",
+    "repo": "sameid/pinbox-app",
+    "number": 4,
+    "title": "Fix Android Back button to work with UI",
+    "url": "https://github.com/sameid/pinbox-app/issues/4",
+    "labels": [
+      "bug",
+      "enhancement"
+    ],
+    "createdAt": "2014-08-26T13:03:30Z",
+    "updatedAt": "2014-08-26T13:03:30Z",
+    "money_estimate_usd": 0.0,
+    "score": -15.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "enhance"
+    ],
+    "parked": null,
+    "body_excerpt": ""
+  },
+  {
+    "key": "thlorenz/doctoc-web#4",
+    "repo": "thlorenz/doctoc-web",
+    "number": 4,
+    "title": "Broken links",
+    "url": "https://github.com/thlorenz/doctoc-web/issues/4",
+    "labels": [],
+    "createdAt": "2014-12-15T11:57:48Z",
+    "updatedAt": "2016-01-21T20:06:46Z",
+    "money_estimate_usd": 0.0,
+    "score": -15.0,
+    "positive_terms": [],
+    "judge_terms": [],
+    "risk_terms": [],
+    "vague_terms": [
+      "roadmap"
+    ],
+    "parked": null,
+    "body_excerpt": "When trying to generate a TOC for example for https://github.com/epeli/underscore.string the links are rendered to `#`.\n\n```\n**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*\n\n- [Underscore.string ](#)\n    - [Download](#)\n    - [Node.js installation](#)\n    - [String Functions](#)\n    - [Roadmap](#)\n            - [Problems](#)\n            - [Standalone Usage](#)\n    - [Changelog](#)\n        - [2.4.0](#)\n        - [2.3.3](#)\n        - [2.3.2](#)\n        - [2.3.1](#)\n        - [2.3.0](#)\n        - [2.2.1](#)\n        - [2.2.0](#)\n        - [2.1.1](#)\n        - [2.1.0](#)\n        - [2.0.0](#)\n        - [1.1.6](#)\n        - [1.1.5](#)\n        - [1.1.4](#)\n        - [1.1.3](#)\n        - [1.1.2](#)\n        - [1.0.2](#)\n    - [Contribute](#)\n    - [Contributors list](#)\n    - [Licence](#)\n```\n"
+  },
+  {
+    "key": "adiwg/mdEditor#4",
+    "repo": "adiwg/mdEditor",
+    "number": 4,
+    "title": "Comprehensive List of Desired Features/Functionality of mdEditor",
+    "url": "https://github.com/adiwg/mdEditor/issues/4",
+    "labels": [],
+    "createdAt": "2014-10-08T18:44:23Z",
+    "updatedAt": "2016-03-18T22:36:16Z",
+    "money_estimate_usd": 0.0,
+    "score": -52.0,
+    "positive_terms": [
+      "ci",
+      "local"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [
+      "rce"
+    ],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "# Loading/Population of mdEditor  \n- User loads an existing metadata record (partial or complete) into the online mdEditor by browsing from their local machine. Input file format = ADIWG JSON.  \n- User loads an existing metadata record (partial or complete) into the online mdEditor by browsing from their local machine. Input file format = ISO-19115-2 xml.  \n- User loads an existing metadata record (partial or complete) into the online mdEditor by browsing from their local machine. Input file format = ScienceBase JSON.  \n# Output of mdEditor  \n- User can complete a metadata record in the mdEditor and save/export a stand-alone metadata file to their local system. Output file format = ISO-19115-2 xml.  \n- User can complete a metadata record in the mdEditor and save/export a stand-alone metadata file to their local system. Output file format = ADIWG JSON.  \n# General Use Experience  \n- mdEditor designed/laid out in such a way where optional or potentially more complex sections are collapsed until toggled. Required elements and those that are the most important for a usable/useful record are emphasized via GUI real estate allocation and layout design.  \n- Default element values within the mdEditor form are present or available where appropriate.  \n- Help tips to inform users how particular elements in the mdEditor should be populated and which are mandatory are present for different fields/sections of the form.  \n- User can dynamically validate their metadata record in the mdEditor against the ADIWG JSON schema to assess for completeness/compliance as they add/edit content.  \n- Dynamic error reporting is JSON element specific (where is the error occurring?) and tool may provide additional tips or a link to documentation to understand how particular elements should be populated.  \n- Keyword web services (or static hard-coded Controlled Vocabularies) are available for use within the tool when populating place/theme keywords.  \n- USGS individuals have \u2018auto-import\u2019 contact feature available to pull in their contact details (P. Schweitzer\u2019s resource could most likely be used for this).  \n# User Login/Power User Options/Extended Possible Features  \n- mdEditor allows a user to \u2018save\u2019 and return at a later point to continue editing a record in the form.  \n- Offline version of tool as stand-alone?  \n- User loads an existing metadata record (partial or complete) into the online mdEditor by browsing from their local machine. Input file format = FGDC-CSDGM (content popula"
+  },
+  {
+    "key": "jelly-legs-ai/Jelly-legs-unsteady-workshop#11",
+    "repo": "jelly-legs-ai/Jelly-legs-unsteady-workshop",
+    "number": 11,
+    "title": "?? EPIC: Project AETHER - Solana-Forked Blockchain for AI Technology",
+    "url": "https://github.com/jelly-legs-ai/Jelly-legs-unsteady-workshop/issues/11",
+    "labels": [
+      "research",
+      "design",
+      "build",
+      "in-progress",
+      "blockchain",
+      "solana",
+      "epic",
+      "aether",
+      "critical-priority",
+      "ai-governance",
+      "zk-privacy",
+      "data-diver"
+    ],
+    "createdAt": "2026-03-15T20:08:49Z",
+    "updatedAt": "2026-05-26T22:37:22Z",
+    "money_estimate_usd": 0.0,
+    "score": -115.0,
+    "positive_terms": [
+      "bounty",
+      "ci",
+      "formal verification",
+      "performance",
+      "proof",
+      "validation"
+    ],
+    "judge_terms": [
+      "ci"
+    ],
+    "risk_terms": [
+      "mainnet",
+      "token"
+    ],
+    "vague_terms": [
+      "roadmap"
+    ],
+    "parked": null,
+    "body_excerpt": "## Overview\n\n**Mission:** Develop a cutting-edge Solana-forked blockchain purpose-built for AI technology integration.\n\n**Status:** ?? CRITICAL PRIORITY - All other development paused\n\n**Location:** epics/PROJECT_AETHER.md\n\n---\n\n## Key Features\n\n| Feature | Description |\n|---------|-------------|\n| ?? **Privacy** | zk-SNARKs / zk-STARKs zero-knowledge proofs |\n| ?? **Tokenomics** | Deflationary AETH token with burn mechanisms |\n| ?? **Governance** | AI agent governance via hybrid DAO model |\n| ?? **Performance** | 65,000+ TPS, sub-second finality |\n| ?? **Target Users** | Degens + autonomous AI agents |\n\n---\n\n## 6-Phase Development Roadmap\n\n### Phase 1: Research (Weeks 1-4) - ?? Researcher\n- [ ] Solana codebase fork analysis\n- [ ] zk-SNARKs / zk-STARKs protocol research\n- [ ] AI governance model literature review\n- [ ] Consensus mechanism comparison (PoH, PoS, hybrid)\n- [ ] Privacy-preserving transaction architectures\n\n### Phase 2: Design (Weeks 5-8) - ?? Designer\n- [ ] System architecture diagrams\n- [ ] Tokenomics specification (AETH)\n- [ ] Governance smart contract design\n- [ ] Validator node architecture\n- [ ] Privacy circuit designs\n\n### Phase 3: Development (Weeks 9-20) - ?? Developer\n- [ ] Fork Solana core codebase\n- [ ] Implement zk-privacy layer\n- [ ] Build AETH token contracts\n- [ ] Develop AI agent governance modules\n- [ ] Create validator client\n- [ ] Build developer SDK\n\n### Phase 4: Security (Weeks 21-24) - ??? Cybersecurity\n- [ ] Smart contract audits\n- [ ] Cryptographic review\n- [ ] Penetration testing\n- [ ] Bug bounty program setup\n- [ ] Formal verification of critical paths\n\n### Phase 5: Testnet (Weeks 25-28) - ?? Engineer\n- [ ] Public testnet deployment\n- [ ] Load testing (65k+ TPS validation)\n- [ ] Validator onboarding\n- [ ] Developer tooling release\n- [ ] Community testing program\n\n### Phase 6: Mainnet (Weeks 29-32) - ?? Deployment\n- [ ] Mainnet genesis block\n- [ ] Token launch / distribution\n- [ ] Validator network bootstrap\n- [ ] DEX listings\n- [ ] Marketing & community activation\n\n---\n\n## Technical Stack\n\n- **Base:** Solana fork (Rust)\n- **Privacy:** bellman / groth16 or StarkWare STARKs\n- **Smart Contracts:** Rust (Solana native) + Solidity compatibility layer\n- **AI Integration:** Python SDK for agent interaction\n- **Consensus:** Proof of History + Proof of Stake (hybrid)\n\n---\n\n## Agent Assignments\n\n| Phase | Lead Agent | Model | Status |\n|-------|-----------|-------|--------|\n| 1 | ?? Researcher | minimax-m2.5:cloud | ?? Starting "
+  },
+  {
+    "key": "jelly-legs-ai/Jelly-legs-unsteady-workshop#109",
+    "repo": "jelly-legs-ai/Jelly-legs-unsteady-workshop",
+    "number": 109,
+    "title": "\ud83c\udf10 Aether Chain Website - Production Development (ONGOING)",
+    "url": "https://github.com/jelly-legs-ai/Jelly-legs-unsteady-workshop/issues/109",
+    "labels": [
+      "code-crafter",
+      "in-progress",
+      "website",
+      "priority-critical",
+      "ongoing",
+      "phase-1"
+    ],
+    "createdAt": "2026-03-22T15:19:07Z",
+    "updatedAt": "2026-04-06T05:11:29Z",
+    "money_estimate_usd": 0.0,
+    "score": -152.0,
+    "positive_terms": [
+      "reward"
+    ],
+    "judge_terms": [],
+    "risk_terms": [
+      "token",
+      "wallet"
+    ],
+    "vague_terms": [],
+    "parked": null,
+    "body_excerpt": "\ud83c\udf10 AeTHer Chain - Continuous Development (ONGOING)\n\n## Status: ALWAYS IMPROVING - Frontend + Backend Both Active\n\n**This is a CONTINUOUS DEVELOPMENT project - NEVER \"done\"**\n\n---\n\n## \ud83c\udfa8 FRONTEND - Always Improving\n\nThe website is taking shape but is NOT finished. Keep iterating:\n\n- [ ] Continue UI/UX polish\n- [ ] Add more animations and effects\n- [ ] Improve mobile responsiveness\n- [ ] Expand content sections\n- [ ] Add better mock data\n- [ ] Fix any bugs or broken components\n- [ ] Improve loading states\n- [ ] Add visual polish\n\n---\n\n## \ud83e\udd16 NEW: Telegram Mining Bot\n\nSee: docs/MINING_VALIDATOR_TOOLS.md\n\n### Features\n- [ ] Start/stop mining via Telegram\n- [ ] Wallet connection (Phantom/Solflare)\n- [ ] Real-time mining status\n- [ ] FLUX balance and withdrawal\n- [ ] Referral system\n- [ ] Device stats and leaderboards\n- [ ] Mini App for rich UI\n\n### Commands\n- /start, /mine, /begin, /stop\n- /status, /stats, /withdraw\n- /referral, /settings\n\n### Implementation\n- [ ] Telegram Bot API setup\n- [ ] Mining protocol handler\n- [ ] User session management\n- [ ] FLUX reward distribution\n- [ ] Anti-Sybil tracking\n\n---\n\n## \ud83d\udcbb NEW: Validator CLI\n\nSee: docs/MINING_VALIDATOR_TOOLS.md\n\n### Onboarding Wizard\n- [ ] System checks (CPU/RAM/Disk/Network)\n- [ ] Wallet creation/import\n- [ ] RPC connection setup\n- [ ] Stake verification\n- [ ] KYC link generation\n\n### Validator Commands\n- [ ] aether-cli init (onboarding wizard)\n- [ ] aether-cli doctor (system checks)\n- [ ] aether-cli validator start/stop/status\n- [ ] aether-cli kyc generate\n- [ ] aether-cli monitor/logs/stats\n\n### KYC Integration\n- [ ] CLI generates pre-filled KYC link\n- [ ] Link includes: pubkey, node ID, signature\n- [ ] Website receives and pre-fills form\n- [ ] CLI verify command after KYC\n\n---\n\n## \ud83d\udd27 BACKEND - Also Needs Work\n\n### 1. Smart Contracts (PRIORITY)\n- [ ] FLUX token contract (10B max supply)\n- [ ] ATH token contract (1B max supply)\n- [ ] Staking/unstaking contract\n- [ ] Mining rewards contract\n- [ ] Agent registration contract\n- [ ] KYC verification contract\n\n### 2. Mining Algorithm (PRIORITY)\n- [ ] Mobile PoW implementation\n- [ ] Difficulty adjustment (every 1000 blocks)\n- [ ] FLUX reward calculation\n- [ ] Block emission schedule\n- [ ] Anti-Sybil (min 100 ATH stake for full rewards)\n\n### 3. Replit DB Integration\n- [ ] User table (wallet, email, kyc_status)\n- [ ] Agent table (external_id, owner, status)\n- [ ] Email subscriptions table\n- [ ] Connect subscription form to DB\n- [ ] Connect KYC flow to DB\n\n### 4. Val"
+  }
+]

@@ -1,0 +1,17 @@
+bounty Lean proof repair
+bounty Lean4 proof
+bounty formal verification
+bounty theorem proving
+bounty lake build Lean
+paid Lean proof
+paid formal verification
+reward Lean theorem
+reward proof assistant
+"help wanted" "Lean 4" "sorry"
+"good first issue" "Lean 4" theorem
+"help wanted" "lake build"
+"bounty" "pytest" "benchmark"
+"bounty" "performance" "benchmark" "local"
+"bounty" "failing test"
+"bounty" "validation" "test"
+"bounty" "CI" "fix"
