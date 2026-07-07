@@ -1,0 +1,263 @@
+===== money / judge / benchmark / test hits =====
+./benchmark/benchmarks.jl:101:        # benchmark solving ODE problems on data of QO types
+./benchmark/benchmarks.jl:102:        SUITE[name]["base array types"][string(dim)] = @benchmarkable solve(prob, DP5(); save_everystep=false) setup=(prob=eval($bench)($dim; pure=true))
+./benchmark/benchmarks.jl:103:        # benchmark solving ODE problems on custom QO types
+./benchmark/benchmarks.jl:104:        SUITE[name]["qo types"][string(dim)] = @benchmarkable solve(prob, DP5(); save_everystep=false) setup=(prob=eval($bench)($dim; pure=false))
+./benchmark/benchmarks.jl:108:        # benchmark solving ODE problems on data of QO types
+./benchmark/benchmarks.jl:109:        SUITE[name]["base array types"][string(dim)] = @benchmarkable solve(prob, EM(), dt=1/100; save_everystep=false) setup=(prob=eval($bench)($dim; pure=true))
+./benchmark/benchmarks.jl:110:        # benchmark solving ODE problems on custom QO types
+./benchmark/benchmarks.jl:111:        SUITE[name]["qo types"][string(dim)] = @benchmarkable solve(prob, EM(), dt=1/100; save_everystep=false) setup=(prob=eval($bench)($dim; pure=false))
+./test/test_timeevolution_bloch_redfield.jl:1:@testitem "test_timeevolution_bloch_redfield.jl" begin
+./test/test_timeevolution_bloch_redfield.jl:6:@testset "bloch-redfield" begin
+./test/test_timeevolution_bloch_redfield.jl:28:@test isapprox(dense(R).data, known_result, atol=1e-5)
+./test/test_timeevolution_bloch_redfield.jl:34:@test isapprox(ρt[end].data, rho_end, atol=1e-5)
+./test/test_timeevolution_bloch_redfield.jl:35:@test ρt[end] != ρt[end-1]
+./test/test_timeevolution_bloch_redfield.jl:36:@test isa(ρt, Vector{<:DenseOpType})
+./test/test_timeevolution_bloch_redfield.jl:41:@test all(ρt .== ρt2)
+./test/test_timeevolution_bloch_redfield.jl:45:@test length(z) == length(ρt)
+./test/test_timeevolution_bloch_redfield.jl:46:@test isa(first(z), ComplexF64)
+./test/test_timeevolution_bloch_redfield.jl:48:end # testset
+./test/gpu/test_platform_AMDGPU.jl:1:@testitem "AMDGPU" tags = [:amdgpu] begin
+./test/gpu/test_platform_AMDGPU.jl:3:    include("implementation/test_platform.jl")
+./test/gpu/test_platform_AMDGPU.jl:10:    @testset "Device availability" begin
+./test/gpu/test_platform_AMDGPU.jl:11:        @test can_run
+./test/gpu/test_platform_AMDGPU.jl:16:        test_platform(AT, synchronize)
+./test/gpu/test_platform_AMDGPU.jl:18:        @info "Skipping AMDGPU tests - no devices available"
+./test/gpu/test_platform_CUDA.jl:1:@testitem "CUDA" tags = [:cuda] begin
+./test/gpu/test_platform_CUDA.jl:3:    include("implementation/test_platform.jl")
+./test/gpu/test_platform_CUDA.jl:10:    @testset "Device availability" begin
+./test/gpu/test_platform_CUDA.jl:11:        @test can_run
+./test/gpu/test_platform_CUDA.jl:16:        test_platform(AT, synchronize)
+./test/gpu/test_platform_CUDA.jl:18:        @info "Skipping CUDA tests - no devices available"
+./test/gpu/implementation/utilities.jl:1:# Utility functions for GPU time evolution testing
+./test/gpu/implementation/utilities.jl:3:function create_test_system(n, AT; storage_eltype=ComplexF64)
+./test/gpu/implementation/utilities.jl:4:    """Create a test quantum system and adapt it to the specified array type."""
+./test/gpu/implementation/test_platform.jl:1:# Platform-agnostic GPU test runner
+./test/gpu/implementation/test_platform.jl:5:include("test_schroedinger_gpu.jl")
+./test/gpu/implementation/test_platform.jl:7:function test_platform(AT, synchronize; kwargs...)
+./test/gpu/implementation/test_platform.jl:8:    """Run all GPU tests for the specified array type."""
+./test/gpu/implementation/test_platform.jl:10:    @testset "QuantumOptics GPU Tests - $(AT)" begin
+./test/gpu/implementation/test_platform.jl:12:        test_schroedinger_gpu(AT, synchronize; kwargs...)
+./test/gpu/implementation/test_schroedinger_gpu.jl:1:function test_schroedinger_gpu(AT, synchronize; time_eltype=Float64, solver_kwargs=(;), kwargs...)
+./test/gpu/implementation/test_schroedinger_gpu.jl:4:    @testset "Schrödinger Time Evolution GPU Tests" begin
+./test/gpu/implementation/test_schroedinger_gpu.jl:8:        @testset "Single Oscillator" begin
+./test/gpu/implementation/test_schroedinger_gpu.jl:9:            for n in test_sizes
+./test/gpu/implementation/test_schroedinger_gpu.jl:10:                H, gpu_H, psi0, gpu_psi0 = create_test_system(n, AT; kwargs...)
+./test/gpu/implementation/test_schroedinger_gpu.jl:12:                @test typeof(gpu_H.data) <: AT
+./test/gpu/implementation/test_schroedinger_gpu.jl:13:                @test typeof(gpu_psi0.data) <: AT
+./test/gpu/implementation/test_schroedinger_gpu.jl:21:                @test verify_timeevolution_result((t_cpu, psi_cpu), (t_gpu, psi_gpu))
+./test/gpu/implementation/imports.jl:1:# Required imports for GPU testing
+./test/gpu/implementation/definitions.jl:1:# Test parameters for GPU time evolution tests
+./test/gpu/implementation/definitions.jl:2:const test_sizes = [2, 4, 8]
+./test/gpu/test_platform_OpenCL.jl:1:@testitem "OpenCL" tags = [:opencl] begin
+./test/gpu/test_platform_OpenCL.jl:3:    include("implementation/test_platform.jl")
+./test/gpu/test_platform_OpenCL.jl:17:    @testset "Device availability" begin
+./test/gpu/test_platform_OpenCL.jl:18:        @test can_run
+./test/gpu/test_platform_OpenCL.jl:23:        test_platform(AT, synchronize)
+./test/gpu/test_platform_OpenCL.jl:25:        @info "Skipping OpenCL tests - no devices available"
+./test/gpu/test_platform_Metal.jl:1:@testitem "Metal" tags = [:metal] begin
+./test/gpu/test_platform_Metal.jl:3:    include("implementation/test_platform.jl")
+./test/gpu/test_platform_Metal.jl:10:    @testset "Device availability" begin
+./test/gpu/test_platform_Metal.jl:11:        @test can_run
+./test/gpu/test_platform_Metal.jl:16:        test_platform(AT, synchronize;
+./test/gpu/test_platform_Metal.jl:22:        @info "Skipping Metal tests - no devices available"
+./test/runtests.jl:1:# GPU test flags
+./test/runtests.jl:5:    @info "Skipping GPU tests -- only executed on *NIX platforms."
+./test/runtests.jl:13:        @info "Skipping GPU tests -- must be explicitly enabled."
+./test/runtests.jl:16:        @info "Running with $(GPU_TEST) tests."
+./test/runtests.jl:37:# filter for the test
+./test/runtests.jl:38:testfilter = ti -> begin
+./test/runtests.jl:78:println("Starting tests with $(Threads.nthreads()) threads out of `Sys.CPU_THREADS = $(Sys.CPU_THREADS)`...")
+./test/runtests.jl:80:@run_package_tests filter=testfilter
+./test/test_timeevolution_abstractdata.jl:1:@testitem "test_timeevolution_abstractdata" begin
+./test/test_timeevolution_abstractdata.jl:19:@testset "abstract-data" begin
+./test/test_timeevolution_abstractdata.jl:73:    @test psi1==psi2
+./test/test_timeevolution_abstractdata.jl:79:    @test psi1.data≈psi2.data
+./test/test_timeevolution_abstractdata.jl:138:@test tracedistance(L*ρ₀, ρ) < 1e-10
+./test/test_timeevolution_abstractdata.jl:143:@test isa(ρ.data, TestData)
+./test/test_timeevolution_abstractdata.jl:144:@test tracedistance(dense(exp(dense(L)*T[end])*ρ₀), dense(ρ)) < 1e-6
+./test/test_timeevolution_abstractdata.jl:146:@test isa(ρ₀.data, TestData) && isa(H.data,TestData) && all(isa(j.data,TestData) for j=J)
+./test/test_timeevolution_abstractdata.jl:148:@test isa(ρt[end].data, TestData)
+./test/test_timeevolution_abstractdata.jl:149:@test tracedistance(dense(ρt[end]), dense(ρ)) < 1e-5
+./test/test_timeevolution_abstractdata.jl:197:@test Ψt == Ψt2
+./test/test_timeevolution_abstractdata.jl:201:@test norm(Ψt[end]-Ψ) < 1e-5
+./test/test_timeevolution_abstractdata.jl:204:@test norm(Ψt[end]-Ψ) > 0.1
+./test/test_timeevolution_abstractdata.jl:233:f(t, psi::Ket) = @test 1e-5 > norm(psi - U(t)*psi0)
+./test/test_timeevolution_abstractdata.jl:238:f(t, rho) = @test 1e-5 > tracedistance(dense(rho), dm(U(t)*psi0))
+./test/test_timeevolution_abstractdata.jl:242:end # testset
+./test/test_timeevolution_mcwf.jl:1:@testitem "test_timeevolution_mcwf" begin
+./test/test_timeevolution_mcwf.jl:6:@testset "mcwf" begin
+./test/test_timeevolution_mcwf.jl:51:@test timeevolution.check_mcwf(Ψ₀, Hdense, Jdense, dagger.(Jdense), nothing)
+./test/test_timeevolution_mcwf.jl:54:@test Ψt == Ψt2
+./test/test_timeevolution_mcwf.jl:58:@test Ψt == Ψt3
+./test/test_timeevolution_mcwf.jl:62:@test timeevolution.check_mcwf(Ψ₀, H, J, dagger.(J), nothing)
+./test/test_timeevolution_mcwf.jl:64:@test norm(Ψt[end]-Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:67:@test norm(Ψt[end]-Ψ) > 0.1
+./test/test_timeevolution_mcwf.jl:76:@test tout == t_fout && Ψt == Ψ_fout
+./test/test_timeevolution_mcwf.jl:81:@test norm(Ψt[end] - Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:84:@test norm(Ψt2[end] - Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:85:@test length(Ψt2) > length(Ψt)
+./test/test_timeevolution_mcwf.jl:88:@test norm(Ψt[end] - Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:92:@test norm(Ψt[end]-Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:95:@test norm(Ψt[end]-Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:98:@test norm(Ψt[end]-Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:101:@test norm(Ψt[end]-Ψ) > 0.1
+./test/test_timeevolution_mcwf.jl:109:@test norm(Ψt[end]-Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:112:@test norm(Ψt[end]-Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:115:@test norm(Ψt[end]-Ψ) < 1e-5
+./test/test_timeevolution_mcwf.jl:118:@test norm(Ψt[end]-Ψ) > 0.1
+./test/test_timeevolution_mcwf.jl:134:    @test err < 0.1
+./test/test_timeevolution_mcwf.jl:159:    @test tracedistance(ρt_master[i], ρ_average_1[i]) < 0.1
+./test/test_timeevolution_mcwf.jl:160:    @test tracedistance(ρt_master[i], ρ_average_2[i]) < 0.1
+./test/test_timeevolution_mcwf.jl:161:    @test tracedistance(ρt_master[i], ρ_average_3[i]) < 0.1
+./test/test_timeevolution_mcwf.jl:168:        @test Ψt[i+1].data ≈ normalize(J1[1]*Ψt[i]).data
+./test/test_timeevolution_mcwf.jl:180:    @test norm(Ψt_mcwf[i] - Ψt_schroedinger[i]) < 1e-4
+./test/test_timeevolution_mcwf.jl:181:    @test norm(Ψt_mcwf_h[i] - Ψt_schroedinger[i]) < 1e-4
+./test/test_timeevolution_mcwf.jl:182:    @test norm(Ψt_mcwf_nh[i] - Ψt_schroedinger[i]) < 1e-4
+./test/test_timeevolution_mcwf.jl:207:  @test tracedistance(ρ3_nondiag[i], ρ3_diag[i]) < 1e-14
+./test/test_timeevolution_mcwf.jl:208:  @test tracedistance(ρ3_avg[i], ρ3_diag[i]) < 0.1
+./test/test_timeevolution_mcwf.jl:211:@test_throws ArgumentError timeevolution.mcwf(T, ψ3, H, J3; rates=rates)
+./test/test_timeevolution_mcwf.jl:216:    @test dense(diagJ_lazy[i]) == dense(diagJ[i])
+./test/test_timeevolution_mcwf.jl:261:    @test tracedistance(ρt_master[i], ρ_average_1[i]) < 0.1
+./test/test_timeevolution_mcwf.jl:262:    @test tracedistance(ρt_master[i], ρ_average_2[i]) < 0.1
+./test/test_timeevolution_mcwf.jl:263:    @test tracedistance(ρt_master[i], ρ_average_3[i]) < 0.1
+./test/test_timeevolution_mcwf.jl:264:    @test tracedistance(ρt_master[i], ρ_average_4[i]) < 0.1
+./test/test_timeevolution_mcwf.jl:271:@test length(j_index) == length(t_jump) == length(t_jump2) == length(j_index2)
+./test/test_timeevolution_mcwf.jl:272:@test j_index == j_index2
+./test/test_timeevolution_mcwf.jl:273:@test t_jump == t_jump2
+./test/test_timeevolution_mcwf.jl:278:@test length(t_jump) == length(j_index) == 1
+./test/test_timeevolution_mcwf.jl:279:@test j_index[1] == 1
+./test/test_timeevolution_mcwf.jl:281:end # testset
+./test/test_timeevolution_pumpedcavity.jl:1:@testitem "test_timeevolution_pumpedcavity" begin
+./test/test_timeevolution_pumpedcavity.jl:5:@testset "timeevolution_pumpedcavity" begin
+./test/test_timeevolution_pumpedcavity.jl:40:f_test(t, psi::Ket) = @test 1e-5 > D(psi, coherentstate(b, α(t, α0, δc, 0)))
+./test/test_timeevolution_pumpedcavity.jl:41:f_test(t, rho::DenseOpType) = @test 1e-5 > tracedistance(rho, dm(coherentstate(b, α(t, α0, δc, 0))))
+./test/test_timeevolution_pumpedcavity.jl:43:timeevolution.schroedinger(T, psi0, Hint; fout=f_test)
+./test/test_timeevolution_pumpedcavity.jl:44:timeevolution.mcwf(T, psi0, Hint, []; fout=f_test)
+./test/test_timeevolution_pumpedcavity.jl:45:timeevolution.master(T, psi0, Hint, []; fout=f_test)
+./test/test_timeevolution_pumpedcavity.jl:46:timeevolution.master_h(T, psi0, Hint, []; fout=f_test)
+./test/test_timeevolution_pumpedcavity.jl:47:timeevolution.master_nh(T, psi0, Hint, []; fout=f_test)
+./test/test_timeevolution_pumpedcavity.jl:49:f_test_sparse(t, rho) = @test 1e-5 > tracedistance(dense(rho), dm(coherentstate(b, α(t, α0, δc, 0))))
+./test/test_timeevolution_pumpedcavity.jl:51:timeevolution.master(T, rho0, Hint, []; fout=f_test_sparse)
+./test/test_timeevolution_pumpedcavity.jl:53:@test eltype(rhot) <: SparseOpType
+./test/test_timeevolution_pumpedcavity.jl:55:@test eltype(rhot) <: SparseOpType
+./test/test_timeevolution_pumpedcavity.jl:57:@test eltype(rhot) <: SparseOpType
+./test/test_timeevolution_pumpedcavity.jl:59:@test eltype(rhot) <: SparseOpType
+./test/test_timeevolution_pumpedcavity.jl:62:f_test_td(t, psi::Ket) = @test 1e-5 > D(psi, coherentstate(b, α(t, α0, δc, 0)*exp(-1im*ω*t)))
+./test/test_timeevolution_pumpedcavity.jl:63:f_test_td(t, rho::DenseOpType) = @test 1e-5 > D(rho, dm(coherentstate(b, α(t, α0, δc, 0)*exp(-1im*ω*t))))
+./test/test_timeevolution_pumpedcavity.jl:68:timeevolution.schroedinger_dynamic(T, psi0, f_H; fout=f_test_td)
+./test/test_timeevolution_pumpedcavity.jl:69:timeevolution.master_dynamic(T, psi0, f_HJ; fout=f_test_td)
+./test/test_timeevolution_pumpedcavity.jl:78:f_test_decay(t, rho::DenseOpType) = @test 1e-5 > tracedistance(rho, dm(coherentstate(b, α(t, α0, δc, κ))))
+./test/test_timeevolution_pumpedcavity.jl:80:timeevolution.master(T, psi0, Hint, J; rates=Γ, fout=f_test_decay)
+./test/test_timeevolution_pumpedcavity.jl:81:timeevolution.master_h(T, psi0, Hint, J; rates=Γ, fout=f_test_decay)
+./test/test_timeevolution_pumpedcavity.jl:82:timeevolution.master_nh(T, psi0, Hint_nh, J; rates=Γ, fout=f_test_decay)
+./test/test_timeevolution_pumpedcavity.jl:85:f_test_decay_dynamic(t, rho::DenseOpType) = @test 1e-5 > tracedistance(rho, dm(coherentstate(b, α(t, α0, δc, κ)*exp(-1im*ω*t))))
+./test/test_timeevolution_pumpedcavity.jl:93:timeevolution.master_dynamic(T, psi0, f_HJ_dynamic; rates=Γ, fout=f_test_decay_dynamic)
+./test/test_timeevolution_pumpedcavity.jl:94:@skiptimechecks timeevolution.master_dynamic(T, psi0, f_HJ_dynamic2; fout=f_test_decay_dynamic)
+./test/test_timeevolution_pumpedcavity.jl:95:timeevolution.master_nh_dynamic(T, psi0, f_HJ_nh_dynamic; rates=Γ, fout=f_test_decay_dynamic)
+./test/test_timeevolution_pumpedcavity.jl:96:timeevolution.master_nh_dynamic(T, psi0, f_HJ_nh_dynamic2; fout=f_test_decay_dynamic)
+./test/test_timeevolution_pumpedcavity.jl:97:timeevolution.master_nh_dynamic(T, psi0, f_HJ_nh_dynamic3; fout=f_test_decay_dynamic)
+./test/test_timeevolution_pumpedcavity.jl:99:end # testset
+./test/test_stochastic_definitions.jl:1:@testitem "test_stochastic_definitions" begin
+./test/test_stochastic_definitions.jl:5:@testset "stochastic_definitions" begin
+./test/test_stochastic_definitions.jl:16:@test fdeterm(0.0, psi0) == H0 + expect(Y, psi0)*a - 0.5im*ad*a
+./test/test_stochastic_definitions.jl:17:@test fstoch(0.0, psi0)[1].data ≈ a.data
+./test/test_stochastic_definitions.jl:21:@test fdeterm1(0.0, psi1) == H0 + 0.5*expect(Y, psi0)*a - 0.5im*ad*a
+./test/test_stochastic_definitions.jl:23:end # testset
+./test/test_jet.jl:1:@testitem "test_jet" tags = [:jet] begin
+./test/test_jet.jl:5:@testset "JET Package Test" begin
+./test/test_jet.jl:8:    JET.test_package(QuantumOptics, target_defined_modules = true)
+./test/test_stochastic_schroedinger.jl:1:@testitem "test_stochastic_schroedinger" begin
+./test/test_stochastic_schroedinger.jl:7:@testset "stochastic_schroedinger" begin
+./test/test_stochastic_schroedinger.jl:38:    @test tracedistance(ρ_avg[i], ρt[i]) < 5dt
+./test/test_stochastic_schroedinger.jl:60:@test ψt1 == ψt2 == ψt4
+./test/test_stochastic_schroedinger.jl:65:    @test norm(ψt1[i] - ψt2[i]) < 3dt
+./test/test_stochastic_schroedinger.jl:66:    @test norm(ψt1[i] - ψt_determ[i]) < 10dt
+./test/test_stochastic_schroedinger.jl:69:# Test remaining function calls for short times to test whether they work in principle
+./test/test_stochastic_schroedinger.jl:77:    @test norm(ψt1[i]) ≈ 1.0
+./test/test_stochastic_schroedinger.jl:78:    @test norm(ψt2[i]) ≈ 1.0
+./test/test_stochastic_schroedinger.jl:81:end # testset
+./test/test_timecorrelations.jl:1:@testitem "test_timecorrelations" begin
+./test/test_timecorrelations.jl:6:@testset "timecorrelations" begin
+./test/test_timecorrelations.jl:52:@test length(exp_values) == length(tspan)
+./test/test_timecorrelations.jl:53:@test length(exp_values2) == length(tout)
+./test/test_timecorrelations.jl:54:@test length(exp_values3) == length(tspan)
+./test/test_timecorrelations.jl:55:@test norm(exp_values[1]-exp_values2[1]) < 1e-15
+./test/test_timecorrelations.jl:56:@test norm(exp_values[end]-exp_values2[end]) < 1e-4
+./test/test_timecorrelations.jl:57:@test all(norm.(exp_values .- exp_values3) .< 1e-4)
+./test/test_timecorrelations.jl:65:@test length(omega2) == length(S2)
+./test/test_timecorrelations.jl:69:@test omega_sample == omegaFFT && S == SFFT
+./test/test_timecorrelations.jl:71:@test_throws ArgumentError timecorrelations.correlation2spectrum(tout, exp_values)
+./test/test_timecorrelations.jl:74:@test_throws ArgumentError timecorrelations.correlation2spectrum(tspan, exp_values)
+./test/test_timecorrelations.jl:76:# tests kwarg rates
+./test/test_timecorrelations.jl:80:@test abs(exp_values[end] - exp_values5[end] ) < 1e-8
+./test/test_timecorrelations.jl:83:@test abs(sum(S .- S5)) < 1e-8
+./test/test_timecorrelations.jl:86:@test abs(sum(S2 .- S5_2)) < 1e-8
+./test/test_timecorrelations.jl:88:end # testset
+./test/test_timeevolution_master.jl:1:@testitem "test_timeevolution_master" begin
+./test/test_timeevolution_master.jl:6:@testset "master" begin
+./test/test_timeevolution_master.jl:58:@test tracedistance(L*ρ₀, ρ) < 1e-10
+./test/test_timeevolution_master.jl:61:@test timeevolution.check_master(ρ₀, Hdense, Jdense, dagger.(Jdense), nothing)
+./test/test_timeevolution_master.jl:64:@test tracedistance(exp(dense(L)*T[end])*ρ₀, ρt[end]) < 1e-6
+./test/test_timeevolution_master.jl:66:@test timeevolution.check_master(ρ₀, H, J, dagger.(J), nothing)
+./test/test_timeevolution_master.jl:68:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:71:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:74:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:77:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:82:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:85:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:88:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:91:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:94:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:99:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:102:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:105:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:108:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:111:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:118:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:121:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:124:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:127:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:130:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:133:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:136:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:139:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:142:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:155:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:158:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:161:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:164:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:172:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:175:@test tracedistance(ρt[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:179:@test tracedistance(Ψket_t[end]⊗Ψbra_t[end], ρ) < 1e-5
+./test/test_timeevolution_master.jl:184:@test isequal(expect(Hdense, rho_t), h_exp)
+./test/test_timeevolution_master.jl:186:end # testset
+./test/test_spectralanalysis.jl:1:@testitem "test_spectralanalysis" begin
+./test/test_spectralanalysis.jl:8:@testset "spectralanalysis" begin
+./test/test_spectralanalysis.jl:15:@test_throws ArgumentError eigenstates(SpectralanalysisTestOperator{Basis,Basis}())
+./test/test_spectralanalysis.jl:16:@test_throws QuantumOpticsBase.IncompatibleBases eigenstates(DenseOperator(GenericBasis(3), GenericBasis(4)))
+./test/test_spectralanalysis.jl:17:@test_throws ArgumentError eigenenergies(SpectralanalysisTestOperator{Basis,Basis}())
+./test/test_spectralanalysis.jl:18:@test_throws QuantumOpticsBase.IncompatibleBases eigenenergies(DenseOperator(GenericBasis(3), GenericBasis(4)))
+./test/test_spectralanalysis.jl:29:@test eigenenergies(D) ≈ d
+./test/test_spectralanalysis.jl:30:@test eigenenergies(Dsp, 3, info=false) ≈ d[1:3]
+./test/test_spectralanalysis.jl:34:@test eigenenergies((R+dagger(R))/2) ≈ d
+./test/test_spectralanalysis.jl:35:@test eigenenergies((Rsp+dagger(Rsp))/2, 3; info=false) ≈ d[1:3]
+./test/test_spectralanalysis.jl:40:    @test E[i] ≈ d[i]
+./test/test_spectralanalysis.jl:41:    @test Esp[i] ≈ d[i]
+./test/test_spectralanalysis.jl:43:    @test states[i].data*v ≈ U.data[:,i]
+./test/test_spectralanalysis.jl:45:    @test states_sp[i].data*v ≈ U.data[:,i]
+./test/test_spectralanalysis.jl:57:@test eigenenergies(D; warning=false) ≈ d
+./test/test_spectralanalysis.jl:58:@test eigenenergies(Dsp, 3; warning=false, info=false) ≈ d[1:3]
+./test/test_spectralanalysis.jl:62:@test eigenenergies(R; warning=false) ≈ d
+
+===== package/test files =====
+./.github/workflows/benchmark.yml
+./.github/workflows/ci.yml
+./.github/workflows/downgrade.yml
+./.github/workflows/TagBot.yml
+./benchmark/Project.toml
+./docs/examples/Project.toml
+./docs/Project.toml
+./Project.toml
+./test/Project.toml
+./test/runtests.jl

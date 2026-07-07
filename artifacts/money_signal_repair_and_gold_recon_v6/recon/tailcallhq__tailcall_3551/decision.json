@@ -1,0 +1,18 @@
+{
+  "repo": "tailcallhq/tailcall",
+  "num": 3551,
+  "url": "https://github.com/tailcallhq/tailcall/issues/3551",
+  "title": "Re: Bounty #272 \u2014 Reimplement analyze.sh in JS (graphql-benchmarks archived)",
+  "state": "OPEN",
+  "updatedAt": "2026-06-23T21:51:17Z",
+  "reason": "$50 analyze.sh JS rewrite / benchmark tooling, maybe judgeable",
+  "amount_estimate": 50.0,
+  "money": true,
+  "local_judge": true,
+  "benchmark_or_metric": true,
+  "has_surface": true,
+  "prompt_risk": false,
+  "hardware_risk": false,
+  "web3_risk": false,
+  "verdict": "PROMOTE_SMALL_PAID_RECON"
+}

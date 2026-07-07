@@ -1,0 +1,18 @@
+{
+  "repo": "QuantumSavory/QuantumSavory.jl",
+  "num": 131,
+  "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/131",
+  "title": "More thorough benchmarks [$200]",
+  "state": "OPEN",
+  "updatedAt": "2026-06-29T02:55:38Z",
+  "reason": "$200 benchmark route, likely real judged route",
+  "amount_estimate": 200.0,
+  "money": true,
+  "local_judge": true,
+  "benchmark_or_metric": true,
+  "has_surface": true,
+  "prompt_risk": false,
+  "hardware_risk": false,
+  "web3_risk": true,
+  "verdict": "PARK_WEB3_SECURITY_RISK"
+}

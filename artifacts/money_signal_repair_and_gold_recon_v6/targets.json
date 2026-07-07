@@ -1,0 +1,42 @@
+[
+  {
+    "repo": "qojulia/QuantumOptics.jl",
+    "num": 407,
+    "reason": "$400 benchmark suite + CI runner, likely real judged route"
+  },
+  {
+    "repo": "QuantumSavory/QuantumSavory.jl",
+    "num": 131,
+    "reason": "$200 benchmark route, likely real judged route"
+  },
+  {
+    "repo": "jackjin1997/zeroeye",
+    "num": 1,
+    "reason": "$30 Python pytest edge-case tests, small but judgeable"
+  },
+  {
+    "repo": "jackjin1997/TentOfTrials",
+    "num": 3,
+    "reason": "$30 Python diagnostic metadata tests, small but judgeable"
+  },
+  {
+    "repo": "tailcallhq/tailcall",
+    "num": 3551,
+    "reason": "$50 analyze.sh JS rewrite / benchmark tooling, maybe judgeable"
+  },
+  {
+    "repo": "treitforge/qsoripper",
+    "num": 424,
+    "reason": "Kaggle external benchmark route; no cash but high MathGraph fit"
+  },
+  {
+    "repo": "anonhostpi/Agent-World",
+    "num": 24,
+    "reason": "Kaggle discovery CLI; no cash but can improve future money search"
+  },
+  {
+    "repo": "tenstorrent/tt-blacksmith",
+    "num": 529,
+    "reason": "$2000 GraphSAGE workload; hardware gated, maybe ask milestone split"
+  }
+]

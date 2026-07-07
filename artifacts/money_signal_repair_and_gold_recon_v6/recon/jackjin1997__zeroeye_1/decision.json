@@ -1,0 +1,18 @@
+{
+  "repo": "jackjin1997/zeroeye",
+  "num": 1,
+  "url": "https://github.com/jackjin1997/zeroeye/issues/1",
+  "title": "[$30 BOUNTY] [Python] Expand backend API contract edge-case tests",
+  "state": "OPEN",
+  "updatedAt": "2026-06-30T23:25:23Z",
+  "reason": "$30 Python pytest edge-case tests, small but judgeable",
+  "amount_estimate": 30.0,
+  "money": true,
+  "local_judge": true,
+  "benchmark_or_metric": true,
+  "has_surface": true,
+  "prompt_risk": false,
+  "hardware_risk": false,
+  "web3_risk": false,
+  "verdict": "PROMOTE_SMALL_PAID_RECON"
+}

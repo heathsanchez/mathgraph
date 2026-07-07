@@ -1,0 +1,18 @@
+{
+  "repo": "anonhostpi/Agent-World",
+  "num": 24,
+  "url": "https://github.com/anonhostpi/Agent-World/issues/24",
+  "title": "Kaggle \u2014 Custom CLI Tool",
+  "state": "OPEN",
+  "updatedAt": "2026-03-30T05:49:09Z",
+  "reason": "Kaggle discovery CLI; no cash but can improve future money search",
+  "amount_estimate": 0.0,
+  "money": true,
+  "local_judge": true,
+  "benchmark_or_metric": true,
+  "has_surface": false,
+  "prompt_risk": false,
+  "hardware_risk": false,
+  "web3_risk": false,
+  "verdict": "PARK_NO_LOCAL_JUDGE_OR_NO_MONEY"
+}

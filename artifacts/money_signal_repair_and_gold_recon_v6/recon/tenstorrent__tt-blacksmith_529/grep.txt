@@ -1,0 +1,273 @@
+===== money / judge / benchmark / test hits =====
+./.cursor/skills/perf-benchmark-single-chip/reference.md:3:## tt-perf-report metrics
+./.cursor/skills/perf-benchmark-single-chip/reference.md:65:| `ops_perf_results_<timestamp>.csv` | **Primary** -- per-op device metrics. Feed to `tt-perf-report`. |
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:2:name: perf-benchmark-single-chip
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:3:description: Run device performance benchmarks for tt-blacksmith single-chip training workloads. Use when the user asks to benchmark, profile, or measure performance of a training workload on Tenstorrent hardware, or mentions tracy, tt-perf-report, or device time analysis.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:6:# Single-chip perf benchmark
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:27:Before running any workload, ensure no stale processes are holding the TT device. A previous process that was force-killed (kill -9) leaves the device in a bad state, causing "Timeout waiting for Ethernet core service" or "Waiting for lock 'CHIP_IN_USE_*_PCIe'" errors.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:107:- The sync must come **after backward**, not between forward and backward. Calls like `loss.item()` force an implicit sync -- move them after backward or remove them when benchmarking.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:133:Then in the training loop, place the early stopping check **immediately after `global_step` is incremented** -- before any logging, validation, metric commits, cache clearing, or checkpointing. If early stopping comes after these, a validation pass at the final step will run unnecessarily, wasting minutes and polluting the Tracy trace.
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:137:    tracy.signpost("benchmark_complete")
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:182:Find the latest report and copy for analysis:
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:207:For metric details, see [reference.md](reference.md).
+./.cursor/skills/perf-benchmark-single-chip/SKILL.md:249:- **"Timeout waiting for Ethernet core service" / "Waiting for lock 'CHIP_IN_USE_*_PCIe'"**: Kill all stale Python processes, then reset all devices: `tt-smi -r`. Wait a few seconds before starting a new process.
+./LICENSE:168:      and charge a fee for, acceptance of support, warranty, indemnity,
+./LICENSE:211:- googletest - https://github.com/google/googletest/blob/main/LICENSE
+./.flake8-config:22:    .pytest_cache,
+./tests/training_test_cases.py:4:import pytest
+./tests/training_test_cases.py:8:    pytest.param(
+./tests/training_test_cases.py:10:            "test_script": "blacksmith/experiments/torch/mnist/tensor_parallel/train.py",
+./tests/training_test_cases.py:15:            pytest.mark.push,
+./tests/training_test_cases.py:16:            pytest.mark.n300,
+./tests/training_test_cases.py:17:            pytest.mark.torch,
+./tests/training_test_cases.py:18:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:22:    pytest.param(
+./tests/training_test_cases.py:24:            "test_script": "blacksmith/experiments/torch/mnist/data_parallel/train.py",
+./tests/training_test_cases.py:29:            pytest.mark.push,
+./tests/training_test_cases.py:30:            pytest.mark.n300,
+./tests/training_test_cases.py:31:            pytest.mark.torch,
+./tests/training_test_cases.py:32:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:36:    pytest.param(
+./tests/training_test_cases.py:38:            "test_script": "blacksmith/experiments/torch/mnist/train.py",
+./tests/training_test_cases.py:43:            pytest.mark.push,
+./tests/training_test_cases.py:44:            pytest.mark.n150,
+./tests/training_test_cases.py:45:            pytest.mark.n300,
+./tests/training_test_cases.py:46:            pytest.mark.torch,
+./tests/training_test_cases.py:47:            pytest.mark.single_chip,
+./tests/training_test_cases.py:51:    # Bounty #453 (GATv2/PubMed). Disabled in CI until the experiment-specific
+./tests/training_test_cases.py:52:    # torch_geometric dependency and a TT runner are wired into the regression pipeline;
+./tests/training_test_cases.py:53:    # the golden config lives in tests/configs/BOUNTIES/. Re-enable by uncommenting.
+./tests/training_test_cases.py:54:    # pytest.param(
+./tests/training_test_cases.py:56:    #         "test_script": "blacksmith/experiments/torch/BOUNTIES/gatv2_pubmed/train.py",
+./tests/training_test_cases.py:58:    #         "test_config": "tests/configs/BOUNTIES/tt-gatv2_pubmed-pubmed-n150.yaml",
+./tests/training_test_cases.py:62:    #         pytest.mark.uplift,
+./tests/training_test_cases.py:63:    #         pytest.mark.n150,
+./tests/training_test_cases.py:64:    #         pytest.mark.n300,
+./tests/training_test_cases.py:65:    #         pytest.mark.torch,
+./tests/training_test_cases.py:66:    #         pytest.mark.single_chip,
+./tests/training_test_cases.py:70:    pytest.param(
+./tests/training_test_cases.py:72:            "test_script": "blacksmith/experiments/jax/mnist/multi_chip/data_parallel/train.py",
+./tests/training_test_cases.py:78:            pytest.mark.uplift,
+./tests/training_test_cases.py:79:            pytest.mark.n300,
+./tests/training_test_cases.py:80:            pytest.mark.jax,
+./tests/training_test_cases.py:81:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:85:    pytest.param(
+./tests/training_test_cases.py:87:            "test_script": "blacksmith/experiments/jax/mnist/single_chip/train.py",
+./tests/training_test_cases.py:93:            pytest.mark.uplift,
+./tests/training_test_cases.py:94:            pytest.mark.n150,
+./tests/training_test_cases.py:95:            pytest.mark.jax,
+./tests/training_test_cases.py:96:            pytest.mark.single_chip,
+./tests/training_test_cases.py:100:    pytest.param(
+./tests/training_test_cases.py:102:            "test_script": "blacksmith/experiments/jax/mnist/single_chip/train_flax.py",
+./tests/training_test_cases.py:108:            pytest.mark.uplift,
+./tests/training_test_cases.py:109:            pytest.mark.n150,
+./tests/training_test_cases.py:110:            pytest.mark.jax,
+./tests/training_test_cases.py:111:            pytest.mark.single_chip,
+./tests/training_test_cases.py:115:    pytest.param(
+./tests/training_test_cases.py:117:            "test_script": "blacksmith/experiments/jax/mnist/multi_chip/tensor_parallel/train.py",
+./tests/training_test_cases.py:123:            pytest.mark.skip(
+./tests/training_test_cases.py:126:            pytest.mark.uplift,
+./tests/training_test_cases.py:127:            pytest.mark.n300,
+./tests/training_test_cases.py:128:            pytest.mark.jax,
+./tests/training_test_cases.py:129:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:134:        pytest.param(
+./tests/training_test_cases.py:136:                "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:138:                "test_config": "tests/configs/tt-llama_3_2_1b-sst2-n150.yaml",
+./tests/training_test_cases.py:139:                "test_checkpoint_path": test_checkpoint_path,
+./tests/training_test_cases.py:143:                pytest.mark.uplift,
+./tests/training_test_cases.py:144:                pytest.mark.n150,
+./tests/training_test_cases.py:145:                pytest.mark.torch,
+./tests/training_test_cases.py:146:                pytest.mark.single_chip,
+./tests/training_test_cases.py:147:                pytest.mark.split_0,
+./tests/training_test_cases.py:151:        for i, test_checkpoint_path in enumerate(
+./tests/training_test_cases.py:154:                "tests/checkpoints/tt-llama_3_2_1b-sst2-n150_checkpoint_step1340_epoch0_20260325_211954.pt",
+./tests/training_test_cases.py:155:                "tests/checkpoints/tt-llama_3_2_1b-sst2-n150_checkpoint_step2680_epoch0_20260326_081459.pt",
+./tests/training_test_cases.py:159:    pytest.param(
+./tests/training_test_cases.py:161:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:166:            pytest.mark.uplift,
+./tests/training_test_cases.py:167:            pytest.mark.n300_llmbox,
+./tests/training_test_cases.py:168:            pytest.mark.torch,
+./tests/training_test_cases.py:169:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:170:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:174:    pytest.param(
+./tests/training_test_cases.py:176:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:178:            "test_config": "tests/configs/tt-llama_3_1_8b-sst2-data_tensor_parallel-n300-llmbox.yaml",
+./tests/training_test_cases.py:182:            pytest.mark.uplift,
+./tests/training_test_cases.py:183:            pytest.mark.n300_llmbox,
+./tests/training_test_cases.py:184:            pytest.mark.torch,
+./tests/training_test_cases.py:185:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:186:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:190:    pytest.param(
+./tests/training_test_cases.py:192:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:194:            "test_config": "tests/configs/tt-llama_3_1_8b_instruct-metamathqa-n300-llmbox.yaml",
+./tests/training_test_cases.py:198:            pytest.mark.uplift,
+./tests/training_test_cases.py:199:            pytest.mark.n300_llmbox,
+./tests/training_test_cases.py:200:            pytest.mark.torch,
+./tests/training_test_cases.py:201:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:202:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:206:    pytest.param(
+./tests/training_test_cases.py:208:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:210:            "test_config": "tests/configs/tt-llama_3_1_8b-sst2-qb2-blackhole.yaml",
+./tests/training_test_cases.py:214:            # TODO(agobeljic): Reactivate in uplift-test.json after qb2-blackhole is supported on uplift.
+./tests/training_test_cases.py:215:            pytest.mark.uplift,
+./tests/training_test_cases.py:216:            pytest.mark.qb2_blackhole,
+./tests/training_test_cases.py:217:            pytest.mark.torch,
+./tests/training_test_cases.py:218:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:222:    pytest.param(
+./tests/training_test_cases.py:224:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:226:            "test_config": "tests/configs/tt-llama_3_1_8b-sst2-tensor_parallel-n300-llmbox.yaml",
+./tests/training_test_cases.py:230:            pytest.mark.uplift,
+./tests/training_test_cases.py:231:            pytest.mark.n300_llmbox,
+./tests/training_test_cases.py:232:            pytest.mark.torch,
+./tests/training_test_cases.py:233:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:237:    pytest.param(
+./tests/training_test_cases.py:239:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:244:            pytest.mark.uplift,
+./tests/training_test_cases.py:245:            pytest.mark.p150,
+./tests/training_test_cases.py:246:            pytest.mark.torch,
+./tests/training_test_cases.py:247:            pytest.mark.single_chip,
+./tests/training_test_cases.py:251:    pytest.param(
+./tests/training_test_cases.py:253:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:258:            pytest.mark.skip(reason="OOM on Galaxy llama 8B"),
+./tests/training_test_cases.py:259:            pytest.mark.uplift,
+./tests/training_test_cases.py:260:            pytest.mark.galaxy,
+./tests/training_test_cases.py:261:            pytest.mark.torch,
+./tests/training_test_cases.py:262:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:263:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:267:    pytest.param(
+./tests/training_test_cases.py:269:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:271:            "test_config": "tests/configs/tt-llama_3_1_8b-sst2-galaxy-batch-model.yaml",
+./tests/training_test_cases.py:275:            pytest.mark.skip(reason="OOM on Galaxy llama 8B"),
+./tests/training_test_cases.py:276:            pytest.mark.uplift,
+./tests/training_test_cases.py:277:            pytest.mark.galaxy,
+./tests/training_test_cases.py:278:            pytest.mark.torch,
+./tests/training_test_cases.py:279:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:280:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:284:    pytest.param(
+./tests/training_test_cases.py:286:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:288:            "test_config": "tests/configs/tt-llama_3_1_70b-sst2-n300-galaxy.yaml",
+./tests/training_test_cases.py:292:            pytest.mark.uplift,
+./tests/training_test_cases.py:293:            pytest.mark.galaxy,
+./tests/training_test_cases.py:294:            pytest.mark.torch,
+./tests/training_test_cases.py:295:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:299:    pytest.param(
+./tests/training_test_cases.py:301:            "test_script": "blacksmith/experiments/torch/llama/xla/train.py",
+./tests/training_test_cases.py:306:            pytest.mark.uplift,
+./tests/training_test_cases.py:307:            pytest.mark.galaxy,
+./tests/training_test_cases.py:308:            pytest.mark.torch,
+./tests/training_test_cases.py:309:            pytest.mark.data_parallel,
+./tests/training_test_cases.py:310:            pytest.mark.tensor_parallel,
+./tests/training_test_cases.py:314:    pytest.param(
+./tests/training_test_cases.py:316:            "test_script": "blacksmith/experiments/torch/qwen/train.py",
+./tests/training_test_cases.py:321:            pytest.mark.uplift,
+./tests/training_test_cases.py:322:            pytest.mark.n150,
+./tests/training_test_cases.py:323:            pytest.mark.torch,
+./tests/training_test_cases.py:324:            pytest.mark.single_chip,
+./tests/training_test_cases.py:325:            pytest.mark.split_0,
+./tests/training_test_cases.py:329:    pytest.param(
+./tests/training_test_cases.py:331:            "test_script": "blacksmith/experiments/torch/gemma11/train.py",
+./tests/training_test_cases.py:336:            pytest.mark.xfail(reason="PCC issues, currently investigating.", strict=False),
+./tests/training_test_cases.py:337:            pytest.mark.uplift,
+./tests/training_test_cases.py:338:            pytest.mark.n150,
+./tests/training_test_cases.py:339:            pytest.mark.torch,
+./tests/training_test_cases.py:340:            pytest.mark.single_chip,
+./tests/training_test_cases.py:341:            pytest.mark.split_1,
+./tests/training_test_cases.py:345:    pytest.param(
+./tests/training_test_cases.py:347:            "test_script": "blacksmith/experiments/torch/gemma11/dpo/train.py",
+./tests/training_test_cases.py:349:            "test_config": "tests/configs/tt-gemma11-math_preference_dpo-p150.yaml",
+./tests/training_test_cases.py:350:            "reference_model_checkpoint_path": "tests/checkpoints/tt-gemma11-math_preference_sft-p150_checkpoint_step360_epoch2_20260622_192415.pt",
+./tests/training_test_cases.py:354:            pytest.mark.uplift,
+./tests/training_test_cases.py:355:            pytest.mark.p150,
+./tests/training_test_cases.py:356:            pytest.mark.torch,
+./tests/training_test_cases.py:357:            pytest.mark.single_chip,
+./tests/training_test_cases.py:361:    pytest.param(
+./tests/training_test_cases.py:363:            "test_script": "blacksmith/experiments/torch/albert/train.py",
+./tests/training_test_cases.py:365:            "test_config": "tests/configs/tt-albert_base_v2-banking77-n150.yaml",
+./tests/training_test_cases.py:370:            pytest.mark.uplift,
+./tests/training_test_cases.py:371:            pytest.mark.n150,
+./tests/training_test_cases.py:372:            pytest.mark.torch,
+./tests/training_test_cases.py:373:            pytest.mark.single_chip,
+./tests/training_test_cases.py:374:            pytest.mark.split_1,
+./tests/training_test_cases.py:378:    pytest.param(
+./tests/training_test_cases.py:380:            "test_script": "blacksmith/experiments/torch/phi/train.py",
+./tests/training_test_cases.py:385:            pytest.mark.uplift,
+./tests/training_test_cases.py:386:            pytest.mark.n150,
+./tests/training_test_cases.py:387:            pytest.mark.torch,
+./tests/training_test_cases.py:388:            pytest.mark.single_chip,
+./tests/training_test_cases.py:392:    pytest.param(
+./tests/training_test_cases.py:394:            "test_script": "blacksmith/experiments/jax/nerf/train.py",
+./tests/training_test_cases.py:400:            pytest.mark.skip(reason="Jax tests are not supported yet."),
+./tests/training_test_cases.py:401:            pytest.mark.uplift,
+./tests/training_test_cases.py:402:            pytest.mark.n150,
+./tests/training_test_cases.py:403:            pytest.mark.jax,
+./tests/training_test_cases.py:404:            pytest.mark.single_chip,
+./tests/training_test_cases.py:408:    pytest.param(
+./tests/training_test_cases.py:410:            "test_script": "blacksmith/experiments/jax/llama/dora/train.py",
+./tests/training_test_cases.py:416:            pytest.mark.skip(reason="Jax tests are not supported yet."),
+./tests/training_test_cases.py:417:            pytest.mark.uplift,
+./tests/training_test_cases.py:418:            pytest.mark.n150,
+./tests/training_test_cases.py:419:            pytest.mark.jax,
+./tests/training_test_cases.py:420:            pytest.mark.single_chip,
+./tests/training_test_cases.py:424:    pytest.param(
+./tests/training_test_cases.py:426:            "test_script": "blacksmith/experiments/jax/distil_bert/single_chip/train.py",
+./tests/training_test_cases.py:432:            pytest.mark.skip(reason="Jax tests are not supported yet."),
+./tests/training_test_cases.py:433:            pytest.mark.uplift,
+./tests/training_test_cases.py:434:            pytest.mark.n150,
+./tests/training_test_cases.py:435:            pytest.mark.jax,
+./tests/training_test_cases.py:436:            pytest.mark.single_chip,
+./tests/conftest.py:4:def pytest_addoption(parser):
+./tests/conftest.py:9:        help="For debugging purposes, show stdout and stderr of the tests.",
+./tests/pytest.ini:1:[pytest]
+./tests/pytest.ini:3:    uplift: test is run on uplift (daily)
+./tests/pytest.ini:4:    push: test is run on push (each time)
+./tests/pytest.ini:5:    n150: test is run on n150 card (wormhole)
+./tests/pytest.ini:6:    n300: test is run on n300 card (wormhole)
+./tests/pytest.ini:7:    p150: test is run on p150 card (blackhole)
+./tests/pytest.ini:8:    n300_llmbox: test is run on quietbox (wormhole) configuration
+./tests/pytest.ini:9:    qb2_blackhole: test is run on quietbox (blackhole) configuration
+./tests/pytest.ini:10:    galaxy: test is run on galaxy configuration
+./tests/pytest.ini:11:    torch: test uses torch framework
+./tests/pytest.ini:12:    jax: test uses jax framework
+./tests/pytest.ini:13:    single_chip: test is run on single_chip
+./tests/pytest.ini:14:    data_parallel: test is run on data_parallel
+./tests/pytest.ini:15:    tensor_parallel: test is run on tensor_parallel
+./tests/pytest.ini:16:    split_0: test is run on split_0
+./tests/pytest.ini:17:    split_1: test is run on split_1
+./tests/test_all.py:9:import pytest
+./tests/test_all.py:10:from training_test_cases import TRAINING_TEST_CASES
+./tests/test_all.py:15:    "test_script": None,
+./tests/test_all.py:17:    "test_config": None,
+./tests/test_all.py:22:    "test_checkpoint_path": None,
+./tests/test_all.py:28:@pytest.fixture
+./tests/test_all.py:36:    pd.testing.assert_frame_equal(golden_df, log_df, rtol=tolerance, atol=atol)
+./tests/test_all.py:46:def get_cmd(test_id: str, setup_dict: dict) -> list[str]:
+./tests/test_all.py:47:    assert setup_dict["test_script"] is not None, "`test_script` is required."
+./tests/test_all.py:49:    assert Path(setup_dict["test_script"]).exists(), f"Script not found: {setup_dict['test_script']}"
+./tests/test_all.py:50:    if setup_dict["test_config"] is not None:
+./tests/test_all.py:51:        assert Path(setup_dict["test_config"]).exists(), f"Config not found: {setup_dict['test_config']}"
+./tests/test_all.py:56:    cmd = [sys.executable, str(setup_dict["test_script"])]
+./tests/test_all.py:57:    if setup_dict["test_config"] is not None:
+./tests/test_all.py:58:        cmd.extend(["--test-config", str(setup_dict["test_config"])])
+./tests/test_all.py:61:    cmd.append("--test-log-filename-prefix")
+
+===== package/test files =====
+./.github/workflows/call-build-docs.yml
+./.github/workflows/call-generate-matrix.yml
+./.github/workflows/call-pre-commit.yml
+./.github/workflows/call-test.yml
+./.github/workflows/codeql.yml
+./.github/workflows/docs-deploy.yml
+./.github/workflows/issue-update-date.yml
+./.github/workflows/manual-test.yml
+./.github/workflows/pr-main.yml
+./.github/workflows/push-main.yml
+./.github/workflows/schedule-uplift.yml
+./.github/workflows/test-matrix-presets/basic-test.json
+./.github/workflows/test-matrix-presets/regressed-test.json
+./.github/workflows/test-matrix-presets/uplift-test.json
+./.github/workflows/workflow-run-collect-data.yml
+./blacksmith/experiments/lightning/nerf/requirements.txt
+./docs/Makefile
+./docs/requirements.txt
+./env/requirements.txt
+./tests/pytest.ini

@@ -1,0 +1,495 @@
+# Prize Recon Report
+
+## Verdict
+
+`PARK_RISK`
+
+## Decision
+
+JSON:
+{
+  "verdict": "PARK_RISK",
+  "issue": {
+    "url": "https://github.com/anonhostpi/Agent-World/issues/24",
+    "title": "Kaggle \u2014 Custom CLI Tool",
+    "state": "OPEN",
+    "labels": [],
+    "comment_count": 1,
+    "updatedAt": "2026-03-30T05:49:09Z"
+  },
+  "money": true,
+  "competition": true,
+  "judge": true,
+  "local": true,
+  "mgfit": true,
+  "risk": true
+}
+
+## Cheap commands
+
+pwd=/Users/heath/Documents/mathgraph-lean-work/external/money_opportunity_scout_v4_prize_words/anonhostpi__Agent-World_24
+
+README head:
+# Agent-World
+
+CLI tools for giving AI agents a better feel of the outside world.
+
+Inspired by Microsoft's `playwright-cli`, which gives agents structured access to browser state via accessibility snapshots — Agent-World extends that philosophy to the rest of the world: social platforms, code forges, news feeds, and anything else an agent might need to navigate.
+
+## Philosophy
+
+Agents work best when they can interact with the world through structured, predictable interfaces. GUIs are for humans. APIs are for machines. CLIs sit in between — human-readable, machine-parseable, and composable via pipes and scripts.
+
+Agent-World provides two kinds of tools:
+
+### Custom Tools
+
+Original CLIs built specifically for agent consumption. These are written for **Node.js** and **Deno**, and each lives in its own directory with a `CLAUDE.md` describing how to navigate the world using that tool.
+
+**Interop format preference:**
+1. **YAML** — most natural-language-adjacent, easiest for agents to read and produce
+2. **XML** — when structure demands it
+3. ~~JSON~~ — custom tools have no excuse to use JSON
+
+### Pre-Existing Tool Guides
+
+Wrappers and guides for existing CLIs that are already useful to agents but lack agent-oriented documentation. Each gets a directory with a `CLAUDE.md` focused on discovery and navigation patterns — not a rehash of `--help`, but a guide to *how an agent should think about using the tool*.
+
+Example: GitHub CLI (`gh`) — the `CLAUDE.md` covers discovery practices, not just command syntax.
+
+## Directory Structure
+
+```
+tools/
+├── gh/                    ← pre-existing tool guide
+│   └── CLAUDE.md          ← discovery-oriented usage guide
+└── <tool-name>/           ← custom or pre-existing tool
+    ├── CLAUDE.md          ← agent navigation guide
+    └── src/               ← source (custom tools only)
+```
+
+## Development
+
+This repo follows [VSDD](CLAUDE.md) (Verified Spec-Driven Development).
+
+
+## Issue body
+
+## Tool Type
+Custom CLI tool (Node/Deno)
+
+## Purpose
+Give agents structured access to Kaggle — the data science competition platform and community. Kaggle provides active competitions (what problems the ML community is working on right now), trending notebooks (how people are solving them), and datasets.
+
+## API
+- **Kaggle API**: https://www.kaggle.com/docs/api — REST-based
+- **Authentication**: API token required (free, from kaggle.com/settings)
+- **Existing CLI**: \`kaggle\` Python CLI exists but is Python-only and focused on download/submission
+- **Public data**: Competition listings, public notebooks, public datasets
+
+## CLI Interface (proposed)
+
+\`\`\`bash
+# Competitions
+kaggle competitions                  # Active competitions
+kaggle competition <slug>            # Competition details + description
+kaggle leaderboard <slug>            # Competition leaderboard
+kaggle leaderboard <slug> --limit 20 # Top N entries
+
+# Notebooks
+kaggle notebooks --sort trending     # Trending notebooks
+kaggle notebooks --competition <slug>  # Notebooks for a competition
+kaggle notebook <slug>               # Notebook details + metadata
+
+# Datasets
+kaggle datasets --sort trending      # Trending datasets
+kaggle datasets --search "query"     # Search datasets
+kaggle dataset <slug>                # Dataset details + columns + preview
+
+# Search
+kaggle search "query"                # Search across competitions, notebooks, datasets
+kaggle search "query" --type notebook
+
+# Discovery
+kaggle topics                        # Discussion topics/forums
+kaggle discussion <id>               # Read discussion thread
+kaggle user <username>               # User profile + tier + medals
+\`\`\`
+
+## Output Format
+- **YAML** for all structured output
+- Competition metadata: title, description, deadline, reward, team count, evaluation metric, tags
+- Notebook metadata: title, author, votes, language (Python/R), competition link, last run date
+- Dataset metadata: title, creator, size, download count, columns, usability score
+- User metadata: username, tier (Grandmaster/Master/etc.), medals, competition ranking
+
+## Key Design Decisions
+1. **Competition-centric**: Competitions are Kaggle's unique signal — what ML problems have prizes and deadlines right now.
+2. **Tier/medal system as signal**: Kaggle's ranking system (Grandmaster → Novice) indicates expertise. Surface it.
+3. **No data download**: Discovery tool, not a data pipeline. Show metadata, schemas, and previews — not full datasets.
+4. **API token required**: Setup instructions in CLAUDE.md.
+
+## CLAUDE.md Content
+- Kaggle as the ML competition platform — what problems are being solved and how
+- Competition lifecycle: launch → join → submit → leaderboard → end
+- Tier system and what each tier means for expertise signal
+- Notebooks as shared solutions — the Kaggle community's knowledge base
+- Datasets as structured data discovery
+- Using Kaggle for "how do people solve X?" research
+
+## Acceptance Criteria
+- [ ] CLI is implemented in Node or Deno
+- [ ] All output is YAML
+- [ ] Competition listing and details work
+- [ ] Notebook browsing works
+- [ ] Dataset metadata and preview work
+- [ ] \`tools/kaggle/CLAUDE.md\` covers discovery patterns
+- [ ] Tests cover all subcommands
+
+## Comments
+
+## anonhostpi — 2026-03-30T05:49:09Z
+
+## VSDD Phase 1 Assessment — Issue #24: Kaggle CLI
+
+### Phase 1a: Behavioral Specification — INCOMPLETE
+
+The spec provides a reasonable high-level behavioral contract (CLI interface, output format, key design decisions) but has significant gaps:
+
+**What's present:**
+- Clear purpose statement and scope (discovery, not data pipeline)
+- CLI interface with subcommands for competitions, notebooks, datasets, search, discovery
+- Output format direction (YAML) with field lists per entity type
+- Design constraints (no data download, competition-centric, API token required)
+
+**What's missing (Phase 1a gaps):**
+
+1. **No error contract.** Zero specification of error behavior — missing token, invalid slug, 404, rate limit, network failure, private resource. No exit codes, no error output format, no stderr vs stdout distinction.
+
+2. **No pagination contract.** List commands (`competitions`, `notebooks`, `datasets`, `topics`, `search`) have no `--limit`, `--page`, or `--offset`. Only `leaderboard` has `--limit` with no default specified. The Kaggle API paginates — the CLI must too.
+
+3. **Undefined identifier formats.** `<slug>` is used for competitions (bare: `titanic`), notebooks (namespaced: `owner/name`), and datasets (namespaced: `owner/name`) — three different formats under one term. `<id>` for discussions is untyped.
+
+4. **Undefined "preview".** Acceptance criteria require dataset preview to work, but the CLI interface defines no preview mechanism. What is a preview — first N rows? Column schema? Statistical summary? N is unspecified.
+
+5. **Incomplete output schemas.** No fields defined for `topics` or `discussion` commands. No null/absent field handling specified. No data types (is `deadline` ISO 8601? Unix timestamp?). `columns` in dataset metadata is undefined (count? names? types?).
+
+6. **Ambiguous flag combinations.** Can `--sort` and `--competition` be combined on `notebooks`? Valid `--sort` values beyond `trending`? Valid `--type` values for `search` beyond `notebook`?
+
+7. **Deferred runtime decision.** "Node or Deno" affects module system, package manager, test runner, HTTP client, and CI. This must be decided at spec time.
+
+8. **Authentication mechanism unspecified.** Token is required but no location specified (env var? `~/.kaggle/kaggle.json`? CLI flag? All three with precedence?).
+
+9. **"Competition-centric" is aspirational, not operationalized.** Design decision #1 has zero interface consequences — no ranking bias in search, no emphasis in user profiles.
+
+10. **"User competition ranking" is ambiguous.** Kaggle has separate rankings for competitions, datasets, notebooks, and discussions. Which ones?
+
+### Phase 1b: Verification Architecture — ABSENT
+
+The spec contains no Phase 1b content:
+
+- No provable properties catalog
+- No purity boundary map (pure core vs effectful shell)
+- No verification tooling selection
+- No property specifications
+
+For a CLI tool, the verification architecture should at minimum define:
+- Pure core: YAML serialization, slug parsing/validation, response mapping, pagination logic
+- Effectful shell: HTTP client, token loading, stdout/stderr
+- Provable properties: slug format validation always accepts valid formats and rejects invalid ones, pagination never requests negative pages, YAML output is always valid YAML
+
+### Phase 1c: Adversarial Reviews
+
+Two independent adversarial reviews were conducted. Combined findings below (deduplicated).
+
+---
+
+#### Adversary 1: Gemini 2.5 Pro
+
+**Key findings (3 critical, 5 high, 5 medium):**
+
+1. **CRITICAL — No error handling contracts.** Missing/invalid/expired token behavior undefined. Invalid input behavior undefined. Rate limiting behavior undefined. No error schema — success and failure are indistinguishable.
+
+2. **CRITICAL — No pagination strategy.** All list commands lack page/limit/offset. Only `leaderboard` has `--limit` with no default. Cannot browse beyond first page.
+
+3. **CRITICAL — Ambiguous identifiers.** `<slug>` format differs per entity type but is treated uniformly. `<id>` for discussions is untyped and unconnected to `topics` output.
+
+4. **HIGH — "Preview" undefined.** First N rows? N bytes? Statistical summary? Unknown.
+
+5. **HIGH — Sorting/filtering underspecified.** Only `trending` sort is shown. Defaults, alternatives, and filter capabilities undefined.
+
+6. **HIGH — Mixed search output undefined.** Cross-type search produces what YAML structure? How are entity types distinguished?
+
+7. **HIGH — "Public data" vs "API token required" contradiction.** If data is public, why mandate auth? If auth is needed, what's "public" mean in this context?
+
+8. **HIGH — Incomplete output schemas.** No types, no constraints, no format definitions. Discussion/topic schemas entirely missing.
+
+9. **MEDIUM — API base URL and version unspecified.**
+10. **MEDIUM — Vague acceptance criteria** ("covers discovery patterns" is untestable).
+11. **MEDIUM — `competition-centric` has no interface consequences.**
+12. **MEDIUM — Node/Deno decision deferred.**
+13. **MEDIUM — Auth location unspecified.**
+
+---
+
+#### Adversary 2: Copilot (Claude Sonnet 4.6)
+
+**Key findings (4 critical, 5 high, 6 medium):**
+
+All Gemini findings confirmed, plus:
+
+14. **HIGH — `topics` and `discussion` output formats entirely missing.** Two whole command families with no output spec.
+
+15. **HIGH — Null/absent field handling never specified.** Competition with no reward? Notebook with no competition link? Omit key, emit null, emit empty string?
+
+16. **MEDIUM — Unknown flag rejection behavior undefined.** User tries `--download` (from Python CLI muscle memory) — what happens?
+
+17. **MEDIUM — Test strategy is hollow.** "Tests cover all subcommands" specifies nothing about mocking, fixtures, CI without API token, or live vs recorded tests.
+
+18. **MEDIUM — Leaderboard default limit undefined.** Only `--limit 20` shown as example, default unstated. 10,000 entries with no default limit is a performance bomb.
+
+19. **MEDIUM — Flag combination semantics undefined.** `--competition <slug> --sort trending` on notebooks — do they compose? Conflict?
+
+---
+
+### Verdict
+
+**Phase 1 is NOT ready to proceed to Phase 2.** The spec needs:
+
+1. **Error contract** — define error YAML schema, exit codes, stderr behavior for all failure modes
+2. **Pagination contract** — `--limit` and `--page`/`--cursor` on all list commands with defined defaults
+3. **Identifier definitions** — document slug formats per entity type, validate in pure core
+4. **Complete output schemas** — add `topics` and `discussion` schemas, define data types, define null handling
+5. **Define "preview"** — what it contains, how it's triggered, truncation limits
+6. **Runtime decision** — pick Node or Deno
+7. **Auth mechanism** — env var / config file / CLI flag with precedence order
+8. **Phase 1b verification architecture** — pure core boundary, provable properties, verification tooling
+9. **Operationalize design decisions** — if "competition-centric" means something, specify what
+10. **Test strategy** — mocking approach, fixture recording, CI without token
+
+---
+
+*Reviewed by: Claude Opus 4.6 (Builder assessment), Gemini 2.5 Pro (Adversary 1), Copilot/Claude Sonnet 4.6 (Adversary 2)*
+
+## Inventory excerpt
+
+top files
+.git/config
+.git/description
+.git/FETCH_HEAD
+.git/HEAD
+.git/hooks/applypatch-msg.sample
+.git/hooks/commit-msg.sample
+.git/hooks/fsmonitor-watchman.sample
+.git/hooks/post-update.sample
+.git/hooks/pre-applypatch.sample
+.git/hooks/pre-commit.sample
+.git/hooks/pre-merge-commit.sample
+.git/hooks/pre-push.sample
+.git/hooks/pre-rebase.sample
+.git/hooks/pre-receive.sample
+.git/hooks/prepare-commit-msg.sample
+.git/hooks/push-to-checkout.sample
+.git/hooks/update.sample
+.git/index
+.git/info/exclude
+.git/logs/HEAD
+.git/objects/pack/pack-31887addbbbd98038309b080f4e5f9139b2d26f0.idx
+.git/objects/pack/pack-31887addbbbd98038309b080f4e5f9139b2d26f0.pack
+.git/objects/pack/pack-31887addbbbd98038309b080f4e5f9139b2d26f0.promisor
+.git/objects/pack/pack-3ee4a3fc0123fa51306ead7ffb3de0861b622562.idx
+.git/objects/pack/pack-3ee4a3fc0123fa51306ead7ffb3de0861b622562.pack
+.git/objects/pack/pack-3ee4a3fc0123fa51306ead7ffb3de0861b622562.promisor
+.git/ORIG_HEAD
+.git/packed-refs
+.git/refs/heads/main
+CLAUDE.md
+README.md
+tools/gh/CLAUDE.md
+
+build/test/competition files
+./CLAUDE.md
+./README.md
+./tools/gh/CLAUDE.md
+
+workflows
+
+
+## Grep excerpt
+
+===== issue body =====
+## Tool Type
+Custom CLI tool (Node/Deno)
+
+## Purpose
+Give agents structured access to Kaggle — the data science competition platform and community. Kaggle provides active competitions (what problems the ML community is working on right now), trending notebooks (how people are solving them), and datasets.
+
+## API
+- **Kaggle API**: https://www.kaggle.com/docs/api — REST-based
+- **Authentication**: API token required (free, from kaggle.com/settings)
+- **Existing CLI**: \`kaggle\` Python CLI exists but is Python-only and focused on download/submission
+- **Public data**: Competition listings, public notebooks, public datasets
+
+## CLI Interface (proposed)
+
+\`\`\`bash
+# Competitions
+kaggle competitions                  # Active competitions
+kaggle competition <slug>            # Competition details + description
+kaggle leaderboard <slug>            # Competition leaderboard
+kaggle leaderboard <slug> --limit 20 # Top N entries
+
+# Notebooks
+kaggle notebooks --sort trending     # Trending notebooks
+kaggle notebooks --competition <slug>  # Notebooks for a competition
+kaggle notebook <slug>               # Notebook details + metadata
+
+# Datasets
+kaggle datasets --sort trending      # Trending datasets
+kaggle datasets --search "query"     # Search datasets
+kaggle dataset <slug>                # Dataset details + columns + preview
+
+# Search
+kaggle search "query"                # Search across competitions, notebooks, datasets
+kaggle search "query" --type notebook
+
+# Discovery
+kaggle topics                        # Discussion topics/forums
+kaggle discussion <id>               # Read discussion thread
+kaggle user <username>               # User profile + tier + medals
+\`\`\`
+
+## Output Format
+- **YAML** for all structured output
+- Competition metadata: title, description, deadline, reward, team count, evaluation metric, tags
+- Notebook metadata: title, author, votes, language (Python/R), competition link, last run date
+- Dataset metadata: title, creator, size, download count, columns, usability score
+- User metadata: username, tier (Grandmaster/Master/etc.), medals, competition ranking
+
+## Key Design Decisions
+1. **Competition-centric**: Competitions are Kaggle's unique signal — what ML problems have prizes and deadlines right now.
+2. **Tier/medal system as signal**: Kaggle's ranking system (Grandmaster → Novice) indicates expertise. Surface it.
+3. **No data download**: Discovery tool, not a data pipeline. Show metadata, schemas, and previews — not full datasets.
+4. **API token required**: Setup instructions in CLAUDE.md.
+
+## CLAUDE.md Content
+- Kaggle as the ML competition platform — what problems are being solved and how
+- Competition lifecycle: launch → join → submit → leaderboard → end
+- Tier system and what each tier means for expertise signal
+- Notebooks as shared solutions — the Kaggle community's knowledge base
+- Datasets as structured data discovery
+- Using Kaggle for "how do people solve X?" research
+
+## Acceptance Criteria
+- [ ] CLI is implemented in Node or Deno
+- [ ] All output is YAML
+- [ ] Competition listing and details work
+- [ ] Notebook browsing works
+- [ ] Dataset metadata and preview work
+- [ ] \`tools/kaggle/CLAUDE.md\` covers discovery patterns
+- [ ] Tests cover all subcommands
+===== money/competition/judge hits =====
+./tools/gh/CLAUDE.md:16:# Search within a specific org
+./tools/gh/CLAUDE.md:89:# Latest release
+./tools/gh/CLAUDE.md:95:# Release notes for a specific version
+./tools/gh/CLAUDE.md:189:5. **Read the code**: `gh search code` to find specific patterns or implementations
+./README.md:5:Inspired by Microsoft's `playwright-cli`, which gives agents structured access to browser state via accessibility snapshots — Agent-World extends that philosophy to the rest of the world: social platforms, code forges, news feeds, and anything else an agent might need to navigate.
+./README.md:15:Original CLIs built specifically for agent consumption. These are written for **Node.js** and **Deno**, and each lives in its own directory with a `CLAUDE.md` describing how to navigate the world using that tool.
+./CLAUDE.md:10:- **Test-Driven Development (TDD):** Tests are written *before* code. Red → Green → Refactor. No code exists without a failing test that demanded it.
+./CLAUDE.md:11:- **Verification-Driven Development (VDD):** Subject all surviving code to adversarial refinement until a hyper-critical reviewer is forced to hallucinate flaws.
+./CLAUDE.md:13:VSDD treats these not as competing philosophies but as **sequential gates** in a single pipeline. Specs define *what*. Tests enforce *how*. Adversarial verification ensures *nothing was missed*. AI models orchestrate every phase, with the human developer serving as the strategic decision-maker and final authority.
+./CLAUDE.md:21:| **The Architect** | Human Developer | Strategic vision, domain expertise, acceptance authority. Signs off on specs, arbitrates disputes between Builder and Adversary. |
+./CLAUDE.md:22:| **The Builder** | Claude (or similar) | Spec authorship, test generation, code implementation, and refactoring. Operates under strict TDD constraints. |
+./CLAUDE.md:23:| **The Tracker** | **GitHub Issues + gh CLI** | Hierarchical issue decomposition — Epics → Issues → Sub-issues. Every spec, test, and implementation maps to a tracked issue. |
+./CLAUDE.md:24:| **The Adversary** | **Sarcasmotron** (see below) | Hyper-critical reviewer with zero patience. Reviews specs, tests, *and* implementation. Fresh context on every pass. |
+./CLAUDE.md:41:Read CLAUDE.md for the coding standards (specifically VSDD Phase 3 and Section VII).
+./CLAUDE.md:63:# Specific model or reasoning effort
+./CLAUDE.md:69:# Default model hits capacity errors; always specify model
+./CLAUDE.md:111:| **Regression Check (2)** | Run test suite; verify 4-Result Rule (new fail + regression pass → new pass + regression pass). |
+./CLAUDE.md:122:The human developer describes the feature intent to the Builder. The Builder then produces a **formal specification document** for each unit of work. Critically, this phase doesn't just define *what* the software does — it defines *what must be provable about it* and structures the architecture accordingly.
+./CLAUDE.md:124:**Step 1a: Behavioral Specification**
+./CLAUDE.md:130:- **Edge Case Catalog:** Explicitly enumerated boundary conditions, degenerate inputs, and failure modes. The Builder is prompted to be *exhaustive* here — "What happens when the input is null? Empty? Maximum size? Negative? Unicode? Concurrent?"
+./CLAUDE.md:139:- **Provable Properties Catalog:** Which invariants, safety properties, and correctness guarantees must be formally verified — not just tested? Examples: "This state machine can never reach an invalid state." "This arithmetic can never overflow." "This parser always terminates." "This access control check is never bypassed." The Builder distinguishes between properties that *should* be proven (critical path, security boundaries, financial calculations) and properties where test coverage is sufficient (UI formatting, logging, non-critical defaults).
+./CLAUDE.md:140:- **Purity Boundary Map:** A clear architectural separation between the **deterministic, side-effect-free core** (where formal verification can operate) and the **effectful shell** (I/O, network, database, user interaction). This is the most consequential design decision in VSDD — it dictates module boundaries, dependency direction, and how state flows through the system. The pure core must be designed so that verification tools can reason about it without mocking the entire universe.
+./CLAUDE.md:142:- **Property Specifications:** Where possible, the Builder drafts the actual formal property definitions (e.g., Kani proof harnesses, Dafny contracts, TLA+ invariants) alongside the behavioral spec. These aren't implementation — they're the formal expression of what the spec already says in natural language. They serve as a second, mathematically precise encoding of the requirements.
+./CLAUDE.md:144:**Why this must happen in Phase 1:** If the system is designed with side effects woven through the core logic, no amount of Phase 5 heroics will make it verifiable. A function that reads from a database, performs a calculation, and writes to a log in one block cannot be formally verified without mocking infrastructure that the verifier may not support. But a function that takes data in, returns a result, and lets the caller handle persistence — that's a function a model checker can reason about. This boundary must be drawn at the spec level because it fundamentally shapes the module decomposition, the dependency graph, and the testing strategy that follows.
+./CLAUDE.md:148:The complete spec — behavioral contracts *and* verification architecture — is reviewed by *both* the human and the Adversary before any tests are written. Sarcasmotron tears into the spec looking for:
+./CLAUDE.md:152:- Implicit assumptions that aren't stated
+./CLAUDE.md:154:- **Properties claimed as "testable only" that should be provable** (the Adversary pushes back on lazy verification boundaries)
+./CLAUDE.md:160:**GitHub Integration:** Each spec maps to a GitHub Issue. Sub-issues are generated for each behavioral contract item, edge case, non-functional requirement, *and* each formally provable property. The provable properties get their own issue chain so their status is tracked independently from test coverage.
+./CLAUDE.md:168:With an airtight spec in hand, the Builder now writes tests — and *only* tests. No implementation code yet.
+./CLAUDE.md:172:The Builder translates the spec directly into executable tests:
+./CLAUDE.md:174:- **Unit Tests:** One or more tests per behavioral contract item. Every postcondition becomes an assertion. Every precondition violation becomes a test that expects a specific error.
+./CLAUDE.md:175:- **Edge Case Tests:** Every item in the Edge Case Catalog becomes a test. These are the tests that catch the bugs that "never happen in production" (until they do).
+./CLAUDE.md:177:- **Property-Based Tests:** Where applicable, the Builder generates property-based tests (e.g., using Hypothesis, fast-check, or proptest) that assert invariants hold across randomized inputs.
+./CLAUDE.md:179:**The Red Gate:** All tests must *fail* before any implementation begins. If a test passes without implementation, the test is suspect — it's either testing the wrong thing or the spec was wrong. The Builder flags this for human review.
+./CLAUDE.md:181:**Regression Sets (The 4-Result Rule):** Regression tests follow the same Red → Green discipline. The spec must zoom out enough to identify its **blast radius** — related features, adjacent modules, shared interfaces — and include regression tests for them. Before implementation begins, the Builder must produce **4 test results across 2 runs**:
+./CLAUDE.md:185:| **Pre-implementation (Red Gate)** | Fail (Red) — proves tests are real | Pass — proves existing behavior is intact |
+./CLAUDE.md:188:Both Red Gate runs (new = fail, regression = pass) are **required before writing any implementation code**. Both Green Gate runs (new = pass, regression = pass) are **required to exit Phase 2**. If regression tests fail at any point, the implementation has introduced a regression and must be fixed before proceeding. This forces every spec to consider its neighbors, not just itself.
+./CLAUDE.md:190:**Testing Before Committing:** The test suite is committed first — as many commits as needed. No non-test commit may be made on the branch until the Red Gate clears (new tests fail, regression tests pass). The branch is unlocked for implementation only after that.
+./CLAUDE.md:194:The Builder writes the *minimum* code necessary to make each test pass, one at a time. This is classic TDD discipline:
+./CLAUDE.md:196:1. Pick the next failing test.
+./CLAUDE.md:203:After all tests are green, the Builder refactors for clarity, performance, and adherence to the non-functional requirements in the spec. The test suite acts as the safety net — if refactoring breaks something, the tests catch it immediately.
+./CLAUDE.md:205:**Human Checkpoint:** The developer reviews the test suite and implementation for alignment with the "spirit" of the spec. AI can miss intent even when it nails the letter of the contract.
+./CLAUDE.md:211:*The code survived testing. Now it faces the gauntlet.*
+./CLAUDE.md:213:The verified, test-passing codebase — along with the spec and test suite — is presented to **Sarcasmotron** in a fresh context window.
+./CLAUDE.md:217:1. **Spec Fidelity:** Does the implementation actually satisfy the spec, or did the tests inadvertently encode a misunderstanding?
+./CLAUDE.md:218:2. **Test Quality:** Are the tests actually testing what they claim? Are there tests that would pass even if the implementation were subtly wrong? (Tautological tests, tests that mock too aggressively, tests that assert on implementation details rather than behavior.)
+./CLAUDE.md:219:3. **Code Quality:** The classic VDD roast — placeholder comments, generic error handling, inefficient patterns, hidden coupling, missing resource cleanup, race conditions.
+./CLAUDE.md:223:**Negative Prompting:** Sarcasmotron is prompted for zero tolerance. No "overall this looks good, but..." preamble. Every piece of feedback is a concrete flaw with a specific location and a proposed fix or question.
+./CLAUDE.md:234:- **Test-level flaws** → Return to Phase 2a. Fix or add tests, verify they fail against the current implementation (or a deliberately broken version), then fix implementation if needed.
+./CLAUDE.md:235:- **Implementation-level flaws** → Return to Phase 2c. Refactor, ensure all tests still pass.
+./CLAUDE.md:236:- **New edge cases discovered** → Add to spec's Edge Case Catalog, write new failing tests, implement fixes.
+./CLAUDE.md:244:The verification architecture designed in Phase 1b is now *executed* against the battle-tested implementation. Because the codebase was architected from the start with a pure core and clear purity boundaries, formal verification tools can operate on it without heroic refactoring.
+./CLAUDE.md:246:- **Proof Execution:** The property specifications drafted in Phase 1b (Kani harnesses, Dafny contracts, TLA+ invariants, etc.) are run against the implementation. Because the architecture was designed for verifiability, these proofs should engage cleanly with the pure core. Failures here indicate either implementation bugs or spec properties that need refinement — both feed back through Phase 4.
+./CLAUDE.md:247:- **Fuzz Testing:** Structured fuzzing (AFL++, libFuzzer, cargo-fuzz) is layered on top of property-based tests to find inputs that no human or AI anticipated. The deterministic core is an ideal fuzz target because it has no environmental dependencies to mock.
+./CLAUDE.md:249:- **Mutation Testing:** Tools like **mutmut** or **Stryker** mutate the code to verify the test suite actually catches real bugs. If a mutation survives, the test suite has a gap.
+./CLAUDE.md:258:VSDD inherits VDD's **hallucination-based termination**, extended across all three dimensions:
+./CLAUDE.md:263:| **Tests** | The Adversary can't identify a meaningful untested scenario. Mutation testing confirms high kill rate. |
+./CLAUDE.md:268:**Maximum Viable Refinement** is reached when all five dimensions have converged. The software is considered **Zero-Slop** — every line of code traces to a spec requirement, is covered by a test, has survived adversarial scrutiny, the critical path is formally proven, and the symbol surface is clean.
+./CLAUDE.md:280:At any point, you can ask: *"Why does this line of code exist?"* and trace it all the way back to a specific spec requirement, through the verification property it satisfies, the test that demanded it, the adversarial review that hardened it, and the formal proof that guarantees it. Equally, you can ask *"Why is this module structured as a pure function?"* and trace that decision back to the Purity Boundary Map in Phase 1b.
+./CLAUDE.md:284:### **IV. Core Principles of VSDD**
+./CLAUDE.md:286:1. **Spec Supremacy:** The spec is the highest authority below the human developer. Tests serve the spec. Code serves the tests. Nothing exists without a reason traced to the spec.
+./CLAUDE.md:290:3. **Red Before Green:** No implementation code is written until a failing test demands it. AI models are explicitly constrained to follow TDD discipline — no "let me just write the whole thing and add tests after."
+./CLAUDE.md:296:5. **Linear Accountability:** GitHub Issues ensure every spec item, test, and line of code has a corresponding tracked unit of work. Nothing slips through the cracks.
+./CLAUDE.md:300:7. **Four-Dimensional Convergence:** The system isn't done until specs, tests, implementation, *and* formal proofs have all independently survived adversarial review.
+./CLAUDE.md:302:8. **Quality Over Pain:** When the Builder identifies a better approach — a cleaner architecture, a more correct abstraction, a tighter spec — it does not defer the improvement because applying it is painful. Rewriting work already done is acceptable when the result is demonstrably better. Deferring a known-better solution to avoid rework is a failure of the methodology's autonomy. This does not mean gratuitous rewrites — "rewrite everything from scratch" is rarely a higher-quality solution; it's usually a failure to architect properly. The principle applies when the Builder has concrete evidence that the current path produces inferior output and a specific alternative is superior. When evaluating trade-offs between two approaches, "avoiding a painful process" is never a point in favor of the inferior option — pain is not a cost in this methodology, only quality is. Choosing the easier path over the better path because the better path is harder, slower, or requires rework is itself a VSDD failure. This is a safeguard against deferral-based development — the pattern where known-better solutions are perpetually deferred to "later" because "now" is inconvenient. In VSDD, "later" does not exist as a destination for quality improvements. If the better solution is identified, it is implemented now.
+./CLAUDE.md:308:VSDD is explicitly designed for multi-model AI workflows:
+./CLAUDE.md:310:- **The Builder** benefits from large context windows and strong code generation (Claude, GPT-4, etc.). It needs to hold the full spec, test suite, and implementation simultaneously.
+./CLAUDE.md:314:**Prompt Engineering for TDD Discipline:** The Builder must be explicitly instructed: *"You are operating under strict TDD. Write tests FIRST. Do NOT write implementation code until I confirm all tests fail. When implementing, write the MINIMUM code to pass each test."* Without this constraint, AI models will naturally try to write implementation and tests simultaneously.
+./CLAUDE.md:316:**Worktree Discipline:** All implementation work — every issue, every PR — happens in a **git worktree**, never on the main checkout. The main worktree should hardly mutate outside of pulls. Convention: `<repo>.worktrees/<branch-name>`. This applies to all agents — human, Builder, subagents. No exceptions. The main checkout stays clean on the default branch and only updates via `git pull`. This prevents agents from stepping on each other's work, keeps the main tree as a stable reference for regression tests, and makes parallel work across multiple issues safe by default.
+./CLAUDE.md:324:- Correctness is non-negotiable (financial systems, medical software, infrastructure)
+./CLAUDE.md:330:For rapid prototyping or throwaway scripts, use the parts that make sense — TDD discipline and a quick adversarial pass can still catch a lot of slop even without the full ceremony.
+./CLAUDE.md:346:**PascalCase exception:** Multi-word PascalCase names (classes, interfaces, type aliases) are generally acceptable. Classes and types are used across unpredictable scopes, so collisions cannot be accurately predicted at spec time. They should still be evaluated — a `BridgeData` inside a `Bridge` namespace is still redundant — but PascalCase multi-word names are not automatic red flags the way camelCase and snake_case multi-word names are.
+./CLAUDE.md:354:**Error structure inconsistency:** Another indicator of poorly spec'd code is inconsistency in error handling patterns. In well-spec'd code, errors should be structurally uniform: consistent error types, consistent error codes, consistent throw/return patterns. If some functions throw `PreprocessError` with codes, others throw raw `Error`, and others return null — the spec failed to define an error contract. During adversarial review, flag any inconsistencies in: error types used, error code coverage, try/catch vs assertThrows patterns in tests, and whether all failure modes are surfaced through the same mechanism.
+./CLAUDE.md:356:**How to apply:** During adversarial review (Phase 3) and refactoring (Phase 2c), scan for multi-word symbols. For each one, determine: (a) should this be a method on an object? (b) does the name need qualification, or is the scope unambiguous? (c) if qualification is genuinely needed, is the scope doing too much? Also scan for error structure inconsistencies across the module boundary.
+
+===== patch/search surface hits =====
+./tools/gh/CLAUDE.md:13:gh search repos "accessibility cli" --sort stars
+./tools/gh/CLAUDE.md:14:gh search repos "cli tool" --language typescript --sort stars
+./tools/gh/CLAUDE.md:17:gh search repos "mcp" --owner anthropics
+./tools/gh/CLAUDE.md:25:gh repo list anthropics --language typescript
+./tools/gh/CLAUDE.md:32:gh search code "pattern" --language typescript
+./tools/gh/CLAUDE.md:33:gh search code "import { serve }" --filename "mod.ts"
+./tools/gh/CLAUDE.md:36:gh search code "pattern" --repo owner/repo
+./tools/gh/CLAUDE.md:37:gh search code "pattern" --owner anthropics
+./tools/gh/CLAUDE.md:47:gh api repos/owner/repo/events --jq '.[] | "\(.type) by \(.actor.login) at \(.created_at)"'
+./tools/gh/CLAUDE.md:50:gh search prs --author username --state open
+./tools/gh/CLAUDE.md:51:gh search issues --author username --state open
+./tools/gh/CLAUDE.md:58:gh search issues "bug" --repo owner/repo --sort comments
+./tools/gh/CLAUDE.md:59:gh search issues "feature request" --label enhancement --repo owner/repo
+./tools/gh/CLAUDE.md:62:gh issue list --repo owner/repo --label bug --state open
+./tools/gh/CLAUDE.md:74:gh search prs "refactor" --repo owner/repo --state merged
+./tools/gh/CLAUDE.md:138:gh issue edit 123 --repo owner/repo --add-label "bug"
+./tools/gh/CLAUDE.md:185:1. **Start broad**: `gh search repos` to find relevant projects
+./tools/gh/CLAUDE.md:189:5. **Read the code**: `gh search code` to find specific patterns or implementations
+./CLAUDE.md:10:- **Test-Driven Development (TDD):** Tests are written *before* code. Red → Green → Refactor. No code exists without a failing test that demanded it.
+./CLAUDE.md:22:| **The Builder** | Claude (or similar) | Spec authorship, test generation, code implementation, and refactoring. Operates under strict TDD constraints. |
+./CLAUDE.md:69:# Default model hits capacity errors; always specify model
+./CLAUDE.md:91:# TODO: try qwen3:32b without --think and qwen3:14b with --think in future cycles
+./CLAUDE.md:100:- subagent_type: "general-purpose"
+./CLAUDE.md:111:| **Regression Check (2)** | Run test suite; verify 4-Result Rule (new fail + regression pass → new pass + regression pass). |
+./CLAUDE.md:129:- **Interface Definition:** Input types, output types, error types. No ambiguity. If it's an API, this is the OpenAPI/GraphQL schema. If it's a module, this is the type signature and doc contract.
+./CLAUDE.md:131:- **Non-Functional Requirements:** Performance bounds, memory constraints, security considerations baked into the spec itself.
+./CLAUDE.md:135:Before any implementation design is finalized, the Builder produces a **Verification Strategy** that answers: *"What properties of this system must be mathematically provable, and what architectu
+

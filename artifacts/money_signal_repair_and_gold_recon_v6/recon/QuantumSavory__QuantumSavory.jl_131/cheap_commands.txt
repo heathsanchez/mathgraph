@@ -1,0 +1,13 @@
+pwd=/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/QuantumSavory__QuantumSavory.jl_131
+
+Julia Project.toml found.
+
+julia not installed locally; cannot run Pkg.test without setup.
+
+workflows:
+.github/workflows/benchmark.yml
+.github/workflows/changelog-enforcer.yml
+.github/workflows/ci.yml
+.github/workflows/downgrade.yml
+.github/workflows/spelling.yml
+.github/workflows/TagBot.yml

@@ -1,0 +1,18 @@
+{
+  "repo": "qojulia/QuantumOptics.jl",
+  "num": 407,
+  "url": "https://github.com/qojulia/QuantumOptics.jl/issues/407",
+  "title": "Update the benchmark suite and bring it into the CI runner [$400]",
+  "state": "OPEN",
+  "updatedAt": "2026-05-01T20:11:21Z",
+  "reason": "$400 benchmark suite + CI runner, likely real judged route",
+  "amount_estimate": 400.0,
+  "money": true,
+  "local_judge": true,
+  "benchmark_or_metric": true,
+  "has_surface": true,
+  "prompt_risk": false,
+  "hardware_risk": false,
+  "web3_risk": false,
+  "verdict": "PROMOTE_PAID_RECON"
+}

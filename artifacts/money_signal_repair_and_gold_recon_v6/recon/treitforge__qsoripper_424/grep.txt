@@ -1,0 +1,279 @@
+===== money / judge / benchmark / test hits =====
+./tools/ditdah-direct/Cargo.toml:15:name = "pin-wpm-test"
+./tools/ditdah-direct/Cargo.toml:16:path = "pin_wpm_test.rs"
+./tools/wpm-measure/main.rs:365:        ("symmetric 50/50  HIGH=0.50 LOW=0.50", 0.50, 0.50),
+./tools/wpm-measure/main.rs:369:        ("symmetric 50     HIGH=0.50 LOW=0.50", 0.50, 0.50),
+./tools/wpm-measure/main.rs:370:        ("symmetric 60     HIGH=0.60 LOW=0.60", 0.60, 0.60),
+./tools/wpm-measure/main.rs:446:        // median of shortest 1/3 = (dot + intra-gap) ≈ 2*dot
+./tools/wpm-measure/main.rs:450:        println!("  shortest-third median rising-edge interval = {:.2}ms",
+./tools/corpus-sweep/pin_sweep.py:2:Sweep cw-decoder corpus at multiple pinned WPMs via the ditdah pin-wpm-test
+./tools/corpus-sweep/pin_sweep.py:18:PIN_BIN = REPO / "tools" / "ditdah-direct" / "target" / "release" / "pin-wpm-test.exe"
+./tools/corpus-sweep/pin_sweep.py:76:    pin-wpm-test prints `=== auto WPM ===` then text, then for each pin_wpm in
+./tools/corpus-sweep/pin_sweep.py:147:        print(f"pin-wpm-test not built: {PIN_BIN}", file=sys.stderr)
+./test.ps1:4:    Cross-platform test script for QsoRipper.
+./test.ps1:7:    Runs the repository's automated test suites without the heavier build,
+./test.ps1:11:    The test command to run. Default: all.
+./test.ps1:14:    Build configuration for .NET and Win32 test runs. Default: Debug.
+./test.ps1:17:    CMake generator for local Win32 tests. Default: Visual Studio 18 2026.
+./test.ps1:20:    ./test.ps1
+./test.ps1:21:    ./test.ps1 dotnet
+./test.ps1:22:    ./test.ps1 win32 -Configuration Release
+./test.ps1:41:$Win32BuildDir = Join-Path $PSScriptRoot 'build' 'win32-tests'
+./test.ps1:42:$PesterTestsDir = Join-Path $PSScriptRoot 'tests'
+./test.ps1:43:$EngineConformanceScript = Join-Path $PSScriptRoot 'tests' 'Run-EngineConformance.ps1'
+./test.ps1:173:        if ($line -match 'test result:\s+\w+\.\s+(?<passed>\d+) passed;\s+(?<failed>\d+) failed;\s+(?<ignored>\d+) ignored;') {
+./test.ps1:196:function Get-CtestCounts([string[]]$Lines) {
+./test.ps1:198:        if ($line -match '(?<failed>\d+) tests failed out of (?<total>\d+)') {
+./test.ps1:282:    Invoke-TestStepWithCounts 'Rust tests' cargo @('test', '--manifest-path', $RustManifest) 'Rust' ${function:Get-RustTestCounts}
+./test.ps1:286:    Invoke-TestStepWithCounts ".NET tests ($Configuration)" dotnet @('test', $DotnetSolution, '-c', $Configuration) '.NET' ${function:Get-DotnetTestCounts}
+./test.ps1:291:        Write-Step 'Win32 tests'
+./test.ps1:292:        Write-Host 'Win32 tests require Windows; skipping on this platform.' -ForegroundColor Yellow
+./test.ps1:298:        Write-Step 'Win32 tests'
+./test.ps1:304:        Write-Step 'Win32 tests'
+./test.ps1:309:    Measure-TestStep "Configuring Win32 tests ($Win32Generator)" {
+./test.ps1:313:    Invoke-TestStep "Building Win32 tests ($Configuration)" cmake @(
+./test.ps1:319:    Invoke-TestStepWithCounts "Running Win32 CTest ($Configuration)" ctest @(
+./test.ps1:320:        '--test-dir', $Win32BuildDir,
+./test.ps1:323:    ) 'Win32' ${function:Get-CtestCounts}
+./test.ps1:329:        Write-Step 'Pester tests'
+./test.ps1:330:        Write-Host 'Pester not installed; skipping PowerShell tests. Install-Module Pester -Scope CurrentUser' -ForegroundColor Yellow
+./test.ps1:335:    Measure-TestStep 'Pester tests' {
+./test.ps1:398:Usage: ./test.ps1 [command] [-Configuration Release|Debug] [-Win32Generator <generator>]
+./test.ps1:401:  all       Run Rust, .NET, Win32, Pester, and engine conformance tests (default)
+./test.ps1:402:  rust      Run Rust workspace tests
+./test.ps1:403:  dotnet    Run .NET solution tests
+./test.ps1:404:  win32     Configure, build, and run Win32 CTest tests
+./test.ps1:405:  pester    Run PowerShell/Pester tests under tests/
+./test.ps1:410:  ./test.ps1
+./test.ps1:411:  ./test.ps1 dotnet -Configuration Release
+./test.ps1:412:  ./test.ps1 win32
+./proto/domain/qsl_status.proto:9:  QSL_STATUS_UNSPECIFIED = 0;
+./proto/domain/rig_connection_status.proto:9:  RIG_CONNECTION_STATUS_UNSPECIFIED = 0;
+./proto/domain/contest_calendar_status.proto:7:enum ContestCalendarStatus {
+./proto/domain/contest_calendar_status.proto:8:  CONTEST_CALENDAR_STATUS_UNSPECIFIED = 0;
+./proto/domain/space_weather_status.proto:8:  SPACE_WEATHER_STATUS_UNSPECIFIED = 0;
+./proto/domain/qso_history_entry.proto:18://   - Future contest-mode dupe checks: (band, mode, contest_id) covers every
+./proto/domain/qso_history_entry.proto:19://     common contest dupe rule, and contest_id distinguishes current-contest
+./proto/domain/qso_history_entry.proto:20://     contacts from past contacts. Contest mode is not implemented yet; this
+./proto/domain/qso_history_entry.proto:45:  // Contest identifier for the contact, when logged in a contest. Empty for
+./proto/domain/qso_history_entry.proto:46:  // non-contest QSOs. Used by future contest-mode dupe logic to differentiate
+./proto/domain/qso_history_entry.proto:47:  // current-contest dupes from past-contest history.
+./proto/domain/qso_history_entry.proto:48:  optional string contest_id = 8;
+./proto/domain/contest_calendar_entry.proto:8:import "domain/contest_details_status.proto";
+./proto/domain/contest_calendar_entry.proto:12:message ContestCalendarEntry {
+./proto/domain/contest_calendar_entry.proto:13:  string contest_id = 1;
+./proto/domain/contest_calendar_entry.proto:23:  ContestDetailsStatus details_status = 11;
+./proto/domain/conflict_policy.proto:12:  CONFLICT_POLICY_UNSPECIFIED = 0;
+./proto/domain/callsign_ambiguity.proto:9:  CALLSIGN_AMBIGUITY_UNSPECIFIED = 0;
+./proto/domain/band.proto:9:  BAND_UNSPECIFIED = 0;
+./proto/domain/geo_source.proto:10:  GEO_SOURCE_UNSPECIFIED = 0;
+./proto/domain/qso_completion.proto:10:  QSO_COMPLETION_UNSPECIFIED = 0;  // No value present in source ADIF.
+./proto/domain/qso_record.proto:65:  // --- Contest fields ---
+./proto/domain/qso_record.proto:66:  optional string contest_id = 50;
+./proto/domain/qso_record.proto:117:  // Receiver band when running split. Defaults to BAND_UNSPECIFIED if absent.
+./proto/domain/qso_record.proto:145:  // This is an intentionally lossy "latest snapshot" cache. A future
+./proto/domain/modifier_kind.proto:9:  MODIFIER_KIND_UNSPECIFIED = 0;
+./proto/domain/contest_details_status.proto:7:enum ContestDetailsStatus {
+./proto/domain/contest_details_status.proto:8:  CONTEST_DETAILS_STATUS_UNSPECIFIED = 0;
+./proto/domain/mode.proto:10:  MODE_UNSPECIFIED = 0;
+./proto/domain/lookup_state.proto:12:  LOOKUP_STATE_UNSPECIFIED = 0;  // Default/zero value — should not appear in normal responses
+./proto/services/stress_vector_state.proto:8:  STRESS_VECTOR_STATE_UNSPECIFIED = 0;
+./proto/services/test_qrz_logbook_credentials_response.proto:10:  // Human-readable error message when the test failed.
+./proto/services/lookup_service.proto:47:  // Batch lookup for prefetch/contest scenarios. Returns one LookupResult per callsign,
+./proto/services/lookup_service.proto:48:  // in request order. Useful for warming the cache before a contest session begins.
+./proto/services/list_qsos_request.proto:19:  optional string contest_id = 6;
+./proto/services/runtime_config_value_kind.proto:8:  RUNTIME_CONFIG_VALUE_KIND_UNSPECIFIED = 0;
+./proto/services/stress_run_state.proto:8:  STRESS_RUN_STATE_UNSPECIFIED = 0;
+./proto/services/refresh_contest_calendar_response.proto:7:import "domain/contest_calendar_entry.proto";
+./proto/services/refresh_contest_calendar_response.proto:8:import "domain/contest_calendar_status.proto";
+./proto/services/refresh_contest_calendar_response.proto:11:message RefreshContestCalendarResponse {
+./proto/services/refresh_contest_calendar_response.proto:12:  repeated qsoripper.domain.ContestCalendarEntry contests = 1;
+./proto/services/refresh_contest_calendar_response.proto:13:  qsoripper.domain.ContestCalendarStatus status = 2;
+./proto/services/deleted_records_filter.proto:8:// Default (UNSPECIFIED) is treated as ACTIVE_ONLY so existing callers keep
+./proto/services/deleted_records_filter.proto:11:  DELETED_RECORDS_FILTER_UNSPECIFIED = 0;
+./proto/services/rig_control_service.proto:11:import "services/test_rig_connection_request.proto";
+./proto/services/rig_control_service.proto:12:import "services/test_rig_connection_response.proto";
+./proto/services/stress_log_level.proto:8:  STRESS_LOG_LEVEL_UNSPECIFIED = 0;
+./proto/services/stress_run_configuration.proto:11:  uint32 metrics_interval_ms = 4;
+./proto/services/cat_hub_permission.proto:11:  CAT_HUB_PERMISSION_UNSPECIFIED = 0;
+./proto/services/contest_calendar_service.proto:7:import "services/get_active_contests_request.proto";
+./proto/services/contest_calendar_service.proto:8:import "services/get_active_contests_response.proto";
+./proto/services/contest_calendar_service.proto:9:import "services/refresh_contest_calendar_request.proto";
+./proto/services/contest_calendar_service.proto:10:import "services/refresh_contest_calendar_response.proto";
+./proto/services/contest_calendar_service.proto:12:service ContestCalendarService {
+./proto/services/contest_calendar_service.proto:13:  rpc GetActiveContests(GetActiveContestsRequest) returns (GetActiveContestsResponse);
+./proto/services/contest_calendar_service.proto:14:  rpc RefreshContestCalendar(RefreshContestCalendarRequest) returns (RefreshContestCalendarResponse);
+./proto/services/test_rig_connection_request.proto:7:// Allows testing rig connectivity with optional overrides before persisting config.
+./proto/services/setup_service.proto:13:import "services/test_qrz_credentials_request.proto";
+./proto/services/setup_service.proto:14:import "services/test_qrz_credentials_response.proto";
+./proto/services/setup_service.proto:15:import "services/test_qrz_logbook_credentials_request.proto";
+./proto/services/setup_service.proto:16:import "services/test_qrz_logbook_credentials_response.proto";
+./proto/services/stress_control_service.proto:29:  // Stream the latest stress snapshot whenever it changes.
+./proto/services/setup_wizard_step.proto:9:  SETUP_WIZARD_STEP_UNSPECIFIED = 0;
+./proto/services/storage_backend.proto:8:  STORAGE_BACKEND_UNSPECIFIED = 0;
+./proto/services/get_active_contests_response.proto:7:import "domain/contest_calendar_entry.proto";
+./proto/services/get_active_contests_response.proto:8:import "domain/contest_calendar_status.proto";
+./proto/services/get_active_contests_response.proto:11:message GetActiveContestsResponse {
+./proto/services/get_active_contests_response.proto:12:  repeated qsoripper.domain.ContestCalendarEntry contests = 1;
+./proto/services/get_active_contests_response.proto:13:  qsoripper.domain.ContestCalendarStatus status = 2;
+./proto/services/export_adif_request.proto:12:  optional string contest_id = 3;
+./proto/services/get_active_contests_request.proto:11:message GetActiveContestsRequest {
+./proto/services/refresh_contest_calendar_request.proto:7:message RefreshContestCalendarRequest {}
+./proto/services/runtime_config_mutation_kind.proto:8:  RUNTIME_CONFIG_MUTATION_KIND_UNSPECIFIED = 0;
+./proto/services/stress_run_snapshot.proto:9:import "services/stress_process_metrics.proto";
+./experiments/cathub-frequency-probe/README.md:3:Single-purpose WinUI 3 diagnostic app for CAT latency testing.
+./experiments/cathub-frequency-probe/CatHubRigClient.cs:71:        _reader = new StreamReader(_stream, Encoding.ASCII, detectEncodingFromByteOrderMarks: false, bufferSize: 256, leaveOpen: true);
+./experiments/cathub-frequency-probe/CatHubRigClient.cs:108:        var bytes = Encoding.ASCII.GetBytes(command + "\n");
+./experiments/cw-decoder/EXPERIMENT_REPORT.md:24:| `experiments/cw-decoder/scripts/bench_adversarial.py` | Bench harness (CER/WER + element-level + suite-specific metrics) |
+./experiments/cw-decoder/EXPERIMENT_REPORT.md:40:| `fast-contest` | 20 | 35 / 40 / 45 WPM short contest exchanges | Standard timing, 0.025 white noise floor |
+./experiments/cw-decoder/EXPERIMENT_REPORT.md:57:| `fast-contest`        | 0.000 | 0.000 | 1.000 | 1.000 | — |
+./experiments/cw-decoder/EXPERIMENT_REPORT.md:112:6. **`fast-contest`** — perfect (CER 0).
+./experiments/cw-decoder/EXPERIMENT_REPORT.md:122:| `fast-contest` | `mean_cer == 0.0` |
+./experiments/cw-decoder/EXPERIMENT_REPORT.md:158:The 6-sample bench at the worktree root remains as a smoke test; this
+./experiments/cw-decoder/docs/cw-decoder-architecture.html:256:    contest exchanges, callsign capture, and post-QSO reconstruction.
+./experiments/cw-decoder/docs/cw-decoder-architecture.html:262:    The reference test case for this work is
+./experiments/cw-decoder/docs/cw-decoder-architecture.html:423:    static spikes. Each surviving run is padded symmetrically by
+./experiments/cw-decoder/docs/cw-decoder-architecture.html:657:      <code>cargo&nbsp;test</code> suite (129 passing, one pre-existing
+./experiments/cw-decoder/docs/cw-decoder-architecture.html:736:      simultaneous transcripts &mdash; useful for SO2R and contest
+./experiments/cw-decoder/docs/cw-decoder-architecture.html:756:      protection against regression is a broad, real-world test set.
+./experiments/cw-decoder/docs/cw-decoder-architecture.html:843:        Trigonometric Series&rdquo;, <i>American Mathematical Monthly</i>,
+./experiments/cw-decoder/README.md:24:> pauses, TX/RX cycles, ragchew vs contest mixes) needs a different
+./experiments/cw-decoder/README.md:51:> **Reference success metric.** This baseline produces a 100% exact-match
+./experiments/cw-decoder/README.md:79:>   gen-qso-suite --output .artifacts\cw-qso-suite --ragchew 6 --contest 6
+./experiments/cw-decoder/README.md:82:> The generator emits deterministic ragchew and contest WAVs, `.truth.txt`
+./experiments/cw-decoder/README.md:84:> region decoder. Use `--require-exact` when you want CI-style non-zero
+./experiments/cw-decoder/README.md:95:> source still runs alongside to preserve dense-cluster contest cases.
+./experiments/cw-decoder/README.md:96:> The combined synthetic suite now scores 12/12 exact copy (was 6/12);
+./experiments/cw-decoder/README.md:115:> cargo test --manifest-path experiments\cw-decoder\Cargo.toml region_streamer::tests::synthetic
+./experiments/cw-decoder/README.md:216:  - `probe-fisher` — sweep candidate pitches across an audio file and rank them by trial-decode Fisher score
+./experiments/cw-decoder/README.md:217:- **Cold-start + lock-stability benchmark**
+./experiments/cw-decoder/README.md:218:  - `bench-latency` — feed a deterministic synthetic scenario matrix (silence/noise/voice lead-ins + long-clean-CW lock-stability stress) or a real recording (`--from-file --truth --cw-onset-ms`) through the streaming decoder and report two classes of metrics: cold-start *acquisition latency* (time from CW onset to first stable-N-correct decoded run) and *lock stability* once locked (post-first-lock uptime ratio, `PitchLost` count, relock cycles, longest non-Locked gap). Headline metric is `lat_ms = t_stable_N - cw_onset_ms`. Add `--foundation` to score the append-only event-stream transcript path used by the GUI; in that mode latency-specific lock metrics are intentionally empty and the output is a transcript-quality/regression record.
+./experiments/cw-decoder/README.md:224:Corpus scorer and sweep harness (`src\bin\eval.rs`).
+./experiments/cw-decoder/README.md:253:# CI-style exit code: non-zero if any entry mismatches or errors
+./experiments/cw-decoder/README.md:271:### Stress-test harness (`scripts\stress-gen.ps1` + `scripts\stress-eval.ps1`)
+./experiments/cw-decoder/README.md:286:Generate and score:
+./experiments/cw-decoder/README.md:374:- easier to score against human labels
+./experiments/cw-decoder/README.md:451:- **Two-stage detection.** Acquisition uses `trial_decode_score` (a real
+./experiments/cw-decoder/README.md:551:- an experimental **TONE PURITY** gate that compares each instantaneous target-bin power against the off-band noise bins (q25 of bins at ±150/300/500/700 Hz) at the *same* sample. A real CW tone scores 5–20+ instantaneous purity; a 5 ms broadband impulse (finger snap, key click, lightning, switching ground) lights up *all* bins together so the ratio collapses to ~1 and is rejected at the source. Default `min_tone_purity = 3.0`; set to 0 to disable. Reuses the existing noise bins (no new Goertzels), and runs *before* smoothing so the gate fires faster than the 200 ms noise smoother can equalize.
+./experiments/cw-decoder/README.md:592:- score the current label file, the full corpus, or any checked subset of available `*.labels.jsonl` files
+./experiments/cw-decoder/README.md:594:- inspect score cards, failure-breakdown bars, and per-label truth-vs-decoded detail instead of raw console text
+./experiments/cw-decoder/README.md:597:- score the experimental custom-streaming range-lock path against labels by enabling **RANGE LOCK** on the Tuning tab
+./experiments/cw-decoder/README.md:605:`label -> score/sweep -> apply top result -> decode tab file/live A/B`
+./experiments/cw-decoder/README.md:622:- the harder contest-style recordings are a different problem class
+./experiments/cw-decoder/README.md:674:This baseline became the reference scorer target.
+./experiments/cw-decoder/README.md:676:## Phase 4: scorer and parameter sweep
+./experiments/cw-decoder/README.md:698:- Tuning tab exposes score/sweep
+./experiments/cw-decoder/README.md:801:### Label corpus reference scores
+./experiments/cw-decoder/README.md:811:Current exact-window score:
+./experiments/cw-decoder/README.md:817:Current full-stream score:
+./experiments/cw-decoder/README.md:850:3. **Spacing is now visible and testable.**
+./experiments/cw-decoder/README.md:854:5. **Hard contest audio is still the frontier.**
+./experiments/cw-decoder/README.md:869:1. **Unit level:** `AppendEventDecoder` tests should cover repeated `viz` frames, character gaps, word gaps, and final pending-character flush.
+./experiments/cw-decoder/README.md:873:5. **Bench level:** `bench-latency --foundation --json` should remain a quick smoke that emits recognizable transcript rows before deeper latency metrics are trusted.
+./experiments/cw-decoder/README.md:892:1. append-foundation score / replay transcript
+./experiments/cw-decoder/README.md:893:2. exact-window label score as the upper-bound classifier check
+./experiments/cw-decoder/README.md:894:3. full-stream score as the live segmentation/finalization check
+./experiments/cw-decoder/README.md:901:- **spacing classifier:** tune char-vs-word gap thresholds, make gap maturity explicit, and score raw Morse gaps against labels where possible
+./experiments/cw-decoder/README.md:904:- **matched element scoring:** replace hard threshold chatter with soft scores over candidate 1-dot, 3-dot, and 7-dot windows
+./experiments/cw-decoder/README.md:919:   Add/keep tests around `src\append_decode.rs`, require `foundation` in strategy sweeps, and preserve `raw_morse`/`cursor_transcript` diagnostics so future changes can explain differences instead of only showing final text.
+./experiments/cw-decoder/README.md:921:   The current foundation exposed word-gap mistakes cleanly. The next useful scorer should classify failures as character substitution vs char-gap vs word-gap errors.
+./experiments/cw-decoder/README.md:929:   Replace single-pitch lock with a CFAR-scored ridge tracker over 350-1500 Hz so multi-signal contest audio can present per-track candidates instead of one winner-takes-all lock.
+./experiments/cw-decoder/README.md:935:- **contest/multi-signal misses** -> target isolation + segmentation
+./experiments/cw-decoder/README.md:939:If the goal is the fastest useful loop on another PC with live radio audio:
+./experiments/cw-decoder/README.md:970:If you want to smoke-test inline playback directly from the CLI:
+./experiments/cw-decoder/README.md:976:Run the scorer on the full corpus (from the repo root, since labels live under `data\cw-samples\`):
+./experiments/cw-decoder/README.md:982:Run the full-stream scorer:
+./experiments/cw-decoder/README.md:994:Run the experimental range-lock scorer against a focused label subset:
+./experiments/cw-decoder/README.md:1016:Probe likely target tones by Fisher score:
+./experiments/cw-decoder/README.md:1022:Run the cold-start + lock-stability benchmark on the synthetic scenario matrix (silence/noise/voice/long-clean-CW lead-ins; latency `lat_ms = t_stable_N - cw_onset_ms`, plus post-lock uptime / drops / relock cycles / longest non-Locked gap):
+./experiments/cw-decoder/README.md:1028:Same benchmark on a real recording (operator supplies CW onset + truth):
+./experiments/cw-decoder/README.md:1076:The `harsh_white` / `inband_qrm` / `chaos` variants currently expose a real weakness: even with a healthy lock and a passed Fisher confidence check, the keying envelope chatters in dense in-band noise and the ditdah classifier emits long runs of garbage characters. Improving the `false_chars_before_stable` metric on these three is the next concrete bench target. Tracked in [#320](https://github.com/rtreit/qsoripper/issues/320).
+./experiments/cw-decoder/README.md:1103:So the four-patch combination reduces ghost output across the whole baseline tier (zero on most, one on the two QSB-heavy variants) without regressing latency, and it completely silences the harsh-tier ghost flood. The remaining gap — getting `harsh_white` / `inband_qrm` / `chaos` to a *stable* lock at all — is no longer a downstream-classifier problem; it is acquisition under continuous in-band carriers, which is what the next iteration (CFAR-style local-contrast detection or envelope-against-slow-carrier-floor) needs to address. The acceptance criteria in #320 are still not fully met, but the ghost-character class of failure that the issue opened with is resolved.
+./experiments/cw-decoder/README.md:1114:The empirical conclusion (recorded on issue #322): per-frame normalization alone cannot crack the harsh tier without regressing the clean tier. The `--cfar-keying` substrate is the foundation for the next iteration — soft element-window matched scoring that integrates the ratio metric over candidate ~1-dot, ~3-dot, and ~7-dot windows once the dot estimate is primed.
+./experiments/cw-decoder/.gitignore:3:!tests/**/*.wav
+./experiments/cw-decoder/adversarial_report.json:68:    "fast-contest": {
+./experiments/cw-decoder/adversarial_report.json:2418:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2419:      "id": "fast-contest-00",
+./experiments/cw-decoder/adversarial_report.json:2433:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2434:      "id": "fast-contest-01",
+./experiments/cw-decoder/adversarial_report.json:2448:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2449:      "id": "fast-contest-02",
+./experiments/cw-decoder/adversarial_report.json:2463:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2464:      "id": "fast-contest-03",
+./experiments/cw-decoder/adversarial_report.json:2478:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2479:      "id": "fast-contest-04",
+./experiments/cw-decoder/adversarial_report.json:2493:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2494:      "id": "fast-contest-05",
+./experiments/cw-decoder/adversarial_report.json:2508:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2509:      "id": "fast-contest-06",
+./experiments/cw-decoder/adversarial_report.json:2523:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2524:      "id": "fast-contest-07",
+./experiments/cw-decoder/adversarial_report.json:2538:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2539:      "id": "fast-contest-08",
+./experiments/cw-decoder/adversarial_report.json:2553:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2554:      "id": "fast-contest-09",
+./experiments/cw-decoder/adversarial_report.json:2568:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2569:      "id": "fast-contest-10",
+./experiments/cw-decoder/adversarial_report.json:2583:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2584:      "id": "fast-contest-11",
+./experiments/cw-decoder/adversarial_report.json:2598:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2599:      "id": "fast-contest-12",
+./experiments/cw-decoder/adversarial_report.json:2613:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2614:      "id": "fast-contest-13",
+./experiments/cw-decoder/adversarial_report.json:2628:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2629:      "id": "fast-contest-14",
+./experiments/cw-decoder/adversarial_report.json:2643:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2644:      "id": "fast-contest-15",
+./experiments/cw-decoder/adversarial_report.json:2658:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2659:      "id": "fast-contest-16",
+./experiments/cw-decoder/adversarial_report.json:2673:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2674:      "id": "fast-contest-17",
+./experiments/cw-decoder/adversarial_report.json:2688:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2689:      "id": "fast-contest-18",
+./experiments/cw-decoder/adversarial_report.json:2703:      "suite": "fast-contest",
+./experiments/cw-decoder/adversarial_report.json:2704:      "id": "fast-contest-19",
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:59:ffmpeg -y -i $clean -i $wn -filter_complex '[0]volume=0.35[a];[a][1]amix=inputs=2:duration=shortest:normalize=0' -ac 1 $weak
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:60:ffmpeg -y -i $clean -i $bn -filter_complex '[0][1]amix=inputs=2:duration=shortest:normalize=0' -ac 1 $qrn
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:67:ffmpeg -y -i $clean -i $bnHi -filter_complex '[0][1]amix=inputs=2:duration=shortest:normalize=0' -ac 1 $xqrn
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:69:ffmpeg -y -i $clean -i $wnHi -filter_complex '[0]volume=0.20[a];[a][1]amix=inputs=2:duration=shortest:normalize=0' -ac 1 $crushed
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:74:ffmpeg -y -i $clean -i $bnXh -filter_complex '[0]volume=0.18[a];[a][1]amix=inputs=2:duration=shortest:normalize=0,tremolo=f=0.1:d=0.85' -ac 1 $buried
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:76:ffmpeg -y -i $clean -i $wnXh -filter_complex '[0]volume=0.15[a];[a][1]amix=inputs=2:duration=shortest:normalize=0' -ac 1 $harshWh
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:79:ffmpeg -y -i $clean -i $inBandN -filter_complex '[0]volume=0.18[a];[a][1]amix=inputs=2:duration=shortest:normalize=0' -ac 1 $inBand
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:80:# chaos: harsh in-band noise + deep slow fade. The full-stack stress test.
+./experiments/cw-decoder/scripts/gen-30wpm-variants.ps1:81:ffmpeg -y -i $clean -i $inBandN -filter_complex '[0]volume=0.18[a];[a][1]amix=inputs=2:duration=shortest:normalize=0,tremolo=f=0.1:d=0.9' -ac 1 $chaos
+./experiments/cw-decoder/scripts/generate_adversarial_suites.py:1:"""Generate adversarial CW test suites for decoder evaluation.
+./experiments/cw-decoder/scripts/generate_adversarial_suites.py:492:def build_fast_contest(ctx: BuildCtx) -> Example:
+./experiments/cw-decoder/scripts/generate_adversarial_suites.py:493:    # Short contest-style exchange at high WPM.
+./experiments/cw-decoder/scripts/generate_adversarial_suites.py:518:    SuiteSpec("fast-contest", "35/40/45 WPM short contest exchanges.", build_fast_contest),
+./experiments/cw-decoder/scripts/adversarial_manifest.jsonl:141:{"duration_s": 7.4067, "id": "fast-contest-00", "meta": {"pitch_hz": 580.0, "wpm": 35.0}, "n_dahs": 25, "n_dits": 29, "sample_rate": 12000, "seed": 2746867375, "suite": "fast-contest", "truth": "CQ TEST KC7AVA KC7AVA", "wav": "data/cw-samples/synthetic-adversarial/fast-contest/fast-contest-00.wav"}
+./experiments/cw-decoder/scripts/adversarial_manifest.jsonl:142:{"duration_s": 6.54, "id": "fast-contest-01", "meta": {"pitch_hz": 600.0, "wpm": 40.0}, "n_dahs": 22, "n_dits": 32, "sample_rate": 12000, "seed": 1032759070, "suite": "fast-contest", "truth": "K6XX DE G3SXW TU 5NN K", "wav": "data/cw-samples/synthetic-adversarial/fast-contest/fast-contest-01.wav"}
+./experiments/cw-decoder/scripts/adversarial_manifest.jsonl:143:{"duration_s": 6.29, "id": "fast-contest-02", "meta": {"pitch_hz": 650.0, "wpm": 45.0}, "n_dahs": 30, "n_dits": 25, "sample_rate": 12000, "seed": 2681679309, "suite": "fast-contest", "truth": "N7XM DE N9ZZ 599 WA K", "wav": "data/cw-samples/synthetic-adversarial/fast-contest/fast-contest-02.wav"}
+./experiments/cw-decoder/scripts/adversarial_manifest.jsonl:144:{"duration_s": 7.4067, "id": "fast-contest-03", "meta": {"pitch_hz": 650.0, "wpm": 35.0}, "n_dahs": 27, "n_dits": 27, "sample_rate": 12000, "seed": 2032120764, "suite": "fast-contest", "truth": "CQ TEST KB1HQ KB1HQ", "wav": "data/cw-samples/synthetic-adversarial/fast-contest/fast-contest-03.wav"}
+
+===== package/test files =====
+./.github/workflows/copilot-setup-steps.yml
+./.github/workflows/dotnet-quality.yml
+./.github/workflows/engine-conformance.yml
+./.github/workflows/full-stack-quality.yml
+./.github/workflows/powershell-quality.yml
+./.github/workflows/rust-quality.yml
+./.github/workflows/win32-quality.yml
+./experiments/cw-decoder/Cargo.toml
+./experiments/cw-decoder/vendor/ditdah/Cargo.toml
+./package.json
+./src/rust/Cargo.toml
+./src/rust/qsoripper-cathub/Cargo.toml
+./src/rust/qsoripper-core/Cargo.toml
+./src/rust/qsoripper-ffi/Cargo.toml
+./src/rust/qsoripper-launcher/Cargo.toml
+./src/rust/qsoripper-server/Cargo.toml
+./src/rust/qsoripper-storage-memory/Cargo.toml
+./src/rust/qsoripper-storage-sqlite/Cargo.toml
+./src/rust/qsoripper-stress-tui/Cargo.toml
+./src/rust/qsoripper-stress/Cargo.toml
+./src/rust/qsoripper-tui/Cargo.toml
+./tools/ditdah-direct-up/Cargo.toml
+./tools/ditdah-direct/Cargo.toml
+./tools/ditdah-prefix-probe/Cargo.toml
+./tools/rolling-whole-buffer/Cargo.toml
+./tools/wpm-measure/Cargo.toml

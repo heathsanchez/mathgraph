@@ -1,0 +1,18 @@
+pwd=/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/treitforge__qsoripper_424
+
+package scripts:
+{
+  "ux:capture:web": "tsx scripts/capture-web.ts",
+  "ux:diff:web": "tsx scripts/capture-web-diff.ts",
+  "ux:drive:tui": "tsx scripts/drive-tui.ts"
+}
+
+
+workflows:
+.github/workflows/copilot-setup-steps.yml
+.github/workflows/dotnet-quality.yml
+.github/workflows/engine-conformance.yml
+.github/workflows/full-stack-quality.yml
+.github/workflows/powershell-quality.yml
+.github/workflows/rust-quality.yml
+.github/workflows/win32-quality.yml

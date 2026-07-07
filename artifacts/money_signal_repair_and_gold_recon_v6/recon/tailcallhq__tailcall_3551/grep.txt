@@ -1,0 +1,288 @@
+===== money / judge / benchmark / test hits =====
+./generated/.tailcallrc.schema.json:392:      "description": "Output the telemetry metrics data to prometheus server",
+./generated/.tailcallrc.schema.json:399:          "default": "/metrics",
+./generated/.tailcallrc.schema.json:820:          "description": "A boolean value that determines whether to verify certificates. Setting this as `false` will make tailcall accept self-signed certificates. NOTE: use this *only* during development or testing. It is highly recommended to keep this enabled (`true`) in production.",
+./Cargo.toml:53:    "metrics",
+./Cargo.toml:57:opentelemetry-system-metrics = { version = "0.2.0", optional = true }
+./Cargo.toml:128:opentelemetry = { version = "0.23.0", features = ["trace", "logs", "metrics"] }
+./Cargo.toml:132:    "metrics",
+./Cargo.toml:138:    "metrics",
+./Cargo.toml:185:datatest-stable = "0.2.9"
+./Cargo.toml:186:tokio-test = "0.4.4"
+./Cargo.toml:205:test-log = { version = "0.2.16", default-features = false, features = [
+./Cargo.toml:232:    "opentelemetry_sdk/testing",
+./Cargo.toml:235:    "dep:opentelemetry-system-metrics",
+./Cargo.toml:244:# This is used by default locally while developing and on CI.
+./Cargo.toml:245:# We generally want to interface via CLI and have V8 enabled, while running tests.
+./Cargo.toml:248:# Feature flag to force JIT engine inside integration tests
+./Cargo.toml:283:[profile.benchmark]
+./Cargo.toml:296:[[test]]
+./Cargo.toml:300:[[test]]
+./Cargo.toml:302:path = "tests/cli/gen.rs"
+./Cargo.toml:305:[[test]]
+./Cargo.toml:307:path = "src/core/generator/tests/json_to_config_spec.rs"
+./tailcall-wasm/Cargo.toml:30:wasm-bindgen-test = "0.3.42"
+./tailcall-wasm/Cargo.toml:33:unexpected_cfgs = { level = "warn", check-cfg = ['cfg(wasm_bindgen_unstable_test_coverage)'] }
+./tailcall-wasm/README.md:25:For test build:
+./tailcall-wasm/README.md:47:For test build:
+./tailcall-wasm/src/builder.rs:72:#[cfg(test)]
+./tailcall-wasm/src/builder.rs:73:mod tests {
+./tailcall-wasm/src/builder.rs:83:    use wasm_bindgen_test::wasm_bindgen_test;
+./tailcall-wasm/src/builder.rs:110:    #[wasm_bindgen_test]
+./tailcall-wasm/src/builder.rs:111:    async fn test() {
+./LICENSE:167:      and charge a fee for, acceptance of support, warranty, indemnity,
+./Dockerfile:1:FROM ubuntu:latest
+./tailcall-aws-lambda/Cargo.toml:14:# add the latest version of a dependency to the list,
+./tailcall-aws-lambda/src/http.rs:97:#[cfg(test)]
+./tailcall-aws-lambda/src/http.rs:98:mod tests {
+./tailcall-aws-lambda/src/http.rs:105:    #[tokio::test]
+./tailcall-aws-lambda/src/http.rs:106:    async fn test_to_request() {
+./tailcall-aws-lambda/src/http.rs:127:    #[tokio::test]
+./tailcall-aws-lambda/src/http.rs:128:    async fn test_to_response() {
+./install.sh:6:VERSION=${1:-"latest"}
+./install.sh:10:if [ "$VERSION" = "latest" ]; then
+./install.sh:11:  VERSION=$(curl --silent "https://api.github.com/repos/tailcallhq/tailcall/releases/latest" | jq -r '.tag_name')
+./tests/core/spec.rs:92:    // TODO: we should probably figure out a way to do this for every test
+./tests/core/spec.rs:96:    // enabled for either new tests that request it or old graphql_spec
+./tests/core/spec.rs:97:    // tests that were explicitly written with it in mind
+./tests/core/spec.rs:137:async fn run_query_tests_on_spec(
+./tests/core/spec.rs:142:    if let Some(tests) = spec.test.as_ref() {
+./tests/core/spec.rs:151:        // test: Run test specs
+./tests/core/spec.rs:153:        for (i, test) in tests.iter().enumerate() {
+./tests/core/spec.rs:154:            let response = run_test(app_ctx.clone(), test)
+./tests/core/spec.rs:181:        mock_http_client.test_hits(&spec.path);
+./tests/core/spec.rs:185:async fn test_spec(spec: ExecutionSpec) {
+./tests/core/spec.rs:248:    // run query tests
+./tests/core/spec.rs:249:    run_query_tests_on_spec(spec, &config_module, mock_http_client).await;
+./tests/core/spec.rs:252:pub async fn load_and_test_execution_spec(path: &Path) -> anyhow::Result<()> {
+./tests/core/spec.rs:262:        None => test_spec(spec).await,
+./tests/core/spec.rs:268:async fn run_test(
+./tests/core/runtime.rs:31:    pub test: Option<Vec<APIRequest>>,
+./tests/core/runtime.rs:48:    pub fn test_hits(&self, path: impl AsRef<Path>) {
+./tests/core/snapshots/graphql-conformance-nested-lists.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/grpc-batch.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/auth-jwt.md_2.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-description-many.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-description-many.md_merged.snap:12:  This is test2
+./tests/core/snapshots/test-description-many.md_merged.snap:19:  This is test
+./tests/core/snapshots/test-server-vars.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-015.md_5.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/env-value.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-required-fields.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-scalars-builtin.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-scalars-integers.md_10.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-001.md_1.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/call-mutation.md_2.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-expr-scalar-as-string.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-expr-scalar-as-string.md_merged.snap:37:  entry: Entry @expr(body: {num: "0", arr: "[1, 2, 3]", str: "test", obj: "{e: 1}", bool: "true"})
+./tests/core/snapshots/test-http-baseurl.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-alias-on-enum.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/recursive-types.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/union-nested-resolver.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-005.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/async-cache-global.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-005.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-010.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-scalars-builtin.md_9.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-required-fields.md_4.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-multiple-resolvable-directives-on-field-validation.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-datasource-with-args.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-scalars.md_9.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-015.md_1.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-dedupe.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/batching-group-by.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-006.md_2.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/async-cache-inflight-request.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-dedupe.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/default-value-arg.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/auth_order.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-datasource-errors.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-001.md_5.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-required-fields.md_13.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-019.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/grpc-map.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/batching-disabled.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/introspection-query-with-disabled-introspection.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/jit-enum-array.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/inline-field.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-inline-list.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-null-in-object.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/auth-basic.md_1.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-grpc-group-by.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-params-as-body.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/federation-subgraph-no-entities.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-scalars-integers.md_3.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-graphqlsource.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-omit.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/caching-collision.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/inline-field.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-expr-with-mustache.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-http-with-mustache-expr.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-nested.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/auth-multiple-complex.md_4.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-add-field.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/call-multiple-steps-piping.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-013.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/jit-enum-array.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/batching-disabled.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-list-args.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/grpc-error.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/jsonplaceholder-call-post.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-graphql-with-add-field.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-015.md_9.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-003.md_1.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-grpc-nested-data.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-grpc-proto-path.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/async-cache-enabled.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/yaml-union.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/yaml-union.md_merged.snap:34:  testVar0(u: T1Input!): U @http(url: "http://localhost/users/{{.args.u}}/")
+./tests/core/snapshots/yaml-union.md_merged.snap:35:  testVar1(u: T2Input!): U @http(url: "http://localhost/users/{{.args.u}}/")
+./tests/core/snapshots/yaml-union.md_merged.snap:36:  testVar2(u: T3Input!): U @http(url: "http://localhost/users/{{.args.u}}/")
+./tests/core/snapshots/call-mutation.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-nested-value.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/routes-param-on-server-directive.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-nested-lists-fragment.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-js-multi-onRequest-handlers.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-union-ambiguous.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/yaml-nested-unions.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/yaml-nested-unions.md_client.snap:7:  testVar0(u: T1Input!): U
+./tests/core/snapshots/yaml-nested-unions.md_client.snap:8:  testVar1(u: T2Input!): U
+./tests/core/snapshots/yaml-nested-unions.md_client.snap:9:  testVar2(u: T3Input!): U
+./tests/core/snapshots/yaml-nested-unions.md_client.snap:10:  testVar3(u: T4Input!): U
+./tests/core/snapshots/yaml-nested-unions.md_client.snap:11:  testVar4(u: T5Input!): U
+./tests/core/snapshots/batching-group-by.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-scalars-builtin.md_5.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-nested-lists-http.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-scalars.md_5.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-scalars.md_5.snap:13:      "bytes": "test"
+./tests/core/snapshots/test-set-cookie-headers.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-required-fields.md_8.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/batching-validation.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-missing-argument-on-all-resolvers.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/apollo-federation-entities-batch.md_1.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-008.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/cors-allow-cred-true.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-017.md_1.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-union-optional.md_1.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-js-request-response-2.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-js-request-response-2.md_merged.snap:9:  @link(src: "test.js", type: Script)
+./tests/core/snapshots/test-dbl-usage-many.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/call-operator.md_3.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/batching-group-by-default.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/grpc-reflection.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/grpc-error.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/batching.md_2.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-nested.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-http-tmpl.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-017.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-002.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/body-batching-cases.md_2.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-empty-link.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/resolve-with-headers.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/federation-subgraph-force-disabled.md_1.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-datasource-query-directives.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/cors-allow-cred-vary.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-union-fieldtype.md_5.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-set-cookie-headers.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-nested-lists.md_2.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/ref-other-nested.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-003.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/resolve-with-headers.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/input-type-protected-error.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-query.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/federation-subgraph-force-enabled.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/auth-multiple.md_3.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-datasource-with-mandatory-enum.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/batching-group-by-optional-key.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-input-documentation.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-input-documentation.md_client.snap:17:  testDocumentation(input: Foo!): Post
+./tests/core/snapshots/auth-multiple-complex.md_8.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:29:  test: String
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:34:  test: String
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:39:  test: String
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:65:  test: String
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:70:  testVar0Var0(nu: NU__u0!, nnu: NNU__nu0): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:71:  testVar0Var1(nu: NU__u0!, nnu: NNU__nu1): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:72:  testVar0Var2(nu: NU__u0!, nnu: NNU__nu2): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:73:  testVar1Var0(nu: NU__u1!, nnu: NNU__nu0): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:74:  testVar1Var1(nu: NU__u1!, nnu: NNU__nu1): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:75:  testVar1Var2(nu: NU__u1!, nnu: NNU__nu2): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:76:  testVar2Var0(nu: NU__u2!, nnu: NNU__nu0): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:77:  testVar2Var1(nu: NU__u2!, nnu: NNU__nu1): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/yaml-union-in-type.md_merged.snap:78:  testVar2Var2(nu: NU__u2!, nnu: NNU__nu2): U @http(url: "http://localhost/users/{{.args.nu.u}}")
+./tests/core/snapshots/cache-control.md_3.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-datasource-with-empty-enum.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/n-plus-one-list.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/recursive-types-no-resolver.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-expr-with-add-field.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/federation-subgraph-force-disabled.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/batching-group-by-default.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/caching-collision.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/auth-multiple-complex.md_9.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-merge-input.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-union-fieldtype.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/cache-control.md_2.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-upstream.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-http-with-add-field.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/auth-basic.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/inline-many-list.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/nullable-arg-query.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/auth-multiple.md_2.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/merge-linked-config.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-union-fieldtype.md_4.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-js-request-response.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-js-request-response.md_merged.snap:9:  @link(src: "test.js", type: Script)
+./tests/core/snapshots/test-merge-union.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/dedupe_batch_query_execution.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-ref-other.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-nested-datasource.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/n-plus-one-list.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/federation-subgraph-force-disabled.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/add-field-with-composition.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-merge-invalid.md_error.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-interface-result.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/related-fields-recursive.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/resolve-with-vars.md_merged.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-union-ambiguous.md_6.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/add-field-index-list.md_client.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/graphql-conformance-http-017.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/test-union-optional.md_0.snap:2:source: tests/core/spec.rs
+./tests/core/snapshots/js-directive.md_merged.snap:2:source: tests/core/spec.rs
+
+===== package/test files =====
+./.github/workflows/benchmark_comment.yml
+./.github/workflows/benchmark_main.yml
+./.github/workflows/benchmark_pr_run.yml
+./.github/workflows/benchmark_pr_track.yml
+./.github/workflows/benchmark.yml
+./.github/workflows/build_matrix.yml
+./.github/workflows/build-website.yml
+./.github/workflows/ci.yml
+./.github/workflows/labels.yml
+./.github/workflows/lint.yml
+./.github/workflows/nginx-benchmark.yml
+./.github/workflows/pr-convention.yml
+./.github/workflows/release-drafter.yml
+./.github/workflows/release.yml
+./.github/workflows/spell-check.yml
+./.github/workflows/stale.yml
+./Cargo.toml
+./examples/federation/package.json
+./npm/package.json
+./tailcall-aws-lambda/Cargo.toml
+./tailcall-cloudflare/Cargo.toml
+./tailcall-cloudflare/package.json
+./tailcall-fixtures/Cargo.toml
+./tailcall-hasher/Cargo.toml
+./tailcall-http-cache/Cargo.toml
+./tailcall-macros/Cargo.toml
+./tailcall-prettier/Cargo.toml
+./tailcall-tracker/Cargo.toml
+./tailcall-typedefs-common/Cargo.toml
+./tailcall-typedefs/Cargo.toml
+./tailcall-upstream-grpc/Cargo.toml
+./tailcall-version/Cargo.toml
+./tailcall-wasm/Cargo.toml
+./tailcall-wasm/example/node/package.json
+./tailcall-wasm/package.json

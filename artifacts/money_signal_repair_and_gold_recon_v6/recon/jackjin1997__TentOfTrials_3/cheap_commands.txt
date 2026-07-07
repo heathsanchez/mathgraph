@@ -1,0 +1,4 @@
+pwd=/Users/heath/Documents/mathgraph-lean-work/external/money_gold_recon_v6/jackjin1997__TentOfTrials_3
+
+workflows:
+.github/workflows/diagnostic-build-log.yml

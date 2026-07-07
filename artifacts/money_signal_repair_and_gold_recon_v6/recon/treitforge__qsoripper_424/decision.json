@@ -1,0 +1,18 @@
+{
+  "repo": "treitforge/qsoripper",
+  "num": 424,
+  "url": "https://github.com/treitforge/qsoripper/issues/424",
+  "title": "experiment: ingest Kaggle Morse Learning Machine Challenge v2 as external benchmark",
+  "state": "OPEN",
+  "updatedAt": "2026-05-09T03:03:14Z",
+  "reason": "Kaggle external benchmark route; no cash but high MathGraph fit",
+  "amount_estimate": 0.0,
+  "money": false,
+  "local_judge": true,
+  "benchmark_or_metric": true,
+  "has_surface": true,
+  "prompt_risk": false,
+  "hardware_risk": false,
+  "web3_risk": false,
+  "verdict": "PROMOTE_EXTERNAL_BENCHMARK_RECON"
+}

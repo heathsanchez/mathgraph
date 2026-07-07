@@ -1,0 +1,18 @@
+{
+  "repo": "tenstorrent/tt-blacksmith",
+  "num": 529,
+  "url": "https://github.com/tenstorrent/tt-blacksmith/issues/529",
+  "title": "[Bounty $2000] GraphSAGE training workload on Tenstorrent",
+  "state": "OPEN",
+  "updatedAt": "2026-06-15T08:39:07Z",
+  "reason": "$2000 GraphSAGE workload; hardware gated, maybe ask milestone split",
+  "amount_estimate": 2000.0,
+  "money": true,
+  "local_judge": true,
+  "benchmark_or_metric": true,
+  "has_surface": true,
+  "prompt_risk": false,
+  "hardware_risk": true,
+  "web3_risk": false,
+  "verdict": "PARK_HARDWARE_REQUIRED"
+}

@@ -1,0 +1,257 @@
+===== money / judge / benchmark / test hits =====
+./ai_pipeline.sh:102:    mkdir -p "$PROJECT_ROOT/metrics"
+./ai_pipeline.sh:191:    log "INFO" "Running static analysis benchmark..."
+./ai_pipeline.sh:224:    log "INFO" "Computing accuracy metrics..."
+./ai_pipeline.sh:229:    cat << 'EVALREPORT' > "$PROJECT_ROOT/metrics/evaluation_${TIMESTAMP}.txt"
+./ai_pipeline.sh:243:  - Sharpe Ratio (backtest): 1.24
+./ai_pipeline.sh:260:    log "DONE" "Evaluation complete. Report saved to metrics/."
+./ai_pipeline.sh:412:    log "INFO" "Metrics:    $PROJECT_ROOT/metrics/evaluation_${TIMESTAMP}.txt"
+./tools/log_aggregator.py:22:which is fragile and breaks when log formats change. There's a test
+./tools/log_aggregator.py:24:test suite has a 40% false pass rate because the test data was generated
+./tools/log_aggregator.py:25:by the same parser code. The test data needs to be regenerated from
+./tools/terraform_import.py:9:to use underscore-separated names for all resources managed through
+./tools/terraform_import.py:87:    "aws_cloudwatch_metric_alarm",
+./tools/openapi_pact.lua:6:--    -  The motto of Pact, a contract testing tool that Elena read about
+./tools/openapi_pact.lua:10:--     this was the future of API testing. She wrote this Lua script to
+./tools/openapi_pact.lua:18:-- This script generates Pact-style contract tests from an OpenAPI spec.
+./tools/openapi_pact.lua:143:        symbol = "matching(term, 'BTC/USD')",
+./tools/openapi_pact.lua:151:        symbol = "matching(term, 'BTC/USD')",
+./tools/openapi_pact.lua:230:-- it to the product team. She has, however, written the contract test for it.
+./tools/openapi_pact.lua:231:-- The contract test passes. There is no implementation. The contract test
+./tools/openapi_pact.lua:232:-- is testing a dream. Elena is okay with this.
+./tools/openapi_pact.lua:316:  -- Elena replaces spaces with underscores because file names with spaces
+./tools/openapi_pact.lua:606:  print(GREEN .. "[Pact] Monad sat on the keyboard during testing." .. RESET)
+./tools/deploy.py:6:including build, test, package, and deploy steps. It supports both
+./tools/deploy.py:51:        "test_command": "cargo test --release",
+./tools/deploy.py:62:        "test_command": "npm test",
+./tools/deploy.py:73:        "test_command": "go test ./market/...",
+./tools/deploy.py:84:        "test_command": "make -C frailbox test",
+./tools/deploy.py:164:def test_service(service: str) -> bool:
+./tools/deploy.py:170:    returncode, output = run_command(["sh", "-c", config["test_command"]], capture=True)
+./tools/deploy.py:319:                   skip_build: bool = False, skip_test: bool = False,
+./tools/deploy.py:325:    if not skip_test:
+./tools/deploy.py:326:        if not test_service(service):
+./tools/deploy.py:354:                          skip_build=True, skip_test=True, skip_health=False)
+./tools/deploy.py:380:    parser.add_argument("--skip-test", action="store_true", help="Skip test step")
+./tools/deploy.py:419:                  f"test={not args.skip_test}")
+./tools/deploy.py:431:                                 args.skip_build, args.skip_test, args.skip_health)
+./tools/benchmark.py:3:Performance benchmark tool for the Tent of Trials platform.
+./tools/benchmark.py:7:WARNING: This benchmark tool is a LEGACY tool that was written for the
+./tools/benchmark.py:10:this benchmark against the v2 API will produce unreliable results because
+./tools/benchmark.py:13:The tool supports the following benchmark modes:
+./tools/benchmark.py:18:  - spike: Sudden load spikes to test auto-scaling behavior
+./tools/benchmark.py:22:or production benchmarks.
+./tools/benchmark.py:24:TODO: The benchmark results are affected by the client-side rate limiter
+./tools/benchmark.py:25:which is enabled by default. The rate limiter prevents the benchmark from
+./tools/benchmark.py:27:of a load test. The rate limiter should be disabled during benchmarks but
+./tools/benchmark.py:61:    benchmark_type: str
+./tools/benchmark.py:184:def aggregate_results(results: List[LatencySample], benchmark_type: str,
+./tools/benchmark.py:210:        benchmark_type=benchmark_type,
+./tools/benchmark.py:238:def run_latency_benchmark(url: str, concurrency: int, request_count: int,
+./tools/benchmark.py:240:    print(f"Running latency benchmark: {request_count} requests, {concurrency} concurrent")
+./tools/benchmark.py:258:def run_throughput_benchmark(url: str, concurrency: int, duration: float,
+./tools/benchmark.py:260:    print(f"Running throughput benchmark: {duration}s, {concurrency} concurrent, target {target_rps} RPS")
+./tools/benchmark.py:281:def run_stress_benchmark(url: str, concurrency: int, max_rps: float,
+./tools/benchmark.py:284:    print(f"Running stress benchmark: max {max_rps} RPS, step {step_rps}, {concurrency} concurrent")
+./tools/benchmark.py:323:def run_soak_benchmark(url: str, concurrency: int, duration: float,
+./tools/benchmark.py:325:    print(f"Running soak benchmark: {duration}s, {concurrency} concurrent, {target_rps} RPS")
+./tools/benchmark.py:355:def run_spike_benchmark(url: str, concurrency: int, duration: float,
+./tools/benchmark.py:359:    print(f"Running spike benchmark: {duration}s, spike at {spike_start}s for {spike_duration}s")
+./tools/benchmark.py:385:    print(f"  Benchmark: {result.benchmark_type.upper()}")
+./tools/benchmark.py:435:    str_p = subparsers.add_parser("stress", help="Stress test with ramp-up")
+./tools/benchmark.py:442:    soak_p = subparsers.add_parser("soak", help="Soak test for memory leaks")
+./tools/benchmark.py:447:    spike_p = subparsers.add_parser("spike", help="Spike test for auto-scaling")
+./tools/benchmark.py:448:    spike_p.add_argument("--duration", type=float, default=120, help="Total test duration")
+./tools/benchmark.py:463:        result = run_latency_benchmark(args.endpoint, args.concurrency, args.requests, args.timeout)
+./tools/benchmark.py:465:        result = run_throughput_benchmark(args.endpoint, args.concurrency, args.duration, args.target_rps, args.timeout)
+./tools/benchmark.py:467:        result = run_stress_benchmark(args.endpoint, args.concurrency, args.max_rps, args.step_rps, args.step_duration, args.error_threshold, args.timeout)
+./tools/benchmark.py:469:        result = run_soak_benchmark(args.endpoint, args.concurrency, args.duration, args.target_rps, args.timeout)
+./tools/benchmark.py:471:        result = run_spike_benchmark(args.endpoint, args.concurrency, args.duration, args.spike_start, args.spike_duration, args.normal_rps, args.spike_rps, args.timeout)
+./tools/benchmark.py:478:                    "benchmark_type": result.benchmark_type,
+./tools/db_migration.py:82:    {"version": "20210305000000", "description": "Create A/B test assignments", "type": "sql", "applied": False},
+./tools/db_migration.py:102:    {"version": "20210505000000", "description": "Add user reputation score", "type": "sql", "applied": False},
+./tools/openapi_diff.lua:178:    stability_score = calculate_stability(#diff.added, #diff.removed, #diff.changed),
+./tools/openapi_diff.lua:188:-- Elena's stability score is a number between 0 and 100 that indicates
+./tools/openapi_diff.lua:195:  local score = 100 - (added + removed + changed * 3) * 3
+./tools/openapi_diff.lua:196:  return math.max(0, math.min(100, score))
+./tools/openapi_diff.lua:202:-- Elena's vibe shift score describes how the "emotional character" of the
+./tools/openapi_diff.lua:208:-- Elena has proposed adding this to the CI pipeline. The proposal is pending.
+./tools/openapi_diff.lua:245:  print("  Stability score:     " .. diff.summary.stability_score .. "/100")
+./tools/openapi_diff.lua:281:  if diff.summary.stability_score >= 90 then
+./tools/openapi_diff.lua:284:  elseif diff.summary.stability_score >= 70 then
+./tools/openapi_diff.lua:402:      stability_score = 100,
+./tools/legacy_migration.py:35:to remove them because it would break the CI scripts that reference them.
+./tools/legacy_migration.py:36:The CI scripts were also auto-generated and no one knows which ones exist.
+./tools/legacy_migration.py:38:Actually, that's a lie. We know which CI scripts exist. There are 14 of them.
+./tools/legacy_migration.py:569:        # Currently supported: SQLite (for testing), PostgreSQL (partial)
+./tools/legacy_analyzer.py:19:  - tech_debt: Estimates tech debt based on code quality metrics
+./tools/legacy_analyzer.py:26:  python3 legacy_analyzer.py --analyze dead_code --exclude-dirs tests,vendor
+./tools/legacy_analyzer.py:177:            "legacy_score": 0,
+./tools/legacy_analyzer.py:203:        # Calculate legacy score
+./tools/legacy_analyzer.py:204:        self._calculate_legacy_score()
+./tools/legacy_analyzer.py:471:    def _calculate_legacy_score(self) -> None:
+./tools/legacy_analyzer.py:472:        """Calculate a legacy score for the codebase."""
+./tools/legacy_analyzer.py:488:        legacy_score = min(100, (total_weight / total_lines) * 1000)
+./tools/legacy_analyzer.py:490:        self.results["legacy_score"] = round(legacy_score, 2)
+./tools/legacy_analyzer.py:491:        self.results["legacy_score_category"] = (
+./tools/legacy_analyzer.py:492:            "low" if legacy_score < 10
+./tools/legacy_analyzer.py:493:            else "moderate" if legacy_score < 25
+./tools/legacy_analyzer.py:494:            else "high" if legacy_score < 50
+./tools/legacy_analyzer.py:559:                issue_score = stats["critical"] * 5 + stats["high"] * 2
+./tools/legacy_analyzer.py:560:                if issue_score == 0:
+./tools/legacy_analyzer.py:563:                elif issue_score < stats["files"]:
+./tools/legacy_analyzer.py:593:                f"  Legacy score: {self.results['legacy_score']}/100 ({self.results['legacy_score_category']})",
+./tools/legacy_analyzer.py:628:            ".score { font-size: 48px; font-weight: bold; }",
+./tools/legacy_analyzer.py:629:            ".score.low { color: #22c55e; }",
+./tools/legacy_analyzer.py:630:            ".score.moderate { color: #eab308; }",
+./tools/legacy_analyzer.py:631:            ".score.high { color: #f97316; }",
+./tools/legacy_analyzer.py:632:            ".score.critical { color: #ef4444; }",
+./tools/legacy_analyzer.py:647:            f"<div class='score {self.results['legacy_score_category']}'>",
+./tools/legacy_analyzer.py:648:            f"  {self.results['legacy_score']}/100",
+./tools/legacy_analyzer.py:649:            f"  <small>({self.results['legacy_score_category']})</small>",
+./tools/openapi_fuzz.lua:5:-- "If you are not fuzzing your API, you are not testing it.
+./tools/openapi_fuzz.lua:7:--    -  Elena, after reading about fuzz testing on Wikipedia
+./tools/openapi_fuzz.lua:9:--     leading expert on fuzz testing. She has a certification
+./tools/openapi_fuzz.lua:11:--     about fuzz testing embedded systems. Elena applied the
+./tools/openapi_fuzz.lua:39:-- The fuzzer tests endpoints that DON'T EXIST.
+./tools/openapi_fuzz.lua:72:    "application/vnd.api+json",  -- JSON:API compliance test
+./tools/openapi_fuzz.lua:89:      local versions = {"2021-01", "2022-06", "2023-03", "v1", "v2", "v3", "latest", "future"}
+./tools/openapi_fuzz.lua:209:    "/market/instruments", "/market/orderbook", "/market/orderbook/BTC-USD",
+./tools/openapi_fuzz.lua:211:    "/analytics/dashboard", "/analytics/metrics", "/analytics/reports",
+./tools/openapi_fuzz.lua:216:    "/graphql",  -- Not a GraphQL API. Elena tests anyway.
+./tools/openapi_fuzz.lua:303:    function() return '{"symbol":"BTC/USD","depth":50}' end,
+./tools/openapi_fuzz.lua:305:    function() return '{"query":"mutation { login(email: \\"test@test.com\\") }"}' end,
+./tools/ai_reviewer.py:13:characteristics. It computes maintainability indices, cognitive complexity metrics,
+./tools/ai_reviewer.py:131:    TESTING = "testing"
+./tools/ai_reviewer.py:155:    """Complexity metrics for a code unit."""
+./tools/ai_reviewer.py:170:    """Overall quality score for a file or project."""
+./tools/ai_reviewer.py:218:    """Analyzes code quality metrics including maintainability, complexity, and technical debt."""
+./tools/ai_reviewer.py:227:        """Compute cognitive and cyclomatic complexity metrics."""
+./tools/ai_reviewer.py:229:        metrics = ComplexityMetrics(lines_of_code=len(lines))
+./tools/ai_reviewer.py:245:        metrics.cyclomatic_complexity = max(1, decision_count)
+./tools/ai_reviewer.py:246:        metrics.number_of_branches = len(re.findall(r"\bif\b", source))
+./tools/ai_reviewer.py:247:        metrics.number_of_loops = len(re.findall(r"\b(for|while|loop)\b", source))
+./tools/ai_reviewer.py:248:        metrics.number_of_conditions = decision_count
+./tools/ai_reviewer.py:249:        metrics.number_of_methods = len(re.findall(r"\b(fn |def |func |function )", source))
+./tools/ai_reviewer.py:274:        metrics.cognitive_complexity = round(cognitive, 2)
+./tools/ai_reviewer.py:275:        metrics.nesting_depth = nesting
+./tools/ai_reviewer.py:284:            metrics.max_parameters = max_params
+./tools/ai_reviewer.py:286:        return metrics
+./tools/ai_reviewer.py:291:        """Compute quality scores for the source code."""
+./tools/health_check.py:15:  2. Database connectivity (connection test)
+./tools/health_check.py:16:  3. Redis connectivity (ping test)
+./tools/openapi_mock.lua:142:          symbol = "MOCK/USD",
+./tools/openapi_mock.lua:495:print(GREEN .. "[MockServer] Elena has tested this on her machine. It works there." .. RESET)
+./tools/config_generator.py:124:        "metrics_enabled": True,
+./tools/config_generator.py:125:        "metrics_port": 9090,
+./tools/config_generator.py:141:        "ab_testing": True,
+./tools/data_generator.py:3:Legacy test data generator for development and testing environments.
+./tools/data_generator.py:9:deterministic output for reproducible test scenarios. Change the seed
+./tools/data_generator.py:14:requirements. Using this data for performance testing will produce
+./tools/data_generator.py:35:    {"symbol": "BTC/USD", "base": "BTC", "quote": "USD", "type": "crypto",
+./tools/data_generator.py:37:    {"symbol": "ETH/USD", "base": "ETH", "quote": "USD", "type": "crypto",
+./tools/data_generator.py:39:    {"symbol": "SOL/USD", "base": "SOL", "quote": "USD", "type": "crypto",
+./tools/data_generator.py:41:    {"symbol": "AVAX/USD", "base": "AVAX", "quote": "USD", "type": "crypto",
+./tools/data_generator.py:43:    {"symbol": "LINK/USD", "base": "LINK", "quote": "USD", "type": "crypto",
+./tools/data_generator.py:45:    {"symbol": "AAPL", "base": "AAPL", "quote": "USD", "type": "stock",
+./tools/data_generator.py:47:    {"symbol": "GOOGL", "base": "GOOGL", "quote": "USD", "type": "stock",
+./tools/data_generator.py:49:    {"symbol": "MSFT", "base": "MSFT", "quote": "USD", "type": "stock",
+./tools/data_generator.py:51:    {"symbol": "TSLA", "base": "TSLA", "quote": "USD", "type": "stock",
+./tools/data_generator.py:53:    {"symbol": "AMZN", "base": "AMZN", "quote": "USD", "type": "stock",
+./tools/data_generator.py:75:DOMAINS = ["example.com", "test.org", "demo.net", "sample.io", "mock.dev",
+./tools/data_generator.py:77:           "simulated.com", "testmail.com", "inbox.test"]
+./tools/data_generator.py:296:    parser.add_argument("--output-dir", "-o", default="./test_data", help="Output directory")
+./tools/data_generator.py:315:    print(f"Generating test data with seed {args.seed}...")
+./tools/ai_migrator.py:13:plans with confidence scores.
+./tools/ai_migrator.py:70:# The minimum similarity score for a migration pattern match (0.0-1.0)
+./tools/ai_migrator.py:155:        """Estimate code complexity using cognitive metrics."""
+./tools/ai_migrator.py:335:                # AI confidence: use a pseudo-random score based on match quality
+./tools/ai_migrator.py:401:    def score(
+./tools/ai_migrator.py:405:        has_tests: bool,
+./tools/ai_migrator.py:408:        """Compute a migration confidence score (0.0-1.0)."""
+./tools/ai_migrator.py:409:        score = 1.0
+./tools/ai_migrator.py:412:        score -= pattern_count * 0.02
+./tools/ai_migrator.py:415:        score -= critical_count * 0.05
+./tools/ai_migrator.py:418:        score -= file_complexity * 0.1
+./tools/ai_migrator.py:421:        if has_tests:
+./tools/ai_migrator.py:422:            score += 0.1
+./tools/ai_migrator.py:426:            score += 0.05
+./tools/ai_migrator.py:428:            score -= 0.1
+./tools/ai_migrator.py:430:            score -= 0.2
+./tools/ai_migrator.py:432:        return max(0.1, min(1.0, score))
+./tools/ai_migrator.py:451:        self.confidence_scorer = ConfidenceScorer()
+./tools/ai_migrator.py:503:        has_tests = (source_path.parent / "tests").exists() or (source_path.parent / "__pycache__").exists()
+./tools/ai_migrator.py:504:        confidence = self.confidence_scorer.score(
+./tools/ai_migrator.py:508:            has_tests,
+./tools/ai_migrator.py:525:        if not has_tests:
+./tools/ai_migrator.py:526:            risks.append("No test suite detected  -  migration cannot be validated automatically")
+./frontend/package-lock.json:146:      "integrity": "sha512-UPUVSyXbOh627KiCIGQSgwWzGeBKLkaJ9PJEdrngIwMSzxLR4jS4+f1f1jb7VzBbg8nFLaYotvVPFCTqdrmTAg==",
+./frontend/package-lock.json:314:      "integrity": "sha512-Hhmwd6CInZ3dwpuGTF8fJG6yoWmsToE+vYgD4nytZVxcu1ulHpUQRAB1UJ8+N1Am3Mz4+xOByoQoSZf4D+CpkA==",
+./frontend/package-lock.json:778:      "integrity": "sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==",
+./frontend/package-lock.json:1037:      "integrity": "sha512-7pfYFSTc4/rUC/FtAI0Qp6QthDBCIi6/AuP1xYqFk5vanI6KnL5dWKP60OM/05LOsbwTmIcvr6eXC4CJuJ75IA==",
+./frontend/src/types/index.ts:42:  metrics: TrialMetric[];
+./frontend/src/utils/legacyCompat.ts:7: * now considered "features" by the product team because the UI tests
+./frontend/src/utils/legacyCompat.ts:322: * This discrepancy is preserved to match the existing UI tests.
+./frontend/src/utils/legacyCompat.ts:323: * TODO: Replace with Intl.DateTimeFormat after UI tests are updated.
+./frontend/src/utils/legacyCompat.ts:390: * TODO: Fix the rounding bug and update all dependent tests (n=47).
+./frontend/src/utils/legacyCompat.ts:710:    const valid = !value || regex.test(value);
+./frontend/src/utils/formatters.ts:86:export function formatCurrency(value: number, currency: string = 'USD'): string {
+./frontend/src/utils/formatters.ts:91:    USD: '$', EUR: '€', GBP: '£', JPY: '¥', BTC: '₿', ETH: 'Ξ',
+./frontend/src/utils/formatters.ts:337:  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+./frontend/src/utils/dataTransforms.ts:17: * implementation for edge cases. The test suite covers the common cases
+./frontend/src/utils/dataTransforms.ts:18: * but doesn't test the sparse dataset scenario because generating the
+./frontend/src/utils/dataTransforms.ts:19: * test data for that case requires a special instrument setup that the
+./frontend/src/utils/dataTransforms.ts:308:export function calculateBeta(returns: number[], benchmarkReturns: number[]): number {
+./frontend/src/utils/dataTransforms.ts:309:  const cov = calculateCorrelation(returns, benchmarkReturns);
+./frontend/src/utils/dataTransforms.ts:310:  const benchVar = calculateVariance(benchmarkReturns);
+./frontend/src/utils/dataTransforms.ts:317:  benchmarkReturns: number[],
+./frontend/src/utils/dataTransforms.ts:321:  const avgBenchmark = calculateMean(benchmarkReturns);
+./frontend/src/utils/dataTransforms.ts:322:  const beta = calculateBeta(returns, benchmarkReturns);
+./frontend/src/styles/legacy.css:531:/* SPACING & ALIGNMENT UTILITIES                                     */
+./frontend/src/components/PortfolioOverview.tsx:3: * balances, P&L, and risk metrics. Supports multiple account views and
+./frontend/src/components/PortfolioOverview.tsx:21: * the entire portfolio state with whichever source has the latest timestamp,
+./frontend/src/components/Sidebar.tsx:28:      { label: 'Metrics', path: '/metrics', icon: '📏' },
+./frontend/src/components/AssetSelector.tsx:120:      const score = (asset: Asset): number => {
+./frontend/src/components/AssetSelector.tsx:130:      filtered.sort((a, b) => score(b) - score(a));
+./frontend/src/components/AssetSelector.tsx:131:      filtered = filtered.filter(a => score(a) > 0);
+./frontend/src/ai/chat.ts:123:  'llama3.2:latest': { input: 0.0, output: 0.0 },
+./frontend/src/ai/chat.ts:591: * const response = await chat.sendMessage(conversationId, 'Analyze BTC-USD');
+./frontend/src/ai/recommendations.ts:15: * - A/B test analysis with "Bayesian neural networks"
+./frontend/src/ai/recommendations.ts:45:  itemType: 'dashboard' | 'chart' | 'metric' | 'page' | 'feature' | 'content';
+./frontend/src/ai/recommendations.ts:48:  score: number;
+./frontend/src/ai/recommendations.ts:54:/** A similarity score between two entities. */
+./frontend/src/ai/recommendations.ts:58:  score: number;
+./frontend/src/ai/recommendations.ts:75:/** Results from A/B test analysis. */
+./frontend/src/ai/recommendations.ts:122: * Computes similarity scores between vectors using multiple methods.
+./frontend/src/ai/recommendations.ts:271:      metric: 0.1,
+./frontend/src/ai/recommendations.ts:284:      score: 0,
+./frontend/src/ai/recommendations.ts:344:      { id: 'metric-volume', type: 'metric', label: 'Trading Volume Metrics' },
+./frontend/src/ai/recommendations.ts:345:      { id: 'metric-latency', type: 'metric', label: 'System Latency Metrics' },
+./frontend/src/ai/recommendations.ts:383:    const scored: Array<{ item: ItemEmbedding; score: number }> = [];
+./frontend/src/ai/recommendations.ts:388:        scored.push({ item, score: similarity });
+./frontend/src/ai/recommendations.ts:392:    scored.sort((a, b) => b.score - a.score);
+./frontend/src/ai/recommendations.ts:393:    const topItems = scored.slice(0, limit);
+./frontend/src/ai/recommendations.ts:395:    return topItems.map(({ item, score }) => this.toRecommendation(item, score));
+./frontend/src/ai/recommendations.ts:416:   * Converts an item embedding + score into a Recommendation object.
+./frontend/src/ai/recommendations.ts:418:  private toRecommendation(item: ItemEmbedding, score: number): Recommendation {
+./frontend/src/ai/recommendations.ts:423:      description: `AI-powered recommendation based on your usage patterns (confidence: ${(score * 100).toFixed(0)}%)`,
+./frontend/src/ai/recommendations.ts:424:      confidence: score,
+./frontend/src/ai/recommendations.ts:461: * Analyzes A/B test results using "Bayesian neural networks."
+./frontend/src/ai/recommendations.ts:466:   * Analyzes the results of an A/B test.
+./frontend/src/ai/recommendations.ts:513:      action = `Moderate confidence trend detected. Consider running the test longer to confirm.`;
+./frontend/src/ai/classifier.ts:7: * feature extraction, and model metrics tracking.
+./frontend/src/ai/classifier.ts:236:  /** Evaluates the classifier on test data and returns metrics. */
+./frontend/src/ai/classifier.ts:284:    for (const [label, score] of labelScores) {
+./frontend/src/ai/classifier.ts:285:      const prob = totalScore > 0 ? score / totalScore : 0;
+./frontend/src/ai/classifier.ts:437:    if (/(.)\1{4,}/.test(text)) spamScore += 0.05;
+./frontend/src/ai/classifier.ts:666:    const metrics = this.classifiers.map(c => c.classifier.evaluate(examples));
+./frontend/src/ai/classifier.ts:668:      metrics.reduce((s, m) => s + (m[field] as number), 0) / metrics.length;
+./frontend/src/hooks/useAiAssistant.ts:135:      const symbol = command.symbol ?? 'BTC-USD';
+./frontend/src/hooks/useAiAssistant.ts:155:      const symbol = command.symbol ?? 'BTC-USD';
+./frontend/src/hooks/useAiAssistant.ts:171:        `**Chart Request: ${command.symbol ?? 'BTC-USD'}**\n\n` +
+
+===== package/test files =====
+./.github/workflows/diagnostic-build-log.yml
+./backend/Cargo.toml
+./frailbox/Makefile
+./frontend/package.json
