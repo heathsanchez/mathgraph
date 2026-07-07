@@ -1,0 +1,361 @@
+{
+  "assignees": [],
+  "author": {
+    "id": "MDQ6VXNlcjcwNTI0OA==",
+    "is_bot": false,
+    "login": "Krastanov",
+    "name": "Stefan Krastanov"
+  },
+  "body": "<details>\r\n<summary><strong>Bug bounty logistic details</strong> (click to expand)</summary>\r\n\r\nTo claim exclusive time to work on this bounty either post a comment here or message [skrastanov@umass.edu](mailto:skrastanov@umass.edu) with:\r\n\r\n- your name\r\n- github username\r\n- **(optional)** a brief list of previous pertinent projects you have engaged in\r\n\r\nCurrently the project is claimed by `no one` until `...`.\r\n\r\nIf you want to, you can work on this project without making a claim, however claims are encouraged to give you and other contributors peace of mind. Whoever has made a claim takes precedence when solutions are considered.\r\n\r\nYou can always propose your own funded project, if you would like to contribute something of value that is not yet covered by an official bounty.\r\n</details>\r\n\r\n# Project: Improve Makie visualization capabilities [$200]\r\n\r\nWe use Makie for visualizing the state of a simulated network. We can visualize the state of registers, the content of these registers, some tag information, etc. There is much more information that can be tracked visually though. This project is about fleshing out these visualization features.\r\n[This list of issues can be a useful guide to features that need to be implemented](https://github.com/QuantumSavory/QuantumSavory.jl/issues?q=is%3Aissue+is%3Aopen+label%3Avisualization), but you should feel free to suggest deviations from these guidelines if you have different ideas -- however the scope of the project should be set at the start of the project, e.g. by discussing it in this thread.\r\n\r\n**Required skills**: Understanding of the Makie plotting library\r\n\r\n**Reviewer**: Stefan Krastanov\r\n\r\n**Duration**: 1 month\r\n\r\n#### Payout procedure:\r\n\r\nThe Funding for these bounties comes from the National Science Foundation and from the NSF Center for Quantum Networks. The payouts are managed by the NumFOCUS foundation and processed in bulk once every two months. If you live in a country in which NumFOCUS can make payments, you can participate in this bounty program.\r\n\r\n[Click here for more details about the bug bounty program.](https://github.com/QuantumSavory/.github/blob/main/BUG_BOUNTIES.md)",
+  "comments": [
+    {
+      "id": "IC_kwDOHgUEFc61wsV5",
+      "author": {
+        "login": "idriss-hamadi"
+      },
+      "authorAssociation": "NONE",
+      "body": "hello, i'm interested in working on this",
+      "createdAt": "2025-07-08T15:39:02Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "outdated",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-3049440633",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc69jR8p",
+      "author": {
+        "login": "Krastanov"
+      },
+      "authorAssociation": "MEMBER",
+      "body": "@idriss-hamadi , apologies for the slow response. If you are still interested, let me know, and we can discuss how to set it up.",
+      "createdAt": "2025-08-12T16:30:33Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "outdated",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-3180142377",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc7oO2BC",
+      "author": {
+        "login": "nenadilic84"
+      },
+      "authorAssociation": "NONE",
+      "body": "I'd like to work on this. My proposed scope for a first pass:\n\n1. **#66 - Tags on register net plots**: Add tag information as visual markers (colored indicators) on slots, with detailed tag content in hover tooltips via the existing `DataInspector` infrastructure.\n\n2. **#96 - Message buffers in tooltips**: Extend the tooltip callbacks to include message buffer contents when hovering over nodes/slots.\n\nThese two are natural extensions of the existing tooltip and `get_slots_vis_string` code in `ext/QuantumSavoryMakie/`. Happy to discuss scope adjustments.",
+      "createdAt": "2026-02-13T10:00:46Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-3896205378",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc7pCBTK",
+      "author": {
+        "login": "energypantry"
+      },
+      "authorAssociation": "NONE",
+      "body": "Hi, I want to work on this bounty.\n\nFirst-pass scope I can deliver quickly:\n- improve Makie plotting hooks for clearer node/tag metadata overlays,\n- add toggles for labels/legend density so large graphs stay readable,\n- include screenshot-based regression checks and updated usage docs.\n\nIf this is still open, I will submit a small draft PR first (one visualization improvement + tests), then iterate.",
+      "createdAt": "2026-02-16T17:10:44Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-3909620938",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc7pDgVv",
+      "author": {
+        "login": "lmee"
+      },
+      "authorAssociation": "NONE",
+      "body": "I went through \"Improve Makie visualization capabilities\" plus the discussion thread and mapped the failing path.\n\nProblem I see: <summary <strong Bug bounty logistic details</strong (click to expand)</summary.\nRoot-cause hypothesis: an FFI boundary mismatch (types/ownership/error handling) between wrapper code and native APIs.\nUseful clue from comments: Hi, I want to work on this bounty. First-pass scope I can deliver quickly: - improve Makie plotting hooks for clearer node/tag metadata overlays, - add toggles for labels/legend de.\nFirst patch plan: define a minimal wrapper surface first, align types and ownership semantics with the native API, then add deterministic tests for correctness, memory safety, and failure-path behavior.\nIf this aligns with maintainer expectations, I will post repro evidence first and then open the scoped patch.",
+      "createdAt": "2026-02-16T18:44:30Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-3910010223",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc7pE2Bc",
+      "author": {
+        "login": "energypantry"
+      },
+      "authorAssociation": "NONE",
+      "body": "@Krastanov quick conversion proposal:\n\n24h verifiable deliverable:\n- By `2026-02-17T06:00:00Z` I will publish a Draft PR improving Makie visualization with one concrete plotting enhancement, usage example, and regression check.\n\nPricing (A/B/C):\n- A) $85 (minimal scope, single-pass)\n- B) $150 (standard scope, full acceptance checklist)\n- C) $220 (priority turnaround + same-day iteration window)\n\nAcceptance CTA:\nReply `A`, `B`, or `C` and confirm your acceptance criteria + preferred UTC start time. I will start immediately after your confirmation and post the first checkpoint in-thread.",
+      "createdAt": "2026-02-16T20:14:52Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-3910361180",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABBxzn0g",
+      "author": {
+        "login": "Asobu01"
+      },
+      "authorAssociation": "NONE",
+      "body": "I can take QuantumSavory/QuantumSavory.jl#132.\nFor \"Improve Makie visualization capabilities [$200]\", I will start by reproducing the reported issue first, then applying a focused fix with clear validation.\nTarget: draft PR in ~8h.\nDeliverables: repro note with concrete evidence (logs/trace when relevant); focused patch (plus tests/docs if needed); review-ready PR with validation notes.\nI keep changes minimal and aligned with existing style. (@Asobu01)",
+      "createdAt": "2026-05-10T03:05:06Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4414302162",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABBz01ww",
+      "author": {
+        "login": "antaloaalonso"
+      },
+      "authorAssociation": "NONE",
+      "body": "I'd like to work on this bounty with a focused first PR: implement #96 by showing each node's classical message buffer contents in the register-network hover tooltips, plus a plotting regression test and a short docs note. After that lands, I can iterate on the broader visualization scope if you want additional tag/state overlays.",
+      "createdAt": "2026-05-10T21:40:25Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4416419267",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABB0BxzQ",
+      "author": {
+        "login": "antaloaalonso"
+      },
+      "authorAssociation": "NONE",
+      "body": "Opened a follow-up PR toward this visualization bounty: #396 adds direct tag markers for register-net plots, hover-only tag support through the existing plotting hook pattern, regression coverage, and docs. This follows the earlier message-buffer tooltip PR #395 and targets the tag visualization scope from #66.",
+      "createdAt": "2026-05-10T23:33:09Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4416631245",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABB0RAYA",
+      "author": {
+        "login": "antaloaalonso"
+      },
+      "authorAssociation": "NONE",
+      "body": "Opened another focused PR for this visualization bounty: #397 fixes #347 by making register-net entanglement links visible again after plotting dependency changes, adds a configurable state_linewidth option, and includes a plotting regression for Bell-pair link rendering. Local Cairo and headless GL plotting tests passed; Codecov and Buildkite are green, with the remaining GitHub CI jobs still running.",
+      "createdAt": "2026-05-11T01:10:34Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4416880736",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABB48U0w",
+      "author": {
+        "login": "EugeniSegarra"
+      },
+      "authorAssociation": "NONE",
+      "body": "Hi Stefan, I\u2019m interested in #132 and I want to set the scope before doing any bounty work.\n\nI saw the recent visualization PRs #395, #396 and #397 were closed after review-policy concerns, so I don\u2019t want to open a PR before confirming expectations. Any contribution I submit would be mine to own: I\u2019ll read the relevant code, implement and review the changes line by line, run the plotting tests locally, and avoid duplicate or mass-submitted work.\n\nTechnical read so far:\n- I would avoid duplicating #395/#396/#397 and #332.\n- Message-buffer tooltips (#96), direct tag markers (#66), and state-line styling/link visibility already have recent overlapping attempts.\n- A cleaner non-overlapping scope may be #98: improve state information in register-network tooltips by extending the existing `state_coords_backref -> get_state_vis_string` path in `ext/QuantumSavoryMakie/QuantumSavoryMakie.jl`.\n- I would keep it small: compact state diagnostics in the hover text, regression coverage in `test/plotting/gl_tests.jl` or `test/plotting/plotting_tags_observables.jl`, and a short docs note in `docs/src/visualizations.md`.\n- I would validate with the plotting project, preferably both CairoMakie for deterministic test coverage and headless GLMakie for DataInspector behavior.\n\nBefore I start: would this workflow be allowed, and would the #98-focused scope still be eligible for the $200 bounty?",
+      "createdAt": "2026-05-11T14:47:33Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4421784787",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABB925vw",
+      "author": {
+        "login": "Krastanov"
+      },
+      "authorAssociation": "MEMBER",
+      "body": "Hi, @EugeniSegarra , thanks for checking in! Have you worked with Julia and the Makie.jl plotting ecosystem before? Have you worked with anything related to quantum information science? That information helps me evaluate whether this would be a good starting point or whether some simpler onboarding tasks would be better first. A year or two this type of gatekeeping would not have been necessary, but with the amount of LLM spam we are getting I need to do more due diligence. ",
+      "createdAt": "2026-05-12T02:51:12Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4426938815",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCZaLPw",
+      "author": {
+        "login": "Arthurescc"
+      },
+      "authorAssociation": "NONE",
+      "body": "Hi! I opened PR #411 with a small, reviewable improvement for the Makie visualization bounty: compact quantum-state summaries in register-network state tooltips, plus a GLMakie regression assertion and docs/changelog updates.\n\nThis is aimed at the state-tooltip part tracked in #98. I am happy to iterate based on maintainer feedback and keep the scope narrow if preferred.",
+      "createdAt": "2026-05-15T00:33:37Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4455828287",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCZbCfA",
+      "author": {
+        "login": "Arthurescc"
+      },
+      "authorAssociation": "NONE",
+      "body": "Following the bounty logistics template:\n\n- name: Doyele\n- github username: Arthurescc\n- relevant background: submitted PR #411 for the #98 state-tooltip part of this Makie visualization bounty; comfortable iterating on Julia/Makie plotting code and tests based on maintainer feedback.\n\nI understand this is a narrow first slice rather than a full solution to every visualization sub-issue under #132.",
+      "createdAt": "2026-05-15T00:37:14Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4455842428",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCbOzfQ",
+      "author": {
+        "login": "oliverkimlamlam"
+      },
+      "authorAssociation": "NONE",
+      "body": "Hi Stefan, I'd like to check whether a small contribution in this area is still useful before opening a PR.\n\nI noticed #332 and the recent visualization PRs #395, #396, #397, and #411 were closed or flagged, so I don't want to duplicate those or add to review noise. I have been looking at the `registernetplot_axis` / `get_slots_vis_string` path and a minimal scope would be:\n\n- show the current node's queued `messagebuffer` contents in register/state hover or click inspection text;\n- add a focused plotting regression test for queued message visibility;\n- add a short note in `docs/src/visualizations.md`.\n\nI cannot run Julia tests on my current machine yet, so I would only submit after verifying locally in a Julia environment. If this overlaps too much with #395/#332, I can drop this scope and look for a different, non-overlapping visualization task instead.",
+      "createdAt": "2026-05-15T07:07:02Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4457739133",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCbck8A",
+      "author": {
+        "login": "EugeniSegarra"
+      },
+      "authorAssociation": "NONE",
+      "body": "Hi Stefan, thanks for the careful reply.\n\nShort answer: I have not worked professionally with Julia/Makie or quantum information science before. My background is more on the software/data side, so I can read code, reproduce issues, write tests, and work incrementally, but I do not want to oversell domain expertise.\n\nGiven the amount of spam you are dealing with, I agree it may be better for me to start with a smaller onboarding task before touching the $200 visualization bounty. I also saw that #411 was closed, so I will not duplicate that #98/state-tooltip scope.\n\nIf there is a small, concrete plotting/docs/test issue you would prefer as a first contribution, I\u2019m happy to start there, reproduce it locally, show the test/validation path first, and only open a PR once the scope is confirmed.",
+      "createdAt": "2026-05-15T07:39:02Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4457964784",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCby1LQ",
+      "author": {
+        "login": "absalonCRC"
+      },
+      "authorAssociation": "NONE",
+      "body": "I would like to claim this bounty. I propose to work on improving Makie visualization capabilities for register-net plots, tag markers, and entanglement visualization. I have reviewed the visualization-related issues and will submit a comprehensive PR.\n\n**Claimee:** absalonCRC\n**AI tools used (per policy):** DeepSeek V4 Flash via OpenCode Go\n\nI will comment with my specific scope proposal shortly.",
+      "createdAt": "2026-05-15T08:44:04Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4458329389",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCb2Vrw",
+      "author": {
+        "login": "absalonCRC"
+      },
+      "authorAssociation": "NONE",
+      "body": "I have submitted a PR (#414) that addresses the visualization improvements requested in this bounty.\n\nImplemented features:\n- **Tag markers** on register net plots (colored shapes, hover tooltips) \u2014 issue #66\n- **Message buffer indicators** (blue dots with pending message count) \u2014 issue #96\n- **Quantum channel in-flight state markers** (coral pentagons along edges) \u2014 issue #97\n- **State info in tooltips** (Bloch vector for qubits, density matrix diagonal for larger states) \u2014 issue #98\n\n**AI disclosure (per policy):** DeepSeek V4 Flash via OpenCode Go (Hermes Agent). All code verified against existing codebase.\n\n**Claimee:** absalonCRC\n\nPlease let me know if any revisions are needed!",
+      "createdAt": "2026-05-15T08:53:34Z",
+      "includesCreatedEdit": false,
+      "isMinimized": true,
+      "minimizedReason": "spam",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4458386863",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCig1JA",
+      "author": {
+        "login": "Krastanov"
+      },
+      "authorAssociation": "MEMBER",
+      "body": "@oliverkimlamlam , if you have not worked with Julia before (what I assume given the fact you can not yet run tests on your system), this bounty would not be a good place to start.\n\n@EugeniSegarra , of all of our software projects, QuantumSavory.jl will probably indeed be the most approachable given your background. How to proceed probably would depend on what you want to get out of this. If the focus is more on the Julia ecosystem as a whole, probably focusing on these visualization issues is a good place to start. But for anything else, you probably would need to build up some background in quantum information science, which would require going through a course or a textbook (plenty of good options online, e.g. youtube video lectures). Plenty of PRs were closed without review because they were spam -- that does not mean the topic they were addressing is not in scope under this bounty.",
+      "createdAt": "2026-05-16T03:18:40Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4465374500",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCjE_rA",
+      "author": {
+        "login": "oliverkimlamlam"
+      },
+      "authorAssociation": "NONE",
+      "body": "Thanks Stefan, understood. I\u2019ll step back from this bounty for now and won\u2019t open a PR for this scope. I\u2019ll first get a local Julia/Makie environment working and spend time learning the project before considering future contributions.",
+      "createdAt": "2026-05-16T06:16:56Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4465967020",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABCjnCuQ",
+      "author": {
+        "login": "EugeniSegarra"
+      },
+      "authorAssociation": "NONE",
+      "body": "@Krastanov thanks, that helps.\n\nI now have the plotting test setup running locally:\n\n- Julia 1.12.6 on Apple Silicon\n- `test/plotting/cairo_tests.jl`: 9/9 passing\n- `test/plotting/gl_tests.jl`: 10/10 passing, including the DataInspector / `get_state_vis_string` path\n\nI have not modified the repository yet. My intended next step is a very small PR against the existing Makie extension, not a redesign, focused on one narrow, testable visualization path.\n\nI made local layout notes for myself, but I will only attach screenshots once they are produced by an actual branch/PR.",
+      "createdAt": "2026-05-16T09:58:58Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4466524857",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOHgUEFc8AAAABH84BOg",
+      "author": {
+        "login": "yanyishuai"
+      },
+      "authorAssociation": "NONE",
+      "body": "Submitted PR for #132 \u2014 richer Makie tooltips (message buffers, state summaries, register metadata). Happy to adjust scope in this thread.",
+      "createdAt": "2026-06-29T02:58:37Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132#issuecomment-4828561722",
+      "viewerDidAuthor": false
+    }
+  ],
+  "createdAt": "2024-07-09T19:48:27Z",
+  "labels": [
+    {
+      "id": "LA_kwDOHgUEFc8AAAABrC-OYg",
+      "name": "bug bounty",
+      "description": "There is an award for solving this issue.",
+      "color": "47F5AC"
+    },
+    {
+      "id": "LA_kwDOHgUEFc8AAAABrC-Qpg",
+      "name": "bounty:200",
+      "description": "",
+      "color": "8F21A4"
+    }
+  ],
+  "state": "OPEN",
+  "title": "Improve Makie visualization capabilities [$200]",
+  "updatedAt": "2026-06-29T02:58:38Z",
+  "url": "https://github.com/QuantumSavory/QuantumSavory.jl/issues/132"
+}

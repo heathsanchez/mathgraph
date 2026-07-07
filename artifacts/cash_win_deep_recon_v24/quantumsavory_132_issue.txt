@@ -1,0 +1,93 @@
+author:	EugeniSegarra
+association:	none
+edited:	false
+status:	none
+--
+Hi Stefan, I’m interested in #132 and I want to set the scope before doing any bounty work.
+
+I saw the recent visualization PRs #395, #396 and #397 were closed after review-policy concerns, so I don’t want to open a PR before confirming expectations. Any contribution I submit would be mine to own: I’ll read the relevant code, implement and review the changes line by line, run the plotting tests locally, and avoid duplicate or mass-submitted work.
+
+Technical read so far:
+- I would avoid duplicating #395/#396/#397 and #332.
+- Message-buffer tooltips (#96), direct tag markers (#66), and state-line styling/link visibility already have recent overlapping attempts.
+- A cleaner non-overlapping scope may be #98: improve state information in register-network tooltips by extending the existing `state_coords_backref -> get_state_vis_string` path in `ext/QuantumSavoryMakie/QuantumSavoryMakie.jl`.
+- I would keep it small: compact state diagnostics in the hover text, regression coverage in `test/plotting/gl_tests.jl` or `test/plotting/plotting_tags_observables.jl`, and a short docs note in `docs/src/visualizations.md`.
+- I would validate with the plotting project, preferably both CairoMakie for deterministic test coverage and headless GLMakie for DataInspector behavior.
+
+Before I start: would this workflow be allowed, and would the #98-focused scope still be eligible for the $200 bounty?
+--
+author:	Krastanov
+association:	member
+edited:	false
+status:	none
+--
+Hi, @EugeniSegarra , thanks for checking in! Have you worked with Julia and the Makie.jl plotting ecosystem before? Have you worked with anything related to quantum information science? That information helps me evaluate whether this would be a good starting point or whether some simpler onboarding tasks would be better first. A year or two this type of gatekeeping would not have been necessary, but with the amount of LLM spam we are getting I need to do more due diligence. 
+--
+author:	oliverkimlamlam
+association:	none
+edited:	false
+status:	none
+--
+Hi Stefan, I'd like to check whether a small contribution in this area is still useful before opening a PR.
+
+I noticed #332 and the recent visualization PRs #395, #396, #397, and #411 were closed or flagged, so I don't want to duplicate those or add to review noise. I have been looking at the `registernetplot_axis` / `get_slots_vis_string` path and a minimal scope would be:
+
+- show the current node's queued `messagebuffer` contents in register/state hover or click inspection text;
+- add a focused plotting regression test for queued message visibility;
+- add a short note in `docs/src/visualizations.md`.
+
+I cannot run Julia tests on my current machine yet, so I would only submit after verifying locally in a Julia environment. If this overlaps too much with #395/#332, I can drop this scope and look for a different, non-overlapping visualization task instead.
+--
+author:	EugeniSegarra
+association:	none
+edited:	false
+status:	none
+--
+Hi Stefan, thanks for the careful reply.
+
+Short answer: I have not worked professionally with Julia/Makie or quantum information science before. My background is more on the software/data side, so I can read code, reproduce issues, write tests, and work incrementally, but I do not want to oversell domain expertise.
+
+Given the amount of spam you are dealing with, I agree it may be better for me to start with a smaller onboarding task before touching the $200 visualization bounty. I also saw that #411 was closed, so I will not duplicate that #98/state-tooltip scope.
+
+If there is a small, concrete plotting/docs/test issue you would prefer as a first contribution, I’m happy to start there, reproduce it locally, show the test/validation path first, and only open a PR once the scope is confirmed.
+--
+author:	Krastanov
+association:	member
+edited:	false
+status:	none
+--
+@oliverkimlamlam , if you have not worked with Julia before (what I assume given the fact you can not yet run tests on your system), this bounty would not be a good place to start.
+
+@EugeniSegarra , of all of our software projects, QuantumSavory.jl will probably indeed be the most approachable given your background. How to proceed probably would depend on what you want to get out of this. If the focus is more on the Julia ecosystem as a whole, probably focusing on these visualization issues is a good place to start. But for anything else, you probably would need to build up some background in quantum information science, which would require going through a course or a textbook (plenty of good options online, e.g. youtube video lectures). Plenty of PRs were closed without review because they were spam -- that does not mean the topic they were addressing is not in scope under this bounty.
+--
+author:	oliverkimlamlam
+association:	none
+edited:	false
+status:	none
+--
+Thanks Stefan, understood. I’ll step back from this bounty for now and won’t open a PR for this scope. I’ll first get a local Julia/Makie environment working and spend time learning the project before considering future contributions.
+--
+author:	EugeniSegarra
+association:	none
+edited:	false
+status:	none
+--
+@Krastanov thanks, that helps.
+
+I now have the plotting test setup running locally:
+
+- Julia 1.12.6 on Apple Silicon
+- `test/plotting/cairo_tests.jl`: 9/9 passing
+- `test/plotting/gl_tests.jl`: 10/10 passing, including the DataInspector / `get_state_vis_string` path
+
+I have not modified the repository yet. My intended next step is a very small PR against the existing Makie extension, not a redesign, focused on one narrow, testable visualization path.
+
+I made local layout notes for myself, but I will only attach screenshots once they are produced by an actual branch/PR.
+--
+author:	yanyishuai
+association:	none
+edited:	false
+status:	none
+--
+Submitted PR for #132 — richer Makie tooltips (message buffers, state summaries, register metadata). Happy to adjust scope in this thread.
+--

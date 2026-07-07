@@ -1,0 +1,1258 @@
+[
+  {
+    "author": {
+      "id": "MDQ6VXNlcjI1ODM4MzA3",
+      "is_bot": false,
+      "login": "yanyishuai",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-29T02:58:36Z",
+    "headRefName": "feat/issue-132-makie-tooltips",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 479,
+    "state": "CLOSED",
+    "title": "Improve Makie tooltips: message buffers, state summaries, register metadata (fixes #132)",
+    "updatedAt": "2026-06-30T15:50:59Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/479"
+  },
+  {
+    "author": {
+      "id": "U_kgDOBlQ98w",
+      "is_bot": false,
+      "login": "Adithyaphani",
+      "name": "adithyaphanithota"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-19T05:20:23Z",
+    "headRefName": "feat/rich-state--401",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 476,
+    "state": "OPEN",
+    "title": "feat: rich text/HTML/PNG show for register states (closes #401)",
+    "updatedAt": "2026-07-03T20:02:30Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/476"
+  },
+  {
+    "author": {
+      "id": "U_kgDOCBWAKQ",
+      "is_bot": false,
+      "login": "absalonCRC",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-15T08:53:22Z",
+    "headRefName": "feat/makie-viz-improvements-132",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 414,
+    "state": "CLOSED",
+    "title": "Improve Makie visualization capabilities (#132)",
+    "updatedAt": "2026-05-15T13:43:02Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/414"
+  },
+  {
+    "author": {
+      "id": "U_kgDOCKwQlg",
+      "is_bot": false,
+      "login": "Anshhhhh-chand",
+      "name": "Ansh Pratap Chand"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-13T13:37:42Z",
+    "headRefName": "master",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 463,
+    "state": "CLOSED",
+    "title": "Implement rich state visualization and show methods (Issue #401)",
+    "updatedAt": "2026-06-18T03:03:05Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/463"
+  },
+  {
+    "author": {
+      "id": "U_kgDOB9vstQ",
+      "is_bot": false,
+      "login": "Arthurescc",
+      "name": "Doyele"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-15T00:30:53Z",
+    "headRefName": "improve-state-tooltips",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 411,
+    "state": "CLOSED",
+    "title": "Improve state tooltips in Makie visualizations",
+    "updatedAt": "2026-05-15T01:07:40Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/411"
+  },
+  {
+    "author": {
+      "id": "U_kgDOCzK2Bw",
+      "is_bot": false,
+      "login": "GrovyleX",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-13T20:28:59Z",
+    "headRefName": "qtcp-protocol-show-summaries",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 465,
+    "state": "CLOSED",
+    "title": "Add show/visualization methods for qTCP protocol controllers",
+    "updatedAt": "2026-06-27T11:09:17Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/465"
+  },
+  {
+    "author": {
+      "id": "U_kgDOBc49Lw",
+      "is_bot": false,
+      "login": "Vortriz",
+      "name": "Rishi Vora"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-09T13:07:14Z",
+    "headRefName": "gabs-viz",
+    "isDraft": false,
+    "mergedAt": "2026-06-18T19:28:42Z",
+    "number": 455,
+    "state": "MERGED",
+    "title": "Visualization methods for `GaussianState`",
+    "updatedAt": "2026-06-18T19:56:32Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/455"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjMyNzIzMjEw",
+      "is_bot": false,
+      "login": "antaloaalonso",
+      "name": "Antonio Alonso-Stepanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-10T22:00:08Z",
+    "headRefName": "codex/message-buffer-tooltips",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 395,
+    "state": "CLOSED",
+    "title": "[codex] Show message buffers in plot tooltips",
+    "updatedAt": "2026-05-11T02:31:28Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/395"
+  },
+  {
+    "author": {
+      "id": "U_kgDOBlQ98w",
+      "is_bot": false,
+      "login": "Adithyaphani",
+      "name": "adithyaphanithota"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-16T17:03:47Z",
+    "headRefName": "feat/rich-state-display-401",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 469,
+    "state": "CLOSED",
+    "title": "feat: rich text/HTML/PNG show methods for register states (closes #401)",
+    "updatedAt": "2026-06-18T16:38:29Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/469"
+  },
+  {
+    "author": {
+      "id": "U_kgDOCWZKvg",
+      "is_bot": false,
+      "login": "juliuss007",
+      "name": "Julius"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-27T06:21:42Z",
+    "headRefName": "codex/qs-138-percolation",
+    "isDraft": true,
+    "mergedAt": null,
+    "number": 433,
+    "state": "CLOSED",
+    "title": "Add heralded percolation lattice interactive example",
+    "updatedAt": "2026-05-27T06:59:30Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/433"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjY2MDEwODU0",
+      "is_bot": false,
+      "login": "axif0",
+      "name": "Muhamad Asif"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-03T17:51:32Z",
+    "headRefName": "show",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 451,
+    "state": "CLOSED",
+    "title": "Rich display for Gabs Gaussian states in registers",
+    "updatedAt": "2026-06-06T23:44:24Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/451"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjE0ODM5ODkw",
+      "is_bot": false,
+      "login": "tzh476",
+      "name": "0_o_c"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-14T01:23:04Z",
+    "headRefName": "codex/gabs-state-displays",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 466,
+    "state": "CLOSED",
+    "title": "Add Gabs Gaussian state displays",
+    "updatedAt": "2026-06-14T02:17:18Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/466"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjE0ODM5ODkw",
+      "is_bot": false,
+      "login": "tzh476",
+      "name": "0_o_c"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-13T18:10:42Z",
+    "headRefName": "codex/rich-state-displays",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 464,
+    "state": "CLOSED",
+    "title": "Add rich state displays for register states",
+    "updatedAt": "2026-06-18T03:02:36Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/464"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjc4MjgxNTE0",
+      "is_bot": false,
+      "login": "hanakl",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-18T13:51:08Z",
+    "headRefName": "hana_repeaterv2",
+    "isDraft": false,
+    "mergedAt": "2026-06-09T01:36:19Z",
+    "number": 353,
+    "state": "MERGED",
+    "title": "RepeaterV2 Cleanup",
+    "updatedAt": "2026-06-09T01:36:41Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/353"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjMyNzIzMjEw",
+      "is_bot": false,
+      "login": "antaloaalonso",
+      "name": "Antonio Alonso-Stepanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-10T23:32:56Z",
+    "headRefName": "codex/tag-markers-visualization",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 396,
+    "state": "CLOSED",
+    "title": "Show tag markers on register net plots",
+    "updatedAt": "2026-05-11T02:31:52Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/396"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjMyNzIzMjEw",
+      "is_bot": false,
+      "login": "antaloaalonso",
+      "name": "Antonio Alonso-Stepanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-11T00:53:35Z",
+    "headRefName": "codex/entanglement-line-plot",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 397,
+    "state": "CLOSED",
+    "title": "Make register-net entanglement links visible",
+    "updatedAt": "2026-05-11T02:33:18Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/397"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjg1MTA0NzM4",
+      "is_bot": false,
+      "login": "HanTechnology",
+      "name": "Hans(HanTaek) Lim"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-12T06:35:52Z",
+    "headRefName": "unitaryhack-403-qtcp-protocol-show",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 404,
+    "state": "CLOSED",
+    "title": "Add qTCP protocol show summaries",
+    "updatedAt": "2026-05-12T12:33:52Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/404"
+  },
+  {
+    "author": {
+      "id": "U_kgDOCBWAKQ",
+      "is_bot": false,
+      "login": "absalonCRC",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-15T07:52:21Z",
+    "headRefName": "expanded-benchmarks",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 413,
+    "state": "CLOSED",
+    "title": "Expand benchmark suite with channels, locks, backends, examples, and import time",
+    "updatedAt": "2026-05-15T13:44:11Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/413"
+  },
+  {
+    "author": {
+      "id": "U_kgDOCBWAKQ",
+      "is_bot": false,
+      "login": "absalonCRC",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-15T10:30:51Z",
+    "headRefName": "feat/repeater-chain-adaptive",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 417,
+    "state": "CLOSED",
+    "title": "feat: adaptive quantum repeater chain interactive example (#138)",
+    "updatedAt": "2026-05-15T13:43:34Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/417"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjUzNzY0Mzg=",
+      "is_bot": false,
+      "login": "nenadilic84",
+      "name": "Nenad Ilic"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-02-13T10:12:37Z",
+    "headRefName": "makie-tag-visualization",
+    "isDraft": true,
+    "mergedAt": null,
+    "number": 332,
+    "state": "CLOSED",
+    "title": "Add tag indicators, entanglement links, and message buffer tooltips",
+    "updatedAt": "2026-04-21T02:25:36Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/332"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-21T15:51:46Z",
+    "headRefName": "fix-firstgenrepeater-v2-example-test-codex",
+    "isDraft": false,
+    "mergedAt": "2026-03-22T01:28:50Z",
+    "number": 360,
+    "state": "MERGED",
+    "title": "Avoid blocking firstgenrepeater_v2 example imports",
+    "updatedAt": "2026-03-22T01:36:50Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/360"
+  },
+  {
+    "author": {
+      "id": "U_kgDOD9TiMQ",
+      "is_bot": false,
+      "login": "ridzkyyy",
+      "name": "ridzkyy"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-15T10:02:39Z",
+    "headRefName": "ridzkyy/assisted-cv-teleportation-app",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 415,
+    "state": "CLOSED",
+    "title": "Add assisted CV teleportation interactive example",
+    "updatedAt": "2026-05-15T13:48:06Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/415"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjczNjk0MjI2",
+      "is_bot": false,
+      "login": "LBacciottini",
+      "name": "Leonardo Bacciottini"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-04-08T14:55:20Z",
+    "headRefName": "tutorial/qtcp",
+    "isDraft": false,
+    "mergedAt": "2026-05-12T04:11:11Z",
+    "number": 379,
+    "state": "MERGED",
+    "title": "Add QTCP tutorial examples",
+    "updatedAt": "2026-06-18T17:20:32Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/379"
+  },
+  {
+    "author": {
+      "id": "U_kgDOChxizQ",
+      "is_bot": false,
+      "login": "arnavk23",
+      "name": "Arnav Kapoor"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-04T18:05:54Z",
+    "headRefName": "fix-issue-403-qtcp-shows",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 452,
+    "state": "CLOSED",
+    "title": "Add qTCP protocol display summaries",
+    "updatedAt": "2026-06-27T14:24:21Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/452"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-02-27T03:52:56Z",
+    "headRefName": "update-makie-0.24-code",
+    "isDraft": false,
+    "mergedAt": "2026-02-27T04:59:01Z",
+    "number": 336,
+    "state": "MERGED",
+    "title": "Update Makie extension for v0.24 compatibility",
+    "updatedAt": "2026-02-27T04:59:01Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/336"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjc4MjgxNTE0",
+      "is_bot": false,
+      "login": "hanakl",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-19T18:49:54Z",
+    "headRefName": "hana_makieobs",
+    "isDraft": false,
+    "mergedAt": "2026-03-20T17:09:43Z",
+    "number": 357,
+    "state": "MERGED",
+    "title": "Fix registernetplot_axis to return observable",
+    "updatedAt": "2026-03-20T17:10:29Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/357"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-18T15:24:56Z",
+    "headRefName": "sk/paralleltestrunner",
+    "isDraft": false,
+    "mergedAt": "2026-03-19T01:25:06Z",
+    "number": 354,
+    "state": "MERGED",
+    "title": "Migrate tests from TestItemRunner to ParallelTestRunner",
+    "updatedAt": "2026-03-19T03:56:22Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/354"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-21T15:55:34Z",
+    "headRefName": "fix-congestionchain-example-test-codex",
+    "isDraft": false,
+    "mergedAt": "2026-03-22T00:59:14Z",
+    "number": 361,
+    "state": "MERGED",
+    "title": "Enable the congestionchain example test",
+    "updatedAt": "2026-03-22T00:59:29Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/361"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-02-27T14:02:45Z",
+    "headRefName": "fix-gl-plot-backref-test-codex",
+    "isDraft": false,
+    "mergedAt": "2026-02-27T14:38:44Z",
+    "number": 338,
+    "state": "MERGED",
+    "title": "Fix GL plotting data-inspector test after Makie 0.24 backref refactor",
+    "updatedAt": "2026-02-27T14:39:08Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/338"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjUzNzY0Mzg=",
+      "is_bot": false,
+      "login": "nenadilic84",
+      "name": "Nenad Ilic"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-02-13T11:00:52Z",
+    "headRefName": "bbm92-qkd-protocol",
+    "isDraft": true,
+    "mergedAt": null,
+    "number": 334,
+    "state": "CLOSED",
+    "title": "Add BBM92 entanglement-based QKD protocol",
+    "updatedAt": "2026-06-18T15:47:17Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/334"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/github-actions"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-06-22T01:45:06Z",
+    "headRefName": "compathelper/new_version/2025-06-22-01-45-04-839-02989886149",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 242,
+    "state": "CLOSED",
+    "title": "CompatHelper: bump compat for Makie in [weakdeps] to 0.24, (keep existing compat)",
+    "updatedAt": "2026-03-21T15:29:21Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/242"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-04-02T21:08:06Z",
+    "headRefName": "add-agent-evals-codex",
+    "isDraft": false,
+    "mergedAt": "2026-04-03T13:47:21Z",
+    "number": 376,
+    "state": "MERGED",
+    "title": "Add documentation agent eval dataset",
+    "updatedAt": "2026-04-03T14:10:47Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/376"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjUzNzY0Mzg=",
+      "is_bot": false,
+      "login": "nenadilic84",
+      "name": "Nenad Ilic"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-02-13T10:28:12Z",
+    "headRefName": "ring-network-example",
+    "isDraft": true,
+    "mergedAt": null,
+    "number": 333,
+    "state": "CLOSED",
+    "title": "Add ring network interactive example",
+    "updatedAt": "2026-03-31T02:05:54Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/333"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-21T16:11:18Z",
+    "headRefName": "fix-repeatergrid-1a-example-test-codex",
+    "isDraft": false,
+    "mergedAt": "2026-03-21T23:48:29Z",
+    "number": 362,
+    "state": "MERGED",
+    "title": "Fix repeatergrid 1a example test",
+    "updatedAt": "2026-03-22T00:22:26Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/362"
+  },
+  {
+    "author": {
+      "id": "U_kgDOCYsOBg",
+      "is_bot": false,
+      "login": "hijirii",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-30T23:16:16Z",
+    "headRefName": "bounty/quantum-memory-example",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 366,
+    "state": "CLOSED",
+    "title": "Bounty: Quantum Memory and T2 Dephasing Example (issue 138)",
+    "updatedAt": "2026-03-31T02:02:27Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/366"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/dependabot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-11-29T16:34:24Z",
+    "headRefName": "dependabot/julia/Makie-0.21-and-0.22-and-0.23-and-0.24",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 298,
+    "state": "CLOSED",
+    "title": "Update Makie requirement from 0.21, 0.22, 0.23 to 0.21, 0.22, 0.23, 0.24",
+    "updatedAt": "2026-02-27T04:15:56Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/298"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjQzOTU2OTI5",
+      "is_bot": false,
+      "login": "Luisenden",
+      "name": "Luise Prielinger"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-10-09T09:22:03Z",
+    "headRefName": "piecemaker",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 288,
+    "state": "CLOSED",
+    "title": "Piecemaker",
+    "updatedAt": "2026-03-21T15:28:48Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/288"
+  },
+  {
+    "author": {
+      "id": "U_kgDOC4G5_g",
+      "is_bot": false,
+      "login": "CookUpSunny",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-28T23:36:08Z",
+    "headRefName": "benchmark-register-locks",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 439,
+    "state": "CLOSED",
+    "title": "Add register lock benchmarks",
+    "updatedAt": "2026-05-31T11:37:20Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/439"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjg4NDUyODY1",
+      "is_bot": false,
+      "login": "Thakurom",
+      "name": "Om Thakur"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-28T06:48:26Z",
+    "headRefName": "codex/stateszoo-benchmarks",
+    "isDraft": true,
+    "mergedAt": null,
+    "number": 438,
+    "state": "CLOSED",
+    "title": "Add StatesZoo quantum state benchmarks",
+    "updatedAt": "2026-05-28T07:44:07Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/438"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/dependabot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-02T19:24:43Z",
+    "headRefName": "dependabot/github_actions/julia-actions/install-juliaup-3",
+    "isDraft": false,
+    "mergedAt": "2026-03-03T17:21:27Z",
+    "number": 345,
+    "state": "MERGED",
+    "title": "Bump julia-actions/install-juliaup from 2 to 3",
+    "updatedAt": "2026-03-03T17:21:44Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/345"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjc4MjgxNTE0",
+      "is_bot": false,
+      "login": "hanakl",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-06-10T14:38:07Z",
+    "headRefName": "hana_repeater",
+    "isDraft": false,
+    "mergedAt": "2026-06-16T17:02:09Z",
+    "number": 456,
+    "state": "MERGED",
+    "title": "Repeater Example Minor Changes",
+    "updatedAt": "2026-06-16T17:02:11Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/456"
+  },
+  {
+    "author": {
+      "id": "U_kgDOCWZKvg",
+      "is_bot": false,
+      "login": "juliuss007",
+      "name": "Julius"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-27T06:19:40Z",
+    "headRefName": "codex/qs-137-ghz-projection",
+    "isDraft": true,
+    "mergedAt": null,
+    "number": 432,
+    "state": "CLOSED",
+    "title": "Add GHZ projection ProtocolZoo primitive",
+    "updatedAt": "2026-05-27T07:01:49Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/432"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-16T15:38:35Z",
+    "headRefName": "fix-threadsafe-guid-codex",
+    "isDraft": false,
+    "mergedAt": "2026-05-16T17:41:14Z",
+    "number": 423,
+    "state": "MERGED",
+    "title": "Make tag ids thread-safe",
+    "updatedAt": "2026-05-16T17:41:14Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/423"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-04-01T21:34:16Z",
+    "headRefName": "simple-swapping-howto-codex",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 375,
+    "state": "CLOSED",
+    "title": "Add how-to for simple entanglement swapping",
+    "updatedAt": "2026-06-18T15:19:34Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/375"
+  },
+  {
+    "author": {
+      "id": "U_kgDOChxizQ",
+      "is_bot": false,
+      "login": "arnavk23",
+      "name": "Arnav Kapoor"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-12-04T04:03:30Z",
+    "headRefName": "docs/howto-graphstate-183",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 300,
+    "state": "CLOSED",
+    "title": "`howto` graphstate documentation",
+    "updatedAt": "2025-12-22T15:21:36Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/300"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-07T21:49:00Z",
+    "headRefName": "fix-swapper-stale-query-codex",
+    "isDraft": false,
+    "mergedAt": "2026-05-08T02:57:59Z",
+    "number": 390,
+    "state": "MERGED",
+    "title": "Revalidate SwapperProt tags after locking",
+    "updatedAt": "2026-05-08T03:14:25Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/390"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-03-22T13:20:42Z",
+    "headRefName": "docs-paper-alignment-codex",
+    "isDraft": false,
+    "mergedAt": "2026-03-30T22:26:00Z",
+    "number": 364,
+    "state": "MERGED",
+    "title": "Improve docs based on recent preprint",
+    "updatedAt": "2026-03-30T22:33:39Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/364"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjczNjk0MjI2",
+      "is_bot": false,
+      "login": "LBacciottini",
+      "name": "Leonardo Bacciottini"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-05-29T21:52:20Z",
+    "headRefName": "uuid-based-tracker",
+    "isDraft": false,
+    "mergedAt": "2026-06-12T18:50:52Z",
+    "number": 440,
+    "state": "MERGED",
+    "title": "UUID-based EntanglementTracker",
+    "updatedAt": "2026-06-14T01:35:28Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/440"
+  },
+  {
+    "author": {
+      "id": "U_kgDODXQedQ",
+      "is_bot": false,
+      "login": "Krastanov-agent",
+      "name": "Stefan Krastanov's bot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-04-01T02:58:40Z",
+    "headRefName": "protocolzoo-general-coverage-codex",
+    "isDraft": false,
+    "mergedAt": "2026-04-01T19:07:58Z",
+    "number": 371,
+    "state": "MERGED",
+    "title": "Add ProtocolZoo coverage contract tests",
+    "updatedAt": "2026-04-01T19:07:58Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/371"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/github-actions"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-06-12T01:27:39Z",
+    "headRefName": "compathelper/new_version/2025-06-12-01-27-37-570-01651978150",
+    "isDraft": false,
+    "mergedAt": "2025-06-12T01:33:46Z",
+    "number": 239,
+    "state": "MERGED",
+    "title": "CompatHelper: bump compat for Makie in [weakdeps] to 0.23, (keep existing compat)",
+    "updatedAt": "2025-06-14T09:39:30Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/239"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-02-27T18:44:57Z",
+    "headRefName": "sk/downgradeagain",
+    "isDraft": false,
+    "mergedAt": "2026-02-28T04:54:23Z",
+    "number": 341,
+    "state": "MERGED",
+    "title": "configuration fixes for the downgrade CI check",
+    "updatedAt": "2026-03-02T10:32:15Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/341"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjc4MjgxNTE0",
+      "is_bot": false,
+      "login": "hanakl",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-05-16T07:32:55Z",
+    "headRefName": "hana_qsensing_update",
+    "isDraft": false,
+    "mergedAt": "2026-06-16T15:47:10Z",
+    "number": 233,
+    "state": "MERGED",
+    "title": "Add decoherence and subset GHZ projection",
+    "updatedAt": "2026-06-16T15:47:12Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/233"
+  },
+  {
+    "author": {
+      "id": "U_kgDOChxizQ",
+      "is_bot": false,
+      "login": "arnavk23",
+      "name": "Arnav Kapoor"
+    },
+    "baseRefName": "master",
+    "createdAt": "2026-01-21T08:08:27Z",
+    "headRefName": "entanglement-tracker-uuid",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 315,
+    "state": "CLOSED",
+    "title": "Add UUID-based entanglement tracking protocols",
+    "updatedAt": "2026-03-02T19:38:04Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/315"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-03-01T18:01:23Z",
+    "headRefName": "downgradechecks",
+    "isDraft": false,
+    "mergedAt": "2025-03-01T21:11:21Z",
+    "number": 189,
+    "state": "MERGED",
+    "title": "bump min compat Makie to fix downgrade CI issues with GeoMakie",
+    "updatedAt": "2025-03-01T21:11:27Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/189"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/github-actions"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-01-14T01:12:43Z",
+    "headRefName": "compathelper/new_version/2025-01-14-01-12-41-482-00450196369",
+    "isDraft": false,
+    "mergedAt": "2025-02-10T23:09:28Z",
+    "number": 175,
+    "state": "MERGED",
+    "title": "CompatHelper: bump compat for Makie in [weakdeps] to 0.22, (keep existing compat)",
+    "updatedAt": "2025-02-10T23:09:56Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/175"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-09-14T04:43:02Z",
+    "headRefName": "sk/silencelogs",
+    "isDraft": false,
+    "mergedAt": "2025-09-14T05:08:21Z",
+    "number": 274,
+    "state": "MERGED",
+    "title": "remove noisy logs from tests",
+    "updatedAt": "2025-09-17T14:30:24Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/274"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjc4MjgxNTE0",
+      "is_bot": false,
+      "login": "hanakl",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2024-11-21T21:35:53Z",
+    "headRefName": "hana_map",
+    "isDraft": false,
+    "mergedAt": "2025-02-25T03:28:51Z",
+    "number": 170,
+    "state": "MERGED",
+    "title": "Background Map for Plotting",
+    "updatedAt": "2025-02-25T03:42:57Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/170"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjc4MjgxNTE0",
+      "is_bot": false,
+      "login": "hanakl",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-07-30T10:32:50Z",
+    "headRefName": "hana_gui_features",
+    "isDraft": false,
+    "mergedAt": "2025-08-01T23:38:07Z",
+    "number": 249,
+    "state": "MERGED",
+    "title": "Add GUI Helper Functions",
+    "updatedAt": "2025-08-01T23:38:08Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/249"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-02-27T17:34:16Z",
+    "headRefName": "barrettkok",
+    "isDraft": false,
+    "mergedAt": "2025-02-27T17:57:43Z",
+    "number": 181,
+    "state": "MERGED",
+    "title": "a model for the Barrett Kok Bell state",
+    "updatedAt": "2025-02-27T17:57:45Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/181"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjc4MjgxNTE0",
+      "is_bot": false,
+      "login": "hanakl",
+      "name": ""
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-03-01T02:19:17Z",
+    "headRefName": "hana_mbqc",
+    "isDraft": false,
+    "mergedAt": "2025-05-21T06:08:39Z",
+    "number": 185,
+    "state": "MERGED",
+    "title": "MBQC Purification",
+    "updatedAt": "2025-05-21T06:17:07Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/185"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-07-11T01:34:55Z",
+    "headRefName": "sk/5.1fixes",
+    "isDraft": false,
+    "mergedAt": "2025-07-14T18:22:35Z",
+    "number": 244,
+    "state": "MERGED",
+    "title": "prepare for 5.1 release - bring back graphmatching and simplify tests",
+    "updatedAt": "2025-07-14T18:22:37Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/244"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-03-19T03:00:33Z",
+    "headRefName": "krauslindbladpauli",
+    "isDraft": false,
+    "mergedAt": "2025-03-19T16:07:59Z",
+    "number": 197,
+    "state": "MERGED",
+    "title": "fixes to background noise processes, implementing more of them, documentation",
+    "updatedAt": "2025-03-25T21:46:56Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/197"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/github-actions"
+    },
+    "baseRefName": "master",
+    "createdAt": "2024-05-10T01:00:19Z",
+    "headRefName": "compathelper/new_version/2024-05-10-01-00-17-213-01637196884",
+    "isDraft": false,
+    "mergedAt": "2024-05-15T14:58:52Z",
+    "number": 118,
+    "state": "MERGED",
+    "title": "CompatHelper: bump compat for Makie to 0.21, (keep existing compat)",
+    "updatedAt": "2024-05-15T14:58:53Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/118"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2025-03-23T00:57:54Z",
+    "headRefName": "zalmagain",
+    "isDraft": false,
+    "mergedAt": "2025-03-27T20:24:34Z",
+    "number": 200,
+    "state": "MERGED",
+    "title": "redoing the ZALM source",
+    "updatedAt": "2025-03-27T20:24:35Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/200"
+  },
+  {
+    "author": {
+      "id": "MDQ6VXNlcjcwNTI0OA==",
+      "is_bot": false,
+      "login": "Krastanov",
+      "name": "Stefan Krastanov"
+    },
+    "baseRefName": "master",
+    "createdAt": "2024-03-14T19:38:04Z",
+    "headRefName": "docplots",
+    "isDraft": false,
+    "mergedAt": "2024-03-23T10:31:54Z",
+    "number": 110,
+    "state": "MERGED",
+    "title": "documentation for the data inspection feature in plotting",
+    "updatedAt": "2024-03-23T10:31:54Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/110"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/github-actions"
+    },
+    "baseRefName": "master",
+    "createdAt": "2023-11-22T01:02:06Z",
+    "headRefName": "compathelper/new_version/2023-11-22-01-02-04-618-00946137514",
+    "isDraft": false,
+    "mergedAt": "2023-11-22T01:15:15Z",
+    "number": 76,
+    "state": "MERGED",
+    "title": "CompatHelper: bump compat for Makie to 0.20, (keep existing compat)",
+    "updatedAt": "2023-11-22T01:15:16Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/76"
+  },
+  {
+    "author": {
+      "id": "U_kgDOBuANJA",
+      "is_bot": false,
+      "login": "adrianariton",
+      "name": "adrianariton"
+    },
+    "baseRefName": "master",
+    "createdAt": "2023-08-25T22:22:14Z",
+    "headRefName": "master",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 33,
+    "state": "CLOSED",
+    "title": "Adding fullstack example",
+    "updatedAt": "2023-12-18T21:38:14Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/33"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/github-actions"
+    },
+    "baseRefName": "master",
+    "createdAt": "2022-09-13T02:04:34Z",
+    "headRefName": "compathelper/new_version/2022-09-13-02-04-32-416-04237027570",
+    "isDraft": false,
+    "mergedAt": "2022-09-13T02:35:55Z",
+    "number": 2,
+    "state": "MERGED",
+    "title": "CompatHelper: bump compat for Makie to 0.17, (keep existing compat)",
+    "updatedAt": "2023-08-09T01:54:05Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/2"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/github-actions"
+    },
+    "baseRefName": "master",
+    "createdAt": "2022-10-13T02:00:25Z",
+    "headRefName": "compathelper/new_version/2022-10-13-02-00-23-711-02617940765",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 6,
+    "state": "CLOSED",
+    "title": "CompatHelper: bump compat for Makie to 0.18, (keep existing compat)",
+    "updatedAt": "2023-08-09T01:54:06Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/6"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/github-actions"
+    },
+    "baseRefName": "master",
+    "createdAt": "2022-12-04T01:17:29Z",
+    "headRefName": "compathelper/new_version/2022-12-04-01-17-27-321-01142021085",
+    "isDraft": false,
+    "mergedAt": null,
+    "number": 7,
+    "state": "CLOSED",
+    "title": "CompatHelper: bump compat for Makie to 0.19, (keep existing compat)",
+    "updatedAt": "2023-08-09T01:54:06Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/7"
+  },
+  {
+    "author": {
+      "is_bot": true,
+      "login": "app/dependabot"
+    },
+    "baseRefName": "master",
+    "createdAt": "2023-04-10T18:04:11Z",
+    "headRefName": "dependabot/github_actions/peter-evans/create-or-update-comment-3",
+    "isDraft": false,
+    "mergedAt": "2023-05-27T20:20:13Z",
+    "number": 16,
+    "state": "MERGED",
+    "title": "Bump peter-evans/create-or-update-comment from 2 to 3",
+    "updatedAt": "2023-05-27T20:20:14Z",
+    "url": "https://github.com/QuantumSavory/QuantumSavory.jl/pull/16"
+  }
+]

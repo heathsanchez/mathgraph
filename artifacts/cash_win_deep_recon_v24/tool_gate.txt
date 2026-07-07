@@ -1,0 +1,16 @@
+===== paths =====
+/Users/heath/Desktop/Aristotle/venv/bin/python3
+/Users/heath/Desktop/Aristotle/venv/bin/pip
+/Users/heath/Desktop/Aristotle/venv/bin/pytest
+/opt/homebrew/bin/node
+/opt/homebrew/bin/npm
+/usr/bin/git
+/usr/bin/make
+
+===== versions =====
+Python 3.11.14
+pip 26.0.1 from /Users/heath/Desktop/Aristotle/venv/lib/python3.11/site-packages/pip (python 3.11)
+pytest 9.0.3
+v23.7.0
+10.9.2
+git version 2.39.3 (Apple Git-145)

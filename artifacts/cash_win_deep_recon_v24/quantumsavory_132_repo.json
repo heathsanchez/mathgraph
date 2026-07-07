@@ -1,0 +1,13 @@
+{
+  "description": "A full stack simulator of quantum hardware, from the low-level analog physics to high-level network dynamics. Includes discrete event simulator, symbolic representation for quantum object, and works with many backend simulators.",
+  "forkCount": 72,
+  "isArchived": false,
+  "isPrivate": false,
+  "nameWithOwner": "QuantumSavory/QuantumSavory.jl",
+  "primaryLanguage": {
+    "name": "Julia"
+  },
+  "pushedAt": "2026-07-01T21:10:12Z",
+  "stargazerCount": 66,
+  "url": "https://github.com/QuantumSavory/QuantumSavory.jl"
+}

@@ -1,0 +1,1044 @@
+===== julia project files =====
+./.agents/evals/evaluate_anythingllm.jl
+./.agents/evals/Project.toml
+./benchmark/benchmark_onchange.jl
+./benchmark/benchmark_quantumstates.jl
+./benchmark/benchmark_querywait.jl
+./benchmark/benchmark_register.jl
+./benchmark/benchmark_semaphore.jl
+./benchmark/benchmark_tagquery.jl
+./benchmark/benchmarks.jl
+./benchmark/Project.toml
+./docs/make.jl
+./docs/Project.toml
+./examples/assisted_cvteleportation/setup.jl
+./examples/colorcentermodularcluster/1_time_to_connected.jl
+./examples/colorcentermodularcluster/2_real_time_visualization.jl
+./examples/colorcentermodularcluster/3_makie_interactive.jl
+./examples/colorcentermodularcluster/setup.jl
+./examples/congestionchain/1_visualization.jl
+./examples/congestionchain/2_makie_interactive.jl
+./examples/congestionchain/3_aggregate_of_multiple_simulations.jl
+./examples/congestionchain/setup.jl
+./examples/distributed_ghz_sensors/f_tmbl.jl
+./examples/distributed_ghz_sensors/plots.jl
+./examples/distributed_ghz_sensors/setup.jl
+./examples/distributed_ghz_sensors/v_tmbl.jl
+./examples/firstgenrepeater_lowlevel/1_entangler_example.jl
+./examples/firstgenrepeater_lowlevel/2_swapper_example.jl
+./examples/firstgenrepeater_lowlevel/3_purifier_example.jl
+./examples/firstgenrepeater_lowlevel/4_visualization.jl
+./examples/firstgenrepeater_lowlevel/5_clifford_full_example.jl
+./examples/firstgenrepeater_lowlevel/6_compare_formalisms.jl
+./examples/firstgenrepeater_lowlevel/6.1_compare_formalisms_noplot.jl
+./examples/firstgenrepeater_lowlevel/clifford_setup.jl
+./examples/firstgenrepeater_lowlevel/setup.jl
+./examples/firstgenrepeater/1_entangler_example.jl
+./examples/firstgenrepeater/2_swapper_example.jl
+./examples/firstgenrepeater/3_purifier_example.jl
+./examples/firstgenrepeater/setup.jl
+./examples/graphstate/graph_preparer.jl
+./examples/myswapper_tutorial/my_swapper_prot.jl
+./examples/piecemakerswitch/1_simple_run.jl
+./examples/piecemakerswitch/2_static_viz.jl
+./examples/piecemakerswitch/setup.jl
+./examples/Project.toml
+./examples/purificationMBQC/full_purification_example.jl
+./examples/purificationMBQC/plots.jl
+./examples/qtcp_tutorial/1_chain_basic.jl
+./examples/qtcp_tutorial/2_chain_visualization.jl
+./examples/qtcp_tutorial/3_grid_multiflow.jl
+./examples/qtcp_tutorial/4_custom_endnode.jl
+./examples/qtcp_tutorial/setup.jl
+./examples/repeatergrid/1a_async_interactive_visualization.jl
+./examples/repeatergrid/1b_async_wglmakie_interactive.jl
+./examples/repeatergrid/2a_sync_interactive_visualization.jl
+./examples/repeatergrid/2b_sync_wglmakie_interactive.jl
+./examples/repeatergrid/setup.jl
+./examples/simpleswitch/1_interactive_visualization.jl
+./examples/simpleswitch/2_wglmakie_interactive.jl
+./examples/simpleswitch/setup.jl
+./examples/state_explorer/state_explorer.jl
+./examples/states_rest_server/Project.toml
+./examples/states_rest_server/server.jl
+./ext/QuantumSavoryInteractiveUtils/QuantumSavoryInteractiveUtils.jl
+./ext/QuantumSavoryMakie/QuantumSavoryMakie.jl
+./ext/QuantumSavoryMakie/show_protocol.jl
+./ext/QuantumSavoryMakie/show_state.jl
+./ext/QuantumSavoryMakie/state_explorer.jl
+./ext/QuantumSavoryTylerMakie/QuantumSavoryTylerMakie.jl
+./Project.toml
+./src/ambiguity_fix.jl
+./src/backgrounds.jl
+./src/baseops/apply.jl
+./src/baseops/initialize.jl
+./src/baseops/observable.jl
+./src/baseops/subsystemcompose.jl
+./src/baseops/traceout.jl
+./src/baseops/uptotime.jl
+./src/CircuitZoo/CircuitZoo.jl
+./src/concurrentsim.jl
+./src/measurements.jl
+./src/messagebuffer.jl
+./src/networks.jl
+./src/noninstant.jl
+./src/plots.jl
+./src/precompile.jl
+./src/ProtocolZoo/cutoff.jl
+./src/ProtocolZoo/entanglement_ids.jl
+./src/ProtocolZoo/mbqc.jl
+./src/ProtocolZoo/ProtocolZoo.jl
+./src/ProtocolZoo/qtcp.jl
+./src/ProtocolZoo/show.jl
+./src/ProtocolZoo/swapping.jl
+./src/ProtocolZoo/switches.jl
+./src/quantumchannel.jl
+./src/QuantumSavory.jl
+./src/queries.jl
+./src/querywait.jl
+./src/representations.jl
+./src/semaphore.jl
+./src/should_upstream.jl
+./src/show.jl
+./src/states_registers_networks_getset.jl
+./src/states_registers_networks_shows.jl
+./src/states_registers.jl
+./src/StatesZoo/barrett_kok.jl
+./src/StatesZoo/depolarized.jl
+./src/StatesZoo/genqo.jl
+./src/StatesZoo/state_explorer.jl
+./src/StatesZoo/StatesZoo.jl
+./src/tags.jl
+./src/traits_and_defaults.jl
+./test/examples/assisted_cvteleportation_tests.jl
+./test/examples/colorcentermodularcluster_1_tests.jl
+./test/examples/colorcentermodularcluster_2_tests.jl
+./test/examples/colorcentermodularcluster_3_tests.jl
+./test/examples/congestionchain_2_tests.jl
+./test/examples/congestionchain_tests.jl
+./test/examples/distributed_ghz_sensors_plots_tests.jl
+./test/examples/distributed_ghz_sensors_tests.jl
+./test/examples/distributed_ghz_sensors_v_tmbl_tests.jl
+./test/examples/firstgenrepeater_1_tests.jl
+./test/examples/firstgenrepeater_2_tests.jl
+./test/examples/firstgenrepeater_3_tests.jl
+./test/examples/firstgenrepeater_lowlevel_1_tests.jl
+./test/examples/firstgenrepeater_lowlevel_2_tests.jl
+./test/examples/firstgenrepeater_lowlevel_3_tests.jl
+./test/examples/firstgenrepeater_lowlevel_4_tests.jl
+./test/examples/firstgenrepeater_lowlevel_5_tests.jl
+./test/examples/firstgenrepeater_lowlevel_6_1_tests.jl
+./test/examples/firstgenrepeater_lowlevel_6_tests.jl
+./test/examples/myswapper_tutorial_tests.jl
+./test/examples/piecemakerswitch_1_tests.jl
+./test/examples/piecemakerswitch_2_tests.jl
+./test/examples/purificationmbqc_plots_tests.jl
+./test/examples/purificationmbqc_tests.jl
+./test/examples/qtcp_tutorial_1_tests.jl
+./test/examples/qtcp_tutorial_2_tests.jl
+./test/examples/qtcp_tutorial_3_tests.jl
+./test/examples/qtcp_tutorial_4_tests.jl
+./test/examples/repeatergrid_1a_tests.jl
+./test/examples/repeatergrid_1b_tests.jl
+./test/examples/repeatergrid_2a_tests.jl
+./test/examples/repeatergrid_2b_tests.jl
+./test/examples/simpleswitch_2_tests.jl
+./test/examples/simpleswitch_tests.jl
+./test/examples/state_explorer_tests.jl
+./test/general/apply_tests.jl
+./test/general/aqua_tests.jl
+./test/general/circuitzoo_api_tests.jl
+./test/general/circuitzoo_ent_swap_tests.jl
+./test/general/circuitzoo_fusion_tests.jl
+./test/general/circuitzoo_purification_tests.jl
+./test/general/circuitzoo_superdense_tests.jl
+./test/general/concurrentsim_helpers_tests.jl
+./test/general/interactiveutils_tests.jl
+./test/general/messagebuffer_tests.jl
+./test/general/noninstant_and_backgrounds_clifford_tests.jl
+./test/general/noninstant_and_backgrounds_qubit_tests.jl
+./test/general/noninstant_and_backgrounds_qumode_tests.jl
+./test/general/observable_tests.jl
+./test/general/project_traceout_gabs_homodyne_tests.jl
+./test/general/project_traceout_tests.jl
+./test/general/protocol_show_html_contracts_tests.jl
+./test/general/protocolzoo_cutoff_cleanup_tests.jl
+./test/general/protocolzoo_cutoffprot_tests.jl
+./test/general/protocolzoo_entanglement_consumer_stale_query_tests.jl
+./test/general/protocolzoo_entanglement_consumer_tests.jl
+./test/general/protocolzoo_entanglement_counterpart_invariant_tests.jl
+./test/general/protocolzoo_entanglement_id_tests.jl
+./test/general/protocolzoo_entanglement_tracker_grid_tests.jl
+./test/general/protocolzoo_entanglement_tracker_lock_gap_tests.jl
+./test/general/protocolzoo_entanglement_tracker_tests.jl
+./test/general/protocolzoo_entangler_tests.jl
+./test/general/protocolzoo_mbqc_tests.jl
+./test/general/protocolzoo_qtcp_tests.jl
+./test/general/protocolzoo_shorthand_constructors_tests.jl
+./test/general/protocolzoo_surface_contracts_tests.jl
+./test/general/protocolzoo_swapper_chooseslots_tests.jl
+./test/general/protocolzoo_swapper_stale_query_tests.jl
+./test/general/protocolzoo_switch_algorithms_tests.jl
+./test/general/protocolzoo_switch_stale_match_accounting_tests.jl
+./test/general/protocolzoo_switch_stale_reciprocal_delete_tests.jl
+./test/general/protocolzoo_switch_tests.jl
+./test/general/protocolzoo_throws_tests.jl
+./test/general/protocolzoo_virtual_edge_tests.jl
+./test/general/quantumchannel_tests.jl
+./test/general/querywait_tests.jl
+./test/general/register_interface_tests.jl
+./test/general/registernet_interface_tests.jl
+./test/general/registernet_metadata_access_tests.jl
+./test/general/representations_dispatch_tests.jl
+./test/general/semaphore_2_tests.jl
+./test/general/semaphore_3_tests.jl
+./test/general/semaphore_tests.jl
+./test/general/setup_circuitzoo_purification.jl
+./test/general/show_gabs_tests.jl
+./test/general/show_html_tests.jl
+./test/general/stateszoo_api_tests.jl
+./test/general/tags_and_queries_tests.jl
+./test/jet_tests.jl
+./test/plotting/cairo_tests.jl
+./test/plotting/doctests_tests.jl
+./test/plotting/gl_tests.jl
+./test/plotting/plotting_maps.jl
+./test/plotting/plotting_regcoords.jl
+./test/plotting/plotting_tags_observables.jl
+./test/plotting/show_png_tests.jl
+./test/Project.toml
+./test/runtests.jl
+./test/test_stateszoo_depolarized.jl
+
+===== Makie/visual refs =====
+src/StatesZoo/StatesZoo.jl:25:Used by `stateexplorer` to generate the most valuable plots of figures of merit."""
+src/StatesZoo/state_explorer.jl:1:# implemented in Makie extension
+src/StatesZoo/state_explorer.jl:5:Requires a Makie plotting backend to be imported.
+src/StatesZoo/state_explorer.jl:8:using GLMakie
+src/StatesZoo/state_explorer.jl:11:stateexplorer(TheStateTypeYouWant) # an interactive Makie figure will be returned
+src/StatesZoo/state_explorer.jl:20:Requires a Makie plotting backend to be imported.
+src/states_registers_networks_shows.jl:140:    does not support rich visualization in HTML
+src/plots.jl:3:Requires a Makie backend be already imported."""
+src/plots.jl:4:function registernetplot end
+src/plots.jl:6:"""Draw the given register network on a given Makie axis.
+src/plots.jl:8:Requires a Makie backend be already imported."""
+src/plots.jl:9:function registernetplot! end
+src/plots.jl:11:"""Draw the given register network on a given Makie axis or subfigure and modify the axis with numerous visualization enhancements.
+src/plots.jl:13:Requires a Makie backend be already imported."""
+src/plots.jl:14:function registernetplot_axis end
+src/plots.jl:16:"""Draw the various resources and locks stored in the given meta-graph on a given Makie axis.
+src/plots.jl:18:Requires a Makie backend be already imported."""
+src/plots.jl:19:function resourceplot_axis end
+src/plots.jl:24:function showonplot end
+src/plots.jl:26:"""Generates a default map with country and state boundaries and returns a GeoAxis. The returned GeoAxis can be used as an input for registernetplot_axis.
+src/ProtocolZoo/show.jl:5:    state of type <code class="quantumsavory_typename quantumsavory_protocol_typename">$(typeof(p))</code> does not support rich visualization in HTML
+src/QuantumSavory.jl:92:    # plots.jl
+src/QuantumSavory.jl:93:    registernetplot, registernetplot!, registernetplot_axis, resourceplot_axis, generate_map,
+src/QuantumSavory.jl:107:            if exc.f === registernetplot
+src/QuantumSavory.jl:108:                println(io, "\n`registernetplot!` is implemented as an optional extension dependent on `Makie`; please make sure `Makie` is installed and imported first.")
+src/QuantumSavory.jl:109:            elseif exc.f === registernetplot!
+src/QuantumSavory.jl:110:                println(io, "\n`registernetplot!` is implemented as an optional extension dependent on `Makie`; please make sure `Makie` is installed and imported first.")
+src/QuantumSavory.jl:111:            elseif exc.f === registernetplot_axis
+src/QuantumSavory.jl:112:                println(io, "\n`registernetplot_axis` is implemented as an optional extension dependent on `Makie`; please make sure `Makie` is installed and imported first.")
+src/QuantumSavory.jl:113:            elseif exc.f === resourceplot_axis
+src/QuantumSavory.jl:114:                println(io, "\n`resourceplot_axis` is implemented as an optional extension dependent on `Makie`; please make sure `Makie` is installed and imported first.")
+src/QuantumSavory.jl:168:include("plots.jl")
+test/runtests.jl:5:    "plotting" => normpath(joinpath(@__DIR__, "projects", "plotting")),
+test/runtests.jl:25:test_project(name) = startswith(name, "plotting") ? TEST_PROJECTS["plotting"] :
+test/general/protocolzoo_surface_contracts_tests.jl:91:    @testset "HTML rendering reports protocol-specific summaries" begin
+test/general/protocolzoo_surface_contracts_tests.jl:97:        @test occursin("does not support rich visualization in HTML", fallback_html)
+test/general/protocol_show_html_contracts_tests.jl:7:@testset "Protocol HTML rendering" begin
+test/general/protocol_show_html_contracts_tests.jl:11:    @testset "Unknown protocols render a helpful fallback" begin
+test/general/protocol_show_html_contracts_tests.jl:16:        @test occursin("does not support rich visualization", html)
+test/general/show_html_tests.jl:49:@test !occursin("does not support rich visualization", html)
+test/projects/plotting/Project.toml:2:CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+test/projects/plotting/Project.toml:6:GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
+test/projects/plotting/Project.toml:10:Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
+test/plotting/plotting_regcoords.jl:2:#using CairoMakie
+test/plotting/plotting_regcoords.jl:3:#using GLMakie
+test/plotting/plotting_regcoords.jl:16:_, _, plt, netobs = registernetplot_axis(fig[1,1],network)
+test/plotting/plotting_regcoords.jl:45:_,_,_,netobs2 = resourceplot_axis(fig2[1,1],network,[:bool,:bool2],[:bool,:resource]; registercoords=plt[:registercoords])
+test/plotting/plotting_regcoords.jl:48:_,_,_,netobs3 = resourceplot_axis(fig3[1,1],network,[:bool,:bool2],[:bool,:resource])
+test/plotting/plotting_maps.jl:15:_, _, plt, netobs = registernetplot_axis(map_axis, network, registercoords=coords)
+test/plotting/plotting_maps.jl:34:_, _, plt, netobs = registernetplot_axis(map_axis, network, registercoords=coords)
+test/plotting/gl_tests.jl:3:using GLMakie
+test/plotting/gl_tests.jl:4:GLMakie.activate!()
+test/plotting/gl_tests.jl:8:    include("plotting_regcoords.jl")
+test/plotting/gl_tests.jl:11:    include("plotting_tags_observables.jl")
+test/plotting/gl_tests.jl:14:    include("plotting_maps.jl")
+test/plotting/gl_tests.jl:17:@testset "data inspectors" begin # only available in GLMakie
+test/plotting/gl_tests.jl:27:    # create the plot
+test/plotting/gl_tests.jl:29:    _, ax, plt, obs = registernetplot_axis(fig[1,1],net)
+test/plotting/gl_tests.jl:33:    @test Base.get_extension(QuantumSavory, :QuantumSavoryMakie).get_state_vis_string(backref,1) == "Subsystem 1 of a state of 1 subsystems, stored in\nRegister 1 | Slot 1\n not tagged"
+test/plotting/gl_tests.jl:37:GLMakie.closeall()
+test/plotting/show_png_tests.jl:5:using CairoMakie
+test/plotting/cairo_tests.jl:3:using CairoMakie
+test/plotting/cairo_tests.jl:4:CairoMakie.activate!()
+test/plotting/cairo_tests.jl:8:    include("plotting_regcoords.jl")
+test/plotting/cairo_tests.jl:11:    include("plotting_tags_observables.jl")
+test/plotting/cairo_tests.jl:14:    include("plotting_maps.jl")
+test/plotting/plotting_tags_observables.jl:1:#using CairoMakie
+test/plotting/plotting_tags_observables.jl:2:#using GLMakie
+test/plotting/plotting_tags_observables.jl:10:ax = Makie.Axis(fig[1, 1])
+test/plotting/plotting_tags_observables.jl:11:p = registernetplot!(ax, regnet)
+test/plotting/plotting_tags_observables.jl:12:ax.aspect = Makie.DataAspect()
+test/plotting/plotting_tags_observables.jl:13:Makie.hidedecorations!(ax)
+test/plotting/plotting_tags_observables.jl:14:Makie.hidespines!(ax)
+test/plotting/plotting_tags_observables.jl:25:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), registercoords=rand(2,1))
+test/plotting/plotting_tags_observables.jl:26:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), registercoords=rand(1,2))
+test/plotting/plotting_tags_observables.jl:27:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), registercoords=[1.1,1.1])
+test/plotting/plotting_tags_observables.jl:28:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), registercoords=[[1.1,1.1]])
+test/plotting/plotting_tags_observables.jl:29:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), registercoords=[(1.1,1.1)])
+test/plotting/plotting_tags_observables.jl:30:registernetplot!(ax, RegisterNet([Register(2)]), registercoords=[Point2f(1,1)])
+test/plotting/plotting_tags_observables.jl:37:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), observables=[("pretend I am an operator",)])
+test/plotting/plotting_tags_observables.jl:38:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), observables=[(X, 1)])
+test/plotting/plotting_tags_observables.jl:39:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), observables=[(X, (1,1))])
+test/plotting/plotting_tags_observables.jl:40:registernetplot!(ax, RegisterNet([Register(2)]), observables=[(X, ((1,1),))])
+test/plotting/plotting_tags_observables.jl:43:registernetplot!(ax, net, observables=[(X, ((1,1),), [(1,1),(1,1)])])
+test/plotting/plotting_tags_observables.jl:44:@test_throws ArgumentError registernetplot!(ax, RegisterNet([Register(2)]), observables=[(X, ((1,1),), ((1,1),))]) # TODO consider permitting this
+test/plotting/plotting_tags_observables.jl:55:p = registernetplot!(ax, net, observables=[(X, ((1,2),)), (X⊗X⊗X, ((1,1),(2,2),(3,2)))])
+test/plotting/plotting_tags_observables.jl:61:registernetplot_axis(fig[1,1], RegisterNet([Register(1), Register(2)]),
+test/plotting/plotting_tags_observables.jl:68:registernetplot_axis(fig[1,1], RegisterNet([Register(1), Register(2)]),
+test/plotting/plotting_tags_observables.jl:75:registernetplot_axis(fig[1,1], RegisterNet([Register(1), Register(2)]),
+test/plotting/plotting_tags_observables.jl:82:registernetplot_axis(fig[1,1], RegisterNet([Register(1), Register(2)]),
+test/plotting/plotting_tags_observables.jl:95:p = registernetplot_axis(fig[1,1], net, observables=[(X, ((1,2),)), (X⊗X⊗X, ((1,1),(2,2),(3,2)))], infocli=false)
+test/examples/qtcp_tutorial_2_tests.jl:4:    include("../../examples/qtcp_tutorial/2_chain_visualization.jl")
+test/examples/firstgenrepeater_lowlevel_6_1_tests.jl:4:    include("../../examples/firstgenrepeater_lowlevel/6.1_compare_formalisms_noplot.jl")
+test/examples/firstgenrepeater_lowlevel_4_tests.jl:4:    include("../../examples/firstgenrepeater_lowlevel/4_visualization.jl")
+test/examples/colorcentermodularcluster_2_tests.jl:4:    include("../../examples/colorcentermodularcluster/2_real_time_visualization.jl")
+test/examples/purificationmbqc_plots_tests.jl:3:@testset "Examples - purificationMBQC plots" begin
+test/examples/purificationmbqc_plots_tests.jl:4:    include("../../examples/purificationMBQC/plots.jl")
+test/examples/congestionchain_tests.jl:4:    include("../../examples/congestionchain/1_visualization.jl")
+test/examples/distributed_ghz_sensors_plots_tests.jl:3:@testset "Examples - distributed GHZ sensors plots" begin
+test/examples/distributed_ghz_sensors_plots_tests.jl:4:    include("../../examples/distributed_ghz_sensors/plots.jl")
+test/examples/repeatergrid_1a_tests.jl:4:    include("../../examples/repeatergrid/1a_async_interactive_visualization.jl")
+test/examples/simpleswitch_tests.jl:4:    include("../../examples/simpleswitch/1_interactive_visualization.jl")
+test/examples/repeatergrid_2a_tests.jl:4:    include("../../examples/repeatergrid/2a_sync_interactive_visualization.jl")
+docs/make.jl:99:        "Visualizations" => "visualizations.md",
+docs/make.jl:100:        "Quantum State Visualization" => "state_visualization.md",
+docs/outdated/message_queues.md:26:using CairoMakie
+docs/outdated/message_queues.md:127:Classical communication delay might be important too. There are FILO storage stacks that can simulate that, e.g. `DelayQueue(sim, delay_time)` used instead of `Storage(sim)`. Below we augment the example from above with such a delay channel and we also add some crude instrumentation and plotting.
+docs/outdated/message_queues.md:205:The horizontal axis is simulation time. We plot the periods during which one of the following is happening:
+docs/Project.toml:3:CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+docs/Project.toml:10:GraphMakie = "1ecd5474-83a3-4783-bb4f-06765db800d2"
+docs/Project.toml:12:Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
+docs/src/tutorial/noninstantgate.md:9:using CairoMakie
+docs/src/tutorial/noninstantgate.md:26:We will plot the value of the population observable over the entire waiting period.
+docs/src/tutorial/noninstantgate.md:90:... and the same but performed in multiple separate steps in order to be able to plot the intermediary results:
+docs/src/tutorial/noninstantgate.md:113:Below we plot the results of each approach. As you can see, they are physically different and it might be important to calibrate them carefully to the situation at hand.
+docs/src/tutorial/state_explorer.md:13:- read the main plots well enough to decide whether that state family is a good
+docs/src/tutorial/state_explorer.md:19:- a Makie backend such as `GLMakie`,
+docs/src/tutorial/state_explorer.md:27:using GLMakie
+docs/src/tutorial/state_explorer.md:44:- bar plots of the current two-qubit state in standard bases,
+docs/src/tutorial/state_explorer.md:56:1. how the current state's bar plots change;
+docs/src/tutorial/state_explorer.md:57:2. how the sweep plot for that same parameter shifts relative to the current
+docs/src/architecture.md:20:and debugging or visualization can cut across the whole stack.
+docs/src/architecture.md:84:5. Query observables, inspect metadata, and visualize the resulting state.
+docs/src/visualizations.md:3:This page is the reference for QuantumSavory's plotting and display helpers.
+docs/src/visualizations.md:7:up the available visualization entry points once you already know what you want
+docs/src/visualizations.md:10:QuantumSavory provides visualization tools built on top of
+docs/src/visualizations.md:11:[Makie.jl](https://docs.makie.org/stable/).
+docs/src/visualizations.md:13:The plotting functions generally return a tuple of (subfigure, axis, plot, observable).
+docs/src/visualizations.md:14:The observable can be used to issue a `notify` call that updates the plot with the current state of the network without replotting from scratch.
+docs/src/visualizations.md:15:This is particularly useful for live simulation visualizations.
+docs/src/visualizations.md:19:The [`registernetplot_axis`](@ref) function can be used to draw a given set of registers, together with the quantum states they contain. It also provides interactive tools for inspecting the content of the registers (by hovering or clicking on the corresponding register slot). Here we give an example where we define a network and then plot it:
+docs/src/visualizations.md:22:using CairoMakie
+docs/src/visualizations.md:23:CairoMakie.activate!()
+docs/src/visualizations.md:35:# create the plot
+docs/src/visualizations.md:37:_, ax, plt, obs = registernetplot_axis(fig[1,1],net)
+docs/src/visualizations.md:43:The visualization is capable of showing tooltips when hovering over different components of the plot, particularly valuable for debugging. Quantum observables can be directly calculated and plotted as well (through the `observables` keyword).
+docs/src/visualizations.md:45:Other configuration options are available as well (the ones ending on `plot` let you access the subplot objects used to create the visualization and the ones ending on `backref` provide convenient inverse mapping from graphical elements to the registers or states being visualized):
+docs/src/visualizations.md:51:If your registers have latitude and longitude coordinates (ranging from -180 to 180), you can plot them directly on a map. One way is to use `generate_map` function to create the map as a plotting axis using the package 'Tyler'. Here's how you can do this with the registers defined earlier:
+docs/src/visualizations.md:54:using CairoMakie # hide
+docs/src/visualizations.md:55:CairoMakie.activate!() # hide
+docs/src/visualizations.md:64:fig, ax, plt, obs = registernetplot_axis(ax, net, registercoords=coords, state_linecolor = :black)
+docs/src/visualizations.md:67:In general, if you have a custom background axis, you can use it as the axis parameter in `registerplot_axis`.
+docs/src/visualizations.md:68:## State and tag metadata in interactive visualizations
+docs/src/visualizations.md:70:When working with interactive plots, you can also hover over different parts of the visualization to see the registers, what is stored in them, and potentially whether they contain any [tagged metadata in use by simulated networking protocols](@ref tagging-and-querying).
+docs/src/visualizations.md:81:_, ax, plt, obs = registernetplot_axis(fig[1,1],network) # hide
+docs/src/visualizations.md:99:## Protocol-specific visualizations
+docs/src/visualizations.md:107:![Protocol-specific visualization for EntanglerProt](assets/paper_figures/showmethod.png)
+docs/src/visualizations.md:109:The example above shows an `EntanglerProt` visualization: the protocol is still
+docs/src/visualizations.md:115:The [`resourceplot_axis`](@ref) function can be used to draw all locks and resources stored in a meta-graph governing a discrete event simulation. Metadata stored at the vertices is plotted as colored or grayed out dots depending on their state. Metadata stored at the edges is shown as lines.
+docs/src/visualizations.md:134:# plot the resources and metadata
+docs/src/visualizations.md:137:resourceplot_axis(fig[1,1],net,
+docs/src/visualizations.md:138:    [:edge_bool,:another_bool], # list of edge metadata to plot
+docs/src/visualizations.md:145:## Updating the plots
+docs/src/visualizations.md:147: You can call `notify` on the returned plot object to replot the state of the network after a change.
+docs/src/discreteeventsimulator.md:103:with the protocol. It is easier to pass around, store, visualize, and reuse
+docs/src/register_interface.md:123:    You can add a custom dispatch that skips the `express` functionality by defining a method `apply!(state::YourStateType, indices, operation<:Symbolic{AbstractOperator})`. This would preemt the default `apply!(state, indices, operation<:Symbolic{AbstractOperator})` containing the `express` logic. The drawback is that this would also skip the memoization employed by `express`.
+docs/src/state_visualization.md:1:# [Quantum State Visualization](@id quantum-state-visualization)
+docs/src/state_visualization.md:9:- in Pluto or Jupyter or VS Code you will see the `text/html` or `image/png` rendering.
+docs/src/state_visualization.md:10:- in the REPL you will see the `text/plain` rendering.
+docs/src/state_visualization.md:12:This reference page shows how a five-subsystem `StateRef` is rendered
+docs/src/state_visualization.md:15:```@setup state_visualization
+docs/src/state_visualization.md:19:using CairoMakie
+docs/src/state_visualization.md:22:CairoMakie.activate!()
+docs/src/state_visualization.md:82:```@example state_visualization
+docs/src/state_visualization.md:88:```@example state_visualization
+docs/src/state_visualization.md:94:```@example state_visualization
+docs/src/state_visualization.md:102:```@example state_visualization
+docs/src/state_visualization.md:108:```@example state_visualization
+docs/src/state_visualization.md:114:```@example state_visualization
+docs/src/state_visualization.md:122:```@example state_visualization
+docs/src/state_visualization.md:128:```@example state_visualization
+docs/src/state_visualization.md:134:```@example state_visualization
+docs/src/references.md:14:- [Quantum State Visualization](state_visualization.md)
+docs/src/references.md:15:- [Visualizations](visualizations.md)
+docs/src/references.md:38:- plotting entry points,
+docs/src/index.md:11:noise models, discrete-event simulation, optimization, and visualization.
+docs/src/index.md:71:- visualization of states, metadata, and protocol state:
+docs/src/index.md:73:  visually while developing larger models
+docs/src/API_ProtocolZoo.md:58:Some protocols also expose richer visualization through `show` methods.
+docs/src/API_ProtocolZoo.md:59:`EntanglerProt`, for example, can render protocol-specific summaries in HTML or
+docs/src/howto/firstgenrepeater/firstgenrepeater.md:33:- `Makie.jl` together with our custom plotting recipes for visualizations;
+docs/src/howto/firstgenrepeater/firstgenrepeater.md:53:    To see how to visualize these data structures as the simulation is proceeding, consult the [Visualizations](@ref Visualizations) page.
+docs/src/howto/firstgenrepeater/firstgenrepeater.md:126:The second example script (`2_swapper_example.jl`) runs this same setup as an interactive web app built with WGLMakie and Bonito, with sliders to adjust both the network parameters and the Barrett-Kok source parameters in real time.
+docs/src/howto/firstgenrepeater/firstgenrepeater.md:252:The plotting itself is realized with the wonderful `Makie.jl` plotting library.
+docs/src/howto/firstgenrepeater/firstgenrepeater.md:276:`Makie.jl` for plotting,
+docs/src/howto/colorcentermodularcluster/colorcentermodularcluster.md:19:The visualization below shows an example of the state being generated, together with tracking the state of various locks and other metadata that needs to be tracked.
+docs/src/howto/colorcentermodularcluster/colorcentermodularcluster.md:28:The plot below shows the distribution of these figures of merit, sampled from a large number of independent runs of the simulation (gathering the entirety of this date takes less than a second).
+docs/src/howto/colorcentermodularcluster/colorcentermodularcluster.md:39:- `Makie.jl` together with our custom plotting recipes for visualizations;
+docs/src/howto/repeatergrid/repeatergrid.md:27:Other than that, `ConcurrentSim` and `ResumableFunctions` are used in the backend to run the discrete event simulation. `Graphs` helps with some functionality needed for the `RegisterNet` datastructure that forms the grid. `GLMakie` and `NetworkLayout` are used for visualization along with the visualization functionality implemented in `QuantumSavory` itself.
+docs/src/howto/repeatergrid/repeatergrid.md:125:The code that runs and visualizes this simulation is shown below
+docs/src/howto/repeatergrid/repeatergrid.md:130:# the network part of the visualization
+docs/src/howto/repeatergrid/repeatergrid.md:131:layout = SquareGrid(cols=:auto, dx=10.0, dy=-10.0)(graph) # provided by NetworkLayout, meant to simplify plotting of graphs in 2D
+docs/src/howto/repeatergrid/repeatergrid.md:132:_, ax, _, obs = registernetplot_axis(fig[1:2,1], net;registercoords=layout)
+docs/src/howto/repeatergrid/repeatergrid.md:134:# the performance log part of the visualization
+docs/src/howto/repeatergrid/repeatergrid.md:135:entlog = Observable(consumer._log) # Observables are used by Makie to update the visualization in real-time in an automated reactive way
+docs/src/howto/repeatergrid/repeatergrid.md:136:ts = @lift [e[1] for e in $entlog]  # TODO this needs a better interface, something less cluncky, maybe also a whole Makie recipe
+docs/src/howto/repeatergrid/repeatergrid.md:162:include("../../../../examples/repeatergrid/1a_async_interactive_visualization.jl") # hide
+docs/src/howto/firstgenrepeater_lowlevel/firstgenrepeater_lowlevel.md:26:- `Makie.jl` together with our custom plotting recipes for visualizations;
+docs/src/howto/firstgenrepeater_lowlevel/firstgenrepeater_lowlevel.md:57:    To see how to visualize these data structures as the simulation is proceeding, consult the [Visualizations](@ref Visualizations) page.
+docs/src/howto/firstgenrepeater_lowlevel/firstgenrepeater_lowlevel.md:89:    # store data about the simulation (and we have created helper plotting functions
+docs/src/howto/firstgenrepeater_lowlevel/firstgenrepeater_lowlevel.md:529:The plotting itself is realized with the wonderful `Makie.jl` plotting library.
+docs/src/howto/firstgenrepeater_lowlevel/firstgenrepeater_lowlevel.md:551:`Makie.jl` for plotting,
+docs/src/manual.md:37:There are optional packages that you need to install to use the full plotting feature.
+docs/src/manual.md:38:- **Makie**: For plotting of registers and processes.
+docs/src/manual.md:39:- **Tyler**: Enables plotting on a real-world map as a background.
+examples/firstgenrepeater/3_purifier_example.jl:3:using GLMakie # For plotting
+examples/firstgenrepeater/3_purifier_example.jl:4:GLMakie.activate!()
+examples/firstgenrepeater/3_purifier_example.jl:57:# set up a plot and save a handle to the plot observable
+examples/firstgenrepeater/3_purifier_example.jl:59:_,ax,_,obs = registernetplot_axis(fig[1,1],network)
+examples/firstgenrepeater/setup.jl:43:    # store data about the simulation (and we have created helper plotting functions
+examples/firstgenrepeater/README.md:24:A full interactive demo that adds `SwapperProt` on top of the entangler. Configuration sliders let you adjust both simulation parameters (chain length, register size, T₂, success probability, …) and the `BarrettKokBellPair` entanglement source parameters in real time. The vast majority of the code in this demo is dedicated to setting up a web UI using an external library from the Makie plotting ecosystem. The demo is meant to showcase the ease with which you can make an interactive bespoke simulation that runs on the web.
+examples/firstgenrepeater/README.md:30:This launches a WGLMakie web app (default `http://127.0.0.1:8890`). Configure the repeater chain and Barrett-Kok source, then press **Run simulation** to watch entanglement propagate end-to-end. Purification is not included in this example.
+examples/firstgenrepeater/2_swapper_example.jl:3:using WGLMakie
+examples/firstgenrepeater/2_swapper_example.jl:4:WGLMakie.activate!()
+examples/firstgenrepeater/2_swapper_example.jl:8:using Makie
+examples/firstgenrepeater/2_swapper_example.jl:64:    _, ax, _, obs = registernetplot_axis(fig[1, 1], network; interactions = false)
+examples/firstgenrepeater/2_swapper_example.jl:107:    Makie.Label(config_section[1, 1], "Simulation settings", fontsize = 16, color = (:white, 0.85))
+examples/firstgenrepeater/2_swapper_example.jl:123:    chain_label = Makie.Label(
+examples/firstgenrepeater/2_swapper_example.jl:160:    Makie.Label(state_section[1, 1], "Barrett-Kok source parameters", fontsize = 16, color = (:white, 0.85))
+examples/firstgenrepeater/2_swapper_example.jl:173:    state_label = Makie.Label(
+examples/firstgenrepeater/2_swapper_example.jl:206:    button_area[1, 1] = button = Makie.Button(fig, label = @lift($running ? "Running..." : ($done ? "Done" : "Run simulation")))
+examples/firstgenrepeater/1_entangler_example.jl:3:using GLMakie # For plotting
+examples/firstgenrepeater/1_entangler_example.jl:4:GLMakie.activate!()
+examples/firstgenrepeater/1_entangler_example.jl:25:# set up a plot and save a handle to the plot observable
+examples/firstgenrepeater/1_entangler_example.jl:27:_,ax,_,obs = registernetplot_axis(fig[1,1],network)
+examples/simpleswitch/README.md:11:The other files run the simulation and generate visuals in a number of different circumstances:
+examples/simpleswitch/README.md:12:1. An interactive simulation with GLMakie visualization;
+examples/simpleswitch/2_wglmakie_interactive.jl:1:using WGLMakie
+examples/simpleswitch/2_wglmakie_interactive.jl:2:WGLMakie.activate!()
+examples/simpleswitch/2_wglmakie_interactive.jl:12:# Mostly a copy of the 1_interactive_visualization.jl file, encapsulated here for convenient serving from inside a WGLMakie app
+examples/simpleswitch/2_wglmakie_interactive.jl:14:    # Prepare all of the simulation components (while all visualization components are prepared in the rest of this function)
+examples/simpleswitch/2_wglmakie_interactive.jl:19:    fig_plots = fig[1,1]
+examples/simpleswitch/2_wglmakie_interactive.jl:21:    # Subfigure for the network visualization
+examples/simpleswitch/2_wglmakie_interactive.jl:22:    _,ax,_,obs = registernetplot_axis(fig_plots[1:2,1],net)
+examples/simpleswitch/2_wglmakie_interactive.jl:27:    ax_backlog = Axis(fig_plots[1:2,2], xlabel="time", ylabel="average backlog")
+examples/simpleswitch/2_wglmakie_interactive.jl:33:    ax_consumed = Axis(fig_plots[1,3], xlabel="pair", ylabel="consumed pairs", xticks=(1:length(consumers),ax_consumed_ticks))
+examples/simpleswitch/2_wglmakie_interactive.jl:34:    barplot!(ax_consumed,1:length(consumers),consumed, color=Cycled(2))
+examples/simpleswitch/2_wglmakie_interactive.jl:38:    ax_backlog_perpair = Axis(fig_plots[2,3], xlabel="pair", ylabel="backlog", xticks=(1:length(consumers),ax_consumed_ticks))
+examples/simpleswitch/2_wglmakie_interactive.jl:39:    barplot!(ax_backlog_perpair,1:length(consumers),backlog_perpair)
+examples/simpleswitch/2_wglmakie_interactive.jl:46:        slider = Makie.Slider(sliderfig[i,j], range=0.05:0.05:2, startvalue=1)
+examples/simpleswitch/2_wglmakie_interactive.jl:57:    slider_override = Makie.Slider(sliderfig_override[1,2], range=0.05:0.05:2, startvalue=1)
+examples/simpleswitch/2_wglmakie_interactive.jl:75:# encapsulated here so that we can conveniently pause the simulation from the WGLMakie app.
+examples/simpleswitch/2_wglmakie_interactive.jl:107:    buttongrid[1,1] = b = Makie.Button(fig, label = @lift(isnothing($running) ? "Done" : $running ? "Running..." : "Run once"), height=30, tellwidth=false)
+examples/simpleswitch/2_wglmakie_interactive.jl:136:    After the switch successfully connects two clients, they share an entangled pair which is consumed shortly thereafter -- the total number of consumed pairs is tracked in one of the bar plots.
+examples/simpleswitch/2_wglmakie_interactive.jl:138:    The backlog of requests is tracked in the other set of plots.
+examples/simpleswitch/2_wglmakie_interactive.jl:150:# Serve the Makie app
+examples/simpleswitch/1_interactive_visualization.jl:1:using GLMakie
+examples/simpleswitch/1_interactive_visualization.jl:5:# Prepare all of the simulation components (while all visualization components are prepared in the rest of this file)
+examples/simpleswitch/1_interactive_visualization.jl:10:fig_plots = fig[1,1]
+examples/simpleswitch/1_interactive_visualization.jl:12:# Subfigure for the network visualization
+examples/simpleswitch/1_interactive_visualization.jl:13:_,ax,_,obs = registernetplot_axis(fig_plots[1:2,1],net)
+examples/simpleswitch/1_interactive_visualization.jl:18:ax_backlog = Axis(fig_plots[1:2,2], xlabel="time", ylabel="average backlog")
+examples/simpleswitch/1_interactive_visualization.jl:24:ax_consumed = Axis(fig_plots[1,3], xlabel="pair", ylabel="consumed pairs", xticks=(1:length(consumers),ax_consumed_ticks))
+examples/simpleswitch/1_interactive_visualization.jl:25:barplot!(ax_consumed,1:length(consumers),consumed, color=Cycled(2))
+examples/simpleswitch/1_interactive_visualization.jl:29:ax_backlog_perpair = Axis(fig_plots[2,3], xlabel="pair", ylabel="backlog", xticks=(1:length(consumers),ax_consumed_ticks))
+examples/simpleswitch/1_interactive_visualization.jl:30:barplot!(ax_backlog_perpair,1:length(consumers),backlog_perpair)
+examples/simpleswitch/1_interactive_visualization.jl:62:# ... and run the simulation while updating plots as needed
+examples/colorcentermodularcluster/3_makie_interactive.jl:2:using WGLMakie
+examples/colorcentermodularcluster/3_makie_interactive.jl:3:WGLMakie.activate!()
+examples/colorcentermodularcluster/3_makie_interactive.jl:68:# Prepare the Makie app for landing page
+examples/colorcentermodularcluster/3_makie_interactive.jl:77:    For single instances of the experiment with detailed visualizations consider the [Single Trajectory Sim Page](./single-trajectory).
+examples/colorcentermodularcluster/3_makie_interactive.jl:127:# Prepare the Makie app for the ensemble simulations
+examples/colorcentermodularcluster/3_makie_interactive.jl:162:    buttongrid[1,1] = b = Makie.Button(F, label = @lift($running ? "Stop" : "Run"))
+examples/colorcentermodularcluster/3_makie_interactive.jl:176:    Each dot in the plot corresponds to one complete Monte Carlo simulation run.
+examples/colorcentermodularcluster/3_makie_interactive.jl:185:    The plots zoom automatically to the regions of interest.
+examples/colorcentermodularcluster/3_makie_interactive.jl:186:    Drag over the plot to select manual region to zoom in.
+examples/colorcentermodularcluster/3_makie_interactive.jl:189:    Back at the [landing page](./) you can view multiple other ways to simulate and visualize this cluster state preparation experiment.
+examples/colorcentermodularcluster/3_makie_interactive.jl:197:# Prepare the Makie app for the single-trajectory visualization
+examples/colorcentermodularcluster/3_makie_interactive.jl:222:        # update plots
+examples/colorcentermodularcluster/3_makie_interactive.jl:239:    subfig_rg, ax_rg, p_rg, obs_rg = registernetplot_axis(F[1:4,1],net; interactions=false)
+examples/colorcentermodularcluster/3_makie_interactive.jl:245:    _,_,_,obs_1 = resourceplot_axis(F[1:3,2],
+examples/colorcentermodularcluster/3_makie_interactive.jl:250:    _,_,_,obs_2 = resourceplot_axis(F[4:6,2],
+examples/colorcentermodularcluster/3_makie_interactive.jl:256:    # A rather hackish and unstable way to add more information to the register plot
+examples/colorcentermodularcluster/3_makie_interactive.jl:257:    # This plot will overlay with colored lines the fidelity of entanglement of each node
+examples/colorcentermodularcluster/3_makie_interactive.jl:287:    buttongrid[1,1] = b = Makie.Button(F, label = @lift($running ? "Running..." : "Run once"))
+examples/colorcentermodularcluster/3_makie_interactive.jl:313:    The top-left plot shows the state of the network of registers. Each register has two slots, one for an electron spin where the entanglement gets established through a Barrett-Kok protocol, and one for a nuclear spin for long term storage.
+examples/colorcentermodularcluster/3_makie_interactive.jl:316:    The plot at the bottom left gives the overall fidelity of the state, together with the fidelity of the best and worst components of the state, over time.
+examples/colorcentermodularcluster/3_makie_interactive.jl:318:    To the right the various locks and resource queues being tracked by the simulation are plotted in real time. For instance, whether the electron spin is currently being reserved by an entangler process is shown in the top plot.
+examples/colorcentermodularcluster/3_makie_interactive.jl:326:    Back at the [landing page](./) you can view multiple other ways to simulate and visualize this cluster state preparation experiment.
+examples/colorcentermodularcluster/3_makie_interactive.jl:334:# A helper to add parameter sliders to visualizations
+examples/colorcentermodularcluster/3_makie_interactive.jl:390:# Serve the Makie app
+examples/colorcentermodularcluster/1_time_to_connected.jl:4:using CairoMakie
+examples/colorcentermodularcluster/1_time_to_connected.jl:5:CairoMakie.activate!()
+examples/colorcentermodularcluster/README.md:13:The other files run the simulation and generate visuals in a number of different circumstances:
+examples/colorcentermodularcluster/README.md:16:2. Simulating a single instance, but with more detailed visualizations;
+examples/colorcentermodularcluster/2_real_time_visualization.jl:2:using GLMakie
+examples/colorcentermodularcluster/2_real_time_visualization.jl:3:GLMakie.activate!()
+examples/colorcentermodularcluster/2_real_time_visualization.jl:12:subfig_rg, ax_rg, p_rg, obs_rg = registernetplot_axis(F[1:2,1],net)
+examples/colorcentermodularcluster/2_real_time_visualization.jl:16:_,_,_,obs_1 = resourceplot_axis(F[1,2],
+examples/colorcentermodularcluster/2_real_time_visualization.jl:21:_,_,_,obs_2 = resourceplot_axis(F[2,2],
+examples/colorcentermodularcluster/2_real_time_visualization.jl:27:# A rather hackish and unstable way to add more information to the register plot
+examples/colorcentermodularcluster/2_real_time_visualization.jl:28:# This plot will overlay with colored lines the fidelity of entanglement of each node
+examples/colorcentermodularcluster/2_real_time_visualization.jl:79:    # update plots
+examples/state_explorer/README.md:5:This Makie-based tool can be used to visualize and study two-qubit quantum states.
+examples/state_explorer/state_explorer.jl:5:using WGLMakie
+examples/state_explorer/state_explorer.jl:6:WGLMakie.activate!()
+examples/state_explorer/state_explorer.jl:42:    # load interactive plotting package and QuantumSavory modules
+examples/state_explorer/state_explorer.jl:43:    using GLMakie
+examples/state_explorer/state_explorer.jl:50:    This is provided as a free visualization and study tool and might be slow to render for particularly complex models. Please run the app locally if you need lower latency and higher performance.
+examples/state_explorer/state_explorer.jl:77:        The Bell pair is shown in the bar plots (both in the Z and in the Bell bases).
+examples/state_explorer/state_explorer.jl:79:        The sliders let you modify various state parameters. For ease of exploration, figures of merit when sweeping one parameter while keeping all others constant are also plotted. The first row corresponds to fidelity (with respect to perfect state) and the second row is the trace of the state (i.e. the probability of successful generation).
+examples/state_explorer/state_explorer.jl:92:# Serve the Makie app
+examples/piecemakerswitch/2_static_viz.jl:2:using GLMakie
+examples/piecemakerswitch/2_static_viz.jl:3:GLMakie.activate!(inline=false)
+examples/piecemakerswitch/2_static_viz.jl:22:function plot_fidelity(logging)
+examples/piecemakerswitch/2_static_viz.jl:31:fig = plot_fidelity(logging)
+examples/piecemakerswitch/README.md:11:The other files run the simulation and generate visuals in a number of different circumstances:
+examples/piecemakerswitch/README.md:13:2. `2_live_visualization_interactive.jl` A web-app version of the simulator;
+examples/congestionchain/2_makie_interactive.jl:1:using WGLMakie
+examples/congestionchain/2_makie_interactive.jl:2:WGLMakie.activate!()
+examples/congestionchain/2_makie_interactive.jl:13:# Demo visualizations of the performance of the network
+examples/congestionchain/2_makie_interactive.jl:45:    _,ax,_,obs = registernetplot_axis(fig[1,1],network; interactions=false, registercoords)
+examples/congestionchain/2_makie_interactive.jl:49:    c1 = Makie.wong_colors()[1]
+examples/congestionchain/2_makie_interactive.jl:50:    c2 = Makie.wong_colors()[2]
+examples/congestionchain/2_makie_interactive.jl:76:    buttongrid[1,1] = b = Makie.Button(fig, label = @lift(isnothing($running) ? "Done" : $running ? "Running..." : "Run once"))
+examples/congestionchain/2_makie_interactive.jl:128:# A helper to add parameter sliders to visualizations
+examples/congestionchain/2_makie_interactive.jl:173:# Serve the Makie app
+examples/congestionchain/setup.jl:46:    # store data about the simulation (and we have created helper plotting functions
+examples/congestionchain/1_visualization.jl:3:using GLMakie # For plotting
+examples/congestionchain/1_visualization.jl:4:GLMakie.activate!(inline=false)
+examples/congestionchain/1_visualization.jl:7:# Demo visualizations of the performance of the network
+examples/congestionchain/1_visualization.jl:39:_,ax,_,obs = registernetplot_axis(fig[1,1],network)
+examples/congestionchain/1_visualization.jl:43:c1 = Makie.wong_colors()[1]
+examples/congestionchain/1_visualization.jl:44:c2 = Makie.wong_colors()[2]
+examples/congestionchain/1_visualization.jl:55:    if length(ts[]) > 2 # to avoid failing autolimits on empty plots
+examples/congestionchain/3_aggregate_of_multiple_simulations.jl:3:using GLMakie # For plotting
+examples/congestionchain/3_aggregate_of_multiple_simulations.jl:4:GLMakie.activate!(inline=false)
+examples/congestionchain/3_aggregate_of_multiple_simulations.jl:7:# Demo visualizations of the performance of the network
+examples/congestionchain/README.md:10:The other files run the simulation and generate visuals in a number of different circumstances:
+examples/congestionchain/README.md:13:3. A script running thousands of simulations like the ones in point 1, followed by plotting average statistical results for these simulations for a variety of repeater chain lengths.
+examples/purificationMBQC/full_purification_example.jl:158:# Results are stored in top-level arrays for use by plots.jl.
+examples/purificationMBQC/plots.jl:3:using GLMakie
+examples/purificationMBQC/plots.jl:4:GLMakie.activate!(inline=false)
+examples/purificationMBQC/plots.jl:28:save("purificationMBQC-plots.png", fig)
+examples/purificationMBQC/README.md:12:The `full_purification_example.jl` file runs the complete pipeline and verifies the output fidelity of the purified pairs using a [4, 2, 2] code. It also sweeps over a range of input fidelities, and `plots.jl` graphs the success probability and output fidelity against the input fidelity.
+examples/Project.toml:4:CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+examples/Project.toml:8:GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
+examples/Project.toml:9:GraphMakie = "1ecd5474-83a3-4783-bb4f-06765db800d2"
+examples/Project.toml:11:Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
+examples/Project.toml:23:WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
+examples/distributed_ghz_sensors/plots.jl:4:using GLMakie
+examples/distributed_ghz_sensors/plots.jl:5:GLMakie.activate!(inline=false)
+examples/distributed_ghz_sensors/plots.jl:148:save("distributed_ghz_sensors-plots.png", fig)
+examples/distributed_ghz_sensors/README.md:12:The two protocols differ only in *when* the hub decides the entanglement-generation phase is over. The `f_tmbl.jl` and `v_tmbl.jl` files each run one round and report the number of entangled sensors and the resulting GHZ fidelity. Both files share the parameters and helpers in `setup.jl`. The `plots.jl` file sweeps each protocol over its free parameter — the time window for F-TMBL and the minimum sensor count μ for V-TMBL — running 100 Monte-Carlo trials per point and plotting the mean GHZ size, preparation time, and fidelity with ±1σ error bars alongside exact theory curves.
+examples/qtcp_tutorial/2_chain_visualization.jl:3:# Same repeater chain as Script 1, but now with live Makie visualization
+examples/qtcp_tutorial/2_chain_visualization.jl:6:# This script uses GLMakie to render the network state in real time,
+examples/qtcp_tutorial/2_chain_visualization.jl:11:using GLMakie
+examples/qtcp_tutorial/2_chain_visualization.jl:12:GLMakie.activate!(inline=false)
+examples/qtcp_tutorial/2_chain_visualization.jl:28:_, ax, _, obs = registernetplot_axis(fig[1,1], net)
+examples/qtcp_tutorial/2_chain_visualization.jl:38:# The `record` function runs the simulation in steps, updating the visualization at each step.
+examples/qtcp_tutorial/2_chain_visualization.jl:39:# It is provided by GLMakie and handles the animation recording.
+examples/qtcp_tutorial/2_chain_visualization.jl:61:@assert isfile(output_path) "Expected visualization output $(output_path) to be created"
+examples/qtcp_tutorial/README.md:8:2. Add visualization to build intuition
+examples/qtcp_tutorial/README.md:66:- `examples/qtcp_tutorial/2_chain_visualization.jl`
+examples/qtcp_tutorial/README.md:69:- Keep the same basic chain as step 1, but show the runtime dynamics visually.
+examples/qtcp_tutorial/README.md:74:- Live visualization using `GLMakie`
+examples/qtcp_tutorial/README.md:77:- Attaching a Makie visualization to a QuantumSavory simulation
+examples/qtcp_tutorial/README.md:79:- Recording the visualization to an MP4 file
+examples/qtcp_tutorial/README.md:155:3. Run `2_chain_visualization.jl` to build intuition for the runtime behavior.
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:1:using WGLMakie
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:2:WGLMakie.activate!()
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:12:    # Prepare all of the simulation components (while all visualization components are prepared in the rest of this function)
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:17:    # the network part of the visualization
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:18:    layout = SquareGrid(cols=:auto, dx=30.0, dy=-30.0)(graph) # provided by NetworkLayout, meant to simplify plotting of graphs in 2D
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:19:    _, ax, _, obs = registernetplot_axis(fig[1:2,1], net;registercoords=layout)
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:21:    # the performance log part of the visualization
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:22:    entlog = Observable(consumer._log) # Observables are used by Makie to update the visualization in real-time in an automated reactive way
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:23:    ts = @lift [e[1] for e in $entlog]  # TODO this needs a better interface, something less cluncky, maybe also a whole Makie recipe
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:74:# encapsulated here so that we can conveniently pause the simulation from the WGLMakie app.
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:107:    buttongrid[1,1] = b = Makie.Button(fig, label = @lift(isnothing($running) ? "Done" : $running ? "Running..." : "Run once"), height=30, tellwidth=false)
+examples/repeatergrid/2b_sync_wglmakie_interactive.jl:152:# Serve the Makie app
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:1:using WGLMakie
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:2:WGLMakie.activate!()
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:12:    # Prepare all of the simulation components (while all visualization components are prepared in the rest of this function)
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:17:    # the network part of the visualization
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:18:    layout = SquareGrid(cols=:auto, dx=30.0, dy=-30.0)(graph) # provided by NetworkLayout, meant to simplify plotting of graphs in 2D
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:19:    _, ax, _, obs = registernetplot_axis(fig[1:2,1], net;registercoords=layout)
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:21:    # the performance log part of the visualization
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:22:    entlog = Observable(consumer._log) # Observables are used by Makie to update the visualization in real-time in an automated reactive way
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:23:    ts = @lift [e[1] for e in $entlog]  # TODO this needs a better interface, something less cluncky, maybe also a whole Makie recipe
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:74:# encapsulated here so that we can conveniently pause the simulation from the WGLMakie app.
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:99:    buttongrid[1,1] = b = Makie.Button(fig, label = @lift(isnothing($running) ? "Done" : $running ? "Running..." : "Run once"), height=30, tellwidth=false)
+examples/repeatergrid/1b_async_wglmakie_interactive.jl:143:# Serve the Makie app
+examples/repeatergrid/2a_sync_interactive_visualization.jl:1:using GLMakie
+examples/repeatergrid/2a_sync_interactive_visualization.jl:10:# the network part of the visualization
+examples/repeatergrid/2a_sync_interactive_visualization.jl:11:layout = SquareGrid(cols=:auto, dx=30.0, dy=-30.0)(graph) # provided by NetworkLayout, meant to simplify plotting of graphs in 2D
+examples/repeatergrid/2a_sync_interactive_visualization.jl:12:_, ax, _, obs = registernetplot_axis(fig[1:2,1], net;registercoords=layout)
+examples/repeatergrid/2a_sync_interactive_visualization.jl:14:# the performance log part of the visualization
+examples/repeatergrid/2a_sync_interactive_visualization.jl:15:entlog = Observable(consumer._log) # Observables are used by Makie to update the visualization in real-time in an automated reactive way
+examples/repeatergrid/2a_sync_interactive_visualization.jl:16:ts = @lift [e[1] for e in $entlog]  # TODO this needs a better interface, something less cluncky, maybe also a whole Makie recipe
+examples/repeatergrid/README.md:8:This example visualizes a quantum network attempting to distribute between the Alice and Bob user pair located on the diagonal of a grid topology.
+examples/repeatergrid/1a_async_interactive_visualization.jl:1:using GLMakie
+examples/repeatergrid/1a_async_interactive_visualization.jl:10:# the network part of the visualization
+examples/repeatergrid/1a_async_interactive_visualization.jl:11:layout = SquareGrid(cols=:auto, dx=30.0, dy=-30.0)(graph) # provided by NetworkLayout, meant to simplify plotting of graphs in 2D
+examples/repeatergrid/1a_async_interactive_visualization.jl:12:_, ax, _, obs = registernetplot_axis(fig[1:2,1], net;registercoords=layout)
+examples/repeatergrid/1a_async_interactive_visualization.jl:14:# the performance log part of the visualization
+examples/repeatergrid/1a_async_interactive_visualization.jl:15:entlog = Observable(consumer._log) # Observables are used by Makie to update the visualization in real-time in an automated reactive way
+examples/repeatergrid/1a_async_interactive_visualization.jl:16:ts = @lift [e[1] for e in $entlog]  # TODO this needs a better interface, something less cluncky, maybe also a whole Makie recipe
+examples/areweentangledyet/index.html:219:    built with discrete-event simulation and live visualization.
+examples/areweentangledyet/index.html:306:        An interactive Makie-based tool for visualizing and studying
+examples/firstgenrepeater_lowlevel/4_visualization.jl:3:using GLMakie # For plotting
+examples/firstgenrepeater_lowlevel/4_visualization.jl:4:GLMakie.activate!(inline=false)
+examples/firstgenrepeater_lowlevel/4_visualization.jl:7:# Demo visualizations of the performance of the network
+examples/firstgenrepeater_lowlevel/4_visualization.jl:37:_,ax,_,obs = registernetplot_axis(fig[1,1],network)
+examples/firstgenrepeater_lowlevel/6_compare_formalisms.jl:7:using CairoMakie
+examples/firstgenrepeater_lowlevel/6_compare_formalisms.jl:8:CairoMakie.activate!()
+examples/firstgenrepeater_lowlevel/6_compare_formalisms.jl:85:qcplot = stairs!(axx, sampled_times, qcx)
+examples/firstgenrepeater_lowlevel/6_compare_formalisms.jl:86:qoplot = stairs!(axx, sampled_times, qox)
+examples/firstgenrepeater_lowlevel/6_compare_formalisms.jl:89:Legend(fig[3,1][1,1],[qcplot,qoplot],["Wave function sims","Clifford circuit sims"],
+examples/firstgenrepeater_lowlevel/3_purifier_example.jl:3:using GLMakie # For plotting
+examples/firstgenrepeater_lowlevel/3_purifier_example.jl:4:GLMakie.activate!()
+examples/firstgenrepeater_lowlevel/3_purifier_example.jl:36:# set up a plot and save a handle to the plot observable
+examples/firstgenrepeater_lowlevel/3_purifier_example.jl:38:_,ax,_,obs = registernetplot_axis(fig[1,1],network)
+examples/firstgenrepeater_lowlevel/setup.jl:43:    # store data about the simulation (and we have created helper plotting functions
+examples/firstgenrepeater_lowlevel/5_clifford_full_example.jl:3:using GLMakie # For plotting
+examples/firstgenrepeater_lowlevel/5_clifford_full_example.jl:4:GLMakie.activate!()
+examples/firstgenrepeater_lowlevel/5_clifford_full_example.jl:7:# Demo visualizations of the performance of the network
+examples/firstgenrepeater_lowlevel/5_clifford_full_example.jl:37:_,ax,_,obs = registernetplot_axis(fig[1,1],network)
+examples/firstgenrepeater_lowlevel/README.md:4:The other files run the simulation and generate visuals in a number of different circumstances:
+examples/firstgenrepeater_lowlevel/README.md:8:4. The same, but with additional figure-of-merit visualizations.
+examples/firstgenrepeater_lowlevel/README.md:14:Lastly, `6_compare_formalisms.jl` runs repeated trajectory using either representation and compares their average results. The `*_noplot.jl` file runs the same simulation without creating plots.
+examples/firstgenrepeater_lowlevel/2_swapper_example.jl:3:using GLMakie # For plotting
+examples/firstgenrepeater_lowlevel/2_swapper_example.jl:4:GLMakie.activate!()
+examples/firstgenrepeater_lowlevel/2_swapper_example.jl:28:# set up a plot and save a handle to the plot observable
+examples/firstgenrepeater_lowlevel/2_swapper_example.jl:30:_,ax,_,obs = registernetplot_axis(fig[1,1],network)
+examples/firstgenrepeater_lowlevel/1_entangler_example.jl:3:using GLMakie # For plotting
+examples/firstgenrepeater_lowlevel/1_entangler_example.jl:4:GLMakie.activate!()
+examples/firstgenrepeater_lowlevel/1_entangler_example.jl:23:# set up a plot and save a handle to the plot observable
+examples/firstgenrepeater_lowlevel/1_entangler_example.jl:25:_,ax,_,obs = registernetplot_axis(fig[1,1],network)
+
+===== test refs =====
+test/runtests.jl:63:    runtests(QuantumSavory, args; testsuite, test_worker)
+test/jet_tests.jl:1:# This file is included directly from `test/runtests.jl` for jet-only runs
+test/jet_tests.jl:9:@testset "JET checks" begin
+test/jet_tests.jl:13:    @test length(JET.get_reports(rep)) == 0
+test/jet_tests.jl:14:    #@test_broken length(JET.get_reports(rep)) == 0
+test/general/protocolzoo_switch_stale_match_accounting_tests.jl:10:@testset "ProtocolZoo Switch stale match accounting" begin
+test/general/protocolzoo_switch_stale_match_accounting_tests.jl:34:    @test !isnothing(match)
+test/general/protocolzoo_switch_stale_match_accounting_tests.jl:35:    @test switch._backlog[1, 2] == 1
+test/general/protocolzoo_switch_stale_match_accounting_tests.jl:48:    @test isempty(queryall(net[1], EntanglementHistory, ❓, ❓, ❓, ❓, ❓, ❓, ❓))
+test/general/protocolzoo_switch_stale_match_accounting_tests.jl:49:    @test switch._backlog[1, 2] == 1
+test/general/concurrentsim_helpers_tests.jl:7:@testset "ConcurrentSim helpers" begin
+test/general/concurrentsim_helpers_tests.jl:8:    @testset "@simlog and get_time_tracker expose the active simulation" begin
+test/general/concurrentsim_helpers_tests.jl:14:        @test sim === get_time_tracker(regs[1])
+test/general/concurrentsim_helpers_tests.jl:15:        @test sim === get_time_tracker(regs[1][1])
+test/general/concurrentsim_helpers_tests.jl:16:        @test sim === get_time_tracker(mb)
+test/general/concurrentsim_helpers_tests.jl:29:        @test occursin("t=0.0000", logged)
+test/general/concurrentsim_helpers_tests.jl:30:        @test occursin("hello from the simulation", logged)
+test/general/concurrentsim_helpers_tests.jl:33:    @testset "RegRef requests proxy the slot lock" begin
+test/general/concurrentsim_helpers_tests.jl:49:        @test state_log == [
+test/general/concurrentsim_helpers_tests.jl:55:    @testset "nongreedymultilock waits for the busy slot and then acquires the full set" begin
+test/general/concurrentsim_helpers_tests.jl:80:        @test acquired_time[] == 5.0
+test/general/concurrentsim_helpers_tests.jl:81:        @test both_locked[]
+test/general/concurrentsim_helpers_tests.jl:84:    @testset "spinlock retries on a fixed cadence when randomization is disabled" begin
+test/general/concurrentsim_helpers_tests.jl:105:        @test acquired_time[] == 6.0
+test/general/protocolzoo_surface_contracts_tests.jl:10:    @test Tag(value) == expected_tag
+test/general/protocolzoo_surface_contracts_tests.jl:11:    @test occursin(expected_text, sprint(show, value))
+test/general/protocolzoo_surface_contracts_tests.jl:18:@testset "ProtocolZoo surface contracts" begin
+test/general/protocolzoo_surface_contracts_tests.jl:19:    @testset "protocol tag values round-trip through Tag and show" begin
+test/general/protocolzoo_surface_contracts_tests.jl:47:    @testset "QTCP control messages preserve their human-readable metadata" begin
+test/general/protocolzoo_surface_contracts_tests.jl:91:    @testset "HTML rendering reports protocol-specific summaries" begin
+test/general/protocolzoo_surface_contracts_tests.jl:96:        @test occursin("DummyProtocol", fallback_html)
+test/general/protocolzoo_surface_contracts_tests.jl:97:        @test occursin("does not support rich visualization in HTML", fallback_html)
+test/general/protocolzoo_surface_contracts_tests.jl:101:        @test occursin("EntanglerProt", entangler_html)
+test/general/protocolzoo_surface_contracts_tests.jl:102:        @test occursin("0.25", entangler_html)
+test/general/protocolzoo_surface_contracts_tests.jl:103:        @test occursin("4.0", entangler_html)
+test/general/protocolzoo_surface_contracts_tests.jl:109:        @test occursin("Consumed pairs", consumer_html)
+test/general/protocolzoo_surface_contracts_tests.jl:110:        @test occursin(">2<", consumer_html)
+test/general/protocolzoo_surface_contracts_tests.jl:111:        @test occursin("1.5", consumer_html)
+test/general/protocolzoo_surface_contracts_tests.jl:112:        @test occursin("0.0 | 0.0", consumer_html)
+test/general/protocolzoo_surface_contracts_tests.jl:115:    @testset "QTCP shorthand constructors inherit the network simulation" begin
+test/general/protocolzoo_surface_contracts_tests.jl:119:        @test get_time_tracker(EndNodeController(net, 1)) === sim
+test/general/protocolzoo_surface_contracts_tests.jl:120:        @test get_time_tracker(NetworkNodeController(net, 1)) === sim
+test/general/protocolzoo_surface_contracts_tests.jl:121:        @test get_time_tracker(LinkController(net, 1, 2)) === sim
+test/general/circuitzoo_ent_swap_tests.jl:9:@testset "Circuit Zoo Entanglement Swap" begin
+test/general/circuitzoo_ent_swap_tests.jl:16:    @test !isassigned(net[2][1]) && !isassigned(net[2][2])
+test/general/circuitzoo_ent_swap_tests.jl:17:    @test observable((net[1][1], net[3][1]), Z⊗Z) ≈ 1
+test/general/circuitzoo_ent_swap_tests.jl:18:    @test observable((net[1][1], net[3][1]), X⊗X) ≈ 1
+test/general/circuitzoo_ent_swap_tests.jl:28:    @test !isassigned(net[2][1]) && !isassigned(net[2][2])
+test/general/circuitzoo_ent_swap_tests.jl:29:    @test observable((net[1][1], net[3][1]), Z⊗Z) ≈ 1
+test/general/circuitzoo_ent_swap_tests.jl:30:    @test observable((net[1][1], net[3][1]), X⊗X) ≈ 1
+test/general/circuitzoo_ent_swap_tests.jl:41:    @test all(!isassigned(net[i][1]) & !isassigned(net[i][2]) for i in 2:n-1)
+test/general/circuitzoo_ent_swap_tests.jl:42:    @test observable((net[1][1], net[n][2]), Z⊗Z) ≈ 1
+test/general/circuitzoo_ent_swap_tests.jl:43:    @test observable((net[1][1], net[n][2]), X⊗X) ≈ 1
+test/general/circuitzoo_ent_swap_tests.jl:56:    @test all(!isassigned(net[i][1]) & !isassigned(net[i][2]) for i in 2:n-1)
+test/general/circuitzoo_ent_swap_tests.jl:57:    @test observable((net[1][1], net[n][2]), Z⊗Z) ≈ 1
+test/general/circuitzoo_ent_swap_tests.jl:58:    @test observable((net[1][1], net[n][2]), X⊗X) ≈ 1
+test/general/circuitzoo_purification_tests.jl:7:@testset "Circuit Zoo Purification - throws" begin
+test/general/circuitzoo_purification_tests.jl:9:@test_throws ArgumentError Purify2to1(:lalala)
+test/general/circuitzoo_purification_tests.jl:10:@test_throws ArgumentError Purify3to1(:lalala, :X)
+test/general/circuitzoo_purification_tests.jl:11:@test_throws ArgumentError Purify2to1Node(:lalala)
+test/general/circuitzoo_purification_tests.jl:12:@test_throws ArgumentError Purify3to1Node(:X, :lalala)
+test/general/circuitzoo_purification_tests.jl:13:@test_throws ArgumentError StringentHead(:lalala)
+test/general/circuitzoo_purification_tests.jl:14:@test_throws ArgumentError StringentBody(:lalala)
+test/general/circuitzoo_purification_tests.jl:20:@test_throws ArgumentError PurifyExpedient()(r[1], r[2], r[3:2:21]...)
+test/general/circuitzoo_purification_tests.jl:21:@test_throws ArgumentError PurifyStringent()(r[1], r[2], r[3:2:21]...)
+test/general/circuitzoo_purification_tests.jl:24:@testset "Circuit Zoo Purification - 2to1" begin
+test/general/circuitzoo_purification_tests.jl:31:            @test Purify2to1(leaveout)(r[1:4]...)==true
+test/general/circuitzoo_purification_tests.jl:32:            @test observable(r[1:2], projector(bell))≈1.0
+test/general/circuitzoo_purification_tests.jl:40:                    @test Purify2to1(leaveout)(r[1:4]...)==true
+test/general/circuitzoo_purification_tests.jl:41:                    @test observable(r[1:2], projector(bell)) ≈ 0.0 atol=1e-5
+test/general/circuitzoo_purification_tests.jl:44:                    @test Purify2to1(leaveout)(r[1:4]...)==false
+test/general/circuitzoo_purification_tests.jl:51:@testset "Circuit Zoo Purification - 2to1 - Node" begin
+test/general/circuitzoo_purification_tests.jl:60:            @test ma == mb
+test/general/circuitzoo_purification_tests.jl:61:            @test observable(r[1:2], projector(bell))≈1.0
+test/general/circuitzoo_purification_tests.jl:70:                    @test ma == mb
+test/general/circuitzoo_purification_tests.jl:71:                    @test observable(r[1:2], projector(bell)) ≈ 0.0 atol=1e-5
+test/general/circuitzoo_purification_tests.jl:76:                    @test ma != mb
+test/general/circuitzoo_purification_tests.jl:83:@testset "Circuit Zoo Purification - 3to1" begin
+test/general/circuitzoo_purification_tests.jl:93:                    @test Purify3to1(leaveout1, leaveout2)(r[1], r[2], r[3], r[5], r[4], r[6])==true
+test/general/circuitzoo_purification_tests.jl:94:                    @test observable(r[1:2], projector(bell))≈1.0
+test/general/circuitzoo_purification_tests.jl:101:                        @test Purify3to1(leaveout1, leaveout2)(r[1], r[2], r[3], r[5], r[4], r[6])==false
+test/general/circuitzoo_purification_tests.jl:111:                            @test Purify3to1(leaveout1, leaveout2)(r[1], r[2], r[3], r[5], r[4], r[6])==true
+test/general/circuitzoo_purification_tests.jl:112:                            @test observable(r[1:2], projector(bell)) ≈ 0.0 atol=1e-5
+test/general/circuitzoo_purification_tests.jl:114:                            @test Purify3to1(leaveout1, leaveout2)(r[1], r[2], r[3], r[5], r[4], r[6])==false
+test/general/circuitzoo_purification_tests.jl:123:@testset "Circuit Zoo Purification - 3to1 -- Fidelity - QuantumOpticsRepr" begin
+test/general/circuitzoo_purification_tests.jl:136:                        @test real(observable(r[1:2], projector(bell))) > rnd
+test/general/circuitzoo_purification_tests.jl:144:@testset "Circuit Zoo Purification - 3to1 -- Fidelity - CliffordRepr" begin
+test/general/circuitzoo_purification_tests.jl:156:                        @test_broken observable(r[1:2], projector(bell)) ≈ 0.0 atol=1e-5 # This is a probabilistic test. It has a small chance of triggering
+test/general/circuitzoo_purification_tests.jl:165:@testset "Circuit Zoo Purification - 3to1 -- Node" begin
+test/general/circuitzoo_purification_tests.jl:176:                    @test ma == mb
+test/general/circuitzoo_purification_tests.jl:177:                    @test observable(r[1:2], projector(bell)) ≈ 1.0
+test/general/circuitzoo_purification_tests.jl:188:                        @test ma != mb
+test/general/circuitzoo_purification_tests.jl:201:                            @test ma == mb
+test/general/circuitzoo_purification_tests.jl:202:                            @test observable(r[1:2], projector(bell)) ≈ 0.0 atol=1e-5
+test/general/circuitzoo_purification_tests.jl:206:                            @test ma != mb
+test/general/circuitzoo_purification_tests.jl:215:@testset "Circuit Zoo Purification - 3to1 -- Node - Fidelity - QuantumOpticsRepr" begin
+test/general/circuitzoo_purification_tests.jl:230:                        @test real(observable(r[1:2], projector(bell))) > rnd
+test/general/circuitzoo_purification_tests.jl:238:@testset "Circuit Zoo Purification - 3to1 -- Node - Fidelity - CliffordRepr" begin
+test/general/circuitzoo_purification_tests.jl:252:                        @test_broken observable(r[1:2], projector(bell)) ≈ 0.0 atol=1e-5 # This is a probabilistic test. It has a small chance of triggering
+test/general/circuitzoo_purification_tests.jl:260:@testset "Circuit Zoo Purification - Stringent" begin
+test/general/circuitzoo_purification_tests.jl:267:        @test PurifyStringent()(r[1], r[2], r[3:2:25]..., r[4:2:26]...) == true
+test/general/circuitzoo_purification_tests.jl:268:        @test observable(r[1:2], projector(bell)) ≈ 1.0
+test/general/circuitzoo_purification_tests.jl:272:    @testset "Circuit Zoo Purification - Stringent - Fidelity - QuantumOpticsRepr" begin
+test/general/circuitzoo_purification_tests.jl:282:            @test real(observable(r[1:2], projector(bell))) > rnd
+test/general/circuitzoo_purification_tests.jl:287:@testset "Circuit Zoo Purification - Stringent - Fidelity - CliffordRepr" begin
+test/general/circuitzoo_purification_tests.jl:296:            @test_broken observable(r[1:2], projector(bell)) ≈ 0.0 atol=1e-5 # This is a probabilistic test. It has a small chance of triggering
+test/general/circuitzoo_purification_tests.jl:301:@testset "Circuit Zoo Purification - Expedient" begin
+test/general/circuitzoo_purification_tests.jl:308:        @test PurifyExpedient()(r[1], r[2], r[3:2:21]..., r[4:2:22]...) == true
+test/general/circuitzoo_purification_tests.jl:309:        @test observable(r[1:2], projector(bell)) ≈ 1.0
+test/general/circuitzoo_purification_tests.jl:313:@testset "Circuit Zoo Purification - Expedient - Fidelity - QuantumOpticsRepr" begin
+test/general/circuitzoo_purification_tests.jl:323:            @test real(observable(r[1:2], projector(bell))) > rnd
+test/general/circuitzoo_purification_tests.jl:328:@testset "Circuit Zoo Purification - Expedient - Fidelity - CliffordRepr" begin
+test/general/circuitzoo_purification_tests.jl:337:            @test_broken observable(r[1:2], projector(bell)) ≈ 0.0 atol=1e-5 # This is a probabilistic test. It has a small chance of triggering
+test/general/register_interface_tests.jl:6:@testset "Register Interface" begin
+test/general/register_interface_tests.jl:20:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:22:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:24:@test net[i].staterefs[2].state[] isa Ket
+test/general/register_interface_tests.jl:25:@test nsubsystems(net[i].staterefs[2]) == 2
+test/general/register_interface_tests.jl:29:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:31:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:33:@test net[i].staterefs[2].state[] isa MixedDestabilizer
+test/general/register_interface_tests.jl:34:@test nsubsystems(net[i].staterefs[2]) == 2
+test/general/register_interface_tests.jl:38:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:40:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:42:@test net[i].staterefs[2].state[] isa Ket
+test/general/register_interface_tests.jl:43:@test nsubsystems(net[i].staterefs[2]) == 2
+test/general/register_interface_tests.jl:58:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:60:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:62:@test net[i].staterefs[2].state[] isa Operator
+test/general/register_interface_tests.jl:63:@test nsubsystems(net[i].staterefs[2]) == 2
+test/general/register_interface_tests.jl:67:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:69:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:71:@test net[i].staterefs[2].state[] isa MixedDestabilizer
+test/general/register_interface_tests.jl:72:@test nsubsystems(net[i].staterefs[2]) == 2
+test/general/register_interface_tests.jl:76:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:78:@test nsubsystems(net[i].staterefs[2]) == 1
+test/general/register_interface_tests.jl:80:@test_broken net[i].staterefs[2].state[] isa Ket
+test/general/register_interface_tests.jl:81:@test nsubsystems(net[i].staterefs[2]) == 2
+test/general/protocolzoo_swapper_stale_query_tests.jl:8:@testset "ProtocolZoo Swapper stale query result" begin
+test/general/protocolzoo_swapper_stale_query_tests.jl:55:    @test selected_tag_deleted[]
+test/general/protocolzoo_swapper_stale_query_tests.jl:56:    @test !islocked(qlow)
+test/general/protocolzoo_swapper_stale_query_tests.jl:57:    @test !islocked(qhigh)
+test/general/protocolzoo_swapper_stale_query_tests.jl:58:    @test isnothing(query(qlow, EntanglementCounterpart, 1, 1, left_pair_id))
+test/general/protocolzoo_swapper_stale_query_tests.jl:59:    @test !isnothing(query(qhigh, EntanglementCounterpart, 3, 1, right_pair_id))
+test/general/protocolzoo_swapper_stale_query_tests.jl:60:    @test isempty(queryall(qlow, EntanglementHistory, ❓, ❓, ❓, ❓, ❓, ❓, ❓))
+test/general/protocolzoo_swapper_stale_query_tests.jl:61:    @test isempty(queryall(qhigh, EntanglementHistory, ❓, ❓, ❓, ❓, ❓, ❓, ❓))
+test/general/project_traceout_gabs_homodyne_tests.jl:31:@testset "Project Traceout Gabs Homodyne" begin
+test/general/project_traceout_gabs_homodyne_tests.jl:32:    @testset "Product coherent state leaves the other mode untouched" begin
+test/general/project_traceout_gabs_homodyne_tests.jl:46:        @test length(result) == 2
+test/general/project_traceout_gabs_homodyne_tests.jl:47:        @test reg.staterefs[1] === nothing
+test/general/project_traceout_gabs_homodyne_tests.jl:48:        @test Gabs.nmodes(actual_state.basis) == 1
+test/general/project_traceout_gabs_homodyne_tests.jl:49:        @test isapprox(actual_state, expected_state; atol = 1e-12)
+test/general/project_traceout_gabs_homodyne_tests.jl:52:    @testset "Balanced beamsplitter case matches direct Gaussian reference" begin
+test/general/project_traceout_gabs_homodyne_tests.jl:74:        @test reg.staterefs[2] === nothing
+test/general/project_traceout_gabs_homodyne_tests.jl:75:        @test isapprox(actual_state, expected_state; atol = 1e-12)
+test/general/project_traceout_gabs_homodyne_tests.jl:78:    @testset "Two-mode squeezing x-homodyne agrees with direct Gabs reference" begin
+test/general/project_traceout_gabs_homodyne_tests.jl:97:        @test isapprox(result, expected_result; atol = 1e-12)
+test/general/project_traceout_gabs_homodyne_tests.jl:98:        @test isapprox(actual_state, expected_state; atol = 1e-12)
+test/general/project_traceout_gabs_homodyne_tests.jl:101:    @testset "Two-mode squeezing p-homodyne on the second mode stays indexed correctly" begin
+test/general/project_traceout_gabs_homodyne_tests.jl:120:        @test isapprox(result, expected_result; atol = 1e-12)
+test/general/project_traceout_gabs_homodyne_tests.jl:121:        @test isapprox(actual_state, expected_state; atol = 1e-12)
+test/general/apply_tests.jl:4:@testset "Apply" begin
+test/general/apply_tests.jl:14:@test observable(reg[1], Z) ≈ -1
+test/general/apply_tests.jl:15:@test observable(reg[2], X) ≈ -1
+test/general/protocolzoo_qtcp_tests.jl:38:@testset "QTCP" begin
+test/general/protocolzoo_qtcp_tests.jl:43:@testset "EndNodeController turning Flow into QDatagram" begin
+test/general/protocolzoo_qtcp_tests.jl:74:    @test collect(qdatagram.tag)[2:7] == [42, 1, 2, 0, 1, 0.0]
+test/general/protocolzoo_qtcp_tests.jl:79:@testset "NetworkNodeController creating LinkLevelRequest" begin
+test/general/protocolzoo_qtcp_tests.jl:114:    @test !isnothing(link_request)
+test/general/protocolzoo_qtcp_tests.jl:115:    @test collect(link_request.tag)[2:3] == [42, 1]  # Check flow_uuid and seq_num
+test/general/protocolzoo_qtcp_tests.jl:120:@testset "LinkController responding to LinkLevelRequest with LinkLevelReply" begin
+test/general/protocolzoo_qtcp_tests.jl:162:    @test !isnothing(link_reply1) && isnothing(link_reply2)
+test/general/protocolzoo_qtcp_tests.jl:163:    @test isnothing(link_reply_at_destination1) && !isnothing(link_reply_at_destination2)
+test/general/protocolzoo_qtcp_tests.jl:164:    @test link_reply1.tag[2] == 42  # flow_uuid
+test/general/protocolzoo_qtcp_tests.jl:165:    @test link_reply1.tag[3] == 1   # seq_num
+test/general/protocolzoo_qtcp_tests.jl:166:    @test link_reply_at_destination2.tag[2] == 42  # flow_uuid
+test/general/protocolzoo_qtcp_tests.jl:167:    @test link_reply_at_destination2.tag[3] == 1   # seq_num
+test/general/protocolzoo_qtcp_tests.jl:172:@testset "LinkController responding to LinkLevelRequest and NetworkNodeController forwarding QDatagrams" begin
+test/general/protocolzoo_qtcp_tests.jl:214:    @test !isnothing(forwarded_qdatagram)
+test/general/protocolzoo_qtcp_tests.jl:219:@testset "Complete QTCP protocol flow" begin
+test/general/protocolzoo_qtcp_tests.jl:273:    @test isempty(mb2.buffer)
+test/general/protocolzoo_qtcp_tests.jl:274:    @test isempty(mb3.buffer)
+test/general/protocolzoo_qtcp_tests.jl:275:    @test isempty(mb4.buffer)
+test/general/protocolzoo_qtcp_tests.jl:277:        @test !isnothing(querydelete!(mb1, QTCPPairBegin, ❓, ❓, ❓, ❓, ❓, ❓))
+test/general/protocolzoo_qtcp_tests.jl:278:        @test !isnothing(querydelete!(mb5, QTCPPairEnd, ❓, ❓, ❓, ❓, ❓, ❓))
+test/general/protocolzoo_qtcp_tests.jl:280:    @test isempty(mb1.buffer)
+test/general/protocolzoo_qtcp_tests.jl:281:    @test isempty(mb5.buffer)
+test/general/protocolzoo_qtcp_tests.jl:286:@testset "Concurrent flows on a grid stay correctly matched" begin
+test/general/protocolzoo_qtcp_tests.jl:300:    @test count_matching_tags!(mb1, QTCPPairBegin, 101, ❓, ❓, ❓, ❓, ❓) == 2
+test/general/protocolzoo_qtcp_tests.jl:301:    @test count_matching_tags!(mb3, QTCPPairEnd, 101, ❓, ❓, ❓, ❓, ❓) == 2
+test/general/protocolzoo_qtcp_tests.jl:302:    @test count_matching_tags!(mb7, QTCPPairBegin, 202, ❓, ❓, ❓, ❓, ❓) == 2
+test/general/protocolzoo_qtcp_tests.jl:303:    @test count_matching_tags!(mb9, QTCPPairEnd, 202, ❓, ❓, ❓, ❓, ❓) == 2
+test/general/protocolzoo_qtcp_tests.jl:308:@testset "Concurrent flows on the same repeater chain stay correctly matched" begin
+test/general/protocolzoo_qtcp_tests.jl:322:    @test count_matching_tags!(mb1, QTCPPairBegin, 301, ❓, ❓, ❓, ❓, ❓) == 2
+test/general/protocolzoo_qtcp_tests.jl:323:    @test count_matching_tags!(mb5, QTCPPairEnd, 301, ❓, ❓, ❓, ❓, ❓) == 2
+test/general/protocolzoo_qtcp_tests.jl:324:    @test count_matching_tags!(mb2, QTCPPairBegin, 302, ❓, ❓, ❓, ❓, ❓) == 2
+test/general/protocolzoo_qtcp_tests.jl:325:    @test count_matching_tags!(mb4, QTCPPairEnd, 302, ❓, ❓, ❓, ❓, ❓) == 2
+test/general/semaphore_2_tests.jl:11:@testset "register slot onchange wakes for a same-timestamp tag" begin
+test/general/semaphore_2_tests.jl:35:    @test log == [:wait_requested, :tagged, :wait_finished]
+test/general/semaphore_2_tests.jl:36:    @test query(slot, :ready).tag == Tag(:ready)
+test/general/semaphore_3_tests.jl:15:@testset "register slot onchange wakes after re-wait during tag cascade" begin
+test/general/semaphore_3_tests.jl:58:    @test log == [
+test/general/semaphore_3_tests.jl:67:    @test query(slot, :second).tag == Tag(:second)
+test/general/protocolzoo_switch_stale_reciprocal_delete_tests.jl:9:@testset "ProtocolZoo Switch stale reciprocal cleanup" begin
+test/general/protocolzoo_switch_stale_reciprocal_delete_tests.jl:28:    @test !isassigned(net[1][1])
+test/general/protocolzoo_switch_stale_reciprocal_delete_tests.jl:29:    @test isassigned(net[2][1])
+test/general/protocolzoo_switch_stale_reciprocal_delete_tests.jl:30:    @test isnothing(query(net[1][1], EntanglementCounterpart, 2, 1, pair_id))
+test/general/protocolzoo_switch_stale_reciprocal_delete_tests.jl:31:    @test !isnothing(query(net[2][1], EntanglementCounterpart, 3, 1, 202))
+test/general/project_traceout_tests.jl:9:@testset "Project Traceout" begin
+test/general/project_traceout_tests.jl:16:    @test m1!=m2
+test/general/project_traceout_tests.jl:19:    @test_throws "Attempting to initialize a set of registers with a state that does not have the correct number of subsystems." initialize!(a[1:2], bell⊗bell)
+test/general/project_traceout_tests.jl:25:    @test m1!=m2
+test/general/project_traceout_tests.jl:26:    @test m3!=m4
+test/general/project_traceout_tests.jl:30:    @test project_traceout!(a[1], σˣ) == 1
+test/general/project_traceout_tests.jl:35:@test_throws "State not normalized. Could be due to passing wrong state to `initialize!`" project_traceout!(r[1], (L0, L1))
+test/general/protocolzoo_swapper_chooseslots_tests.jl:9:@testset "ProtocolZoo Swapper chooseslots" begin
+test/general/protocolzoo_swapper_chooseslots_tests.jl:56:    @test q1.tag[2] == n
+test/general/protocolzoo_swapper_chooseslots_tests.jl:57:    @test q2.tag[2] == 1
+test/general/protocolzoo_swapper_chooseslots_tests.jl:58:    @test observable((q1.slot, q2.slot), Z⊗Z) ≈ 1
+test/general/protocolzoo_swapper_chooseslots_tests.jl:59:    @test observable((q1.slot, q2.slot), X⊗X) ≈ 1
+test/general/protocolzoo_swapper_chooseslots_tests.jl:63:        @test observable([net[k], net[k+1]], [3, 4], projector((Z1⊗Z1 + Z2⊗Z2) / sqrt(2))) ≈ 1
+test/general/protocolzoo_swapper_chooseslots_tests.jl:103:    @test q1.tag[2] == n
+test/general/protocolzoo_swapper_chooseslots_tests.jl:104:    @test q2.tag[2] == 1
+test/general/protocolzoo_swapper_chooseslots_tests.jl:105:    @test observable((q1.slot, q2.slot), Z⊗Z) ≈ 1
+test/general/protocolzoo_swapper_chooseslots_tests.jl:106:    @test observable((q1.slot, q2.slot), X⊗X) ≈ 1
+test/general/protocolzoo_swapper_chooseslots_tests.jl:110:        @test observable([net[k], net[k+1]], [3, 4], projector((Z1⊗Z1 + Z2⊗Z2) / sqrt(2))) ≈ 1
+test/general/protocolzoo_mbqc_tests.jl:14:@testset "GraphStateConstructor" begin
+test/general/protocolzoo_mbqc_tests.jl:36:            @test o ≈ 1.0
+test/general/protocolzoo_mbqc_tests.jl:41:@testset "Full Purification Pipeline" begin
+test/general/protocolzoo_mbqc_tests.jl:93:        @test observable(alice_regs, QuantumOpticsBase.Operator(QuantumClifford.Stabilizer(g)[i])) ≈ 1.0
+test/general/protocolzoo_mbqc_tests.jl:94:        @test observable(bob_regs, QuantumOpticsBase.Operator(QuantumClifford.Stabilizer(g)[i])) ≈ 1.0
+test/general/protocolzoo_mbqc_tests.jl:120:        @test observable(alice_regs, QuantumOpticsBase.Operator(s)) ≈ 1.0
+test/general/protocolzoo_mbqc_tests.jl:121:        @test observable(bob_regs, QuantumOpticsBase.Operator(s)) ≈ 1.0
+test/general/protocolzoo_mbqc_tests.jl:126:        @test observable([net[alice_nodes[i]], net[bob_nodes[i]]], [communication_slot, communication_slot], projector(perfect_pair)) ≈ 1.0
+test/general/protocolzoo_mbqc_tests.jl:151:        @test !isnothing(alice_tag) || !isnothing(bob_tag)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:6:@testset "Noninstant and Backgrounds - Qubit" begin
+test/general/noninstant_and_backgrounds_qubit_tests.jl:15:@test_throws ErrorException uptotime!(reg[1],0.1)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:19:@test_throws ErrorException uptotime!(reg[1],0.55)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:20:@test_throws ErrorException apply!(reg[1], H; time=0.55)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:32:    @test reg.staterefs[1].state[] ≈ reg.staterefs[2].state[]
+test/general/noninstant_and_backgrounds_qubit_tests.jl:41:    @test reg.staterefs[1].state[]⊗reg.staterefs[2].state[] ≈ regb.staterefs[2].state[] # compare composed vs not-composed evolution
+test/general/noninstant_and_backgrounds_qubit_tests.jl:45:    @test reg.staterefs[1].state[] ≈ reg.staterefs[2].state[] # compare Kraus evolution vs Lindblad evolution
+test/general/noninstant_and_backgrounds_qubit_tests.jl:49:    @test reg.staterefs[1].state[]⊗reg.staterefs[2].state[] ≈ regb.staterefs[2].state[]
+test/general/noninstant_and_backgrounds_qubit_tests.jl:90:        @test kraus_composition_test(T1Decay(1.0),state,obs)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:91:        @test kraus_composition_test(T2Dephasing(1.0),state,obs)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:92:        @test kraus_composition_test(Depolarization(1.0),state,obs)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:93:        @test kraus_composition_test(T1T2Noise(1.0,1.0),state,obs)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:94:        @test kraus_composition_test(T1T2Noise(1.0,3.0),state,obs)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:108:    @test kraus_normed(krausops(T1Decay(1.0),δ))
+test/general/noninstant_and_backgrounds_qubit_tests.jl:109:    @test kraus_normed(krausops(T2Dephasing(1.0),δ))
+test/general/noninstant_and_backgrounds_qubit_tests.jl:110:    @test kraus_normed(krausops(Depolarization(1.0),δ))
+test/general/noninstant_and_backgrounds_qubit_tests.jl:111:    @test kraus_normed(krausops(T1T2Noise(1.0,1.0),δ))
+test/general/noninstant_and_backgrounds_qubit_tests.jl:112:    @test kraus_normed(krausops(T1T2Noise(1.0,3.0),δ))
+test/general/noninstant_and_backgrounds_qubit_tests.jl:141:    @test kraus_unitary_equivalence(t2, t2a)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:142:    @test kraus_unitary_equivalence(t2, t2b)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:143:    @test kraus_unitary_equivalence(t2a, t2b)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:168:        @test test_t1t2_reduces_to_t1(t1, t2, δ)
+test/general/noninstant_and_backgrounds_qubit_tests.jl:191:        @test test_kraus_alt(T1T2Noise(t1, t2), δ)
+test/general/protocolzoo_entangler_tests.jl:7:@testset "ProtocolZoo Entangler - EntanglerProt" begin
+test/general/protocolzoo_entangler_tests.jl:17:@test observable([net[1], net[2]], [1, 5], projector((Z1⊗Z1 + Z2⊗Z2) / sqrt(2))) ≈ 1.0
+test/general/protocolzoo_entangler_tests.jl:18:@test observable([net[1], net[2]], [3, 3], projector((Z1⊗Z1 + Z2⊗Z2) / sqrt(2))) ≈ 1.0
+test/general/registernet_interface_tests.jl:7:@testset "RegisterNet Interface" begin
+test/general/registernet_interface_tests.jl:17:@test net[1,2] == r1[2]
+test/general/registernet_interface_tests.jl:18:@test net[2,3] == r2[3]
+test/general/registernet_interface_tests.jl:21:@test net[1,:label] == "lala"
+test/general/messagebuffer_tests.jl:7:@testset "Message Buffer" begin
+test/general/messagebuffer_tests.jl:9:@testset "a receiver can wait for changes and then delete a specific tag" begin
+test/general/messagebuffer_tests.jl:32:    @test query(messagebuffer(net, 2), :second_tag, ❓, ❓) === nothing
+test/general/messagebuffer_tests.jl:33:    @test query(messagebuffer(net, 2), :my_tag).tag == Tag(:my_tag)
+test/general/messagebuffer_tests.jl:36:@testset "put! accepts both concrete tag values and tag-like payloads" begin
+test/general/messagebuffer_tests.jl:47:    @test QuantumSavory.peektags(messagebuffer(net, 1)) == [
+test/general/messagebuffer_tests.jl:53:    @test_throws "does not support `tag!`" tag!(
+test/general/messagebuffer_tests.jl:58:@testset "future arrivals wake waiters that are already blocked" begin
+test/general/messagebuffer_tests.jl:88:    @test Set(first.(wake_log)) == Set(["onchange(mb)", "onchange(mb, Tag)"])
+test/general/messagebuffer_tests.jl:89:    @test length(wake_log) == 2
+test/general/messagebuffer_tests.jl:90:    @test all(last(entry) == 5.0 for entry in wake_log)
+test/general/messagebuffer_tests.jl:91:    @test query(mb, :hello).tag == Tag(:hello)
+test/general/messagebuffer_tests.jl:94:@testset "a message that is already buffered wakes a later waiter immediately" begin
+test/general/messagebuffer_tests.jl:114:    @test wait_log == [
+test/general/messagebuffer_tests.jl:121:    @test query(mb, :already_here).tag == Tag(:already_here)
+test/general/messagebuffer_tests.jl:124:@testset "buffered arrivals are counted one by one for later waiters" begin
+test/general/messagebuffer_tests.jl:158:    @test wake_times == [0.0, 0.0, 5.0]
+test/general/messagebuffer_tests.jl:159:    @test QuantumSavory.peektags(mb) == [Tag(:first), Tag(:second), Tag(:third)]
+test/general/messagebuffer_tests.jl:162:@testset "deprecated wait(mb) keeps the same queued-wakeup behavior" begin
+test/general/messagebuffer_tests.jl:172:        @yield @test_deprecated wait(mb)
+test/general/messagebuffer_tests.jl:179:    @test wake_times == [0.0]
+test/general/messagebuffer_tests.jl:182:@testset "messagebuffer query wrapper inference" begin
+test/general/messagebuffer_tests.jl:189:    @test rt !== Any
+test/general/messagebuffer_tests.jl:190:    @test rt <: Union{Nothing, NamedTuple{(:depth, :src, :tag), <:Tuple{Int, Union{Nothing, Int}, Tag}}}
+test/general/messagebuffer_tests.jl:192:    @test result.tag == Tag(:hello)
+test/general/messagebuffer_tests.jl:196:    @test rt !== Any
+test/general/messagebuffer_tests.jl:197:    @test rt <: Union{Nothing, NamedTuple{(:src, :tag), Tuple{Union{Nothing, Int}, Tag}}}
+test/general/messagebuffer_tests.jl:199:    @test result.tag == Tag(:goodbye)
+test/general/messagebuffer_tests.jl:202:@testset "messagebuffer head index preserves query and delete semantics" begin
+test/general/messagebuffer_tests.jl:212:    @test length(mb.buffer_ids_by_head[:wanted]) == 3
+test/general/messagebuffer_tests.jl:213:    @test length(mb.buffer_ids_by_head[:other]) == 1
+test/general/messagebuffer_tests.jl:215:    @test query(mb, :wanted, ❓).tag == Tag(:wanted, 1)
+test/general/messagebuffer_tests.jl:216:    @test query(mb, W, 99).tag == Tag(:other, 99)
+test/general/messagebuffer_tests.jl:217:    @test query(mb, x -> x == :other, 99).tag == Tag(:other, 99)
+test/general/messagebuffer_tests.jl:219:    @test querydelete!(mb, :wanted, 2).tag == Tag(:wanted, 2)
+test/general/messagebuffer_tests.jl:220:    @test querydelete!(mb, :wanted, 1).tag == Tag(:wanted, 1)
+test/general/messagebuffer_tests.jl:221:    @test querydelete!(mb, :wanted, 3).tag == Tag(:wanted, 3)
+test/general/messagebuffer_tests.jl:223:    @test query(mb, :wanted, ❓) === nothing
+test/general/messagebuffer_tests.jl:224:    @test !haskey(mb.buffer_ids_by_head, :wanted)
+test/general/messagebuffer_tests.jl:225:    @test query(mb, :other, 99).tag == Tag(:other, 99)
+test/general/messagebuffer_tests.jl:226:    @test first(values(mb.buffer_depth_by_id)) == 1
+test/general/circuitzoo_fusion_tests.jl:14:@testset "Circuit Zoo Fusion" begin
+test/general/circuitzoo_fusion_tests.jl:31:                @test o ≈ 1.0
+test/general/stateszoo_api_tests.jl:8:@testset "StatesZoo API" begin
+test/general/stateszoo_api_tests.jl:23:    @test ! iszero(observable(reg[1:2], Z⊗Z))
+test/general/stateszoo_api_tests.jl:24:    @test _evalf(tr(state)) ≈ tr(express(state))
+test/general/stateszoo_api_tests.jl:31:    @test tr(state) ≈ 1
+test/general/noninstant_and_backgrounds_clifford_tests.jl:5:@testset "Noninstant and Backgrounds - Clifford" begin
+test/general/noninstant_and_backgrounds_clifford_tests.jl:43:                    @test vector_vs_clifford_test(T2Dephasing(1.0), init, gate, obs)
+test/general/noninstant_and_backgrounds_clifford_tests.jl:44:                    @test vector_vs_clifford_test(Depolarization(1.0), init, gate, obs)
+test/general/tags_and_queries_tests.jl:6:@testset "Tags and Queries" begin
+test/general/tags_and_queries_tests.jl:17:@test tag_types.SymbolIntInt(:symbol1, 4, 5) == Tag(:symbol1, 4, 5)
+test/general/tags_and_queries_tests.jl:25:@test Tag(:symbol1, 2, 3) == tag_types.SymbolIntInt(:symbol1, 2, 3)
+test/general/tags_and_queries_tests.jl:26:@test QuantumSavory._tag_index_head(Tag(:symbol1, 2, 3)) == :symbol1
+test/general/tags_and_queries_tests.jl:27:@test QuantumSavory._tag_index_head(Tag(Int, 4, 5)) == Int
+test/general/tags_and_queries_tests.jl:28:@test QuantumSavory._tag_index_head(Tag(EntanglementUpdateX, 101, 202, 2, 1, 1, 3, 1, 1)) == EntanglementUpdateX
+test/general/tags_and_queries_tests.jl:29:@test QuantumSavory._tag_index_head(tag_types.Forward(Tag(:symbol1), 2)) === nothing
+test/general/tags_and_queries_tests.jl:30:@test strip_id(query(r, :symbol1, 4, ❓)) == (slot=r[3], tag=tag_types.SymbolIntInt(:symbol1, 4, 1))
+test/general/tags_and_queries_tests.jl:31:@test strip_id(query(r, :symbol1, 4, 5)) == (slot=r[2], tag=tag_types.SymbolIntInt(:symbol1, 4, 5))
+test/general/tags_and_queries_tests.jl:32:@test strip_id(query(r, :symbol1, ❓, ❓)) == (slot=r[3], tag=tag_types.SymbolIntInt(:symbol1, 4, 1)) #returns latest tag in filo order
+test/general/tags_and_queries_tests.jl:33:@test query(r, :symbol2, ❓, ❓) == nothing
+test/general/tags_and_queries_tests.jl:34:@test strip_id(query(r, Int, 4, 5)) == (slot=r[5], tag=tag_types.TypeIntInt(Int, 4, 5))
+test/general/tags_and_queries_tests.jl:35:@test query(r, Float32, 4, 5) == nothing
+test/general/tags_and_queries_tests.jl:36:@test query(r, Int, 4, >(5)) == nothing
+test/general/tags_and_queries_tests.jl:37:@test strip_id(query(r, Int, 4, <(6))) == (slot=r[5], tag=tag_types.TypeIntInt(Int, 4, 5))
+test/general/tags_and_queries_tests.jl:39:@test strip_id.(queryall(r, :symbol1, ❓, ❓)) == [(slot=r[3], tag=Tag(:symbol1, 4, 1)), (slot=r[2], tag=Tag(:symbol1, 4, 5)), (slot=r[1], tag=Tag(:symbol1, 2, 3))] # filo by default
+test/general/tags_and_queries_tests.jl:40:@test isempty(queryall(r, :symbol2, ❓, ❓))
+test/general/tags_and_queries_tests.jl:42:@test strip_id(query(r[2], Tag(:symbol1, 4, 5))) == (slot=r[2], tag=Tag(:symbol1, 4, 5))
+test/general/tags_and_queries_tests.jl:43:@test strip_id.(queryall(r[2], Tag(:symbol1, 4, 5))) == [(slot=r[2], tag=Tag(:symbol1, 4, 5))]
+test/general/tags_and_queries_tests.jl:44:@test strip_id(query(r[2], :symbol1, 4, 5)) == (slot=r[2], tag=Tag(:symbol1, 4, 5))
+test/general/tags_and_queries_tests.jl:45:@test strip_id.(queryall(r[2], :symbol1, 4, 5)) == [(slot=r[2], tag=Tag(:symbol1, 4, 5))]
+test/general/tags_and_queries_tests.jl:47:@test strip_id(query(r[2], :symbol1, 4, ❓)) == (slot=r[2], tag=Tag(:symbol1, 4, 5))
+test/general/tags_and_queries_tests.jl:48:@test strip_id.(queryall(r[2], :symbol1, 4, ❓)) == [(slot=r[2], tag=Tag(:symbol1, 4, 5))]
+test/general/tags_and_queries_tests.jl:50:@test strip_id(querydelete!(r[2], :symbol1, 4, ❓)) == (slot=r[2], tag=Tag(:symbol1, 4, 5))
+test/general/tags_and_queries_tests.jl:51:@test querydelete!(r[2], :symbol1, 4, ❓) === nothing
+test/general/tags_and_queries_tests.jl:52:@test strip_id(querydelete!(r[3], :symbol1, 4, ❓)) == (slot=r[3], tag=Tag(:symbol1, 4, 1))
+test/general/tags_and_queries_tests.jl:68:@test query(reg[3], EntanglementCounterpart, 1, 11) === nothing
+test/general/tags_and_queries_tests.jl:69:@test strip_id(query(reg[3], EntanglementCounterpart, 1, 10)) == (slot = reg[3], tag = Tag(EntanglementCounterpart,1,10))
+test/general/tags_and_queries_tests.jl:70:@test strip_id(query(reg[3], EntanglementCounterpart, 1, 10; filo=false)) == (slot = reg[3], tag = Tag(EntanglementCounterpart,1,10))
+test/general/tags_and_queries_tests.jl:71:@test strip_id(query(reg[3], EntanglementCounterpart, 1, 10; filo=true)) == (slot = reg[3], tag = Tag(EntanglementCounterpart,1,10))
+test/general/tags_and_queries_tests.jl:72:@test query(reg[3], EntanglementCounterpart, 1, 10; filo=true).id > query(reg[3], EntanglementCounterpart, 1, 10; filo=false).id
+test/general/tags_and_queries_tests.jl:73:@test query(reg[3], EntanglementCounterpart, 2, ❓; filo=true).tag[3] == 23
+test/general/tags_and_queries_tests.jl:74:@test query(reg[3], EntanglementCounterpart, 2, ❓; filo=false).tag[3] == 21
+test/general/tags_and_queries_tests.jl:76:@test strip_id(query(reg[3], EntanglementCounterpart, 2, ❓)) == (slot = reg[3], tag = Tag(EntanglementCounterpart,2,23))
+test/general/tags_and_queries_tests.jl:77:@test strip_id(query(reg[3], EntanglementCounterpart, 2, ❓; filo=false)) == (slot = reg[3], tag = Tag(EntanglementCounterpart,2,21))
+test/general/tags_and_queries_tests.jl:78:@test strip_id(query(reg[3], EntanglementCounterpart, 2, ❓; filo=true)) == (slot = reg[3], tag = Tag(EntanglementCounterpart,2,23))
+test/general/tags_and_queries_tests.jl:80:@test queryall(reg, EntanglementCounterpart, 1, 11) == []
+test/general/tags_and_queries_tests.jl:82:@test default_ids == sort(default_ids, rev=true)
+test/general/tags_and_queries_tests.jl:84:@test fifo_ids == sort(fifo_ids)
+test/general/tags_and_queries_tests.jl:86:@test filo_ids == default_ids
+test/general/tags_and_queries_tests.jl:104:@test query(reg, EntanglementCounterpart, 1, 10) === nothing
+test/general/tags_and_queries_tests.jl:105:@test strip_id(query(reg, EntanglementCounterpart, 1, 12)) == (slot = reg[2], tag = Tag(EntanglementCounterpart,1,12))
+test/general/tags_and_queries_tests.jl:106:@test query(reg, EntanglementCounterpart, 1, 12) == query(reg, EntanglementCounterpart, ==(1), ==(12))
+test/general/tags_and_queries_tests.jl:107:@test query(reg, Tag(EntanglementCounterpart, 1, 10)) === nothing
+test/general/tags_and_queries_tests.jl:108:@test strip_id(query(reg, Tag(EntanglementCounterpart, 1, 12))) == (slot = reg[2], tag = Tag(EntanglementCounterpart,1,12))
+test/general/tags_and_queries_tests.jl:109:@test strip_id(query(reg, EntanglementCounterpart, 1, 12; filo=false)) == (slot = reg[2], tag = Tag(EntanglementCounterpart,1,12))
+test/general/tags_and_queries_tests.jl:110:@test strip_id(query(reg, EntanglementCounterpart, 1, 12; filo=true)) == (slot = reg[2], tag = Tag(EntanglementCounterpart,1,12))
+test/general/tags_and_queries_tests.jl:111:@test query(reg, EntanglementCounterpart, 1, 12; filo=false) == query(reg, EntanglementCounterpart, 1, ==(12); filo=false)
+test/general/tags_and_queries_tests.jl:112:@test query(reg, EntanglementCounterpart, 1, 12; filo=true) == query(reg, EntanglementCounterpart, 1, ==(12); filo=true)
+test/general/tags_and_queries_tests.jl:113:@test strip_id(query(reg, EntanglementCounterpart, 1, ❓; filo=false)) == (slot = reg[2], tag = Tag(EntanglementCounterpart,1,12))
+test/general/tags_and_queries_tests.jl:114:@test strip_id(query(reg, EntanglementCounterpart, 1, ❓; filo=true)) == (slot = reg[4], tag = Tag(EntanglementCounterpart,1,314))
+test/general/tags_and_queries_tests.jl:118:@test strip_id.(default_res) == reverse([(slot = reg[i], tag = Tag(EntanglementCounterpart, 1, j+i)) for i in 2:4 for j in (10,110,310)])
+test/general/tags_and_queries_tests.jl:119:@test default_res_id == reverse(sort(default_res_id))
+test/general/tags_and_queries_tests.jl:122:@test strip_id.(filo_res) == strip_id.(default_res)
+test/general/tags_and_queries_tests.jl:123:@test filo_res_id == default_res_id
+test/general/tags_and_queries_tests.jl:126:@test strip_id.(fifo_res) == reverse(strip_id.(default_res))
+test/general/tags_and_queries_tests.jl:127:@test fifo_res_id == sort(fifo_res_id)
+test/general/tags_and_queries_tests.jl:129:@test strip_id.(queryall(reg, EntanglementCounterpart, 2, 22)) == [(slot = reg[2], tag = Tag(EntanglementCounterpart,2,22)), (slot = reg[2], tag = Tag(EntanglementCounterpart,2,22))]
+test/general/tags_and_queries_tests.jl:130:@test strip_id.(queryall(reg, Tag(EntanglementCounterpart, 2, 22))) == [(slot = reg[2], tag = Tag(EntanglementCounterpart,2,22)), (slot = reg[2], tag = Tag(EntanglementCounterpart,2,22))]
+test/general/tags_and_queries_tests.jl:131:@test queryall(reg, EntanglementCounterpart, 2, 22) == queryall(reg, EntanglementCounterpart, ==(2), ==(22)) == queryall(reg, Tag(EntanglementCounterpart, 2, 22))
+test/general/tags_and_queries_tests.jl:132:@test strip_id.(queryall(reg, Tag(EntanglementCounterpart, 2, 22); filo=false)) == [(slot = reg[2], tag = Tag(EntanglementCounterpart,2,22)), (slot = reg[2], tag = Tag(EntanglementCounterpart,2,22))]
+test/general/tags_and_queries_tests.jl:133:@test queryall(reg, EntanglementCounterpart, 2, 22; filo=false) == queryall(reg, EntanglementCounterpart, ==(2), ==(22); filo=false) == queryall(reg, Tag(EntanglementCounterpart, 2, 22); filo=false)
+test/general/tags_and_queries_tests.jl:143:@test [reg.tag_info[i].tag for i in reg.guids] == [Tag(EntanglementCounterpart, 4, 9), Tag(EntanglementCounterpart, 5, 2), Tag(EntanglementCounterpart, 7, 7), Tag(EntanglementCounterpart, 4, 9), Tag(EntanglementCounterpart, 2, 3), Tag(EntanglementCounterpart, 4, 9)]
+test/general/tags_and_queries_tests.jl:145:@test [reg.tag_info[i].tag for i in reg.guids] == [Tag(EntanglementCounterpart, 4, 9), Tag(EntanglementCounterpart, 5, 2), Tag(EntanglementCounterpart, 7, 7), Tag(EntanglementCounterpart, 4, 9), Tag(EntanglementCounterpart, 2, 3)]
+test/general/tags_and_queries_tests.jl:147:@test [reg.tag_info[i].tag for i in reg.guids] == [Tag(EntanglementCounterpart, 5, 2), Tag(EntanglementCounterpart, 7, 7), Tag(EntanglementCounterpart, 4, 9), Tag(EntanglementCounterpart, 2, 3)]
+test/general/tags_and_queries_tests.jl:157:@test untag!(reg[1], id1).tag == Tag(:symA, 1, 2)
+test/general/tags_and_queries_tests.jl:158:@test untag!(reg, id2).tag == Tag(:symB, 2, 3)
+test/general/tags_and_queries_tests.jl:159:@test_throws "Attempted to delete a nonexistent" untag!(reg, -1)
+test/general/tags_and_queries_tests.jl:170:    @test length(guids) == length(unique(guids))
+test/general/tags_and_queries_tests.jl:181:@test reg.tag_ids_by_slot[1] == [id1]
+test/general/tags_and_queries_tests.jl:182:@test reg.tag_ids_by_slot[2] == [id2, id3]
+test/general/tags_and_queries_tests.jl:183:@test reg.tag_ids_by_head[:indexed] == [id1, id2]
+test/general/tags_and_queries_tests.jl:184:@test reg.tag_ids_by_head[:other] == [id3]
+test/general/tags_and_queries_tests.jl:186:@test strip_id(query(reg[2], :indexed, ❓)) == (slot=reg[2], tag=Tag(:indexed, 2))
+test/general/tags_and_queries_tests.jl:187:@test strip_id(query(reg, :indexed, ❓; filo=false)) == (slot=reg[1], tag=Tag(:indexed, 1))
+test/general/tags_and_queries_tests.jl:188:@test strip_id(query(reg, :indexed, ❓; filo=true)) == (slot=reg[2], tag=Tag(:indexed, 2))
+test/general/tags_and_queries_tests.jl:190:@test querydelete!(reg[2], :indexed, 2).id == id2
+test/general/tags_and_queries_tests.jl:191:@test reg.tag_ids_by_slot[2] == [id3]
+test/general/tags_and_queries_tests.jl:192:@test reg.tag_ids_by_head[:indexed] == [id1]
+test/general/tags_and_queries_tests.jl:193:@test query(reg[2], :indexed, ❓) === nothing
+test/general/tags_and_queries_tests.jl:194:@test strip_id(query(reg, :indexed, ❓)) == (slot=reg[1], tag=Tag(:indexed, 1))
+test/general/tags_and_queries_tests.jl:196:@test untag!(reg[1], id1).tag == Tag(:indexed, 1)
+test/general/tags_and_queries_tests.jl:197:@test !haskey(reg.tag_ids_by_head, :indexed)
+test/general/tags_and_queries_tests.jl:205:@test findfreeslot(reg).idx == 2
+test/general/tags_and_queries_tests.jl:206:@test findfreeslot(reg, chooseslot=(x -> x >= 5)).idx == 5
