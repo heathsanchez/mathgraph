@@ -1,0 +1,31 @@
+{
+  "name": "dsn-converter",
+  "version": "0.0.91",
+  "scripts": {
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "build": "tsup-node ./lib/index.ts --format esm --dts --sourcemap"
+  },
+  "dependencies_count": 4,
+  "devDependencies_count": 12,
+  "dependencies_head": [
+    "@tscircuit/soup-util",
+    "debug",
+    "uuid",
+    "zod"
+  ],
+  "devDependencies_head": [
+    "@biomejs/biome",
+    "@tscircuit/core",
+    "@tscircuit/math-utils",
+    "@types/bun",
+    "@types/debug",
+    "@types/react",
+    "@types/uuid",
+    "bun-match-svg",
+    "circuit-json",
+    "circuit-to-svg",
+    "react",
+    "tsup"
+  ]
+}

@@ -1,0 +1,12 @@
+===== paths =====
+/opt/homebrew/bin/node
+/opt/homebrew/bin/npm
+/Users/heath/.yarn/bin/yarn
+/opt/homebrew/bin/npx
+/Users/heath/Desktop/Aristotle/venv/bin/python3
+/usr/bin/make
+
+===== versions =====
+v23.7.0
+10.9.2
+1.22.19

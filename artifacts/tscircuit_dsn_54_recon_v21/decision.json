@@ -1,0 +1,21 @@
+{
+  "verdict": "RECON_MORE_OR_PARK",
+  "score": 70,
+  "reasons": [
+    "bounty visible",
+    "concrete Smoothie Board DSN target visible",
+    "Node package toolchain visible",
+    "test surface visible",
+    "source surface visible",
+    "claim/PR risk in comments"
+  ],
+  "issue": "https://github.com/tscircuit/dsn-converter/issues/54",
+  "bounty_visible": true,
+  "claim_risk": true,
+  "has_node": true,
+  "has_npm": true,
+  "has_pnpm": false,
+  "has_tests": true,
+  "has_src": true,
+  "next": "Do not claim yet; inspect comments and repo surface manually."
+}

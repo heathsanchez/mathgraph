@@ -1,0 +1,1013 @@
+===== top files =====
+.git/config
+.git/description
+.git/FETCH_HEAD
+.git/HEAD
+.git/hooks/applypatch-msg.sample
+.git/hooks/commit-msg.sample
+.git/hooks/fsmonitor-watchman.sample
+.git/hooks/post-update.sample
+.git/hooks/pre-applypatch.sample
+.git/hooks/pre-commit.sample
+.git/hooks/pre-merge-commit.sample
+.git/hooks/pre-push.sample
+.git/hooks/pre-rebase.sample
+.git/hooks/pre-receive.sample
+.git/hooks/prepare-commit-msg.sample
+.git/hooks/push-to-checkout.sample
+.git/hooks/update.sample
+.git/index
+.git/info/exclude
+.git/logs/HEAD
+.git/objects/pack/pack-05ca28ef7d0b48c0bffadd57bd965ba54400b748.idx
+.git/objects/pack/pack-05ca28ef7d0b48c0bffadd57bd965ba54400b748.pack
+.git/objects/pack/pack-05ca28ef7d0b48c0bffadd57bd965ba54400b748.promisor
+.git/objects/pack/pack-19f52ea6a0299b3f00f3c49caa3b3a578a102ad0.idx
+.git/objects/pack/pack-19f52ea6a0299b3f00f3c49caa3b3a578a102ad0.pack
+.git/objects/pack/pack-19f52ea6a0299b3f00f3c49caa3b3a578a102ad0.promisor
+.git/ORIG_HEAD
+.git/packed-refs
+.git/refs/heads/main
+.github/workflows/bun-formatbot.yml
+.github/workflows/bun-formatcheck.yml
+.github/workflows/bun-pver-release.yml
+.github/workflows/bun-test.yml
+.github/workflows/bun-typecheck.yml
+.gitignore
+biome.json
+bun.lock
+bunfig.toml
+docs/CIRCUIT_JSON_PCB_OVERVIEW.md
+docs/CIRCUIT_JSON_SOURCE_COMPONENT_OVERVIEW.md
+lib/common/parse-sexpr.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-json.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-session.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-string.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-components-and-pads.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-nets.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/process-plated-holes.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/stringify-dsn-json.ts
+lib/dsn-pcb/circuit-json-to-dsn-json/stringify-dsn-session.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-pcb-to-circuit-json.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-session-to-circuit-json.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/merge-dsn-session-into-dsn-pcb.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/parse-dsn-to-circuit-json.ts
+lib/dsn-pcb/dsn-json-to-circuit-json/parse-dsn-to-dsn-json.ts
+lib/dsn-pcb/types.ts
+lib/index.ts
+lib/utils/chunks.ts
+lib/utils/compute-seg-intersection.ts
+lib/utils/create-and-add-padstack-for-pcb-smtpad.ts
+lib/utils/create-padstack.ts
+lib/utils/create-pin-for-image.ts
+lib/utils/generate-layers.ts
+lib/utils/get-combined-source-port-name.ts
+lib/utils/get-component-value.ts
+lib/utils/get-footprint-name.ts
+lib/utils/get-padstack-name.ts
+lib/utils/get-pin-number.ts
+lib/utils/get-polygon-smt-pad-geometry.ts
+lib/utils/get-trace-length.ts
+lib/utils/get-via-coordinates.ts
+lib/utils/pairs.ts
+LICENSE
+package.json
+README.md
+tests/assets/fake-freerouting-example-1/fake-freerouting-example-1.dsn
+tests/assets/freerouting-sessions/circuit1.dsn
+tests/assets/freerouting-sessions/session1.ses
+tests/assets/repro/arduino-nano.json
+tests/assets/repro/chip-with-smtpads.json
+tests/assets/repro/circuit-with-trace.json
+tests/assets/repro/circuit.json
+tests/assets/repro/different-sized-plated-holes.json
+tests/assets/repro/motor-driver-breakout-circuit.json
+tests/assets/repro/motor-driver-breakout-dsn.ses
+tests/assets/repro/output_motor.ses
+tests/assets/repro/output_water_counter.ses
+tests/assets/repro/pill-shaped-plated-hole.json
+tests/assets/repro/plated-hole-resistor-circuit.json
+tests/assets/repro/repro15-scaling-bug.dsn
+tests/assets/repro/rp2040-module.json
+tests/assets/repro/smoothieboard-repro.dsn
+tests/assets/repro/smtpad-with-custom-dimenstion.json
+tests/assets/repro/subcircuit_input.dsn
+tests/assets/repro/subcircuit_output.ses
+tests/assets/repro/subcircuits-same-components.json
+tests/assets/repro/thickness-of-trace.ses
+tests/assets/repro/three-subcircuit-connected-to-same-ports.json
+tests/assets/repro/trace-id-fix-circuit.json
+tests/assets/repro/WaterCounter.json
+tests/assets/repro/XIAO_S3.json
+tests/assets/testkicadproject/circuitJson.json
+tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn
+tests/assets/testkicadproject/freeroutingTraceAdded.dsn
+tests/assets/testkicadproject/testkicadproject.dsn
+tests/debug-utils/circuit-json-to-table.ts
+tests/debug-utils/index.ts
+tests/debug-utils/session-file-trace-to-table.ts
+tests/debug-utils/simple-route-json-to-table.ts
+tests/dsn-pcb/__snapshots__/check-smtpad-dimension.snap.svg
+tests/dsn-pcb/__snapshots__/chip-smtpad-dimensions.snap.svg
+tests/dsn-pcb/__snapshots__/circuit-json-to-dsn-file.snap.svg
+tests/dsn-pcb/__snapshots__/circuit-json-to-dsn-session.snap.svg
+tests/dsn-pcb/__snapshots__/convert-dsn-file-to-circuit-json.snap.svg
+tests/dsn-pcb/__snapshots__/convert-session-to-circuit-json.snap.svg
+tests/dsn-pcb/__snapshots__/dsn-to-snapshot-1.snap.svg
+tests/dsn-pcb/__snapshots__/parse-dsn-json-to-circuit-json.snap.svg
+tests/dsn-pcb/__snapshots__/thickness-of-trace.snap.svg
+tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx
+tests/dsn-pcb/check-smtpad-dimension.test.ts
+tests/dsn-pcb/chip-smtpad-dimensions.test.ts
+tests/dsn-pcb/circuit-json-to-dsn-file.test.ts
+tests/dsn-pcb/circuit-json-to-dsn-session.test.ts
+tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts
+tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts
+tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts
+tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts
+tests/dsn-pcb/convert-session-to-circuit-json.test.ts
+tests/dsn-pcb/dsn-to-snapshot-1.test.ts
+tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts
+tests/dsn-pcb/get-padstack-name.test.ts
+tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx
+tests/dsn-pcb/multi-layer-support.test.ts
+tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts
+tests/dsn-pcb/parse-session-file.test.ts
+tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts
+tests/dsn-pcb/stringify-dsn-json.test.ts
+tests/dsn-pcb/stringify-dsn-session.test.ts
+tests/dsn-pcb/subcircuits-having-same-component.test.ts
+tests/dsn-pcb/thickness-of-trace.test.tsx
+tests/fixtures/get-test-debug-utils.ts
+tests/fixtures/preload.ts
+tests/repros/__snapshots__/repro-6-subcircuit-group.snap.svg
+tests/repros/__snapshots__/repro13-missing-traces-waterCounter.snap.svg
+tests/repros/__snapshots__/repro16-polygon-smtpad-export.snap.svg
+tests/repros/__snapshots__/repro7-smoothie-board.snap.svg
+tests/repros/repro-4-arduino-nano.test.ts
+tests/repros/repro-5-rp2040.test.tsx
+tests/repros/repro-6-subcircuit-group.test.ts
+tests/repros/repro-7-fixing-hover.test.ts
+tests/repros/repro1-fake-freerouting-example-1.test.ts
+tests/repros/repro10-via.test.ts
+tests/repros/repro11-smtpad-circle-shape.test.ts
+tests/repros/repro12-configuration-passed-to-converter.test.ts
+tests/repros/repro13-missing-traces-waterCounter.test.ts
+tests/repros/repro14-usb-c.test.ts
+tests/repros/repro15-dsn-scaling.test.tsx
+tests/repros/repro16-polygon-smtpad-export.test.ts
+tests/repros/repro2-motor-driver.test.ts
+tests/repros/repro3-fix-hover-trace.test.ts
+tests/repros/repro7-smoothie-board.test.ts
+tests/repros/repro8-multiple-traces-in-one-net.test.ts
+tests/repros/repro9-water-counter.test.ts
+tsconfig.json
+
+===== package files =====
+./package.json
+./tsconfig.json
+
+===== package.json =====
+{
+  "name": "dsn-converter",
+  "main": "dist/index.js",
+  "version": "0.0.91",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "build": "tsup-node ./lib/index.ts --format esm --dts --sourcemap"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@tscircuit/core": "^0.0.349",
+    "@tscircuit/math-utils": "^0.0.36",
+    "@types/bun": "latest",
+    "@types/debug": "^4.1.12",
+    "@types/react": "^19.0.1",
+    "@types/uuid": "^10.0.0",
+    "bun-match-svg": "^0.0.3",
+    "circuit-json": "^0.0.433",
+    "circuit-to-svg": "^0.0.175",
+    "react": "18",
+    "tsup": "^8.3.5"
+  },
+  "peerDependencies": {
+    "circuit-json": "*",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@tscircuit/soup-util": "^0.0.41",
+    "debug": "^4.3.7",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
+  }
+}
+
+===== DSN/Smoothie refs =====
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:4:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:8:  convertCircuitJsonToDsnSession,
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:9:  convertDsnPcbToCircuitJson,
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:10:  convertDsnSessionToCircuitJson,
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:15:import dsnPcbContent from "../assets/testkicadproject/testkicadproject.dsn" with {
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:20:test("convert dsn file -> circuit json -> dsn session -> circuit json", () => {
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:21:  const debug = Debug("tscircuit:dsn-converter")
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:22:  const dsnPcb = parseDsnToDsnJson(dsnPcbContent) as DsnPcb
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:25:  const circuitJson = convertDsnPcbToCircuitJson(dsnPcb)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:67:  const routedCircuitJson = circuitJson.concat(pcbTracesFromAutorouting)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:68:  const pcbTraceFirstPoint = su(routedCircuitJson as any).pcb_trace.list()[0]
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:77:  const session = convertCircuitJsonToDsnSession(dsnPcb, routedCircuitJson)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:84:  expect(session.is_dsn_session).toBe(true)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:88:  // Check components were converted
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:98:  // Check nets were converted
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:102:  const circuitJsonFromSession = convertDsnSessionToCircuitJson(dsnPcb, session)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:120:      "../dsn-pcb/dsn-files-stages/stage-1-circuit-json-to-dsn-session.md",
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:121:      "Stage 1: circuit json",
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:125:      "../dsn-pcb/dsn-files-stages/stage-2-dsn-session.md",
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:126:      "Stage 2: dsn session after trace added",
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:130:      "../dsn-pcb/dsn-files-stages/stage-3-circuit-json-from-dsn-session.md",
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:131:      "Stage 3 (Last): circuit json from dsn session",
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:134:  expect(convertCircuitJsonToPcbSvg(circuitJsonFromSession)).toMatchSvgSnapshot(
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:2:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:3:import { convertCircuitJsonToDsnString, parseDsnToDsnJson } from "lib"
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:4:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:6:import differentSizedPlatedHolesCircuitJson from "../assets/repro/different-sized-plated-holes.json"
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:12:test("circuit json (with plated hole) -> dsn file", async () => {
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:13:  // Getting the dsn file from the circuit json
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:14:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:17:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:20:  expect(dsnJson.placement.components.length).toBe(2)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:23:  expect(dsnJson.library.images.length).toBe(2)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:26:  const image = dsnJson.library.images[1]
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:30:  const padstack = dsnJson.library.padstacks.find(
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:44:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:45:    differentSizedPlatedHolesCircuitJson as AnyCircuitElement[],
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:47:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:49:  expect(dsnJson.placement.components.length).toBe(1)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:51:  expect(dsnJson.library.images.length).toBe(1)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:53:  const image = dsnJson.library.images[0]
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:64:  const padstack1 = dsnJson.library.padstacks.find(
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:71:  const padstack2 = dsnJson.library.padstacks.find(
+./tests/dsn-pcb/stringify-dsn-json.test.ts:4:import testDsnFile from "../assets/testkicadproject/testkicadproject.dsn" with {
+./tests/dsn-pcb/stringify-dsn-json.test.ts:8:test("stringify dsn json", () => {
+./tests/dsn-pcb/stringify-dsn-json.test.ts:9:  const dsnJson = parseDsnToDsnJson(testDsnFile) as DsnPcb
+./tests/dsn-pcb/stringify-dsn-json.test.ts:10:  const dsnString = stringifyDsnJson(dsnJson)
+./tests/dsn-pcb/stringify-dsn-json.test.ts:11:  const reparsedJson = parseDsnToDsnJson(dsnString) as DsnPcb
+./tests/dsn-pcb/stringify-dsn-json.test.ts:14:    expect(reparsedJson[key]).toEqual(dsnJson[key] as any)
+./tests/dsn-pcb/stringify-dsn-json.test.ts:18:  // expect(reparsedJson).toEqual(dsnJson)
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:3:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:5:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:7:import testDsnFile from "../assets/testkicadproject/testkicadproject.dsn" with {
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:18:test("parse json to circuit json", async () => {
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:20:  const circuitJson = convertDsnJsonToCircuitJson(pcb)
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:22:  expect(convertCircuitJsonToPcbSvg(circuitJson)).toMatchSvgSnapshot(
+./tests/dsn-pcb/thickness-of-trace.test.tsx:8:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/thickness-of-trace.test.tsx:11:  convertCircuitJsonToDsnJson,
+./tests/dsn-pcb/thickness-of-trace.test.tsx:12:  convertCircuitJsonToDsnString,
+./tests/dsn-pcb/thickness-of-trace.test.tsx:13:  convertDsnPcbToCircuitJson,
+./tests/dsn-pcb/thickness-of-trace.test.tsx:14:  convertDsnSessionToCircuitJson,
+./tests/dsn-pcb/thickness-of-trace.test.tsx:22:test("circuit json thickness converted to dsn file", () => {
+./tests/dsn-pcb/thickness-of-trace.test.tsx:34:  const circuitJson = circuit.getCircuitJson() as AnyCircuitElement[]
+./tests/dsn-pcb/thickness-of-trace.test.tsx:40:  const dsnJson = convertCircuitJsonToDsnJson(circuitJson)
+./tests/dsn-pcb/thickness-of-trace.test.tsx:42:  const network = dsnJson.network.classes
+./tests/dsn-pcb/thickness-of-trace.test.tsx:54:test("thickness of trace in dsn file to circuit json", async () => {
+./tests/dsn-pcb/thickness-of-trace.test.tsx:66:  const dsnSession = parseDsnToDsnJson(sessionFile) as DsnSession
+./tests/dsn-pcb/thickness-of-trace.test.tsx:67:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/dsn-pcb/thickness-of-trace.test.tsx:68:    circuit.getCircuitJson() as AnyCircuitElement[],
+./tests/dsn-pcb/thickness-of-trace.test.tsx:70:  const dsnPcb = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/thickness-of-trace.test.tsx:71:  const circuitJsonWithOutputTraces = convertDsnSessionToCircuitJson(
+./tests/dsn-pcb/thickness-of-trace.test.tsx:72:    dsnPcb,
+./tests/dsn-pcb/thickness-of-trace.test.tsx:73:    dsnSession,
+./tests/dsn-pcb/thickness-of-trace.test.tsx:82:    convertCircuitJsonToPcbSvg(circuitJsonWithOutputTraces),
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:2:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:3:import { convertCircuitJsonToDsnString, parseDsnToDsnJson } from "lib"
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:4:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:11:  // Getting the dsn file from the circuit json
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:12:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:16:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:17:  const circuitJson2 = convertDsnJsonToCircuitJson(dsnJson)
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:30:  expect(convertCircuitJsonToPcbSvg(circuitJson2)).toMatchSvgSnapshot(
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:4:test("compute dsn to circuit json matrix", () => {
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:2:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:3:import { convertCircuitJsonToDsnString, parseDsnToDsnJson } from "lib"
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:4:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:10:test("circuit json to dsn file", async () => {
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:11:  // Getting the dsn file from the circuit json
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:12:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:16:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:19:  expect(dsnJson.library.images[0].pins[0].x).toBe(-500)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:20:  expect(dsnJson.library.images[0].pins[0].y).toBe(0)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:22:  expect(dsnJson.library.images[0].pins[1].x).toBe(500)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:23:  expect(dsnJson.library.images[0].pins[1].y).toBe(0)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:25:  const circuitJson2 = convertDsnJsonToCircuitJson(dsnJson)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:27:  expect(convertCircuitJsonToPcbSvg(circuitJson2)).toMatchSvgSnapshot(
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:3:import { convertCircuitJsonToDsnSession } from "lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-session"
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:4:import type { DsnPcb } from "lib/dsn-pcb/types"
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:8:  const dsnPcb: DsnPcb = {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:9:    is_dsn_pcb: true,
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:10:    filename: "test.dsn",
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:55:  const session = convertCircuitJsonToDsnSession(dsnPcb, circuitJson)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:57:  expect(session.is_dsn_session).toBe(true)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:58:  expect(session.filename).toBe("test.dsn")
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:59:  expect(session.placement.resolution).toEqual(dsnPcb.resolution)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:60:  expect(session.routes.resolution).toEqual(dsnPcb.resolution)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:61:  expect(session.routes.parser).toEqual(dsnPcb.parser)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:65:test("converts component placement", () => {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:66:  const dsnPcb: DsnPcb = {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:67:    is_dsn_pcb: true,
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:68:    filename: "test.dsn",
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:127:  const session = convertCircuitJsonToDsnSession(dsnPcb, circuitJson)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:131:    dsnPcb.placement.components[0],
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:136:  const dsnPcb: DsnPcb = {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:137:    is_dsn_pcb: true,
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:138:    filename: "test.dsn",
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:189:  const session = convertCircuitJsonToDsnSession(dsnPcb, circuitJson)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:205:test("converts nets and wires", () => {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:206:  const dsnPcb: DsnPcb = {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:207:    is_dsn_pcb: true,
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:208:    filename: "test.dsn",
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:303:  const session = convertCircuitJsonToDsnSession(dsnPcb, circuitJson)
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:2:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:3:import { convertCircuitJsonToDsnString, parseDsnToDsnJson } from "lib"
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:4:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:11:  // Getting the dsn file from the circuit json
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:12:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:15:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:16:  const circuitJson2 = convertDsnJsonToCircuitJson(dsnJson)
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:32:  expect(convertCircuitJsonToPcbSvg(circuitJson2)).toMatchSvgSnapshot(
+./tests/dsn-pcb/parse-session-file.test.ts:4:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+./tests/dsn-pcb/stringify-dsn-session.test.ts:4:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:3:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:5:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:8:import traceAddedDsnFile from "../assets/testkicadproject/freeroutingTraceAdded.dsn" with {
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:12:test("parse dsn to circuit json", async () => {
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:14:  const dsnJson = parseDsnToDsnJson(traceAddedDsnFile) as DsnPcb
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:16:  // fs.writeFileSync("dsnJson.json", JSON.stringify(dsnJson, null, 2))
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:18:  const circuitJson = convertDsnJsonToCircuitJson(dsnJson)
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:25:  expect(convertCircuitJsonToPcbSvg(circuitJson)).toMatchSvgSnapshot(
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:2:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:4:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:7:import dsnFileWithFreeroutingTrace from "../assets/testkicadproject/freeroutingTraceAdded.dsn" with {
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:11:test("parse dsn to circuit json", async () => {
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:12:  const dsnJson = parseDsnToDsnJson(dsnFileWithFreeroutingTrace) as DsnPcb
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:13:  const circuitJson = convertDsnJsonToCircuitJson(dsnJson)
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:15:  expect(convertCircuitJsonToPcbSvg(circuitJson)).toMatchSvgSnapshot(
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:2:import { convertCircuitJsonToDsnString, parseDsnToDsnJson } from "lib"
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:3:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:9:test("dsn round-trip: circular through-hole pads become pcb_plated_hole", async () => {
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:10:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:13:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:14:  const circuitJson2 = convertDsnJsonToCircuitJson(dsnJson)
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:32:test("dsn import: padstacks with shapes on both F.Cu and B.Cu are through-hole", async () => {
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:34:  const dsnText = `(pcb test.dsn
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:77:  const dsnJson = parseDsnToDsnJson(dsnText) as DsnPcb
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:78:  const elements = convertDsnJsonToCircuitJson(dsnJson)
+./tests/dsn-pcb/multi-layer-support.test.ts:3:import { convertCircuitJsonToDsnJson } from "../../lib/dsn-pcb/circuit-json-to-dsn-json/convert-circuit-json-to-dsn-json"
+./tests/dsn-pcb/multi-layer-support.test.ts:18:  const dsnJson = convertCircuitJsonToDsnJson(circuitElements)
+./tests/dsn-pcb/multi-layer-support.test.ts:20:  expect(dsnJson.structure.layers).toHaveLength(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:21:  expect(dsnJson.structure.layers[0].name).toBe("F.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:22:  expect(dsnJson.structure.layers[0].property.index).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:23:  expect(dsnJson.structure.layers[1].name).toBe("B.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:24:  expect(dsnJson.structure.layers[1].property.index).toBe(1)
+./tests/dsn-pcb/multi-layer-support.test.ts:40:  const dsnJson = convertCircuitJsonToDsnJson(circuitElements)
+./tests/dsn-pcb/multi-layer-support.test.ts:42:  expect(dsnJson.structure.layers).toHaveLength(4)
+./tests/dsn-pcb/multi-layer-support.test.ts:43:  expect(dsnJson.structure.layers[0].name).toBe("F.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:44:  expect(dsnJson.structure.layers[0].property.index).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:45:  expect(dsnJson.structure.layers[1].name).toBe("In1.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:46:  expect(dsnJson.structure.layers[1].property.index).toBe(1)
+./tests/dsn-pcb/multi-layer-support.test.ts:47:  expect(dsnJson.structure.layers[2].name).toBe("In2.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:48:  expect(dsnJson.structure.layers[2].property.index).toBe(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:49:  expect(dsnJson.structure.layers[3].name).toBe("B.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:50:  expect(dsnJson.structure.layers[3].property.index).toBe(3)
+./tests/dsn-pcb/multi-layer-support.test.ts:66:  const dsnJson = convertCircuitJsonToDsnJson(circuitElements)
+./tests/dsn-pcb/multi-layer-support.test.ts:68:  expect(dsnJson.structure.layers).toHaveLength(6)
+./tests/dsn-pcb/multi-layer-support.test.ts:69:  expect(dsnJson.structure.layers[0].name).toBe("F.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:70:  expect(dsnJson.structure.layers[0].property.index).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:71:  expect(dsnJson.structure.layers[1].name).toBe("In1.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:72:  expect(dsnJson.structure.layers[1].property.index).toBe(1)
+./tests/dsn-pcb/multi-layer-support.test.ts:73:  expect(dsnJson.structure.layers[2].name).toBe("In2.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:74:  expect(dsnJson.structure.layers[2].property.index).toBe(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:75:  expect(dsnJson.structure.layers[3].name).toBe("In3.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:76:  expect(dsnJson.structure.layers[3].property.index).toBe(3)
+./tests/dsn-pcb/multi-layer-support.test.ts:77:  expect(dsnJson.structure.layers[4].name).toBe("In4.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:78:  expect(dsnJson.structure.layers[4].property.index).toBe(4)
+./tests/dsn-pcb/multi-layer-support.test.ts:79:  expect(dsnJson.structure.layers[5].name).toBe("B.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:80:  expect(dsnJson.structure.layers[5].property.index).toBe(5)
+./tests/dsn-pcb/multi-layer-support.test.ts:96:  const dsnJson = convertCircuitJsonToDsnJson(circuitElements)
+./tests/dsn-pcb/multi-layer-support.test.ts:99:  expect(dsnJson.structure.via).toBe("Via[0-3]_600:300_um")
+./tests/dsn-pcb/multi-layer-support.test.ts:102:  const viaPadstack = dsnJson.library.padstacks.find(
+./tests/dsn-pcb/multi-layer-support.test.ts:115:  expect(dsnJson.network.classes[0].circuit.use_via).toBe("Via[0-3]_600:300_um")
+./tests/dsn-pcb/multi-layer-support.test.ts:131:  const dsnJson = convertCircuitJsonToDsnJson(circuitElements)
+./tests/dsn-pcb/multi-layer-support.test.ts:133:  expect(dsnJson.structure.via).toBe("Via[0-1]_600:300_um")
+./tests/dsn-pcb/multi-layer-support.test.ts:135:  const viaPadstack = dsnJson.library.padstacks.find(
+./tests/dsn-pcb/multi-layer-support.test.ts:155:  const dsnJson = convertCircuitJsonToDsnJson(circuitElements)
+./tests/dsn-pcb/multi-layer-support.test.ts:157:  expect(dsnJson.structure.layers).toHaveLength(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:158:  expect(dsnJson.structure.layers[0].name).toBe("F.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:159:  expect(dsnJson.structure.layers[0].property.index).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:160:  expect(dsnJson.structure.layers[1].name).toBe("B.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:161:  expect(dsnJson.structure.layers[1].property.index).toBe(1)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:5:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:9:  convertCircuitJsonToDsnSession,
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:10:  convertCircuitJsonToDsnString,
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:11:  convertDsnPcbToCircuitJson,
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:12:  convertDsnSessionToCircuitJson,
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:20:test("merge-dsn-session-with-conversion", async () => {
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:43:  const baseCircuitJson =
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:44:    (await circuit.getCircuitJson()) as AnyCircuitElement[]
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:45:  writeDebugFile("base.circuit.json", JSON.stringify(baseCircuitJson, null, 2))
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:46:  const dsnFile = convertCircuitJsonToDsnString(baseCircuitJson)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:47:  debug("DSN FILE\n--------\n", dsnFile)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:48:  writeDebugFile("original.dsn", dsnFile)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:49:  const originalDsnPcb = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:50:  writeDebugFile("original.dsn.json", JSON.stringify(originalDsnPcb, null, 2))
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:54:  const dsnPcbWithoutTraces: DsnPcb = {
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:60:  const session: DsnSession = convertCircuitJsonToDsnSession(
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:61:    dsnPcbWithoutTraces,
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:62:    baseCircuitJson,
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:68:  const mergedPcb = mergeDsnSessionIntoDsnPcb(dsnPcbWithoutTraces, session)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:69:  writeDebugFile("merged.dsn", stringifyDsnJson(mergedPcb))
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:74:  const circuitJsonFromOriginal = convertDsnPcbToCircuitJson(originalDsnPcb)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:75:  const circuitJsonFromMerged = convertDsnPcbToCircuitJson(mergedPcb)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:78:  const baseCircuitSvg = convertCircuitJsonToPcbSvg(baseCircuitJson)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:79:  const svgOriginal = convertCircuitJsonToPcbSvg(circuitJsonFromOriginal)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:80:  const svgMerged = convertCircuitJsonToPcbSvg(circuitJsonFromMerged)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:95:  // TODO must fix dsn session conversion before this works
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:119:  // TODO requires fix inside convertCircuitJsonToDsnSession, currently the vias
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:120:  // aren't converted properly- reference or adapt the code in processPcbTraces
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:3:import { convertCircuitJsonToDsnJson, convertCircuitJsonToDsnString } from "lib"
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:6:test("convert circuit json to dsn pcb", async () => {
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:8:  const dsnJson = convertCircuitJsonToDsnJson(circuitJson)
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:10:  expect(dsnJson.network.nets.length).toBe(6)
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:12:  const net1Count = dsnJson.network.nets.filter((net) =>
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:2:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:6:  convertDsnSessionToCircuitJson,
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:7:  parseDsnToCircuitJson,
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:15:import pcbDsnFile from "../assets/freerouting-sessions/circuit1.dsn" with {
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:19:import sessionFile from "../assets/freerouting-sessions/session1.ses" with {
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:25:test("convert session to circuit json", async () => {
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:26:  const debug = Debug("tscircuit:dsn-converter")
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:27:  const circuitJson = parseDsnToCircuitJson(pcbDsnFile)
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:31:  const circuitJsonFromSession = convertDsnSessionToCircuitJson(
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:46:      "../dsn-pcb/dsn-files-stages/__stage-1-dsn-circuit-json.md",
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:47:      "Stage 1: dsn circuit json",
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:51:      "../dsn-pcb/dsn-files-stages/__stage-2-dsn-session.md",
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:52:      "Stage 2: dsn session",
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:56:      "../dsn-pcb/dsn-files-stages/__stage-3-dsn-session-to-circuit-json.md",
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:61:  expect(convertCircuitJsonToPcbSvg(circuitJsonFromSession)).toMatchSvgSnapshot(
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:2:import { convertCircuitJsonToDsnString, parseDsnToDsnJson } from "lib"
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:3:import { convertDsnJsonToCircuitJson } from "../../lib/dsn-pcb/dsn-json-to-circuit-json/convert-dsn-json-to-circuit-json.ts"
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:10:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:14:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:15:  const circuitJson2 = convertDsnJsonToCircuitJson(dsnJson)
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:5:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:8:  convertCircuitJsonToDsnString,
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:9:  convertDsnPcbToCircuitJson,
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:38:    (await circuit.getCircuitJson()) as AnyCircuitElement[]
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:40:  const dsnFile = convertCircuitJsonToDsnString(circuitJsonBefore)
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:42:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:44:  // console.log("DSN JSON\n--------\n", dsnJson)
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:46:  const circuitJsonAfter = convertDsnPcbToCircuitJson(dsnJson)
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:48:  const svgBefore = convertCircuitJsonToPcbSvg(circuitJsonBefore)
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:49:  const svgAfter = convertCircuitJsonToPcbSvg(circuitJsonAfter)
+./tests/repros/repro2-motor-driver.test.ts:3:  convertCircuitJsonToDsnString,
+./tests/repros/repro2-motor-driver.test.ts:4:  convertDsnSessionToCircuitJson,
+./tests/repros/repro2-motor-driver.test.ts:13:import sessionFile from "../assets/repro/motor-driver-breakout-dsn.ses" with {
+./tests/repros/repro2-motor-driver.test.ts:17:test("circuit json (motor driver breakout) -> dsn file", async () => {
+./tests/repros/repro2-motor-driver.test.ts:18:  // Getting the dsn file from the circuit json
+./tests/repros/repro2-motor-driver.test.ts:19:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/repros/repro2-motor-driver.test.ts:23:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/repros/repro2-motor-driver.test.ts:26:  expect(dsnJson.placement.components.length).toBe(3)
+./tests/repros/repro2-motor-driver.test.ts:29:  expect(dsnJson.library.images.length).toBe(3)
+./tests/repros/repro2-motor-driver.test.ts:32:  const chipImage = dsnJson.library.images[0]
+./tests/repros/repro2-motor-driver.test.ts:42:  expect(dsnJson.network.nets.length).toBe(16)
+./tests/repros/repro2-motor-driver.test.ts:46:  dsnJson.network.nets.forEach((net) => {
+./tests/repros/repro2-motor-driver.test.ts:56:  dsnJson.network.nets.forEach((net) => {
+./tests/repros/repro2-motor-driver.test.ts:65:test("session file (motor driver breakout) -> circuit json", async () => {
+./tests/repros/repro2-motor-driver.test.ts:66:  const dsnSession = parseDsnToDsnJson(sessionFile) as DsnSession
+./tests/repros/repro2-motor-driver.test.ts:67:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/repros/repro2-motor-driver.test.ts:70:  const dsnPcb = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/repros/repro2-motor-driver.test.ts:71:  const circuitJsonWithOutputTraces = convertDsnSessionToCircuitJson(
+./tests/repros/repro2-motor-driver.test.ts:72:    dsnPcb,
+./tests/repros/repro2-motor-driver.test.ts:73:    dsnSession,
+./tests/repros/repro2-motor-driver.test.ts:90:  // through-hole pads are now correctly converted to pcb_plated_hole
+./tests/repros/repro-7-fixing-hover.test.ts:3:  convertCircuitJsonToDsnJson,
+./tests/repros/repro-7-fixing-hover.test.ts:4:  convertDsnSessionToCircuitJson,
+./tests/repros/repro-7-fixing-hover.test.ts:20:  const dsnPcb = convertCircuitJsonToDsnJson(circuitJson as AnyCircuitElement[])
+./tests/repros/repro-7-fixing-hover.test.ts:23:  const circuitJsonFromSession = convertDsnSessionToCircuitJson(
+./tests/repros/repro-7-fixing-hover.test.ts:24:    dsnPcb,
+./tests/repros/repro-7-fixing-hover.test.ts:33:  const newCircuitJson = [...circuitJson, ...outputPcbTraces]
+./tests/repros/repro-7-fixing-hover.test.ts:35:  const pcbTraces = su(newCircuitJson as AnyCircuitElement[]).pcb_trace.list()
+./tests/repros/repro3-fix-hover-trace.test.ts:3:  convertCircuitJsonToDsnString,
+./tests/repros/repro3-fix-hover-trace.test.ts:4:  convertDsnJsonToCircuitJson,
+./tests/repros/repro3-fix-hover-trace.test.ts:13:  // Getting the dsn file from the circuit json
+./tests/repros/repro3-fix-hover-trace.test.ts:14:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/repros/repro3-fix-hover-trace.test.ts:18:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/repros/repro3-fix-hover-trace.test.ts:20:  const circuitJson2 = convertDsnJsonToCircuitJson(dsnJson)
+./tests/repros/repro-5-rp2040.test.tsx:2:import { convertCircuitJsonToDsnString, parseDsnToDsnJson } from "lib"
+./tests/repros/repro-5-rp2040.test.tsx:8:test("circuit json (rp2040) -> dsn file -> dsn json", async () => {
+./tests/repros/repro-5-rp2040.test.tsx:9:  // Getting the dsn file from the circuit json
+./tests/repros/repro-5-rp2040.test.tsx:10:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/repros/repro-5-rp2040.test.tsx:15:    const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/repros/repro-5-rp2040.test.tsx:16:    expect(dsnJson).toBeDefined()
+./tests/repros/repro1-fake-freerouting-example-1.test.ts:2:import { parseDsnToCircuitJson } from "lib"
+./tests/repros/repro1-fake-freerouting-example-1.test.ts:5:import fakeFreeroutingExample1Dsn from "../assets/fake-freerouting-example-1/fake-freerouting-example-1.dsn" with {
+./tests/repros/repro1-fake-freerouting-example-1.test.ts:9:test("repro1 fake-freerouting-example-1", () => {
+./tests/repros/repro1-fake-freerouting-example-1.test.ts:10:  const dsnPcb = parseDsnToCircuitJson(fakeFreeroutingExample1Dsn)
+./tests/repros/repro14-usb-c.test.ts:2:import { convertCircuitJsonToDsnJson } from "lib"
+./tests/repros/repro14-usb-c.test.ts:5:import type { DsnPcb } from "lib/dsn-pcb/types"
+./tests/repros/repro14-usb-c.test.ts:9:  const dsnJson = convertCircuitJsonToDsnJson(
+./tests/repros/repro14-usb-c.test.ts:13:  const image = dsnJson.library.images.find(
+./tests/repros/repro11-smtpad-circle-shape.test.ts:2:import { convertCircuitJsonToDsnJson, convertCircuitJsonToDsnString } from "lib"
+./tests/repros/repro11-smtpad-circle-shape.test.ts:8:  const dsnJson = convertCircuitJsonToDsnJson(
+./tests/repros/repro11-smtpad-circle-shape.test.ts:12:  const padstackName = dsnJson.library.padstacks.filter(
+./tests/repros/repro8-multiple-traces-in-one-net.test.ts:3:import { convertCircuitJsonToDsnString, parseDsnToCircuitJson } from "lib"
+./tests/repros/repro8-multiple-traces-in-one-net.test.ts:6:test("circuit json -> dsn -> circuit json", async () => {
+./tests/repros/repro8-multiple-traces-in-one-net.test.ts:7:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/repros/repro8-multiple-traces-in-one-net.test.ts:10:  const circuitJson = parseDsnToCircuitJson(dsnFile)
+./tests/repros/repro16-polygon-smtpad-export.test.ts:3:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/repros/repro16-polygon-smtpad-export.test.ts:5:  convertCircuitJsonToDsnJson,
+./tests/repros/repro16-polygon-smtpad-export.test.ts:6:  convertCircuitJsonToDsnString,
+./tests/repros/repro16-polygon-smtpad-export.test.ts:7:  convertDsnPcbToCircuitJson,
+./tests/repros/repro16-polygon-smtpad-export.test.ts:13:const polygonPadCircuitJson = [
+./tests/repros/repro16-polygon-smtpad-export.test.ts:77:  const dsnJson = convertCircuitJsonToDsnJson(polygonPadCircuitJson)
+./tests/repros/repro16-polygon-smtpad-export.test.ts:78:  const dsnString = convertCircuitJsonToDsnString(polygonPadCircuitJson)
+./tests/repros/repro16-polygon-smtpad-export.test.ts:80:  expect(dsnString).not.toContain("NaN")
+./tests/repros/repro16-polygon-smtpad-export.test.ts:82:  const exportedPadstack = dsnJson.library.padstacks.find((padstack) =>
+./tests/repros/repro16-polygon-smtpad-export.test.ts:92:  const exportedPin = dsnJson.library.images[0]?.pins[0]
+./tests/repros/repro16-polygon-smtpad-export.test.ts:99:  const dsnString = convertCircuitJsonToDsnString(polygonPadCircuitJson)
+./tests/repros/repro16-polygon-smtpad-export.test.ts:100:  const dsnJson = parseDsnToDsnJson(dsnString) as DsnPcb
+./tests/repros/repro16-polygon-smtpad-export.test.ts:101:  const roundTrippedCircuitJson = convertDsnPcbToCircuitJson(dsnJson)
+./tests/repros/repro16-polygon-smtpad-export.test.ts:102:  const roundTrippedPads = roundTrippedCircuitJson.filter(
+./tests/repros/repro16-polygon-smtpad-export.test.ts:110:    convertCircuitJsonToPcbSvg(roundTrippedCircuitJson),
+./tests/repros/repro-4-arduino-nano.test.ts:2:import { convertCircuitJsonToDsnString, parseDsnToDsnJson } from "lib"
+./tests/repros/repro-4-arduino-nano.test.ts:8:test("circuit json (arduino nano) -> dsn file", async () => {
+./tests/repros/repro-4-arduino-nano.test.ts:9:  // Getting the dsn file from the circuit json
+./tests/repros/repro-4-arduino-nano.test.ts:10:  const dsnFile = convertCircuitJsonToDsnString(
+./tests/repros/repro-4-arduino-nano.test.ts:14:  const dsnJson = parseDsnToDsnJson(dsnFile) as DsnPcb
+./tests/repros/repro-4-arduino-nano.test.ts:17:  expect(dsnJson.placement.components.length).toBe(7)
+./tests/repros/repro-4-arduino-nano.test.ts:18:  expect(dsnJson.library.images.length).toBe(7)
+./tests/repros/repro-4-arduino-nano.test.ts:21:  const usbcImage = dsnJson.library.images[0]
+./tests/repros/repro-4-arduino-nano.test.ts:41:  expect(dsnJson.library.padstacks.length).toBe(10)
+./tests/repros/repro-4-arduino-nano.test.ts:43:  expect(dsnJson.network.nets.length).toBe(75)
+./tests/repros/repro7-smoothie-board.test.ts:2:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/repros/repro7-smoothie-board.test.ts:3:import { type DsnPcb, convertDsnPcbToCircuitJson, parseDsnToDsnJson } from "lib"
+./tests/repros/repro7-smoothie-board.test.ts:6:import dsnFileWithFreeroutingTrace from "../assets/repro/smoothieboard-repro.dsn" with {
+./tests/repros/repro7-smoothie-board.test.ts:10:test("smoothieboard repro", async () => {
+./tests/repros/repro7-smoothie-board.test.ts:11:  const dsnJson = parseDsnToDsnJson(dsnFileWithFreeroutingTrace) as DsnPcb
+./tests/repros/repro7-smoothie-board.test.ts:13:  const circuitJson = convertDsnPcbToCircuitJson(dsnJson)
+./tests/repros/repro7-smoothie-board.test.ts:15:  expect(convertCircuitJsonToPcbSvg(circuitJson)).toMatchSvgSnapshot(
+./tests/repros/repro9-water-counter.test.ts:2:import { convertCircuitJsonToDsnJson } from "lib"
+./tests/repros/repro9-water-counter.test.ts:8:  const dsnJson = convertCircuitJsonToDsnJson(
+./tests/repros/repro9-water-counter.test.ts:12:  expect(dsnJson).toBeDefined()
+./tests/repros/repro9-water-counter.test.ts:13:  expect(dsnJson.library.padstacks.length).toBe(7)
+./tests/repros/repro9-water-counter.test.ts:14:  expect(dsnJson.library.padstacks[5].name).toBe("RoundRect[T]Pad_3000x3000_um")
+./tests/repros/repro9-water-counter.test.ts:15:  expect(dsnJson.library.images.length).toBe(4)
+./tests/repros/repro9-water-counter.test.ts:16:  expect(dsnJson.library.images[1].pins.length).toBe(25)
+./tests/repros/repro10-via.test.ts:3:  convertCircuitJsonToDsnJson,
+./tests/repros/repro10-via.test.ts:4:  convertDsnSessionToCircuitJson,
+./tests/repros/repro10-via.test.ts:17:  const dsnPcb = convertCircuitJsonToDsnJson(circuitJson as AnyCircuitElement[])
+./tests/repros/repro10-via.test.ts:20:  const circuitJsonFromSession = convertDsnSessionToCircuitJson(
+./tests/repros/repro10-via.test.ts:21:    dsnPcb,
+./tests/repros/repro12-configuration-passed-to-converter.test.ts:2:import { convertCircuitJsonToDsnJson } from "lib"
+./tests/repros/repro12-configuration-passed-to-converter.test.ts:7:test("configuration passed to converter", async () => {
+./tests/repros/repro12-configuration-passed-to-converter.test.ts:8:  const dsnJson = convertCircuitJsonToDsnJson(
+./tests/repros/repro12-configuration-passed-to-converter.test.ts:15:  const traceClearance = dsnJson.network.classes[0].rule.clearances[0].value
+./tests/repros/repro15-dsn-scaling.test.tsx:3:import { convertCircuitJsonToDsnString } from "lib"
+./tests/repros/repro15-dsn-scaling.test.tsx:31:  const circuitJson = circuit.getCircuitJson()
+./tests/repros/repro15-dsn-scaling.test.tsx:33:  const dsnString = convertCircuitJsonToDsnString(circuitJson as any)
+./tests/repros/repro15-dsn-scaling.test.tsx:41:  // The converter currently only scales by 1000 (mm to um), but fails to multiply by the resolution.
+./tests/repros/repro15-dsn-scaling.test.tsx:50:  expect(dsnString).toContain("(resolution um 10)")
+./tests/repros/repro15-dsn-scaling.test.tsx:53:  expect(dsnString).toContain("(place R1_source_component_0 -4000 0 front 0")
+./tests/repros/repro15-dsn-scaling.test.tsx:54:  expect(dsnString).toContain("(place R2_source_component_1 4000 0 front 0")
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:2:import { convertDsnSessionToCircuitJson, parseDsnToDsnJson } from "lib"
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:4:import type { DsnPcb, DsnSession } from "lib/dsn-pcb/types"
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:7:import input_dsn_local from "../assets/repro/repro13/input_dsn_local.dsn" with {
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:11:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:18://   const dsnString = convertCircuitJsonToDsnString(
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:22://   Bun.write("input_dsn_local.dsn", dsnString)
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:25:test("convert session to circuit json", async () => {
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:26:  const pcbJson = parseDsnToDsnJson(input_dsn_local) as DsnPcb
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:28:  const circuitJsonFromSession = convertDsnSessionToCircuitJson(
+./tests/repros/repro13-missing-traces-waterCounter.test.ts:33:  expect(convertCircuitJsonToPcbSvg(circuitJsonFromSession)).toMatchSvgSnapshot(
+./tests/repros/repro-6-subcircuit-group.test.ts:3:  convertCircuitJsonToDsnString,
+./tests/repros/repro-6-subcircuit-group.test.ts:4:  convertDsnSessionToCircuitJson,
+./tests/repros/repro-6-subcircuit-group.test.ts:5:  parseDsnToCircuitJson,
+./tests/repros/repro-6-subcircuit-group.test.ts:9:import { convertCircuitJsonToPcbSvg } from "circuit-to-svg"
+./tests/repros/repro-6-subcircuit-group.test.ts:12:import inputDsnFile from "../assets/repro/subcircuit_input.dsn" with {
+./tests/repros/repro-6-subcircuit-group.test.ts:23:  const circuitJsonFromSession = convertDsnSessionToCircuitJson(
+./tests/repros/repro-6-subcircuit-group.test.ts:28:  expect(convertCircuitJsonToPcbSvg(circuitJsonFromSession)).toMatchSvgSnapshot(
+./tests/fixtures/get-test-debug-utils.ts:12: * export DEBUG=dsn-converter:my-test-name
+./tests/fixtures/get-test-debug-utils.ts:24:    debug: Debug(`dsn-converter:${testFileDir}`),
+./tests/assets/fake-freerouting-example-1/fake-freerouting-example-1.dsn:1:(pcb /Users/seve/Downloads/testkicadproject.dsn
+./tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn:1:(pcb "/Users/seve/w/tsc/dsn-converter/tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn"
+./tests/assets/testkicadproject/freeroutingTraceAdded-2.dsn:7:    (generated_by_freerouting)
+./tests/assets/testkicadproject/testkicadproject.dsn:1:(pcb /Users/seve/Downloads/testkicadproject.dsn
+./tests/assets/testkicadproject/freeroutingTraceAdded.dsn:1:(pcb "/Users/rishabhgupta/Public/openSource/tscircuit/dsn-converter/convertedDsnFreeroutin.dsn"
+./tests/assets/testkicadproject/freeroutingTraceAdded.dsn:7:    (generated_by_freerouting)
+./tests/assets/freerouting-sessions/circuit1.dsn:1:(pcb ./converted_dsn.dsn
+./tests/assets/repro/subcircuit_input.dsn:1:(pcb ./converted_dsn.dsn
+./tests/assets/repro/repro13/input_dsn_local.dsn:1:(pcb ./converted_dsn.dsn
+./tests/assets/repro/repro13/output_local.ses:1:(session input_dsn_local.ses
+./tests/assets/repro/repro13/output_local.ses:2:  (base_design input_dsn_local.dsn)
+./tests/assets/repro/motor-driver-breakout-dsn.ses:1:(session "motor-driver-breakout-dsn.ses"
+./tests/assets/repro/motor-driver-breakout-dsn.ses:2:  (base_design "motor-driver-breakout-dsn.dsn")
+./tests/assets/repro/repro15-scaling-bug.dsn:1:(pcb ./converted_dsn.dsn
+./tests/assets/repro/smoothieboard-repro.dsn:1:(pcb "B:\depot\CAD\KiCad\test\Smoothieboard-master\smoothieboard-5driver\smoothieboard-5driver.dsn"
+./tests/assets/repro/smoothieboard-repro.dsn:72:    (component "smoothieboard-5driver:LQFP100"
+./tests/assets/repro/smoothieboard-repro.dsn:75:    (component "smoothieboard-5driver:CRYSTAL_3.2X2.5"
+./tests/assets/repro/smoothieboard-repro.dsn:79:    (component "smoothieboard-5driver:C0603"
+./tests/assets/repro/smoothieboard-repro.dsn:146:    (component "smoothieboard-5driver:EIA3216"
+./tests/assets/repro/smoothieboard-repro.dsn:158:    (component "smoothieboard-5driver:R0603"
+./tests/assets/repro/smoothieboard-repro.dsn:253:    (component "smoothieboard-5driver:TACTILE_SWITCH_SMD"
+./tests/assets/repro/smoothieboard-repro.dsn:257:    (component "smoothieboard-5driver:CHIP-LED0805"
+./tests/assets/repro/smoothieboard-repro.dsn:271:    (component "smoothieboard-5driver:MOLEX-1X6"
+./tests/assets/repro/smoothieboard-repro.dsn:274:    (component "smoothieboard-5driver:TACTILE-PTH-LED-12MM"
+./tests/assets/repro/smoothieboard-repro.dsn:277:    (component "smoothieboard-5driver:MOLEX-1X3"
+./tests/assets/repro/smoothieboard-repro.dsn:285:    (component "smoothieboard-5driver:1X04_NO_SILK"
+./tests/assets/repro/smoothieboard-repro.dsn:297:    (component "smoothieboard-5driver:1X03_NO_SILK"
+./tests/assets/repro/smoothieboard-repro.dsn:303:    (component "smoothieboard-5driver:1X03"
+./tests/assets/repro/smoothieboard-repro.dsn:308:    (component "smoothieboard-5driver:1X02"
+./tests/assets/repro/smoothieboard-repro.dsn:313:    (component "smoothieboard-5driver:ETSSOP24"
+./tests/assets/repro/smoothieboard-repro.dsn:320:    (component "smoothieboard-5driver:R2512"
+./tests/assets/repro/smoothieboard-repro.dsn:332:    (component "smoothieboard-5driver:08P"
+./tests/assets/repro/smoothieboard-repro.dsn:335:    (component "smoothieboard-5driver:0603-ARV"
+./tests/assets/repro/smoothieboard-repro.dsn:338:    (component "smoothieboard-5driver:TSSOP20"
+./tests/assets/repro/smoothieboard-repro.dsn:342:    (component "smoothieboard-5driver:10X04MTA"
+./tests/assets/repro/smoothieboard-repro.dsn:349:    (component "smoothieboard-5driver:180G-4"
+./tests/assets/repro/smoothieboard-repro.dsn:356:    (component "smoothieboard-5driver:QFN24_4MM"
+./tests/assets/repro/smoothieboard-repro.dsn:359:    (component "smoothieboard-5driver:0603"
+./tests/assets/repro/smoothieboard-repro.dsn:362:    (component "smoothieboard-5driver:C0603K"
+./tests/assets/repro/smoothieboard-repro.dsn:365:    (component "smoothieboard-5driver:SOT23-5"
+./tests/assets/repro/smoothieboard-repro.dsn:368:    (component "smoothieboard-5driver:SOT223"
+./tests/assets/repro/smoothieboard-repro.dsn:371:    (component "smoothieboard-5driver:SMADIODE"
+./tests/assets/repro/smoothieboard-repro.dsn:380:    (component "smoothieboard-5driver:TO220BV"
+./tests/assets/repro/smoothieboard-repro.dsn:385:    (component "smoothieboard-5driver:PANASONIC_E"
+./tests/assets/repro/smoothieboard-repro.dsn:394:    (component "smoothieboard-5driver:MOLEX8981"
+./tests/assets/repro/smoothieboard-repro.dsn:397:    (component "smoothieboard-5driver:SOT230P700X160-4N"
+./tests/assets/repro/smoothieboard-repro.dsn:402:    (component "smoothieboard-5driver:POWER_JACK_SMD"
+./tests/assets/repro/smoothieboard-repro.dsn:405:    (component "smoothieboard-5driver:180G-2"
+./tests/assets/repro/smoothieboard-repro.dsn:417:    (component "smoothieboard-5driver:TO263AB"
+./tests/assets/repro/smoothieboard-repro.dsn:420:    (component "smoothieboard-5driver:JP1"
+./tests/assets/repro/smoothieboard-repro.dsn:425:    (component "smoothieboard-5driver:10X02MTA"
+./tests/assets/repro/smoothieboard-repro.dsn:433:    (component "smoothieboard-5driver:MICRO-SD-SOCKET-PP"
+./tests/assets/repro/smoothieboard-repro.dsn:436:    (component "smoothieboard-5driver:HR911105A"
+./tests/assets/repro/smoothieboard-repro.dsn:439:    (component "smoothieboard-5driver:SOIC8"
+./tests/assets/repro/smoothieboard-repro.dsn:443:    (component "smoothieboard-5driver:C0805"
+./tests/assets/repro/smoothieboard-repro.dsn:446:    (component "smoothieboard-5driver:SOT89"
+./tests/assets/repro/smoothieboard-repro.dsn:449:    (component "smoothieboard-5driver:USB-B-PTH"
+./tests/assets/repro/smoothieboard-repro.dsn:452:    (component "smoothieboard-5driver:SJ_3"
+./tests/assets/repro/smoothieboard-repro.dsn:457:    (component "smoothieboard-5driver:SC74_INFINEON"
+./tests/assets/repro/smoothieboard-repro.dsn:460:    (component "smoothieboard-5driver:1715250000"
+./tests/assets/repro/smoothieboard-repro.dsn:466:    (component "smoothieboard-5driver:TO252"
+./tests/assets/repro/smoothieboard-repro.dsn:469:    (component "smoothieboard-5driver:SMB"
+./tests/assets/repro/smoothieboard-repro.dsn:472:    (component "smoothieboard-5driver:1X05"
+./tests/assets/repro/smoothieboard-repro.dsn:476:    (component "smoothieboard-5driver:R-78"
+./tests/assets/repro/smoothieboard-repro.dsn:479:    (component "smoothieboard-5driver:OSHW-LOGO-HUGE"
+./tests/assets/repro/smoothieboard-repro.dsn:485:    (component "smoothieboard-5driver:PANASONIC_D"
+./tests/assets/repro/smoothieboard-repro.dsn:520:    (image "smoothieboard-5driver:LQFP100"
+./tests/assets/repro/smoothieboard-repro.dsn:636:    (image "smoothieboard-5driver:CRYSTAL_3.2X2.5"
+./tests/assets/repro/smoothieboard-repro.dsn:650:    (image "smoothieboard-5driver:C0603"
+./tests/assets/repro/smoothieboard-repro.dsn:660:    (image "smoothieboard-5driver:EIA3216"
+./tests/assets/repro/smoothieboard-repro.dsn:672:    (image "smoothieboard-5driver:R0603"
+./tests/assets/repro/smoothieboard-repro.dsn:682:    (image "smoothieboard-5driver:TACTILE_SWITCH_SMD"
+./tests/assets/repro/smoothieboard-repro.dsn:704:    (image "smoothieboard-5driver:CHIP-LED0805"
+./tests/assets/repro/smoothieboard-repro.dsn:710:    (image "smoothieboard-5driver:MOLEX-1X6"
+./tests/assets/repro/smoothieboard-repro.dsn:727:    (image "smoothieboard-5driver:TACTILE-PTH-LED-12MM"
+./tests/assets/repro/smoothieboard-repro.dsn:792:    (image "smoothieboard-5driver:MOLEX-1X3"
+./tests/assets/repro/smoothieboard-repro.dsn:806:    (image "smoothieboard-5driver:1X04_NO_SILK"
+./tests/assets/repro/smoothieboard-repro.dsn:812:    (image "smoothieboard-5driver:1X03_NO_SILK"
+./tests/assets/repro/smoothieboard-repro.dsn:817:    (image "smoothieboard-5driver:1X03"
+./tests/assets/repro/smoothieboard-repro.dsn:842:    (image "smoothieboard-5driver:1X02"
+./tests/assets/repro/smoothieboard-repro.dsn:860:    (image "smoothieboard-5driver:ETSSOP24"
+./tests/assets/repro/smoothieboard-repro.dsn:893:    (image "smoothieboard-5driver:R2512"
+./tests/assets/repro/smoothieboard-repro.dsn:899:    (image "smoothieboard-5driver:08P"
+./tests/assets/repro/smoothieboard-repro.dsn:1114:    (image "smoothieboard-5driver:0603-ARV"
+./tests/assets/repro/smoothieboard-repro.dsn:1128:    (image "smoothieboard-5driver:TSSOP20"
+./tests/assets/repro/smoothieboard-repro.dsn:1162:    (image "smoothieboard-5driver:10X04MTA"
+./tests/assets/repro/smoothieboard-repro.dsn:1175:    (image "smoothieboard-5driver:180G-4"
+./tests/assets/repro/smoothieboard-repro.dsn:1206:    (image "smoothieboard-5driver:QFN24_4MM"
+./tests/assets/repro/smoothieboard-repro.dsn:1246:    (image "smoothieboard-5driver:0603"
+./tests/assets/repro/smoothieboard-repro.dsn:1260:    (image "smoothieboard-5driver:C0603K"
+./tests/assets/repro/smoothieboard-repro.dsn:1266:    (image "smoothieboard-5driver:SOT23-5"
+./tests/assets/repro/smoothieboard-repro.dsn:1286:    (image "smoothieboard-5driver:SOT223"
+./tests/assets/repro/smoothieboard-repro.dsn:1296:    (image "smoothieboard-5driver:SMADIODE"
+./tests/assets/repro/smoothieboard-repro.dsn:1317:    (image "smoothieboard-5driver:TO220BV"
+./tests/assets/repro/smoothieboard-repro.dsn:1329:    (image "smoothieboard-5driver:PANASONIC_E"
+./tests/assets/repro/smoothieboard-repro.dsn:1356:    (image "smoothieboard-5driver:MOLEX8981"
+./tests/assets/repro/smoothieboard-repro.dsn:1382:    (image "smoothieboard-5driver:SOT230P700X160-4N"
+./tests/assets/repro/smoothieboard-repro.dsn:1405:    (image "smoothieboard-5driver:POWER_JACK_SMD"
+./tests/assets/repro/smoothieboard-repro.dsn:1434:    (image "smoothieboard-5driver:180G-2"
+./tests/assets/repro/smoothieboard-repro.dsn:1453:    (image "smoothieboard-5driver:TO263AB"
+./tests/assets/repro/smoothieboard-repro.dsn:1502:    (image "smoothieboard-5driver:JP1"
+./tests/assets/repro/smoothieboard-repro.dsn:1520:    (image "smoothieboard-5driver:10X02MTA"
+./tests/assets/repro/smoothieboard-repro.dsn:1531:    (image "smoothieboard-5driver:MICRO-SD-SOCKET-PP"
+./tests/assets/repro/smoothieboard-repro.dsn:1555:    (image "smoothieboard-5driver:HR911105A"
+./tests/assets/repro/smoothieboard-repro.dsn:1583:    (image "smoothieboard-5driver:SOIC8"
+./tests/assets/repro/smoothieboard-repro.dsn:1600:    (image "smoothieboard-5driver:C0805"
+./tests/assets/repro/smoothieboard-repro.dsn:1610:    (image "smoothieboard-5driver:SOT89"
+
+===== tests refs =====
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:20:test("convert dsn file -> circuit json -> dsn session -> circuit json", () => {
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:33:  expect(nets[0].name).toBe("Net-(C1-Pad1)")
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:34:  expect(source_traces[0].connected_source_net_ids).toContain(
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:37:  expect(pcb_traces).toHaveLength(0)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:74:  expect(pcbTraceFirstPoint.x).toEqual(pcbPortFromRouteStarts.x)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:75:  expect(pcbTraceFirstPoint.y).toEqual(pcbPortFromRouteStarts.y)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:84:  expect(session.is_dsn_session).toBe(true)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:85:  expect(session.placement.components).toBeDefined()
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:86:  expect(session.routes.network_out.nets).toBeDefined()
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:89:  expect(session.placement.components).toHaveLength(2)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:91:  expect(componentNames.join(",")).toContain("Resistor_SMD")
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:92:  expect(componentNames.join(",")).toContain("Capacitor_SMD")
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:95:  expect(session.placement.resolution.unit).toBe("um")
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:96:  expect(session.placement.resolution.value).toBe(10)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:99:  expect(session.routes.network_out.nets).toHaveLength(1)
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:100:  expect(session.routes.network_out.nets[0].name).toBe("Net-(C1-Pad1)")
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:110:  expect(pcbTraceFirstPointFromSession.x).toEqual(
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:113:  expect(pcbTraceFirstPointFromSession.y).toEqual(
+./tests/dsn-pcb/circuit-json-to-dsn-session.test.ts:134:  expect(convertCircuitJsonToPcbSvg(circuitJsonFromSession)).toMatchSvgSnapshot(
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:12:test("circuit json (with plated hole) -> dsn file", async () => {
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:20:  expect(dsnJson.placement.components.length).toBe(2)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:23:  expect(dsnJson.library.images.length).toBe(2)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:27:  expect(image.name).toBe("simple_resistor:3.5400x1.0000_mm")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:33:  expect(padstack).toBeDefined()
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:34:  expect(padstack?.shapes).toHaveLength(4) // All 4 copper layers
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:35:  expect(padstack?.shapes[0].shapeType).toBe("circle")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:36:  expect(padstack?.shapes[0].layer).toBe("F.Cu")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:37:  expect(padstack?.shapes[1].layer).toBe("In1.Cu")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:38:  expect(padstack?.shapes[2].layer).toBe("In2.Cu")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:39:  expect(padstack?.shapes[3].layer).toBe("B.Cu")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:40:  expect((padstack?.shapes[0] as any).diameter).toBe(1000) // Outer diameter in μm
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:43:test("different sized plated holes", async () => {
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:49:  expect(dsnJson.placement.components.length).toBe(1)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:51:  expect(dsnJson.library.images.length).toBe(1)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:54:  expect(image.name).toBe("simple_resistor:4.7000x2.2000_mm")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:56:  expect(image.pins).toHaveLength(2)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:59:  expect(pin1.padstack_name).toBe("Round[A]Pad_1000_1200_um")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:62:  expect(pin2.padstack_name).toBe("Round[A]Pad_2000_2200_um")
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:67:  expect(padstack1).toBeDefined()
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:68:  expect(padstack1?.shapes).toHaveLength(4) // All 4 copper layers
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:69:  expect((padstack1?.shapes[0] as any).diameter).toBe(1200)
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:74:  expect(padstack2).toBeDefined()
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:75:  expect(padstack2?.shapes).toHaveLength(4) // All 4 copper layers
+./tests/dsn-pcb/circuit-json-with-plated-hole-to-dsn.test.ts:76:  expect((padstack2?.shapes[0] as any).diameter).toBe(2200)
+./tests/dsn-pcb/stringify-dsn-json.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/stringify-dsn-json.test.ts:8:test("stringify dsn json", () => {
+./tests/dsn-pcb/stringify-dsn-json.test.ts:14:    expect(reparsedJson[key]).toEqual(dsnJson[key] as any)
+./tests/dsn-pcb/stringify-dsn-json.test.ts:18:  // expect(reparsedJson).toEqual(dsnJson)
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:2:import { expect, test } from "bun:test"
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:13:test("parse s-expr to json", async () => {
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:15:  expect(pcbJson).toBeTruthy()
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:18:test("parse json to circuit json", async () => {
+./tests/dsn-pcb/parse-dsn-json-to-circuit-json.test.ts:22:  expect(convertCircuitJsonToPcbSvg(circuitJson)).toMatchSvgSnapshot(
+./tests/dsn-pcb/thickness-of-trace.test.tsx:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/thickness-of-trace.test.tsx:22:test("circuit json thickness converted to dsn file", () => {
+./tests/dsn-pcb/thickness-of-trace.test.tsx:23:  const circuit = new Circuit()
+./tests/dsn-pcb/thickness-of-trace.test.tsx:38:  expect(source_trace.min_trace_thickness).toBe(0.3)
+./tests/dsn-pcb/thickness-of-trace.test.tsx:43:  expect(network.length).toBe(2)
+./tests/dsn-pcb/thickness-of-trace.test.tsx:46:  expect(trace_width_300um).toBeDefined()
+./tests/dsn-pcb/thickness-of-trace.test.tsx:47:  expect(trace_width_300um?.rule.width).toBe(300)
+./tests/dsn-pcb/thickness-of-trace.test.tsx:50:  expect(kicad_default).toBeDefined()
+./tests/dsn-pcb/thickness-of-trace.test.tsx:51:  expect(kicad_default?.rule.width).toBe(150)
+./tests/dsn-pcb/thickness-of-trace.test.tsx:54:test("thickness of trace in dsn file to circuit json", async () => {
+./tests/dsn-pcb/thickness-of-trace.test.tsx:55:  const circuit = new Circuit()
+./tests/dsn-pcb/thickness-of-trace.test.tsx:80:  expect((pcbTraces.route[0] as PcbTraceRoutePointWire).width).toBe(0.3)
+./tests/dsn-pcb/thickness-of-trace.test.tsx:81:  expect(
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:10:test("check chip smtpad dimension", async () => {
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:21:  expect(pcbSmtpads.length).toBe(8)
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:24:  expect(
+./tests/dsn-pcb/chip-smtpad-dimensions.test.ts:30:  expect(convertCircuitJsonToPcbSvg(circuitJson2)).toMatchSvgSnapshot(
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:4:test("compute dsn to circuit json matrix", () => {
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:34:  expect(P1.x).toBeCloseTo(approximateOutputPoints[0].x, 0.1)
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:35:  expect(P1.y).toBeCloseTo(approximateOutputPoints[0].y, 0.1)
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:36:  expect(P2.x).toBeCloseTo(approximateOutputPoints[1].x, 0.1)
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:37:  expect(P2.y).toBeCloseTo(approximateOutputPoints[1].y, 0.1)
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:38:  expect(P3.x).toBeCloseTo(approximateOutputPoints[2].x, 0.1)
+./tests/dsn-pcb/compute-dsn-to-circuit-json-matrix.test.ts:39:  expect(P3.y).toBeCloseTo(approximateOutputPoints[2].y, 0.1)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:10:test("circuit json to dsn file", async () => {
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:19:  expect(dsnJson.library.images[0].pins[0].x).toBe(-500)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:20:  expect(dsnJson.library.images[0].pins[0].y).toBe(0)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:22:  expect(dsnJson.library.images[0].pins[1].x).toBe(500)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:23:  expect(dsnJson.library.images[0].pins[1].y).toBe(0)
+./tests/dsn-pcb/circuit-json-to-dsn-file.test.ts:27:  expect(convertCircuitJsonToPcbSvg(circuitJson2)).toMatchSvgSnapshot(
+./tests/dsn-pcb/get-padstack-name.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/get-padstack-name.test.ts:4:test("parse generated circular plated-hole padstack names", () => {
+./tests/dsn-pcb/get-padstack-name.test.ts:5:  expect(parsePadstackName("Round[A]Pad_700_1000_um")).toEqual({
+./tests/dsn-pcb/get-padstack-name.test.ts:13:test("parse generated oval plated-hole padstack names", () => {
+./tests/dsn-pcb/get-padstack-name.test.ts:16:  expect(parsed?.shape).toBe("oval")
+./tests/dsn-pcb/get-padstack-name.test.ts:17:  expect(parsed?.layer).toBe("all")
+./tests/dsn-pcb/get-padstack-name.test.ts:19:  expect(parsed.width).toBeCloseTo(0.7999983999999998, 12)
+./tests/dsn-pcb/get-padstack-name.test.ts:20:  expect(parsed.height).toBeCloseTo(1.3999972, 12)
+./tests/dsn-pcb/get-padstack-name.test.ts:23:test("parse generated rectangular and polygon padstack names", () => {
+./tests/dsn-pcb/get-padstack-name.test.ts:24:  expect(parsePadstackName("RoundRect[T]Pad_3000x1500_um")).toEqual({
+./tests/dsn-pcb/get-padstack-name.test.ts:31:  expect(parsePadstackName("Cust[B]Pad_poly_10x20_um")).toEqual({
+./tests/dsn-pcb/get-padstack-name.test.ts:38:test("return null for names outside the generated padstack format", () => {
+./tests/dsn-pcb/get-padstack-name.test.ts:39:  expect(parsePadstackName("OvalPad_800x1400_um")).toBeNull()
+./tests/dsn-pcb/get-padstack-name.test.ts:40:  expect(parsePadstackName("Oval[A]Pad_800_um")).toBeNull()
+./tests/dsn-pcb/get-padstack-name.test.ts:41:  expect(parsePadstackName("Round[A]Pad_700x1000_um")).toBeNull()
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:7:test("creates basic session structure", () => {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:57:  expect(session.is_dsn_session).toBe(true)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:58:  expect(session.filename).toBe("test.dsn")
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:59:  expect(session.placement.resolution).toEqual(dsnPcb.resolution)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:60:  expect(session.routes.resolution).toEqual(dsnPcb.resolution)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:61:  expect(session.routes.parser).toEqual(dsnPcb.parser)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:65:test("converts component placement", () => {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:129:  expect(session.placement.components).toHaveLength(1)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:130:  expect(session.placement.components[0]).toEqual(
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:135:test("4-layer session via padstack spans all layers", () => {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:194:  expect(viaPadstack).toBeDefined()
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:195:  expect(viaPadstack!.shapes).toHaveLength(4)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:196:  expect(viaPadstack!.shapes.map((s) => s.layer)).toEqual([
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:205:test("converts nets and wires", () => {
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:305:  expect(session.routes.network_out.nets).toHaveLength(1)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:306:  expect(session.routes.network_out.nets[0].name).toBe("Net-(R1-Pad1)")
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:307:  expect(session.routes.network_out.nets[0].wires).toHaveLength(1)
+./tests/dsn-pcb/convert-circuit-json-to-dsn-session.unit.test.ts:308:  expect(session.routes.network_out.nets[0].wires[0].path).toEqual({
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:10:test("check smtpad dimension", async () => {
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:20:  expect(pcbSmtpads.length).toBe(2)
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:23:  expect(
+./tests/dsn-pcb/check-smtpad-dimension.test.ts:32:  expect(convertCircuitJsonToPcbSvg(circuitJson2)).toMatchSvgSnapshot(
+./tests/dsn-pcb/parse-session-file.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/parse-session-file.test.ts:8:test("parse session file", () => {
+./tests/dsn-pcb/parse-session-file.test.ts:10:  expect(sessionJson).toBeTruthy()
+./tests/dsn-pcb/parse-session-file.test.ts:11:  expect(sessionJson.filename).toBe("test2")
+./tests/dsn-pcb/parse-session-file.test.ts:14:  expect(sessionJson.placement.components).toHaveLength(2)
+./tests/dsn-pcb/parse-session-file.test.ts:15:  expect(sessionJson.placement.components[0].name).toBe(
+./tests/dsn-pcb/parse-session-file.test.ts:18:  expect(sessionJson.placement.components[1].name).toBe(
+./tests/dsn-pcb/parse-session-file.test.ts:23:  expect(sessionJson.routes).toBeTruthy()
+./tests/dsn-pcb/parse-session-file.test.ts:27:  expect(net.name).toBe("Net-(R1-Pad1)")
+./tests/dsn-pcb/parse-session-file.test.ts:28:  expect(net.wires).toHaveLength(3)
+./tests/dsn-pcb/parse-session-file.test.ts:31:  expect(net.wires[0].path).toEqual({
+./tests/dsn-pcb/parse-session-file.test.ts:38:  expect(net.wires[1].path).toEqual({
+./tests/dsn-pcb/parse-session-file.test.ts:45:  expect(net.wires[2].path).toEqual({
+./tests/dsn-pcb/parse-session-file.test.ts:52:  expect(sessionJson.routes.library_out).toBeTruthy()
+./tests/dsn-pcb/parse-session-file.test.ts:53:  expect(sessionJson.routes.library_out?.padstacks).toHaveLength(2)
+./tests/dsn-pcb/parse-session-file.test.ts:57:  expect(firstPadstack?.name).toBe("Via[0-1]_600:300_um")
+./tests/dsn-pcb/parse-session-file.test.ts:58:  expect(firstPadstack?.shapes).toHaveLength(2)
+./tests/dsn-pcb/parse-session-file.test.ts:59:  expect(firstPadstack?.shapes[0].shapeType).toBe("circle")
+./tests/dsn-pcb/parse-session-file.test.ts:60:  expect(firstPadstack?.shapes[0].layer).toBe("F.Cu")
+./tests/dsn-pcb/parse-session-file.test.ts:61:  expect((firstPadstack?.shapes[0] as any).diameter).toBe(6000)
+./tests/dsn-pcb/stringify-dsn-session.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/stringify-dsn-session.test.ts:8:test("stringify session file", () => {
+./tests/dsn-pcb/stringify-dsn-session.test.ts:14:  expect(reparsed.filename).toBe(sessionJson.filename)
+./tests/dsn-pcb/stringify-dsn-session.test.ts:15:  expect(reparsed.placement.components).toHaveLength(
+./tests/dsn-pcb/stringify-dsn-session.test.ts:18:  expect(reparsed.routes.network_out.nets).toHaveLength(
+./tests/dsn-pcb/stringify-dsn-session.test.ts:25:  expect(reparsedNet.name).toBe(originalNet.name)
+./tests/dsn-pcb/stringify-dsn-session.test.ts:26:  expect(reparsedNet.wires).toHaveLength(originalNet.wires.length)
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:2:import { expect, test } from "bun:test"
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:12:test("parse dsn to circuit json", async () => {
+./tests/dsn-pcb/dsn-to-snapshot-1.test.ts:25:  expect(convertCircuitJsonToPcbSvg(circuitJson)).toMatchSvgSnapshot(
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:11:test("parse dsn to circuit json", async () => {
+./tests/dsn-pcb/convert-dsn-file-to-circuit-json.test.ts:15:  expect(convertCircuitJsonToPcbSvg(circuitJson)).toMatchSvgSnapshot(
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:9:test("dsn round-trip: circular through-hole pads become pcb_plated_hole", async () => {
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:21:  expect(platedHoles.length).toBe(2)
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:24:    expect(hole.shape).toBe("circle")
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:26:    expect(hole.outer_diameter).toBeCloseTo(1.0, 3)
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:27:    expect(hole.hole_diameter).toBeCloseTo(0.7, 3)
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:28:    expect(hole.layers).toEqual(["top", "bottom"])
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:32:test("dsn import: padstacks with shapes on both F.Cu and B.Cu are through-hole", async () => {
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:84:  expect(platedHoles.length).toBe(2)
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:87:  expect(hole.shape).toBe("circle")
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:88:  expect(hole.outer_diameter).toBeCloseTo(1.6, 3)
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:89:  expect(hole.hole_diameter).toBeCloseTo(0.8, 3)
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:90:  expect(hole.layers).toEqual(["top", "bottom"])
+./tests/dsn-pcb/dsn-with-through-hole-to-circuit-json.test.ts:94:  expect(smtPads.length).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/multi-layer-support.test.ts:5:test("multi-layer support - 2 layers (default)", () => {
+./tests/dsn-pcb/multi-layer-support.test.ts:20:  expect(dsnJson.structure.layers).toHaveLength(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:21:  expect(dsnJson.structure.layers[0].name).toBe("F.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:22:  expect(dsnJson.structure.layers[0].property.index).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:23:  expect(dsnJson.structure.layers[1].name).toBe("B.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:24:  expect(dsnJson.structure.layers[1].property.index).toBe(1)
+./tests/dsn-pcb/multi-layer-support.test.ts:27:test("multi-layer support - 4 layers", () => {
+./tests/dsn-pcb/multi-layer-support.test.ts:42:  expect(dsnJson.structure.layers).toHaveLength(4)
+./tests/dsn-pcb/multi-layer-support.test.ts:43:  expect(dsnJson.structure.layers[0].name).toBe("F.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:44:  expect(dsnJson.structure.layers[0].property.index).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:45:  expect(dsnJson.structure.layers[1].name).toBe("In1.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:46:  expect(dsnJson.structure.layers[1].property.index).toBe(1)
+./tests/dsn-pcb/multi-layer-support.test.ts:47:  expect(dsnJson.structure.layers[2].name).toBe("In2.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:48:  expect(dsnJson.structure.layers[2].property.index).toBe(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:49:  expect(dsnJson.structure.layers[3].name).toBe("B.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:50:  expect(dsnJson.structure.layers[3].property.index).toBe(3)
+./tests/dsn-pcb/multi-layer-support.test.ts:53:test("multi-layer support - 6 layers", () => {
+./tests/dsn-pcb/multi-layer-support.test.ts:68:  expect(dsnJson.structure.layers).toHaveLength(6)
+./tests/dsn-pcb/multi-layer-support.test.ts:69:  expect(dsnJson.structure.layers[0].name).toBe("F.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:70:  expect(dsnJson.structure.layers[0].property.index).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:71:  expect(dsnJson.structure.layers[1].name).toBe("In1.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:72:  expect(dsnJson.structure.layers[1].property.index).toBe(1)
+./tests/dsn-pcb/multi-layer-support.test.ts:73:  expect(dsnJson.structure.layers[2].name).toBe("In2.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:74:  expect(dsnJson.structure.layers[2].property.index).toBe(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:75:  expect(dsnJson.structure.layers[3].name).toBe("In3.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:76:  expect(dsnJson.structure.layers[3].property.index).toBe(3)
+./tests/dsn-pcb/multi-layer-support.test.ts:77:  expect(dsnJson.structure.layers[4].name).toBe("In4.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:78:  expect(dsnJson.structure.layers[4].property.index).toBe(4)
+./tests/dsn-pcb/multi-layer-support.test.ts:79:  expect(dsnJson.structure.layers[5].name).toBe("B.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:80:  expect(dsnJson.structure.layers[5].property.index).toBe(5)
+./tests/dsn-pcb/multi-layer-support.test.ts:83:test("multi-layer support - 4 layer via padstack spans all layers", () => {
+./tests/dsn-pcb/multi-layer-support.test.ts:99:  expect(dsnJson.structure.via).toBe("Via[0-3]_600:300_um")
+./tests/dsn-pcb/multi-layer-support.test.ts:105:  expect(viaPadstack).toBeDefined()
+./tests/dsn-pcb/multi-layer-support.test.ts:106:  expect(viaPadstack!.shapes).toHaveLength(4)
+./tests/dsn-pcb/multi-layer-support.test.ts:107:  expect(viaPadstack!.shapes.map((s) => s.layer)).toEqual([
+./tests/dsn-pcb/multi-layer-support.test.ts:115:  expect(dsnJson.network.classes[0].circuit.use_via).toBe("Via[0-3]_600:300_um")
+./tests/dsn-pcb/multi-layer-support.test.ts:118:test("multi-layer support - 2 layer via padstack has F.Cu and B.Cu", () => {
+./tests/dsn-pcb/multi-layer-support.test.ts:133:  expect(dsnJson.structure.via).toBe("Via[0-1]_600:300_um")
+./tests/dsn-pcb/multi-layer-support.test.ts:138:  expect(viaPadstack).toBeDefined()
+./tests/dsn-pcb/multi-layer-support.test.ts:139:  expect(viaPadstack!.shapes).toHaveLength(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:140:  expect(viaPadstack!.shapes.map((s) => s.layer)).toEqual(["F.Cu", "B.Cu"])
+./tests/dsn-pcb/multi-layer-support.test.ts:143:test("multi-layer support - no num_layers specified (default to 2)", () => {
+./tests/dsn-pcb/multi-layer-support.test.ts:157:  expect(dsnJson.structure.layers).toHaveLength(2)
+./tests/dsn-pcb/multi-layer-support.test.ts:158:  expect(dsnJson.structure.layers[0].name).toBe("F.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:159:  expect(dsnJson.structure.layers[0].property.index).toBe(0)
+./tests/dsn-pcb/multi-layer-support.test.ts:160:  expect(dsnJson.structure.layers[1].name).toBe("B.Cu")
+./tests/dsn-pcb/multi-layer-support.test.ts:161:  expect(dsnJson.structure.layers[1].property.index).toBe(1)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:20:test("merge-dsn-session-with-conversion", async () => {
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:26:  const circuit = new Circuit()
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:96:  // expect(mergedPcb.wiring.wires).toHaveLength(
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:103:  // expect(mergedTraces).toHaveLength(originalTraces.length)
+./tests/dsn-pcb/merge-dsn-session-with-conversion.test.tsx:121:  expect(looksSameResult.equal).toBe(true) // Should be identical after merge
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:6:test("convert circuit json to dsn pcb", async () => {
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:10:  expect(dsnJson.network.nets.length).toBe(6)
+./tests/dsn-pcb/subcircuits-having-same-component.test.ts:15:  expect(net1Count).toBe(2)
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:25:test("convert session to circuit json", async () => {
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:41:  expect(pcb_traces_by_id.length).toBe(3)
+./tests/dsn-pcb/convert-session-to-circuit-json.test.ts:61:  expect(convertCircuitJsonToPcbSvg(circuitJsonFromSession)).toMatchSvgSnapshot(
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:9:test("check pill shape plated hole dimension", async () => {
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:20:  expect(platedHoles.length).toBe(1)
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:23:  expect(hole.shape).toBe("oval")
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:24:  expect(hole.outer_width).toBeCloseTo(1.2, 2)
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:25:  expect(hole.outer_height).toBeCloseTo(1.8, 2)
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:26:  expect(hole.hole_width).toBeCloseTo(0.8, 2)
+./tests/dsn-pcb/pill-shape-plated-hole-dimestion-check.test.ts:27:  expect(hole.hole_height).toBeCloseTo(1.4, 2)
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:1:import { expect, test } from "bun:test"
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:15:test("basic-via-pcb-layer-change", async () => {
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:20:  const circuit = new Circuit()
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:68:  expect(
+./tests/dsn-pcb/basic-via-pcb-layer-change.test.tsx:75:  // expect(looksSameResult.equal).toBe(true)
+./tests/repros/repro2-motor-driver.test.ts:1:import { expect, test } from "bun:test"
+./tests/repros/repro2-motor-driver.test.ts:17:test("circuit json (motor driver breakout) -> dsn file", async () => {
+./tests/repros/repro2-motor-driver.test.ts:26:  expect(dsnJson.placement.components.length).toBe(3)
+./tests/repros/repro2-motor-driver.test.ts:29:  expect(dsnJson.library.images.length).toBe(3)
+./tests/repros/repro2-motor-driver.test.ts:33:  expect(chipImage.name).toBe("simple_chip:7.4322x8.4741_mm")
+./tests/repros/repro2-motor-driver.test.ts:34:  expect(chipImage.pins).toHaveLength(24)
+./tests/repros/repro2-motor-driver.test.ts:37:    expect(pin.pin_number).toBeGreaterThanOrEqual(1)
+./tests/repros/repro2-motor-driver.test.ts:38:    expect(pin.pin_number).toBeLessThanOrEqual(24)
+./tests/repros/repro2-motor-driver.test.ts:42:  expect(dsnJson.network.nets.length).toBe(16)
+./tests/repros/repro2-motor-driver.test.ts:48:      expect(net.pins.length).toBe(11)
+./tests/repros/repro2-motor-driver.test.ts:52:  expect(foundGndNet).toBe(true)
+./tests/repros/repro2-motor-driver.test.ts:58:      expect(net.pins.length).toBe(3)
+./tests/repros/repro2-motor-driver.test.ts:62:  expect(foundVccNet).toBe(true)
+./tests/repros/repro2-motor-driver.test.ts:65:test("session file (motor driver breakout) -> circuit json", async () => {
+./tests/repros/repro2-motor-driver.test.ts:81:  expect(pcbSmtpads).toBeDefined()
+./tests/repros/repro2-motor-driver.test.ts:82:  expect(pcbSmtpads?.length).toBe(30)
+./tests/repros/repro2-motor-driver.test.ts:86:    expect(pcbSmtpad.x).not.toBeNull()
+./tests/repros/repro2-motor-driver.test.ts:87:    expect(pcbSmtpad.y).not.toBeNull()
+./tests/repros/repro2-motor-driver.test.ts:94:  expect(pcbPlatedHoles.length).toBe(16)
+./tests/repros/repro2-motor-driver.test.ts:100:  expect(pcbTraces).toBeDefined()
+./tests/repros/repro2-motor-driver.test.ts:106:  expect(pcbVias.length).toBeGreaterThan(0)
+./tests/repros/repro2-motor-driver.test.ts:112:  expect(pcbTraceWithVia.length).toBeGreaterThan(0)
+./tests/repros/repro-7-fixing-hover.test.ts:1:import { expect, test } from "bun:test"
+./tests/repros/repro-7-fixing-hover.test.ts:40:  expect(pcbTraces.length).toBe(67)
+./tests/repros/repro-7-fixing-hover.test.ts:41:  expect(sourceTraceIds.every((id) => id >= 0 && id <= 31)).toBe(true)
+./tests/repros/repro-7-fixing-hover.test.ts:44:  expect(sourceTraceIds.filter((id) => id === 17).length).toBe(2)
+./tests/repros/repro-7-fixing-hover.test.ts:45:  expect(sourceTraceIds.filter((id) => id === 23).length).toBe(21)
+./tests/repros/repro-7-fixing-hover.test.ts:46:  expect(sourceTraceIds.filter((id) => id === 31).length).toBe(5)
+./tests/repros/repro-7-fixing-hover.test.ts:47:  expect(sourceTraceIds.filter((id) => id === 10).length).toBe(6)
+./tests/repros/repro-7-fixing-hover.test.ts:48:  expect(sourceTraceIds.filter((id) => id === 0).length).toBe(11)
+./tests/repros/repro3-fix-hover-trace.test.ts:1:import { expect, test } from "bun:test"
+./tests/repros/repro3-fix-hover-trace.test.ts:12:test("check that on hover all the trace and connected pads are correctly linked", async () => {
+./tests/repros/repro3-fix-hover-trace.test.ts:26:  expect(
+./tests/repros/repro3-fix-hover-trace.test.ts:29:  expect(pcb_trace!.source_trace_id).toBe(source_trace!.source_trace_id)
+./tests/repros/repro3-fix-hover-trace.test.ts:35:  expect(pcb_smtpad?.pcb_port_id && source_port?.source_port_id).toBeTruthy()
+./tests/repros/repro3-fix-hover-trace.test.ts:41:  expect(expected_source_port_id).toBe(source_port!.source_port_id)
+./tests/repros/repro-5-rp2040.test.tsx:1:import { expect, test } from "bun:test"
+./tests/repros/repro-5-rp2040.test.tsx:8:test("circuit json (rp2040) -> dsn file -> dsn json", async () => {
+./tests/repros/repro-5-rp2040.test.tsx:16:    expect(dsnJson).toBeDefined()
+./tests/repros/repro1-fake-freerouting-example-1.test.ts:1:import { expect, test } from "bun:test"
+./tests/repros/repro1-fake-freerouting-example-1.test.ts:9:test("repro1 fake-freerouting-example-1", () => {
+./tests/repros/repro14-usb-c.test.ts:1:import { expect, test } from "bun:test"
+./tests/repros/repro14-usb-c.test.ts:8:test("usb-c plated hole shpaed `Pill` shpuld have unique pin numbers", async () => {
+./tests/repros/repro14-usb-c.test.ts:24:  expect(uniquePinNumbers.size).toBe(platedHoleWithPinShaped?.length!)
+./tests/repros/repro11-smtpad-circle-shape.test.ts:1:import { expect, test } from "bun:test"
+./tests/repros/repro11-smtpad-circle-shape.test.ts:7:test("smtpad shape circle have correct padstack name", async () => {
+./tests/repros/repro11-smtpad-circle-shape.test.ts:15:  expect(padstackName).toBeDefined()
+./tests/repros/repro11-smtpad-circle-shape.test.ts:16:  expect(padstackName?.length).toBe(1)
+./tests/repros/repro11-smtpad-circle-shape.test.ts:17:  expect(padstackName?.[0].shapes.length).toBe(2)
+./tests/repros/repro11-smtpad-circle-shape.test.ts:18:  expect(padstackName?.[0].hole?.shape).toBe("circle")
+./tests/repros/repro11-smtpad-circle-shape.test.ts:19:  expect(padstackName?.[0].hole?.diameter).toBe(1600)
