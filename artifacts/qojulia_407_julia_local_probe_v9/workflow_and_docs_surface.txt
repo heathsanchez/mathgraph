@@ -1,0 +1,94 @@
+===== benchmark workflow =====
+name: Benchmarks
+on:
+  pull_request_target:
+    branches: [master, main]
+permissions:
+  pull-requests: write
+
+concurrency:
+  # group by workflow and ref; the last slightly strange component ensures that for pull
+  # requests, we limit to 1 concurrent job, but for the master branch we don't
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+  # Cancel intermediate builds, but only if it is a pull request build.
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: MilesCranmer/AirspeedVelocity.jl@action-v1
+        with:
+          julia-version: '1'
+          tune: 'false'
+
+===== CI workflow head =====
+name: CI
+on:
+  push:
+    branches: [master, main]
+    tags: ["*"]
+  pull_request:
+
+concurrency:
+  # group by workflow and ref; the last slightly strange component ensures that for pull
+  # requests, we limit to 1 concurrent job, but for the master branch we don't
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main') || github.run_number }}
+  # Cancel intermediate builds, but only if it is a pull request build.
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  test:
+    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - '1'
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macOS-latest
+        arch:
+          - default
+    steps:
+      - uses: actions/checkout@v6
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+      - uses: actions/cache@v5
+        env:
+          cache-name: cache-artifacts
+        with:
+          path: ~/.julia/artifacts
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-test-${{ env.cache-name }}-
+            ${{ runner.os }}-test-
+            ${{ runner.os }}-
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-runtest@v1
+      - uses: julia-actions/julia-processcoverage@v1
+      - uses: codecov/codecov-action@v7
+        with:
+          files: lcov.info
+
+===== benchmark Project.toml =====
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+OrdinaryDiffEqLowOrderRK = "1344f307-1e59-4825-a18e-ace9aa3fa4c6"
+PkgBenchmark = "32113eaa-f34f-5b0d-bd6c-c81e245fc73d"
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"
+StochasticDiffEq = "789caeaf-c7a9-5a7d-9973-96adeb23e2a0"
+
+===== README benchmark mention =====
+README.md:25:* Benchmarks: https://github.com/qojulia/QuantumOptics.jl-benchmarks
+CLAUDE.md:19:- `benchmark/` - Performance benchmarking
+CLAUDE.md:55:### Benchmarking
+CLAUDE.md:57:# Run benchmarks
+CLAUDE.md:58:julia --project=benchmark benchmark/benchmarks.jl
+docs/src/timeevolution/timedependent-problems.md:118:To check for type-instabilities you can use Julia's `@code_warntype`. While trying to optimize a function the [BenchmarkTools](https://github.com/JuliaCI/BenchmarkTools.jl) package is quite useful too.
+docs/src/timeevolution/timedependent-problems.md:118:To check for type-instabilities you can use Julia's `@code_warntype`. While trying to optimize a function the [BenchmarkTools](https://github.com/JuliaCI/BenchmarkTools.jl) package is quite useful too.

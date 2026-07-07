@@ -1,0 +1,50 @@
+julia not found.
+juliaup not found; installing juliaup non-interactively.
+
+info: downloading installer
+Welcome to Julia!
+
+This will download and install the official Julia Language distribution
+and its version manager Juliaup.
+
+Juliaup will be installed into the Juliaup home directory, located at:
+
+  /Users/heath/.juliaup
+
+The julia, juliaup and other commands will be added to
+Juliaup's bin directory, located at:
+
+  /Users/heath/.juliaup/bin
+
+This path will then be added to your PATH environment variable by
+modifying the profile files located at:
+
+  /Users/heath/.profile
+  /Users/heath/.bash_profile
+  /Users/heath/.zshrc
+
+Julia will look for a new version of Juliaup itself every 1440 minutes when you start julia.
+
+You can uninstall at any time with juliaup self uninstall and these
+changes will be reverted.
+
+Now installing Juliaup
+    Checking for new Julia versions
+  Installing Julia 1.10.11+0.aarch64.apple.darwin14
+[2K  Installing Mounting installer...[2K  Installing Copying application...[2K  Installing Unmounting installer...[2K         Add Installed Julia channel '1.10'
+   Configure Default Julia version set to '1.10'.
+Julia was successfully installed on your system.
+
+Depending on which shell you are using, run one of the following
+commands to reload the PATH environment variable:
+
+  . /Users/heath/.profile
+  . /Users/heath/.bash_profile
+  . /Users/heath/.zshrc
+
+    Checking for new Julia versions
+'1.10' is already installed.
+   Configure Default Julia version set to '1.10'.
+PATH=/Users/heath/.juliaup/bin:/Users/heath/.juliaup/bin:/Users/heath/Desktop/Aristotle/venv/bin:/Users/heath/.yarn/bin:/Users/heath/.config/yarn/global/node_modules/.bin:/Users/heath/.rbenv/shims:/Users/heath/.npm-global/bin:/Users/heath/.elan/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pkg/env/active/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/Users/heath/.lmstudio/bin
+/Users/heath/.juliaup/bin/julia
+julia version 1.10.11

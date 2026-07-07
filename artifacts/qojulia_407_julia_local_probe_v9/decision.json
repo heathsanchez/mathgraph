@@ -1,0 +1,9 @@
+{
+  "verdict": "PATCH_NEXT_BENCHMARK_PROJECT_LOAD_REPAIR",
+  "issue": "https://github.com/qojulia/QuantumOptics.jl/issues/407",
+  "claim": "https://github.com/qojulia/QuantumOptics.jl/issues/407#issuecomment-4900216240",
+  "include_ok": false,
+  "tiny_benchmark_ok": false,
+  "include_rc": "include rc=127",
+  "tiny_rc": "tiny rc=999"
+}
