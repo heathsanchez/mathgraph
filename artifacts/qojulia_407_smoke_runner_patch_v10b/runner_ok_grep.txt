@@ -1,0 +1,1 @@
+56:println("BENCHMARK_SMOKE_OK")

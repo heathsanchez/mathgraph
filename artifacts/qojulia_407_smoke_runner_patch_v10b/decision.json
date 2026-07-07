@@ -1,0 +1,15 @@
+{
+  "repo": "qojulia/QuantumOptics.jl",
+  "issue": 407,
+  "branch": "heath/benchmark-smoke-407",
+  "smoke_rc": 0,
+  "local_smoke_passed": true,
+  "external_head": "e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a",
+  "patch_files": [
+    "benchmark/run_smoke.jl",
+    ".github/workflows/benchmark-smoke.yml",
+    "README.md"
+  ],
+  "v10_problem": "The original v10 patch committed successfully, but its artifact report was corrupted because a Python heredoc was unquoted and Bash expanded backticks/braces inside it.",
+  "verdict": "READY_TO_PUSH_DRAFT_PR"
+}

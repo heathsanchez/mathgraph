@@ -1,0 +1,137 @@
+===== git show --stat HEAD =====
+e925b59 Add benchmark smoke gate
+ .github/workflows/benchmark-smoke.yml | 33 +++++++++++++++++++++
+ README.md                             |  9 ++++++
+ benchmark/run_smoke.jl                | 56 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 98 insertions(+)
+
+===== git show HEAD -- benchmark/run_smoke.jl .github/workflows/benchmark-smoke.yml README.md =====
+commit e925b59ad02134c0ae36f06ccc8b4d8aafe5f30a
+Author: Heath Sanchez <heath@intaface.io>
+Date:   Tue Jul 7 17:19:41 2026 +1200
+
+    Add benchmark smoke gate
+
+diff --git a/.github/workflows/benchmark-smoke.yml b/.github/workflows/benchmark-smoke.yml
+new file mode 100644
+index 0000000..613be65
+--- /dev/null
++++ b/.github/workflows/benchmark-smoke.yml
+@@ -0,0 +1,33 @@
++name: Benchmark Smoke
++
++on:
++  pull_request:
++    branches: [master, main]
++  push:
++    branches: [master, main]
++  workflow_dispatch:
++
++concurrency:
++  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.run_number }}
++  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
++
++jobs:
++  benchmark-smoke:
++    name: Julia benchmark smoke
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v6
++      - uses: julia-actions/setup-julia@v3
++        with:
++          version: '1'
++      - uses: actions/cache@v5
++        env:
++          cache-name: benchmark-smoke-artifacts
++        with:
++          path: ~/.julia/artifacts
++          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('Project.toml', 'benchmark/Project.toml') }}
++          restore-keys: |
++            ${{ runner.os }}-${{ env.cache-name }}-
++            ${{ runner.os }}-
++      - name: Run benchmark smoke gate
++        run: julia --project=benchmark benchmark/run_smoke.jl
+diff --git a/README.md b/README.md
+index cf05acf..1565c17 100644
+--- a/README.md
++++ b/README.md
+@@ -23,6 +23,15 @@ The source content associated with **QuantumOptics.jl** is distributed over seve
+ * Documentation: https://github.com/qojulia/QuantumOptics.jl-documentation
+ * Examples: https://github.com/qojulia/QuantumOptics.jl-examples
+ * Benchmarks: https://github.com/qojulia/QuantumOptics.jl-benchmarks
++* Benchmark smoke check for contributors:
++
++      julia --project=benchmark benchmark/run_smoke.jl
++
++  This command is a lightweight gate that instantiates the benchmark environment,
++  loads the benchmark suite, and runs one tiny benchmark. It is intended to catch
++  benchmark-suite bitrot in pull requests; full comparative benchmark reports are
++  still maintained separately.
++
+ * Website: https://github.com/qojulia/QuantumOptics.jl-website
+ 
+ 
+diff --git a/benchmark/run_smoke.jl b/benchmark/run_smoke.jl
+new file mode 100755
+index 0000000..3fc7f9c
+--- /dev/null
++++ b/benchmark/run_smoke.jl
+@@ -0,0 +1,56 @@
++#!/usr/bin/env julia
++
++# Lightweight benchmark smoke gate for CI and local development.
++#
++# This is intentionally not a full performance benchmark. Its job is to keep the
++# benchmark project from bitrotting by checking that the benchmark environment
++# instantiates, the benchmark suite loads, and at least one tiny benchmark can run.
++#
++# Local command from repository root:
++#
++#     julia --project=benchmark benchmark/run_smoke.jl
++#
++# Optional environment variables:
++#
++#     QO_BENCHMARK_SMOKE_GROUP=schroedinger
++#     QO_BENCHMARK_SMOKE_KIND="base array types"
++#     QO_BENCHMARK_SMOKE_SIZE="1//2"
++
++using Pkg
++
++Pkg.activate(@__DIR__)
++Pkg.instantiate()
++
++include(joinpath(@__DIR__, "benchmarks.jl"))
++
++if !isdefined(Main, :SUITE)
++    error("benchmark/benchmarks.jl did not define Main.SUITE")
++end
++
++using BenchmarkTools
++
++const GROUP = get(ENV, "QO_BENCHMARK_SMOKE_GROUP", "schroedinger")
++const KIND = get(ENV, "QO_BENCHMARK_SMOKE_KIND", "base array types")
++const SIZE = get(ENV, "QO_BENCHMARK_SMOKE_SIZE", "1//2")
++
++function _require_key(container, key, label)
++    if !haskey(container, key)
++        available = join(string.(collect(keys(container))), ", ")
++        error("Missing benchmark $label key '$key'. Available: $available")
++    end
++    return container[key]
++end
++
++group_suite = _require_key(SUITE, GROUP, "group")
++kind_suite = _require_key(group_suite, KIND, "kind")
++bench = _require_key(kind_suite, SIZE, "size")
++
++println("QuantumOptics benchmark smoke")
++println("Julia version: ", VERSION)
++println("Benchmark project: ", Base.active_project())
++println("Selected benchmark: ", repr((GROUP, KIND, SIZE)))
++
++trial = run(bench; samples=1, evals=1, seconds=1)
++display(trial)
++println()
++println("BENCHMARK_SMOKE_OK")
+
+===== status =====
