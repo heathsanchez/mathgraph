@@ -1,0 +1,6 @@
+2026-07-07T04:15:28Z
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   460Gi    12Gi   6.2Gi    66%    458k   65M    1%   /
+?? artifacts/paid_verification_offer_v1/
+?? paid_verification_offer_v1.sh
+?? strata_specimen_issue45_recon_v1.sh
