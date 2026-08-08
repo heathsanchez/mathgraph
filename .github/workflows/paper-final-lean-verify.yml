@@ -1,0 +1,40 @@
+name: Paper Final Lean Verify
+
+on:
+  push:
+    branches: [paper-final-lean-verify-20260809]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout verification branch
+        uses: actions/checkout@v4
+
+      - name: Checkout official SAIR Stage 2 judge
+        uses: actions/checkout@v4
+        with:
+          repository: SAIRcompetition/equational-theories-lean-stage2
+          path: sair
+
+      - name: Set up official Lean judge
+        working-directory: sair
+        env:
+          SKIP_DOCKER: '1'
+        run: bash scripts/setup.sh
+
+      - name: Verify exact 12 generated witnesses
+        run: |
+          source sair/.env.judge
+          python3 paper_final_verify.py sair | tee paper_final_lean_verify.log
+
+      - name: Upload verification outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-final-lean-verification
+          path: |
+            paper_final_lean_results.json
+            paper_final_lean_verify.log
