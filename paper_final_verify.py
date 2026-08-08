@@ -19,6 +19,7 @@ for pid,table in ids_tables:
         'import JudgeDecide.DecideBang\n'
         'import JudgeFinOp.MemoFinOp\n'
         'open MemoFinOp\n\n'
+        'set_option maxRecDepth 100000 in\n'
         'def submission : Goal := by\n'
         '  let m : Magma (Fin 8) := {\n'
         f'    op := finOpTable {json.dumps(tbl)}\n'
