@@ -27,6 +27,7 @@ jobs:
 
       - name: Verify exact 12 generated witnesses
         run: |
+          set -o pipefail
           source sair/.env.judge
           python3 paper_final_verify.py sair | tee paper_final_lean_verify.log
 
