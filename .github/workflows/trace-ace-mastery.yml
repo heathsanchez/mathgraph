@@ -36,6 +36,8 @@ jobs:
         run: python competitions/trace_the_ace/v71_mastery_events.py --self-test
       - name: Run supervision audit self-test
         run: python competitions/trace_the_ace/v72_supervision_audit.py --self-test
+      - name: Run contrastive mastery self-test
+        run: python competitions/trace_the_ace/v73_contrastive_mastery.py --self-test
 
   full-experiment:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_full }}
@@ -90,6 +92,12 @@ jobs:
             --transcripts "$TRANSCRIPTS" \
             --out v72_supervision_audit.json \
             "${EXTRA[@]}"
+          python competitions/trace_the_ace/v73_contrastive_mastery.py \
+            --features "$FEATURES" \
+            --labels "$LABELS" \
+            --transcripts "$TRANSCRIPTS" \
+            --out v73_contrastive_mastery.json \
+            "${EXTRA[@]}"
       - name: Upload aggregate results only
         uses: actions/upload-artifact@v4
         with:
@@ -97,4 +105,5 @@ jobs:
           path: |
             v71_mastery_results.json
             v72_supervision_audit.json
+            v73_contrastive_mastery.json
           retention-days: 14
