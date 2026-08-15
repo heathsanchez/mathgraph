@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
 """V83: task-supervised TalkMove-BERT on V81 multi-resolution evidence.
 
-This reuses the V82 training harness but swaps in a tutoring-dialogue-domain
-encoder already present in the official runtime preload list. The goal is a fast,
-genuinely supervised objective-cold probe that can run on CPU and still update
-upper language-model layers from the competition labels.
+R10 repair only: TalkMove-BERT ships with a 5-class head, while this experiment
+uses a 1-logit binary head. Inject ignore_mismatched_sizes=True so the pretrained
+encoder is retained and the task head is lawfully reinitialized. Hypothesis,
+folds, representation and metrics remain unchanged.
 """
-from v82_modernbert_supervised import run
 import argparse
 from pathlib import Path
+import v82_modernbert_supervised as base
+
+_orig = base.AutoModelForSequenceClassification.from_pretrained
+
+def _from_pretrained(*args, **kwargs):
+    kwargs['ignore_mismatched_sizes'] = True
+    return _orig(*args, **kwargs)
+
+base.AutoModelForSequenceClassification.from_pretrained = _from_pretrained
 
 if __name__=='__main__':
     p=argparse.ArgumentParser()
@@ -26,4 +34,4 @@ if __name__=='__main__':
     p.add_argument('--batch',type=int,default=8)
     p.add_argument('--eval-batch',type=int,default=16)
     p.add_argument('--limit',type=int,default=0)
-    run(p.parse_args())
+    base.run(p.parse_args())
