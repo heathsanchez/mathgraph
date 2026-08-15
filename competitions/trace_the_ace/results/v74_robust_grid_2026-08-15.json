@@ -1,0 +1,37 @@
+{
+  "search_space": {
+    "k": [2, 4, 8, 16, 32],
+    "smooth": [2, 5, 10, 20, 40, 80],
+    "trust_denom": [2, 5, 10, 20, 40]
+  },
+  "previous_default": {
+    "k": 8,
+    "smooth": 20,
+    "trust_denom": 10,
+    "session_logloss": 0.5527343454820751,
+    "objective_logloss": 0.6017357708418917,
+    "session_worst_fold": 0.5547113077644491,
+    "objective_worst_fold": 0.6412045179518634
+  },
+  "promoted": {
+    "k": 16,
+    "smooth": 2,
+    "trust_denom": 10,
+    "session_logloss": 0.551526796719344,
+    "objective_logloss": 0.5995980929074717,
+    "session_worst_fold": 0.553280629957868,
+    "objective_worst_fold": 0.638792193453735,
+    "session_delta_vs_previous": -0.0012075487627311,
+    "objective_delta_vs_previous": -0.00213767793442
+  },
+  "selection_rule": "Promote only configurations improving session-grouped log loss while remaining non-inferior or better on objective-cold loss and tail risk.",
+  "provenance": {
+    "rows": 35072,
+    "sessions": 22821,
+    "objectives": 398,
+    "features": "train_features_TMQTWsB.csv",
+    "labels": "train_labels_44ujmj2.csv",
+    "transcripts_used": false,
+    "note": "Aggregate metrics only; no competition data committed."
+  }
+}
