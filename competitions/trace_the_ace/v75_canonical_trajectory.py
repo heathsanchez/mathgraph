@@ -52,6 +52,10 @@ ADMIN_RE = re.compile(
     r"\b(?:can you hear me|internet|connection|camera|microphone|lesson today|how are you|good morning|good afternoon|see you|homework portal)\b",
     re.I,
 )
+MATH_ANSWER_RE = re.compile(
+    r"(?:\d|[=+\-/*×÷%]|\b(?:half|quarter|third|tenths?|hundredths?|thousandths?)\b)",
+    re.I,
+)
 
 MATH_REPLACEMENTS = (
     (re.compile(r"[−–—]"), "-"),
@@ -102,6 +106,21 @@ def low_information(text: str) -> bool:
     return bool(LOW_INFO_RE.match(s) or ADMIN_RE.search(s))
 
 
+def substantive_answer(text: str) -> bool:
+    """Recognize real student work without penalizing short mathematical answers.
+
+    A one-token response such as `42`, `0.5`, `3/4`, or `x=6` is high-value
+    evidence even though it has fewer lexical tokens than a verbal explanation.
+    Pure acknowledgements remain non-substantive.
+    """
+    s = str(text).strip()
+    if not s or AGREE_RE.match(s):
+        return False
+    if MATH_ANSWER_RE.search(s):
+        return True
+    return len(tokens(s)) >= 2
+
+
 def role_repair_with_confidence(df: pd.DataFrame) -> pd.DataFrame:
     """Retain original/repaired roles and attach conservative repair confidence."""
     repaired = normalize_roles(df)
@@ -130,7 +149,7 @@ def classify_state(question: str, answer: str, feedback: str) -> tuple[str, floa
     neg = bool(NEG_RE.search(f))
     hinted = bool(HINT_RE.search(q))
     agreement = bool(AGREE_RE.match(a.strip()))
-    substantive = len(tokens(a)) >= 2 and not agreement
+    substantive = substantive_answer(a)
     self_correct = bool(SELF_CORRECT_RE.search(a))
     transfer = bool(TRANSFER_RE.search(q))
 
@@ -180,8 +199,7 @@ def extract_canonical_events(df: pd.DataFrame, objective: str) -> list[Canonical
         f = content[fi] if fi is not None else ""
         state, assistance = classify_state(q, a, f)
         rel = objective_relevance(q, a, f, objective)
-        agreement = bool(AGREE_RE.match(a.strip()))
-        substantive = float(len(tokens(a)) >= 2 and not agreement)
+        substantive = float(substantive_answer(a))
         out.append(
             CanonicalEvent(
                 state=state,
@@ -394,6 +412,10 @@ def self_test() -> None:
     views, feats, meta = trajectory_views(df, "multiplying one-digit numbers using the 7 times table")
     ev = extract_canonical_events(df, "multiplying one-digit numbers using the 7 times table")
     states = [e.state for e in ev]
+    assert substantive_answer("42")
+    assert substantive_answer("0.5")
+    assert substantive_answer("3/4")
+    assert not substantive_answer("yeah")
     assert "CORRECT_AFTER_HINT" in states
     assert "UNRESOLVED_ERROR" in states
     assert "TRANSFER_SUCCESS" in states
