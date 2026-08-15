@@ -67,7 +67,9 @@ def semantic_prior_predict(train: pd.DataFrame, valid: pd.DataFrame, k: int = 8,
     sem = (w * neighbor_p).sum(axis=1) / (w.sum(axis=1) + 1e-9)
     sem = np.where(w.sum(axis=1) > 1e-8, sem, global_p)
 
-    mapped = valid.learning_objective.map(stats["p"]).to_numpy(dtype=float)
+    # Pandas 3 can expose a read-only NumPy view from Series.to_numpy(). Copy
+    # explicitly because we fill unseen objectives below.
+    mapped = valid.learning_objective.map(stats["p"]).to_numpy(dtype=float).copy()
     missing = np.isnan(mapped)
     mapped[missing] = sem[missing]
     counts = valid.learning_objective.map(stats["count"]).fillna(0).to_numpy(dtype=float)
