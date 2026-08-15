@@ -96,10 +96,44 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          FEATURES=$(find /tmp/trace_ace -type f -name 'train_features*.csv' | head -1)
-          LABELS=$(find /tmp/trace_ace -type f -name 'train_labels*.csv' | head -1)
-          TRANSCRIPTS=$(find /tmp/trace_ace -type d -name 'train_transcripts*' | head -1)
-          test -n "$FEATURES" && test -n "$LABELS" && test -n "$TRANSCRIPTS"
+          python - <<'PY'
+          import csv, shlex
+          from pathlib import Path
+
+          root = Path('/tmp/trace_ace/data')
+          features = labels = transcript_dir = None
+          inspected = 0
+          for path in root.rglob('*.csv'):
+              try:
+                  with path.open('r', encoding='utf-8-sig', errors='ignore', newline='') as f:
+                      header = next(csv.reader(f))
+              except Exception:
+                  continue
+              inspected += 1
+              cols = set(header)
+              if features is None and {'response_id', 'session_id', 'learning_objective'}.issubset(cols):
+                  features = path
+                  print('FEATURE HEADER', path, header)
+              if labels is None and 'response_id' in cols and ({'is_correct'} <= cols or {'correct'} <= cols):
+                  labels = path
+                  print('LABEL HEADER', path, header)
+              if transcript_dir is None and {'session_id', 'utterance_id', 'role', 'content', 'timestamp'}.issubset(cols):
+                  transcript_dir = path.parent
+                  print('TRANSCRIPT HEADER', path, header)
+              if features and labels and transcript_dir:
+                  break
+          if not (features and labels and transcript_dir):
+              sample = [str(p) for p in list(root.rglob('*'))[:80]]
+              raise SystemExit(f'Could not identify inputs by schema after {inspected} CSVs. Sample paths: {sample}')
+          with open('/tmp/trace_ace/paths.env', 'w') as f:
+              f.write('FEATURES=' + shlex.quote(str(features)) + '\n')
+              f.write('LABELS=' + shlex.quote(str(labels)) + '\n')
+              f.write('TRANSCRIPTS=' + shlex.quote(str(transcript_dir)) + '\n')
+          print('resolved features:', features)
+          print('resolved labels:', labels)
+          print('resolved transcripts:', transcript_dir)
+          PY
+          source /tmp/trace_ace/paths.env
           LIMIT="${{ inputs.limit }}"
           LIMIT="${LIMIT:-0}"
           EXTRA=()
