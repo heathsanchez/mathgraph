@@ -68,7 +68,7 @@ jobs:
           file_id = os.environ['TRACE_ACE_DRIVE_FILE_ID']
           out = '/tmp/trace_ace/dataset_download'
           url = f'https://drive.google.com/uc?id={file_id}'
-          path = gdown.download(url, out, quiet=False, fuzzy=True)
+          path = gdown.download(url, out, quiet=False)
           if not path:
               raise SystemExit('Google Drive download failed')
           print(f'downloaded to {path}')
