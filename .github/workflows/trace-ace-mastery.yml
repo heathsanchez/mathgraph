@@ -46,6 +46,8 @@ jobs:
         run: python competitions/trace_the_ace/v76_unseen_validation.py --self-test
       - name: Run incremental mastery stack self-test
         run: python competitions/trace_the_ace/v77_incremental_mastery_stack.py --self-test
+      - name: Run official-runtime validation harness self-test
+        run: python competitions/trace_the_ace/runtime_validate.py self-test
 
   full-experiment:
     if: ${{ (github.event_name == 'workflow_dispatch' && inputs.run_full) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[run-full]')) }}
@@ -100,7 +102,6 @@ jobs:
           python - <<'PY'
           import csv, shlex
           from pathlib import Path
-
           roots = [Path('/tmp/trace_ace/meta'), Path('/tmp/trace_ace/transcripts')]
           features = labels = transcript_dir = None
           for root in roots:
@@ -112,18 +113,13 @@ jobs:
                       continue
                   cols = set(header)
                   if features is None and {'response_id','session_id','learning_objective'}.issubset(cols):
-                      features = path
-                      print('FEATURE HEADER', header)
+                      features = path; print('FEATURE HEADER', header)
                   if labels is None and 'response_id' in cols and ('is_correct' in cols or 'correct' in cols):
-                      labels = path
-                      print('LABEL HEADER', header)
+                      labels = path; print('LABEL HEADER', header)
                   if transcript_dir is None and {'session_id','utterance_id','role','content','timestamp'}.issubset(cols):
-                      transcript_dir = path.parent
-                      print('TRANSCRIPT HEADER', header)
-                  if features and labels and transcript_dir:
-                      break
-              if features and labels and transcript_dir:
-                  break
+                      transcript_dir = path.parent; print('TRANSCRIPT HEADER', header)
+                  if features and labels and transcript_dir: break
+              if features and labels and transcript_dir: break
           if not (features and labels and transcript_dir):
               raise SystemExit('Could not identify all Trace the Ace inputs by schema')
           with open('/tmp/trace_ace/paths.env','w') as f:
@@ -132,11 +128,8 @@ jobs:
               f.write('TRANSCRIPTS=' + shlex.quote(str(transcript_dir)) + '\n')
           PY
           source /tmp/trace_ace/paths.env
-          LIMIT="${{ inputs.limit }}"
-          LIMIT="${LIMIT:-0}"
-          EXTRA=()
-          if [ "$LIMIT" != "0" ]; then EXTRA+=(--limit "$LIMIT"); fi
-
+          LIMIT="${{ inputs.limit }}"; LIMIT="${LIMIT:-0}"
+          EXTRA=(); if [ "$LIMIT" != "0" ]; then EXTRA+=(--limit "$LIMIT"); fi
           python competitions/trace_the_ace/v71_mastery_events.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v71_mastery_results.json "${EXTRA[@]}"
           python competitions/trace_the_ace/v72_supervision_audit.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v72_supervision_audit.json "${EXTRA[@]}"
           python competitions/trace_the_ace/v73_contrastive_mastery.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v73_contrastive_mastery.json "${EXTRA[@]}"
