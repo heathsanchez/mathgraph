@@ -1,0 +1,41 @@
+name: Trace the Ace V86 knowledge-state dynamics
+on:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v86_knowledge_state_dynamics.py'
+      - '.github/workflows/trace-ace-v86-knowledge-state.yml'
+  workflow_dispatch:
+jobs:
+  v86:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install numpy pandas scipy scikit-learn gdown
+      - name: Download data
+        run: |
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/transcripts data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          unzip -q metadata.zip -d data/meta
+      - name: Resolve schemas and run V86
+        shell: bash
+        run: |
+          FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)
+          LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
+          TRANSCRIPTS=$(dirname "$FIRST")
+          echo "$FEATURES $LABELS $TRANSCRIPTS"
+          cd competitions/trace_the_ace
+          python v86_knowledge_state_dynamics.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --out ../../v86_knowledge_state_dynamics.json
+      - name: Upload aggregate result
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v86-knowledge-state-dynamics
+          path: v86_knowledge_state_dynamics.json
