@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       run_full:
-        description: "Run full experiment using public transcripts + private metadata bundle"
+        description: "Run full experiment using public Drive bundles"
         required: false
         default: false
         type: boolean
@@ -54,7 +54,7 @@ jobs:
     timeout-minutes: 360
     env:
       TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID: 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI
-      TRACE_ACE_METADATA_URL: ${{ secrets.TRACE_ACE_METADATA_URL }}
+      TRACE_ACE_METADATA_DRIVE_FILE_ID: 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -63,14 +63,6 @@ jobs:
           cache: pip
       - name: Install experiment dependencies
         run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
-      - name: Require private metadata transport
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -z "${TRACE_ACE_METADATA_URL:-}" ]; then
-            echo "TRACE_ACE_METADATA_URL repository secret is required for the competition feature/label bundle." >&2
-            exit 2
-          fi
       - name: Download public transcript archive
         shell: bash
         run: |
@@ -80,18 +72,25 @@ jobs:
           import os, gdown
           file_id = os.environ['TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID']
           out = '/tmp/trace_ace/transcripts_download'
-          path = gdown.download(f'https://drive.google.com/uc?id={file_id}', out, quiet=False)
+          path = gdown.download(id=file_id, output=out, quiet=False)
           if not path:
               raise SystemExit('Google Drive transcript download failed')
           PY
           unzip -q /tmp/trace_ace/transcripts_download -d /tmp/trace_ace/transcripts
           rm -f /tmp/trace_ace/transcripts_download
-      - name: Download private feature/label bundle
+      - name: Download public feature/label bundle
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p /tmp/trace_ace/meta
-          curl --fail --location --silent --show-error "$TRACE_ACE_METADATA_URL" -o /tmp/trace_ace/meta.zip
+          python - <<'PY'
+          import os, gdown
+          file_id = os.environ['TRACE_ACE_METADATA_DRIVE_FILE_ID']
+          out = '/tmp/trace_ace/meta.zip'
+          path = gdown.download(id=file_id, output=out, quiet=False)
+          if not path:
+              raise SystemExit('Google Drive metadata download failed; confirm Anyone with the link can view')
+          PY
           unzip -q /tmp/trace_ace/meta.zip -d /tmp/trace_ace/meta
           rm -f /tmp/trace_ace/meta.zip
       - name: Locate inputs by schema and run experiments
