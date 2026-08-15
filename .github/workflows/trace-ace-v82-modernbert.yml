@@ -1,0 +1,76 @@
+name: Trace the Ace V82 supervised ModernBERT
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/trace-ace-mastery-events
+    paths:
+      - "competitions/trace_the_ace/v82_modernbert_supervised.py"
+      - ".github/workflows/trace-ace-v82-modernbert.yml"
+
+jobs:
+  v82:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID: 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI
+      TRACE_ACE_METADATA_DRIVE_FILE_ID: 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown torch transformers accelerate
+      - name: Download data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trace_ace/transcripts /tmp/trace_ace/meta
+          python - <<'PY'
+          import os, gdown
+          assert gdown.download(id=os.environ['TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID'], output='/tmp/trace_ace/transcripts.zip', quiet=False)
+          assert gdown.download(id=os.environ['TRACE_ACE_METADATA_DRIVE_FILE_ID'], output='/tmp/trace_ace/meta.zip', quiet=False)
+          PY
+          unzip -q /tmp/trace_ace/transcripts.zip -d /tmp/trace_ace/transcripts
+          unzip -q /tmp/trace_ace/meta.zip -d /tmp/trace_ace/meta
+      - name: Resolve schemas and run V82
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, shlex
+          from pathlib import Path
+          roots=[Path('/tmp/trace_ace/meta'),Path('/tmp/trace_ace/transcripts')]
+          f=l=t=None
+          for root in roots:
+            for p in root.rglob('*.csv'):
+              try:
+                with p.open('r',encoding='utf-8-sig',errors='ignore',newline='') as h: cols=next(csv.reader(h))
+              except Exception: continue
+              s=set(cols)
+              if f is None and {'response_id','session_id','learning_objective'}.issubset(s): f=p
+              if l is None and 'response_id' in s and ('is_correct' in s or 'correct' in s): l=p
+              if t is None and {'session_id','utterance_id','role','content','timestamp'}.issubset(s): t=p.parent
+          if not (f and l and t): raise SystemExit('Could not identify inputs')
+          print('FEATURE HEADER', list(csv.reader(open(f,encoding='utf-8-sig')))[0])
+          print('LABEL HEADER', list(csv.reader(open(l,encoding='utf-8-sig')))[0])
+          with open('/tmp/trace_ace/paths.env','w') as h:
+            h.write('FEATURES='+shlex.quote(str(f))+'\nLABELS='+shlex.quote(str(l))+'\nTRANSCRIPTS='+shlex.quote(str(t))+'\n')
+          PY
+          source /tmp/trace_ace/paths.env
+          python competitions/trace_the_ace/v82_modernbert_supervised.py \
+            --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" \
+            --out v82_modernbert_supervised.json \
+            --model answerdotai/ModernBERT-large \
+            --folds 1 --epochs 1 --top-blocks 2 --max-len 768 --batch 2 --eval-batch 4
+      - name: Upload aggregate result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v82-modernbert-supervised
+          path: v82_modernbert_supervised.json
+          retention-days: 14
