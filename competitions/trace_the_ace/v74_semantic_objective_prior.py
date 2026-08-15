@@ -9,6 +9,10 @@ difficulty with two levels of shrinkage inside each CV fold:
 
 This produces a calibrated difficulty prior that can later be combined with the
 student-state/mastery branches. No validation labels are used in fitting.
+
+Defaults k=16, smooth=2.0 were promoted after a full 35,072-row stress grid in
+which they improved both session-grouped and objective-cold log loss versus the
+previous k=8, smooth=20.0 defaults. The trust denominator remains fixed at 10.
 """
 from __future__ import annotations
 
@@ -42,7 +46,7 @@ def load_training(features_path: Path, labels_path: Path) -> pd.DataFrame:
     return f.merge(y[["response_id", target]], on="response_id", validate="one_to_one").rename(columns={target: "target"})
 
 
-def semantic_prior_predict(train: pd.DataFrame, valid: pd.DataFrame, k: int = 8, smooth: float = 20.0):
+def semantic_prior_predict(train: pd.DataFrame, valid: pd.DataFrame, k: int = 16, smooth: float = 2.0):
     global_p = float(train.target.mean())
     stats = train.groupby("learning_objective").target.agg(["sum", "count"])
     stats["p"] = (stats["sum"] + smooth * global_p) / (stats["count"] + smooth)
@@ -153,8 +157,8 @@ def parse_args():
     p.add_argument("--features", type=Path)
     p.add_argument("--labels", type=Path)
     p.add_argument("--out", type=Path, default=Path("v74_semantic_objective_prior.json"))
-    p.add_argument("--k", type=int, default=8)
-    p.add_argument("--smooth", type=float, default=20.0)
+    p.add_argument("--k", type=int, default=16)
+    p.add_argument("--smooth", type=float, default=2.0)
     p.add_argument("--limit", type=int, default=0)
     p.add_argument("--self-test", action="store_true")
     return p.parse_args()
