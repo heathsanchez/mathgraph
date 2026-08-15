@@ -44,7 +44,7 @@ jobs:
         run: python competitions/trace_the_ace/v75_canonical_trajectory.py --self-test
 
   full-experiment:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_full }}
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.run_full) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[run-full]')) }}
     needs: self-test
     runs-on: ubuntu-latest
     timeout-minutes: 360
@@ -101,6 +101,7 @@ jobs:
           TRANSCRIPTS=$(find /tmp/trace_ace -type d -name 'train_transcripts*' | head -1)
           test -n "$FEATURES" && test -n "$LABELS" && test -n "$TRANSCRIPTS"
           LIMIT="${{ inputs.limit }}"
+          LIMIT="${LIMIT:-0}"
           EXTRA=()
           if [ "$LIMIT" != "0" ]; then EXTRA+=(--limit "$LIMIT"); fi
           python competitions/trace_the_ace/v71_mastery_events.py \
