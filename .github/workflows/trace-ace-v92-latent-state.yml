@@ -1,0 +1,39 @@
+name: Trace the Ace V92 latent-state decomposition
+on:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v92_latent_state_decomposition.py'
+      - '.github/workflows/trace-ace-v92-latent-state.yml'
+  workflow_dispatch:
+jobs:
+  v92:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install numpy pandas scipy scikit-learn gdown
+      - name: Download data
+        run: |
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/transcripts data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          unzip -q metadata.zip -d data/meta
+      - name: Run V92
+        shell: bash
+        run: |
+          FEATURES=$(find data/meta -type f -name 'train_features*.csv' | head -1)
+          LABELS=$(find data/meta -type f -name 'train_labels*.csv' | head -1)
+          TRANSCRIPTS=$(dirname "$(find data/transcripts -type f -name '*.csv' | head -1)")
+          cd competitions/trace_the_ace
+          python v92_latent_state_decomposition.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --out ../../v92_latent_state_decomposition.json
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v92-latent-state
+          path: v92_latent_state_decomposition.json
