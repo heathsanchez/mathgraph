@@ -1,0 +1,63 @@
+name: Trace the Ace V81 target segment phase
+on:
+  workflow_dispatch:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - competitions/trace_the_ace/v81_target_segment_phase.py
+      - .github/workflows/trace-ace-v81-phase.yml
+jobs:
+  v81:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID: 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI
+      TRACE_ACE_METADATA_DRIVE_FILE_ID: 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Download data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trace_ace/meta /tmp/trace_ace/transcripts
+          python - <<'PY'
+          import os,gdown
+          assert gdown.download(id=os.environ['TRACE_ACE_METADATA_DRIVE_FILE_ID'],output='/tmp/meta.zip',quiet=False)
+          assert gdown.download(id=os.environ['TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID'],output='/tmp/transcripts.zip',quiet=False)
+          PY
+          unzip -q /tmp/meta.zip -d /tmp/trace_ace/meta
+          unzip -q /tmp/transcripts.zip -d /tmp/trace_ace/transcripts
+      - name: Resolve schemas and run V81
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,shlex
+          from pathlib import Path
+          features=labels=trans=None
+          for root in [Path('/tmp/trace_ace/meta'),Path('/tmp/trace_ace/transcripts')]:
+            for p in root.rglob('*.csv'):
+              try:
+                with p.open('r',encoding='utf-8-sig',errors='ignore',newline='') as f: h=next(csv.reader(f))
+              except Exception: continue
+              c=set(h)
+              if features is None and {'response_id','session_id','learning_objective'}.issubset(c): features=p; print('FEATURE HEADER',h)
+              if labels is None and 'response_id' in c and ('is_correct' in c or 'correct' in c): labels=p; print('LABEL HEADER',h)
+              if trans is None and {'session_id','utterance_id','role','content','timestamp'}.issubset(c): trans=p.parent; print('TRANSCRIPT HEADER',h)
+          if not all([features,labels,trans]): raise SystemExit('schema discovery failed')
+          Path('/tmp/paths.env').write_text('FEATURES='+shlex.quote(str(features))+'\nLABELS='+shlex.quote(str(labels))+'\nTRANS='+shlex.quote(str(trans))+'\n')
+          PY
+          source /tmp/paths.env
+          python competitions/trace_the_ace/v81_target_segment_phase.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANS" --out v81_target_segment_phase.json
+      - name: Upload aggregate result
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v81-target-segment-phase
+          path: v81_target_segment_phase.json
+          retention-days: 14
