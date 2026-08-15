@@ -37,10 +37,8 @@ def encode(model, texts, batch=128):
     return model.encode(texts,batch_size=batch,show_progress_bar=True,normalize_embeddings=True,convert_to_numpy=True).astype(np.float32)
 
 def dense_semantic_features(Eo, Es, El, Et, numeric):
-    # Explicit cross-view interaction features, not just independent embeddings.
     cos_os=np.sum(Eo*Es,1,keepdims=True); cos_ol=np.sum(Eo*El,1,keepdims=True); cos_ot=np.sum(Eo*Et,1,keepdims=True)
     cos_sl=np.sum(Es*El,1,keepdims=True); cos_lt=np.sum(El*Et,1,keepdims=True)
-    # Pairwise products preserve dimensions while explicitly representing relevance/alignment.
     prod_ol=Eo*El; prod_ot=Eo*Et
     return np.hstack([Eo,Es,El,Et,prod_ol,prod_ot,cos_os,cos_ol,cos_ot,cos_sl,cos_lt,numeric]).astype(np.float32)
 
@@ -65,7 +63,6 @@ def eval_regime(Xv75, Xsem, y, split, name):
         b=np.clip(ms.predict_proba(B)[:,1],1e-5,1-1e-5); psem[va]=b
         fold_rows.append({'fold':k,'rows':len(va),'v75':float(log_loss(y[va],a)),'semantic':float(log_loss(y[va],b))})
         print(name,fold_rows[-1])
-    # Blend selected globally from OOF only; report grid transparently. This is model comparison, not final stacking fit.
     grid=[]; best=None
     for w in np.linspace(0,1,21):
         p=np.clip((1-w)*p75+w*psem,1e-5,1-1e-5); ll=float(log_loss(y,p))
