@@ -1,0 +1,35 @@
+name: Trace the Ace V84 student evidence
+on:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v84_student_evidence.py'
+      - '.github/workflows/trace-ace-v84-student-evidence.yml'
+jobs:
+  v84:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install dependencies
+        run: pip install -q pandas numpy scipy scikit-learn gdown
+      - name: Download data
+        run: |
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          unzip -q metadata.zip -d data
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          mkdir -p transcripts && unzip -q transcripts.zip -d transcripts
+      - name: Resolve schemas and run V84
+        working-directory: competitions/trace_the_ace
+        run: |
+          F=$(find ../../data -type f -iname '*features*.csv' | head -1)
+          L=$(find ../../data -type f -iname '*labels*.csv' | head -1)
+          T=$(find ../../transcripts -type f -name '*.csv' -printf '%h\n' | head -1)
+          python v84_student_evidence.py --features "$F" --labels "$L" --transcripts "$T" --out ../../v84_student_evidence.json
+      - name: Upload aggregate result
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v84-student-evidence-result
+          path: v84_student_evidence.json
