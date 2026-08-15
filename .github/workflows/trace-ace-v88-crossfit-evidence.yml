@@ -37,3 +37,4 @@ jobs:
         with:
           name: trace-ace-v88-crossfit-evidence
           path: v88_crossfit_evidence_composition.json
+# retrigger-registration
