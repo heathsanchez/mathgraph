@@ -38,14 +38,16 @@ def hash_folds(groups,n=5):
     g=np.asarray(groups).astype(str); idx=np.arange(len(g)); out=[]
     gb=np.asarray([bucket(x,n) for x in g])
     for k in range(n):
-        va=idx[gb==k]; tr=idx[gb!=k]; out.append((tr,va))
+        va=idx[gb==k]; tr=idx[gb!=k]
+        if len(va) and len(tr): out.append((tr,va))
     return out
 def mixed_support_folds(obj,sess,n=5):
     idx=np.arange(len(obj)); ob=np.asarray([bucket(x,n) for x in obj]); sb=np.asarray([bucket(x,n) for x in sess]); out=[]
     for k in range(n):
         cold=ob==k
         seen_session=(ob!=k)&(sb==k)
-        va=idx[cold|seen_session]; tr=idx[~(cold|seen_session)]; out.append((tr,va))
+        va=idx[cold|seen_session]; tr=idx[~(cold|seen_session)]
+        if len(va) and len(tr): out.append((tr,va))
     return out
 def unseen_mask(keys,tr,va):
     seen=set(keys[tr].tolist()); return np.asarray([keys[i] not in seen for i in va],bool)
@@ -72,17 +74,17 @@ def run(a):
     out={'law':{'unseen':'V97 = .65 V75 + .35 RELATED','seen':'0.80 V75 + 0.20 V74'},'worlds':{}}
     gains=[]
     for name,sp in worlds.items():
-        p97=np.zeros(len(y)); p107=np.zeros(len(y)); U=np.zeros(len(y),bool); folds=[]
+        p97=np.zeros(len(y)); p107=np.zeros(len(y)); U=np.zeros(len(y),bool); covered=np.zeros(len(y),bool); folds=[]
         for k,(tr,va) in enumerate(sp,1):
             p75=fit_lr(X75,y,tr,va); pr=fit_lr(Xr,y,tr,va); p74,_=semantic_prior_predict(f.iloc[tr],f.iloc[va])
-            uns=unseen_mask(support,tr,va); U[va]=uns
+            uns=unseen_mask(support,tr,va); U[va]=uns; covered[va]=True
             q97=np.where(uns,.65*p75+.35*pr,p75)
             q107=np.where(uns,q97,.80*p75+.20*p74)
             q97=np.clip(q97,EPS,1-EPS); q107=np.clip(q107,EPS,1-EPS)
             p97[va]=q97; p107[va]=q107
             folds.append({'fold':k,'rows':int(len(va)),'unseen_fraction':float(uns.mean()),'v97':ll(y[va],q97),'v107':ll(y[va],q107),'gain':ll(y[va],q97)-ll(y[va],q107)})
             print(name,folds[-1],flush=True)
-        rec={'v97':ll(y,p97),'v107':ll(y,p107),'gain_vs_v97':ll(y,p97)-ll(y,p107),'unseen_fraction':float(U.mean()),'folds':folds}
+        rec={'v97':ll(y[covered],p97[covered]),'v107':ll(y[covered],p107[covered]),'gain_vs_v97':ll(y[covered],p97[covered])-ll(y[covered],p107[covered]),'unseen_fraction':float(U[covered].mean()),'coverage':float(covered.mean()),'folds':folds}
         out['worlds'][name]=rec; gains.append(rec['gain_vs_v97']); print(name,'SUMMARY',rec,flush=True)
     g=np.asarray(gains,float); mixed=out['worlds']['mixed_support']['gain_vs_v97']; session=out['worlds']['session_cold']['gain_vs_v97']; objg=out['worlds']['objective_cold']['gain_vs_v97']
     promote=(g.mean()>=.0005 and mixed>=.0003 and session>=.0003 and objg>=-.0002 and g.min()>=-.0003)
