@@ -1,0 +1,34 @@
+{
+  "experiment": "V124_ORACLE_CONTAMINATION_AUDIT",
+  "status": "COMPLETED_FROM_FROZEN_METADATA_AND_COMMITTED_V91_V102_CODE",
+  "rows": 35072,
+  "sessions": 22821,
+  "objectives": 398,
+  "global_correct_rate": 0.7024692062043796,
+  "session_structure": {
+    "singleton_session_rows": 14457,
+    "singleton_session_row_rate": 0.4122091697080292,
+    "multiresponse_session_rows": 20615,
+    "multiresponse_session_row_rate": 0.5877908302919708,
+    "duplicate_session_objective_rows": 0,
+    "same_session_pair_count": 17797,
+    "same_session_pair_label_agreement": 0.7009046468505928
+  },
+  "sibling_label_diagnostic": {
+    "description": "For each row, use labels of other responses in its session only; singleton sessions fall back to global rate. Beta-style shrinkage strength fixed here at 5 for diagnostic scale, not deployment.",
+    "global_baseline_ll": 0.6087576094209947,
+    "sibling_shrunk_ll": 0.5978126232975202,
+    "gain": 0.010944986123474498,
+    "multiresponse_only_ll": 0.5443138144369557,
+    "multiresponse_only_gain_vs_global": 0.01862054588030526
+  },
+  "code_audit": {
+    "v91": "row endpoint oracle chooses endpoint from realized y; valid only as an outcome-informed complementarity ceiling",
+    "v102": "oracle_group minimizes loss against y[ix] for the same scored group; target row's own label participates in session selection; session_objective groups are all singleton in this dataset"
+  },
+  "decision": {
+    "verdict": "DOWNGRADE_V91_V102_ORACLES_TO_DIAGNOSTIC_CEILINGS",
+    "law": "Do not interpret V91/V102 oracle headroom as evidence that an equivalent sample-local observable router exists. Treat it only as expert error complementarity unless a label-free separator is independently verified.",
+    "next": "Prioritize independently motivated observable features (e.g. official productive-math-talk scalars) or genuinely stronger semantic encoders; do not chase oracle gap directly."
+  }
+}
