@@ -9,6 +9,7 @@ on:
 
 # All transcript-heavy Trace Ace workflows should use this same group/key.
 # It prevents a PR fan-out from hammering the 604 MB Drive object in parallel.
+# Rerun marker: shared default-branch cache seed installed 2026-08-19.
 concurrency:
   group: trace-ace-frozen-transcripts-v1
   cancel-in-progress: false
