@@ -1,4 +1,5 @@
 name: Trace Ace Transcript Cache Seed and V123
+# Explicit run trigger: 2026-08-19 execution requested.
 
 on:
   push:
