@@ -14,6 +14,8 @@ Frozen fast protocol:
 - no hyperparameter search; C=.15
 - retain as a law only if gain >= .0015 in BOTH geometries and each exceeds its shuffle
   control by >= .001. >= .003 in both is a phase-change candidate.
+
+Scientific protocol frozen before execution; this line only retriggers the isolated PR workflow.
 """
 from __future__ import annotations
 import argparse, hashlib, json, re
