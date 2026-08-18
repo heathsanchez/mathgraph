@@ -6,6 +6,11 @@ on:
     paths:
       - 'competitions/trace_the_ace/v122_id_morphology_regime_audit.py'
       - '.github/workflows/trace-ace-v122-id-morphology.yml'
+  pull_request:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v122_id_morphology_regime_audit.py'
+      - '.github/workflows/trace-ace-v122-id-morphology.yml'
   workflow_dispatch:
 
 jobs:
