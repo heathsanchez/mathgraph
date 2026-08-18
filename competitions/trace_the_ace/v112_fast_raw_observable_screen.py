@@ -5,7 +5,7 @@ objective-grouped OOF. Tests whether information discarded by V71 exists in raw 
 Escalate only >= .003 V97 gain; >= .010 is phase-change candidate.
 """
 from __future__ import annotations
-import argparse, json, re
+import argparse, json, re, hashlib
 from pathlib import Path
 import numpy as np
 from scipy.sparse import hstack, csr_matrix
@@ -13,7 +13,6 @@ from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GroupKFold
 from sklearn.preprocessing import StandardScaler
-from v111_fast_residual_screen import h
 from v110_residual_collider_state_discovery import hb, ll, logit, p97_predict
 from v71_mastery_events import load_transcript, normalize_roles
 from v75_canonical_trajectory import load_training, SEED
@@ -22,6 +21,9 @@ from v85_evidence_state import build_v75
 from v94_related_control import segmented_control, build_control
 EPS=1e-5
 MATH=re.compile(r"\d|[+\-*/=×÷<>%]|\b(?:half|quarter|third|decimal|fraction|percent|times|divide|multiply)\b",re.I)
+
+def h(x):
+ return int(hashlib.sha256(str(x).encode()).hexdigest()[:16],16)
 
 def texts(df,obj):
  d=normalize_roles(df).reset_index(drop=True); role=d.role_repaired.astype(str).tolist(); c=d.content.fillna('').astype(str).tolist()
@@ -61,9 +63,7 @@ def main(a):
  for k,txt in T.items():
   X=hv.transform(txt);q=sparse_oof(P,X,y,obj);out['tests'][k]={'ll':ll(y,q),'gain':base-ll(y,q)}
  Xn=np.vstack(N);q=dense_oof(P,Xn,y,obj);out['tests']['STRUCTURE']={'ll':ll(y,q),'gain':base-ll(y,q)}
- # Combined raw views: cheap union, tests whether complementary raw observables jointly matter.
  X=hstack([hv.transform(T['STUDENT']),hv.transform(T['TUTOR']),hv.transform(T['LOCAL']),csr_matrix(StandardScaler().fit_transform(Xn))],format='csr');q=sparse_oof(P,X,y,obj);out['tests']['COMBINED']={'ll':ll(y,q),'gain':base-ll(y,q)}
- # Tight collision geometry from the same frozen predictions.
  ds=[]
  for o in np.unique(obj):
   z=np.where(obj==o)[0];a0=z[y[z]==0];a1=z[y[z]==1]
