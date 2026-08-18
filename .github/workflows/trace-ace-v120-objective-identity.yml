@@ -6,6 +6,11 @@ on:
     paths:
       - 'competitions/trace_the_ace/v120_objective_identity_audit.py'
       - '.github/workflows/trace-ace-v120-objective-identity.yml'
+  pull_request:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v120_objective_identity_audit.py'
+      - '.github/workflows/trace-ace-v120-objective-identity.yml'
   workflow_dispatch:
 
 jobs:
@@ -35,7 +40,7 @@ jobs:
           python - <<'PY'
           import os, pandas as pd
           tr=os.environ['TRAIN']
-          print('train shape/columns', pd.read_csv(tr,nrows=3).shape, list(pd.read_csv(tr,nrows=0).columns))
+          print('train columns', list(pd.read_csv(tr,nrows=0).columns))
           te=os.environ.get('TEST','')
           if te:
               print('test columns', list(pd.read_csv(te,nrows=0).columns))
