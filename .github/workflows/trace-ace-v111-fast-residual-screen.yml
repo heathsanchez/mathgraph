@@ -5,6 +5,12 @@ on:
     paths:
       - 'competitions/trace_the_ace/v111_fast_residual_screen.py'
       - '.github/workflows/trace-ace-v111-fast-residual-screen.yml'
+  pull_request:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/V111_RUN_NOW.md'
+      - 'competitions/trace_the_ace/v111_fast_residual_screen.py'
+      - '.github/workflows/trace-ace-v111-fast-residual-screen.yml'
   workflow_dispatch:
 jobs:
   screen:
