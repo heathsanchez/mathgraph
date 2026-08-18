@@ -5,6 +5,11 @@ on:
     paths:
       - 'competitions/trace_the_ace/v110_residual_collider_state_discovery.py'
       - '.github/workflows/trace-ace-v110-residual-collider-state.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'competitions/trace_the_ace/v110_residual_collider_state_discovery.py'
+      - '.github/workflows/trace-ace-v110-residual-collider-state.yml'
   workflow_dispatch:
 jobs:
   discovery:
