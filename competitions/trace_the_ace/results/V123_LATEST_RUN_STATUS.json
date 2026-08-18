@@ -1,0 +1,13 @@
+{
+  "run_id": 32166003284,
+  "job_id": 95805628348,
+  "run_attempt": 1,
+  "cache_key": "trace-ace-transcripts-v1-603547640",
+  "cache_hit": "",
+  "cache_save_outcome": "skipped",
+  "source_id": "UNKNOWN",
+  "archive_bytes": 0,
+  "archive_sha256": "UNKNOWN",
+  "validation": "exact size 603547640 + unzip integrity; SHA256 recorded, no historical expected digest precommitted",
+  "v123": {}
+}
