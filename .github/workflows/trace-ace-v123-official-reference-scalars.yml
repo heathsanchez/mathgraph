@@ -1,0 +1,45 @@
+name: Trace Ace V123 Official Reference Scalars
+on:
+  pull_request:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v123_official_reference_scalars.py'
+      - '.github/workflows/trace-ace-v123-official-reference-scalars.yml'
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Download frozen data
+        run: |
+          set -e
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          mkdir -p data/meta data/transcripts
+          unzip -q metadata.zip -d data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          echo "FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)" >> "$GITHUB_ENV"
+          echo "LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)" >> "$GITHUB_ENV"
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
+          echo "TRANSCRIPTS=$(dirname "$FIRST")" >> "$GITHUB_ENV"
+      - name: Preflight
+        run: python -m py_compile competitions/trace_the_ace/v123_official_reference_scalars.py
+      - name: Run V123
+        run: python competitions/trace_the_ace/v123_official_reference_scalars.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --rows 2500 --out v123_official_reference_scalars.json
+      - name: Show decision
+        if: always()
+        run: cat v123_official_reference_scalars.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trace-ace-v123-official-reference-scalars
+          path: v123_official_reference_scalars.json
+          retention-days: 14
