@@ -6,6 +6,7 @@ on:
       - 'competitions/trace_the_ace/v110_residual_collider_state_discovery.py'
       - '.github/workflows/trace-ace-v110-residual-collider-state.yml'
   workflow_dispatch:
+# Trigger-only metadata touch; experiment code and protocol unchanged.
 jobs:
   discovery:
     runs-on: ubuntu-24.04
