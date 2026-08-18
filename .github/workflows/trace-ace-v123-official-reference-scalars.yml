@@ -22,7 +22,7 @@ jobs:
         run: |
           set -e
           gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
-          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          gdown 1vkgFdcw-rnlueCgGsKKbUUXql8GyGmET -O transcripts.zip
           mkdir -p data/meta data/transcripts
           unzip -q metadata.zip -d data/meta
           unzip -q transcripts.zip -d data/transcripts
