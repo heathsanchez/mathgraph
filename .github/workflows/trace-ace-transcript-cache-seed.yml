@@ -1,0 +1,62 @@
+name: Trace Ace Transcript Cache Seed
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/trace-ace-transcript-cache-seed.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: trace-ace-frozen-transcripts-v1
+  cancel-in-progress: false
+
+jobs:
+  seed:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Install gdown
+        run: python -m pip install --disable-pip-version-check gdown
+
+      - name: Restore frozen transcript archive from GitHub cache
+        id: transcript-cache
+        uses: actions/cache@v4
+        with:
+          path: transcripts.zip
+          key: trace-ace-transcripts-v1-603547640
+
+      - name: Download frozen transcript archive on cache miss
+        if: steps.transcript-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for id in \
+            1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI \
+            1vkgFdcw-rnlueCgGsKKbUUXql8GyGmET
+          do
+            rm -f transcripts.zip
+            echo "Trying frozen transcript source $id"
+            if gdown "$id" -O transcripts.zip; then
+              bytes=$(stat -c%s transcripts.zip)
+              echo "Downloaded $bytes bytes"
+              if [ "$bytes" = "603547640" ]; then
+                echo "Frozen transcript archive size verified"
+                break
+              fi
+              echo "Unexpected transcript archive size: $bytes" >&2
+            fi
+            rm -f transcripts.zip
+          done
+          test -f transcripts.zip
+          test "$(stat -c%s transcripts.zip)" = "603547640"
+          unzip -tq transcripts.zip >/dev/null
+          echo "Frozen transcript archive ZIP integrity verified"
+
+      - name: Report cache state
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "cache-hit=${{ steps.transcript-cache.outputs.cache-hit }}"
+          echo "cache-key=trace-ace-transcripts-v1-603547640"
+          echo "archive-bytes=$(stat -c%s transcripts.zip)"
