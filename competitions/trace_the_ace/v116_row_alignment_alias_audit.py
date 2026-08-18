@@ -22,6 +22,10 @@ from v94_related_control import segmented_control,build_control
 from v110_residual_collider_state_discovery import hb,ll
 from v114_representation_applicability import H,lossrow,EPS
 
+def dense_row(X,i):
+ r=X[i]
+ if hasattr(r,'toarray'): return np.asarray(r.toarray()).ravel()
+ return np.asarray(r).ravel()
 def rep_hash(x):
  a=np.asarray(x,dtype=np.float64);a=np.nan_to_num(a,nan=0.,posinf=1e30,neginf=-1e30);a=np.round(a,10)
  return hashlib.sha256(a.tobytes()).hexdigest()
@@ -51,7 +55,7 @@ def main(a):
  groups_so=defaultdict(list);groups_rep=defaultdict(list);groups_endpoint=defaultdict(list)
  for i in range(len(y)):
   groups_so[(sess[i],obj[i])].append(i)
-  groups_rep[rep_hash(np.r_[X75[i],Xr[i]])].append(i)
+  groups_rep[rep_hash(np.r_[dense_row(X75,i),dense_row(Xr,i)])].append(i)
   groups_endpoint[rep_hash(np.r_[P0[i],PR[i]])].append(i)
  # transcript schema and exact response-id anchor audit, aggregate only
  headers=defaultdict(int);rid_set=set(rid);found=set();found_cols=defaultdict(set)
