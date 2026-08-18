@@ -58,7 +58,7 @@ def state_vec(events,cfg,destroy_order=False):
         if e['neg']: v=-error_pen*rel*(1.-.5*ass)
         elif e['pos']: v=rel*(assist_pen+(1-assist_pen)*(1-ass))*(1.+.35*ind)
         else: v=.05*rel*(1-ass)
-        prev=k; k=decay*k+v; vals.append(v); K.append(k)
+        k=decay*k+v; vals.append(v); K.append(k)
         good=bool(e['pos'] and e['independent'])
         if good:
             streak+=1; best_streak=max(best_streak,streak); last_ind=t
@@ -81,7 +81,6 @@ def state_vec(events,cfg,destroy_order=False):
 
 
 def collider_mask(obj,p,y):
-    # Minimal contrasts: same objective + near-identical V97 probability bin contains both labels.
     b=np.floor(np.clip(p,0,.999999)*20).astype(int); keys=np.asarray([f'{o}|{z}' for o,z in zip(obj,b)])
     keep=np.zeros(len(y),bool)
     for k in np.unique(keys):
@@ -124,9 +123,8 @@ def run(a):
     D=np.where(disc)[0]; V=np.where(verify)[0]
     print('split',{'discovery_rows':len(D),'verification_rows':len(V),'verification_objectives':int(len(np.unique(obj[V])))},flush=True)
 
-    # Discovery objective-cold OOF V97.
     gd=obj[D]; nsp=min(4,len(np.unique(gd))); raw=list(GroupKFold(nsp).split(np.zeros(len(D)),y[D],gd))
-    splits=[]; P=np.zeros(len(D));
+    splits=[]; P=np.zeros(len(D))
     for ltr,lva in raw:
         tr=D[ltr]; va=D[lva]; q,_=p97_predict(X75,Xr,y,tr,va,support); P[lva]=q; splits.append((ltr,lva))
     base_disc=ll(y[D],P); C=collider_mask(obj[D],P,y[D]); print('discovery_v97',base_disc,'collider_rows',int(C.sum()),flush=True)
@@ -146,18 +144,15 @@ def run(a):
     ordered_gain=base_disc-ll(y[D],qord); ablated_gain=base_disc-ll(y[D],qab); causal=ordered_gain-ablated_gain
     print('SELECTED',best,'ordered_gain',ordered_gain,'ablation_gain',ablated_gain,'causal',causal,flush=True)
 
-    # Fit unseen-support meta on discovery OOF, then untouched objective verification.
     sc_u,meta_u=fit_meta(P,bestS,y[D])
     pV,unsV=p97_predict(X75,Xr,y,D,V,support); SV=np.vstack([state_vec(EV[i],cfg,False) for i in V]); qV=apply_meta(sc_u,meta_u,pV,SV)
     verify_obj={'rows':int(len(V)),'unseen_fraction':float(unsV.mean()),'v97':ll(y[V],pV),'v110':ll(y[V],qV),'gain':ll(y[V],pV)-ll(y[V],qV)}
     print('VERIFY_OBJECTIVE',verify_obj,flush=True)
 
-    # Train a supported-regime meta using discovery objectives only, session OOF.
     ns=min(4,len(np.unique(sess[D]))); sraw=list(GroupKFold(ns).split(np.zeros(len(D)),y[D],sess[D])); Ps=np.zeros(len(D))
     for ltr,lva in sraw:
         tr=D[ltr]; va=D[lva]; qq,_=p97_predict(X75,Xr,y,tr,va,support); Ps[lva]=qq
     sc_s,meta_s=fit_meta(Ps,bestS,y[D])
-    # Untouched-objective session verification: hold out sessions within verification objectives.
     vv=V[np.asarray([hb(sess[i],5)==0 for i in V])]
     tr=np.where(np.asarray([hb(s,5)!=0 for s in sess]))[0]
     pS,unsS=p97_predict(X75,Xr,y,tr,vv,support); SS=np.vstack([state_vec(EV[i],cfg,False) for i in vv]); qS=apply_meta(sc_s,meta_s,pS,SS)
@@ -174,4 +169,4 @@ def run(a):
 if __name__=='__main__':
     p=argparse.ArgumentParser(); p.add_argument('--features',type=Path,required=True); p.add_argument('--labels',type=Path,required=True); p.add_argument('--transcripts',type=Path,required=True); p.add_argument('--out',default='v110_residual_collider_state_discovery.json'); run(p.parse_args())
 
-# Trigger-only touch after workflow registration; experiment logic unchanged.
+# Trigger-only low-level ref update; experiment logic unchanged.
