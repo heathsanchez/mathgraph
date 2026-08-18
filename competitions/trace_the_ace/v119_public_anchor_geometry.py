@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# trigger
 """V119 public-anchor geometry search.
 
 Recoverable-probe experiment. Historical V37/V48/V54/V57/V63 packages are not
@@ -55,22 +56,18 @@ def run(a):
  for k,(tr,va) in enumerate(splits):
   q75=fit(X75,y,tr,va); qr=fit(Xr,y,tr,va); vals,cts=np.unique(key[tr],return_counts=True); d=dict(zip(vals,cts)); s=np.array([d.get(x,0) for x in key[va]],float); seen=s>0; q97=np.where(seen,q75,.65*q75+.35*qr); p75[va]=q75;p97[va]=q97;support[va]=s;foldid[va]=k
  global_counts=dict(zip(*np.unique(key,return_counts=True))); olen=np.array([global_counts[x] for x in key],float); slen=np.array([meta[s][1] for s in sess],float); prov=np.array([meta[s][0] for s in sess])
- slcuts=np.quantile(slen,[.25,.5,.75]); ocuts=np.quantile(olen,[.25,.5,.75]); cells={}
- labels=[]
- for i in range(len(f)):
-  labels.append('|'.join([bin_support(support[i]),prov[i],qbin(slen[i],slcuts,'L'),qbin(olen[i],ocuts,'F')]))
+ slcuts=np.quantile(slen,[.25,.5,.75]); ocuts=np.quantile(olen,[.25,.5,.75]); labels=[]
+ for i in range(len(f)): labels.append('|'.join([bin_support(support[i]),prov[i],qbin(slen[i],slcuts,'L'),qbin(olen[i],ocuts,'F')]))
  labels=np.array(labels); rows=[]
  for c in np.unique(labels):
   m=labels==c
   if m.sum()<150: continue
   d=ll(y[m],p97[m])-ll(y[m],p75[m]); fg=[]
   for k in range(5):
-   z=m&(foldid==k)
-   fg.append(None if z.sum()<20 else ll(y[z],p97[z])-ll(y[z],p75[z]))
+   z=m&(foldid==k); fg.append(None if z.sum()<20 else ll(y[z],p97[z])-ll(y[z],p75[z]))
   pos=sum(v is not None and v<0 for v in fg); err=abs(d-TARGET); rows.append({'cell':c,'rows':int(m.sum()),'v75':ll(y[m],p75[m]),'v97':ll(y[m],p97[m]),'delta_v97_minus_v75':d,'target_error':err,'fold_deltas':fg,'v97_better_folds':pos,'qualified':bool(pos>=4 and err<=.0005)})
  rows.sort(key=lambda r:(not r['qualified'],r['target_error'],-r['rows']))
- overall={'v75':ll(y,p75),'v97':ll(y,p97),'delta':ll(y,p97)-ll(y,p75)}
- q=[r for r in rows if r['qualified']]; verdict='PUBLIC_ANCHOR_CELL_FOUND' if q else 'CURRENT_SPLIT_GRAMMAR_NOT_PUBLIC_ALIGNED'
+ overall={'v75':ll(y,p75),'v97':ll(y,p97),'delta':ll(y,p97)-ll(y,p75)}; q=[r for r in rows if r['qualified']]; verdict='PUBLIC_ANCHOR_CELL_FOUND' if q else 'CURRENT_SPLIT_GRAMMAR_NOT_PUBLIC_ALIGNED'
  out={'rows':len(f),'sessions':len(np.unique(sess)),'public_anchor':{'v75':.6047,'v97':.6044,'target_delta':TARGET},'smoke_anchor':{'v75':.4693,'v97':.4693,'delta':0.0},'overall':overall,'top_cells':rows[:20],'decision':{'verdict':verdict,'qualified_cells':len(q),'rule':'Cell requires >=150 rows, V97 better in >=4/5 folds, and aggregate V97-V75 delta within 0.0005 of public -0.0003.','next':'Use qualified cell(s) as public-aligned validation basis only if stable; otherwise expand split grammar beyond support/provider/session-length/objective-frequency.'}}
  Path(a.out).write_text(json.dumps(out,indent=2));print(json.dumps(out,indent=2),flush=True)
 if __name__=='__main__':
