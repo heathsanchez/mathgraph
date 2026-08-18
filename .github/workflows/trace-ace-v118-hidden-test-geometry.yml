@@ -1,0 +1,29 @@
+name: Trace Ace V118 Hidden Test Geometry Probe
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [agent/trace-ace-mastery-events]
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check numpy scipy
+      - name: Preflight
+        run: python -m py_compile competitions/trace_the_ace/v118_hidden_test_geometry_probe.py
+      - name: Run V118
+        run: |
+          cd competitions/trace_the_ace
+          python v118_hidden_test_geometry_probe.py
+      - name: Show decision
+        run: cat competitions/trace_the_ace/v118_hidden_test_geometry_probe.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v118-hidden-test-geometry
+          path: competitions/trace_the_ace/v118_hidden_test_geometry_probe.json
+          retention-days: 14
