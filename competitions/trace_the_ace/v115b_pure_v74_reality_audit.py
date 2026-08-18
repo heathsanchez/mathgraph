@@ -7,6 +7,7 @@ from sklearn.metrics import log_loss
 from sklearn.model_selection import GroupKFold
 from v74_semantic_objective_prior import load_training, semantic_prior_predict
 EPS=1e-5
+# trigger: pure V74 reality audit
 
 def ll(y,p): return float(log_loss(y,np.clip(p,EPS,1-EPS)))
 
