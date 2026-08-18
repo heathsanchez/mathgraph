@@ -1,10 +1,5 @@
 name: Trace Ace V123 Official Reference Scalars
 on:
-  push:
-    branches: [agent/v123-official-reference-scalars]
-    paths:
-      - 'competitions/trace_the_ace/v123_official_reference_scalars.py'
-      - '.github/workflows/trace-ace-v123-official-reference-scalars.yml'
   pull_request:
     branches: [agent/trace-ace-mastery-events]
     paths:
