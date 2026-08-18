@@ -1,15 +1,9 @@
-name: Trace Ace V111 Fast Residual Screen
+name: Trace Ace V112 Fast Raw Observable Screen
 on:
-  push:
-    branches: [agent/trace-ace-mastery-events]
-    paths:
-      - 'competitions/trace_the_ace/v111_fast_residual_screen.py'
-      - '.github/workflows/trace-ace-v111-fast-residual-screen.yml'
   pull_request:
     branches: [agent/trace-ace-mastery-events]
     paths:
-      - 'competitions/trace_the_ace/V111_RUN_NOW.md'
-      - 'competitions/trace_the_ace/v111_fast_residual_screen.py'
+      - 'competitions/trace_the_ace/v112_fast_raw_observable_screen.py'
       - '.github/workflows/trace-ace-v111-fast-residual-screen.yml'
   workflow_dispatch:
 jobs:
@@ -37,13 +31,13 @@ jobs:
           echo "FEATURES=$FEATURES" >> "$GITHUB_ENV"
           echo "LABELS=$LABELS" >> "$GITHUB_ENV"
           echo "TRANSCRIPTS=$TRANSCRIPTS" >> "$GITHUB_ENV"
-      - name: Run all fast screens
+      - name: Run V112 shared fast pass
         run: |
           cd competitions/trace_the_ace
-          python v111_fast_residual_screen.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --rows 2500 --out ../../v111_fast_residual_screen.json
-      - run: cat v111_fast_residual_screen.json
+          python v112_fast_raw_observable_screen.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --rows 2500 --out ../../v112_fast_raw_observable_screen.json
+      - run: cat v112_fast_raw_observable_screen.json
       - uses: actions/upload-artifact@v4
         with:
-          name: trace-ace-v111-fast-residual-screen
-          path: v111_fast_residual_screen.json
+          name: trace-ace-v112-fast-raw-observable-screen
+          path: v112_fast_raw_observable_screen.json
           retention-days: 14
