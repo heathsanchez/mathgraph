@@ -1,0 +1,54 @@
+name: Trace Ace V120 Objective Identity Audit
+
+on:
+  push:
+    branches: [agent/v111-runner]
+    paths:
+      - 'competitions/trace_the_ace/v120_objective_identity_audit.py'
+      - '.github/workflows/trace-ace-v120-objective-identity.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scikit-learn gdown
+      - name: Download metadata only
+        run: |
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/meta
+          unzip -q metadata.zip -d data/meta
+          TRAIN=$(find data/meta -type f -name 'train_features*.csv' -print -quit)
+          TEST=$(find data/meta -type f \( -name 'test_features*.csv' -o -name 'submission_features*.csv' \) -print -quit)
+          echo "TRAIN=$TRAIN" >> "$GITHUB_ENV"
+          echo "TEST=$TEST" >> "$GITHUB_ENV"
+          echo "TRAIN=$TRAIN"
+          echo "TEST=$TEST"
+      - name: Inspect headers and run V120
+        run: |
+          python - <<'PY'
+          import os, pandas as pd
+          tr=os.environ['TRAIN']
+          print('train shape/columns', pd.read_csv(tr,nrows=3).shape, list(pd.read_csv(tr,nrows=0).columns))
+          te=os.environ.get('TEST','')
+          if te:
+              print('test columns', list(pd.read_csv(te,nrows=0).columns))
+          PY
+          if [ -n "$TEST" ]; then
+            python competitions/trace_the_ace/v120_objective_identity_audit.py --train-features "$TRAIN" --test-features "$TEST" --out v120_objective_identity_audit.json
+          else
+            python competitions/trace_the_ace/v120_objective_identity_audit.py --train-features "$TRAIN" --out v120_objective_identity_audit.json
+          fi
+      - name: Show decision
+        run: cat v120_objective_identity_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v120-objective-identity-audit
+          path: v120_objective_identity_audit.json
+          retention-days: 14
