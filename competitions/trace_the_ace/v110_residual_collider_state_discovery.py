@@ -170,3 +170,4 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(); p.add_argument('--features',type=Path,required=True); p.add_argument('--labels',type=Path,required=True); p.add_argument('--transcripts',type=Path,required=True); p.add_argument('--out',default='v110_residual_collider_state_discovery.json'); run(p.parse_args())
 
 # Trigger-only low-level ref update; experiment logic unchanged.
+# Low-level trigger sequence 2.
