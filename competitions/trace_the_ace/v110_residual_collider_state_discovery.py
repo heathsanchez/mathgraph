@@ -35,7 +35,6 @@ def hb(x,n=5): return int(hashlib.sha256(str(x).encode()).hexdigest()[:16],16)%n
 def fit_base(X,y,tr,va):
     m=LogisticRegression(C=.25,max_iter=300,solver='liblinear',random_state=SEED).fit(X[tr],y[tr])
     return np.clip(m.predict_proba(X[va])[:,1],EPS,1-EPS)
-
 def p97_predict(X75,Xr,y,tr,va,support):
     p75=fit_base(X75,y,tr,va); pr=fit_base(Xr,y,tr,va)
     seen=set(support[tr].tolist()); uns=np.asarray([support[i] not in seen for i in va],bool)
@@ -46,7 +45,6 @@ def p97_predict(X75,Xr,y,tr,va,support):
 def sig(e):
     s=(str(e['state'])+'|'+str(round(float(e['rel']),2))+'|'+str(e['assistance'])+'|'+str(e['q'])).encode('utf8','ignore')
     return hashlib.sha1(s).hexdigest()
-
 def state_vec(events,cfg,destroy_order=False):
     decay,rel_power,assist_pen,error_pen=cfg
     E=list(events)
@@ -90,7 +88,6 @@ def collider_mask(obj,p,y):
         ix=np.where(keys==k)[0]
         if len(ix)>=4 and len(np.unique(y[ix]))==2: keep[ix]=True
     return keep
-
 def meta_cv(P,S,y,groups,splits):
     q=np.zeros(len(y)); covered=np.zeros(len(y),bool)
     for tr,va in splits:
@@ -100,12 +97,10 @@ def meta_cv(P,S,y,groups,splits):
         m=LogisticRegression(C=.15,max_iter=300,solver='liblinear',random_state=SEED).fit(Xtr,y[tr])
         q[va]=np.clip(m.predict_proba(Xva)[:,1],EPS,1-EPS); covered[va]=True
     return q,covered
-
 def fit_meta(P,S,y):
     sc=StandardScaler().fit(S); Z=sc.transform(S); X=np.c_[logit(P),Z,Z[:,0]*logit(P)]
     m=LogisticRegression(C=.15,max_iter=300,solver='liblinear',random_state=SEED).fit(X,y)
     return sc,m
-
 def apply_meta(sc,m,P,S):
     Z=sc.transform(S); X=np.c_[logit(P),Z,Z[:,0]*logit(P)]
     return np.clip(m.predict_proba(X)[:,1],EPS,1-EPS)
@@ -178,3 +173,5 @@ def run(a):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(); p.add_argument('--features',type=Path,required=True); p.add_argument('--labels',type=Path,required=True); p.add_argument('--transcripts',type=Path,required=True); p.add_argument('--out',default='v110_residual_collider_state_discovery.json'); run(p.parse_args())
+
+# Trigger-only touch after workflow registration; experiment logic unchanged.
