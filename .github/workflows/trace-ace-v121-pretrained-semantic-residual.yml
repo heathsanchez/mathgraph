@@ -9,9 +9,9 @@ on:
       - '.github/workflows/trace-ace-v121-pretrained-semantic-residual.yml'
   workflow_dispatch:
 
-# Infrastructure-only serialization. Scientific protocol is unchanged.
+# Infrastructure-only serialization for the frozen 16-shard V121 transport.
 concurrency:
-  group: trace-ace-frozen-transcripts-v1
+  group: trace-ace-v121-frozen-16shard
   cancel-in-progress: false
 
 env:
