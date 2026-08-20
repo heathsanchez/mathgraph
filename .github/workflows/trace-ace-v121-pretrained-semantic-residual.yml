@@ -12,7 +12,7 @@ on:
 # Infrastructure-only serialization. Scientific protocol is unchanged.
 concurrency:
   group: trace-ace-frozen-transcripts-v1
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   TRANSCRIPT_KEY: trace-ace-transcripts-v1-603547640
@@ -75,7 +75,7 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -94,7 +94,7 @@ jobs:
         run: |
           cd competitions/trace_the_ace
           python v121_staged_transport.py embed --dir ../../v121_prepared \
-            --shard ${{ matrix.shard }} --shards 8 \
+            --shard ${{ matrix.shard }} --shards 16 \
             --out ../../v121_embeddings_shard_${{ matrix.shard }}.npz
       - uses: actions/upload-artifact@v4
         with:
