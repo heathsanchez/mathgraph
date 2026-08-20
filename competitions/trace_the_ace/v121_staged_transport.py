@@ -71,15 +71,57 @@ def prepare(a):
 def do_embed(a):
     d = Path(a.dir)
     texts = json.loads((d / 'texts.json').read_text())
-    print('loading embedding model', MODEL_NAME, flush=True)
+    n = len(texts['semantic'])
+    shards = int(a.shards)
+    shard = int(a.shard)
+    if shards < 1 or shard < 0 or shard >= shards:
+        raise ValueError(f'invalid shard {shard}/{shards}')
+    start = (n * shard) // shards
+    end = (n * (shard + 1)) // shards
+    obj_text = texts['objective'][start:end]
+    sem_text = texts['semantic'][start:end]
+    print('loading embedding model', MODEL_NAME, 'shard', shard, 'rows', start, end, flush=True)
     model = TextEmbedding(model_name=MODEL_NAME)
-    print('embedding objective control', flush=True)
-    E_obj = embed(model, texts['objective'])
-    print('embedding semantic intervention', flush=True)
-    E_sem = embed(model, texts['semantic'])
-    if E_obj.shape[0] != E_sem.shape[0]: raise RuntimeError('embedding row mismatch')
-    np.savez_compressed(Path(a.out), E_obj=E_obj, E_sem=E_sem)
-    print('embedding shapes', E_obj.shape, E_sem.shape, flush=True)
+    print('embedding objective control shard', shard, flush=True)
+    E_obj = embed(model, obj_text)
+    print('embedding semantic intervention shard', shard, flush=True)
+    E_sem = embed(model, sem_text)
+    if E_obj.shape[0] != E_sem.shape[0] or E_obj.shape[0] != end - start:
+        raise RuntimeError('embedding row mismatch')
+    np.savez_compressed(Path(a.out), E_obj=E_obj, E_sem=E_sem,
+                        start=np.array(start), end=np.array(end), total=np.array(n),
+                        shard=np.array(shard), shards=np.array(shards))
+    print('embedding shard complete', shard, start, end, E_obj.shape, E_sem.shape, flush=True)
+
+
+def load_embeddings(path: Path):
+    if path.is_file():
+        e = np.load(path, allow_pickle=False)
+        return e['E_obj'], e['E_sem']
+    files = sorted(path.glob('**/v121_embeddings_shard_*.npz'))
+    if not files:
+        files = sorted(path.glob('**/*.npz'))
+    parts = []
+    for f in files:
+        e = np.load(f, allow_pickle=False)
+        if 'start' not in e.files or 'end' not in e.files:
+            continue
+        parts.append((int(e['start']), int(e['end']), int(e['total']), e['E_obj'], e['E_sem'], f))
+    if not parts:
+        raise RuntimeError(f'no embedding shards found under {path}')
+    parts.sort(key=lambda x: x[0])
+    total = parts[0][2]
+    cursor = 0
+    obj, sem = [], []
+    for start, end, t, eo, es, f in parts:
+        if t != total or start != cursor or end - start != eo.shape[0] or eo.shape[0] != es.shape[0]:
+            raise RuntimeError(f'invalid embedding shard coverage at {f}: {start}:{end}, cursor={cursor}, total={t}')
+        obj.append(eo); sem.append(es); cursor = end
+    if cursor != total:
+        raise RuntimeError(f'incomplete embedding coverage: {cursor}/{total}')
+    E_obj = np.vstack(obj); E_sem = np.vstack(sem)
+    print('merged embedding shards', len(parts), E_obj.shape, E_sem.shape, flush=True)
+    return E_obj, E_sem
 
 
 def evaluate(a):
@@ -87,7 +129,9 @@ def evaluate(a):
     X75 = load_npz(d / 'X75.npz'); Xr = load_npz(d / 'Xr.npz')
     z = np.load(d / 'arrays.npz', allow_pickle=False)
     y=z['y']; objectives=z['objectives']; support=z['support']; sessions=z['sessions']
-    e = np.load(a.embeddings, allow_pickle=False); E_obj=e['E_obj']; E_sem=e['E_sem']
+    E_obj, E_sem = load_embeddings(Path(a.embeddings))
+    if len(y) != E_obj.shape[0] or len(y) != E_sem.shape[0]:
+        raise RuntimeError('evaluation embedding row mismatch')
     E_shuf = within_objective_shuffle(E_sem, objectives)
     manifest=json.loads((d/'manifest.json').read_text())
     results = {
@@ -95,6 +139,7 @@ def evaluate(a):
         'rows': int(len(y)), 'objectives': int(len(np.unique(objectives))),
         'sessions': int(len(np.unique(sessions))),
         'transport_manifest': manifest,
+        'transport': {'embedding_shards_merged': True},
         'precommit': {'semantic_gain_each_geometry': .003,
                       'semantic_minus_shuffle_each_geometry': .002,
                       'hard_collision_gain_each_geometry': '>0',
@@ -116,6 +161,6 @@ def evaluate(a):
 if __name__ == '__main__':
     p=argparse.ArgumentParser(); sp=p.add_subparsers(dest='cmd', required=True)
     q=sp.add_parser('prepare'); q.add_argument('--features',type=Path,required=True); q.add_argument('--labels',type=Path,required=True); q.add_argument('--transcripts',type=Path,required=True); q.add_argument('--rows',type=int,default=2500); q.add_argument('--dir',required=True)
-    q=sp.add_parser('embed'); q.add_argument('--dir',required=True); q.add_argument('--out',required=True)
+    q=sp.add_parser('embed'); q.add_argument('--dir',required=True); q.add_argument('--out',required=True); q.add_argument('--shard',type=int,default=0); q.add_argument('--shards',type=int,default=1)
     q=sp.add_parser('evaluate'); q.add_argument('--dir',required=True); q.add_argument('--embeddings',required=True); q.add_argument('--out',required=True)
     a=p.parse_args(); {'prepare':prepare,'embed':do_embed,'evaluate':evaluate}[a.cmd](a)
