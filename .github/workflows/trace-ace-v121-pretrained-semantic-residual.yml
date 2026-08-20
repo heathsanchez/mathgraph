@@ -74,7 +74,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -93,7 +93,7 @@ jobs:
         run: |
           cd competitions/trace_the_ace
           python v121_staged_transport.py embed --dir ../../v121_prepared \
-            --shard ${{ matrix.shard }} --shards 4 \
+            --shard ${{ matrix.shard }} --shards 8 \
             --out ../../v121_embeddings_shard_${{ matrix.shard }}.npz
       - uses: actions/upload-artifact@v4
         with:
