@@ -2,7 +2,7 @@ name: Trace Ace V121 Pretrained Semantic Residual
 
 on:
   pull_request:
-    branches: [agent/trace-ace-mastery-events]
+    branches: [agent/trace-ace-mastery-events, agent/v111-runner]
     paths:
       - 'competitions/trace_the_ace/v121_pretrained_semantic_residual.py'
       - '.github/workflows/trace-ace-v121-pretrained-semantic-residual.yml'
