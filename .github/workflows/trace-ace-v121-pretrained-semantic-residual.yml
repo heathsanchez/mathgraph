@@ -12,7 +12,7 @@ on:
 # Infrastructure-only serialization. Scientific protocol is unchanged.
 concurrency:
   group: trace-ace-frozen-transcripts-v1
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 env:
   TRANSCRIPT_KEY: trace-ace-transcripts-v1-603547640
