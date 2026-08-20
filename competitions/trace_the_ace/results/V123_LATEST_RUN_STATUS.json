@@ -1,13 +1,44 @@
 {
   "run_id": 32166775696,
-  "job_id": 95808103482,
-  "run_attempt": 1,
+  "job_id": 96491343588,
+  "run_attempt": 2,
   "cache_key": "trace-ace-transcripts-v1-603547640",
   "cache_hit": "",
-  "cache_save_outcome": "skipped",
-  "source_id": "UNKNOWN",
-  "archive_bytes": 0,
-  "archive_sha256": "UNKNOWN",
+  "cache_save_outcome": "success",
+  "source_id": "1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI",
+  "archive_bytes": 603547640,
+  "archive_sha256": "e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d",
   "validation": "exact size 603547640 + unzip integrity; SHA256 recorded, no historical expected digest precommitted",
-  "v123": {}
+  "v123": {
+    "rows": 2500,
+    "sessions": 2407,
+    "objectives": 221,
+    "features": [
+      "n_student_words",
+      "numeric_turns_per_word",
+      "digit_chars_per_word"
+    ],
+    "geometries": {
+      "objective_cold": {
+        "v97_ll": 0.5900948702204465,
+        "reference_scalar_ll": 0.5943143151733776,
+        "gain": -0.0042194449529311395,
+        "shuffle_ll": 0.5931848424857273,
+        "shuffle_gain": -0.0030899722652808492,
+        "ablation_margin": -0.0011294726876502903
+      },
+      "session_cold": {
+        "v97_ll": 0.561704168556817,
+        "reference_scalar_ll": 0.5658315311265208,
+        "gain": -0.0041273625697038074,
+        "shuffle_ll": 0.5652572440088361,
+        "shuffle_gain": -0.0035530754520191055,
+        "ablation_margin": -0.000574287117684702
+      }
+    },
+    "decision": {
+      "verdict": "SUPPRESS_REFERENCE_SCALAR_INJECTION",
+      "rule": "retain >=.0015 gain both geometries and >=.001 ablation margin both; phase-change >=.003 both"
+    }
+  }
 }
