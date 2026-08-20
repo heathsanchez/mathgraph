@@ -1,0 +1,49 @@
+name: Trace Ace V121 Local Bootstrap
+
+on:
+  pull_request:
+    branches: [agent/trace-ace-mastery-events, agent/v111-runner]
+    paths:
+      - '.github/workflows/trace-ace-v121-local-bootstrap.yml'
+  workflow_dispatch:
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Download Python 3.13 wheelhouse
+        run: |
+          mkdir -p wheelhouse
+          python -m pip download --only-binary=:all: --dest wheelhouse fastembed==0.8.0
+      - name: Install FastEmbed and fetch exact Jina model
+        run: |
+          python -m pip install --no-index --find-links wheelhouse fastembed==0.8.0
+          python - <<'PY'
+          from fastembed import TextEmbedding
+          m = TextEmbedding(model_name='jinaai/jina-embeddings-v2-small-en')
+          print('model_ready', type(m).__name__)
+          PY
+          mkdir -p model_cache
+          for p in "$HOME/.cache/fastembed" "$HOME/.cache/huggingface"; do
+            if [ -d "$p" ]; then cp -a "$p" model_cache/; fi
+          done
+          find model_cache -maxdepth 4 -type f -printf '%p %s\n' | head -100
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v121-python313-wheelhouse
+          path: wheelhouse/
+          retention-days: 2
+          compression-level: 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v121-jina-model-cache
+          path: model_cache/
+          retention-days: 2
+          compression-level: 0
