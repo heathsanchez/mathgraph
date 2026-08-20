@@ -1,0 +1,41 @@
+name: Trace Ace V121 Model Export
+
+on:
+  pull_request:
+    branches: [agent/trace-ace-mastery-events, agent/v111-runner]
+    paths:
+      - '.github/workflows/trace-ace-v121-model-export.yml'
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install exact FastEmbed
+        run: python -m pip install --disable-pip-version-check fastembed==0.8.0
+      - name: Fetch and locate exact Jina model
+        run: |
+          python - <<'PY'
+          from fastembed import TextEmbedding
+          import tempfile, pathlib, json
+          cache = pathlib.Path('/tmp/v121_fastembed_cache')
+          m = TextEmbedding(model_name='jinaai/jina-embeddings-v2-small-en', cache_dir=str(cache))
+          print('MODEL_DICT', json.dumps({k:str(v) for k,v in m.__dict__.items()}, default=str, indent=2))
+          print('CACHE', cache)
+          PY
+          echo 'MODEL FILES:'
+          find /tmp/v121_fastembed_cache -type f -printf '%p %s\n' | sort
+          du -sh /tmp/v121_fastembed_cache
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v121-jina-fastembed-cache
+          path: /tmp/v121_fastembed_cache/
+          retention-days: 2
+          compression-level: 0
