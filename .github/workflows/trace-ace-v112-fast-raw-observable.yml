@@ -1,10 +1,10 @@
 name: Trace Ace V112 Fast Raw Observable Screen
 on:
   pull_request:
-    branches: [agent/trace-ace-mastery-events]
+    branches: [main]
     paths:
       - 'competitions/trace_the_ace/v112_fast_raw_observable_screen.py'
-      - '.github/workflows/trace-ace-v111-fast-residual-screen.yml'
+      - '.github/workflows/trace-ace-v112-fast-raw-observable.yml'
   workflow_dispatch:
 jobs:
   screen:
@@ -13,7 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: '3.12', cache: pip}
+        with:
+          python-version: '3.12'
+          cache: pip
       - run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
       - name: Download frozen data
         run: |
@@ -35,7 +37,8 @@ jobs:
         run: |
           cd competitions/trace_the_ace
           python v112_fast_raw_observable_screen.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --rows 2500 --out ../../v112_fast_raw_observable_screen.json
-      - run: cat v112_fast_raw_observable_screen.json
+      - name: Show decision
+        run: cat v112_fast_raw_observable_screen.json
       - uses: actions/upload-artifact@v4
         with:
           name: trace-ace-v112-fast-raw-observable-screen
