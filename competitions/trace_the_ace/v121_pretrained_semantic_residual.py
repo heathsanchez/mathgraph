@@ -62,7 +62,11 @@ def build_semantic_text(objective: str, transcript_df) -> str:
 
 
 def embed(model: TextEmbedding, seq: list[str]) -> np.ndarray:
-    arr = np.vstack(list(model.embed(seq, batch_size=64))).astype(np.float32)
+    # Infrastructure-only repair after the first valid V121 execution reached
+    # ONNX and batch_size=64 requested a ~66.5 GB attention buffer.  The model,
+    # texts, ordering and outputs are unchanged; only inference microbatching is
+    # reduced to fit the hosted runner.
+    arr = np.vstack(list(model.embed(seq, batch_size=2))).astype(np.float32)
     if not np.isfinite(arr).all():
         raise RuntimeError("non-finite embedding")
     return arr
