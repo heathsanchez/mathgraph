@@ -1,0 +1,16 @@
+{
+  "schema": "RCG_SCHEMA_V1",
+  "residual": {
+    "required": ["id", "world", "observation", "verifier", "status", "constraints", "provenance"],
+    "status": ["unresolved", "closed", "infrastructure", "superseded"],
+    "constraint_kinds": ["layer", "scope", "phenotype", "invariant", "causal_status", "eliminated_family", "required_property"]
+  },
+  "latent_obstruction": {
+    "required": ["constraint_conjunction", "covered_residuals", "minimality_witness", "closure_novelty", "predicted_operator_family", "status"],
+    "status": ["provisional", "intervention_supported", "ablation_supported", "transfer_supported", "refuted"]
+  },
+  "operator": {
+    "required": ["id", "properties", "preserved_invariants", "cost_assumptions", "closure_identity", "verification"]
+  },
+  "developmental_novelty": "An operator is novel iff it satisfies a verifier-supported constraint intersection not satisfied by any operator in the current closure-equivalence class."
+}
