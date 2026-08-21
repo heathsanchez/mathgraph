@@ -1,0 +1,44 @@
+name: Trace Ace V135 Nested Supported Stack
+on:
+  pull_request:
+    branches: [agent/v134-verifier-feedback-contradiction]
+    paths:
+      - 'competitions/trace_the_ace/v135_nested_supported_stack.py'
+      - '.github/workflows/trace-ace-v135-nested-supported-stack.yml'
+  workflow_dispatch:
+
+env:
+  PREPARED_RUN_ID: 32400309220
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy scipy scikit-learn pandas
+      - name: Download exact frozen prepared artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: v121-prepared
+          path: v121_prepared
+          repository: heathsanchez/mathgraph
+          run-id: ${{ env.PREPARED_RUN_ID }}
+          github-token: ${{ github.token }}
+      - name: Verify frozen sample
+        run: grep -q 'b1612f9fe4558680e468afb2a2452b75c603c244934fe62f7345feee68a61bc1' v121_prepared/manifest.json
+      - name: Run frozen V135
+        run: python competitions/trace_the_ace/v135_nested_supported_stack.py --dir v121_prepared --out v135_nested_supported_stack.json
+      - name: Show decision
+        if: always()
+        run: cat v135_nested_supported_stack.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trace-ace-v135-nested-supported-stack
+          path: v135_nested_supported_stack.json
+          retention-days: 14
