@@ -1,0 +1,42 @@
+{
+  "case": "TRACE_ACE_V129_V131_APPLICABILITY",
+  "status": "unresolved",
+  "evidence": [
+    {
+      "residual": "V129_GLOBAL_UPTAKE_HARM",
+      "constraints": ["relational-operator", "globally-harmful", "applicability-sensitive", "must-be-gated"],
+      "evidence": "V129 uptake worsens V97 overall in both objective- and session-grouped OOF"
+    },
+    {
+      "residual": "V129_HARD_COLLISION_LIFT",
+      "constraints": ["relational-operator", "signal-present-in-ambiguity-regime", "rotation-control-separated"],
+      "evidence": "V129 improves label-defined hard collisions and beats within-session rotated replies in both geometries"
+    },
+    {
+      "residual": "HARD_COLLISION_NONDEPLOYABLE",
+      "constraints": ["activation-required", "label-free-at-inference", "opposite-label-test-forbidden-at-deployment"],
+      "evidence": "hard-collision membership requires an opposite-label same-objective row"
+    },
+    {
+      "residual": "V131_CROWDING_GATE_HARM",
+      "constraints": ["activation-required", "prediction-density-insufficient", "broad-crowding-not-ambiguity", "rotation-control-separated"],
+      "evidence": "label-free same-objective prediction crowding covers 71-76% and remains harmful, despite real uptake beating rotated control"
+    },
+    {
+      "residual": "V130_NO_BACKGROUND_REGIME",
+      "constraints": ["provider-marker-not-background-presence", "no-simple-background-regime"],
+      "evidence": "background appears in 99.3% of sessions and structural signatures are diffuse"
+    }
+  ],
+  "constraint_intersection": [
+    "relational-operator-has-local-information",
+    "application-must-be-selective",
+    "activation-must-be-runtime-visible",
+    "prediction-density-alone-insufficient",
+    "activation-should-identify-representation-ambiguity-not-frequency",
+    "causal-control-required"
+  ],
+  "latent_obstruction": "V97 lacks a deployable applicability predicate that identifies when a relational tutor-uptake correction is informative rather than destructive.",
+  "next_predicted_operator_family": "leakage-safe learned applicability gate over runtime-visible ambiguity/disagreement/support signals",
+  "falsification": "If a nested outer-fold gate trained only on inner-OOF correction benefit cannot improve V97 and beat the rotated-reply control on untouched outer folds, suppress this applicability family rather than tuning thresholds."
+}
