@@ -1,0 +1,40 @@
+name: Trace Ace V130 Background Regime Audit
+on:
+  pull_request:
+    branches: [agent/v121-cache-batch2]
+    paths:
+      - 'competitions/trace_the_ace/v130_background_regime_audit.py'
+      - '.github/workflows/trace-ace-v130-background-regime-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore frozen transcript archive from GitHub cache only
+        id: transcript-cache
+        uses: actions/cache@v4
+        with:
+          path: transcripts.zip
+          key: trace-ace-transcripts-v1-603547640
+      - name: Require exact cache hit
+        run: |
+          test '${{ steps.transcript-cache.outputs.cache-hit }}' = 'true'
+          test "$(stat -c%s transcripts.zip)" = '603547640'
+          echo 'e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d  transcripts.zip' | sha256sum -c -
+      - name: Run V130 label-free audit
+        run: python competitions/trace_the_ace/v130_background_regime_audit.py --archive transcripts.zip --out v130_background_regime_audit.json
+      - name: Show decision
+        if: always()
+        run: cat v130_background_regime_audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trace-ace-v130-background-regime-audit
+          path: v130_background_regime_audit.json
+          retention-days: 14
