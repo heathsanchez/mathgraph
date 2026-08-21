@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install dependency
+        run: python -m pip install --disable-pip-version-check numpy
       - name: Restore frozen transcript archive from GitHub cache only
         id: transcript-cache
         uses: actions/cache@v4
