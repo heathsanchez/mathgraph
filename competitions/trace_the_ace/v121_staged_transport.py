@@ -127,7 +127,9 @@ def load_embeddings(path: Path):
 def evaluate(a):
     d = Path(a.dir)
     X75 = load_npz(d / 'X75.npz'); Xr = load_npz(d / 'Xr.npz')
-    z = np.load(d / 'arrays.npz', allow_pickle=False)
+    # Infrastructure-only serialization repair: these frozen arrays contain strings
+    # (objectives/support/sessions), which NumPy stores as object arrays.
+    z = np.load(d / 'arrays.npz', allow_pickle=True)
     y=z['y']; objectives=z['objectives']; support=z['support']; sessions=z['sessions']
     E_obj, E_sem = load_embeddings(Path(a.embeddings))
     if len(y) != E_obj.shape[0] or len(y) != E_sem.shape[0]:
