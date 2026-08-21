@@ -7,6 +7,7 @@ on:
       - '.github/workflows/trace-ace-v121-eval-only.yml'
   workflow_dispatch:
 
+# Infrastructure-only rerun after allowing frozen string arrays in arrays.npz.
 concurrency:
   group: trace-ace-v121-eval-only
   cancel-in-progress: false
