@@ -1,0 +1,18 @@
+name: Residual Constraint Graph V1
+on:
+  pull_request:
+    branches: [agent/v121-cache-batch2]
+    paths:
+      - 'research/residual_constraint_graph/**'
+      - '.github/workflows/residual-constraint-graph-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  self-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python research/residual_constraint_graph/rcg_v1.py
