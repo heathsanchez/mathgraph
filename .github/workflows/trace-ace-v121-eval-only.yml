@@ -1,7 +1,7 @@
 name: Trace Ace V121 Eval Only
 
 on:
-  push:
+  pull_request:
     branches: [agent/v121-cache-batch2]
     paths:
       - '.github/workflows/trace-ace-v121-eval-only.yml'
