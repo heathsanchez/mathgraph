@@ -1,0 +1,72 @@
+name: Trace Ace V137 Effect Field Minimal Regime
+on:
+  pull_request:
+    branches: [agent/v136-full-v135-verification]
+    paths:
+      - 'competitions/trace_the_ace/v137_effect_field_minimal_regime.py'
+      - '.github/workflows/trace-ace-v137-effect-field.yml'
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Restore exact frozen transcript cache
+        id: transcript-cache
+        uses: actions/cache@v4
+        with:
+          path: transcripts.zip
+          key: trace-ace-transcripts-v1-603547640
+      - name: Require exact transcript cache
+        run: |
+          set -euo pipefail
+          test '${{ steps.transcript-cache.outputs.cache-hit }}' = 'true'
+          test "$(stat -c%s transcripts.zip)" = '603547640'
+          echo 'e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d  transcripts.zip' | sha256sum -c -
+      - name: Restore frozen metadata
+        run: |
+          set -euo pipefail
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/transcripts data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          unzip -q metadata.zip -d data/meta
+      - name: Resolve and audit schemas
+        run: |
+          set -euo pipefail
+          FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)
+          LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
+          TRANSCRIPTS=$(dirname "$FIRST")
+          python - <<'PY' "$FEATURES" "$LABELS"
+          import pandas as pd,sys
+          f=pd.read_csv(sys.argv[1]);y=pd.read_csv(sys.argv[2])
+          print('FEATURE_COLUMNS',list(f.columns));print('LABEL_COLUMNS',list(y.columns));print('SHAPES',f.shape,y.shape)
+          assert list(f.columns)==['response_id','session_id','learning_objective_id','learning_objective']
+          assert len(f)==35072 and len(y)==35072
+          PY
+          echo "FEATURES=$FEATURES" >> "$GITHUB_ENV"
+          echo "LABELS=$LABELS" >> "$GITHUB_ENV"
+          echo "TRANSCRIPTS=$TRANSCRIPTS" >> "$GITHUB_ENV"
+      - name: Run frozen V137
+        run: |
+          cd competitions/trace_the_ace
+          python v137_effect_field_minimal_regime.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --out ../../v137_effect_field.json --oof ../../v137_oof_field.npz
+      - name: Show decision
+        if: always()
+        run: cat v137_effect_field.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trace-ace-v137-effect-field
+          path: |
+            v137_effect_field.json
+            v137_oof_field.npz
+          retention-days: 14
