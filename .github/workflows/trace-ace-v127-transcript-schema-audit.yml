@@ -1,0 +1,41 @@
+name: Trace Ace V127 Transcript Schema Audit
+
+on:
+  pull_request:
+    branches: [agent/v121-cache-batch2]
+    paths:
+      - '.github/workflows/trace-ace-v127-transcript-schema-audit.yml'
+      - 'competitions/trace_the_ace/v127_transcript_schema_audit.py'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore frozen transcript archive from GitHub cache only
+        id: transcript-cache
+        uses: actions/cache@v4
+        with:
+          path: transcripts.zip
+          key: trace-ace-transcripts-v1-603547640
+      - name: Require cache hit and frozen archive
+        run: |
+          test '${{ steps.transcript-cache.outputs.cache-hit }}' = 'true'
+          test -f transcripts.zip
+          test "$(stat -c%s transcripts.zip)" = '603547640'
+          echo 'e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d  transcripts.zip' | sha256sum -c -
+          unzip -tq transcripts.zip >/dev/null
+      - name: Run V127 discovery-only audit
+        run: python competitions/trace_the_ace/v127_transcript_schema_audit.py --archive transcripts.zip --sample 256 --rows-per-file 20 --out v127_transcript_schema_audit.json
+      - name: Show decision
+        run: cat v127_transcript_schema_audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v127-transcript-schema-audit
+          path: v127_transcript_schema_audit.json
+          retention-days: 14
