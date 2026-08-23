@@ -37,8 +37,9 @@ def reference(frame,tdir,a,m):
     q[seen]=sig(F[seen]@a['stack_coef']+float(a['stack_intercept'][0]));return np.clip(q,EPS,1-EPS)
 
 def invoke(runtime,data,out):
+    runtime=runtime.resolve(); data=data.resolve(); out=out.resolve()
     env=os.environ.copy();env['TRACE_ACE_DATA_DIR']=str(data);env['TRACE_ACE_OUTPUT']=str(out)
-    subprocess.run([sys.executable,str(runtime/'main.py')],check=True,env=env,cwd=runtime)
+    subprocess.run([sys.executable,'main.py'],check=True,env=env,cwd=runtime)
     return pd.read_csv(out).probability.to_numpy(float)
 
 def main(args):
@@ -50,7 +51,6 @@ def main(args):
     cols=['response_id','session_id','learning_objective_id','learning_objective']; frame[cols].to_csv(data/'test_features.csv',index=False);frame[['response_id']].to_csv(data/'submission_format.csv',index=False)
     for sid in frame.session_id.astype(str).unique(): shutil.copy2(args.transcripts/f'{sid}.csv',data/'test_transcripts'/f'{sid}.csv')
     pred=invoke(runtime,data,out/'submission.csv'); d=float(np.max(np.abs(pred-ref)))
-    # sample-independence: same first row alone vs inside/reordered small batch
     k=min(32,n); small=frame.iloc[:k].copy(); sd=out/'meta_data';(sd/'test_transcripts').mkdir(parents=True,exist_ok=True)
     for sid in small.session_id.astype(str).unique(): shutil.copy2(args.transcripts/f'{sid}.csv',sd/'test_transcripts'/f'{sid}.csv')
     small[cols].iloc[::-1].to_csv(sd/'test_features.csv',index=False);small[['response_id']].iloc[::-1].to_csv(sd/'submission_format.csv',index=False); p_rev=invoke(runtime,sd,out/'rev.csv')
