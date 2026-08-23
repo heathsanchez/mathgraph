@@ -1,4 +1,5 @@
 name: Trace Ace V138 Joint Effect Field
+# Frozen science: metadata-only synchronize commit to register the PR workflow.
 on:
   pull_request:
     branches: [agent/v137-effect-field-minimal-regime]
