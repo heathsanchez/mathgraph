@@ -35,8 +35,7 @@ jobs:
         env: {GH_TOKEN: '${{ github.token }}'}
         run: |
           set -euo pipefail
-          curl -L --fail -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
-            https://api.github.com/repos/heathsanchez/mathgraph/actions/artifacts/9490954282/zip -o v142_artifact.zip
+          curl -L --fail -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' https://api.github.com/repos/heathsanchez/mathgraph/actions/artifacts/9490954282/zip -o v142_artifact.zip
           mkdir -p /tmp/v142_art /tmp/v135_base
           unzip -q v142_artifact.zip -d /tmp/v142_art
           test -f /tmp/v142_art/trace_ace_v135_submission.zip
@@ -48,7 +47,6 @@ jobs:
           set -euo pipefail
           python competitions/trace_the_ace/v144_build_smoke_probes.py --baseline /tmp/v135_base --out v144_probes
           for z in v144_probes/*.zip; do
-            echo "=== $z ==="
             unzip -Z1 "$z" | grep -qx 'main.py'
             sha256sum "$z"
           done
@@ -82,18 +80,10 @@ jobs:
               tutoringoutcomeschallengeprodacr.azurecr.io/tutoring-outcomes-runtime:gpu-latest
             test -f official/submission/submission.csv
             test -f official/submission/log.txt
-            python - "$tag" <<'PY'
-          import csv,sys,math,json,pathlib
-          tag=sys.argv[1]
-          with open('official/data-demo/submission_format.csv',newline='') as f: fmt=list(csv.DictReader(f))
-          with open('official/submission/submission.csv',newline='') as f:
-              r=csv.DictReader(f); assert r.fieldnames==['response_id','probability']; out=list(r)
-          assert len(out)==len(fmt)
-          assert [x['response_id'] for x in out]==[x['response_id'] for x in fmt]
-          p=[float(x['probability']) for x in out]
-          assert all(math.isfinite(x) and 0<=x<=1 for x in p)
-          pathlib.Path('v144_evidence',tag+'.json').write_text(json.dumps({'tag':tag,'rows':len(out),'p_min':min(p),'p_max':max(p),'p_mean':sum(p)/len(p)},indent=2))
-          PY
+            python competitions/trace_the_ace/v144_validate_submission.py \
+              --format official/data-demo/submission_format.csv \
+              --submission official/submission/submission.csv \
+              --tag "$tag" --out "v144_evidence/${tag}.json"
             cp official/submission/log.txt "v144_evidence/${tag}.log"
           done
       - uses: actions/upload-artifact@v4
