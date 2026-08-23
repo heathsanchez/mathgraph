@@ -1,0 +1,47 @@
+name: Trace Ace V141 V135 Runtime Assets
+on:
+  pull_request:
+    branches: [agent/v140-crossfit-calibration]
+    paths:
+      - 'competitions/trace_the_ace/train_v135_runtime_assets.py'
+      - '.github/workflows/trace-ace-v141-v135-runtime-assets.yml'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12', cache: pip}
+      - run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Restore transcript cache
+        id: tc
+        uses: actions/cache@v4
+        with:
+          path: transcripts.zip
+          key: trace-ace-transcripts-v1-603547640
+      - name: Verify cache
+        run: |
+          set -euo pipefail
+          test '${{ steps.tc.outputs.cache-hit }}' = 'true'
+          test "$(stat -c%s transcripts.zip)" = '603547640'
+          echo 'e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d  transcripts.zip' | sha256sum -c -
+      - name: Restore metadata
+        run: |
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/transcripts data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          unzip -q metadata.zip -d data/meta
+          echo "FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)" >> "$GITHUB_ENV"
+          echo "LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)" >> "$GITHUB_ENV"
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit); echo "TRANSCRIPTS=$(dirname "$FIRST")" >> "$GITHUB_ENV"
+      - name: Build frozen V135 assets
+        run: |
+          cd competitions/trace_the_ace
+          python train_v135_runtime_assets.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --out ../../v135_runtime_assets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v141-v135-runtime-assets
+          path: v135_runtime_assets
+          retention-days: 14
