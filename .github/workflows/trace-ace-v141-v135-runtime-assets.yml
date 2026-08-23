@@ -1,7 +1,13 @@
 name: Trace Ace V141 V135 Runtime Assets
+# Frozen science; synchronize PR after base runner registration.
 on:
   push:
     branches: [agent/v141-v135-runtime-assets]
+    paths:
+      - 'competitions/trace_the_ace/train_v135_runtime_assets.py'
+      - '.github/workflows/trace-ace-v141-v135-runtime-assets.yml'
+  pull_request:
+    branches: [agent/v140-crossfit-calibration]
     paths:
       - 'competitions/trace_the_ace/train_v135_runtime_assets.py'
       - '.github/workflows/trace-ace-v141-v135-runtime-assets.yml'
