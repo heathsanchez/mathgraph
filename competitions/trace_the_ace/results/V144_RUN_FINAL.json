@@ -1,0 +1,16 @@
+{
+  "run_id": 32659309295,
+  "status": "FINAL",
+  "probe_zips": [
+    "V144_shrink_08.zip",
+    "V144_shrink_16.zip",
+    "V144_shrink_24.zip",
+    "V144_shrink_30.zip"
+  ],
+  "validated": [
+    "V144_shrink_08.json",
+    "V144_shrink_16.json",
+    "V144_shrink_24.json",
+    "V144_shrink_30.json"
+  ]
+}
