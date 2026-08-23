@@ -1,11 +1,12 @@
 name: Trace Ace V138 Joint Effect Field
-# Frozen science: metadata-only synchronize commit to register the PR workflow.
+# Frozen science: base runner registered; this commit only resynchronizes the PR.
 on:
   pull_request:
     branches: [agent/v137-effect-field-minimal-regime]
     paths:
       - 'competitions/trace_the_ace/v138_joint_effect_field.py'
       - '.github/workflows/trace-ace-v138-joint-effect-field.yml'
+      - 'competitions/trace_the_ace/V138_PRECOMMIT.md'
   workflow_dispatch:
 
 jobs:
