@@ -1,5 +1,13 @@
 {
   "run_id": 32630461770,
   "status": "FINAL",
-  "parity": null
+  "parity": {
+    "protocol": "V142_RUNTIME_PARITY",
+    "rows": 512,
+    "max_abs_runtime_reference_diff": 1.1102230246251565e-16,
+    "heldout_logloss": 0.49778055899663276,
+    "sample_independence_diff": 0.0,
+    "parity_pass": true,
+    "sample_independence_pass": true
+  }
 }
