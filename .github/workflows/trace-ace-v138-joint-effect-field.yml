@@ -1,6 +1,12 @@
 name: Trace Ace V138 Joint Effect Field
-# Frozen science. Base runner is registered; this metadata-only commit launches the test.
+# Frozen science. Direct branch trigger avoids PR event registration ambiguity.
 on:
+  push:
+    branches: [agent/v138-joint-effect-field]
+    paths:
+      - '.github/workflows/trace-ace-v138-joint-effect-field.yml'
+      - 'competitions/trace_the_ace/v138_joint_effect_field.py'
+      - 'competitions/trace_the_ace/V138_PRECOMMIT.md'
   pull_request:
     branches: [agent/v137-effect-field-minimal-regime]
     paths:
