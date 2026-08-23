@@ -1,5 +1,5 @@
 name: Trace Ace V138 Joint Effect Field
-# Frozen science: base runner registered; this commit only resynchronizes the PR.
+# Frozen science. Base runner is registered; this metadata-only commit launches the test.
 on:
   pull_request:
     branches: [agent/v137-effect-field-minimal-regime]
