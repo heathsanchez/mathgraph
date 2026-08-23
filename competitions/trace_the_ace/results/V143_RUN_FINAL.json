@@ -1,6 +1,6 @@
 {
-  "run_id": 32630919702,
+  "run_id": 32655935491,
   "status": "FINAL",
-  "official_demo_completed": false,
-  "elapsed_seconds": 2
+  "official_demo_completed": true,
+  "elapsed_seconds": 3
 }
