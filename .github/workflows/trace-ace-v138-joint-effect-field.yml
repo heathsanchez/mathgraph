@@ -1,0 +1,54 @@
+name: Trace Ace V138 Joint Effect Field
+on:
+  pull_request:
+    branches: [agent/v137-effect-field-minimal-regime]
+    paths:
+      - 'competitions/trace_the_ace/v138_joint_effect_field.py'
+      - '.github/workflows/trace-ace-v138-joint-effect-field.yml'
+      - 'competitions/trace_the_ace/V138_PRECOMMIT.md'
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy scikit-learn
+      - name: Download frozen V137 OOF artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trace-ace-v137-effect-field
+          path: v137_artifact
+          github-token: ${{ github.token }}
+          repository: heathsanchez/mathgraph
+          run-id: 32445760436
+      - name: Verify frozen field
+        run: |
+          set -euo pipefail
+          test -f v137_artifact/v137_oof_field.npz
+          python - <<'PY'
+          import numpy as np
+          z=np.load('v137_artifact/v137_oof_field.npz',allow_pickle=True)
+          req=['y','sessions','objectives','support','p_v97','p_v135','field_support_log','field_prior_disp','field_expert_disagree','field_prior_conf','field_v75_conf','field_prior_shift']
+          print('KEYS',sorted(z.files))
+          for k in req: assert k in z.files,(k,z.files)
+          assert len(z['y'])==35072
+          print('ROWS',len(z['y']),'SESSIONS',len(set(map(str,z['sessions']))),'OBJECTIVES',len(set(map(str,z['objectives']))))
+          PY
+      - name: Run frozen V138 controller
+        run: python competitions/trace_the_ace/v138_joint_effect_field.py --field v137_artifact/v137_oof_field.npz --out v138_joint_effect_field.json
+      - name: Show decision
+        if: always()
+        run: cat v138_joint_effect_field.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trace-ace-v138-joint-effect-field
+          path: v138_joint_effect_field.json
+          retention-days: 14
