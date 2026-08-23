@@ -1,5 +1,5 @@
 name: Trace Ace V141 V135 Runtime Assets
-# Frozen science; synchronize PR after base runner registration.
+# Frozen science; synchronize PR after default-branch runner registration.
 on:
   push:
     branches: [agent/v141-v135-runtime-assets]
