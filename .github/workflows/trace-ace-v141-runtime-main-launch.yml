@@ -4,6 +4,11 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/trace-ace-v141-runtime-main-launch.yml'
+  pull_request:
+    branches: [agent/v140-crossfit-calibration]
+    paths:
+      - 'competitions/trace_the_ace/train_v135_runtime_assets.py'
+      - '.github/workflows/trace-ace-v141-v135-runtime-assets.yml'
   workflow_dispatch:
 jobs:
   build:
