@@ -1,4 +1,4 @@
-name: Trace Ace V143 Official Container Gate
+name: Trace Ace V144 Smoke Response Curve
 on:
   push:
     branches: [main]
@@ -9,124 +9,119 @@ permissions:
   contents: write
   actions: read
 jobs:
-  official-container:
+  probes:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
-        with: {ref: agent/v142-v135-runtime-parity}
-      - name: Record V143 run start
+        with: {ref: agent/v144-smoke-directional-probes}
+      - name: Record V144 run start
         run: |
           python - <<'PY'
           import json,os,pathlib
-          pathlib.Path('/tmp/V143_RUN_START.json').write_text(json.dumps({'run_id':int(os.environ['GITHUB_RUN_ID']),'status':'STARTED'},indent=2))
+          pathlib.Path('/tmp/V144_RUN_START.json').write_text(json.dumps({'run_id':int(os.environ['GITHUB_RUN_ID']),'status':'STARTED'},indent=2))
           PY
           git fetch origin main
-          git worktree add /tmp/v143-start origin/main
-          cd /tmp/v143-start
+          git worktree add /tmp/v144-start origin/main
+          cd /tmp/v144-start
           mkdir -p competitions/trace_the_ace/results
-          cp /tmp/V143_RUN_START.json competitions/trace_the_ace/results/V143_RUN_START.json
+          cp /tmp/V144_RUN_START.json competitions/trace_the_ace/results/V144_RUN_START.json
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add competitions/trace_the_ace/results/V143_RUN_START.json
-          git commit -m "results: record V143 run start $GITHUB_RUN_ID" || true
+          git add competitions/trace_the_ace/results/V144_RUN_START.json
+          git commit -m "results: record V144 run start $GITHUB_RUN_ID" || true
           git push origin HEAD:main || true
-      - name: Show Docker/disk environment
+      - name: Download exact green V135 candidate
+        env: {GH_TOKEN: '${{ github.token }}'}
         run: |
-          docker version
-          df -h /
+          set -euo pipefail
+          curl -L --fail -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            https://api.github.com/repos/heathsanchez/mathgraph/actions/artifacts/9490954282/zip -o v142_artifact.zip
+          mkdir -p /tmp/v142_art /tmp/v135_base
+          unzip -q v142_artifact.zip -d /tmp/v142_art
+          test -f /tmp/v142_art/trace_ace_v135_submission.zip
+          echo '12e1d73c725d21830687d32cf6e9e1a8d81feb767ce3e1b23000e5a01cb4996a  /tmp/v142_art/trace_ace_v135_submission.zip' | sha256sum -c -
+          unzip -q /tmp/v142_art/trace_ace_v135_submission.zip -d /tmp/v135_base
+          test -f /tmp/v135_base/main.py
+      - name: Build four frozen V144 smoke probes
+        run: |
+          set -euo pipefail
+          python competitions/trace_the_ace/v144_build_smoke_probes.py --baseline /tmp/v135_base --out v144_probes
+          for z in v144_probes/*.zip; do
+            echo "=== $z ==="
+            unzip -Z1 "$z" | grep -qx 'main.py'
+            sha256sum "$z"
+          done
       - name: Checkout official runtime
         uses: actions/checkout@v4
         with:
           repository: drivendataorg/tutoring-outcomes-runtime
           ref: main
           path: official
-      - name: Install exact V142 candidate
-        env: {GH_TOKEN: '${{ github.token }}'}
-        run: |
-          set -euo pipefail
-          curl -L --fail -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' https://api.github.com/repos/heathsanchez/mathgraph/actions/artifacts/9490954282/zip -o v142_artifact.zip
-          mkdir -p /tmp/v142_art
-          unzip -q v142_artifact.zip -d /tmp/v142_art
-          test -f /tmp/v142_art/trace_ace_v135_submission.zip
-          echo '12e1d73c725d21830687d32cf6e9e1a8d81feb767ce3e1b23000e5a01cb4996a  /tmp/v142_art/trace_ace_v135_submission.zip' | sha256sum -c -
-          mkdir -p official/submission
-          cp /tmp/v142_art/trace_ace_v135_submission.zip official/submission/submission.zip
-      - name: Official check-submission equivalent
-        run: |
-          set -euo pipefail
-          cd official
-          unzip -l submission/submission.zip | tee ../v143_zip_listing.txt
-          submission_files=$(unzip -Z1 submission/submission.zip)
-          grep -F -x -q -- 'main.py' <<<"$submission_files"
-          echo 'VALIDATION PASSED: main.py at archive root'
-      - name: Pull exact official runtime image
+      - name: Pull exact official runtime image once
         run: |
           set -euo pipefail
           docker pull tutoringoutcomeschallengeprodacr.azurecr.io/tutoring-outcomes-runtime:gpu-latest
-          docker image inspect tutoringoutcomeschallengeprodacr.azurecr.io/tutoring-outcomes-runtime:gpu-latest --format '{{.Id}}' | tee v143_image_id.txt
-          df -h /
-      - name: Run official container offline on data-demo
+          docker image inspect tutoringoutcomeschallengeprodacr.azurecr.io/tutoring-outcomes-runtime:gpu-latest --format '{{.Id}}' | tee v144_image_id.txt
+      - name: Validate all four probes offline in official container
         run: |
           set -euo pipefail
-          cd official
-          mkdir -p submission && chmod -R 0777 submission
-          START=$(date +%s)
-          docker run --platform linux/amd64 --network none --rm \
-            -e LOGURU_LEVEL=INFO -e IS_SMOKE_TEST=1 \
-            --mount type=bind,source="$PWD/data-demo",target=/code_execution/data,readonly \
-            --mount type=bind,source="$PWD/submission",target=/code_execution/submission \
-            --shm-size 8g --pid host \
-            tutoringoutcomeschallengeprodacr.azurecr.io/tutoring-outcomes-runtime:gpu-latest
-          END=$(date +%s)
-          echo $((END-START)) | tee ../v143_elapsed_seconds.txt
-          test -f submission/submission.csv
-          test -f submission/log.txt
-          python - <<'PY'
-          import csv, json, math
-          with open('data-demo/submission_format.csv', newline='') as f:
-              fmt=list(csv.DictReader(f))
-          with open('submission/submission.csv', newline='') as f:
-              reader=csv.DictReader(f)
-              assert reader.fieldnames==['response_id','probability'], reader.fieldnames
-              out=list(reader)
-          assert len(out)==len(fmt), (len(out),len(fmt))
-          assert [str(r['response_id']) for r in out]==[str(r['response_id']) for r in fmt]
-          p=[float(r['probability']) for r in out]
-          assert all(math.isfinite(x) and 0.0 <= x <= 1.0 for x in p)
-          print(json.dumps({'rows':len(out),'p_min':min(p),'p_max':max(p),'p_mean':sum(p)/len(p)},indent=2))
+          mkdir -p v144_evidence
+          for z in v144_probes/*.zip; do
+            tag=$(basename "$z" .zip)
+            echo "===== $tag ====="
+            rm -rf official/submission
+            mkdir -p official/submission
+            chmod -R 0777 official/submission
+            cp "$z" official/submission/submission.zip
+            docker run --platform linux/amd64 --network none --rm \
+              -e LOGURU_LEVEL=INFO -e IS_SMOKE_TEST=1 \
+              --mount type=bind,source="$PWD/official/data-demo",target=/code_execution/data,readonly \
+              --mount type=bind,source="$PWD/official/submission",target=/code_execution/submission \
+              --shm-size 8g --pid host \
+              tutoringoutcomeschallengeprodacr.azurecr.io/tutoring-outcomes-runtime:gpu-latest
+            test -f official/submission/submission.csv
+            test -f official/submission/log.txt
+            python - "$tag" <<'PY'
+          import csv,sys,math,json,pathlib
+          tag=sys.argv[1]
+          with open('official/data-demo/submission_format.csv',newline='') as f: fmt=list(csv.DictReader(f))
+          with open('official/submission/submission.csv',newline='') as f:
+              r=csv.DictReader(f); assert r.fieldnames==['response_id','probability']; out=list(r)
+          assert len(out)==len(fmt)
+          assert [x['response_id'] for x in out]==[x['response_id'] for x in fmt]
+          p=[float(x['probability']) for x in out]
+          assert all(math.isfinite(x) and 0<=x<=1 for x in p)
+          pathlib.Path('v144_evidence',tag+'.json').write_text(json.dumps({'tag':tag,'rows':len(out),'p_min':min(p),'p_max':max(p),'p_mean':sum(p)/len(p)},indent=2))
           PY
-          cp submission/log.txt ../v143_official_log.txt
-          cp submission/submission.csv ../v143_demo_submission.csv
-      - name: Upload V143 evidence
-        if: always()
-        uses: actions/upload-artifact@v4
+            cp official/submission/log.txt "v144_evidence/${tag}.log"
+          done
+      - uses: actions/upload-artifact@v4
         with:
-          name: trace-ace-v143-official-container-gate
+          name: trace-ace-v144-smoke-probes
           path: |
-            v143_zip_listing.txt
-            v143_image_id.txt
-            v143_elapsed_seconds.txt
-            v143_official_log.txt
-            v143_demo_submission.csv
+            v144_probes/*.zip
+            v144_evidence/*
+            v144_image_id.txt
           retention-days: 14
-      - name: Record V143 completion
+      - name: Record V144 completion
         if: always()
         run: |
           python - <<'PY'
           import json,os,pathlib
-          elapsed=pathlib.Path('v143_elapsed_seconds.txt')
-          out={'run_id':int(os.environ['GITHUB_RUN_ID']),'status':'FINAL','official_demo_completed':pathlib.Path('v143_demo_submission.csv').exists(),'elapsed_seconds':int(elapsed.read_text().strip()) if elapsed.exists() else None}
-          pathlib.Path('/tmp/V143_RUN_FINAL.json').write_text(json.dumps(out,indent=2))
+          zs=sorted(p.name for p in pathlib.Path('v144_probes').glob('*.zip')) if pathlib.Path('v144_probes').exists() else []
+          ev=sorted(p.name for p in pathlib.Path('v144_evidence').glob('*.json')) if pathlib.Path('v144_evidence').exists() else []
+          out={'run_id':int(os.environ['GITHUB_RUN_ID']),'status':'FINAL','probe_zips':zs,'validated':ev}
+          pathlib.Path('/tmp/V144_RUN_FINAL.json').write_text(json.dumps(out,indent=2))
           print(json.dumps(out,indent=2))
           PY
           git fetch origin main
-          git worktree add /tmp/v143-final origin/main
-          cd /tmp/v143-final
+          git worktree add /tmp/v144-final origin/main
+          cd /tmp/v144-final
           mkdir -p competitions/trace_the_ace/results
-          cp /tmp/V143_RUN_FINAL.json competitions/trace_the_ace/results/V143_RUN_FINAL.json
+          cp /tmp/V144_RUN_FINAL.json competitions/trace_the_ace/results/V144_RUN_FINAL.json
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add competitions/trace_the_ace/results/V143_RUN_FINAL.json
-          git commit -m "results: record V143 final $GITHUB_RUN_ID" || true
+          git add competitions/trace_the_ace/results/V144_RUN_FINAL.json
+          git commit -m "results: record V144 final $GITHUB_RUN_ID" || true
           git push origin HEAD:main || true
