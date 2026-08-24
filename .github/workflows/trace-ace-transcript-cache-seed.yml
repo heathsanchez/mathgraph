@@ -1,4 +1,4 @@
-name: Trace Ace V145 Magnitude Separator
+name: Trace Ace V121 Frozen Semantic Relaunch
 on:
   push:
     branches: [main]
@@ -8,107 +8,166 @@ on:
 permissions:
   contents: write
   actions: read
+concurrency:
+  group: trace-ace-v121-frozen-relaunch
+  cancel-in-progress: false
+env:
+  TRANSCRIPT_KEY: trace-ace-transcripts-v1-603547640
+  TRANSCRIPT_SHA: e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d
+  SCIENCE_REF: agent/v145-v135-plus-evidence-family
 jobs:
-  v145:
+  prepare:
     runs-on: ubuntu-24.04
-    timeout-minutes: 150
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: agent/v145-v135-plus-evidence-family
+          ref: ${{ env.SCIENCE_REF }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: pip
-      - name: Record V145 run start
+      - name: Record V121 relaunch start
         run: |
           python - <<'PY'
           import json,os,pathlib
-          pathlib.Path('/tmp/V145_RUN_START.json').write_text(json.dumps({'run_id':int(os.environ['GITHUB_RUN_ID']),'status':'STARTED','frozen_commit':'f19e3c2287a17ecccfd660f12ff047253ecbba3a'},indent=2))
+          pathlib.Path('/tmp/V121_RELAUNCH_START.json').write_text(json.dumps({'run_id':int(os.environ['GITHUB_RUN_ID']),'status':'STARTED','science_ref':os.environ['SCIENCE_REF']},indent=2))
           PY
           git fetch origin main
-          git worktree add /tmp/v145-start origin/main
-          cd /tmp/v145-start
+          git worktree add /tmp/v121-start origin/main
+          cd /tmp/v121-start
           mkdir -p competitions/trace_the_ace/results
-          cp /tmp/V145_RUN_START.json competitions/trace_the_ace/results/V145_RUN_START.json
+          cp /tmp/V121_RELAUNCH_START.json competitions/trace_the_ace/results/V121_RELAUNCH_START.json
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add competitions/trace_the_ace/results/V145_RUN_START.json
-          git commit -m "results: record V145 run start $GITHUB_RUN_ID" || true
+          git add competitions/trace_the_ace/results/V121_RELAUNCH_START.json
+          git commit -m "results: record V121 relaunch start $GITHUB_RUN_ID" || true
           git push origin HEAD:main || true
       - name: Install dependencies
-        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
-      - name: Restore frozen transcript archive from GitHub cache only
-        id: transcript-cache
-        uses: actions/cache@v4
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown fastembed==0.8.0
+      - name: Restore frozen transcript archive
+        uses: actions/cache/restore@v4
         with:
           path: transcripts.zip
-          key: trace-ace-transcripts-v1-603547640
-      - name: Require exact transcript cache
+          key: ${{ env.TRANSCRIPT_KEY }}
+          fail-on-cache-miss: true
+      - name: Validate frozen transcript archive
         run: |
           set -euo pipefail
-          test '${{ steps.transcript-cache.outputs.cache-hit }}' = 'true'
           test "$(stat -c%s transcripts.zip)" = '603547640'
-          echo 'e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d  transcripts.zip' | sha256sum -c -
-      - name: Download frozen small metadata archive only
+          test "$(sha256sum transcripts.zip | cut -d' ' -f1)" = "$TRANSCRIPT_SHA"
+      - name: Download frozen metadata and extract
         run: |
           set -euo pipefail
           gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
-          mkdir -p data/transcripts data/meta
-          unzip -q transcripts.zip -d data/transcripts
+          mkdir -p data/meta data/transcripts
           unzip -q metadata.zip -d data/meta
-      - name: Resolve and audit schemas
-        run: |
-          set -euo pipefail
-          FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)
-          LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)
+          unzip -q transcripts.zip -d data/transcripts
+          echo "FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)" >> "$GITHUB_ENV"
+          echo "LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)" >> "$GITHUB_ENV"
           FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
-          TRANSCRIPTS=$(dirname "$FIRST")
-          test -n "$FEATURES" && test -n "$LABELS" && test -n "$TRANSCRIPTS"
-          python - <<'PY' "$FEATURES" "$LABELS"
-          import pandas as pd,sys
-          f=pd.read_csv(sys.argv[1]); y=pd.read_csv(sys.argv[2])
-          print('FEATURE_COLUMNS',list(f.columns)); print('LABEL_COLUMNS',list(y.columns)); print('SHAPES',f.shape,y.shape)
-          assert len(f)==35072 and len(y)==35072
-          PY
-          echo "FEATURES=$FEATURES" >> "$GITHUB_ENV"
-          echo "LABELS=$LABELS" >> "$GITHUB_ENV"
-          echo "TRANSCRIPTS=$TRANSCRIPTS" >> "$GITHUB_ENV"
-      - name: Run frozen V145 full-data separator
+          echo "TRANSCRIPTS=$(dirname "$FIRST")" >> "$GITHUB_ENV"
+      - name: Prepare exact frozen V121 inputs
+        run: |
+          python -m py_compile competitions/trace_the_ace/v121_pretrained_semantic_residual.py competitions/trace_the_ace/v121_staged_transport.py
+          cd competitions/trace_the_ace
+          python v121_staged_transport.py prepare \
+            --features "../../$FEATURES" --labels "../../$LABELS" \
+            --transcripts "../../$TRANSCRIPTS" --rows 2500 --dir ../../v121_prepared
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v121-prepared-relaunch
+          path: v121_prepared/
+          retention-days: 2
+          compression-level: 6
+  embed:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_REF }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn fastembed==0.8.0
+      - uses: actions/download-artifact@v4
+        with:
+          name: v121-prepared-relaunch
+          path: v121_prepared
+      - name: Embed exact frozen V121 texts
         run: |
           cd competitions/trace_the_ace
-          python v145_v135_plus_evidence_family.py \
-            --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" \
-            --out ../../v145_v135_plus_evidence_family.json
-      - name: Show V145 decision
-        if: always()
-        run: cat v145_v135_plus_evidence_family.json || true
+          python v121_staged_transport.py embed --dir ../../v121_prepared \
+            --shard ${{ matrix.shard }} --shards 16 \
+            --out ../../v121_embeddings_shard_${{ matrix.shard }}.npz
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: trace-ace-v145-v135-plus-evidence-family
-          path: v145_v135_plus_evidence_family.json
+          name: v121-relaunch-embeddings-${{ matrix.shard }}
+          path: v121_embeddings_shard_${{ matrix.shard }}.npz
+          retention-days: 2
+          compression-level: 0
+  evaluate:
+    needs: embed
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_REF }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn fastembed==0.8.0
+      - uses: actions/download-artifact@v4
+        with:
+          name: v121-prepared-relaunch
+          path: v121_prepared
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v121-relaunch-embeddings-*
+          path: v121_embedding_shards
+          merge-multiple: false
+      - name: Evaluate frozen V121 precommit
+        run: |
+          cd competitions/trace_the_ace
+          python v121_staged_transport.py evaluate --dir ../../v121_prepared \
+            --embeddings ../../v121_embedding_shards --out ../../v121_pretrained_semantic_residual.json
+      - name: Show decision
+        run: cat v121_pretrained_semantic_residual.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v121-pretrained-semantic-residual-relaunch
+          path: v121_pretrained_semantic_residual.json
           retention-days: 14
-      - name: Record V145 completion
+      - name: Record V121 relaunch completion
         if: always()
         run: |
           python - <<'PY'
           import json,os,pathlib
-          p=pathlib.Path('v145_v135_plus_evidence_family.json')
+          p=pathlib.Path('v121_pretrained_semantic_residual.json')
           out={'run_id':int(os.environ['GITHUB_RUN_ID']),'status':'FINAL','result_exists':p.exists()}
           if p.exists():
-              try:
-                  r=json.loads(p.read_text()); out['verdict']=r.get('decision',{}).get('verdict'); out['session_gain']=r.get('session_grouped',{}).get('gain_vs_v135'); out['objective_gain']=r.get('objective_grouped',{}).get('gain_vs_v135')
-              except Exception as e: out['parse_error']=str(e)
-          pathlib.Path('/tmp/V145_RUN_FINAL.json').write_text(json.dumps(out,indent=2)); print(json.dumps(out,indent=2))
+              r=json.loads(p.read_text()); out['verdict']=r.get('decision',{}).get('verdict'); out['objective_gain']=r.get('objective_grouped',{}).get('semantic',{}).get('gain'); out['session_gain']=r.get('session_grouped',{}).get('semantic',{}).get('gain')
+          pathlib.Path('/tmp/V121_RELAUNCH_FINAL.json').write_text(json.dumps(out,indent=2)); print(json.dumps(out,indent=2))
           PY
           git fetch origin main
-          git worktree add /tmp/v145-final origin/main
-          cd /tmp/v145-final
+          git worktree add /tmp/v121-final origin/main
+          cd /tmp/v121-final
           mkdir -p competitions/trace_the_ace/results
-          cp /tmp/V145_RUN_FINAL.json competitions/trace_the_ace/results/V145_RUN_FINAL.json
+          cp /tmp/V121_RELAUNCH_FINAL.json competitions/trace_the_ace/results/V121_RELAUNCH_FINAL.json
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add competitions/trace_the_ace/results/V145_RUN_FINAL.json
-          git commit -m "results: record V145 final $GITHUB_RUN_ID" || true
+          git add competitions/trace_the_ace/results/V121_RELAUNCH_FINAL.json
+          git commit -m "results: record V121 relaunch final $GITHUB_RUN_ID" || true
           git push origin HEAD:main || true
