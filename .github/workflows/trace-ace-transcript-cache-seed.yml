@@ -4,13 +4,14 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/trace-ace-transcript-cache-seed.yml'
+      - 'competitions/trace_the_ace/V121_TRIGGER.txt'
   workflow_dispatch:
 permissions:
   contents: write
   actions: read
 concurrency:
   group: trace-ace-v121-frozen-relaunch
-  cancel-in-progress: false
+  cancel-in-progress: true
 env:
   TRANSCRIPT_KEY: trace-ace-transcripts-v1-603547640
   TRANSCRIPT_SHA: e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d
@@ -82,13 +83,8 @@ jobs:
           compression-level: 6
   embed:
     needs: prepare
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -103,16 +99,22 @@ jobs:
         with:
           name: v121-prepared-relaunch
           path: v121_prepared
-      - name: Embed exact frozen V121 texts
+      - name: Embed all 16 exact frozen shards sequentially
         run: |
+          set -euo pipefail
           cd competitions/trace_the_ace
-          python v121_staged_transport.py embed --dir ../../v121_prepared \
-            --shard ${{ matrix.shard }} --shards 16 \
-            --out ../../v121_embeddings_shard_${{ matrix.shard }}.npz
+          for shard in $(seq 0 15); do
+            echo "===== FROZEN V121 SHARD $shard / 15 ====="
+            python v121_staged_transport.py embed --dir ../../v121_prepared \
+              --shard "$shard" --shards 16 \
+              --out "../../v121_embeddings_shard_${shard}.npz"
+          done
+          cd ../..
+          test "$(find . -maxdepth 1 -name 'v121_embeddings_shard_*.npz' | wc -l)" -eq 16
       - uses: actions/upload-artifact@v4
         with:
-          name: v121-relaunch-embeddings-${{ matrix.shard }}
-          path: v121_embeddings_shard_${{ matrix.shard }}.npz
+          name: v121-relaunch-embeddings-all
+          path: v121_embeddings_shard_*.npz
           retention-days: 2
           compression-level: 0
   evaluate:
@@ -135,9 +137,8 @@ jobs:
           path: v121_prepared
       - uses: actions/download-artifact@v4
         with:
-          pattern: v121-relaunch-embeddings-*
+          name: v121-relaunch-embeddings-all
           path: v121_embedding_shards
-          merge-multiple: false
       - name: Evaluate frozen V121 precommit
         run: |
           cd competitions/trace_the_ace
