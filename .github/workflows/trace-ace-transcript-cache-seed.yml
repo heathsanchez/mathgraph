@@ -5,6 +5,10 @@ on:
     paths:
       - '.github/workflows/trace-ace-transcript-cache-seed.yml'
       - 'competitions/trace_the_ace/V152_TRIGGER.txt'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'competitions/trace_the_ace/v152_transition_law_discovery.py'
   workflow_dispatch:
 permissions:
   contents: write
