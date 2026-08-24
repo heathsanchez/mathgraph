@@ -1,3 +1,4 @@
-trigger: frozen-v121-semantic-relaunch
+trigger: frozen-v121-semantic-relaunch-2
 controller_commit: f6c977fc3a30fb30a5ce414d20cb2dd95470646d
 science_ref: agent/v145-v135-plus-evidence-family
+reason: clear stale concurrency and force canonical single-worker run
