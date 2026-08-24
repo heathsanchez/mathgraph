@@ -1,0 +1,3 @@
+trigger: frozen-v121-semantic-relaunch
+controller_commit: f6c977fc3a30fb30a5ce414d20cb2dd95470646d
+science_ref: agent/v145-v135-plus-evidence-family
