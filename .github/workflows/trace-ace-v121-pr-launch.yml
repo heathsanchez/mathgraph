@@ -1,0 +1,136 @@
+name: Trace Ace V121 Frozen Semantic PR Launch
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: trace-ace-v121-frozen-pr
+  cancel-in-progress: false
+
+env:
+  TRANSCRIPT_KEY: trace-ace-transcripts-v1-603547640
+  TRANSCRIPT_SHA: e685b85b04694e130c25b17d09cdd1892fbda5e9fa685e98b2300114b915aa2d
+  SCIENCE_REF: agent/v145-v135-plus-evidence-family
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_REF }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown fastembed==0.8.0
+      - name: Restore frozen transcript archive
+        uses: actions/cache/restore@v4
+        with:
+          path: transcripts.zip
+          key: ${{ env.TRANSCRIPT_KEY }}
+          fail-on-cache-miss: true
+      - name: Validate frozen transcript archive
+        run: |
+          set -euo pipefail
+          test "$(stat -c%s transcripts.zip)" = '603547640'
+          test "$(sha256sum transcripts.zip | cut -d' ' -f1)" = "$TRANSCRIPT_SHA"
+      - name: Download frozen metadata and extract
+        run: |
+          set -euo pipefail
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/meta data/transcripts
+          unzip -q metadata.zip -d data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          echo "FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)" >> "$GITHUB_ENV"
+          echo "LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)" >> "$GITHUB_ENV"
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
+          echo "TRANSCRIPTS=$(dirname "$FIRST")" >> "$GITHUB_ENV"
+      - name: Prepare exact frozen V121 inputs
+        run: |
+          python -m py_compile competitions/trace_the_ace/v121_pretrained_semantic_residual.py competitions/trace_the_ace/v121_staged_transport.py
+          cd competitions/trace_the_ace
+          python v121_staged_transport.py prepare \
+            --features "../../$FEATURES" --labels "../../$LABELS" \
+            --transcripts "../../$TRANSCRIPTS" --rows 2500 --dir ../../v121_prepared
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v121-prepared-pr
+          path: v121_prepared/
+          retention-days: 2
+          compression-level: 6
+
+  embed:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_REF }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn fastembed==0.8.0
+      - uses: actions/download-artifact@v4
+        with:
+          name: v121-prepared-pr
+          path: v121_prepared
+      - name: Embed exact frozen V121 texts
+        run: |
+          cd competitions/trace_the_ace
+          python v121_staged_transport.py embed --dir ../../v121_prepared \
+            --shard ${{ matrix.shard }} --shards 16 \
+            --out ../../v121_embeddings_shard_${{ matrix.shard }}.npz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v121-pr-embeddings-${{ matrix.shard }}
+          path: v121_embeddings_shard_${{ matrix.shard }}.npz
+          retention-days: 2
+          compression-level: 0
+
+  evaluate:
+    needs: embed
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_REF }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn fastembed==0.8.0
+      - uses: actions/download-artifact@v4
+        with:
+          name: v121-prepared-pr
+          path: v121_prepared
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v121-pr-embeddings-*
+          path: v121_embedding_shards
+          merge-multiple: false
+      - name: Evaluate frozen V121 precommit
+        run: |
+          cd competitions/trace_the_ace
+          python v121_staged_transport.py evaluate --dir ../../v121_prepared \
+            --embeddings ../../v121_embedding_shards --out ../../v121_pretrained_semantic_residual.json
+      - name: Show decision
+        run: cat v121_pretrained_semantic_residual.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v121-pretrained-semantic-residual-pr
+          path: v121_pretrained_semantic_residual.json
+          retention-days: 14
