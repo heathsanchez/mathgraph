@@ -1,0 +1,40 @@
+name: Trace Ace V119 Public Anchor Geometry
+on:
+  pull_request:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v119_public_anchor_geometry.py'
+      - '.github/workflows/trace-ace-v119-public-anchor-geometry.yml'
+jobs:
+  geometry:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Download frozen data
+        run: |
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          gdown 1UWuHKIJ86yINhQOBGx2fFJ890hiEa6Md -O transcripts.zip
+          mkdir -p data/meta data/transcripts
+          unzip -q metadata.zip -d data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          echo "FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)" >> "$GITHUB_ENV"
+          echo "LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)" >> "$GITHUB_ENV"
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
+          echo "TRANSCRIPTS=$(dirname "$FIRST")" >> "$GITHUB_ENV"
+      - name: Preflight
+        run: python -m py_compile competitions/trace_the_ace/v119_public_anchor_geometry.py
+      - name: Run V119
+        run: python competitions/trace_the_ace/v119_public_anchor_geometry.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --sessions 4000 --out competitions/trace_the_ace/v119_public_anchor_geometry.json
+      - name: Show decision
+        run: cat competitions/trace_the_ace/v119_public_anchor_geometry.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v119-public-anchor-geometry
+          path: competitions/trace_the_ace/v119_public_anchor_geometry.json
+          retention-days: 14

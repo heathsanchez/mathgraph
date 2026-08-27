@@ -1,0 +1,143 @@
+name: Trace the Ace V97 submission sprint
+on:
+  workflow_dispatch:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v97_support_gate.py'
+      - 'competitions/trace_the_ace/train_v97_runtime_assets.py'
+      - 'competitions/trace_the_ace/runtime_v97/**'
+      - '.github/workflows/trace-ace-v97-submission-sprint.yml'
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: astral-sh/setup-uv@v6
+      - uses: extractions/setup-just@v2
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+
+      - name: Download frozen training data
+        run: |
+          set -euo pipefail
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/transcripts data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          unzip -q metadata.zip -d data/meta
+
+      - name: Resolve schemas
+        shell: bash
+        run: |
+          set -euo pipefail
+          FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)
+          LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
+          TRANSCRIPTS=$(dirname "$FIRST")
+          test -n "$FEATURES" && test -n "$LABELS" && test -n "$FIRST"
+          echo "FEATURES=$FEATURES" >> "$GITHUB_ENV"
+          echo "LABELS=$LABELS" >> "$GITHUB_ENV"
+          echo "TRANSCRIPTS=$TRANSCRIPTS" >> "$GITHUB_ENV"
+          export FEATURES LABELS TRANSCRIPTS
+          python - <<'PY'
+          import pandas as pd, os
+          print('features columns', list(pd.read_csv(os.environ['FEATURES'], nrows=0).columns))
+          print('labels columns', list(pd.read_csv(os.environ['LABELS'], nrows=0).columns))
+          PY
+
+      - name: Run frozen V97 four-world gate
+        run: |
+          set -euo pipefail
+          cd competitions/trace_the_ace
+          python v97_support_gate.py \
+            --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" \
+            --out ../../v97_support_gate.json
+
+      - name: Decide submission promotion
+        id: gate
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          r=json.load(open('v97_support_gate.json'))
+          verdict=r['decision']['verdict']
+          print(json.dumps(r['decision'], indent=2))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('promote=' + ('true' if verdict=='BUILD_SUBMISSION_NOW' else 'false') + '\n')
+          PY
+
+      - name: Train frozen V97 runtime assets
+        if: steps.gate.outputs.promote == 'true'
+        run: |
+          set -euo pipefail
+          cd competitions/trace_the_ace
+          python train_v97_runtime_assets.py \
+            --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" \
+            --out-dir ../../v97_assets
+
+      - name: Assemble official runtime
+        if: steps.gate.outputs.promote == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/drivendataorg/tutoring-outcomes-runtime.git /tmp/runtime
+          rm -rf /tmp/runtime/submission_src/*
+          cp competitions/trace_the_ace/runtime_v97/main.py /tmp/runtime/submission_src/main.py
+          for F in v71_mastery_events.py v75_canonical_trajectory.py v81_target_segment_phase.py v85_evidence_state.py v89_relative_ability_composition.py v93_shift_robust_validation.py v94_related_control.py; do
+            cp "competitions/trace_the_ace/$F" "/tmp/runtime/submission_src/$F"
+          done
+          mkdir -p /tmp/runtime/submission_src/assets
+          cp v97_assets/v97_assets.npz v97_assets/manifest.json /tmp/runtime/submission_src/assets/
+          find /tmp/runtime/submission_src -maxdepth 2 -type f -printf '%P %s bytes\n'
+
+      - name: Pack and check official submission
+        if: steps.gate.outputs.promote == 'true'
+        working-directory: /tmp/runtime
+        run: |
+          just pack-submission
+          just check-submission
+          just pull
+
+      - name: Test official submission offline
+        if: steps.gate.outputs.promote == 'true'
+        working-directory: /tmp/runtime
+        env:
+          BLOCK_INTERNET: 'true'
+          GITHUB_ACTIONS_NO_TTY: 'true'
+          SUBMISSION_IMAGE: tutoringoutcomeschallengeprodacr.azurecr.io/tutoring-outcomes-runtime:gpu-latest
+        run: just test-submission
+
+      - name: Validate output contract
+        if: steps.gate.outputs.promote == 'true'
+        run: |
+          python competitions/trace_the_ace/runtime_validate.py output \
+            --format /tmp/runtime/data-demo/submission_format.csv \
+            --predictions /tmp/runtime/submission/submission.csv
+
+      - name: Upload gate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v97-gate-evidence
+          path: v97_support_gate.json
+          retention-days: 14
+
+      - name: Upload submission candidate
+        if: steps.gate.outputs.promote == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v97-official-runtime-candidate
+          path: |
+            /tmp/runtime/submission/submission.zip
+            /tmp/runtime/submission/submission.csv
+            /tmp/runtime/submission/log.txt
+            v97_assets/manifest.json
+            v97_support_gate.json
+          retention-days: 14

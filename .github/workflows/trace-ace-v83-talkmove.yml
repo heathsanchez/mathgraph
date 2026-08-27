@@ -1,0 +1,35 @@
+name: Trace the Ace V83 TalkMove supervised
+on:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v83_talkmove_supervised.py'
+      - '.github/workflows/trace-ace-v83-talkmove.yml'
+jobs:
+  v83:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install dependencies
+        run: pip install -q pandas numpy scipy scikit-learn torch transformers sentencepiece gdown
+      - name: Download data
+        run: |
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          unzip -q metadata.zip -d data
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          mkdir -p transcripts && unzip -q transcripts.zip -d transcripts
+      - name: Resolve schemas and run V83
+        working-directory: competitions/trace_the_ace
+        run: |
+          F=$(find ../../data -type f -iname '*features*.csv' | head -1)
+          L=$(find ../../data -type f -iname '*labels*.csv' | head -1)
+          T=$(find ../../transcripts -type f -name '*.csv' -printf '%h\n' | head -1)
+          python v83_talkmove_supervised.py --features "$F" --labels "$L" --transcripts "$T" --out ../../v83_talkmove_supervised.json
+      - name: Upload aggregate result
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v83-talkmove-result
+          path: v83_talkmove_supervised.json

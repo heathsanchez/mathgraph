@@ -1,0 +1,39 @@
+name: Trace the Ace V93 shift robust validation
+on:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v93_shift_robust_validation.py'
+      - '.github/workflows/trace-ace-v93-shift-robust.yml'
+  workflow_dispatch:
+jobs:
+  v93:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install numpy pandas scipy scikit-learn gdown
+      - name: Download data
+        run: |
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/transcripts data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          unzip -q metadata.zip -d data/meta
+      - name: Run V93
+        shell: bash
+        run: |
+          FEATURES=$(find data/meta -type f -name 'train_features*.csv' | head -1)
+          LABELS=$(find data/meta -type f -name 'train_labels*.csv' | head -1)
+          TRANSCRIPTS=$(dirname "$(find data/transcripts -type f -name '*.csv' | head -1)")
+          cd competitions/trace_the_ace
+          python v93_shift_robust_validation.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --out ../../v93_shift_robust.json
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v93-shift-robust
+          path: v93_shift_robust.json

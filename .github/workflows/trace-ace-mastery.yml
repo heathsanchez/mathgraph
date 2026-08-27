@@ -1,0 +1,152 @@
+name: Trace the Ace mastery experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_full:
+        description: "Run full experiment using public Drive bundles"
+        required: false
+        default: false
+        type: boolean
+      limit:
+        description: "Optional row limit (0 = all rows)"
+        required: false
+        default: "0"
+        type: string
+  push:
+    branches:
+      - agent/trace-ace-mastery-events
+    paths:
+      - "competitions/trace_the_ace/**"
+      - ".github/workflows/trace-ace-mastery.yml"
+
+jobs:
+  self-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install experiment dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Run mastery extractor self-test
+        run: python competitions/trace_the_ace/v71_mastery_events.py --self-test
+      - name: Run supervision audit self-test
+        run: python competitions/trace_the_ace/v72_supervision_audit.py --self-test
+      - name: Run contrastive mastery self-test
+        run: python competitions/trace_the_ace/v73_contrastive_mastery.py --self-test
+      - name: Run semantic objective prior self-test
+        run: python competitions/trace_the_ace/v74_semantic_objective_prior.py --self-test
+      - name: Run canonical trajectory self-test
+        run: python competitions/trace_the_ace/v75_canonical_trajectory.py --self-test
+      - name: Run unseen validation self-test
+        run: python competitions/trace_the_ace/v76_unseen_validation.py --self-test
+      - name: Run incremental mastery stack self-test
+        run: python competitions/trace_the_ace/v77_incremental_mastery_stack.py --self-test
+      - name: Run official-runtime validation harness self-test
+        run: python competitions/trace_the_ace/runtime_validate.py self-test
+
+  full-experiment:
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.run_full) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[run-full]')) }}
+    needs: self-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID: 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI
+      TRACE_ACE_METADATA_DRIVE_FILE_ID: 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install experiment dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Download public transcript archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trace_ace/transcripts
+          python - <<'PY'
+          import os, gdown
+          file_id = os.environ['TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID']
+          out = '/tmp/trace_ace/transcripts_download'
+          path = gdown.download(id=file_id, output=out, quiet=False)
+          if not path:
+              raise SystemExit('Google Drive transcript download failed')
+          PY
+          unzip -q /tmp/trace_ace/transcripts_download -d /tmp/trace_ace/transcripts
+          rm -f /tmp/trace_ace/transcripts_download
+      - name: Download public feature/label bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trace_ace/meta
+          python - <<'PY'
+          import os, gdown
+          file_id = os.environ['TRACE_ACE_METADATA_DRIVE_FILE_ID']
+          out = '/tmp/trace_ace/meta.zip'
+          path = gdown.download(id=file_id, output=out, quiet=False)
+          if not path:
+              raise SystemExit('Google Drive metadata download failed; confirm Anyone with the link can view')
+          PY
+          unzip -q /tmp/trace_ace/meta.zip -d /tmp/trace_ace/meta
+          rm -f /tmp/trace_ace/meta.zip
+      - name: Locate inputs by schema and run experiments
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, shlex
+          from pathlib import Path
+          roots = [Path('/tmp/trace_ace/meta'), Path('/tmp/trace_ace/transcripts')]
+          features = labels = transcript_dir = None
+          for root in roots:
+              for path in root.rglob('*.csv'):
+                  try:
+                      with path.open('r', encoding='utf-8-sig', errors='ignore', newline='') as f:
+                          header = next(csv.reader(f))
+                  except Exception:
+                      continue
+                  cols = set(header)
+                  if features is None and {'response_id','session_id','learning_objective'}.issubset(cols):
+                      features = path; print('FEATURE HEADER', header)
+                  if labels is None and 'response_id' in cols and ('is_correct' in cols or 'correct' in cols):
+                      labels = path; print('LABEL HEADER', header)
+                  if transcript_dir is None and {'session_id','utterance_id','role','content','timestamp'}.issubset(cols):
+                      transcript_dir = path.parent; print('TRANSCRIPT HEADER', header)
+                  if features and labels and transcript_dir: break
+              if features and labels and transcript_dir: break
+          if not (features and labels and transcript_dir):
+              raise SystemExit('Could not identify all Trace the Ace inputs by schema')
+          with open('/tmp/trace_ace/paths.env','w') as f:
+              f.write('FEATURES=' + shlex.quote(str(features)) + '\n')
+              f.write('LABELS=' + shlex.quote(str(labels)) + '\n')
+              f.write('TRANSCRIPTS=' + shlex.quote(str(transcript_dir)) + '\n')
+          PY
+          source /tmp/trace_ace/paths.env
+          LIMIT="${{ inputs.limit }}"; LIMIT="${LIMIT:-0}"
+          EXTRA=(); if [ "$LIMIT" != "0" ]; then EXTRA+=(--limit "$LIMIT"); fi
+          python competitions/trace_the_ace/v71_mastery_events.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v71_mastery_results.json "${EXTRA[@]}"
+          python competitions/trace_the_ace/v72_supervision_audit.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v72_supervision_audit.json "${EXTRA[@]}"
+          python competitions/trace_the_ace/v73_contrastive_mastery.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v73_contrastive_mastery.json "${EXTRA[@]}"
+          python competitions/trace_the_ace/v74_semantic_objective_prior.py --features "$FEATURES" --labels "$LABELS" --out v74_semantic_objective_prior.json "${EXTRA[@]}"
+          python competitions/trace_the_ace/v75_canonical_trajectory.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v75_canonical_trajectory.json "${EXTRA[@]}"
+          python competitions/trace_the_ace/v76_unseen_validation.py --features "$FEATURES" --labels "$LABELS" --out-protocol v76_validation_protocol.csv --out-summary v76_validation_summary.json
+          python competitions/trace_the_ace/v77_incremental_mastery_stack.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v77_incremental_mastery_stack.json "${EXTRA[@]}"
+      - name: Upload aggregate results only
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-aggregate-results
+          path: |
+            v71_mastery_results.json
+            v72_supervision_audit.json
+            v73_contrastive_mastery.json
+            v74_semantic_objective_prior.json
+            v75_canonical_trajectory.json
+            v76_validation_summary.json
+            v77_incremental_mastery_stack.json
+          retention-days: 14

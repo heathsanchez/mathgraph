@@ -1,0 +1,31 @@
+{
+  "experiment": "V122_ID_MORPHOLOGY_REGIME_AUDIT",
+  "status": "COMPLETED_LOCAL_FROM_AUTHENTICATED_FROZEN_METADATA",
+  "frozen_metadata_file_id": "1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz",
+  "rows": 35072,
+  "sessions": 22821,
+  "objectives": 398,
+  "families": {
+    "SESSION_ID": {
+      "session_cold": {"ll": 0.61001884715157, "baseline_ll": 0.6087712429519364, "gain": -0.0012476041996335452},
+      "objective_cold": {"ll": 0.6108649000534013, "baseline_ll": 0.6117153814673667, "gain": 0.000850481413965376}
+    },
+    "OBJECTIVE_ID": {
+      "session_cold": {"ll": 0.5538378377601135, "baseline_ll": 0.6087712429519364, "gain": 0.05493340519182288},
+      "objective_cold": {"ll": 0.6144847625399319, "baseline_ll": 0.6117153814673667, "gain": -0.0027693810725651913}
+    },
+    "SESSION_X_OBJECTIVE": {
+      "session_cold": {"ll": 0.5594418013741027, "baseline_ll": 0.6087712429519364, "gain": 0.0493294415778337},
+      "objective_cold": {"ll": 0.614578017753569, "baseline_ll": 0.6117153814673667, "gain": -0.0028626362862023136}
+    }
+  },
+  "shuffle": {
+    "SESSION_ID": {"session_cold_gain": -0.0017297072836235383, "objective_cold_gain": -0.0014020282276541174},
+    "OBJECTIVE_ID": {"session_cold_gain": -0.0015091921768788374, "objective_cold_gain": -0.0002698104527871781},
+    "SESSION_X_OBJECTIVE": {"session_cold_gain": -0.001574849153598623, "objective_cold_gain": -0.0006396369760830467}
+  },
+  "decision": {
+    "verdict": "ID_MORPHOLOGY_NOT_DECISION_CHANGING",
+    "interpretation": "Exact objective recurrence recreates the V74 session-cold prior; identifier morphology does not generalize across held-out objectives, and session-id morphology is null. Do not pursue IDs as a provider/applicability channel."
+  }
+}

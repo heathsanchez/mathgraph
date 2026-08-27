@@ -1,0 +1,42 @@
+{
+  "diagnostics": {
+    "rows": 35072,
+    "sessions": 22821,
+    "objectives": 398,
+    "positive_rate": 0.7024692062043796
+  },
+  "session": {
+    "global_logloss": 0.6087712429519364,
+    "hierarchical_logloss": 0.5527343454820751,
+    "semantic_only_logloss": 0.5828972867379437,
+    "hierarchical_auc": 0.7057912533493755,
+    "delta_vs_global": -0.05603689746986129,
+    "folds": [
+      {"fold": 1, "rows": 7015, "global_logloss": 0.609471457418674, "hierarchical_logloss": 0.5527513784708268, "semantic_only_logloss": 0.5815525167928709},
+      {"fold": 2, "rows": 7015, "global_logloss": 0.6062975979938539, "hierarchical_logloss": 0.5541348721713956, "semantic_only_logloss": 0.5825157859864996},
+      {"fold": 3, "rows": 7014, "global_logloss": 0.6071844652285676, "hierarchical_logloss": 0.5489638944862815, "semantic_only_logloss": 0.5803165236898602},
+      {"fold": 4, "rows": 7014, "global_logloss": 0.6138402315997151, "hierarchical_logloss": 0.5547113077644491, "semantic_only_logloss": 0.5866520609625011},
+      {"fold": 5, "rows": 7014, "global_logloss": 0.6070627153604012, "hierarchical_logloss": 0.5531100724131053, "semantic_only_logloss": 0.5834497923758504}
+    ]
+  },
+  "objective": {
+    "global_logloss": 0.6117153814673667,
+    "hierarchical_logloss": 0.6017357708418917,
+    "semantic_only_logloss": 0.6017357708418917,
+    "hierarchical_auc": 0.5736305336524183,
+    "delta_vs_global": -0.009979610625475033,
+    "folds": [
+      {"fold": 1, "rows": 7015, "global_logloss": 0.6333952466528439, "hierarchical_logloss": 0.6412045179518634, "semantic_only_logloss": 0.6412045179518634},
+      {"fold": 2, "rows": 7015, "global_logloss": 0.5698093295839226, "hierarchical_logloss": 0.5518002193250016, "semantic_only_logloss": 0.5518002193250016},
+      {"fold": 3, "rows": 7014, "global_logloss": 0.5604892890991403, "hierarchical_logloss": 0.5491725706211095, "semantic_only_logloss": 0.5491725706211095},
+      {"fold": 4, "rows": 7014, "global_logloss": 0.6626437649772484, "hierarchical_logloss": 0.6375851308655951, "semantic_only_logloss": 0.6375851308655951},
+      {"fold": 5, "rows": 7014, "global_logloss": 0.6322421607115449, "hierarchical_logloss": 0.6289179077191152, "semantic_only_logloss": 0.6289179077191152}
+    ]
+  },
+  "provenance": {
+    "features": "train_features_TMQTWsB.csv",
+    "labels": "train_labels_44ujmj2.csv",
+    "transcripts_used": false,
+    "note": "Aggregate metrics only; no competition data committed."
+  }
+}

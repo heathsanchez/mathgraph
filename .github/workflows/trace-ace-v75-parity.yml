@@ -1,0 +1,195 @@
+name: Trace the Ace V75 parity and independence
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/trace-ace-mastery-events
+    paths:
+      - ".github/workflows/trace-ace-v75-parity.yml"
+
+jobs:
+  parity-independence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID: 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI
+      TRACE_ACE_METADATA_DRIVE_FILE_ID: 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+
+      - name: Download immutable promoted V75 candidate artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trace-ace-v75-official-runtime-candidate
+          path: /tmp/candidate_artifact
+          github-token: ${{ github.token }}
+          repository: heathSanchez/mathgraph
+          run-id: 31863804281
+
+      - name: Extract candidate submission and frozen assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/candidate
+          unzip -q /tmp/candidate_artifact/runtime/submission/submission.zip -d /tmp/candidate
+          test -f /tmp/candidate/main.py
+          test -f /tmp/candidate/assets/v75_runtime_assets.npz
+          sha256sum /tmp/candidate_artifact/runtime/submission/submission.zip | tee /tmp/submission_sha256.txt
+
+      - name: Download held-out fixture source data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trace_ace/meta /tmp/trace_ace/transcripts
+          python - <<'PY'
+          import os, gdown
+          p = gdown.download(id=os.environ['TRACE_ACE_METADATA_DRIVE_FILE_ID'], output='/tmp/meta.zip', quiet=False)
+          if not p: raise SystemExit('metadata download failed')
+          p = gdown.download(id=os.environ['TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID'], output='/tmp/transcripts.zip', quiet=False)
+          if not p: raise SystemExit('transcript download failed')
+          PY
+          unzip -q /tmp/meta.zip -d /tmp/trace_ace/meta
+          unzip -q /tmp/transcripts.zip -d /tmp/trace_ace/transcripts
+
+      - name: Resolve schemas and build four competition-shaped batches
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json, shutil
+          from pathlib import Path
+          import pandas as pd
+
+          roots=[Path('/tmp/trace_ace/meta'),Path('/tmp/trace_ace/transcripts')]
+          features=None; transcript_dir=None
+          for root in roots:
+              for p in root.rglob('*.csv'):
+                  try:
+                      with p.open('r',encoding='utf-8-sig',errors='ignore',newline='') as f: h=next(csv.reader(f))
+                  except Exception: continue
+                  c=set(h)
+                  if features is None and {'response_id','session_id','learning_objective'}.issubset(c):
+                      features=p; print('FEATURE HEADER',h)
+                  if transcript_dir is None and {'session_id','utterance_id','role','content','timestamp'}.issubset(c):
+                      transcript_dir=p.parent; print('TRANSCRIPT HEADER',h)
+          if not features or not transcript_dir: raise SystemExit('schema discovery failed')
+          f=pd.read_csv(features).reset_index(drop=True)
+          target=f.iloc[[0]].copy()
+          target_id=str(target.iloc[0].response_id)
+          # A: target alone; B: target + unrelated; C: same as B reordered; D: target + different unrelated batch.
+          A=target
+          B=pd.concat([target,f.iloc[1:32]],ignore_index=True).drop_duplicates('response_id')
+          C=B.sample(frac=1,random_state=20260815).reset_index(drop=True)
+          D=pd.concat([target,f.iloc[100:132]],ignore_index=True).drop_duplicates('response_id')
+          batches={'A':A,'B':B,'C':C,'D':D}
+          for name,df in batches.items():
+              root=Path('/tmp/batches')/name
+              tdir=root/'test_transcripts'; tdir.mkdir(parents=True,exist_ok=True)
+              df.to_csv(root/'test_features.csv',index=False)
+              pd.DataFrame({'response_id':df.response_id.astype(str),'probability':0.5}).to_csv(root/'submission_format.csv',index=False)
+              for sid in df.session_id.astype(str).unique():
+                  src=transcript_dir/f'{sid}.csv'
+                  if not src.exists(): raise SystemExit(f'missing transcript {src}')
+                  shutil.copy2(src,tdir/src.name)
+          Path('/tmp/fixture.json').write_text(json.dumps({'target_response_id':target_id,'features':str(features),'transcript_dir':str(transcript_dir)},indent=2))
+          print('TARGET',target_id)
+          print({k:len(v) for k,v in batches.items()})
+          PY
+
+      - name: Generate independent research-reference probabilities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          import numpy as np, pandas as pd
+          from scipy.sparse import csr_matrix, hstack
+          from sklearn.feature_extraction.text import HashingVectorizer
+
+          sys.path.insert(0, str(Path('competitions/trace_the_ace').resolve()))
+          from v71_mastery_events import load_transcript
+          from v75_canonical_trajectory import trajectory_views
+
+          a=np.load('/tmp/candidate/assets/v75_runtime_assets.npz')
+          coef=a['coef'].astype(np.float64); intercept=float(a['intercept'].ravel()[0])
+          mean=a['num_mean'].astype(np.float64); std=a['num_std'].astype(np.float64)
+          hv=HashingVectorizer(n_features=2**18,alternate_sign=False,norm='l2',ngram_range=(1,2),lowercase=True)
+          def sigmoid(x): return 1/(1+np.exp(-x))
+          for name in ['A','B','C','D']:
+              root=Path('/tmp/batches')/name; df=pd.read_csv(root/'test_features.csv')
+              cache={}; views=[]; nums=[]
+              for r in df.itertuples(index=False):
+                  sid=str(r.session_id)
+                  if sid not in cache: cache[sid]=load_transcript(root/'test_transcripts'/f'{sid}.csv')
+                  v,n,_=trajectory_views(cache[sid],str(r.learning_objective)); views.append(v); nums.append(n)
+              z=(np.vstack(nums).astype(np.float64)-mean)/std
+              parts=[
+                  hv.transform(['[OBJECTIVE] '+str(x) for x in df.learning_objective]),
+                  hv.transform(['[RAW] '+v['raw'] for v in views]),
+                  hv.transform(['[STUDENT] '+v['student'] for v in views]),
+                  hv.transform(['[LOCAL] '+v['local'] for v in views]),
+                  hv.transform(['[STATE] '+v['canonical'] for v in views]),
+                  hv.transform(['[TERMINAL] '+v['terminal'] for v in views]),
+                  csr_matrix(z),
+              ]
+              X=hstack(parts,format='csr')
+              p=np.clip(sigmoid(np.asarray(X@coef).ravel()+intercept),1e-5,1-1e-5)
+              pd.DataFrame({'response_id':df.response_id.astype(str),'probability':p}).to_csv(f'/tmp/reference_{name}.csv',index=False)
+          PY
+
+      - name: Run immutable runtime candidate on all four batches
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo rm -rf /code_execution
+          sudo mkdir -p /code_execution
+          sudo chmod 0777 /code_execution
+          for NAME in A B C D; do
+            rm -rf /code_execution/data /code_execution/run
+            cp -a "/tmp/batches/$NAME" /code_execution/data
+            cp -a /tmp/candidate /code_execution/run
+            (cd /code_execution/run && python main.py)
+            cp /code_execution/run/submission.csv "/tmp/runtime_${NAME}.csv"
+          done
+
+      - name: Gate 2 research/runtime parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          for NAME in A B C D; do
+            python competitions/trace_the_ace/runtime_validate.py parity --reference "/tmp/reference_${NAME}.csv" --runtime "/tmp/runtime_${NAME}.csv" --tol 1e-8
+          done
+
+      - name: Gate 7 sample-independence metamorphic audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET=$(python -c "import json; print(json.load(open('/tmp/fixture.json'))['target_response_id'])")
+          python competitions/trace_the_ace/runtime_validate.py independence --response-id "$TARGET" --predictions /tmp/runtime_A.csv /tmp/runtime_B.csv /tmp/runtime_C.csv /tmp/runtime_D.csv --tol 1e-8
+
+      - name: Validate every runtime output contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          for NAME in A B C D; do
+            python competitions/trace_the_ace/runtime_validate.py output --format "/tmp/batches/${NAME}/submission_format.csv" --predictions "/tmp/runtime_${NAME}.csv"
+          done
+
+      - name: Upload parity evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v75-parity-independence-evidence
+          path: |
+            /tmp/submission_sha256.txt
+            /tmp/fixture.json
+            /tmp/reference_*.csv
+            /tmp/runtime_*.csv
+          retention-days: 14

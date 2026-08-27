@@ -1,0 +1,71 @@
+name: Trace the Ace V78 seismic semantic
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - "competitions/trace_the_ace/v78_seismic_semantic.py"
+      - ".github/workflows/trace-ace-v78-seismic.yml"
+
+jobs:
+  seismic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID: 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI
+      TRACE_ACE_METADATA_DRIVE_FILE_ID: 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown sentence-transformers torch
+      - name: Download data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trace_ace/meta /tmp/trace_ace/transcripts
+          python - <<'PY'
+          import os,gdown
+          if not gdown.download(id=os.environ['TRACE_ACE_METADATA_DRIVE_FILE_ID'],output='/tmp/meta.zip',quiet=False): raise SystemExit('metadata download failed')
+          if not gdown.download(id=os.environ['TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID'],output='/tmp/transcripts.zip',quiet=False): raise SystemExit('transcript download failed')
+          PY
+          unzip -q /tmp/meta.zip -d /tmp/trace_ace/meta
+          unzip -q /tmp/transcripts.zip -d /tmp/trace_ace/transcripts
+      - name: Resolve schemas
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,shlex
+          from pathlib import Path
+          features=labels=td=None
+          for root in [Path('/tmp/trace_ace/meta'),Path('/tmp/trace_ace/transcripts')]:
+            for p in root.rglob('*.csv'):
+              try:
+                with p.open('r',encoding='utf-8-sig',errors='ignore',newline='') as f: h=next(csv.reader(f))
+              except Exception: continue
+              c=set(h)
+              if features is None and {'response_id','session_id','learning_objective'}.issubset(c): features=p; print('FEATURE HEADER',h)
+              if labels is None and 'response_id' in c and ('is_correct' in c or 'correct' in c): labels=p; print('LABEL HEADER',h)
+              if td is None and {'session_id','utterance_id','role','content','timestamp'}.issubset(c): td=p.parent; print('TRANSCRIPT HEADER',h)
+          if not all([features,labels,td]): raise SystemExit('schema discovery failed')
+          with open('/tmp/paths.env','w') as f:
+            f.write('FEATURES='+shlex.quote(str(features))+'\nLABELS='+shlex.quote(str(labels))+'\nTRANSCRIPTS='+shlex.quote(str(td))+'\n')
+          PY
+      - name: Run V78 MiniLM seismic test
+        shell: bash
+        env:
+          TOKENIZERS_PARALLELISM: "false"
+        run: |
+          set -euo pipefail
+          source /tmp/paths.env
+          python competitions/trace_the_ace/v78_seismic_semantic.py --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" --out v78_seismic_semantic.json
+      - name: Upload aggregate result
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v78-seismic-result
+          path: v78_seismic_semantic.json
+          retention-days: 14

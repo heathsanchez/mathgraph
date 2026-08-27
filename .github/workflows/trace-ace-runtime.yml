@@ -1,0 +1,139 @@
+name: Trace the Ace V75 official runtime
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/trace-ace-mastery-events
+    paths:
+      - "competitions/trace_the_ace/runtime_v75/**"
+      - "competitions/trace_the_ace/train_v75_runtime_assets.py"
+      - "competitions/trace_the_ace/v71_mastery_events.py"
+      - "competitions/trace_the_ace/v75_canonical_trajectory.py"
+      - "competitions/trace_the_ace/runtime_validate.py"
+      - ".github/workflows/trace-ace-runtime.yml"
+
+jobs:
+  build-and-test:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[runtime-build]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID: 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI
+      TRACE_ACE_METADATA_DRIVE_FILE_ID: 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz
+      GITHUB_ACTIONS_NO_TTY: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: astral-sh/setup-uv@v6
+      - uses: extractions/setup-just@v2
+      - name: Install training dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+
+      - name: Download training inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trace_ace/transcripts /tmp/trace_ace/meta
+          python - <<'PY'
+          import os, gdown
+          pairs = [
+              ('TRACE_ACE_TRANSCRIPTS_DRIVE_FILE_ID','/tmp/trace_ace/transcripts.zip'),
+              ('TRACE_ACE_METADATA_DRIVE_FILE_ID','/tmp/trace_ace/meta.zip'),
+          ]
+          for env, out in pairs:
+              p = gdown.download(id=os.environ[env], output=out, quiet=False)
+              if not p:
+                  raise SystemExit(f'download failed: {env}')
+          PY
+          unzip -q /tmp/trace_ace/transcripts.zip -d /tmp/trace_ace/transcripts
+          unzip -q /tmp/trace_ace/meta.zip -d /tmp/trace_ace/meta
+          rm -f /tmp/trace_ace/*.zip
+
+      - name: Resolve schemas
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, shlex
+          from pathlib import Path
+          roots=[Path('/tmp/trace_ace/meta'),Path('/tmp/trace_ace/transcripts')]
+          features=labels=transcripts=None
+          for root in roots:
+            for p in root.rglob('*.csv'):
+              try:
+                with p.open('r',encoding='utf-8-sig',errors='ignore',newline='') as f: h=next(csv.reader(f))
+              except Exception: continue
+              c=set(h)
+              if features is None and {'response_id','session_id','learning_objective'}.issubset(c): features=p; print('FEATURE HEADER',h)
+              if labels is None and 'response_id' in c and ('is_correct' in c or 'correct' in c): labels=p; print('LABEL HEADER',h)
+              if transcripts is None and {'session_id','utterance_id','role','content','timestamp'}.issubset(c): transcripts=p.parent; print('TRANSCRIPT HEADER',h)
+          if not all((features,labels,transcripts)): raise SystemExit('failed schema resolution')
+          with open('/tmp/trace_ace/paths.env','w') as f:
+            f.write('FEATURES='+shlex.quote(str(features))+'\n')
+            f.write('LABELS='+shlex.quote(str(labels))+'\n')
+            f.write('TRANSCRIPTS='+shlex.quote(str(transcripts))+'\n')
+          PY
+
+      - name: Train promoted V75 all-views assets on all training rows
+        shell: bash
+        run: |
+          set -euo pipefail
+          source /tmp/trace_ace/paths.env
+          python competitions/trace_the_ace/train_v75_runtime_assets.py \
+            --features "$FEATURES" --labels "$LABELS" --transcripts "$TRANSCRIPTS" \
+            --out-dir /tmp/v75_assets
+
+      - name: Assemble official submission_src
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/drivendataorg/tutoring-outcomes-runtime.git /tmp/runtime
+          rm -rf /tmp/runtime/submission_src/*
+          cp competitions/trace_the_ace/runtime_v75/main.py /tmp/runtime/submission_src/main.py
+          cp competitions/trace_the_ace/v71_mastery_events.py /tmp/runtime/submission_src/v71_mastery_events.py
+          cp competitions/trace_the_ace/v75_canonical_trajectory.py /tmp/runtime/submission_src/v75_canonical_trajectory.py
+          mkdir -p /tmp/runtime/submission_src/assets
+          cp /tmp/v75_assets/v75_runtime_assets.npz /tmp/runtime/submission_src/assets/
+          cp /tmp/v75_assets/manifest.json /tmp/runtime/submission_src/assets/
+          find /tmp/runtime/submission_src -maxdepth 2 -type f -printf '%P %s bytes\n'
+
+      - name: Pack and check with official runtime
+        working-directory: /tmp/runtime
+        run: |
+          just pack-submission
+          just check-submission
+
+      - name: Pull official runtime image
+        working-directory: /tmp/runtime
+        run: just pull
+
+      - name: Test submission offline in official container
+        working-directory: /tmp/runtime
+        env:
+          BLOCK_INTERNET: "true"
+          GITHUB_ACTIONS_NO_TTY: "true"
+          SUBMISSION_IMAGE: tutoringoutcomeschallengeprodacr.azurecr.io/tutoring-outcomes-runtime:gpu-latest
+        run: just test-submission
+
+      - name: Validate generated output contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python competitions/trace_the_ace/runtime_validate.py output \
+            --format /tmp/runtime/data-demo/submission_format.csv \
+            --predictions /tmp/runtime/submission/submission.csv
+
+      - name: Upload candidate and evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v75-official-runtime-candidate
+          retention-days: 14
+          path: |
+            /tmp/runtime/submission/submission.zip
+            /tmp/runtime/submission/submission.csv
+            /tmp/runtime/submission/log.txt
+            /tmp/v75_assets/manifest.json

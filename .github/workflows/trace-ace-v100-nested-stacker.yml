@@ -1,0 +1,53 @@
+name: Trace the Ace V100 nested calibrated stacker
+on:
+  workflow_dispatch:
+  push:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v100_nested_stacker.py'
+      - '.github/workflows/trace-ace-v100-nested-stacker.yml'
+jobs:
+  stacker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Download frozen training data
+        run: |
+          set -euo pipefail
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/transcripts data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          unzip -q metadata.zip -d data/meta
+      - name: Resolve schemas
+        shell: bash
+        run: |
+          set -euo pipefail
+          FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)
+          LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
+          TRANSCRIPTS=$(dirname "$FIRST")
+          echo "FEATURES=$FEATURES" >> "$GITHUB_ENV"
+          echo "LABELS=$LABELS" >> "$GITHUB_ENV"
+          echo "TRANSCRIPTS=$TRANSCRIPTS" >> "$GITHUB_ENV"
+      - name: Run V100 nested stacker
+        run: |
+          cd competitions/trace_the_ace
+          python v100_nested_stacker.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --out ../../v100_nested_stacker.json
+      - name: Show decision
+        if: always()
+        run: cat v100_nested_stacker.json || true
+      - name: Upload V100 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v100-nested-stacker
+          path: v100_nested_stacker.json
+          retention-days: 14

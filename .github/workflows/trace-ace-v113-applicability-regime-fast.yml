@@ -1,0 +1,53 @@
+name: Trace Ace V113 Applicability Regime Fast
+on:
+  pull_request:
+    branches: [agent/trace-ace-mastery-events]
+    paths:
+      - 'competitions/trace_the_ace/v113_applicability_regime_fast.py'
+      - '.github/workflows/trace-ace-v113-applicability-regime-fast.yml'
+  workflow_dispatch:
+jobs:
+  screen:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn gdown
+      - name: Download frozen data
+        run: |
+          gdown 1nOjremWhpZ_QKSLvZfGcNkS_C3kMMBUI -O transcripts.zip
+          gdown 1EpqoamY0vFI2qE57R6wdqU5HwuoVk3Zz -O metadata.zip
+          mkdir -p data/transcripts data/meta
+          unzip -q transcripts.zip -d data/transcripts
+          unzip -q metadata.zip -d data/meta
+      - name: Resolve schemas
+        run: |
+          FEATURES=$(find data/meta -type f -name 'train_features*.csv' -print -quit)
+          LABELS=$(find data/meta -type f -name 'train_labels*.csv' -print -quit)
+          TEST=$(find data/meta -type f \( -name 'test_features*.csv' -o -name 'test*.csv' \) -print -quit)
+          FIRST=$(find data/transcripts -type f -name '*.csv' -print -quit)
+          TRANSCRIPTS=$(dirname "$FIRST")
+          echo "FEATURES=$FEATURES" >> "$GITHUB_ENV"
+          echo "LABELS=$LABELS" >> "$GITHUB_ENV"
+          echo "TEST=$TEST" >> "$GITHUB_ENV"
+          echo "TRANSCRIPTS=$TRANSCRIPTS" >> "$GITHUB_ENV"
+      - name: Preflight import
+        run: |
+          cd competitions/trace_the_ace
+          python -m py_compile v113_applicability_regime_fast.py
+      - name: Run V113 shared fast pass
+        run: |
+          cd competitions/trace_the_ace
+          if [ -n "$TEST" ]; then EXTRA="--test-features ../../$TEST"; else EXTRA=""; fi
+          python v113_applicability_regime_fast.py --features "../../$FEATURES" --labels "../../$LABELS" --transcripts "../../$TRANSCRIPTS" --rows 2500 $EXTRA --out ../../v113_applicability_regime_fast.json
+      - name: Show decision
+        run: cat v113_applicability_regime_fast.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trace-ace-v113-applicability-regime-fast
+          path: v113_applicability_regime_fast.json
+          retention-days: 14
