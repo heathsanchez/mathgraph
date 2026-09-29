@@ -61,6 +61,23 @@ No PVS/CAD machinery is needed for V1 because the residual is cheaper: a one-dim
 - **REUSABLE:** same-source / dual-semantics / minimized-counterexample / pinned-CI audit pattern.
 - **SUPERSESSION rule:** if upstream later aligns the semantics, preserve this witness and mark the frozen result superseded rather than deleting it.
 
+## Authority map
+
+The divergence is not just Python versus Lean; the repository's semantic descriptions are themselves split.
+
+Evidence favoring **clamp the final numeric value, including assignment**:
+- `src/lean/TaskNet/TaskNet/Semantics.lean`: assignment overrides the old value, optional addition is applied, then bounds clamp the result.
+- `src/lean/TaskNetExec/TaskNet/Semantics.lean`: the executable validator follows the same order.
+- `src/smt/tasknet_ast.py`: describes bounds as the timeline's type and says computed values are clamped into it.
+- `website/docs/reference/manual.md` and the tutorial: say any computed value is clamped to bounds / a cumulative value is always within bounds, while also allowing assignment.
+
+Evidence favoring **assignment overrides an already-clamped additive value**:
+- `src/smt/tasknet_smt.py`: the operational SMT encoding used by the verifier.
+- `website/docs/theory/smt-encoding.md`: its detailed zone-transition formula places assignment after clamping.
+- `src/lean/TaskNetPaper/TaskNet/semantics.lean`: an explicitly schematic paper skeleton also models assignment as overriding the clamped base value.
+
+So the implementation disagreement is WARRANTED, and the repository contains a WARRANTED specification/description disagreement. Which branch is authoritative remains UNKNOWN until the TaskSAT/MEXEC intent is resolved.
+
 ## Lineage
 
 Run [36606556197](https://github.com/heathsanchez/mathgraph/actions/runs/36606556197) already obtained the Python UNSAT result, but failed afterward on an over-specific source-text guard. That was a harness failure, not contrary mathematical evidence. Commit `359d084c68e1815524c810c1bb1fe66ff3c05885` corrected the guard without changing the witness or expected semantic outcomes; run 36606705115 then passed both executions.
