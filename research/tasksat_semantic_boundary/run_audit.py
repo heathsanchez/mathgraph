@@ -82,7 +82,7 @@ def main() -> int:
             "raw = cur + delta",
             "clamped = If(raw < low_bnd, low_bnd,",
             "expr = clamped",
-            "if isinstance(imp.how, ImpactAssign):",
+            "if not isinstance(imp.how, ImpactAssign):",
             "expr = If(zi == s, val, expr)",
             "vars_z[i + 1] == expr",
         ],
