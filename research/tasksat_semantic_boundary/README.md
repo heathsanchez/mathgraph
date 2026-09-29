@@ -1,12 +1,27 @@
 # TaskSAT semantic-boundary audit V1
 
-**Status:** CANDIDATE pending the pinned dual-execution CI gate.
+**Status:** WARRANTED at the frozen upstream boundary below.
 
 **Objective.** Test whether TaskSAT's Python SMT verifier and its executable Lean validator preserve the same semantics for bounded numeric assignments.
 
 **Frozen upstream.** `nasa-jpl/tasksat@f9d6063b45967a3fea578c47f54806aadaafe1b0`.
 
-## Smallest residual
+**Decisive evidence.** GitHub Actions run [36606705115](https://github.com/heathsanchez/mathgraph/actions/runs/36606705115) passed the pinned dual-execution gate on commit `359d084c68e1815524c810c1bb1fe66ff3c05885`.
+
+Observed outputs:
+
+```text
+TASKSAT_WELLFORMED=true
+PYTHON_SMT_STATUS=UNSAT
+PYTHON_ORDER=clamp_then_assignment
+LEAN_SOURCE_ORDER=assignment_then_clamp
+LEAN_ADMISSIBLE=true
+LEAN_ASSIGNMENT_RESULT=within_[0,10]_after_clamp
+```
+
+Therefore the shared-semantics claim is **WARRANTED false for this accepted source fragment**: the Python verifier and executable Lean validator do not denote the same transition system here.
+
+## Exact separator
 
 For cumulative timelines, the two implementations order assignment and clamping differently.
 
@@ -23,14 +38,10 @@ required T at [1,2]: pre impact x = 50
 
 This avoids the separate question of whether `range` is permitted to exceed `bounds`.
 
-### Predicted separator
-
 - **Python SMT:** UNSAT. Assignment forces a zone value of 50, while the hard range constraint requires `0 <= x <= 10`.
 - **Lean validator:** admissible. The assignment is clamped to 10 before range checking.
 
-If both pinned executions confirm those outcomes, the shared-semantics claim is **WARRANTED false for this case**: the Python verifier and Lean validator do not denote the same transition system on an accepted TaskSAT syntax fragment.
-
-## Evidence gate
+## Verification boundary
 
 The workflow `TaskSAT semantic boundary audit`:
 
@@ -41,15 +52,22 @@ The workflow `TaskSAT semantic boundary audit`:
 5. builds the upstream `TaskNetExec` Lean package with its own pinned Lean toolchain;
 6. executes `LeanWitness.lean` and requires `AdmissibleSparse = true`.
 
-No PVS/CAD machinery is introduced here because this residual is cheaper: a one-dimensional linear separator already decides it. PVS CAD becomes relevant only when the semantic bridge produces genuinely quantified semialgebraic obligations.
+No PVS/CAD machinery is needed for V1 because the residual is cheaper: a one-dimensional linear separator already decides it. PVS CAD becomes relevant when a future semantic bridge produces genuinely quantified semialgebraic obligations.
 
-## Promotion rule
+## Epistemic state
 
-Promote **CANDIDATE -> WARRANTED** only after the dual-execution GitHub Actions gate is green. A later upstream change that aligns the semantics should mark this witness **SUPERSEDED**, not erase it.
+- **WARRANTED:** the two pinned executable artifacts disagree on this accepted witness.
+- **UNKNOWN:** which behavior is the intended authoritative TaskSAT semantics and therefore which implementation should change.
+- **REUSABLE:** same-source / dual-semantics / minimized-counterexample / pinned-CI audit pattern.
+- **SUPERSESSION rule:** if upstream later aligns the semantics, preserve this witness and mark the frozen result superseded rather than deleting it.
+
+## Lineage
+
+Run [36606556197](https://github.com/heathsanchez/mathgraph/actions/runs/36606556197) already obtained the Python UNSAT result, but failed afterward on an over-specific source-text guard. That was a harness failure, not contrary mathematical evidence. Commit `359d084c68e1815524c810c1bb1fe66ff3c05885` corrected the guard without changing the witness or expected semantic outcomes; run 36606705115 then passed both executions.
 
 ## Why this matters
 
-TaskSAT is already a useful NASA/JPL bridge target because it has both an operational SMT implementation and an independently executable Lean semantics. That makes semantic commuting failures observable rather than philosophical:
+TaskSAT is a useful NASA/JPL semantic-audit target because it has both an operational SMT implementation and an independently executable Lean semantics. That makes semantic commuting failures observable:
 
 ```text
 TaskSAT source
@@ -60,4 +78,4 @@ Python SMT model     Lean execution
    +---- must agree ----+
 ```
 
-This V1 tests one exact square, preserves the upstream commit, and produces a replayable separator.
+V1 proves one square does not commute at the frozen upstream commit.
