@@ -1,0 +1,21 @@
+tasknet ClampAssignmentAudit {
+  end = 3;
+
+  timelines {
+    x : cumulative [0.0, 10.0] bounds [0.0, 10.0] = 0.0;
+  }
+
+  task T {
+    id 1;
+    start_range [1, 1];
+    end_range [2, 2];
+    duration 1;
+    start 1;
+
+    impacts {
+      pre {
+        x = 50.0;
+      }
+    }
+  }
+}
